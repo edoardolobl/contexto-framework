@@ -69,13 +69,15 @@ const base = rawBase.endsWith('/') ? rawBase : rawBase + '/';
       <div><dt>Regra válida até</dt><dd>{doc.valid_to ? `Antes de ${date(doc.valid_to)}` : (complete ? 'Sem fim documentado' : 'Ainda não definido')}</dd></div>
       <div><dt>Substitui revisão</dt><dd>{doc.supersedes_revision ? <code>{doc.supersedes_revision}</code> : 'Nenhuma registrada'}</dd></div>
     </dl>
-    <table>
-      <caption>Histórico de mudanças (o resumo não contém a versão antiga completa)</caption>
+    <div class="example-doc__history-scroll" role="region" aria-label="Histórico de mudanças do documento" tabindex="0">
+      <table>
+        <caption>Histórico de mudanças (o resumo não contém a versão antiga completa)</caption>
       <thead><tr><th scope="col">Versão</th><th scope="col">Data</th><th scope="col">O que mudou</th><th scope="col">Aprovado por</th></tr></thead>
       <tbody>{(doc.version_history ?? []).map((v: any) => (
         <tr><td>{v.version}</td><td>{date(v.date)}</td><td>{text(v.change)}</td><td>{v.approved_by ?? 'Não aprovado'}</td></tr>
       ))}</tbody>
-    </table>
+      </table>
+    </div>
       <h4>Arquivo YAML integral</h4>
       <Code code={raw} lang="yaml" title={file} />
     </div>
