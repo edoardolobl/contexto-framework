@@ -1,0 +1,309 @@
+---
+/**
+ * Visão pedagógica do documento.
+ * Os valores vêm diretamente do YAML já usado nos downloads: não são cópias
+ * editoriais nem conteúdo gerado/inferido no momento da visualização.
+ */
+interface Props { doc: Record<string, any> }
+const { doc } = Astro.props;
+type Pair = { label: string; value: string };
+type Entry = { heading: string; body?: string; note?: string; detail?: string; levels?: Record<string, string> };
+type Group = { heading: string; pairs?: Pair[]; bullets?: string[]; entries?: Entry[] };
+
+const present = (v: any): boolean =>
+  v !== null && v !== undefined && v !== '' &&
+  (!Array.isArray(v) || v.length > 0);
+
+const display = (v: any): string => {
+  if (v === true) return 'Sim';
+  if (v === false) return 'Não';
+  if (Array.isArray(v)) return v.map(display).join(' · ');
+  return present(v) ? String(v) : 'Ainda não definido';
+};
+const pair = (label: string, value: any, showMissing = false): Pair[] =>
+  present(value) || showMissing ? [{ label, value: display(value) }] : [];
+const list = (value: any): string[] =>
+  Array.isArray(value) ? value.filter((v) => typeof v === 'string' && v.trim()).map(String) : [];
+const groups: Group[] = [];
+const add = (heading: string, pairs: Pair[] = [], bullets: string[] = [], entries: Entry[] = []) => {
+  if (pairs.length || bullets.length || entries.length) groups.push({ heading, pairs, bullets, entries });
+};
+const entryList = (value: string[], label = 'Item'): Entry[] => value.map((v, i) => ({
+  heading: `${label} ${i + 1}`, body: v,
+}));
+
+let decisionTable: { labels: string[]; rows: string[][] } | null = null;
+const decisionInputLabel = (key: string) => ({
+  brief_complete: 'Brief completo?',
+  evidence_sufficient: 'Evidência suficiente?',
+} as Record<string, string>)[key] || key.replaceAll('_', ' ');
+const decisionValue = (v: any) => ({
+  true: 'Sim',
+  false: 'Não',
+  unknown: 'Desconhecido',
+  any: 'Qualquer',
+  complement_information: 'Solicitar complementação',
+  responsible_review: 'Encaminhar para revisão',
+  request_formal_approval: 'Solicitar aprovação formal',
+  request_clarification: 'Pedir esclarecimento',
+} as Record<string, string>)[String(v)] || display(v).replaceAll('_', ' ');
+
+switch (doc.type) {
+  case 'concept_definition':
+    add('Definição e contexto', [
+      ...pair('Termo', doc.vocabulary?.preferred_term),
+      ...pair('Definição', doc.definition, true),
+      ...pair('Para que serve', doc.context?.purpose),
+      ...pair('Quando se aplica', doc.context?.applies_when),
+      ...pair('Quando não se aplica', doc.context?.does_not_apply_when),
+    ]);
+    add('Critérios para reconhecer o conceito', [
+      ...pair('Inclui', doc.inclusion_criteria),
+      ...pair('Exclui', doc.exclusion_criteria),
+      ...pair('Não são sinônimos', doc.vocabulary?.not_synonyms),
+      ...pair('Outra acepção em outra área', doc.vocabulary?.other_domain_meanings),
+    ]);
+    add('Exemplos que ajudam a decidir', [
+      ...pair('Exemplo', doc.examples),
+      ...pair('Contraexemplo', doc.counterexamples),
+      ...pair('Caso de fronteira', doc.boundary_cases),
+    ]);
+    break;
+  case 'process_definition':
+    add('Como o processo funciona', [
+      ...pair('Objetivo', doc.purpose),
+      ...pair('O que inicia o processo', doc.trigger, true),
+      ...pair('Quando se aplica', doc.scope?.applies_when),
+      ...pair('Quando não se aplica', doc.scope?.not_applicable_when),
+      ...pair('Resultado esperado', doc.completion?.success_criteria),
+    ]);
+    add('Etapas e responsáveis', [], [], (doc.steps ?? []).map((step: any) => ({
+      heading: `${step.id ?? ''} · ${step.name ?? 'Etapa'}`,
+      body: display(step.action),
+      note: [
+        present(step.performer_role) ? `Responsável: ${display(step.performer_role)}` : null,
+        present(step.next_step) ? `Próximo passo: ${display(step.next_step)}` : null,
+        present(step.output_evidence) ? `Evidência: ${display(step.output_evidence)}` : null,
+      ].filter(Boolean).join(' · '),
+      detail: present(step.exception_handling) ? `Exceção: ${display(step.exception_handling)}` : undefined,
+    })));
+    add('Desvios e encerramento', [
+      ...pair('Exceções', doc.exceptions),
+      ...pair('Escalonamento', doc.escalation),
+      ...pair('Resultados sem sucesso', doc.completion?.failure_outcomes),
+    ]);
+    break;
+  case 'decision_rule': {
+    add('Qual decisão precisa ser documentada', [
+      ...pair('Pergunta', doc.decision_question),
+      ...pair('Finalidade', doc.purpose),
+      ...pair('Quando se aplica', doc.scope?.applies_when),
+      ...pair('Fora do escopo', doc.scope?.not_applicable_when),
+    ]);
+    add('O que cada entrada significa', [], [],
+      (doc.required_inputs ?? []).map((input: any) => ({
+        heading: decisionInputLabel(input.name),
+        body: display(input.definition),
+        note: present(input.allowed_values)
+          ? `Valores possíveis: ${(input.allowed_values ?? []).map(decisionValue).join(', ')}`
+          : undefined,
+      })));
+    const inputs: string[] = (doc.required_inputs ?? []).map((v: any) => v.name);
+    if (inputs.length && Array.isArray(doc.decision_table) && doc.decision_table.length) {
+      decisionTable = {
+        labels: [...inputs.map(decisionInputLabel), 'Encaminhamento'],
+        rows: doc.decision_table.map((r: any) => [
+          ...inputs.map((input: string) => decisionValue(r.when?.[input] ?? 'any')),
+          decisionValue(r.then),
+        ]),
+      };
+    }
+    add('Limites e exceções', [
+      ...pair('Condição desconhecida', doc.unknown_input_behavior ? decisionValue(doc.unknown_input_behavior) : null),
+      ...pair('Prioridade ou conflitos resolvidos', doc.priority_rules),
+    ], [], (doc.exceptions ?? []).map((v: any) => ({
+      heading: display(v.condition),
+      body: `Quem autoriza: ${display(v.approval_role)}`,
+      note: `Evidência necessária: ${display(v.evidence_needed)}`,
+    })));
+    break;
+  }
+  case 'policy_reference':
+    add('Aplicação e autoridade da política', [
+      ...pair('Finalidade', doc.purpose),
+      ...pair('Público', doc.scope?.audiences),
+      ...pair('Atividades', doc.scope?.activities),
+      ...pair('Fora do escopo', doc.scope?.exclusions),
+      ...pair('Emissor da política', doc.authority?.issuing_body),
+      ...pair('Versão da política de origem', doc.authority?.version),
+      ...pair('Vigência da política de origem', doc.authority?.effective_date),
+    ]);
+    add('Obrigações, permissões e proibições', [
+      ...pair('É obrigatório', doc.obligations),
+      ...pair('É permitido', doc.permissions),
+      ...pair('É proibido', doc.prohibitions),
+    ]);
+    add('Exceções e divergências', [
+      ...pair('Fonte que prevalece', doc.source_precedence_rule),
+      ...pair('Como verificar', doc.how_to_verify),
+    ], [], [
+      ...(doc.exceptions ?? []).map((v: any) => ({
+        heading: `Exceção: ${display(v.condition)}`,
+        body: `Autorização: ${display(v.approval_role)}`,
+        note: `Evidência: ${display(v.evidence_needed)}`,
+      })),
+      ...(doc.conflicting_sources ?? []).map((v: any) => ({
+        heading: `Conflito: ${display(v.description)}`,
+        body: `Estado: ${v.state === 'resolved' ? 'Resolvido' : 'Pendente'}`,
+        note: present(v.resolution) ? `Decisão registrada: ${display(v.resolution)}` : 'Sem resolução aprovada',
+      })),
+    ]);
+    break;
+  case 'metric_definition':
+    add('O significado do indicador', [
+      ...pair('O que mede', doc.business_definition?.concept, true),
+      ...pair('Objetivo', doc.business_definition?.purpose),
+      ...pair('Numerador', doc.calculation?.numerator, true),
+      ...pair('Denominador', doc.calculation?.denominator, true),
+      ...pair('Fórmula', doc.calculation?.formula_description, true),
+      ...pair('Agregação', doc.calculation?.aggregation_rule),
+      ...pair('Sem denominador', doc.calculation?.zero_denominator_policy),
+    ]);
+    add('Escopo e limitações', [
+      ...pair('População', doc.scope?.applicable_population),
+      ...pair('Canais incluídos', doc.scope?.included_channels),
+      ...pair('Canais excluídos', doc.scope?.excluded_channels),
+      ...pair('Exclusões', doc.scope?.exclusions),
+      ...pair('Data de referência', doc.time?.reference_date_field),
+      ...pair('Fuso e calendário', doc.time?.timezone),
+      ...pair('Fonte autorizada', doc.data_sources?.authoritative_dataset),
+      ...pair('Casos-limite', doc.validation?.known_edge_cases),
+    ]);
+    break;
+  case 'dataset_semantics':
+    add('O que cada registro representa', [
+      ...pair('Tabela', doc.dataset?.physical_name),
+      ...pair('Objetivo', doc.dataset?.business_purpose),
+      ...pair('Granularidade (uma linha)', doc.dataset?.grain, true),
+      ...pair('Chave primária', doc.dataset?.primary_key),
+      ...pair('Tempo e atualização', doc.time_semantics?.timezone),
+    ]);
+    add('Dicionário dos campos', [], [], (doc.columns ?? []).map((v: any) => ({
+      heading: `${display(v.business_name)} · ${display(v.physical_name)}`,
+      body: display(v.meaning),
+      note: present(v.allowed_values) ? `Valores documentados: ${display(v.allowed_values)}` : undefined,
+      detail: present(v.do_not_use_for) ? `Não usar para: ${display(v.do_not_use_for)}` : undefined,
+    })));
+    add('Como não interpretar estes dados', [
+      ...pair('Agregações inválidas', doc.usage?.invalid_aggregations),
+      ...pair('Limitações conhecidas', doc.usage?.known_caveats),
+    ]);
+    break;
+  case 'relationship_semantics':
+    add('Por que as tabelas se relacionam', [
+      ...pair('Finalidade', doc.business_intent),
+      ...pair('Tabela de origem', doc.left?.dataset),
+      ...pair('Uma linha da origem', doc.left?.grain),
+      ...pair('Tabela de destino', doc.right?.dataset),
+      ...pair('Uma linha do destino', doc.right?.grain),
+      ...pair('Cardinalidade', doc.cardinality === 'one_to_many' ? 'Uma origem pode ter muitos registros de destino (1:N)' : doc.cardinality),
+      ...pair('Chaves utilizadas', (doc.join_keys ?? []).map((v: any) => `${v.left} → ${v.right}`)),
+    ]);
+    add('Quando a junção gera problemas', [
+      ...pair('Risco de duplicação', doc.usage_rules?.duplication_risks),
+      ...pair('Contagens seguras', doc.usage_rules?.aggregation_safeguards),
+      ...pair('Junções proibidas', doc.usage_rules?.disallowed_question_classes),
+      ...pair('Regra temporal', doc.coverage?.temporal_join_rule),
+    ]);
+    break;
+  case 'dashboard_definition':
+    add('Como interpretar o painel', [
+      ...pair('Finalidade', doc.purpose),
+      ...pair('Público', doc.audiences),
+      ...pair('Indicadores', doc.metrics),
+      ...pair('Filtros padrão', doc.default_filters ? Object.entries(doc.default_filters).map(([k, v]) => `${k}: ${display(v)}`) : []),
+      ...pair('Período', doc.time_semantics?.reporting_period),
+      ...pair('Referência comparativa', doc.time_semantics?.comparison_baseline),
+      ...pair('Atualização', doc.freshness?.refresh_frequency),
+      ...pair('Status como fonte', doc.official_or_exploratory),
+    ]);
+    add('O que este painel não permite concluir', [
+      ...pair('Limitações', doc.known_limitations),
+      ...pair('Decisões que apoia', doc.supported_decisions),
+    ]);
+    break;
+  case 'evaluation_rubric':
+    add('Objeto e cuidados da avaliação', [
+      ...pair('O que é avaliado', doc.evaluation_target),
+      ...pair('Objetivo', doc.business_goal),
+      ...pair('Uso permitido', doc.allowed_use),
+      ...pair('Uso proibido', doc.disallowed_use),
+      ...pair('Quando falta evidência', doc.scoring?.not_evaluable_rule ?? doc.scoring?.missing_evidence_behavior),
+      ...pair('Revisão humana', doc.human_review_required === true ? 'Obrigatória' : null),
+    ]);
+    add('Critérios e níveis observáveis', [], [], (doc.criteria ?? []).map((v: any) => ({
+      heading: `${display(v.name)} · peso ${display(v.weight)}%`,
+      body: display(v.definition),
+      note: present(v.not_in_scope) ? `Não avalia: ${display(v.not_in_scope)}` : undefined,
+      levels: v.anchors ?? undefined,
+    })));
+    add('Calibração e divergências', [
+      ...pair('Resolução de discordâncias', doc.disagreement_resolution),
+    ], [], (doc.calibration_examples ?? []).filter((v: any) => typeof v === 'object').map((v: any) => ({
+      heading: display(v.case), body: display(v.expected),
+    })));
+    break;
+  case 'reference_question_set':
+    add('Finalidade do gabarito', [
+      ...pair('Para que serve', doc.purpose),
+      ...pair('Domínio', doc.domain),
+      ...pair('Versão das definições utilizadas', doc.depends_on_versions
+        ? Object.entries(doc.depends_on_versions).map(([k, v]) => `${k}@${v}`) : null),
+    ]);
+    add('O que se pode responder, esclarecer ou recusar', [], [], (doc.questions ?? []).map((v: any) => ({
+      heading: `${display(v.id)} · ${display(v.question)}`,
+      body: v.expected_behavior === 'answer'
+        ? `Responder: ${display(v.reference_answer)}`
+        : v.expected_behavior === 'clarify'
+        ? `Pedir esclarecimento: ${display(v.reference_answer ?? v.ambiguity)}`
+        : `Não responder com número: ${display(v.reason_if_abstain)}`,
+      note: present(v.evidence_description) ? `Fundamento: ${display(v.evidence_description)}` : undefined,
+    })));
+    break;
+  default:
+    add('Conteúdo do documento', [...pair('Finalidade', doc.purpose ?? doc.definition)]);
+}
+---
+<section class="example-meaning" aria-label="Conteúdo principal do documento em linguagem natural">
+  <p class="example-meaning__eyebrow">O QUE O DOCUMENTO DIZ</p>
+  {groups.map((group) => <section class="example-meaning__group">
+    <h4>{group.heading}</h4>
+    {group.pairs && group.pairs.length > 0 && <dl class="example-meaning__facts">
+      {group.pairs.map((p) => <div><dt>{p.label}</dt><dd>{p.value}</dd></div>)}
+    </dl>}
+    {group.bullets && group.bullets.length > 0 && <ul>{group.bullets.map(b => <li>{b}</li>)}</ul>}
+    {group.entries && group.entries.length > 0 && <ol class="example-meaning__entries">
+      {group.entries.map((entry) => <li>
+        <strong>{entry.heading}</strong>
+        {entry.body && <p>{entry.body}</p>}
+        {entry.note && <p class="example-meaning__note">{entry.note}</p>}
+        {entry.detail && <p class="example-meaning__note">{entry.detail}</p>}
+        {entry.levels && Object.keys(entry.levels).length > 0 &&
+          <details class="example-meaning__levels">
+            <summary>Consultar os critérios dos níveis 0 a 4</summary>
+            <dl>{Object.entries(entry.levels).map(([level, meaning]) =>
+              <div><dt>Nível {level}</dt><dd>{meaning}</dd></div>)}</dl>
+          </details>}
+      </li>)}
+    </ol>}
+  </section>)}
+  {decisionTable && <section class="example-meaning__group">
+    <h4>Tabela de encaminhamento</h4>
+    <div class="example-meaning__table-scroll" role="region" aria-label="Tabela de decisão com rolagem horizontal" tabindex="0">
+      <table>
+        <thead><tr>{decisionTable.labels.map(label => <th scope="col">{label}</th>)}</tr></thead>
+        <tbody>{decisionTable.rows.map(row => <tr>{row.map(value => <td>{value}</td>)}</tr>)}</tbody>
+      </table>
+    </div>
+  </section>}
+</section>
