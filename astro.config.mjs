@@ -21,22 +21,18 @@ export default defineConfig({
         { icon: 'linkedin', label: 'Edoardo Lobl no LinkedIn', href: 'https://www.linkedin.com/in/edoardolobl/' }
       ],
       sidebar: [
-        { label: 'Comece aqui', items: [
-          { slug: 'fundamentos/comece-em-5-minutos' },
-          { slug: 'fundamentos/promessa' },
-          { slug: 'fundamentos/conhecimento-tacito' },
-          { slug: 'fundamentos/escolher-documento' },
-          { slug: 'fundamentos/como-ler-os-campos' }
+        { label: 'Comece por uma tarefa', items: [
+          { slug: 'fundamentos/comece-em-5-minutos', label: 'Criar meu primeiro documento' },
+          { slug: 'validacao/checklist', label: 'Revisar um documento' },
+          { slug: 'fundamentos/escolher-documento', label: 'Encontrar um modelo' }
         ] },
-        { label: 'O método', items: [
-          { slug: 'metodo/visao-geral' },
-          { slug: 'metodo/oito-dimensoes' },
-          { slug: 'metodo/elicitar' },
-          { slug: 'metodo/revisao-e-entrega' },
-          { slug: 'metodo/limites' }
+        { label: 'Guias para fazer', items: [
+          { slug: 'metodo/elicitar', label: 'Descobrir o que falta' },
+          { slug: 'metodo/revisao-e-entrega', label: 'Preparar para revisão' },
+          { slug: 'fundamentos/como-ler-os-campos', label: 'Entender os campos' }
         ] },
-        { label: 'Modelos', items: [
-          { slug: 'templates', label: 'Biblioteca de modelos' },
+        { label: 'Modelos para reutilizar', collapsed: true, items: [
+          { slug: 'templates', label: 'Todos os modelos' },
           { slug: 'templates/conceito', label: 'Conceito e glossário' },
           { slug: 'templates/processo', label: 'Processo e procedimento' },
           { slug: 'templates/decisao', label: 'Regras e decisões' },
@@ -44,7 +40,7 @@ export default defineConfig({
           { slug: 'templates/kpi', label: 'KPI e métricas' },
           { slug: 'templates/rubrica', label: 'Rubrica de avaliação' }
         ] },
-        { label: 'Exemplos', items: [
+        { label: 'Exemplos comentados', collapsed: true, items: [
           { slug: 'exemplos/conceito-onboarding', label: 'Um conceito em RH' },
           { slug: 'exemplos/processo-campanha', label: 'Processo de campanha' },
           { slug: 'exemplos/decisao-campanha', label: 'Decisão e precedência' },
@@ -52,21 +48,29 @@ export default defineConfig({
           { slug: 'exemplos/kpi', label: 'KPI de conversão' },
           { slug: 'exemplos/rubrica-case', label: 'Rubrica de uma análise' }
         ] },
-        { label: 'Dados e Analytics', items: [
-          { slug: 'dados/visao-geral' },
-          { slug: 'dados/semantica' },
-          { slug: 'dados/contrato-de-conhecimento' },
-          { slug: 'templates/dataset', label: 'Modelo: dataset' },
-          { slug: 'templates/relacionamento', label: 'Modelo: relacionamentos' },
-          { slug: 'templates/dashboard', label: 'Modelo: dashboard' },
-          { slug: 'templates/casos-teste', label: 'Modelo: perguntas de referência' },
+        { label: 'Dados e Analytics', collapsed: true, items: [
+          { slug: 'dados/visao-geral', label: 'Por onde começar' },
+          { slug: 'dados/semantica', label: 'Além do schema' },
+          { slug: 'dados/contrato-de-conhecimento', label: 'Contrato de conhecimento' },
+          { slug: 'templates/dataset', label: 'Dataset e dicionário' },
+          { slug: 'templates/relacionamento', label: 'Relacionamentos e joins' },
+          { slug: 'templates/dashboard', label: 'Dashboard e interpretação' },
+          { slug: 'templates/casos-teste', label: 'Perguntas de referência' },
           { slug: 'exemplos/analytics-integrado', label: 'Laboratório Aurora' },
           { slug: 'exemplos/testes-analytics', label: 'Perguntas do laboratório' }
         ] },
-        { label: 'Validação', items: [{ slug: 'validacao/checklist' }] },
-        { label: 'Governança', items: [{ slug: 'governanca/papeis' }] },
-        { label: 'Referências', items: [{ slug: 'referencias' }] },
-        { label: 'Sobre', items: [{ slug: 'sobre/creditos' }] }
+        { label: 'Entenda o método', collapsed: true, items: [
+          { slug: 'fundamentos/promessa', label: 'Promessa e limites' },
+          { slug: 'fundamentos/conhecimento-tacito', label: 'Conhecimento tácito' },
+          { slug: 'metodo/visao-geral', label: 'Visão geral' },
+          { slug: 'metodo/oito-dimensoes', label: 'As oito dimensões' },
+          { slug: 'metodo/limites', label: 'Quando o método não basta' }
+        ] },
+        { label: 'Sobre e referências', collapsed: true, items: [
+          { slug: 'governanca/papeis', label: 'Responsabilidades' },
+          { slug: 'referencias', label: 'Fontes e bibliografia' },
+          { slug: 'sobre/creditos', label: 'Autoria e licenças' }
+        ] }
       ]
     })
   ]
