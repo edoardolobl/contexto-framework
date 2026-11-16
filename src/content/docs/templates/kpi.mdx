@@ -3,6 +3,8 @@ title: Template — KPI e métricas
 description: Estruture a definição do indicador, o significado de negócio, suas fontes, exceções e pendências.
 ---
 
+import TemplateDownloads from '../../../components/TemplateDownloads.astro';
+
 # Template — KPI e métricas
 
 Um modelo pode calcular uma fórmula corretamente e errar a pergunta de negócio. Antes de fornecer uma tabela a um agente analítico, a área responsável precisa explicitar **o que o indicador mede e como seus componentes são interpretados**.
@@ -51,7 +53,7 @@ Este exemplo é **fictício e ainda não aprovado**. O objetivo é mostrar que u
 
 ## Arquivos para reutilização
 
-<a href="../../downloads/template-kpi.md" download>Baixar template em Markdown</a> · <a href="../../downloads/template-kpi.yaml" download>Baixar template em YAML</a> · <a href="../../downloads/exemplo-kpi-ficticio.yaml" download>Baixar exemplo fictício preenchido</a>
+<TemplateDownloads kind="kpi" />
 
 :::note[Sobre os metadados]
 Os campos exemplificados são uma **convenção editorial proposta neste framework**. Não são uma norma universal nem uma especificação diretamente executável por dbt, Cube ou Snowflake. Adaptá-los para um runtime exige engenharia e validação adicionais.
