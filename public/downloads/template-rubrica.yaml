@@ -1,0 +1,41 @@
+# Contrato documental. Não é avaliador automático nem motor de seleção.
+id: null
+title: null
+type: evaluation_rubric
+status: draft
+version: "0.1"
+owner: null
+approver: null
+valid_from: null
+source_of_truth: null
+
+evaluation_target: null
+business_goal: null
+allowed_use: []
+disallowed_use: []
+criteria:
+  - id: null
+    name: null
+    definition: null
+    weight: null
+    expected_evidence: []
+    anchors:
+      "0": null
+      "1": null
+      "2": null
+      "3": null
+      "4": null
+
+scoring:
+  weight_sum: null
+  scale: [0, 1, 2, 3, 4]
+  missing_evidence_behavior: not_evaluable
+  decision_threshold: null
+  automatic_hiring_decision: false
+
+human_review_required: true
+calibration_examples: []
+disagreement_resolution: null
+privacy_and_fairness_considerations: []
+open_questions: []
+related_documents: []
