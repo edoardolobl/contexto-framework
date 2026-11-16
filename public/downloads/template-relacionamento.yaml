@@ -1,0 +1,36 @@
+# Documentação de relações; não gera um JOIN automaticamente.
+id: null
+title: null
+type: relationship_semantics
+status: draft
+version: "0.1"
+owner: null
+approver: null
+valid_from: null
+source_of_truth: null
+
+business_intent: null
+left:
+  dataset: null
+  grain: null
+right:
+  dataset: null
+  grain: null
+join_keys: []
+cardinality: null
+coverage:
+  unmatched_rows_expected: null
+  null_keys_expected: null
+  temporal_join_rule: null
+usage_rules:
+  approved_question_classes: []
+  disallowed_question_classes: []
+  join_strategy_by_question: []
+  duplication_risks: []
+  aggregation_safeguards: []
+validation:
+  test_cases: []
+  verified_query: null
+  reviewer: null
+open_questions: []
+related_documents: []
