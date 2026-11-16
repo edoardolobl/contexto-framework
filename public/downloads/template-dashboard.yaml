@@ -1,0 +1,31 @@
+# Documentação do dashboard, não arquivo de configuração de uma ferramenta BI.
+id: null
+title: null
+type: dashboard_definition
+status: draft
+version: "0.1"
+owner: null
+approver: null
+valid_from: null
+source_of_truth: null
+
+purpose: null
+audiences: []
+supported_decisions: []
+metrics: []
+default_filters: {}
+dimensions: []
+time_semantics:
+  date_field: null
+  timezone: null
+  reporting_period: null
+  comparison_baseline: null
+freshness:
+  refresh_frequency: null
+  latency: null
+  verified_at: null
+known_limitations: []
+conflicting_dashboards: []
+reference_questions: []
+open_questions: []
+related_documents: []
