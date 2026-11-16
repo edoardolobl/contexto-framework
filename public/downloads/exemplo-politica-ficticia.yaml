@@ -1,0 +1,46 @@
+# Política totalmente fictícia. Não há regras de reembolso aprovadas.
+id: POLICY-EVENTS-001
+title: "Despesas em eventos — Aurora"
+type: policy_reference
+status: pending_approval
+version: "0.1"
+owner: null
+approver: null
+valid_from: null
+last_reviewed: null
+source_of_truth: null
+
+purpose: "Identificar a regra vigente antes de orientar solicitações de despesa"
+scope:
+  audiences: ["Equipe de eventos da organização fictícia Aurora"]
+  activities: ["Registro de despesas de evento"]
+  localities: []
+  exclusions: []
+
+authority:
+  issuing_body: null
+  approver_role: null
+  version: null
+  effective_date: null
+  expiry_date: null
+  supersedes: null
+
+obligations: []
+permissions: []
+prohibitions: []
+exceptions: []
+conflicting_sources:
+  - id: CONFLICT-001
+    sources: ["POL-FIN-014", "E-MAIL-EVENTOS", "INTRANET-EVENTOS"]
+    description: "Instruções que não coincidem"
+    status: unresolved
+    resolution_owner: null
+
+source_precedence_rule: null
+how_to_verify: "Solicitar confirmação da área proprietária"
+review_trigger: "Resolução do conflito de versões"
+open_questions:
+  - "Qual fonte tem autoridade vigente?"
+  - "Qual documento substitui o anterior?"
+  - "Quem pode aprovar exceções?"
+related_documents: []
