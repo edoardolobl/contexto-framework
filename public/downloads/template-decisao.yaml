@@ -1,0 +1,33 @@
+# Contrato documental didático; não é executável DMN.
+id: null
+title: null
+type: decision_rule
+status: draft
+version: "0.1"
+owner: null
+approver: null
+valid_from: null
+source_of_truth: null
+
+decision_question: null
+purpose: null
+scope:
+  applies_when: null
+  not_applicable_when: null
+required_inputs: []
+possible_outputs: []
+decision_table: []
+priority_rules: []
+default_behavior: null
+unknown_input_behavior: null
+exceptions: []
+tests:
+  - inputs: {}
+    expected_outcome: null
+    reasoning: null
+  - inputs: {}
+    expected_outcome: null
+    reasoning: null
+conflicts: []
+open_questions: []
+related_documents: []
