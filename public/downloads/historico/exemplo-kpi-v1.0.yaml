@@ -62,7 +62,7 @@ data_sources:
   relevant_columns: ["demo_sessions.session_id", "demo_sessions.channel", "demo_sessions.is_internal", "demo_sessions.session_date", "demo_orders.session_id", "demo_orders.status_code"]
   valid_join_paths: ["REL-AURORA-SESSIONS-ORDERS"]
   source_conflicts_and_precedence:
-    - "Se um painel mostrar valor diferente, vale o cálculo de aurora-reference-query.sql"
+    - "A consulta aurora-reference-query.sql implementa a revisão 1.1, NÃO a 1.0. Não a utilizar para reconstruir esta fórmula histórica."
 
 validation:
   approved_examples:
