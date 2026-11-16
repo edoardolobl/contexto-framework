@@ -1,14 +1,21 @@
 # Preencha apenas informações confirmadas. null = desconhecido.
+# null significa "ainda não sei" ou "ainda não decidido". Não troque null por um palpite: registre a dúvida em open_questions.
 id: null
 title: null
 type: concept_definition
-status: draft
+status: draft                # draft | pending_approval | approved | deprecated
 version: "0.1"
-owner: null
+version_date: null           # data desta versão, no formato AAAA-MM-DD
+owner: null                  # cargo ou área responsável, não o nome de uma pessoa
 approver: null
 valid_from: null
 last_reviewed: null
 source_of_truth: null
+version_history:            # uma entrada por versão, a mais recente primeiro
+  - version: "0.1"
+    date: null
+    change: null             # o que mudou nesta versão e por quê
+    approved_by: null        # cargo ou área que aprovou; null enquanto não aprovado
 
 context:
   domain: null
@@ -28,6 +35,7 @@ inclusion_criteria: []
 exclusion_criteria: []
 examples: []
 counterexamples: []
+boundary_cases: []            # casos no limite da definição e como classificá-los
 
 validation:
   decisions_confirmed_by: null

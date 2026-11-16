@@ -1,14 +1,22 @@
----
-id: null
-title: null
-type: reference_question_set
-status: draft
-owner: null
-source_of_truth: null
-valid_from: null
----
-
 # [Conjunto de perguntas e respostas de referência]
+
+> **Como usar este modelo.** Responda só o que você sabe e consegue comprovar. O que não souber, deixe em branco e anote em "Lacunas" ou "Perguntas em aberto", com quem pode responder. Um campo em branco é melhor do que um palpite.
+
+## Identificação
+
+| Campo | Preenchimento |
+|---|---|
+| Identificador | |
+| Tipo de documento | Perguntas e respostas de referência |
+| Estado | Rascunho |
+| Responsável (cargo ou área) | |
+| Quem aprova (cargo ou área) | |
+| Versão atual | 0.1 |
+| Data desta versão | |
+| Vale a partir de | |
+| Fonte oficial | |
+
+Estados possíveis: **Rascunho**, **Pendente de aprovação**, **Aprovado**, **Obsoleto**. Só marque "Aprovado" quando quem aprova tiver confirmado por escrito.
 
 ## Domínio e finalidade
 - Que assunto queremos documentar e verificar?
@@ -19,7 +27,7 @@ valid_from: null
 - Identificador:
 - Pergunta em linguagem natural:
 - Contexto do usuário e período:
-- Resultado esperado: answer, clarify ou abstain:
+- Comportamento esperado (responder, pedir esclarecimento ou não responder):
 - Fonte e identificador da evidência:
 - Resposta de referência:
 - Quando não responder:
@@ -39,3 +47,11 @@ valid_from: null
 - Mudanças de KPI, fontes e políticas que exigem revalidar respostas:
 - Proprietário, data e status de revisão:
 - Pendências:
+
+## Histórico de versões
+
+Acrescente uma linha a cada mudança, a mais recente primeiro. Registre o que mudou na regra, não só que o texto foi editado.
+
+| Versão | Data | O que mudou e por quê | Aprovado por (cargo ou área) |
+|---|---|---|---|
+| 0.1 | | Primeiro rascunho | |
