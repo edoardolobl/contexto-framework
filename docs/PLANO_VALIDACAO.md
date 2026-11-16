@@ -1,4 +1,4 @@
-# Plano de validação com leitores — proposta para após v0.3
+# Plano de validação com leitores: proposta para após v0.3
 
 **Estado:** planejamento, não teste já realizado.
 
@@ -18,7 +18,7 @@ Essas quantidades são um **ponto de partida exploratório**, não uma recomenda
 
 ## Roteiro
 
-### Cenário A — Regras e processos
+### Cenário A: Regras e processos
 
 1. Fornecer um processo fictício com termos ambíguos.
 2. Pedir à pessoa participante que encontre o template apropriado sem orientação.
@@ -26,7 +26,7 @@ Essas quantidades são um **ponto de partida exploratório**, não uma recomenda
 4. Pedir que registre pelo menos duas lacunas sem inventar respostas.
 5. Verificar se ela distingue “pendente de aprovação” de “aprovado”.
 
-### Cenário B — Analítica de dados
+### Cenário B: Analítica de dados
 
 1. Apresentar os dados fictícios da Aurora.
 2. Solicitar a definição de “sessões convertidas”.
@@ -34,7 +34,7 @@ Essas quantidades são um **ponto de partida exploratório**, não uma recomenda
 4. Observar se a pessoa identifica cardinalidade e diferença de unidade.
 5. Pedir que complete o template de KPI com fontes e pendências.
 
-### Cenário C — Rubrica
+### Cenário C: Rubrica
 
 1. Apresentar a frase “avaliar a qualidade da análise”.
 2. Pedir critérios observáveis e exemplos de nível 2 versus nível 4.

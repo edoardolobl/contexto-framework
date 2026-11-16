@@ -115,7 +115,7 @@ h1,h2,h3,h4,.site-title {letter-spacing:-.035em}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 
 
-/* v0.2 — choice assistant and portable template library */
+/* v0.2: choice assistant and portable template library */
 .template-downloads {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

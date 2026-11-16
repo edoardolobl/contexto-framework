@@ -1,4 +1,4 @@
-# Contexto — Framework de Conhecimento para IA
+# Contexto: Framework de Conhecimento para IA
 
 > **Uma IA não deveria adivinhar como sua organização funciona.**
 
@@ -75,7 +75,7 @@ Os documentos são destinados a pessoas de negócio e tecnologia. **Não presumi
 
 ## Bibliografia
 
-[Nonaka (1994)](https://doi.org/10.1287/orsc.5.1.14) · [IIBA](https://www.iiba.org/knowledgehub/the-business-analysis-standard/) · [KCS v6](https://library.serviceinnovation.org/KCS/KCS_v6/KCS_v6_Practices_Guide) · [OMG DMN](https://www.omg.org/spec/DMN/1.6) · [Snowflake Semantic Views](https://docs.snowflake.com/en/user-guide/views-semantic/semantic-view-yaml-spec) · [Rumiantsau & Fokeev (2026)](https://arxiv.org/abs/2604.25149) · [Microsoft — RAG Preparation](https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/rag/rag-preparation-phase) · [NIST AI RMF](https://airc.nist.gov/airmf-resources/playbook/measure/)
+[Nonaka (1994)](https://doi.org/10.1287/orsc.5.1.14) · [IIBA](https://www.iiba.org/knowledgehub/the-business-analysis-standard/) · [KCS v6](https://library.serviceinnovation.org/KCS/KCS_v6/KCS_v6_Practices_Guide) · [OMG DMN](https://www.omg.org/spec/DMN/1.6) · [Snowflake Semantic Views](https://docs.snowflake.com/en/user-guide/views-semantic/semantic-view-yaml-spec) · [Rumiantsau & Fokeev (2026)](https://arxiv.org/abs/2604.25149) · [Microsoft: RAG Preparation](https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/rag/rag-preparation-phase) · [NIST AI RMF](https://airc.nist.gov/airmf-resources/playbook/measure/)
 
 ## Autoria
 

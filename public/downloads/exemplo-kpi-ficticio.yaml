@@ -1,6 +1,6 @@
 # Exemplo didático e fictício, com lacunas: nenhuma definição aqui foi aprovada.
 id: KPI-AURORA-001
-title: "Taxa de sessões convertidas — loja web Aurora"
+title: "Taxa de sessões convertidas: loja web Aurora"
 type: metric_definition
 domain: ecommerce
 status: pending_approval

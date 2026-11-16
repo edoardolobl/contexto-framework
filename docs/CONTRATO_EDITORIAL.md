@@ -1,4 +1,4 @@
-# Contrato editorial — Contexto
+# Contrato editorial: Contexto
 
 **Versão:** 0.2 · **Data desta versão:** 2026-11-16 · **Estado:** aprovado pelo mantenedor · **Mantenedor:** Edoardo Lobl
 
@@ -93,7 +93,7 @@ Expressam responsabilidade, vigência, status e fontes sobre um objeto de negóc
 ```yaml
 ---
 id: METRIC-001
-title: Receita reconhecida — exemplo
+title: Receita reconhecida: exemplo
 status: pending_approval
 owner: null
 source_of_truth: null

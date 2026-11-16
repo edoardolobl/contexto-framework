@@ -1,13 +1,13 @@
 # Roadmap do Contexto
 
-## v0.1 — baseline técnica e editorial
+## v0.1: baseline técnica e editorial
 - [x] Propósito, promessa e limites
 - [x] Método das oito dimensões, elicitação e revisão
 - [x] Template de KPI e exemplo
 - [x] Checklist interativo e bibliografia
 - [x] Publicação automatizada e validação em PR
 
-## v0.2 — documentação transversal
+## v0.2: documentação transversal
 - [x] Seletor pedagógico de modelos
 - [x] Conceitos/glossário + exemplo RH
 - [x] Processos + exemplo Marketing
@@ -16,7 +16,7 @@
 - [x] Passagem de conhecimento com pendências
 - [x] Modelos Markdown/YAML e testes de qualidade estrutural
 
-## v0.3 — Dados e Analytics
+## v0.3: Dados e Analytics
 - [x] Dataset e dicionário semântico + exemplo SQLite
 - [x] Relacionamentos, cardinalidade e joins + exemplo 1:N
 - [x] Dashboard e interpretação com filtros e escopo

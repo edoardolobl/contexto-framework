@@ -1,6 +1,6 @@
 # Exemplo didático: não constitui regra aprovada.
 id: DECISION-CAMPAIGN-001
-title: "Triagem de campanha — Aurora"
+title: "Triagem de campanha: Aurora"
 type: decision_rule
 status: pending_approval
 version: "0.1"
