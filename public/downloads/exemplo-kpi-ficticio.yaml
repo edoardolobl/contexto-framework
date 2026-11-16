@@ -1,5 +1,6 @@
 # Exemplo didático e fictício, com lacunas: nenhuma definição aqui foi aprovada.
 id: KPI-AURORA-001
+revision_id: "KPI-AURORA-001@0.1"  # revisão específica; id = assunto estável
 title: "Taxa de sessões convertidas: loja web Aurora"
 type: metric_definition
 domain: ecommerce
@@ -9,6 +10,8 @@ approver: null
 version: "0.1"
 version_date: "2026-07-20"
 valid_from: null
+valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
+supersedes_revision: null
 last_reviewed: null
 source_of_truth: null
 version_history:
