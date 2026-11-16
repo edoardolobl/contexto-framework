@@ -1,0 +1,60 @@
+---
+id: KPI-AURORA-001
+title: "Taxa de conversão — loja web Aurora"
+type: metric_definition
+domain: ecommerce
+status: pending_approval
+owner: null
+approver: null
+version: "0.1"
+valid_from: null
+last_reviewed: null
+source_of_truth: null
+
+business_definition:
+  concept: "Proporção de sessões elegíveis que resultaram em pedidos confirmados"
+  purpose: "Acompanhar o resultado do funil web"
+  synonyms: ["conversão web"]
+  different_meanings_in_other_domains:
+    - "Conversão de lead: outra métrica, não usar como sinônimo"
+
+scope:
+  included_channels: ["web"]
+  excluded_channels: ["app", "loja física"]
+  applicable_population: "Sessões elegíveis no canal web"
+  exclusions: ["tráfego interno", "pedidos de teste", "pedidos cancelados"]
+
+calculation:
+  formula_description: "(pedidos_confirmados / sessoes_elegiveis) * 100"
+  numerator: "Quantidade de pedidos confirmados e elegíveis"
+  denominator: "Quantidade de sessões elegíveis"
+  unit: "percentual"
+  granularity: "dia + canal web"
+  aggregation_rule: "Recalcular numerador e denominador antes de agregar períodos"
+  null_handling: "Não tratar ausência de registros como valor zero sem confirmar"
+  zero_denominator_policy: null
+
+time:
+  reference_date_field: null
+  timezone: null
+  reporting_window: "mensal, a confirmar"
+  data_freshness: null
+
+data_sources:
+  authoritative_dataset: null
+  relevant_columns: []
+  valid_join_paths: []
+  source_conflicts_and_precedence: []
+
+validation:
+  approved_examples: []
+  expected_questions_and_answers: []
+  known_edge_cases: ["Pedidos confirmados após fechamento do mês"]
+  tests: []
+
+open_questions:
+  - "Qual campo data determina o mês do pedido?"
+  - "O que fazer quando o denominador é zero?"
+  - "Quem aprova a fonte oficial e a vigência?"
+  - "A conversão usa sessões totais ou sessões qualificadas segundo qual regra?"
+related_documents: []
