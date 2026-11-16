@@ -1,0 +1,44 @@
+---
+const choices = [
+  { id: 'conceito', label: 'Explicar o significado de um termo', href: 'templates/conceito/', summary: 'Glosssário e conceitos: definição, sinônimos, variações e exemplos.' },
+  { id: 'processo', label: 'Ensinar como executar um trabalho', href: 'templates/processo/', summary: 'Processo: gatilho, atores, etapas, decisões, exceções e saída.' },
+  { id: 'decisao', label: 'Formalizar critérios para decidir', href: 'templates/decisao/', summary: 'Regra: condições, precedência, casos-limite e autoridade.' },
+  { id: 'politica', label: 'Registrar o que é permitido ou obrigatório', href: 'templates/politica/', summary: 'Política: escopo, vigência, fontes autorizadas, exceções e mudanças.' },
+  { id: 'kpi', label: 'Definir como um indicador é calculado', href: 'templates/kpi/', summary: 'KPI: fórmula, universo, datas, filtros e fonte oficial.' },
+];
+const raw = import.meta.env.BASE_URL;
+const base = raw.endsWith('/') ? raw : raw + '/';
+---
+<div class="template-finder" data-template-finder>
+  <p class="finder-eyebrow">ASSISTENTE DE ESCOLHA · SEM IA E SEM COLETA DE DADOS</p>
+  <h2>O que você precisa documentar?</h2>
+  <p>Escolha a finalidade principal. Se um documento mistura assuntos, comece pelo modelo predominante e vincule os demais.</p>
+  <fieldset>
+    <legend>Tipo de conhecimento</legend>
+    {choices.map((choice, i) => (
+      <label>
+        <input type="radio" name="template-intent" value={choice.id} checked={i === 0}/>
+        <span>{choice.label}</span>
+      </label>
+    ))}
+  </fieldset>
+  <div class="finder-output" role="status" aria-live="polite">
+    <p data-summary>{choices[0].summary}</p>
+    <a data-link href={base + choices[0].href}>Abrir o template indicado →</a>
+  </div>
+</div>
+<script define:vars={{ choices, base }}>
+  document.querySelectorAll('[data-template-finder]').forEach((root) => {
+    const choicesById = Object.fromEntries(choices.map(item => [item.id, item]));
+    const summary = root.querySelector('[data-summary]');
+    const link = root.querySelector('[data-link]');
+    root.querySelectorAll('input[type="radio"]').forEach((input) => {
+      input.addEventListener('change', () => {
+        const item = choicesById[input.value];
+        if (!item) return;
+        summary.textContent = item.summary;
+        link.setAttribute('href', base + item.href);
+      });
+    });
+  });
+</script>
