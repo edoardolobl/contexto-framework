@@ -9,6 +9,7 @@ export default defineConfig({
       title: 'Contexto',
       description: 'Método para documentar conhecimento organizacional de modo explícito, contextualizado e verificável.',
       locales: { root: { label: 'Português', lang: 'pt-BR' } },
+      customCss: ['./src/styles/custom.css'],
       sidebar: [
         { label: 'Comece aqui', items: [{ slug: 'fundamentos/promessa' }] },
         { label: 'O método', items: [{ slug: 'metodo/oito-dimensoes' }] },
