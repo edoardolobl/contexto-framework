@@ -1,6 +1,6 @@
 ---
 id: KPI-AURORA-001
-title: "Taxa de conversão — loja web Aurora"
+title: "Taxa de sessões convertidas — loja web Aurora"
 type: metric_definition
 domain: ecommerce
 status: pending_approval
@@ -25,8 +25,8 @@ scope:
   exclusions: ["tráfego interno", "pedidos de teste", "pedidos cancelados"]
 
 calculation:
-  formula_description: "(pedidos_confirmados / sessoes_elegiveis) * 100"
-  numerator: "Quantidade de pedidos confirmados e elegíveis"
+  formula_description: "(sessoes_unicas_com_pedido_confirmado / sessoes_elegiveis) * 100"
+  numerator: "Quantidade de sessões elegíveis com pelo menos um pedido CONFIRMED"
   denominator: "Quantidade de sessões elegíveis"
   unit: "percentual"
   granularity: "dia + canal web"
@@ -37,7 +37,7 @@ calculation:
 time:
   reference_date_field: null
   timezone: null
-  reporting_window: "mensal, a confirmar"
+  reporting_window: "2026-10-01 na amostra; janela real ainda não homologada"
   data_freshness: null
 
 data_sources:
@@ -57,4 +57,4 @@ open_questions:
   - "O que fazer quando o denominador é zero?"
   - "Quem aprova a fonte oficial e a vigência?"
   - "A conversão usa sessões totais ou sessões qualificadas segundo qual regra?"
-related_documents: []
+related_documents: ["DATASET-AURORA-SESSIONS", "REL-AURORA-SESSIONS-ORDERS", "DASH-AURORA-WEB"]
