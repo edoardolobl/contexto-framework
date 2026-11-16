@@ -1,0 +1,40 @@
+---
+title: Escolha o que documentar
+description: Encontre o modelo de conhecimento pelo problema que precisa explicar, não pelo formato do arquivo.
+---
+
+import TemplateFinder from '../../../components/TemplateFinder.astro';
+
+# Escolha o documento certo
+
+**O objetivo não é criar mais documentos. É registrar o conhecimento necessário para alguém entender e executar o trabalho sem precisar adivinhar regras.**
+
+Se você tem uma pasta com PDFs, prints, mensagens e planilhas, não comece tentando convertê-los todos em YAML. Primeiro responda: **que pergunta uma pessoa nova não conseguiria responder com segurança usando esse acervo?**
+
+<TemplateFinder />
+
+## Como reconhecer a diferença
+
+| Pergunta que você precisa responder | Documento apropriado |
+|---|---|
+| “O que significa *cliente ativo*?” | [Conceito ou glossário](../../templates/conceito/) |
+| “O que acontece depois que um pedido chega?” | [Processo ou procedimento](../../templates/processo/) |
+| “Em quais situações um pedido precisa de aprovação?” | [Regra e decisão](../../templates/decisao/) |
+| “O que é permitido, por quem e durante qual período?” | [Política e referência](../../templates/politica/) |
+| “Como calculamos a taxa de conversão?” | [Métrica ou KPI](../../templates/kpi/) |
+
+## Um processo pode precisar de outros documentos
+
+Imagine uma campanha fictícia. O **processo** descreve as etapas entre solicitar e publicar. Uma **regra** decide em quais condições encaminhar para revisão. Uma **política** estabelece responsabilidades e limites de autoridade. Um **glossário** esclarece o que “material aprovado” significa.
+
+Esses documentos se conectam por identificadores e links. Não precisam repetir trechos enormes entre si nem viver na mesma plataforma.
+
+:::note[Como começar sem se tornar técnico]
+Você pode preencher o template em Markdown, em Word ou diretamente numa ferramenta da sua equipe. **YAML é um exemplo pedagógico de estruturação**, não requisito para o método funcionar.
+:::
+
+## Antes de continuar
+
+Se não sabe qual é a regra correta, registre `status: pending_approval` ou a dúvida em linguagem normal. **Nunca faça uma suposição virar decisão corporativa só porque o template tem um campo vazio.**
+
+Continue pelo [roteiro de elicitação](../../metodo/elicitar/) ou pela [biblioteca de templates](../../templates/).
