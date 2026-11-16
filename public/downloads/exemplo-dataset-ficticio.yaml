@@ -1,0 +1,83 @@
+# Dataset de sessões fictício, derivado da amostra SQLite do Contexto.
+id: DATASET-AURORA-SESSIONS
+title: "Sessões web e app — Aurora (fictício)"
+type: dataset_semantics
+status: pending_approval
+version: "0.1"
+owner: null
+approver: null
+valid_from: null
+source_of_truth: null
+
+dataset:
+  physical_name: demo_sessions
+  platform: SQLite (laboratório)
+  business_purpose: "Representar sessões registradas por canal"
+  grain: "Uma linha por sessão"
+  primary_key: session_id
+  alternative_keys: []
+  uniqueness_assumption: "Cada session_id representa uma única sessão"
+
+columns:
+  - physical_name: session_id
+    technical_type: TEXT
+    business_name: "Identificador da sessão"
+    meaning: "Chave única da sessão fictícia"
+    unit: null
+    allowed_values: []
+    sentinel_values: []
+    null_meaning: "Não permitido pelo modelo demonstrativo"
+    examples: ["S1", "S2"]
+    do_not_use_for: ["Identificar pessoas"]
+  - physical_name: channel
+    technical_type: TEXT
+    business_name: Canal
+    meaning: "Plataforma em que ocorreu a sessão"
+    unit: null
+    allowed_values: [web, app]
+    sentinel_values: []
+    null_meaning: "Não permitido no laboratório"
+    examples: [web, app]
+    do_not_use_for: ["Inferir localização geográfica"]
+  - physical_name: is_internal
+    technical_type: INTEGER
+    business_name: "Sessão interna"
+    meaning: "No laboratório, 1 significa interna; 0 significa não interna"
+    unit: null
+    allowed_values: [0, 1]
+    sentinel_values: []
+    null_meaning: "Não permitido no laboratório"
+    examples: [0, 1]
+    do_not_use_for: ["Identificar a pessoa que navegou"]
+  - physical_name: session_date
+    technical_type: TEXT
+    business_name: "Data da sessão"
+    meaning: "Data de referência no formato YYYY-MM-DD"
+    unit: dia
+    allowed_values: []
+    sentinel_values: []
+    null_meaning: "Não permitido no laboratório"
+    examples: ["2026-10-01"]
+    do_not_use_for: ["Inferir hora local ou duração"]
+
+time_semantics:
+  reference_field: session_date
+  timezone: null
+  update_frequency: "Carga estática sintética"
+  known_latency: "Não aplicável ao laboratório"
+  snapshot_or_events: "Registro de sessão; não snapshot de estoque"
+
+usage:
+  authoritative_questions: ["Taxa de sessões web convertidas na amostra fictícia"]
+  invalid_aggregations: ["Contar sessões com COUNT(*) após join 1:N sem avaliar duplicidade"]
+  related_datasets: ["demo_orders"]
+  known_caveats: ["Não extrapolar a amostra para outros períodos ou canais"]
+  sample_queries: ["aurora-reference-query.sql"]
+
+validation:
+  checked_by: null
+  checked_at: null
+  evidence: ["aurora-fixture.sql"]
+open_questions:
+  - "Quem aprovaria a semântica num contexto real?"
+related_documents: ["KPI-AURORA-001", "REL-AURORA-SESSIONS-ORDERS"]
