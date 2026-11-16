@@ -1,0 +1,12 @@
+---
+import Default from '@astrojs/starlight/components/Footer.astro';
+const raw = import.meta.env.BASE_URL;
+const base = raw.endsWith('/') ? raw : raw + '/';
+---
+<Default><slot /></Default>
+<p class="site-credits">
+  Contexto é um projeto de <a href="https://www.linkedin.com/in/edoardolobl/" rel="author">Edoardo Lobl</a>
+  (<a href="https://github.com/edoardolobl">GitHub</a>).
+  Conteúdo sob <a href="https://creativecommons.org/licenses/by/4.0/deed.pt-br" rel="license">CC BY 4.0</a>, código sob MIT.
+  <a href={base + 'sobre/creditos/'}>Autoria, licença e como citar</a>.
+</p>
