@@ -38,7 +38,10 @@ decision_table:
   - when: {brief_complete: true, evidence_sufficient: unknown}
     then: request_clarification
 priority_rules:
-  - "Entrada desconhecida exige esclarecimento antes de encaminhamento"
+  - "Se brief_complete for desconhecido, solicitar esclarecimento"
+  - "Se brief_complete for falso, devolver independentemente de evidence_sufficient"
+  - "Se brief_complete for verdadeiro e evidência for desconhecida, solicitar esclarecimento"
+  - "Se brief e evidência forem verdadeiros, encaminhar à aprovação formal"
 default_behavior: request_clarification
 unknown_input_behavior: request_clarification
 exceptions: []
