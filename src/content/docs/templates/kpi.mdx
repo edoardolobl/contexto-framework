@@ -1,59 +1,66 @@
 ---
-title: Template de KPI
-description: Modelo para explicitar definições de indicadores de negócio.
+title: Template — KPI e métricas
+description: Estruture a definição do indicador, o significado de negócio, suas fontes, exceções e pendências.
 ---
 
-# Como documentar um KPI
+# Template — KPI e métricas
 
-O nome de um indicador não informa necessariamente como ele deve ser calculado. É preciso documentar seu significado, população, fórmula, fontes, exclusões e limites de uso.
+Um modelo pode calcular uma fórmula corretamente e errar a pergunta de negócio. Antes de fornecer uma tabela a um agente analítico, a área responsável precisa explicitar **o que o indicador mede e como seus componentes são interpretados**.
 
-## Campos essenciais
+## Quando usar
 
-| Campo | Pergunta ao especialista |
+Use este template para métricas e KPIs que fundamentam relatórios, dashboards, análises, alertas ou decisões. Não use este modelo para documentar sozinho todo um banco de dados; tabelas, relacionamentos e contratos semânticos exigem material complementar.
+
+## Preenchimento guiado
+
+| Campo | O especialista deve responder |
 |---|---|
-| Nome e identificador | Qual indicador estamos definindo? |
-| Definição | O que ele mede, no contexto da organização? |
-| População | Quais entidades entram no cálculo? |
-| Fórmula | Quais variáveis, agregações e unidades devem ser utilizadas? |
-| Período | Qual janela temporal, fuso e data de referência? |
-| Exclusões | Cancelamentos, testes, duplicatas ou outros casos? |
-| Fonte oficial | Onde o indicador é definido ou implementado? |
-| Responsável | Quem valida sua definição? |
-| Exceções | Quando não deve ser utilizado? |
+| `business_definition` | O que mede no contexto da área? O mesmo nome significa outra coisa em outro departamento? |
+| `scope` | Quais canais, populações e eventos entram? O que fica fora? |
+| `calculation` | Quais numerador, denominador, unidade, granularidade e regras de agregação? |
+| `time` | A qual data e fuso o cálculo se refere? Como tratar atualização atrasada? |
+| `data_sources` | Qual fonte tem autoridade? Quais chaves e filtros precisam ser usados? |
+| `validation` | Quais resultados, consultas ou exemplos foram aprovados? |
+| `open_questions` | Quais decisões não podem ser inferidas com segurança? |
+| `owner`, `status` e `valid_from` | Quem aprova, em que estado está e desde quando vale? |
 
-## Modelo Markdown com metadados YAML
+## Um exemplo mínimo de estrutura
 
-```md
+```yaml
 ---
-id: KPI-001
-title: Taxa de conversão de e-commerce
+id: KPI-EXEMPLO-001
+title: "Taxa de conversão — canal web"
 type: metric_definition
-owner: A definir
-status: draft
-version: "0.1"
----
+status: pending_approval
+owner: null
 
-# Taxa de conversão
+business_definition:
+  concept: "Sessões elegíveis que geraram pedidos confirmados"
 
-## Definição
-[Pergunte qual evento constitui uma conversão.]
+calculation:
+  numerator: "Pedidos confirmados elegíveis"
+  denominator: "Sessões elegíveis"
+  unit: "percentual"
 
-## Fórmula
-[Aguardando homologação da área.]
-
-## População
-[Quem entra no denominador?]
-
-## Exclusões
-[Pedidos de teste, cancelados, devoluções?]
-
-## Fonte oficial
-[Referência a dashboard, catálogo ou política.]
-
-## Exceções
-[Quando não aplicar este indicador?]
+open_questions:
+  - "Quem define a elegibilidade das sessões?"
+  - "Qual é a fonte oficial?"
 ```
 
-**Atenção:** este modelo não determina sozinho o SQL correto. Quando houver modelo semântico executável ou implementação homologada, inclua sua referência.
+Este exemplo é **fictício e ainda não aprovado**. O objetivo é mostrar que uma pendência deve permanecer visível.
 
-Veja o [antes e depois](../../exemplos/kpi/) para uma aplicação didática.
+## Arquivos para reutilização
+
+<a href="../../downloads/template-kpi.md" download>Baixar template em Markdown</a> · <a href="../../downloads/template-kpi.yaml" download>Baixar template em YAML</a> · <a href="../../downloads/exemplo-kpi-ficticio.yaml" download>Baixar exemplo fictício preenchido</a>
+
+:::note[Sobre os metadados]
+Os campos exemplificados são uma **convenção editorial proposta neste framework**. Não são uma norma universal nem uma especificação diretamente executável por dbt, Cube ou Snowflake. Adaptá-los para um runtime exige engenharia e validação adicionais.
+:::
+
+## Próximo passo
+
+Compare [o texto insuficiente com a versão revisada](../../exemplos/kpi/) e faça a [verificação das oito dimensões](../../validacao/checklist/).
+
+### Fundamentação
+
+[DCMI Metadata Terms](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/), [SKOS](https://www.w3.org/TR/skos-reference/), [dbt MetricFlow](https://docs.getdbt.com/docs/build/about-metricflow) e [Rumiantsau & Fokeev (2026)](https://arxiv.org/abs/2604.25149). Consulte a [bibliografia e rastreabilidade](../../referencias/).

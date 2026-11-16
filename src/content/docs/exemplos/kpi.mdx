@@ -1,56 +1,90 @@
 ---
-title: Antes e depois — KPI
-description: Um indicador aparentemente claro que não possui regras suficientes.
+title: Exemplo comentado — KPI
+description: Aprenda a identificar ambiguidades e a documentar um indicador sem inventar definições de negócio.
 ---
 
-# Exemplo comentado: documentação de um KPI
+import BeforeAfter from '../../../components/BeforeAfter.astro';
+import ReadinessChecklist from '../../../components/ReadinessChecklist.astro';
 
-Todos os exemplos são fictícios.
+# Exemplo comentado — KPI de conversão
 
-## Antes: descrição insuficiente
+**Cenário fictício.** A loja demonstrativa Aurora deseja usar IA para responder perguntas sobre conversão de e-commerce. Seu acervo contém dashboards, um schema SQL e a frase “taxa de conversão = conversões ÷ visitas”. Os números estão disponíveis, mas o significado ainda não está formalizado.
 
-> A taxa de conversão mede o percentual de clientes que realizam uma compra. O indicador é atualizado diariamente.
+## 1. Documento insuficiente versus documentado
 
-**O que o texto deixa implícito?**
+<BeforeAfter />
 
-- "Clientes" significa visitantes, usuários autenticados ou leads?
-- Uma compra é um pedido iniciado, confirmado ou faturado?
-- Cancelamentos entram no numerador?
-- Qual data e fuso organizam o período?
-- Quais canais são incluídos?
-- Quem pode aprovar interpretações conflitantes?
+No segundo quadro, uma definição operacional **hipotética** é apresentada para mostrar a diferença de nível de detalhamento. O status permanece `pendente_de_aprovacao`: este framework não tem autoridade para definir um KPI real.
 
-## Depois: documentação que expõe decisões e lacunas
+## 2. O que perguntar ao especialista?
+
+| Pergunta de elicitação | Lacuna descoberta |
+|---|---|
+| “Conversão” significa pedido criado, pago, confirmado ou entregue? | Evento que conta como numerador |
+| “Visita” representa sessão, usuário ou acesso à página? | Unidade do denominador |
+| Existem pedidos de teste ou cancelados? | Critérios de exclusão |
+| O indicador vale para app, web e loja física? | Escopo e canais |
+| Como fechar um mês com eventos atrasados? | Janela temporal e atualização |
+| Qual dashboard é a referência quando os valores divergem? | Fonte oficial e autoridade |
+| Quem pode mudar a definição? | Responsabilidade e versionamento |
+
+## 3. Representação estruturada
+
+Depois de entrevistar especialistas e **antes de marcar como aprovado**, é possível registrar o conteúdo em um formato portável:
 
 ```yaml
-id: KPI-CONVERSION-001
-title: Taxa de conversão
-scope: ecommerce
-status: draft
+---
+id: KPI-AURORA-001
+type: metric_definition
+status: pending_approval
 owner: null
-definition: >
-  Proporção de unidades elegíveis que produziram
-  uma conversão no período de referência.
-numerator:
-  event: null
-  validation_status: needs_approval
-denominator:
-  entity: null
-  validation_status: needs_approval
-period:
-  timezone: null
-  lookback: null
-excluded_orders: null
-source_of_truth: null
+
+business_definition:
+  concept: "Sessões elegíveis que geraram pedidos confirmados"
+  context: "Exemplo hipotético de e-commerce web"
+
+calculation:
+  numerator: "Pedidos confirmados, excluídos cancelados e testes"
+  denominator: "Sessões elegíveis, excluído tráfego interno"
+  unit: "percentual"
+  aggregation_rule: "Somar componentes antes de dividir"
+
+open_questions:
+  - "Qual a fonte oficial?"
+  - "Qual o campo de data de referência?"
+  - "Qual área aprova esta definição?"
 ```
 
-O progresso importante é que **não inventamos as regras faltantes**. Em vez de converter suposições em fatos, o documento torna visível o que precisa ser validado com o negócio.
+A estrutura **não substitui** a decisão de negócio. Ela torna a decisão visível quando existe e impede que uma ausência passe despercebida.
 
-## Perguntas de homologação
+## 4. Como isso se conecta ao banco de dados?
 
-1. O indicador tem a mesma definição nos diferentes canais?
-2. Qual unidade é contada em cada parte da fórmula?
-3. Quais exceções são indispensáveis para reproduzir o indicador?
-4. Qual pessoa ou área aprova as decisões documentadas?
+Imagine uma tabela `fact_orders(order_id, status_code, created_at)` e outra `fact_sessions(session_id, channel, event_time)`. O schema revela nomes e tipos, mas não esclarece automaticamente:
 
-Uma IA poderá consultar o indicador depois da validação. O template não garante, por si só, correção das respostas.
+- Se `status_code='C'` significa confirmado, cancelado ou concluído;
+- Se `created_at` usa UTC ou um fuso comercial;
+- Se `session_id` representa uma sessão em todos os canais;
+- Se há uma relação válida entre pedidos e sessões para a granularidade escolhida;
+- Se contagens devem ser deduplicadas antes do cálculo.
+
+Essas informações exigem **documentação semântica adicional**, associada à documentação de KPI. Consulte [o módulo de semântica de dados](../../dados/semantica/).
+
+## 5. Cinco perguntas para testar a documentação
+
+| Pergunta ao sistema | Comportamento desejado se a documentação estiver completa |
+|---|---|
+| “Qual a conversão no mês?” | Aplicar a métrica oficial do canal, período e população solicitados |
+| “A conversão mobile está subindo?” | Distinguir mobile web de app ou solicitar contexto |
+| “Posso incluir pedidos cancelados?” | Responder segundo uma regra aprovada, com sua fonte |
+| “Qual dashboard está certo?” | Consultar a hierarquia de fontes definida pela organização |
+| “Qual é a métrica oficial deste documento ainda pendente?” | **Não apresentá-la como aprovada** |
+
+Não estamos testando se um LLM específico acertaria essas perguntas. Estamos avaliando **se a documentação contém os elementos necessários** para que uma implementação possa ser construída e testada.
+
+## 6. Verifique seu próprio documento
+
+<ReadinessChecklist />
+
+### Referências e limites do exemplo
+
+O desenho dialoga com [IIBA — Elicitation](https://www.iiba.org/knowledgehub/the-business-analysis-standard/5-applying-business-analysis-tasks/5-3-business-analysis-knowledge-areas/elicitation-and-collaboration/), [dbt MetricFlow](https://docs.getdbt.com/docs/build/about-metricflow) e [Rumiantsau & Fokeev (2026)](https://arxiv.org/abs/2604.25149). Este último apresenta ganhos de acurácia ao fornecer contexto semântico, mas **não demonstra garantia de acerto em produção**. Veja [as fontes comentadas](../../referencias/).

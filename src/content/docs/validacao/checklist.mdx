@@ -1,0 +1,38 @@
+---
+title: Checklist documental
+description: Verifique se um documento explicita significado, contexto, regras, exceções e fontes.
+---
+
+import ReadinessChecklist from '../../../components/ReadinessChecklist.astro';
+
+# Checklist de qualidade documental
+
+Esta avaliação ajuda o autor a reconhecer **lacunas antes de encaminhar o documento para aprovação**. Ela não testa automaticamente um agente nem certifica a qualidade de dados; essas atividades pertencem a etapas técnicas posteriores.
+
+## Como usar
+
+1. Abra o documento que pretende revisar.
+2. Marque cada dimensão apenas se conseguir apontar a evidência no documento.
+3. Identifique quais campos dependem de decisão, confirmação ou fonte adicional.
+4. Encaminhe o conteúdo e suas pendências para quem responde pelo conhecimento.
+
+<ReadinessChecklist />
+
+## O que significa “pronto”?
+
+| Estado | Condição |
+|---|---|
+| **Rascunho** | Pode conter lacunas, hipóteses e pendências explicitamente registradas |
+| **Pendente de aprovação** | Conteúdo estruturado, aguardando validação de autoridade definida |
+| **Aprovado para uso documental** | Fonte confirmada, regras e limites conhecidos, responsável e vigência definidos |
+| **Obsoleto** | Não deve ser usado como fonte vigente; aponta para substituição quando houver |
+
+Esses estados são uma **convenção proposta** que uma organização pode adaptar ao seu processo de governança. Eles não são um selo de prontidão para automação.
+
+## E os testes com IA?
+
+Depois de obter documentação aprovada, equipes técnicas podem construir testes de recuperação, fundamentação e comportamento de agentes. Um erro em produção pode estar no documento, na recuperação, no modelo, nas ferramentas ou no controle de acesso. Este checklist avalia **somente a camada documental**.
+
+### Fundamentação
+
+[KCS Practices Guide](https://library.serviceinnovation.org/KCS/KCS_v6/KCS_v6_Practices_Guide), [IIBA — Elicitation and Collaboration](https://www.iiba.org/knowledgehub/the-business-analysis-standard/5-applying-business-analysis-tasks/5-3-business-analysis-knowledge-areas/elicitation-and-collaboration/). Os oito itens e os estados acima são adaptações originais.
