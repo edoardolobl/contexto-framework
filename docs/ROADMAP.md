@@ -43,7 +43,8 @@
 - [x] Checkpoint C — exemplos de negócio visíveis, comparação alinhada e painel técnico único
 - [x] Checkpoint visual — aumentar destaque e contraste do disclosure técnico
 - [x] Checkpoint D — separar cobertura, consistência/evidências e confirmação pelo responsável; ficha prática para download
-- [ ] Checkpoint E — revisão editorial e visual final de tipografia, espaçamento, leitura mobile e acessibilidade possível sem auditoria formal
+- [x] Checkpoint E — ajustes pontuais de tipografia, respiração e leitura mobile implementados; aguardando conferência visual do mantenedor
+- [ ] Conferir visualmente o checkpoint E (tema claro/escuro, leitura mobile e seta única)
 - [ ] Teste de compreensão com participantes externos (issue #4; após estabilizar os materiais)
 
 ## Antes de declarar a edição 1.0
