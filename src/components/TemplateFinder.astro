@@ -1,22 +1,25 @@
 ---
 const choices = [
-  { id: 'conceito', label: 'Explicar o significado de um termo', href: 'templates/conceito/', summary: 'Glossário e conceitos: definição, sinônimos, variações e exemplos.' },
-  { id: 'processo', label: 'Ensinar como executar um trabalho', href: 'templates/processo/', summary: 'Processo: gatilho, atores, etapas, decisões, exceções e saída.' },
-  { id: 'decisao', label: 'Formalizar critérios para decidir', href: 'templates/decisao/', summary: 'Regra: condições, precedência, casos-limite e autoridade.' },
-  { id: 'politica', label: 'Registrar o que é permitido ou obrigatório', href: 'templates/politica/', summary: 'Política: escopo, vigência, fontes autorizadas, exceções e mudanças.' },
-  { id: 'kpi', label: 'Definir como um indicador é calculado', href: 'templates/kpi/', summary: 'KPI: fórmula, universo, datas, filtros e fonte oficial.' },
-  { id: 'rubrica', label: 'Definir critérios para avaliar um trabalho', href: 'templates/rubrica/', summary: 'Rubrica: critérios, evidências, níveis, pesos e revisão humana.' },
-  { id: 'analytics', label: 'Explicar tabelas, painéis e análises de dados', href: 'dados/visao-geral/', summary: 'Trilha de Dados e Analytics: significado dos dados, junções, dashboards e perguntas de referência.' },
+  { id: 'conceito', label: 'Explicar o significado de um termo', href: 'templates/conceito/', download: 'template-conceito.md', summary: 'Definição, sinônimos, exemplos e situações em que o termo não se aplica.' },
+  { id: 'processo', label: 'Descrever como um trabalho é executado', href: 'templates/processo/', download: 'template-processo.md', summary: 'Gatilho, etapas, responsáveis, decisões, exceções e evidências.' },
+  { id: 'decisao', label: 'Definir critérios para uma decisão', href: 'templates/decisao/', download: 'template-decisao.md', summary: 'Condições, prioridade entre regras, resultados e tratamento de dúvidas.' },
+  { id: 'politica', label: 'Registrar uma política ou obrigação', href: 'templates/politica/', download: 'template-politica.md', summary: 'Escopo, autoridade, versões, vigência, exceções e fontes oficiais.' },
+  { id: 'kpi', label: 'Explicar como um indicador é calculado', href: 'templates/kpi/', download: 'template-kpi.md', summary: 'Fórmula, população, filtros, período e significado da métrica.' },
+  { id: 'rubrica', label: 'Definir como avaliar um trabalho', href: 'templates/rubrica/', download: 'template-rubrica.md', summary: 'Critérios, níveis de qualidade, evidências e revisão humana.' },
+  { id: 'dataset', label: 'Explicar uma tabela e seus campos', href: 'templates/dataset/', download: 'template-dataset.md', summary: 'Granularidade, chaves, códigos, valores especiais e limites de uso.' },
+  { id: 'relacionamento', label: 'Documentar como tabelas se relacionam', href: 'templates/relacionamento/', download: 'template-relacionamento.md', summary: 'Chaves, cardinalidade e risco de duplicação de linhas.' },
+  { id: 'dashboard', label: 'Explicar como interpretar um painel', href: 'templates/dashboard/', download: 'template-dashboard.md', summary: 'Indicadores, filtros, públicos, atualização e limitações.' },
+  { id: 'casos-teste', label: 'Definir quais perguntas podem ser respondidas', href: 'templates/casos-teste/', download: 'template-casos-teste.md', summary: 'Perguntas de referência, fontes, esclarecimentos e casos sem resposta.' },
 ];
 const raw = import.meta.env.BASE_URL;
 const base = raw.endsWith('/') ? raw : raw + '/';
 ---
-<div class="template-finder" data-template-finder>
-  <p class="finder-eyebrow">ASSISTENTE DE ESCOLHA · SEM IA E SEM COLETA DE DADOS</p>
+<section class="template-finder" data-template-finder aria-label="Escolha um modelo pelo objetivo">
+  <p class="finder-eyebrow">ESCOLHA POR TAREFA · SEM CONHECER YAML OU IA</p>
   <h2>O que você precisa documentar?</h2>
-  <p>Escolha a finalidade principal. Se um documento mistura assuntos, comece pelo modelo predominante e vincule os demais.</p>
+  <p>Escolha o resultado que deseja produzir. Você pode ler as orientações ou baixar imediatamente o modelo em texto simples.</p>
   <fieldset>
-    <legend>Tipo de conhecimento</legend>
+    <legend>Selecione uma finalidade</legend>
     {choices.map((choice, i) => (
       <label>
         <input type="radio" name="template-intent" value={choice.id} checked={i === 0}/>
@@ -26,20 +29,26 @@ const base = raw.endsWith('/') ? raw : raw + '/';
   </fieldset>
   <div class="finder-output">
     <p data-summary role="status" aria-live="polite">{choices[0].summary}</p>
-    <a data-link href={base + choices[0].href}>Abrir a página indicada <span aria-hidden="true">→</span></a>
+    <div class="finder-output__actions">
+      <a data-link href={base + choices[0].href}>Ver como preencher <span aria-hidden="true">→</span></a>
+      <a data-download href={base + 'downloads/' + choices[0].download} download>Baixar modelo em texto <span aria-hidden="true">↓</span></a>
+    </div>
   </div>
-</div>
+  <p class="finder-footnote">Os arquivos são modelos para adaptar, não políticas aprovadas. Se houver informação ausente, registre a dúvida.</p>
+</section>
 <script define:vars={{ choices, base }}>
   document.querySelectorAll('[data-template-finder]').forEach((root) => {
     const choicesById = Object.fromEntries(choices.map(item => [item.id, item]));
     const summary = root.querySelector('[data-summary]');
     const link = root.querySelector('[data-link]');
+    const download = root.querySelector('[data-download]');
     root.querySelectorAll('input[type="radio"]').forEach((input) => {
       input.addEventListener('change', () => {
         const item = choicesById[input.value];
         if (!item) return;
         summary.textContent = item.summary;
         link.setAttribute('href', base + item.href);
+        download.setAttribute('href', base + 'downloads/' + item.download);
       });
     });
   });
