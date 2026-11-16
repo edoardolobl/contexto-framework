@@ -1,0 +1,44 @@
+# Exemplo didático e fictício; nenhuma regra real de RH é representada.
+id: CONCEPT-ONBOARDING-001
+title: "Participante ativo — programa de integração Aurora"
+type: concept_definition
+status: pending_approval
+version: "0.1"
+owner: null
+approver: null
+valid_from: null
+last_reviewed: null
+source_of_truth: null
+
+context:
+  domain: "Programa voluntário de integração — Aurora (fictício)"
+  purpose: "Distinguir inscrição, atividade e conclusão em relatórios"
+  applies_when: "Acompanhamento do programa fictício"
+  does_not_apply_when: "Avaliação de desempenho, contratação ou benefícios"
+
+vocabulary:
+  preferred_term: "Participante ativo"
+  synonyms: []
+  related_terms: ["Participante inscrito", "Participante concluinte"]
+  not_synonyms: ["Pessoa inscrita", "Pessoa que concluiu o programa"]
+  other_domain_meanings: []
+
+definition: null
+inclusion_criteria: []
+exclusion_criteria: []
+examples: []
+counterexamples: []
+
+validation:
+  decisions_confirmed_by: null
+  confirmation_evidence: null
+  review_history: []
+
+open_questions:
+  - question: "Qual atividade marca uma pessoa como ativa?"
+    resolution_owner: null
+    impact: "Relatórios podem contar populações diferentes"
+  - question: "Qual período determina a classificação?"
+    resolution_owner: null
+    impact: "Atividade passada pode ser confundida com status atual"
+related_documents: []
