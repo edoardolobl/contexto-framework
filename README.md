@@ -1,42 +1,77 @@
 # Contexto — Framework de Conhecimento para IA
 
-**Uma IA não deveria adivinhar como sua organização funciona.**
+> Um método para que especialistas documentem o significado de processos, métricas, regras e exceções sem delegar ao engenheiro de IA a tarefa de inferir conhecimento que ninguém formalizou.
 
-Contexto é um framework aberto, independente de fornecedores e organizações, para orientar especialistas de diferentes áreas a explicitar conhecimento tácito, significados, regras, exceções e evidências em documentos verificáveis. O framework ensina **como documentar**, para reduzir a necessidade de a engenharia de IA inferir ou inventar regras de negócio.
+**Status:** v0.1 — primeira fatia vertical: método, exemplo pedagógico de KPI, checklist e bibliografia. Os demais módulos seguem em expansão.
 
-## Promessa — e limites
+## O que está incluído
 
-A documentação é um insumo para aplicações RAG, agentes e analytics. **Preencher templates não garante respostas corretas, SQL correto ou sistemas confiáveis.** Cabe aos responsáveis por cada domínio validar as definições, e à engenharia testar a implementação.
+- Portal **Astro + Starlight**, em português brasileiro, com navegação e busca estática.
+- Contrato editorial em [`docs/CONTRATO_EDITORIAL.md`](docs/CONTRATO_EDITORIAL.md).
+- Método das oito dimensões, elicitação, promessa e limites.
+- Template de KPI portável em `public/downloads/` e exemplo fictício.
+- Comparação antes/depois e checklist interativo sem backend.
+- Bibliografia e matriz inicial de rastreabilidade.
+- Workflow GitHub Pages e workflow de validação editorial em pull requests.
 
-## Conteúdo da versão inicial
+## Pré-requisitos
 
-- Fundamentos da promessa metodológica
-- Método das oito dimensões
-- Template e exemplo fictício de KPI
-- Documentação semântica para Dados e Analytics
-- Referências bibliográficas
+- Node.js 22.12 ou superior e npm.
+- Python 3 e PyYAML para validação completa dos exemplos YAML.
 
-## Desenvolvimento
-
-Requer Node.js 22 ou superior.
+## Desenvolvimento local
 
 ```bash
 npm install
+npm run validate:content
 npm run dev
+```
+
+Abra a URL informada pelo Astro. O projeto utiliza um subcaminho `/contexto-framework/` na publicação padrão do GitHub Pages. Para validar a versão estática:
+
+```bash
 npm run build
+npm run preview
 ```
 
 ## Publicação
 
-O workflow `.github/workflows/deploy.yml` constrói o site e envia o resultado ao GitHub Pages. Nas configurações do repositório, em **Settings → Pages**, selecione **GitHub Actions** como fonte de publicação.
+O site é publicado por `.github/workflows/deploy.yml` após push em `main`. O GitHub Pages deve usar a opção **GitHub Actions** em Settings → Pages.
 
-O destino esperado, depois de habilitar Pages e completar um build bem-sucedido, é:
-https://edoardolobl.github.io/contexto-framework/
+**Portal:** https://edoardolobl.github.io/contexto-framework/
 
-## Estado do projeto
+## Organização do código
 
-**v0.1 — fundação técnica e editorial em construção.** Esta é uma primeira sincronização no GitHub. A versão visual local anterior possuía componentes e páginas adicionais que ainda precisam ser integrados e testados no repositório.
+```text
+src/
+  components/           Componentes visuais e checklist
+  content/docs/         Páginas Markdown e MDX
+  styles/               Design system
+  content.config.ts     Coleção Starlight
+public/downloads/      Templates portáteis
+.github/workflows/      Validação e publicação
+scripts/                Validação documental
+docs/                   Contrato editorial e roadmap
+```
+
+## Como editar o conteúdo
+
+A manutenção é individual: edite páginas em `src/content/docs/`. O YAML no início das páginas do portal controla navegação e apresentação. Os templates baixados possuem outros metadados, referentes ao objeto documentado.
+
+Ao publicar um template novo, inclua explicação de uso, perguntas de elicitação, exemplo incompleto, exemplo revisado, fontes, lacunas e validação.
+
+## Princípios
+
+1. Uma prática relatada não é necessariamente uma regra oficialmente aprovada.
+2. Metadados não devem ser preenchidos por suposição.
+3. Documento bem estruturado não garante desempenho de RAG, SQL ou agentes.
+4. Exemplos são fictícios e não contêm dados confidenciais.
+5. O framework pertence à camada documental, não à camada de execução.
+
+## Fontes metodológicas
+
+[Diátaxis](https://diataxis.fr/) · [KCS v6](https://library.serviceinnovation.org/KCS/KCS_v6/KCS_v6_Practices_Guide) · [IIBA](https://www.iiba.org/knowledgehub/the-business-analysis-standard/) · [Rumiantsau & Fokeev (2026)](https://arxiv.org/abs/2604.25149)
 
 ## Licença
 
-A definir. Até a escolha explícita de licença, não pressupor autorização geral de reutilização de código ou conteúdo.
+Ainda não definida. Não pressupor licença open source ou permissão geral de redistribuição.
