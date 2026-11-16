@@ -118,7 +118,7 @@ h1,h2,h3,h4,.site-title {letter-spacing:-.035em}
 /* v0.2 — choice assistant and portable template library */
 .template-downloads {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: .8rem;
   margin: 1.4rem 0 2rem;
 }
@@ -255,3 +255,22 @@ main:has(.context-hero) > .content-panel:first-child {
 }
 .site-credits { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--context-line); font-size: .8rem; line-height: 1.6; color: var(--context-muted); }
 .site-credits a { color: var(--sl-color-accent); }
+
+/* Exemplo lido do arquivo de download: identificação, histórico de versões e YAML recolhido. */
+.example-doc { border: 1px solid var(--context-line); border-radius: 9px; background: var(--context-surface); padding: clamp(1rem, 3vw, 1.5rem); margin: 1.5rem 0; }
+.example-doc--complete { border-color: var(--sl-color-accent); background: var(--context-surface-2); }
+.example-doc__title { font-size: 1.15rem; font-weight: 750; margin: .7rem 0 .4rem !important; color: var(--context-ink); }
+.example-doc dl { margin: .6rem 0 1rem; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 1.5rem; }
+.example-doc dl div { padding: .5rem 0; border-bottom: 1px solid var(--context-line); }
+.example-doc dt { font-size: .75rem; letter-spacing: .04em; font-weight: 800; color: var(--context-muted); }
+.example-doc dd { font-size: .9rem; line-height: 1.5; margin: .15rem 0 0; }
+.example-doc table { display: table; width: 100%; font-size: .86rem; margin: 0 0 1rem; }
+.example-doc caption { text-align: left; font-weight: 800; font-size: .9rem; padding-bottom: .4rem; color: var(--context-ink); }
+.example-doc__gaps { font-size: .9rem; }
+.example-doc__gaps ul { margin-top: .3rem; }
+.example-doc details { margin-top: .8rem; }
+.example-doc summary { cursor: pointer; font-weight: 700; font-size: .88rem; }
+.example-doc__download { font-size: .85rem; margin-top: .8rem !important; }
+.example-doc .panel-note { color: var(--context-muted); font-size: .85rem; }
+.example-doc summary:focus-visible, .example-doc a:focus-visible { outline: 3px solid var(--sl-color-accent); outline-offset: 3px; }
+@media(max-width: 720px) { .example-doc dl { grid-template-columns: 1fr; } }

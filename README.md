@@ -26,7 +26,7 @@ https://edoardolobl.github.io/contexto-framework/
 - **Perguntas e respostas de referência**, incluindo ambiguidade e abstenção;
 - **Laboratório Aurora** com dados sintéticos SQLite, SQL verificável e cálculo de taxa de sessões convertidas.
 
-Cada tipo de documento oferece Markdown, YAML e exemplo fictício para download. Os formatos são **convenções pedagógicas**, não schemas de fornecedores.
+Cada tipo de documento oferece quatro arquivos: modelo em Markdown (sem YAML, para preencher em texto), modelo em YAML, **exemplo com lacunas** e **exemplo completo com aprovação fictícia**. Todos trazem versão, data da versão e histórico de versões. Os formatos são **convenções pedagógicas**, não schemas de fornecedores.
 
 ## Reproduza o laboratório SQL
 
@@ -69,7 +69,7 @@ docs/                 Contrato editorial e roadmap
 
 ## Como editar com qualidade
 
-Leia `docs/CONTRATO_EDITORIAL.md`. Cada nova página deve ensinar o leitor a compreender, observar e aplicar o conceito. Todo template publicado deve incluir instrução de uso, exemplo, perguntas de elicitação, registro de lacunas, responsáveis e fontes.
+Leia `docs/CONTRATO_EDITORIAL.md`. Cada nova página deve ensinar o leitor a compreender, observar e aplicar o conceito. Todo template publicado deve incluir instrução de uso, os dois exemplos (com lacunas e completo), histórico de versões, perguntas de elicitação, registro de lacunas, responsáveis e fontes.
 
 Os documentos são destinados a pessoas de negócio e tecnologia. **Não presumir que todo colaborador sabe Markdown, YAML, SQL ou arquitetura de IA**.
 

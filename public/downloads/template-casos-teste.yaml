@@ -1,17 +1,25 @@
 # Gabarito documental, não resultado de teste de um modelo de IA.
+# null significa "ainda não sei" ou "ainda não decidido". Não troque null por um palpite: registre a dúvida em open_questions.
 id: null
 title: null
 type: reference_question_set
-status: draft
+status: draft                # draft | pending_approval | approved | deprecated
 version: "0.1"
-owner: null
+version_date: null           # data desta versão, no formato AAAA-MM-DD
+owner: null                  # cargo ou área responsável, não o nome de uma pessoa
 approver: null
 valid_from: null
 source_of_truth: null
+version_history:            # uma entrada por versão, a mais recente primeiro
+  - version: "0.1"
+    date: null
+    change: null             # o que mudou nesta versão e por quê
+    approved_by: null        # cargo ou área que aprovou; null enquanto não aprovado
 
 domain: null
 purpose: null
 covered_documents: []
+depends_on_versions: {}       # versão de cada documento em que as respostas se apoiam
 questions:
   - id: null
     question: null

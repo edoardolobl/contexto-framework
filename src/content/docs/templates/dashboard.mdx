@@ -4,6 +4,7 @@ description: Documente o propósito, métricas, filtros, atualização, contexto
 ---
 
 import TemplateDownloads from '../../../components/TemplateDownloads.astro';
+import ExampleDoc from '../../../components/ExampleDoc.astro';
 
 <p class="editorial-lead">Documente o significado de um dashboard</p>
 
@@ -23,25 +24,15 @@ Um print de gráfico não explica o que cada KPI mede, quais filtros estão ativ
 | Limitações | Atrasos, dados ausentes, reprocessamentos, mudança de definição |
 | Autoridade | Dashboard exploratório ou fonte oficial? Quem o mantém? |
 
-## Exemplo fictício
+## Dois exemplos do mesmo documento
 
-```yaml
----
-id: DASH-AURORA-WEB
-type: dashboard_definition
-status: pending_approval
-purpose: "Acompanhar a conversão de sessões web"
-metrics:
-  - KPI-AURORA-001
-default_filters:
-  channel: web
-  is_internal: false
-freshness:
-  last_verified_at: null
-source_of_truth: null
-open_questions:
-  - "O relatório é oficial ou exploratório?"
-```
+O primeiro quadro mostra o documento no começo do trabalho: muita coisa ainda sem resposta, e isso está escrito. O segundo mostra o mesmo documento depois que a área responsável decidiu. A aprovação é fictícia e vale só dentro do exemplo.
+
+<ExampleDoc file="exemplo-dashboard-ficticio.yaml" />
+
+<ExampleDoc file="exemplo-dashboard-completo.yaml" />
+
+Repare no **histórico de versões** do segundo quadro: cada linha traz a data, o que mudou na regra e quem aprovou. É isso que permite a alguém saber se está lendo a regra de hoje ou a do mês passado.
 
 O dashboard deve apontar para a **definição do KPI**, não copiar uma fórmula diferente. Se dois painéis usam conceitos divergentes, documente o conflito e a decisão de precedência.
 

@@ -1,4 +1,4 @@
----
+# Exemplo didático e fictício, com lacunas: nenhuma definição aqui foi aprovada.
 id: KPI-AURORA-001
 title: "Taxa de sessões convertidas — loja web Aurora"
 type: metric_definition
@@ -7,9 +7,15 @@ status: pending_approval
 owner: null
 approver: null
 version: "0.1"
+version_date: "2026-07-20"
 valid_from: null
 last_reviewed: null
 source_of_truth: null
+version_history:
+  - version: "0.1"
+    date: "2026-07-20"
+    change: "Primeiro rascunho, com lacunas registradas"
+    approved_by: null
 
 business_definition:
   concept: "Proporção de sessões elegíveis que resultaram em pedidos confirmados"
@@ -56,5 +62,4 @@ open_questions:
   - "Qual campo data determina o mês do pedido?"
   - "O que fazer quando o denominador é zero?"
   - "Quem aprova a fonte oficial e a vigência?"
-  - "A conversão usa sessões totais ou sessões qualificadas segundo qual regra?"
 related_documents: ["DATASET-AURORA-SESSIONS", "REL-AURORA-SESSIONS-ORDERS", "DASH-AURORA-WEB"]

@@ -4,6 +4,7 @@ description: Documente o que uma fonte permite responder, quando pedir esclareci
 ---
 
 import TemplateDownloads from '../../../components/TemplateDownloads.astro';
+import ExampleDoc from '../../../components/ExampleDoc.astro';
 
 <p class="editorial-lead">Documente perguntas que o acervo deve conseguir responder</p>
 
@@ -30,26 +31,15 @@ Isso é diferente de criar testes automatizados de modelos. O primeiro resultado
 - Casos-limite que diferenciam respostas parecidas;
 - Data de referência dos dados, quando a resposta depende dela.
 
-## Exemplo
+## Dois exemplos do mesmo documento
 
-```yaml
----
-id: QA-AURORA-001
-type: reference_question_set
-status: pending_approval
-questions:
-  - id: Q-001
-    question: "Qual a taxa de sessões convertidas na amostra web?"
-    expected_behavior: answer
-    expected_answer: "25% na amostra fictícia"
-    required_sources:
-      - "KPI-AURORA-001"
-      - "DATASET-AURORA-SESSIONS"
-  - id: Q-002
-    question: "Qual a taxa no mês anterior?"
-    expected_behavior: abstain
-    reason: "A amostra não contém esse período"
-```
+O primeiro quadro mostra o documento no começo do trabalho: muita coisa ainda sem resposta, e isso está escrito. O segundo mostra o mesmo documento depois que a área responsável decidiu. A aprovação é fictícia e vale só dentro do exemplo.
+
+<ExampleDoc file="exemplo-casos-teste-ficticios.yaml" />
+
+<ExampleDoc file="exemplo-casos-teste-completo.yaml" />
+
+Repare no **histórico de versões** do segundo quadro: cada linha traz a data, o que mudou na regra e quem aprovou. É isso que permite a alguém saber se está lendo a regra de hoje ou a do mês passado.
 
 **O número 25% depende da amostra fictícia do nosso tutorial**, não de dados de uma organização real.
 

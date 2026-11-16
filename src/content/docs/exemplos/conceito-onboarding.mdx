@@ -3,6 +3,8 @@ title: Exemplo — Um conceito em RH
 description: O que significa participante ativo? Um caso didático de conceito contextualizado e não aprovado.
 ---
 
+import ExampleDoc from '../../../components/ExampleDoc.astro';
+
 <p class="editorial-lead">Exemplo: “participante ativo” num programa de integração</p>
 
 **Cenário fictício:** a organização Aurora mantém um programa voluntário de integração de pessoas recém-contratadas. Um relatório traz a coluna `participante_ativo`, enquanto o manual apenas orienta “acompanhar participantes ativos”.
@@ -28,30 +30,30 @@ Uma pessoa pode entender “ativo” como **inscrito**, outra como **presente no
 
 ## Depois: proposta estruturada, ainda incompleta
 
-```yaml
----
-id: CONCEPT-ONBOARDING-001
-type: concept_definition
-title: "Participante ativo no programa Aurora"
-status: pending_approval
-owner: null
-context: "Programa voluntário de integração — fictício"
-preferred_term: "Participante ativo"
-not_synonyms:
-  - "Pessoa inscrita"
-  - "Pessoa que concluiu o programa"
-definition: null
-inclusion_criteria: []
-exclusion_criteria: []
-examples: []
-counterexamples: []
-open_questions:
-  - "Que atividade torna uma pessoa ativa?"
-  - "Qual data determina o status?"
-  - "Quem homologa essa definição?"
-```
+<ExampleDoc file="exemplo-conceito-ficticio.yaml" />
 
 A melhoria está em identificar **onde termina a descrição e começa uma decisão ainda não tomada**. Se o especialista responder às perguntas, o próximo documento poderá registrar critérios verificáveis e exemplos aprovados.
+
+## Depois da decisão: o documento completo
+
+Suponha que a Coordenação de Integração respondeu às perguntas e a Gerência de Pessoas aprovou a resposta. O documento deixa de listar dúvidas e passa a dizer a regra, quem fica de fora e como tratar o caso de fronteira.
+
+<ExampleDoc file="exemplo-conceito-completo.yaml" />
+
+| Pergunta que estava em aberto | Como ficou escrita |
+|---|---|
+| Que atividade torna uma pessoa ativa? | Pelo menos uma presença registrada nos últimos 30 dias corridos |
+| Uma pessoa apenas inscrita está ativa? | Não. É "participante inscrito" |
+| E quem concluiu todas as atividades? | É "participante concluinte" |
+| Quem homologa a definição? | A Gerência de Pessoas, com registro em ata |
+
+### O que o histórico de versões ensina
+
+A versão 1.0 usava uma janela de 60 dias. A 1.1 reduziu para 30. Um relatório de agosto e um de setembro contam populações diferentes com o mesmo nome, e só o histórico explica a diferença. Por isso cada mudança registra a data, o que mudou e quem aprovou.
+
+:::caution[Aprovação fictícia]
+A Aurora não existe. Em um documento real, nunca invente responsável, data, fonte ou aprovação para o documento parecer pronto.
+:::
 
 ## Perguntas que um leitor deveria conseguir responder após validação
 

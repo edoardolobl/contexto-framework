@@ -1,0 +1,72 @@
+# EXEMPLO FICTÍCIO COMPLETO. Organização inventada (Aurora).
+# A aprovação, o responsável, as datas e a fonte abaixo são fictícios e existem
+# só para mostrar como fica um documento depois que a área responsável decide.
+id: POLICY-EVENTS-001
+title: "Despesas em eventos: Aurora"
+type: policy_reference
+status: approved
+example_notice: "Aprovação fictícia, válida só dentro deste exemplo. A Aurora não existe."
+version: "1.1"
+version_date: "2026-10-01"
+owner: "Controladoria (Aurora)"
+approver: "Diretoria Financeira (Aurora)"
+valid_from: "2026-07-01"
+last_reviewed: "2026-10-01"
+source_of_truth: "POL-FIN-014, versão 3, publicada na intranet em Políticas > Finanças (documento fictício)"
+version_history:
+  - version: "1.1"
+    date: "2026-10-01"
+    change: "Incluído o gatilho de revisão anual, a pedido da Diretoria Financeira"
+    approved_by: "Diretoria Financeira (Aurora)"
+  - version: "1.0"
+    date: "2026-08-18"
+    change: "Conflito entre fontes resolvido: a Controladoria confirmou a POL-FIN-014 versão 3 como fonte oficial. Registradas obrigações, permissões e exceção"
+    approved_by: "Diretoria Financeira (Aurora)"
+  - version: "0.1"
+    date: "2026-07-20"
+    change: "Primeiro rascunho, com três fontes em conflito e nenhuma autoridade confirmada"
+    approved_by: null
+
+# Atenção: "version" acima é a versão DESTE REGISTRO. A versão da política em si
+# está em authority.version. São coisas diferentes e mudam em momentos diferentes.
+purpose: "Dizer qual regra de despesas de evento está valendo e onde ela está escrita"
+scope:
+  audiences: ["Equipe de eventos da Aurora", "Aprovadores de despesas"]
+  activities: ["Registro e reembolso de despesas de evento"]
+  localities: ["Todas as unidades da Aurora"]
+  exclusions: ["Viagens sem relação com eventos, cobertas por outra política"]
+
+authority:
+  issuing_body: "Controladoria (Aurora)"
+  approver_role: "Diretoria Financeira (Aurora)"
+  version: "3"
+  effective_date: "2026-07-01"
+  expiry_date: null
+  supersedes: "POL-FIN-014, versão 2"
+
+obligations:
+  - "Toda despesa precisa de comprovante fiscal anexado ao pedido de reembolso"
+  - "Despesa de evento acima de R$ 500 por evento exige aprovação prévia da liderança da área"
+permissions:
+  - "Despesas até R$ 500 por evento podem ser reembolsadas sem aprovação prévia"
+prohibitions:
+  - "Não reembolsar despesa sem comprovante fiscal"
+exceptions:
+  - condition: "Evento contratado em emergência, sem tempo para aprovação prévia"
+    approval_role: "Diretoria Financeira (Aurora)"
+    evidence_needed: "Justificativa escrita em até 5 dias úteis após o evento"
+
+conflicting_sources:
+  - id: CONFLICT-001
+    sources: ["POL-FIN-014", "E-MAIL-EVENTOS", "INTRANET-EVENTOS"]
+    description: "Instruções que não coincidiam sobre o limite de aprovação prévia"
+    state: resolved
+    resolution: "Vale a POL-FIN-014 versão 3. O e-mail era um comunicado sem força de política. O resumo da intranet foi corrigido."
+    resolution_owner: "Controladoria (Aurora)"
+    resolved_at: "2026-08-14"
+
+source_precedence_rule: "A política publicada em Políticas > Finanças prevalece sobre e-mails, resumos e apresentações. Comunicados não alteram a política."
+how_to_verify: "Conferir o número da versão e a data de vigência no cabeçalho da POL-FIN-014"
+review_trigger: "Revisão anual em julho, ou antes se a POL-FIN-014 ganhar nova versão"
+open_questions: []
+related_documents: []

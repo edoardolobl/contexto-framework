@@ -1,22 +1,29 @@
-# Case analítico fictício, não uso real em seleção ou decisão de emprego.
+# Case analítico fictício, com lacunas. Não usar para avaliar pessoas reais.
 id: RUBRIC-ANALYTICS-001
 title: "Rubrica de case Data Analytics — exemplo"
 type: evaluation_rubric
 status: pending_approval
 version: "0.1"
+version_date: "2026-07-20"
 owner: null
 approver: null
 valid_from: null
 source_of_truth: null
+version_history:
+  - version: "0.1"
+    date: "2026-07-20"
+    change: "Primeiro rascunho, com lacunas registradas"
+    approved_by: null
 
 evaluation_target: "Entregável de análise sobre dados sintéticos"
 business_goal: "Formalizar evidências de qualidade técnica e analítica"
 allowed_use: ["Discussão humana de critérios", "Calibração de exemplos fictícios"]
-disallowed_use: ["Decidir contratação automaticamente", "Inferir características pessoais"]
+disallowed_use: ["Tomar qualquer decisão automática sobre uma pessoa", "Inferir características pessoais"]
 criteria:
   - id: technical_accuracy
     name: "Precisão técnica"
     definition: "Cálculos corretos e reproduzíveis segundo o escopo do case"
+    not_in_scope: null
     weight: 35
     expected_evidence: ["Consultas", "Tratamento de duplicidade", "Verificações"]
     anchors:
@@ -28,6 +35,7 @@ criteria:
   - id: business_semantics
     name: "Interpretação de negócio"
     definition: "Mede o conceito solicitado, não apenas uma fórmula plausível"
+    not_in_scope: null
     weight: 30
     expected_evidence: ["Definição de KPI", "Escopo e exclusões", "Interpretação"]
     anchors:
@@ -39,6 +47,7 @@ criteria:
   - id: method_and_traceability
     name: "Método e rastreabilidade"
     definition: "Premissas e fontes podem ser verificadas"
+    not_in_scope: null
     weight: 20
     expected_evidence: ["Passos de reprodução", "Fontes", "Suposições"]
     anchors:
@@ -50,6 +59,7 @@ criteria:
   - id: communication
     name: "Comunicação"
     definition: "Explica perguntas, evidências, incertezas e conclusões"
+    not_in_scope: null
     weight: 15
     expected_evidence: ["Texto claro", "Visualizações adequadas", "Limitações"]
     anchors:
@@ -64,7 +74,8 @@ scoring:
   scale: [0, 1, 2, 3, 4]
   missing_evidence_behavior: not_evaluable
   decision_threshold: null
-  automatic_hiring_decision: false
+  not_evaluable_rule: null
+  automatic_decision_allowed: false
 
 human_review_required: true
 calibration_examples:
@@ -72,8 +83,10 @@ calibration_examples:
 disagreement_resolution: null
 privacy_and_fairness_considerations:
   - "Não utilizar atributos pessoais irrelevantes"
-  - "Não emitir decisão automatizada de contratação"
+  - "Não emitir decisão automatizada sobre pessoas"
 open_questions:
-  - "Quem aprovaria critérios, âncoras e pesos?"
-  - "Qual procedimento trataria divergência entre avaliadores?"
+  - "Quem aprova critérios, âncoras e pesos?"
+  - "Como resolver divergência entre avaliadores?"
+  - "Como calcular a nota final quando um critério não pôde ser avaliado?"
+  - "Tratamento de duplicidade conta em precisão técnica ou em interpretação de negócio? Hoje aparece nos dois."
 related_documents: ["QA-AURORA-001"]

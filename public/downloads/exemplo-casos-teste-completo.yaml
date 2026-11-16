@@ -1,0 +1,117 @@
+# EXEMPLO FICTÍCIO COMPLETO. Organização inventada (Aurora).
+# A aprovação, o responsável, as datas e a fonte abaixo são fictícios e existem
+# só para mostrar como fica um gabarito depois que a área responsável decide.
+id: QA-AURORA-001
+title: "Gabarito documental: sessões convertidas Aurora"
+type: reference_question_set
+status: approved
+example_notice: "Aprovação fictícia, válida só dentro deste exemplo. A Aurora não existe."
+version: "1.1"
+version_date: "2026-09-16"
+owner: "Analytics de E-commerce (Aurora)"
+approver: "Gerência de E-commerce (Aurora)"
+valid_from: "2026-09-16"
+source_of_truth: "Catálogo de métricas da Aurora, gabarito do KPI-AURORA-001 (documento fictício)"
+version_history:
+  - version: "1.1"
+    date: "2026-09-16"
+    change: "Respostas de Q01 e Q02 revistas depois que o KPI-AURORA-001 mudou para a versão 1.1, que conta sessões únicas"
+    approved_by: "Gerência de E-commerce (Aurora)"
+  - version: "1.0"
+    date: "2026-08-18"
+    change: "Primeiro gabarito aprovado, com seis perguntas"
+    approved_by: "Gerência de E-commerce (Aurora)"
+  - version: "0.1"
+    date: "2026-07-20"
+    change: "Primeiro rascunho, com lacunas registradas"
+    approved_by: null
+
+domain: "Analytics: laboratório sintético"
+purpose: "Distinguir perguntas respondíveis, ambíguas e fora do escopo"
+covered_documents:
+  - KPI-AURORA-001
+  - DATASET-AURORA-SESSIONS
+  - DATASET-AURORA-ORDERS
+  - REL-AURORA-SESSIONS-ORDERS
+  - DASH-AURORA-WEB
+depends_on_versions:
+  KPI-AURORA-001: "1.1"
+questions:
+  - id: Q01
+    question: "Qual foi a taxa de sessões web convertidas em 2026-10-01?"
+    intent: "Calcular a taxa de sessões únicas com pedido confirmado"
+    context: "Canal web, sem tráfego interno"
+    expected_behavior: answer
+    reference_answer: "25% em 2026-10-01: 1 sessão convertida entre 4 elegíveis"
+    required_sources: ["KPI-AURORA-001", "aurora-reference-query.sql"]
+    evidence_description: "1 sessão convertida entre 4 elegíveis"
+    ambiguity: null
+    reason_if_abstain: null
+    reviewed_by: "Analytics de E-commerce (Aurora)"
+    reviewed_at: "2026-09-16"
+  - id: Q02
+    question: "Por que a taxa de sessões web convertidas em 2026-10-01 não é 50%?"
+    intent: "Explicar a diferença entre contar pedidos e contar sessões"
+    context: "A sessão S1 tem dois pedidos confirmados"
+    expected_behavior: answer
+    reference_answer: "50% é pedidos confirmados por sessão elegível (2 em 4). O indicador conta sessões: S1 conta uma vez, o que dá 25%"
+    required_sources: ["REL-AURORA-SESSIONS-ORDERS", "KPI-AURORA-001"]
+    evidence_description: "Cardinalidade um para muitos e regra do numerador"
+    ambiguity: null
+    reason_if_abstain: null
+    reviewed_by: "Analytics de E-commerce (Aurora)"
+    reviewed_at: "2026-09-16"
+  - id: Q03
+    question: "Qual foi a conversão em 2026-10-01?"
+    intent: "Pergunta sem canal e sem dizer qual conversão"
+    context: "A documentação define uma única conversão, a de sessões no canal web"
+    expected_behavior: clarify
+    reference_answer: "Perguntar se a pessoa quer a taxa de sessões convertidas no canal web, que é a única definida. Não escolher por ela"
+    required_sources: ["KPI-AURORA-001"]
+    evidence_description: "O KPI vale só para web; a pergunta não diz o canal"
+    ambiguity: "Falta o canal, e conversão pode significar sessões ou pedidos"
+    reason_if_abstain: null
+    reviewed_by: "Analytics de E-commerce (Aurora)"
+    reviewed_at: "2026-09-16"
+  - id: Q04
+    question: "Qual foi a taxa de sessões convertidas no app em 2026-10-01?"
+    intent: "Aplicar o indicador a um canal fora do escopo"
+    context: "O KPI exclui o canal app"
+    expected_behavior: abstain
+    reference_answer: null
+    required_sources: ["KPI-AURORA-001"]
+    evidence_description: "excluded_channels inclui app"
+    ambiguity: null
+    reason_if_abstain: "Fora do escopo declarado: o indicador não foi definido para app. Encaminhar a quem responde pelo KPI"
+    reviewed_by: "Analytics de E-commerce (Aurora)"
+    reviewed_at: "2026-09-16"
+  - id: Q05
+    question: "Qual foi a taxa de sessões web convertidas em setembro de 2026?"
+    intent: "Consultar período sem dados"
+    context: "A amostra só tem 2026-10-01"
+    expected_behavior: abstain
+    reference_answer: null
+    required_sources: ["DATASET-AURORA-SESSIONS"]
+    evidence_description: "Não há registros de setembro de 2026"
+    ambiguity: null
+    reason_if_abstain: "Sem cobertura de dados para o período"
+    reviewed_by: "Analytics de E-commerce (Aurora)"
+    reviewed_at: "2026-09-16"
+  - id: Q06
+    question: "Qual foi a receita líquida em 2026-10-01?"
+    intent: "Consultar métrica sem definição"
+    context: "Nenhum documento define receita líquida"
+    expected_behavior: abstain
+    reference_answer: null
+    required_sources: []
+    evidence_description: "Não há fórmula nem fonte aprovada"
+    ambiguity: null
+    reason_if_abstain: "Métrica não definida na documentação"
+    reviewed_by: "Analytics de E-commerce (Aurora)"
+    reviewed_at: "2026-09-16"
+
+revalidation_triggers:
+  - "Mudança de definição ou de versão do KPI"
+  - "Atualização da carga sintética"
+  - "Mudança de granularidade ou de relacionamento"
+open_questions: []

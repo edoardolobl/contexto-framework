@@ -3,6 +3,8 @@ title: Exemplo — Versões conflitantes
 description: Como documentar a autoridade e a vigência de políticas sem tomar decisões por aproximação.
 ---
 
+import ExampleDoc from '../../../components/ExampleDoc.astro';
+
 <p class="editorial-lead">Exemplo: qual política de despesas está valendo?</p>
 
 **Cenário fictício:** uma pessoa da área Financeira encontra um manual de reembolso, um e-mail posterior e uma página de intranet com instruções diferentes.
@@ -27,29 +29,23 @@ A palavra *recente* descreve a data, mas não garante autoridade. Um e-mail novo
 
 ## Depois: registro de conflito, não decisão inventada
 
-```yaml
----
-id: POLICY-EVENTS-001
-type: policy_reference
-status: pending_approval
-title: "Despesas de eventos — Aurora"
-policy_owner: null
-source_of_truth: null
-effective_date: null
-scope: "Reembolsos de eventos — exemplo fictício"
-conflicts:
-  - id: CONFLICT-001
-    sources: ["POL-FIN-014", "E-MAIL-EVENTOS", "INTRANET-EVENTOS"]
-    issue: "Orientações sobre despesas não coincidem"
-    state: unresolved
-    decision_owner: null
-open_questions:
-  - "Qual fonte tem autoridade para definir a regra?"
-  - "Existe revogação ou substituição formal?"
-  - "A partir de que data a versão atual se aplica?"
-```
+<ExampleDoc file="exemplo-politica-ficticia.yaml" />
 
 O valor desta documentação é que **a divergência não desaparece** apenas porque os arquivos foram indexados num RAG.
+
+## Depois da decisão: conflito resolvido
+
+A Controladoria confirmou qual documento vale e a Diretoria Financeira aprovou o registro. O conflito continua no documento, agora marcado como resolvido e com a explicação:
+
+<ExampleDoc file="exemplo-politica-completo.yaml" />
+
+### Duas versões diferentes no mesmo documento
+
+O registro tem a sua própria versão (1.1) e aponta para uma política que tem outra (versão 3). São coisas distintas: a política muda quando a regra muda; o registro muda quando o que sabemos sobre a política muda. Confundir as duas é uma fonte comum de erro.
+
+:::caution[Aprovação fictícia]
+A Aurora não existe. Em um documento real, nunca invente responsável, data, fonte ou aprovação para o documento parecer pronto.
+:::
 
 ## O que validar com quem responde pela política
 

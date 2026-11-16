@@ -3,6 +3,8 @@ title: Exemplo — Rubrica AI-ready para case
 description: Transforme um julgamento genérico em critérios evidenciáveis sem delegar decisões sobre pessoas a uma IA.
 ---
 
+import ExampleDoc from '../../../components/ExampleDoc.astro';
+
 <p class="editorial-lead">Exemplo: uma rubrica para um case de Data Analytics</p>
 
 **Situação fictícia:** uma equipe avaliadora recebe análises de um conjunto de dados de varejo e precisa revisar as entregas de forma consistente. A rubrica não é uma decisão de contratação, e **nenhuma pessoa real é avaliada aqui**.
@@ -24,21 +26,23 @@ Os pesos **são inventados para fins didáticos**, não foram validados por uma 
 
 ## A diferença entre nível 2 e nível 4
 
-Considere o critério *Precisão técnica*:
+Considere o critério *Precisão técnica*, como ficou na versão aprovada do exemplo:
 
 | Nível | Âncora didática |
 |---|---|
-| 0 | Evidência submetida demonstra erro central de cálculo não reconhecido |
-| 1 | Há tentativa identificável, mas erros materiais comprometem o resultado |
-| 2 | Cálculo principal correto, porém com validação ou casos-limite insuficientes |
-| 3 | Cálculo correto, reproduzível, com verificações relevantes |
-| 4 | Além do nível 3, antecipa riscos de granularidade, joins e interpretações alternativas |
+| 0 | O resultado principal não pode ser refeito a partir do que foi entregue, ou refeito dá outro número |
+| 1 | O resultado principal pode ser refeito, mas tem erro de conta que muda a conclusão |
+| 2 | Resultado principal correto; não há verificação nem tratamento de casos como denominador zero |
+| 3 | Resultado correto, refeito sem ajuda, com pelo menos uma verificação descrita |
+| 4 | Além do nível 3, testa casos-limite e mostra o que aconteceria com dados fora do padrão |
 
-**Não confundir “não avaliável” com 0:** se o artefato necessário não foi entregue ou não está acessível, pode ser impossível aplicar o critério. A área avaliadora precisa aprovar o tratamento dessa ausência.
+**Não confundir “não avaliável” com 0:** se o artefato necessário não foi entregue ou não está acessível, pode ser impossível aplicar o critério. A área avaliadora precisa aprovar o tratamento dessa ausência. Na rubrica completa do exemplo, a regra aprovada é: o critério sai da conta, os pesos restantes são reescalados para somar 100 e a nota é publicada como parcial; com dois ou mais critérios não avaliáveis, não se publica nota.
+
+**Cada critério diz o que não avalia.** Na versão 1.0 do exemplo, contar pedidos em vez de sessões derrubava a nota em dois critérios ao mesmo tempo. A versão 1.1 corrigiu: tratamento de duplicidade conta só em interpretação de negócio, e precisão técnica julga se a conta declarada está certa.
 
 ## Calibrar com exemplos
 
-Uma entrega diz: “conversão = 50% porque há dois pedidos confirmados em quatro sessões”. No [estudo de caso Aurora](../../exemplos/analytics-integrado/), essa conta mede **pedidos por sessão**, não **sessões convertidas**. A rubrica deve exigir que o avaliador identifique esse problema sem atribuir pontuação automaticamente a uma pessoa.
+Uma entrega diz: “conversão = 50% porque há dois pedidos confirmados em quatro sessões”. No [estudo de caso Aurora](../../exemplos/analytics-integrado/), essa conta mede **pedidos por sessão**, não **sessões convertidas**. Pela rubrica completa, isso é nível 1 em interpretação de negócio. A precisão técnica é avaliada à parte: a conta que a entrega declarou pode estar certa.
 
 Outra entrega responde 25% e documenta por que duas compras na mesma sessão contam uma vez. Isso é **evidência favorável** de interpretação semântica — mas não dispensa avaliar os demais critérios.
 
@@ -46,27 +50,16 @@ Outra entrega responde 25% e documenta por que duas compras na mesma sessão con
 
 Poderia: apontar trechos associados a cada critério, sugerir perguntas, identificar cálculos e lacunas para revisão.
 
-Não deveria: inferir competências ausentes, utilizar atributos pessoais irrelevantes ou tomar uma decisão final de contratação com base apenas na rubrica preenchida.
+Não deveria: inferir competências ausentes, utilizar atributos pessoais ou tomar qualquer decisão final sobre uma pessoa com base apenas na rubrica preenchida.
 
-```yaml
----
-id: RUBRIC-ANALYTICS-001
-type: evaluation_rubric
-status: pending_approval
-human_review_required: true
-automatic_hiring_decision: false
-criteria:
-  - {id: technical_accuracy, weight: 35}
-  - {id: business_semantics, weight: 30}
-  - {id: method_and_traceability, weight: 20}
-  - {id: communication, weight: 15}
-rating_scale: [0, 1, 2, 3, 4]
-missing_evidence_behavior: not_evaluable
-decision_threshold: null
-```
+<ExampleDoc file="exemplo-rubrica-ficticia.yaml" />
+
+Depois que a Liderança de Dados decidiu o que estava em aberto:
+
+<ExampleDoc file="exemplo-rubrica-completo.yaml" />
 
 A rubrica completa para reutilização inclui âncoras de todos os critérios, evidências, políticas de conflitos e aprovação humana. Consulte o [template](../../templates/rubrica/).
 
 ### Referências e limites
 
-[NIST AI RMF — Measure](https://airc.nist.gov/airmf-resources/playbook/measure/) contempla mensuração e supervisão humana. [IIBA](https://www.iiba.org/knowledgehub/the-business-analysis-standard/) fundamenta a necessidade de critérios especificados e validados. Este exemplo não representa prática jurídica ou de RH de qualquer cliente.
+[NIST AI RMF — Measure](https://airc.nist.gov/airmf-resources/playbook/measure/) contempla mensuração e supervisão humana. [IIBA](https://www.iiba.org/knowledgehub/the-business-analysis-standard/) fundamenta a necessidade de critérios especificados e validados. Este exemplo não representa prática jurídica ou de RH de nenhuma organização.

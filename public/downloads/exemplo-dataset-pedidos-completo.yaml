@@ -1,0 +1,85 @@
+# EXEMPLO FICTÍCIO COMPLETO. Organização inventada (Aurora).
+# A aprovação, o responsável, as datas e a fonte abaixo são fictícios e existem
+# só para mostrar como fica um documento depois que a área responsável decide.
+id: DATASET-AURORA-ORDERS
+title: "Pedidos: Aurora"
+type: dataset_semantics
+status: approved
+example_notice: "Aprovação fictícia, válida só dentro deste exemplo. A Aurora não existe."
+version: "1.0"
+version_date: "2026-08-20"
+owner: "Engenharia de Dados (Aurora)"
+approver: "Analytics de E-commerce (Aurora)"
+valid_from: "2026-08-20"
+source_of_truth: "Catálogo de dados da Aurora, tabela demo_orders (documento fictício)"
+version_history:
+  - version: "1.0"
+    date: "2026-08-20"
+    change: "Primeira versão aprovada, com o significado dos três códigos de estado do pedido"
+    approved_by: "Analytics de E-commerce (Aurora)"
+  - version: "0.1"
+    date: "2026-07-20"
+    change: "Primeiro rascunho"
+    approved_by: null
+
+dataset:
+  physical_name: demo_orders
+  platform: SQLite (laboratório)
+  business_purpose: "Registrar os pedidos criados e a sessão em que cada um nasceu"
+  grain: "Uma linha por pedido"
+  primary_key: order_id
+  alternative_keys: []
+  uniqueness_assumption: "Cada order_id representa um único pedido"
+
+columns:
+  - physical_name: order_id
+    technical_type: TEXT
+    business_name: "Identificador do pedido"
+    meaning: "Chave única do pedido fictício"
+    unit: null
+    allowed_values: []
+    sentinel_values: []
+    null_meaning: "Não permitido"
+    examples: ["O1", "O2"]
+    do_not_use_for: ["Identificar pessoas"]
+  - physical_name: session_id
+    technical_type: TEXT
+    business_name: "Sessão de origem"
+    meaning: "Sessão em que o pedido foi criado. Várias linhas podem ter a mesma sessão"
+    unit: null
+    allowed_values: []
+    sentinel_values: []
+    null_meaning: "Não permitido: todo pedido do laboratório tem sessão"
+    examples: ["S1"]
+    do_not_use_for: ["Contar sessões sem remover repetições"]
+  - physical_name: status_code
+    technical_type: TEXT
+    business_name: "Estado do pedido"
+    meaning: "CONFIRMED: pedido confirmado, conta como conversão. CANCELED: pedido cancelado, não conta. TEST: pedido de teste interno, não conta"
+    unit: null
+    allowed_values: [CONFIRMED, CANCELED, TEST]
+    sentinel_values: []
+    null_meaning: "Não permitido"
+    examples: [CONFIRMED]
+    do_not_use_for: ["Inferir pagamento ou entrega: o laboratório não tem esses estados"]
+
+time_semantics:
+  reference_field: null
+  timezone: null
+  update_frequency: "Carga estática sintética"
+  known_latency: "Não aplicável ao laboratório"
+  snapshot_or_events: "Um registro por pedido, com o estado atual. A tabela não guarda data própria: o período vem da sessão de origem"
+
+usage:
+  authoritative_questions: ["Quais sessões tiveram pelo menos um pedido confirmado"]
+  invalid_aggregations: ["Somar pedidos para obter sessões convertidas", "Filtrar pedidos por data: não há coluna de data nesta tabela"]
+  related_datasets: ["DATASET-AURORA-SESSIONS"]
+  known_caveats: ["Uma sessão pode ter mais de um pedido confirmado (S1 tem O1 e O2)"]
+  sample_queries: ["aurora-reference-query.sql"]
+
+validation:
+  checked_by: "Engenharia de Dados (Aurora)"
+  checked_at: "2026-08-20"
+  evidence: ["aurora-fixture.sql"]
+open_questions: []
+related_documents: ["KPI-AURORA-001", "DATASET-AURORA-SESSIONS", "REL-AURORA-SESSIONS-ORDERS"]

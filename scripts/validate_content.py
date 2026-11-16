@@ -83,7 +83,50 @@ for path in PAGES:
         if target not in routes:
             record(path, f"link interno não encontrado: {url} => {target}")
 
-seen_ids: dict[str, str] = {}
+ID_PREFIXES = ("KPI-", "DATASET-", "REL-", "DASH-", "QA-", "RUBRIC-", "CONCEPT-", "PROCESS-", "DECISION-", "POLICY-")
+REFERENCE_FIELDS = ("related_documents", "covered_documents", "metrics", "decision_rules",
+                    "reference_questions", "valid_join_paths", "expected_questions_and_answers")
+
+
+def walk_references(data):
+    """Yield every document id cited by an example, wherever the convention allows one."""
+    for field in REFERENCE_FIELDS:
+        for value in data.get(field) or []:
+            if isinstance(value, str):
+                yield value
+    sources = data.get("data_sources") or {}
+    for field in ("valid_join_paths",):
+        for value in sources.get(field) or []:
+            yield value
+    if isinstance(sources.get("authoritative_dataset"), str):
+        yield sources["authoritative_dataset"]
+    validation = data.get("validation") or {}
+    for value in validation.get("expected_questions_and_answers") or []:
+        if isinstance(value, str):
+            yield value
+    for question in data.get("questions") or []:
+        for value in question.get("required_sources") or []:
+            yield value
+
+
+def check_version_history(path, data, minimum):
+    history = data.get("version_history")
+    if not isinstance(history, list) or len(history) < minimum:
+        record(path, f"version_history precisa de pelo menos {minimum} entrada(s)")
+        return
+    for entry in history:
+        if not isinstance(entry, dict) or set(entry) != {"version", "date", "change", "approved_by"}:
+            record(path, "cada entrada de version_history tem version, date, change e approved_by")
+            return
+    if "version_date" not in data:
+        record(path, "campo version_date ausente")
+    if str(history[0]["version"]) != str(data.get("version")):
+        record(path, "a primeira entrada de version_history deve ser a versão atual")
+
+
+template_keys: dict[str, set] = {}
+example_ids: dict[str, list[str]] = {}
+references: list[tuple[Path, str]] = []
 yaml_count = 0
 for path in sorted(DOWNLOADS.glob("*.yaml")):
     yaml_count += 1
@@ -99,33 +142,66 @@ for path in sorted(DOWNLOADS.glob("*.yaml")):
         record(path, "campo type ausente")
     if data.get("status") not in VALID_STATUSES:
         record(path, f"status inválido: {data.get('status')}")
-    if data.get("status") == "approved":
-        for key in ("owner", "source_of_truth", "valid_from"):
-            if data.get(key) in (None, "", []):
-                record(path, f"documento approved sem {key}")
+    is_complete = path.name.endswith("-completo.yaml")
+    if path.name.startswith("template-"):
+        template_keys[data.get("type")] = set(data)
+        check_version_history(path, data, 1)
     if path.name.startswith("exemplo-"):
         if not data.get("id"):
             record(path, "exemplo sem identificador")
-        elif data["id"] in seen_ids:
-            record(path, f"identificador duplicado em {seen_ids[data['id']]}")
         else:
-            seen_ids[data["id"]] = str(path.relative_to(ROOT))
+            example_ids.setdefault(data["id"], []).append(path.name)
+        references.extend((path, ref) for ref in walk_references(data))
+        if is_complete:
+            # Regra editorial: aprovação só aparece em exemplo fictício completo, com aviso,
+            # cargo (nunca pessoa) da organização inventada e histórico de pelo menos duas versões.
+            if data.get("status") != "approved":
+                record(path, "exemplo completo deve estar approved")
+            if "fictícia" not in str(data.get("example_notice", "")):
+                record(path, "exemplo completo sem example_notice de aprovação fictícia")
+            for key in ("owner", "approver", "source_of_truth", "valid_from", "version_date"):
+                if data.get(key) in (None, "", []):
+                    record(path, f"exemplo completo sem {key}")
+            for key in ("owner", "approver"):
+                if "(Aurora)" not in str(data.get(key)):
+                    record(path, f"{key} deve ser um cargo ou área da organização fictícia Aurora")
+            if data.get("open_questions"):
+                record(path, "exemplo completo não deve ter open_questions")
+            check_version_history(path, data, 2)
+            if isinstance(data.get("version_history"), list) and data["version_history"] and not data["version_history"][0].get("approved_by"):
+                record(path, "a versão atual de um exemplo completo precisa de approved_by")
+        else:
+            if data.get("status") == "approved":
+                record(path, "só o exemplo completo pode usar approved")
+            check_version_history(path, data, 1)
+
+# O mesmo id só pode se repetir entre o exemplo com lacunas e o seu par completo.
+for doc_id, names in example_ids.items():
+    if len(names) > 2 or (len(names) == 2 and sum(n.endswith("-completo.yaml") for n in names) != 1):
+        record(DOWNLOADS, f"identificador {doc_id} repetido em {', '.join(names)}")
+
+# Toda referência a outro documento precisa existir entre os exemplos publicados.
+for path, ref in references:
+    if ref.startswith(ID_PREFIXES) and ref not in example_ids:
+        record(path, f"referência a documento inexistente: {ref}")
+
+# Exemplo não pode usar campo de primeiro nível que o template do mesmo tipo não tem.
+for path in sorted(DOWNLOADS.glob("exemplo-*.yaml")):
+    data = yaml.safe_load(path.read_text(encoding="utf8"))
+    allowed = template_keys.get(data.get("type"), set()) | {"example_notice"}
+    extra = sorted(set(data) - allowed)
+    if extra:
+        record(path, f"campos fora do template: {', '.join(extra)}")
 
 markdown_count = 0
 for path in sorted(DOWNLOADS.glob("*.md")):
     markdown_count += 1
     content = path.read_text(encoding="utf-8")
-    match = re.match(r"\A---\r?\n(.*?)\r?\n---\r?\n", content, re.S)
-    if not match:
-        record(path, "template Markdown sem metadados")
-        continue
-    try:
-        front = yaml.safe_load(match.group(1))
-    except yaml.YAMLError as exc:
-        record(path, f"frontmatter inválido: {exc}")
-        continue
-    if not isinstance(front, dict) or not front.get("type") or front.get("status") not in VALID_STATUSES:
-        record(path, "campos type ou status inválidos")
+    if content.startswith("---"):
+        record(path, "template Markdown não deve começar com bloco YAML")
+    for heading in ("## Identificação", "## Histórico de versões"):
+        if heading not in content:
+            record(path, f"template Markdown sem a seção {heading}")
 
 # Every download card must lead to an existing file.
 component = TEMPLATE_COMPONENT.read_text(encoding="utf-8")
@@ -145,6 +221,8 @@ for kind in REQUIRED_TYPES:
         expected = DOWNLOADS / f"template-{kind}{suffix}"
         if not expected.exists():
             record(TEMPLATE_COMPONENT, f"template anunciado não existe: {expected.name}")
+    if not (DOWNLOADS / f"exemplo-{kind}-completo.yaml").exists():
+        record(TEMPLATE_COMPONENT, f"falta o exemplo completo de {kind}")
 
 if errors:
     print("\n".join("ERRO: " + error for error in errors))

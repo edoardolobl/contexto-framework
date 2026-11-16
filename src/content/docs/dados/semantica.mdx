@@ -3,6 +3,8 @@ title: Além do schema
 description: Semântica é a diferença entre saber o que existe no banco e saber o que os dados significam.
 ---
 
+import ExampleDoc from '../../../components/ExampleDoc.astro';
+
 <p class="editorial-lead">Além do schema: documentando o significado dos dados</p>
 
 Um DDL descreve tabelas e colunas; não registra necessariamente **o que representam, quando devem ser utilizadas e quais decisões de negócio fundamentam**.
@@ -20,24 +22,9 @@ Um DDL descreve tabelas e colunas; não registra necessariamente **o que represe
 
 ## Exemplo de estrutura
 
-```yaml
----
-id: DATASET-EXAMPLE-001
-type: dataset_semantics
-status: draft
-dataset: analytics.fact_orders
-grain: "Uma linha por pedido"
-fields:
-  status_code:
-    CONFIRMED: "Pedido confirmado"
-    CANCELED: "Pedido cancelado"
-usage_rules:
-  confirmed_orders:
-    valid_codes: [CONFIRMED]
-source_of_truth: null
-```
+<ExampleDoc file="exemplo-dataset-pedidos-completo.yaml" />
 
-O exemplo é fictício e incompleto. **Não descreve um modelo executável**.
+O exemplo é fictício. **Não descreve um modelo executável**: registra o significado dos campos para pessoas e sistemas lerem.
 
 ## Contexto documental e execução determinística
 

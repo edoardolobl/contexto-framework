@@ -52,45 +52,69 @@ with sqlite3.connect(":memory:") as db:
 def load(name):
     return yaml.safe_load((DL / name).read_text(encoding="utf8"))
 
-rubric = load("exemplo-rubrica-ficticia.yaml")
-weights = [item["weight"] for item in rubric["criteria"]]
-if sum(weights) != 100 or rubric["scoring"]["weight_sum"] != 100:
-    fail("Rubric weights must sum to 100, with an accurate declared sum")
-for item in rubric["criteria"]:
-    if set(item["anchors"].keys()) != {str(i) for i in range(5)}:
-        fail(f"Rubric {item['id']} does not describe levels 0..4")
-if rubric["scoring"]["automatic_hiring_decision"] or not rubric["human_review_required"]:
-    fail("Fictitious candidate rubric must not authorize automatic hiring decisions")
-if rubric["scoring"]["missing_evidence_behavior"] != "not_evaluable":
-    fail("A lack of evidence must not silently become a zero score")
+for name in ("exemplo-rubrica-ficticia.yaml", "exemplo-rubrica-completo.yaml"):
+    rubric = load(name)
+    weights = [item["weight"] for item in rubric["criteria"]]
+    if sum(weights) != 100 or rubric["scoring"]["weight_sum"] != 100:
+        fail(f"{name}: os pesos devem somar 100 e a soma declarada deve conferir")
+    for item in rubric["criteria"]:
+        if set(item["anchors"].keys()) != {str(i) for i in range(5)}:
+            fail(f"{name}: critério {item['id']} não descreve os níveis 0 a 4")
+    if rubric["scoring"]["automatic_decision_allowed"] or not rubric["human_review_required"]:
+        fail(f"{name}: a rubrica não pode autorizar decisão automática")
+    if rubric["scoring"]["missing_evidence_behavior"] != "not_evaluable":
+        fail(f"{name}: falta de evidência não pode virar nota zero em silêncio")
+complete_rubric = load("exemplo-rubrica-completo.yaml")
+if not complete_rubric["scoring"]["not_evaluable_rule"]:
+    fail("A rubrica completa precisa dizer como calcular a nota com critério não avaliável")
+if any(not c.get("not_in_scope") for c in complete_rubric["criteria"]):
+    fail("A rubrica completa precisa delimitar o que cada critério não avalia")
 
-questions = load("exemplo-casos-teste-ficticios.yaml")["questions"]
-if len(questions) != 5:
-    fail("Expected five reference questions in the demonstration")
-ids = [q["id"] for q in questions]
-if len(ids) != len(set(ids)):
-    fail("Duplicate reference question IDs")
-expected = {"Q01": "answer", "Q02": "answer", "Q03": "clarify", "Q04": "abstain", "Q05": "abstain"}
-for q in questions:
-    if expected.get(q["id"]) != q["expected_behavior"]:
-        fail(f"Unexpected documented behavior for question {q['id']}")
-q01 = next(q for q in questions if q["id"] == "Q01")
-if "25%" not in q01["reference_answer"]:
-    fail("Q01 does not match the tested fixture answer 25%")
+expected = {"Q01": "answer", "Q02": "answer", "Q03": "clarify", "Q04": "abstain", "Q05": "abstain", "Q06": "abstain"}
+for name in ("exemplo-casos-teste-ficticios.yaml", "exemplo-casos-teste-completo.yaml"):
+    questions = load(name)["questions"]
+    behaviors = {q["id"]: q["expected_behavior"] for q in questions}
+    if behaviors != expected:
+        fail(f"{name}: comportamentos documentados diferentes do esperado: {behaviors}")
+    q01 = next(q for q in questions if q["id"] == "Q01")
+    if "25%" not in q01["reference_answer"]:
+        fail(f"{name}: Q01 não corresponde ao resultado testado de 25%")
+    for q in questions:
+        if q["expected_behavior"] == "abstain" and (q["reference_answer"] is not None or not q["reason_if_abstain"]):
+            fail(f"{name}: {q['id']} é abstenção e precisa de motivo, sem resposta numérica")
+        if q["expected_behavior"] == "clarify" and not q["ambiguity"]:
+            fail(f"{name}: {q['id']} pede esclarecimento e precisa dizer o que falta")
+# Uma resposta apoiada em definição ainda não aprovada precisa dizer isso.
+pending_kpi = load("exemplo-kpi-ficticio.yaml")
+pending_q01 = next(q for q in load("exemplo-casos-teste-ficticios.yaml")["questions"] if q["id"] == "Q01")
+if pending_kpi["status"] != "approved" and "não foi aprovada" not in pending_q01["reference_answer"]:
+    fail("Q01 do exemplo com lacunas responde a partir de KPI pendente sem ressalva")
 
-kpi = load("exemplo-kpi-ficticio.yaml")
-formula = kpi["calculation"]["formula_description"]
-if "sessoes_unicas" not in formula or "pedidos_confirmados /" in formula:
-    fail("KPI numerator must be distinct converted sessions, not count of orders")
+for name in ("exemplo-kpi-ficticio.yaml", "exemplo-kpi-completo.yaml"):
+    formula = load(name)["calculation"]["formula_description"]
+    if "sessoes_unicas" not in formula or "pedidos_confirmados /" in formula:
+        fail(f"{name}: o numerador deve ser sessões distintas convertidas, não contagem de pedidos")
 
-relation = load("exemplo-relacionamento-ficticio.yaml")
-if relation["cardinality"] != "one_to_many":
-    fail("Dataset relation must record sessions -> orders as one-to-many")
+for name in ("exemplo-relacionamento-ficticio.yaml", "exemplo-relacionamento-completo.yaml"):
+    if load(name)["cardinality"] != "one_to_many":
+        fail(f"{name}: a relação sessões para pedidos deve ser um para muitos")
+
+orders_doc = load("exemplo-dataset-pedidos-completo.yaml")
+documented = {c["physical_name"]: c for c in orders_doc["columns"]}
+with sqlite3.connect(":memory:") as db:
+    db.executescript((DL / "aurora-fixture.sql").read_text(encoding="utf8"))
+    real_columns = {row[1] for row in db.execute("PRAGMA table_info(demo_orders)")}
+    real_codes = {row[0] for row in db.execute("SELECT DISTINCT status_code FROM demo_orders")}
+if set(documented) != real_columns:
+    fail(f"Dicionário de pedidos não cobre as colunas reais: {sorted(real_columns ^ set(documented))}")
+if not real_codes <= set(documented["status_code"]["allowed_values"]):
+    fail("Há código de estado na amostra que o dicionário de pedidos não documenta")
 
 if errors:
     for e in errors:
         print("ERRO:", e)
     sys.exit(1)
 
-print("OK: SQLite produced 25.0% (1/4 sessions); naive orders-per-session is 50% "
-      "(2/4); rubric weights and anchors; five reference questions; semantic links checked.")
+print("OK: SQLite retorna 25.0% (1 de 4 sessões); pedidos por sessão dá 50% (2 de 4); "
+      "rubricas com pesos, âncoras e regra de não avaliável; seis perguntas de referência nos dois gabaritos; "
+      "dicionário de pedidos confere com as colunas e os códigos da amostra.")

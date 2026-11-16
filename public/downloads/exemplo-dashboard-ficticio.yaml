@@ -4,10 +4,16 @@ title: "Acompanhamento de sessões convertidas — Aurora"
 type: dashboard_definition
 status: pending_approval
 version: "0.1"
+version_date: "2026-07-20"
 owner: null
 approver: null
 valid_from: null
 source_of_truth: null
+version_history:
+  - version: "0.1"
+    date: "2026-07-20"
+    change: "Primeiro rascunho, com lacunas registradas"
+    approved_by: null
 
 purpose: "Distinguir sessões web convertidas de quantidade de pedidos por sessão"
 audiences: ["Operação de marketing (fictícia)"]
@@ -26,6 +32,7 @@ freshness:
   refresh_frequency: "Carga estática sintética"
   latency: "Não aplicável"
   verified_at: null
+official_or_exploratory: null
 known_limitations:
   - "Não cobre períodos fora da amostra"
   - "Não contém receita líquida nem métricas de app"

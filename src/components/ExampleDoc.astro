@@ -1,0 +1,60 @@
+---
+// Mostra um exemplo de public/downloads/ lido direto do arquivo, para que a página
+// e o download nunca divirjam. Renderiza identificação e histórico em português
+// e deixa o YAML completo recolhido.
+import fs from 'node:fs';
+import path from 'node:path';
+import { parse } from 'yaml';
+import { Code } from '@astrojs/starlight/components';
+
+interface Props { file: string }
+const { file } = Astro.props;
+const raw = fs.readFileSync(path.join(process.cwd(), 'public', 'downloads', file), 'utf8');
+const doc = parse(raw);
+const STATUS: Record<string, string> = {
+  draft: 'Rascunho',
+  pending_approval: 'Pendente de aprovação',
+  approved: 'Aprovado (aprovação fictícia)',
+  deprecated: 'Obsoleto',
+};
+const complete = doc.status === 'approved';
+const text = (v: unknown) => (v === null || v === undefined || v === '' ? 'Ainda não definido' : String(v));
+const date = (v: unknown) => (typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v) ? v.split('-').reverse().join('/') : text(v));
+const questions = (doc.open_questions ?? []).map((q: any) => (typeof q === 'string' ? q : q.question));
+const rawBase = import.meta.env.BASE_URL;
+const base = rawBase.endsWith('/') ? rawBase : rawBase + '/';
+---
+<section class:list={['example-doc', complete ? 'example-doc--complete' : 'example-doc--gaps']}>
+  <p class="panel-kicker">{complete ? 'EXEMPLO COMPLETO · APROVAÇÃO FICTÍCIA' : 'EXEMPLO COM LACUNAS · NADA APROVADO'}</p>
+  <p class="example-doc__title">{doc.title}</p>
+  <dl>
+    <div><dt>Identificador</dt><dd><code>{doc.id}</code></dd></div>
+    <div><dt>Estado</dt><dd>{STATUS[doc.status] ?? doc.status}</dd></div>
+    <div><dt>Responsável</dt><dd>{text(doc.owner)}</dd></div>
+    <div><dt>Quem aprova</dt><dd>{text(doc.approver)}</dd></div>
+    <div><dt>Versão e data</dt><dd>{doc.version} · {date(doc.version_date)}</dd></div>
+    <div><dt>Vale a partir de</dt><dd>{date(doc.valid_from)}</dd></div>
+    <div><dt>Fonte oficial</dt><dd>{text(doc.source_of_truth)}</dd></div>
+  </dl>
+  <table>
+    <caption>Histórico de versões</caption>
+    <thead><tr><th scope="col">Versão</th><th scope="col">Data</th><th scope="col">O que mudou</th><th scope="col">Aprovado por</th></tr></thead>
+    <tbody>
+      {doc.version_history.map((v: any) => (
+        <tr><td>{v.version}</td><td>{date(v.date)}</td><td>{text(v.change)}</td><td>{v.approved_by ?? 'Não aprovado'}</td></tr>
+      ))}
+    </tbody>
+  </table>
+  {questions.length > 0 && (
+    <div class="example-doc__gaps">
+      <p><strong>Perguntas em aberto ({questions.length})</strong></p>
+      <ul>{questions.map((q: string) => <li>{q}</li>)}</ul>
+    </div>
+  )}
+  {complete && <p class="panel-note">A Aurora não existe. Responsável, datas, fonte e aprovação são inventados para mostrar o documento pronto.</p>}
+  <details>
+    <summary>Ver o arquivo completo ({file})</summary>
+    <Code code={raw} lang="yaml" title={file} />
+  </details>
+  <p class="example-doc__download"><a href={base + 'downloads/' + file} download>Baixar este exemplo</a></p>
+</section>

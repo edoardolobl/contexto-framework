@@ -1,6 +1,11 @@
 # Contrato editorial — Contexto
 
-**Versão:** 0.1 · **Status:** proposta implementada nesta baseline · **Mantenedor:** responsável pelo repositório
+**Versão:** 0.2 · **Data desta versão:** 2026-11-16 · **Estado:** aprovado pelo mantenedor · **Mantenedor:** Edoardo Lobl
+
+| Versão | Data | O que mudou | Aprovado por |
+|---|---|---|---|
+| 0.2 | 2026-11-16 | Regra dos exemplos completos com aprovação fictícia; versionamento com data obrigatório; estados de pendência; templates Markdown sem bloco YAML | Mantenedor |
+| 0.1 | 2026-11-16 | Primeira versão do contrato | Mantenedor |
 
 ## Promessa única
 
@@ -19,9 +24,47 @@ Este projeto **não promete** que os templates resolvem por si só problemas de 
 
 1. **Ensinar como fazer:** toda regra editorial acompanha pergunta operacional e evidência esperada.
 2. **Explicar a origem:** diferenciar normas, estudos, práticas industriais e decisões autorais.
-3. **Exibir exemplos:** cada template publicado deve possuir um exemplo preenchido e casos de incompletude.
+3. **Exibir os dois lados:** cada template publicado tem um exemplo com lacunas e um exemplo completo. Ver "Exemplos completos e aprovação fictícia".
 4. **Separar conhecimento e execução:** documentação não é enforcement de regras em runtime.
-5. **Marcar incertezas:** nunca inventar owner, aprovação, fórmula, vigência, fonte, regra ou valor para deixar um template “completo”.
+5. **Marcar incertezas:** em documento real, nunca inventar responsável, aprovação, fórmula, vigência, fonte, regra ou valor para deixar um template “completo”.
+6. **Datar e versionar:** todo documento diz qual é a versão, de que data, e guarda o histórico do que mudou.
+
+## Exemplos completos e aprovação fictícia
+
+O leitor precisa ver o destino, não só o ponto de partida. Por isso:
+
+1. Em **documento real**, a regra 5 vale sem exceção.
+2. Em **exemplo didático**, é permitido mostrar um documento completo e aprovado quando três condições valem juntas:
+   - a organização é a Aurora, fictícia;
+   - responsável e aprovador são um cargo ou área, nunca o nome de uma pessoa;
+   - o arquivo abre com aviso de exemplo fictício e traz o campo `example_notice` dizendo que a aprovação vale só dentro do exemplo.
+3. Todo tipo de template tem **os dois exemplos**: `exemplo-<tipo>-ficticio.yaml` (com lacunas, nunca `approved`) e `exemplo-<tipo>-completo.yaml` (`approved`, sem perguntas em aberto).
+4. O exemplo completo traz um **histórico com pelo menos duas versões**, para ensinar o que muda quando a regra muda.
+5. Os dois exemplos compartilham o mesmo `id`: são o mesmo documento em momentos diferentes.
+
+Risco aceito: alguém pode copiar um exemplo completo achando que é regra real. O aviso no topo, o campo `example_notice` e o nome Aurora reduzem o risco, sem eliminá-lo.
+
+O validador (`scripts/validate_content.py`) confere as condições 2 a 5.
+
+## Versionamento com data
+
+Campos obrigatórios em todo template e exemplo:
+
+```yaml
+version: "1.1"              # versão deste documento
+version_date: "2026-09-01"  # data desta versão
+valid_from: "2026-09-01"    # desde quando a regra vale
+version_history:            # a mais recente primeiro
+  - version: "1.1"
+    date: "2026-09-01"
+    change: "O que mudou na regra e por quê"
+    approved_by: "Cargo ou área"
+```
+
+- `version_date` e `valid_from` são coisas diferentes: uma regra pode ser aprovada hoje para valer no mês que vem.
+- `change` descreve a mudança na regra, não a edição do texto.
+- Um rascunho também tem versão e data; `approved_by` fica `null`.
+- Nos templates Markdown, os mesmos dados aparecem nas seções "Identificação" e "Histórico de versões", em português.
 
 ## Estrutura de uma página prática
 
@@ -60,12 +103,25 @@ valid_from: null
 
 **Nunca misturar estas duas camadas** nem presumir que o YAML de negócio é uma especificação executável em qualquer plataforma.
 
-## Estados editoriais propostos
+## Estados
 
-- `draft`: rascunho em construção;
-- `pending_approval`: completo ou parcialmente estruturado, mas ainda não validado;
-- `approved`: aprovado pela autoridade identificada para a finalidade documental;
-- `deprecated`: obsoleto, manter relação com a substituição quando houver.
+**Estado do documento** (campo `status`). Só estes quatro:
+
+| Código | Em português | Significa |
+|---|---|---|
+| `draft` | Rascunho | Em construção |
+| `pending_approval` | Pendente de aprovação | Estruturado, ainda não validado por quem aprova |
+| `approved` | Aprovado | Confirmado pela autoridade identificada |
+| `deprecated` | Obsoleto | Não vale mais; aponta para o substituto quando houver |
+
+**Estado de uma pendência ou de um conflito** (campo `state`, dentro de perguntas em aberto e de fontes em conflito). Só estes dois:
+
+| Código | Em português |
+|---|---|
+| `unresolved` | Não resolvido |
+| `resolved` | Resolvido, com a resolução, quem resolveu e a data |
+
+Não usar outras grafias (`needs_approval`, `pending_confirmation`, `pendente_de_aprovacao` e semelhantes).
 
 ## Trato das fontes
 
@@ -87,7 +143,13 @@ valid_from: null
 
 > Um especialista que domina o assunto, mas não a engenharia de IA, consegue usar o template para explicar seu conceito/processo, identificar lacunas e determinar a quem cabe resolvê-las, sem ter de inventar definições?
 
-Checklist de aprovação editorial do template: necessidade e aplicabilidade; perguntas de elicitação; exemplo insuficiente; exemplo revisado; pendências explícitas; responsáveis; fontes; vocabulário; links; revisão.
+Checklist de aprovação editorial do template: necessidade e aplicabilidade; perguntas de elicitação; exemplo com lacunas; exemplo completo com aprovação fictícia; histórico de versões; pendências explícitas; responsáveis; fontes; vocabulário; links; revisão.
+
+## Uma só fonte para os exemplos
+
+As páginas não copiam trechos YAML dos exemplos. Usam o componente `ExampleDoc`, que lê o arquivo em `public/downloads/` na hora do build. O que a página mostra é o que o leitor baixa.
+
+Os templates Markdown não começam com bloco YAML: abrem com a tabela "Identificação", em português, para quem não conhece YAML.
 
 ## Gestão de alterações
 

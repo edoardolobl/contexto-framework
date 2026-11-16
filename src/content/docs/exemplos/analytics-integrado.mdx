@@ -4,6 +4,7 @@ description: Uma pequena amostra fictícia mostra como SQL válido pode responde
 ---
 
 import AnalyticsLabDownloads from '../../../components/AnalyticsLabDownloads.astro';
+import ExampleDoc from '../../../components/ExampleDoc.astro';
 
 <p class="editorial-lead">Uma análise correta começa no significado da pergunta</p>
 
@@ -15,14 +16,14 @@ Este tutorial usa uma pequena amostra sintética para que os cálculos possam se
 
 `demo_sessions`: uma linha por sessão.
 
-| session_id | channel | is_internal |
-|---|---|---|
-| S1 | web | 0 |
-| S2 | web | 0 |
-| S3 | web | 1 |
-| S4 | app | 0 |
-| S5 | web | 0 |
-| S6 | web | 0 |
+| session_id | channel | is_internal | session_date |
+|---|---|---|---|
+| S1 | web | 0 | 2026-10-01 |
+| S2 | web | 0 | 2026-10-01 |
+| S3 | web | 1 | 2026-10-01 |
+| S4 | app | 0 | 2026-10-01 |
+| S5 | web | 0 | 2026-10-01 |
+| S6 | web | 0 | 2026-10-01 |
 
 `demo_orders`: uma linha por pedido.
 
@@ -88,13 +89,37 @@ Isso é precisamente o problema que a [documentação semântica de datasets](..
 
 | Pergunta | Comportamento documental esperado |
 |---|---|
-| “Qual a taxa de sessões convertidas na amostra web?” | **25%**, com referência à definição e aos dados da amostra |
-| “Por que não é 50%?” | Explicar que 50% é pedidos por sessão elegível, não sessões convertidas |
-| “E no app?” | Informar que **esta métrica foi definida apenas para web** |
-| “E no mês anterior?” | Informar que **não há dados deste período na amostra** |
-| “Qual a receita líquida?” | Indicar que a documentação não define essa métrica |
+| “Qual foi a taxa de sessões web convertidas em 01/10/2026?” | **25%**, com referência à definição e aos dados da amostra |
+| “Por que essa taxa não é 50%?” | Explicar que 50% é pedidos por sessão elegível, não sessões convertidas |
+| “Qual foi a conversão em 01/10/2026?” | Pedir esclarecimento: falta o canal e qual conversão |
+| “E a taxa no app em 01/10/2026?” | Informar que **o indicador foi definido apenas para web** |
+| “E em setembro de 2026?” | Informar que **não há dados desse período na amostra** |
+| “Qual foi a receita líquida?” | Indicar que a documentação não define essa métrica |
 
-## 7. Reproduza e reutilize
+## 7. Os documentos do laboratório
+
+O cálculo acima só é confiável porque seis documentos dizem a mesma coisa. Cada um tem versão, data e histórico, e aponta para os outros pelo identificador.
+
+| Documento | Identificador | Modelo |
+|---|---|---|
+| Indicador | `KPI-AURORA-001` | [KPI](../../templates/kpi/) |
+| Tabela de sessões | `DATASET-AURORA-SESSIONS` | [Dataset](../../templates/dataset/) |
+| Tabela de pedidos | `DATASET-AURORA-ORDERS` | [Dataset](../../templates/dataset/) |
+| Ligação entre as duas | `REL-AURORA-SESSIONS-ORDERS` | [Relacionamento](../../templates/relacionamento/) |
+| Painel | `DASH-AURORA-WEB` | [Dashboard](../../templates/dashboard/) |
+| Gabarito | `QA-AURORA-001` | [Perguntas de referência](../../templates/casos-teste/) |
+
+O indicador, na versão aprovada dentro da ficção:
+
+<ExampleDoc file="exemplo-kpi-completo.yaml" />
+
+A tabela de pedidos é onde mora o significado de "confirmado". Sem este dicionário, `CONFIRMED`, `CANCELED` e `TEST` são só palavras:
+
+<ExampleDoc file="exemplo-dataset-pedidos-completo.yaml" />
+
+A versão 1.0 do indicador contava pedidos; a 1.1 conta sessões. É a mesma diferença entre 50% e 25% desta página, agora registrada com data e aprovação. O painel e o gabarito mudaram de versão no mesmo dia ou no seguinte, e dizem isso no próprio histórico.
+
+## 8. Reproduza e reutilize
 
 <AnalyticsLabDownloads />
 

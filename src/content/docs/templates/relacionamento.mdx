@@ -4,6 +4,7 @@ description: Registre chaves, cardinalidade, tipos de junção, regras temporais
 ---
 
 import TemplateDownloads from '../../../components/TemplateDownloads.astro';
+import ExampleDoc from '../../../components/ExampleDoc.astro';
 
 <p class="editorial-lead">Documente como os dados se relacionam</p>
 
@@ -22,24 +23,15 @@ Saber o nome de duas tabelas não garante que a junção entre elas represente o
 | O dado contém valores sentinela ou nulos? | Evita interpretar ausências como entidades reais |
 | Quais combinações são proibidas ou ambíguas? | Registra armadilhas conhecidas |
 
-## Exemplo fictício: sessão → pedidos
+## Dois exemplos do mesmo documento
 
-```yaml
----
-id: REL-AURORA-SESSIONS-ORDERS
-type: relationship_semantics
-status: pending_approval
-left: demo_sessions
-right: demo_orders
-left_grain: "Uma linha por sessão"
-right_grain: "Uma linha por pedido"
-join_keys:
-  - left: session_id
-    right: session_id
-cardinality: one_to_many
-join_intent: "Atribuir pedidos à sessão de origem"
-risk: "Uma sessão com dois pedidos duplica linhas da sessão"
-```
+O primeiro quadro mostra o documento no começo do trabalho: muita coisa ainda sem resposta, e isso está escrito. O segundo mostra o mesmo documento depois que a área responsável decidiu. A aprovação é fictícia e vale só dentro do exemplo.
+
+<ExampleDoc file="exemplo-relacionamento-ficticio.yaml" />
+
+<ExampleDoc file="exemplo-relacionamento-completo.yaml" />
+
+Repare no **histórico de versões** do segundo quadro: cada linha traz a data, o que mudou na regra e quem aprovou. É isso que permite a alguém saber se está lendo a regra de hoje ou a do mês passado.
 
 Para contar **sessões convertidas**, um `COUNT(*)` após essa junção pode gerar resultado errado. Um exemplo documental pode registrar a intenção de contar sessões únicas — mas a implementação SQL precisa ser testada separadamente.
 
