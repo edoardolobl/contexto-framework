@@ -3,7 +3,7 @@
 # A aprovação e a organização Aurora são inteiramente fictícias.
 id: KPI-AURORA-001
 revision_id: "KPI-AURORA-001@1.0"  # revisão específica; id = assunto estável
-title: "Taxa de sessões convertidas: loja web Aurora"
+title: "Pedidos confirmados por sessão elegível (definição antiga rotulada conversão web)"
 type: metric_definition
 status: approved
 example_notice: "Revisão histórica aprovada apenas na narrativa fictícia Aurora. Não vigente."
@@ -30,7 +30,7 @@ version_history:
 business_definition:
   concept: "Relação entre número de pedidos confirmados e sessões elegíveis"
   purpose: "Acompanhar o resultado do funil web"
-  synonyms: ["conversão web"]
+  synonyms: ["conversão web (rótulo histórico impreciso)"]
   different_meanings_in_other_domains:
     - "Conversão de lead: outra métrica"
     - "Sessões convertidas: definição revisada na versão 1.1"
@@ -70,8 +70,8 @@ validation:
   expected_questions_and_answers: []
   known_edge_cases:
     - "Uma sessão com dois pedidos confirmados soma dois pedidos no numerador histórico"
-    - "Sessão S2 tem pedido cancelado e não conta como convertida"
-    - "Sessão S5 tem pedido de teste e não conta como convertida"
+    - "Pedido cancelado não entra na contagem de pedidos confirmados"
+    - "Pedido de teste não entra na contagem de pedidos confirmados"
   tests: []
 
 open_questions: []
