@@ -15,6 +15,11 @@ export default defineConfig({
       favicon,
       locales: { root: { label: 'Português', lang: 'pt-BR' } },
       customCss: ['./src/styles/custom.css'],
+      components: { Footer: './src/components/SiteFooter.astro' },
+      social: [
+        { icon: 'github', label: 'Repositório no GitHub', href: 'https://github.com/edoardolobl/contexto-framework' },
+        { icon: 'linkedin', label: 'Edoardo Lobl no LinkedIn', href: 'https://www.linkedin.com/in/edoardolobl/' }
+      ],
       sidebar: [
         { label: 'Comece aqui', items: [
           { slug: 'fundamentos/promessa' },
@@ -57,7 +62,8 @@ export default defineConfig({
         ] },
         { label: 'Validação', items: [{ slug: 'validacao/checklist' }] },
         { label: 'Governança', items: [{ slug: 'governanca/papeis' }] },
-        { label: 'Referências', items: [{ slug: 'referencias' }] }
+        { label: 'Referências', items: [{ slug: 'referencias' }] },
+        { label: 'Sobre', items: [{ slug: 'sobre/creditos' }] }
       ]
     })
   ]

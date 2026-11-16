@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Quality gates for the Contexto documentation, not certification of its business rules."""
 from pathlib import Path
-from posixpath import normpath
 import re
 import sys
 
@@ -63,8 +62,24 @@ for path in PAGES:
             if not file.exists():
                 record(path, f"download inexistente: {url}")
             continue
-        target = normpath(route(path) + rel_url)
-        target = "/" + target.strip("/") + "/" if target.strip("/") else "/"
+        # Resolve o link como o navegador faria. Subir além da raiz do site é erro:
+        # no GitHub Pages isso sai do subcaminho do projeto e resulta em 404.
+        segments = [seg for seg in route(path).strip("/").split("/") if seg]
+        escaped = False
+        for seg in rel_url.split("/"):
+            if seg in ("", "."):
+                continue
+            if seg == "..":
+                if not segments:
+                    escaped = True
+                    break
+                segments.pop()
+            else:
+                segments.append(seg)
+        if escaped:
+            record(path, f"link interno sobe além da raiz do site: {url}")
+            continue
+        target = "/" + "/".join(segments) + "/" if segments else "/"
         if target not in routes:
             record(path, f"link interno não encontrado: {url} => {target}")
 

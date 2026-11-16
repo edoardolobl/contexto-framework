@@ -33,7 +33,7 @@ conflicting_sources:
   - id: CONFLICT-001
     sources: ["POL-FIN-014", "E-MAIL-EVENTOS", "INTRANET-EVENTOS"]
     description: "Instruções que não coincidem"
-    status: unresolved
+    state: unresolved
     resolution_owner: null
 
 source_precedence_rule: null

@@ -5,7 +5,7 @@ const base = rawBase.endsWith('/') ? rawBase : `${rawBase}/`;
 <section class="context-hero">
   <div class="context-hero__copy">
     <span class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span> FRAMEWORK · DOCUMENTAÇÃO AI-READY</span>
-    <h1>Uma IA não deveria <em>adivinhar</em> como sua organização funciona.</h1>
+    <p class="hero-title">Uma IA não deveria <em>adivinhar</em> como sua organização funciona.</p>
     <p>Um método para transformar conhecimento tácito, regras e contextos de negócio em documentação que pessoas e sistemas conseguem compreender — sem pedir que o engenheiro de IA invente o que não foi documentado.</p>
     <div class="hero-actions">
       <a class="cta-primary" href={`${base}metodo/oito-dimensoes/`}>Explore o método <span aria-hidden="true">↗</span></a>
@@ -13,7 +13,7 @@ const base = rawBase.endsWith('/') ? rawBase : `${rawBase}/`;
     </div>
     <p class="hero-footnote">Independente de fornecedor, modelo ou plataforma de IA.</p>
   </div>
-  <div class="context-hero__visual" aria-label="Esquema do conhecimento implícito se tornando documentação clara">
+  <div class="context-hero__visual" role="group" aria-label="Exemplo de uma instrução vaga antes e depois de ser explicitada">
     <div class="visual-topline"><span>DIAGNÓSTICO</span><span>CONHECIMENTO → CONTEXTO</span></div>
     <div class="visual-card visual-card--problem">
       <div class="visual-number">01 / ANTES</div>
@@ -23,7 +23,7 @@ const base = rawBase.endsWith('/') ? rawBase : `${rawBase}/`;
     <div class="visual-bridge"><span class="bridge-line"></span><span class="bridge-label">EXPLICITAR</span><span class="bridge-line"></span></div>
     <div class="visual-card visual-card--solution">
       <div class="visual-number">02 / DEPOIS</div>
-      <div class="pseudo-code"><span class="code-muted">metric:</span> customer_conversion<br/><span class="code-muted">scope:</span> ecommerce<br/><span class="code-muted">window:</span> 30d<br/><span class="code-muted">status:</span> <b>needs_approval</b></div>
+      <div class="pseudo-code"><span class="code-muted">metric:</span> customer_conversion<br/><span class="code-muted">scope:</span> ecommerce<br/><span class="code-muted">window:</span> 30d<br/><span class="code-muted">status:</span> <b>pending_approval</b></div>
       <div class="visual-result">Uma regra ainda não aprovada é uma lacuna visível, não uma suposição.</div>
     </div>
     <div class="visual-bottomline"><span>CONTEXTO EXPLÍCITO</span><span aria-hidden="true">✳</span></div>
