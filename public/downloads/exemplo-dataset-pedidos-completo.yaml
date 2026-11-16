@@ -13,7 +13,7 @@ owner: "Engenharia de Dados (Aurora)"
 approver: "Analytics de E-commerce (Aurora)"
 valid_from: "2026-08-20"
 valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
-supersedes_revision: "DATASET-AURORA-ORDERS@1.0"
+supersedes_revision: "DATASET-AURORA-ORDERS@0.1"
 source_of_truth: "Catálogo de dados da Aurora, tabela demo_orders (documento fictício)"
 version_history:
   - version: "1.0"
