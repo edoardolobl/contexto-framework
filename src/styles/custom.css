@@ -660,15 +660,33 @@ main:has(.context-hero) > .content-panel:first-child {
 .example-doc__gaps h4 {margin:0 0 .5rem;font-size:.94rem}
 .example-doc__gaps ul {margin:.2rem 0 0;padding-left:1.2rem}
 .example-doc__gaps li {margin:.3rem 0;line-height:1.6;font-size:.87rem}
-.example-doc__audit, .example-doc__raw {
+.example-doc__details {
   border-top:1px solid var(--context-line);
-  padding-top:.75rem;
-  margin:.8rem 0 0 !important;
+  padding-top:.8rem;
+  margin:.85rem 0 0 !important;
 }
-.example-doc .example-doc__audit > dl {margin-top:.8rem}
-.example-doc__audit summary,
-.example-doc__raw summary {font-size:.88rem;line-height:1.55}
-.example-doc__raw .expressive-code {margin-top:.8rem}
+.example-doc__details > summary {
+  cursor:pointer;
+  font-size:.9rem;
+  line-height:1.55;
+  font-weight:750;
+  color:var(--context-ink);
+}
+.example-doc__details-content {
+  padding-top:.7rem;
+  min-width:0;
+}
+.example-doc__details-content h4 {
+  margin:1.15rem 0 .55rem !important;
+  color:var(--context-ink);
+  font-size:.91rem;
+}
+.example-doc .example-doc__details-content > dl {margin-top:.65rem}
+.example-doc__details-content .expressive-code {margin-top:.7rem}
+.example-doc__details > summary:focus-visible {
+  outline:3px solid var(--sl-color-accent);
+  outline-offset:3px;
+}
 .example-doc__download a {font-weight:750;color:var(--sl-color-accent)}
 @media(max-width:650px) {
   .example-doc .example-meaning__facts > div {

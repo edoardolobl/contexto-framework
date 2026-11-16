@@ -43,8 +43,12 @@ const base = rawBase.endsWith('/') ? rawBase : rawBase + '/';
 
   <p class="example-doc__source"><strong>Fonte {complete ? 'fictícia de referência' : 'a confirmar'}:</strong> {text(doc.source_of_truth)}</p>
 
-  <details class="example-doc__audit">
-    <summary>Ver identificação, responsáveis e histórico de revisões</summary>
+  {complete && <p class="panel-note">A Aurora não existe. Responsável, datas, fonte e aprovação são inventados para mostrar o documento pronto.</p>}
+
+  <details class="example-doc__details">
+    <summary>Ver dados técnicos, histórico e YAML</summary>
+    <div class="example-doc__details-content">
+      <h4>Identificação, responsáveis e vigência</h4>
     <dl>
       <div><dt>ID do assunto</dt><dd><code>{doc.id}</code></dd></div>
       <div><dt>ID da revisão</dt><dd><code>{text(doc.revision_id)}</code></dd></div>
@@ -55,7 +59,6 @@ const base = rawBase.endsWith('/') ? rawBase : rawBase + '/';
       <div><dt>Regra válida desde</dt><dd>{date(doc.valid_from)}</dd></div>
       <div><dt>Regra válida até</dt><dd>{doc.valid_to ? `Antes de ${date(doc.valid_to)}` : (complete ? 'Sem fim documentado' : 'Ainda não definido')}</dd></div>
       <div><dt>Substitui revisão</dt><dd>{doc.supersedes_revision ? <code>{doc.supersedes_revision}</code> : 'Nenhuma registrada'}</dd></div>
-      <div><dt>Fonte oficial</dt><dd>{text(doc.source_of_truth)}</dd></div>
     </dl>
     <table>
       <caption>Histórico de mudanças (o resumo não contém a versão antiga completa)</caption>
@@ -64,13 +67,9 @@ const base = rawBase.endsWith('/') ? rawBase : rawBase + '/';
         <tr><td>{v.version}</td><td>{date(v.date)}</td><td>{text(v.change)}</td><td>{v.approved_by ?? 'Não aprovado'}</td></tr>
       ))}</tbody>
     </table>
-  </details>
-
-  {complete && <p class="panel-note">A Aurora não existe. Responsável, datas, fonte e aprovação são inventados para mostrar o documento pronto.</p>}
-
-  <details class="example-doc__raw">
-    <summary>Consultar arquivo YAML completo ({file})</summary>
-    <Code code={raw} lang="yaml" title={file} />
+      <h4>Arquivo YAML integral</h4>
+      <Code code={raw} lang="yaml" title={file} />
+    </div>
   </details>
   <p class="example-doc__download"><a href={base + 'downloads/' + file} download>Baixar este exemplo <span aria-hidden="true">↓</span></a></p>
 </section>
