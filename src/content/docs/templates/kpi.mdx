@@ -11,7 +11,7 @@ Um modelo pode calcular uma fórmula corretamente e errar a pergunta de negócio
 
 ## Quando usar
 
-Use este template para métricas e KPIs que fundamentam relatórios, dashboards, análises, alertas ou decisões. Não use este modelo para documentar sozinho todo um banco de dados; tabelas, relacionamentos e contratos semânticos exigem material complementar.
+Use este template para métricas e KPIs que fundamentam relatórios, dashboards, análises, alertas ou decisões. Não use este modelo para documentar sozinho todo um banco de dados; tabelas, relacionamentos e contratos semânticos exigem material complementar. No [caso integrado Aurora](../../exemplos/analytics-integrado/), uma sessão com dois pedidos confirmados deve ser contada **uma vez** numa métrica de sessões convertidas.
 
 ## Preenchimento guiado
 
@@ -40,7 +40,7 @@ business_definition:
   concept: "Sessões elegíveis que geraram pedidos confirmados"
 
 calculation:
-  numerator: "Pedidos confirmados elegíveis"
+  numerator: "Sessões elegíveis com pelo menos um pedido confirmado"
   denominator: "Sessões elegíveis"
   unit: "percentual"
 
