@@ -49,10 +49,11 @@ A Aurora não existe. Em um documento real, nunca invente responsável, data, fo
 
 ## 4. Como isso se conecta ao banco de dados?
 
-Imagine uma tabela `fact_orders(order_id, status_code, created_at)` e outra `fact_sessions(session_id, channel, event_time)`. O schema revela nomes e tipos, mas não esclarece automaticamente:
+Imagine as tabelas do [laboratório Aurora](../analytics-integrado/): `demo_orders(order_id, session_id, status_code)` e `demo_sessions(session_id, channel, is_internal, session_date)`. O schema revela nomes e tipos, mas não esclarece automaticamente:
 
-- Se `status_code='C'` significa confirmado, cancelado ou concluído;
-- Se `created_at` usa UTC ou um fuso comercial;
+- Se `status_code = 'CONFIRMED'` basta, ou se pedidos de teste e cancelados posteriores também precisam ser excluídos;
+- Se `session_date` usa UTC ou um fuso comercial;
+- Se sessões com `is_internal = 1` entram na conta;
 - Se `session_id` representa uma sessão em todos os canais;
 - Se há uma relação válida entre pedidos e sessões para a granularidade escolhida;
 - Se contagens devem ser deduplicadas antes do cálculo.

@@ -27,20 +27,21 @@ Embora pareça indicar um fluxo, ele omite entradas, aprovações, condições, 
 
 ## Depois: fluxo demonstrativo com pontos de decisão
 
-```text
-Solicitação recebida
-  │
-  ├── Brief incompleto → Devolver com lista de lacunas
-  │                          └── Aguardar complementação
-  │
-  └── Brief completo
-       └── Conferir evidências e conteúdo
-            ├── Evidência ausente → Revisão responsável
-            └── Evidência presente → Solicitar aprovação formal
-                                      ├── Rejeitado → Registrar motivo
-                                      ├── Em avaliação → Aguardar
-                                      └── Aprovado → Publicar → Registrar evidência
-```
+1. **Receber e registrar a solicitação.**
+2. **Conferir o brief.**
+   - Incompleto: devolver com a lista de lacunas e aguardar a complementação.
+   - Não dá para saber se está completo: pedir esclarecimento ao solicitante.
+   - Completo: seguir para o passo 3.
+3. **Aplicar a [regra de encaminhamento](../decisao-campanha/)** às evidências do material.
+   - Evidência insuficiente: revisão responsável.
+   - Evidência desconhecida: pedir esclarecimento ao solicitante.
+   - Evidência suficiente: seguir para o passo 4.
+4. **Solicitar aprovação formal.**
+   - Rejeitado: registrar o motivo e encerrar.
+   - Aprovado: seguir para o passo 5.
+5. **Publicar e registrar a evidência** (endereço e data da publicação).
+
+Os desvios dos passos 2 e 3 são os mesmos da tabela de decisão: o processo diz **quando** decidir, e a regra diz **o que** decidir.
 
 Este fluxo é **uma hipótese para fins didáticos**, e não uma regra aprovada de publicação.
 
@@ -58,7 +59,7 @@ O fluxo melhorou, mas não temos **a definição de “brief completo”** nem *
 
 Esse é o ponto em que o [template de regras e decisões](../../templates/decisao/) complementa o [template de processo](../../templates/processo/). A leitura em conjunto permite entender o caminho e os critérios sem repetir uma mesma decisão em vários documentos.
 
-## Os dois documentos lado a lado
+## Do rascunho à versão aprovada
 
 <ExampleDoc file="exemplo-processo-ficticio.yaml" />
 

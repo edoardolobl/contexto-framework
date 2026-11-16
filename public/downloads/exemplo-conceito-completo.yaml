@@ -40,25 +40,27 @@ vocabulary:
   preferred_term: "Participante ativo"
   synonyms: []
   related_terms: ["Participante inscrito", "Participante em pausa", "Participante concluinte"]
-  not_synonyms: ["Participante inscrito", "Participante concluinte"]
+  not_synonyms: ["Participante inscrito", "Participante em pausa", "Participante concluinte"]
   other_domain_meanings:
     - "Na folha de pagamento, 'ativo' significa vínculo de trabalho vigente. Não é o mesmo conceito."
 
-definition: "Pessoa inscrita no programa que registrou presença em pelo menos uma atividade nos últimos 30 dias corridos, contados a partir da data de referência do relatório."
+definition: "Pessoa inscrita no programa, que não está em pausa nem concluiu todas as atividades, e que registrou presença em pelo menos uma atividade entre 30 dias antes da data de referência do relatório e a própria data de referência, ambas incluídas."
 inclusion_criteria:
   - "Inscrição confirmada no programa"
-  - "Pelo menos uma presença registrada nos últimos 30 dias corridos"
+  - "Pelo menos uma presença registrada entre 30 dias antes da data de referência e a própria data"
+  - "Sem afastamento registrado na data de referência e com atividades ainda por concluir"
 exclusion_criteria:
   - "Inscrição sem nenhuma presença registrada: é participante inscrito"
   - "Afastamento registrado na data de referência: é participante em pausa"
   - "Todas as atividades concluídas: é participante concluinte"
 examples:
-  - "Inscrita em 01/08, presente na oficina de 20/08. Em 31/08 é participante ativa."
+  - "Inscrita em 01/08, presente na oficina de 20/09. Em 30/09 é participante ativa."
 counterexamples:
-  - "Inscrito em 01/08, sem nenhuma presença. Em 31/08 é participante inscrito, não ativo."
-  - "Presente em 05/07 e nunca mais. Em 31/08 passaram mais de 30 dias: não é ativo."
+  - "Inscrito em 01/08, sem nenhuma presença. Em 30/09 é participante inscrito, não ativo."
+  - "Presente em 20/08 e nunca mais. Em 30/09 passaram 41 dias: não é ativo."
+  - "Presente em 25/09, com afastamento registrado de 28/09 até outubro. Em 30/09 é participante em pausa, não ativo."
 boundary_cases:
-  - "Presença exatamente 30 dias antes da data de referência: conta como ativa."
+  - "Presença em 31/08, exatamente 30 dias antes de 30/09: conta como ativa."
 
 validation:
   decisions_confirmed_by: "Gerência de Pessoas (Aurora)"

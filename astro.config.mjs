@@ -2,7 +2,6 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 
 const base = process.env.BASE_PATH || '/contexto-framework';
-const favicon = (base === '/' ? '' : base.replace(/\/$/, '')) + '/favicon.svg';
 
 export default defineConfig({
   site: process.env.SITE_URL || 'https://edoardolobl.github.io',
@@ -12,7 +11,7 @@ export default defineConfig({
       title: 'Contexto',
       description: 'Método para documentar conhecimento organizacional de modo explícito, contextualizado e verificável.',
       logo: { src: './src/assets/brand.svg', alt: 'Contexto' },
-      favicon,
+      favicon: '/favicon.svg', // Starlight já acrescenta o base
       locales: { root: { label: 'Português', lang: 'pt-BR' } },
       customCss: ['./src/styles/custom.css'],
       components: { Footer: './src/components/SiteFooter.astro' },
