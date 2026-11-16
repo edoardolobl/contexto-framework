@@ -28,16 +28,19 @@ const base = rawBase.endsWith('/') ? rawBase : rawBase + '/';
   <p class="panel-kicker">{complete ? 'EXEMPLO COMPLETO · APROVAÇÃO FICTÍCIA' : 'EXEMPLO COM LACUNAS · NADA APROVADO'}</p>
   <p class="example-doc__title">{doc.title}</p>
   <dl>
-    <div><dt>Identificador</dt><dd><code>{doc.id}</code></dd></div>
+    <div><dt>ID do assunto</dt><dd><code>{doc.id}</code></dd></div>
+    <div><dt>ID da revisão</dt><dd><code>{text(doc.revision_id)}</code></dd></div>
     <div><dt>Estado</dt><dd>{STATUS[doc.status] ?? doc.status}</dd></div>
     <div><dt>Responsável</dt><dd>{text(doc.owner)}</dd></div>
     <div><dt>Quem aprova</dt><dd>{text(doc.approver)}</dd></div>
     <div><dt>Versão e data</dt><dd>{doc.version} · {date(doc.version_date)}</dd></div>
-    <div><dt>Vale a partir de</dt><dd>{date(doc.valid_from)}</dd></div>
+    <div><dt>Regra válida desde</dt><dd>{date(doc.valid_from)}</dd></div>
+    <div><dt>Regra válida até</dt><dd>{doc.valid_to ? `Antes de ${date(doc.valid_to)}` : (complete ? "Sem fim documentado" : "Ainda não definido")}</dd></div>
+    <div><dt>Substitui revisão</dt><dd>{doc.supersedes_revision ? <code>{doc.supersedes_revision}</code> : "Nenhuma registrada"}</dd></div>
     <div><dt>Fonte oficial</dt><dd>{text(doc.source_of_truth)}</dd></div>
   </dl>
   <table>
-    <caption>Histórico de versões</caption>
+    <caption>Histórico de mudanças (o resumo não contém a versão antiga completa)</caption>
     <thead><tr><th scope="col">Versão</th><th scope="col">Data</th><th scope="col">O que mudou</th><th scope="col">Aprovado por</th></tr></thead>
     <tbody>
       {doc.version_history.map((v: any) => (
