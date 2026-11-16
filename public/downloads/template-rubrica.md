@@ -4,20 +4,22 @@
 
 ## Identificação
 
+Os campos marcados com **(obrigatório)** são o mínimo para começar. Os demais você completa quando a revisão for aprovada.
+
 | Campo | Preenchimento |
 |---|---|
-| Identificador do assunto (estável) | |
-| Identificador desta revisão (único) | |
+| Identificador do assunto (estável) **(obrigatório)** | |
 | Tipo de documento | Rubrica de avaliação |
-| Estado | Rascunho |
-| Responsável (cargo ou área) | |
-| Quem aprova (cargo ou área) | |
-| Versão atual | 0.1 |
-| Data desta versão | |
+| Estado **(obrigatório)** | Rascunho |
+| Responsável (cargo ou área) **(obrigatório)** | |
+| Quem aprova (cargo ou área) **(obrigatório)** | |
+| Versão atual **(obrigatório)** | 0.1 |
+| Data desta versão **(obrigatório)** | |
+| Fonte oficial | |
+| Identificador desta revisão | |
 | Substitui qual revisão? | |
 | Vale a partir de | |
-| Vale até, sem incluir a data final | |
-| Fonte oficial | |
+| Último dia de vigência (em branco se não houver fim) | |
 
 Estados possíveis: **Rascunho**, **Pendente de aprovação**, **Aprovado**, **Obsoleto**. Só marque "Aprovado" quando quem aprova tiver confirmado por escrito.
 
@@ -52,8 +54,6 @@ Para cada critério:
 - Condições para interromper ou escalar:
 
 ## Governança e pendências
-- Fonte oficial e responsável:
-- Versão e vigência:
 - Procedimento de revisão:
 - Critérios ainda não definidos:
 

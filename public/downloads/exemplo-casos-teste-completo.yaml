@@ -18,7 +18,7 @@ source_of_truth: "Catálogo de métricas da Aurora, gabarito do KPI-AURORA-001 (
 version_history:
   - version: "1.1"
     date: "2026-10-02"
-    change: "Após obter a amostra de 01/10, foram conferidos os valores e os casos Q01–Q06 segundo o KPI 1.1"
+    change: "Após obter a amostra de 01/10, foram conferidos os valores e os casos Q01–Q06 segundo o KPI 2.0"
     approved_by: "Gerência de E-commerce (Aurora)"
   - version: "1.0"
     date: "2026-10-01"
@@ -38,7 +38,7 @@ covered_documents:
   - REL-AURORA-SESSIONS-ORDERS
   - DASH-AURORA-WEB
 depends_on_versions:
-  KPI-AURORA-001: "1.1"
+  KPI-AURORA-001: "2.0"
 questions:
   - id: Q01
     question: "Qual foi a taxa de sessões web convertidas em 2026-10-01?"

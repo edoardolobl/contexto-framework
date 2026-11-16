@@ -2,12 +2,12 @@
 # A aprovação, o responsável, as datas e a fonte abaixo são fictícios e existem
 # só para mostrar como fica um documento depois que a área responsável decide.
 id: CONCEPT-ONBOARDING-001
-revision_id: "CONCEPT-ONBOARDING-001@1.1"  # revisão específica; id = assunto estável
+revision_id: "CONCEPT-ONBOARDING-001@2.0"  # revisão específica; id = assunto estável
 title: "Participante ativo: programa de integração Aurora"
 type: concept_definition
 status: approved
 example_notice: "Aprovação fictícia, válida só dentro deste exemplo. A Aurora não existe."
-version: "1.1"
+version: "2.0"
 version_date: "2026-09-01"
 owner: "Coordenação de Integração (Aurora)"
 approver: "Gerência de Pessoas (Aurora)"
@@ -17,7 +17,7 @@ supersedes_revision: "CONCEPT-ONBOARDING-001@1.0"
 last_reviewed: "2026-09-01"
 source_of_truth: "Manual do Programa de Integração Aurora, seção 2.1 (documento fictício)"
 version_history:
-  - version: "1.1"
+  - version: "2.0"
     date: "2026-09-01"
     change: "Janela de atividade reduzida de 60 para 30 dias, para coincidir com o relatório mensal"
     approved_by: "Gerência de Pessoas (Aurora)"

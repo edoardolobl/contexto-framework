@@ -106,9 +106,9 @@ def select(stable, as_of):
 expectations = [
     ("CONCEPT-ONBOARDING-001", "2026-07-25", []),
     ("CONCEPT-ONBOARDING-001", "2026-08-20", ["CONCEPT-ONBOARDING-001@1.0"]),
-    ("CONCEPT-ONBOARDING-001", "2026-09-01", ["CONCEPT-ONBOARDING-001@1.1"]),
+    ("CONCEPT-ONBOARDING-001", "2026-09-01", ["CONCEPT-ONBOARDING-001@2.0"]),
     ("KPI-AURORA-001", "2026-08-20", ["KPI-AURORA-001@1.0"]),
-    ("KPI-AURORA-001", "2026-09-15", ["KPI-AURORA-001@1.1"]),
+    ("KPI-AURORA-001", "2026-09-15", ["KPI-AURORA-001@2.0"]),
 ]
 for stable, as_of, expected in expectations:
     actual = select(stable, as_of)

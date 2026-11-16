@@ -14,7 +14,7 @@ A solução documental não é escolher automaticamente o arquivo com a data mai
 | Informação | No modelo estruturado | O que significa |
 |---|---|---|
 | **ID do assunto** | `id` | Nome estável usado para localizar um conceito ou indicador |
-| **ID da revisão** | `revision_id` | Identifica uma versão específica do conteúdo, como `CONCEPT-ONBOARDING-001@1.1` |
+| **ID da revisão** | `revision_id` | Identifica uma versão específica do conteúdo, como `CONCEPT-ONBOARDING-001@2.0` |
 | **Data do registro** | `version_date` | Quando esta revisão foi emitida ou confirmada; não é necessariamente a data de aplicação |
 | **Vigência** | `valid_from` e `valid_to` | Intervalo em que **esta revisão** pode ser utilizada |
 | **Aprovação** | `status` e `approver` | Indica se há autoridade e confirmação, ou apenas proposta |
@@ -27,13 +27,13 @@ No programa fictício Aurora, “participante ativo” passou de uma janela de *
 
 <RevisionComparison kind="conceito" />
 
-**Qual documento escolher?** Para consultar uma classificação em **20 de agosto de 2026**, utilize a revisão `1.0`, válida desde 03/08 e antes de 01/09. Para consultar uma classificação em **20 de setembro de 2026**, utilize a revisão `1.1`, válida desde 01/09.
+**Qual documento escolher?** Para consultar uma classificação em **20 de agosto de 2026**, utilize a revisão `1.0`, válida desde 03/08 e antes de 01/09. Para consultar uma classificação em **20 de setembro de 2026**, utilize a revisão `2.0`, válida desde 01/09.
 
 Se a pergunta não trouxer o período e isso afetar o resultado, esclareça antes de responder.
 
 ## Exemplo 2. Mudou a fórmula, mas o rótulo permaneceu
 
-Neste exemplo, a mudança é mais séria: o indicador originalmente chamado “conversão web” contava **pedidos confirmados por sessão**. Depois passou a medir **sessões únicas com pedido confirmado**. Não são medidas intercambiáveis.
+Aqui a intenção não mudou: a área sempre quis saber **qual parte das sessões terminou em compra**. O que estava errado era a fórmula da 1.0, que contava **pedidos confirmados por sessão** e por isso inflava a taxa quando uma sessão tinha mais de um pedido. A 2.0 corrige a fórmula e passa a contar **sessões únicas com pedido confirmado**. Como a correção muda o resultado, a versão é maior, e os números das duas revisões não são comparáveis.
 
 <RevisionComparison kind="kpi" />
 
@@ -41,13 +41,13 @@ A amostra sintética do laboratório tem quatro sessões elegíveis e dois pedid
 
 Isso é uma **comparação didática das fórmulas sobre uma mesma amostra**, não autorização para aplicar a versão antiga a uma pergunta sobre outubro, quando ela já não estava vigente. Também não comprova queda real de conversão.
 
-:::caution[Quando criar outro identificador]
-Se a mudança altera o próprio conceito (por exemplo, trocar “pedidos por sessão” por “sessões convertidas”), muitas organizações devem preferir **um novo ID de métrica**, mantendo a relação com a anterior. A Aurora fictícia preservou o mesmo ID para ilustrar uma redefinição histórica com quebra de comparabilidade, não como regra universal para renomear KPIs.
+:::caution[Corrigir ou criar outro indicador?]
+Se a área quer medir **a mesma coisa** e a fórmula antiga estava errada, é uma correção: mesmo identificador, versão maior (aqui, 1.0 → 2.0) e um aviso de que a série antiga não é comparável. Se a área passa a medir **outra coisa** (por exemplo, trocar conversão por receita por sessão), é outro indicador: crie um identificador novo e registre a relação com o anterior. Veja [como numerar as versões](../../fundamentos/como-ler-os-campos/#como-numerar-as-versões).
 :::
 
 ## O que significa “válido até”
 
-Neste framework, `valid_from` inclui o dia inicial e `valid_to` **exclui** o dia informado. Assim:
+Neste framework, `valid_from` inclui o dia inicial e `valid_to` **exclui** o dia informado: ele guarda o primeiro dia em que a revisão já não vale. Nos modelos em Markdown, a pessoa escreve o **último dia de vigência** (31/08), e quem passa para YAML registra o dia seguinte (`2026-09-01`). Assim:
 
 ```yaml
 id: CONCEPT-ONBOARDING-001

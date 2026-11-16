@@ -21,7 +21,7 @@ export default defineConfig({
       ],
       sidebar: [
         { label: 'Comece por uma tarefa', items: [
-          { slug: 'fundamentos/comece-em-5-minutos', label: 'Criar meu primeiro documento' },
+          { slug: 'fundamentos/comece-em-5-minutos', label: 'Comece em 5 minutos' },
           { slug: 'validacao/checklist', label: 'Revisar um documento' },
           { slug: 'fundamentos/escolher-documento', label: 'Encontrar um modelo' }
         ] },

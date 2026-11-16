@@ -4,20 +4,22 @@
 
 ## Identificação
 
+Os campos marcados com **(obrigatório)** são o mínimo para começar. Os demais você completa quando a revisão for aprovada.
+
 | Campo | Preenchimento |
 |---|---|
-| Identificador do assunto (estável) | |
-| Identificador desta revisão (único) | |
+| Identificador do assunto (estável) **(obrigatório)** | |
 | Tipo de documento | Indicador (KPI ou métrica) |
-| Estado | Rascunho |
-| Responsável (cargo ou área) | |
-| Quem aprova (cargo ou área) | |
-| Versão atual | 0.1 |
-| Data desta versão | |
+| Estado **(obrigatório)** | Rascunho |
+| Responsável (cargo ou área) **(obrigatório)** | |
+| Quem aprova (cargo ou área) **(obrigatório)** | |
+| Versão atual **(obrigatório)** | 0.1 |
+| Data desta versão **(obrigatório)** | |
+| Fonte oficial | |
+| Identificador desta revisão | |
 | Substitui qual revisão? | |
 | Vale a partir de | |
-| Vale até, sem incluir a data final | |
-| Fonte oficial | |
+| Último dia de vigência (em branco se não houver fim) | |
 
 Estados possíveis: **Rascunho**, **Pendente de aprovação**, **Aprovado**, **Obsoleto**. Só marque "Aprovado" quando quem aprova tiver confirmado por escrito.
 
@@ -45,7 +47,7 @@ Estados possíveis: **Rascunho**, **Pendente de aprovação**, **Aprovado**, **O
 - Frequência e defasagem de atualização:
 
 ## 5. Fontes e semântica dos dados
-- Fonte oficial:
+- Sistema ou tabela que manda quando há divergência:
 - Tabelas e campos necessários:
 - Relacionamentos autorizados:
 - Regras de precedência entre fontes:
@@ -55,10 +57,8 @@ Estados possíveis: **Rascunho**, **Pendente de aprovação**, **Aprovado**, **O
 - Exemplos aprovados de interpretação:
 - Perguntas que o documento deve permitir responder:
 
-## 7. Governança
-- Proprietário e aprovador:
-- Status e vigência:
-- Histórico de revisão:
+## 7. Revisão
+- Quando este indicador deve ser revisto:
 
 ## 8. Perguntas ainda em aberto
 - [ ] Pendência, responsável e impacto se não resolvida:

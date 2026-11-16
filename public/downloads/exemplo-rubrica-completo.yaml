@@ -3,12 +3,12 @@
 # só para mostrar como fica uma rubrica depois que a área responsável decide.
 # Não usar para avaliar pessoas reais.
 id: RUBRIC-ANALYTICS-001
-revision_id: "RUBRIC-ANALYTICS-001@1.1"  # revisão específica; id = assunto estável
+revision_id: "RUBRIC-ANALYTICS-001@2.0"  # revisão específica; id = assunto estável
 title: "Rubrica de entregável de análise de dados: Aurora"
 type: evaluation_rubric
 status: approved
 example_notice: "Aprovação fictícia, válida só dentro deste exemplo. A Aurora não existe."
-version: "1.1"
+version: "2.0"
 version_date: "2026-09-22"
 owner: "Guilda de Analytics (Aurora)"
 approver: "Liderança de Dados (Aurora)"
@@ -17,7 +17,7 @@ valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
 supersedes_revision: "RUBRIC-ANALYTICS-001@1.0"
 source_of_truth: "Guia de revisão de análises da Aurora, anexo A (documento fictício)"
 version_history:
-  - version: "1.1"
+  - version: "2.0"
     date: "2026-09-22"
     change: "Duplicidade e granularidade passam a contar só em interpretação de negócio. Antes o mesmo erro era punido em dois critérios. Âncoras 0 e 1 reescritas com comportamento observável"
     approved_by: "Liderança de Dados (Aurora)"
