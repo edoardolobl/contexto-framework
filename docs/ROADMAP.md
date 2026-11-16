@@ -36,13 +36,12 @@
 - [x] Modelos Markdown sem bloco YAML; páginas leem os exemplos dos arquivos de download
 - [x] Páginas "Comece em 5 minutos", "Como ler os campos" e "Quando o método não basta"
 - [x] Ressalvas do preprint e das fontes; lockfile; validação de links no HTML gerado
-- [ ] Versão `.docx` dos modelos
 
 ## Antes de declarar a edição 1.0
 - [ ] Pesquisar a aplicabilidade do método com leitores técnicos e não técnicos (issue #4)
 - [ ] Teste com leitor de tela e em celular físico
 - [ ] Revisão humana dos 11 exemplos completos, cujo conteúdo fictício foi escrito na v0.4
-- [ ] Decidir nome definitivo e domínio (issue #5)
+- [x] Nome mantido: Contexto. Sem domínio próprio por enquanto; o portal segue no GitHub Pages
 - [ ] Planejar contribuições e governança de versões
 - [ ] Verificação periódica de links externos
 
