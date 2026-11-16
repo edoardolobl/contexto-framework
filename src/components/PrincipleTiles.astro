@@ -1,0 +1,16 @@
+---
+const items = [
+  { index: '01', title: 'Descubra', body: 'Identifique o que a equipe sabe, mas não colocou em palavras.', href: 'fundamentos/promessa/' },
+  { index: '02', title: 'Explicite', body: 'Registre significados, condições, exceções e fontes de autoridade.', href: 'metodo/oito-dimensoes/' },
+  { index: '03', title: 'Valide', body: 'Diferencie regras aprovadas de hipóteses e informações ausentes.', href: 'exemplos/kpi/' },
+];
+const rawBase = import.meta.env.BASE_URL;
+const base = rawBase.endsWith('/') ? rawBase : `${rawBase}/`;
+---
+<section class="principle-tiles" aria-label="Três etapas do método">
+  {items.map((item) => <a class="principle-tile" href={`${base}${item.href}`}>
+    <span class="tile-index">{item.index} / 03</span>
+    <h3>{item.title}<span> ↗</span></h3>
+    <p>{item.body}</p>
+  </a>)}
+</section>
