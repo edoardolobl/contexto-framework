@@ -1,0 +1,86 @@
+# Perguntas sobre o laboratório Aurora. Respostas ainda pendentes de homologação.
+id: QA-AURORA-001
+title: "Gabarito documental — sessões convertidas Aurora"
+type: reference_question_set
+status: pending_approval
+version: "0.1"
+owner: null
+approver: null
+valid_from: null
+source_of_truth: null
+
+domain: "Analytics — laboratório sintético"
+purpose: "Distinguir perguntas respondíveis, ambíguas e fora do escopo"
+covered_documents:
+  - KPI-AURORA-001
+  - DATASET-AURORA-SESSIONS
+  - REL-AURORA-SESSIONS-ORDERS
+  - DASH-AURORA-WEB
+questions:
+  - id: Q01
+    question: "Qual foi a taxa de sessões web convertidas em 2026-10-01?"
+    intent: "Calcular taxa de sessões únicas com pedido confirmado"
+    context: "Dataset sintético Aurora, canal web não interno"
+    expected_behavior: answer
+    reference_answer: "25% nesta amostra"
+    required_sources: ["KPI-AURORA-001", "aurora-reference-query.sql"]
+    evidence_description: "1 sessão convertida entre 4 elegíveis"
+    ambiguity: null
+    reason_if_abstain: null
+    reviewed_by: null
+    reviewed_at: null
+  - id: Q02
+    question: "Por que o resultado não é 50%?"
+    intent: "Explicar multiplicidade de pedidos por sessão"
+    context: "S1 tem dois pedidos confirmados"
+    expected_behavior: answer
+    reference_answer: "Pedidos por sessão não equivalem a sessões convertidas"
+    required_sources: ["REL-AURORA-SESSIONS-ORDERS", "aurora-fixture.sql"]
+    evidence_description: "S1 conta uma vez no numerador de sessões"
+    ambiguity: null
+    reason_if_abstain: null
+    reviewed_by: null
+    reviewed_at: null
+  - id: Q03
+    question: "Qual a conversão no app?"
+    intent: "Aplicar métrica fora do escopo"
+    context: "A métrica documentada é exclusiva do canal web"
+    expected_behavior: clarify
+    reference_answer: "Esta métrica cobre web; solicite a definição de conversão em app"
+    required_sources: ["KPI-AURORA-001"]
+    evidence_description: "Aplicabilidade do KPI"
+    ambiguity: "O usuário pode querer um KPI distinto"
+    reason_if_abstain: null
+    reviewed_by: null
+    reviewed_at: null
+  - id: Q04
+    question: "E no mês anterior?"
+    intent: "Consultar período fora da amostra"
+    context: "Somente 2026-10-01 disponível"
+    expected_behavior: abstain
+    reference_answer: null
+    required_sources: ["DATASET-AURORA-SESSIONS"]
+    evidence_description: "Não há registros do mês anterior"
+    ambiguity: null
+    reason_if_abstain: "Cobertura temporal insuficiente"
+    reviewed_by: null
+    reviewed_at: null
+  - id: Q05
+    question: "Qual a receita líquida?"
+    intent: "Consultar métrica ausente"
+    context: "Não foi documentada definição de receita líquida"
+    expected_behavior: abstain
+    reference_answer: null
+    required_sources: []
+    evidence_description: "Não há fórmula nem fonte aprovada"
+    ambiguity: null
+    reason_if_abstain: "Métrica não definida"
+    reviewed_by: null
+    reviewed_at: null
+
+revalidation_triggers:
+  - "Mudança de definição do KPI"
+  - "Atualização da carga sintética"
+  - "Mudança de granularidade ou de relação"
+open_questions:
+  - "Quem aprova o gabarito em um projeto real?"
