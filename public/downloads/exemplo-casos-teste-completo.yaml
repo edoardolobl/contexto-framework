@@ -21,12 +21,12 @@ version_history:
     change: "Após obter a amostra de 01/10, foram conferidos os valores e os casos Q01–Q06 segundo o KPI 1.1"
     approved_by: "Gerência de E-commerce (Aurora)"
   - version: "1.0"
-    date: "2026-08-18"
-    change: "Primeiro gabarito aprovado, com seis perguntas"
+    date: "2026-10-01"
+    change: "Primeira revisão aprovada do gabarito, após disponibilização da amostra em 01/10"
     approved_by: "Gerência de E-commerce (Aurora)"
   - version: "0.1"
-    date: "2026-07-20"
-    change: "Primeiro rascunho, com lacunas registradas"
+    date: "2026-10-01"
+    change: "Rascunho do gabarito após disponibilização da amostra sintética"
     approved_by: null
 
 domain: "Analytics: laboratório sintético"
