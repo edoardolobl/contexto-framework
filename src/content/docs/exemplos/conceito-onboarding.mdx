@@ -1,0 +1,69 @@
+---
+title: Exemplo — Um conceito em RH
+description: O que significa participante ativo? Um caso didático de conceito contextualizado e não aprovado.
+---
+
+# Exemplo: “participante ativo” num programa de integração
+
+**Cenário fictício:** a organização Aurora mantém um programa voluntário de integração de pessoas recém-contratadas. Um relatório traz a coluna `participante_ativo`, enquanto o manual apenas orienta “acompanhar participantes ativos”.
+
+Este exemplo trata da **documentação do termo**, não de decisões sobre contratação, emprego ou elegibilidade real.
+
+## Antes: a frase parece óbvia
+
+> “São participantes ativos aqueles que participam do programa.”
+
+Uma pessoa pode entender “ativo” como **inscrito**, outra como **presente no primeiro encontro**, e outra como **pessoa que completou todas as atividades**. Essas três populações podem produzir números diferentes.
+
+## O que perguntar
+
+| Pergunta ao responsável | Por que importa |
+|---|---|
+| Uma inscrição ainda não iniciada conta como participação ativa? | Distingue registro de atividade |
+| A pessoa que faltou a um encontro fica inativa? | Trata interrupções e exceções |
+| Existe prazo de atividade recente? | Delimita referência temporal |
+| Como aparece um afastamento temporário no sistema? | Evita classificação implícita |
+| Qual documento prevalece sobre a regra no dashboard? | Define autoridade e fonte |
+| Quem pode atualizar o significado de ativo? | Estabelece responsabilidade |
+
+## Depois: proposta estruturada, ainda incompleta
+
+```yaml
+---
+id: CONCEPT-ONBOARDING-001
+type: concept_definition
+title: "Participante ativo no programa Aurora"
+status: pending_approval
+owner: null
+context: "Programa voluntário de integração — fictício"
+preferred_term: "Participante ativo"
+not_synonyms:
+  - "Pessoa inscrita"
+  - "Pessoa que concluiu o programa"
+definition: null
+inclusion_criteria: []
+exclusion_criteria: []
+examples: []
+counterexamples: []
+open_questions:
+  - "Que atividade torna uma pessoa ativa?"
+  - "Qual data determina o status?"
+  - "Quem homologa essa definição?"
+```
+
+A melhoria está em identificar **onde termina a descrição e começa uma decisão ainda não tomada**. Se o especialista responder às perguntas, o próximo documento poderá registrar critérios verificáveis e exemplos aprovados.
+
+## Perguntas que um leitor deveria conseguir responder após validação
+
+- Uma pessoa apenas inscrita está ativa?
+- Quantos dias após a última atividade o status muda, se isso fizer parte da regra?
+- A definição serve tanto ao programa quanto à área de RH como um todo?
+- Como consultar a versão vigente da definição?
+
+**Não existe resposta universal correta para essas perguntas**; a organização deve produzi-las e aprová-las.
+
+Consulte o [template de conceitos](../../templates/conceito/) para adaptar este exemplo.
+
+### Fundamentação
+
+O [SKOS do W3C](https://www.w3.org/TR/skos-reference/) fornece referências para distinguir rótulos e conceitos relacionados. A elicitação de definições e exceções é compatível com práticas descritas pelo [IIBA](https://www.iiba.org/knowledgehub/the-business-analysis-standard/). O caso e o YAML são autorais e fictícios.
