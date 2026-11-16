@@ -1,0 +1,58 @@
+# TEMPLATE DE DOCUMENTAÇÃO SEMÂNTICA DE KPI
+# Exemplos e nomes de campos são convenções propostas, não um padrão universal.
+# Não preencha informações desconhecidas com suposições. Use null + open_questions.
+---
+id: null
+title: null
+type: metric_definition
+domain: null
+status: draft                  # draft | pending_approval | approved | deprecated
+owner: null                   # função/área proprietária, não inventar nomes
+approver: null
+version: "0.1"
+valid_from: null
+last_reviewed: null
+source_of_truth: null
+
+business_definition:
+  concept: null
+  purpose: null
+  synonyms: []
+  different_meanings_in_other_domains: []
+
+scope:
+  included_channels: []
+  excluded_channels: []
+  applicable_population: null
+  exclusions: []
+
+calculation:
+  formula_description: null
+  numerator: null
+  denominator: null
+  unit: null
+  granularity: null
+  aggregation_rule: null
+  null_handling: null
+  zero_denominator_policy: null
+
+time:
+  reference_date_field: null
+  timezone: null
+  reporting_window: null
+  data_freshness: null
+
+data_sources:
+  authoritative_dataset: null
+  relevant_columns: []
+  valid_join_paths: []
+  source_conflicts_and_precedence: []
+
+validation:
+  approved_examples: []
+  expected_questions_and_answers: []
+  known_edge_cases: []
+  tests: []
+
+open_questions: []
+related_documents: []
