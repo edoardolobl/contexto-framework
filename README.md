@@ -13,6 +13,7 @@ https://edoardolobl.github.io/contexto-framework/
 ## O que existe na v0.4
 
 ### Núcleo transversal
+- Revisão de documentos em **três verificações independentes**: cobertura, consistência/evidências e confirmação por quem tem autoridade; [ficha em texto](public/downloads/roteiro-revisao-documental.md) para preencher sem YAML;
 - Princípios e método das oito dimensões;
 - Roteiro de elicitação e passagem do conhecimento;
 - Templates de conceitos, processos, regras, políticas e KPIs;

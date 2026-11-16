@@ -836,3 +836,58 @@ main:has(.context-hero) > .content-panel:first-child {
     transition: none;
   }
 }
+
+
+/* Checkpoint D: three independently verified outcomes, not a quality score. */
+.sl-markdown-content .review-stages {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .85rem;
+  margin: 1.4rem 0 1.8rem;
+  padding: 0;
+  list-style: none;
+}
+.sl-markdown-content .review-stages__card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0 !important;
+  padding: clamp(.95rem, 2vw, 1.2rem);
+  min-width: 0;
+  border: 1px solid var(--context-line);
+  border-radius: 8px;
+  background: var(--context-surface);
+}
+.review-stages__number {
+  color: var(--sl-color-accent);
+  font-family: var(--sl-font-mono);
+  font-size: .84rem;
+  line-height: 1.4;
+  font-weight: 800;
+}
+.sl-markdown-content .review-stages__card h3 {
+  color: var(--context-ink);
+  font-size: 1.02rem;
+  line-height: 1.35;
+  margin: .7rem 0 .35rem;
+}
+.sl-markdown-content .review-stages__card p {
+  color: var(--context-muted);
+  font-size: .86rem;
+  line-height: 1.65;
+  margin: .35rem 0 !important;
+}
+.sl-markdown-content .review-stages__card .review-stages__question {
+  color: var(--context-ink);
+  font-weight: 700;
+}
+.sl-markdown-content .review-stages__card .review-stages__outcome {
+  margin: auto 0 0 !important;
+  padding-top: 1rem;
+  font-weight: 750;
+  color: var(--sl-color-accent);
+}
+@media(max-width: 850px) {
+  .sl-markdown-content .review-stages { grid-template-columns: 1fr; }
+  .sl-markdown-content .review-stages__card { gap: .1rem; }
+}

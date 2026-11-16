@@ -14,7 +14,7 @@ const criteria = [
 ---
 <section class="readiness" data-readiness>
   <div class="readiness-heading"><div><p class="eyebrow">FERRAMENTA PEDAGÓGICA</p><h3>{title}</h3></div><span class="readiness-score" data-score aria-hidden="true">0/8</span></div>
-  <p>Marque cada item somente se o documento contiver evidências verificáveis. Este instrumento <strong>não certifica</strong> o documento nem substitui a aprovação de sua área.</p>
+  <p>Marque o item quando o documento trouxer uma resposta explícita — não apenas um campo ou um título. <strong>Não é uma nota:</strong> a consistência das respostas e a aprovação da área são verificadas nas próximas etapas.</p>
   <div class="readiness-track" aria-hidden="true"><div data-progress></div></div>
   <fieldset>
     <legend class="sr-only">Dimensões da qualidade documental</legend>
@@ -37,7 +37,7 @@ const criteria = [
       if (score) score.textContent = String(n) + '/' + String(checks.length);
       if (progress) progress.style.width = String(100*n/checks.length) + '%';
       if (feedback) feedback.textContent = n === checks.length
-        ? '8 de 8 marcadas. Ainda é necessário validar a qualidade das evidências e obter aprovação de quem responde pelo conteúdo.'
+        ? '8 de 8 dimensões assinaladas. Agora confronte as afirmações com as fontes e solicite confirmação de quem responde pelo conteúdo.'
         : n === 0 ? 'Selecione os critérios atendidos para identificar lacunas.'
         : n + ' de ' + checks.length + ' marcadas. ' + (checks.length - n === 1 ? 'Falta 1 dimensão' : 'Faltam ' + (checks.length - n) + ' dimensões') + '. Identifique as lacunas antes de solicitar aprovação.';
     }

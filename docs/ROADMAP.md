@@ -37,6 +37,15 @@
 - [x] Páginas "Comece em 5 minutos", "Como ler os campos" e "Quando o método não basta"
 - [x] Ressalvas do preprint e das fontes; lockfile; validação de links no HTML gerado
 
+## Consolidação da experiência (v0.5 em construção)
+- [x] Checkpoint A — entradas por tarefa, seleção de modelos e primeira documentação sem YAML
+- [x] Checkpoint B — identificação, intervalos de vigência e versões históricas
+- [x] Checkpoint C — exemplos de negócio visíveis, comparação alinhada e painel técnico único
+- [x] Checkpoint visual — aumentar destaque e contraste do disclosure técnico
+- [x] Checkpoint D — separar cobertura, consistência/evidências e confirmação pelo responsável; ficha prática para download
+- [ ] Checkpoint E — revisão editorial e visual final de tipografia, espaçamento, leitura mobile e acessibilidade possível sem auditoria formal
+- [ ] Teste de compreensão com participantes externos (issue #4; após estabilizar os materiais)
+
 ## Antes de declarar a edição 1.0
 - [ ] Pesquisar a aplicabilidade do método com leitores técnicos e não técnicos (issue #4)
 - [ ] Teste com leitor de tela e em celular físico
