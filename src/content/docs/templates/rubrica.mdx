@@ -1,0 +1,67 @@
+---
+title: Template — Rubrica de avaliação AI-ready
+description: Formalize critérios de qualidade, evidências, níveis, pesos e casos-limite com supervisão humana.
+---
+
+import TemplateDownloads from '../../../components/TemplateDownloads.astro';
+
+# O que significa uma análise “boa”?
+
+Uma rubrica é um documento que explicita **como reconhecer a qualidade de um trabalho**. Assim como um KPI, ela precisa de critérios bem definidos. Sem isso, pessoas diferentes — ou uma IA — podem aplicar julgamentos genéricos e inconsistentes.
+
+## Um cenário possível
+
+Num **case fictício de Data Analytics**, avaliadores consideram precisão de cálculos, entendimento de negócio, método e comunicação. Dizer apenas “avaliar tecnicamente e dar uma nota” não fornece evidências ou critérios reproduzíveis.
+
+## Perguntas para construir a rubrica
+
+| Elemento | O que registrar |
+|---|---|
+| Objeto avaliado | Qual tarefa ou entregável está sendo avaliado? |
+| Objetivo | Que competência ou qualidade se pretende observar? |
+| Critérios | O que cada dimensão avalia e o que explicitamente não avalia? |
+| Evidências | Que trechos, cálculos, arquivos ou decisões sustentam uma avaliação? |
+| Níveis | O que diferencia trabalho insuficiente, adequado e excelente? |
+| Pesos | Por que uma dimensão pesa mais que outra? |
+| Ausência de evidência | Quando marcar “não avaliável”, em vez de atribuir zero? |
+| Casos-limite | Como agir quando há parcialmente correto ou abordagem alternativa válida? |
+| Autoridade | Quem aprova e calibra o critério? |
+| Revisão humana | Quais decisões não podem ser delegadas à IA? |
+
+## Um YAML mínimo
+
+```yaml
+---
+id: RUBRIC-ANALYTICS-001
+type: evaluation_rubric
+status: pending_approval
+target: "Entregável técnico de case analítico — fictício"
+criteria:
+  - id: technical_accuracy
+    name: "Precisão técnica"
+    weight: 35
+    expected_evidence:
+      - "Cálculos reproduzíveis"
+      - "Tratamento explícito de duplicidades"
+rating_scale: [0, 1, 2, 3, 4]
+missing_evidence: "not_evaluable"
+automatic_hiring_decision: false
+human_review_required: true
+```
+
+Um campo `rating_scale: [0,1,2,3,4]` **não é suficiente**. A rubrica completa inclui âncoras descritivas por critério, exemplos e forma de resolver discordâncias.
+
+## Separar dois usos
+
+1. **Avaliar entregáveis feitos por pessoas com apoio de IA:** exige proporcionalidade, privacidade, equidade e revisão humana. Não usar a pontuação para decisões automáticas de emprego.
+2. **Avaliar respostas de sistemas de IA:** as mesmas ideias de critérios e evidências ajudam, mas serão necessários conjuntos de teste e validação técnica do avaliador.
+
+O Contexto documenta **a rubrica**, não cria um sistema automático de seleção de pessoas.
+
+<TemplateDownloads kind="rubrica" />
+
+Leia o [exemplo de rubrica comentada](../../exemplos/rubrica-case/).
+
+### Referências
+
+[NIST AI RMF — Measure](https://airc.nist.gov/airmf-resources/playbook/measure/) destaca avaliação e supervisão humana; [IIBA](https://www.iiba.org/knowledgehub/the-business-analysis-standard/) inspira a especificação de critérios verificáveis. Os pesos e níveis são **exemplos autorais**, não padrões normativos.
