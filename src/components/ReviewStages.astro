@@ -1,0 +1,38 @@
+---
+/**
+ * Roteiro editorial estático: três verificações independentes.
+ * Não calcula uma nota, não armazena dados e não atribui aprovação.
+ */
+const stages = [
+  {
+    number: '01',
+    title: 'Cobertura',
+    question: 'O documento explica o necessário?',
+    description: 'Verifique as oito dimensões e indique o que falta. Um campo preenchido não significa que seja verdadeiro.',
+    outcome: 'Saída: lacunas identificadas',
+  },
+  {
+    number: '02',
+    title: 'Consistência e evidências',
+    question: 'As afirmações podem ser verificadas?',
+    description: 'Para cada regra decisiva, confira a fonte, a vigência, os exemplos e possíveis contradições.',
+    outcome: 'Saída: afirmações verificadas ou contestadas',
+  },
+  {
+    number: '03',
+    title: 'Confirmação por responsável',
+    question: 'Quem tem autoridade concorda?',
+    description: 'Solicite revisão da versão específica, registre o parecer e não marque como aprovada uma dúvida ainda aberta.',
+    outcome: 'Saída: aprovação ou pendência explícita',
+  },
+];
+---
+<ol class="review-stages" aria-label="Três etapas independentes de revisão documental">
+  {stages.map((stage) => <li class="review-stages__card">
+    <span class="review-stages__number" aria-hidden="true">{stage.number}</span>
+    <h3>{stage.title}</h3>
+    <p class="review-stages__question">{stage.question}</p>
+    <p>{stage.description}</p>
+    <p class="review-stages__outcome">{stage.outcome}</p>
+  </li>)}
+</ol>
