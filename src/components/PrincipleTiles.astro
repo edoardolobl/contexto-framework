@@ -1,16 +1,35 @@
 ---
 const items = [
-  { index: '01', title: 'Descubra', body: 'Identifique o que a equipe sabe, mas não colocou em palavras.', href: 'metodo/elicitar/' },
-  { index: '02', title: 'Explicite', body: 'Registre significados, condições, exceções e fontes de autoridade.', href: 'metodo/oito-dimensoes/' },
-  { index: '03', title: 'Valide', body: 'Diferencie regras aprovadas de hipóteses e informações ausentes.', href: 'metodo/revisao-e-entrega/' },
+  {
+    index: '01', category: 'PRIMEIRO DOCUMENTO',
+    title: 'Criar meu primeiro documento',
+    body: 'Você conhece o assunto, mas ainda não sabe como registrar regras, exceções e dúvidas.',
+    action: 'Fazer o exercício guiado',
+    href: 'fundamentos/comece-em-5-minutos/',
+  },
+  {
+    index: '02', category: 'DOCUMENTO EXISTENTE',
+    title: 'Revisar o que já está escrito',
+    body: 'Você já tem um manual, procedimento ou definição e quer encontrar lacunas e ambiguidades.',
+    action: 'Abrir o roteiro de revisão',
+    href: 'validacao/checklist/',
+  },
+  {
+    index: '03', category: 'MODELO PARA REUTILIZAR',
+    title: 'Encontrar um modelo por assunto',
+    body: 'Você quer escolher um modelo, ver como preenchê-lo e baixar uma versão em texto.',
+    action: 'Escolher e baixar um modelo',
+    href: 'fundamentos/escolher-documento/',
+  },
 ];
 const rawBase = import.meta.env.BASE_URL;
 const base = rawBase.endsWith('/') ? rawBase : `${rawBase}/`;
 ---
-<section class="principle-tiles" aria-label="Três etapas do método">
+<nav class="principle-tiles task-paths" aria-label="Escolha o que você quer fazer">
   {items.map((item) => <a class="principle-tile" href={`${base}${item.href}`}>
-    <span class="tile-index">{item.index} / 03</span>
-    <h3>{item.title}<span> ↗</span></h3>
+    <span class="tile-index">{item.index} · {item.category}</span>
+    <h3>{item.title}</h3>
     <p>{item.body}</p>
+    <span class="task-paths__action">{item.action} <span aria-hidden="true">→</span></span>
   </a>)}
-</section>
+</nav>
