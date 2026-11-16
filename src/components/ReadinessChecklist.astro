@@ -1,0 +1,48 @@
+---
+interface Props { title?: string }
+const { title = 'Verificação das oito dimensões' } = Astro.props;
+const criteria = [
+  ['Significado', 'Definições, sinônimos e variações entre áreas estão explícitos?'],
+  ['Contexto', 'Aplicabilidade, limites e exclusões estão descritos?'],
+  ['Objetivo', 'O documento explica qual necessidade atende?'],
+  ['Regras', 'Critérios, condições e prioridades estão especificados?'],
+  ['Exceções', 'Casos não previstos e o que fazer com eles estão identificados?'],
+  ['Responsabilidade', 'É claro quem decide, aprova, mantém e responde dúvidas?'],
+  ['Evidência', 'Há fonte autorizada e modo de verificar a informação?'],
+  ['Validade', 'Status, vigência e revisão são conhecidos ou marcados como pendentes?'],
+];
+---
+<section class="readiness" data-readiness>
+  <div class="readiness-heading"><div><p class="eyebrow">FERRAMENTA PEDAGÓGICA</p><h3>{title}</h3></div><span class="readiness-score" data-score aria-live="polite">0/8</span></div>
+  <p>Marque cada item somente se o documento contiver evidências verificáveis. Este instrumento <strong>não certifica</strong> o documento nem substitui a aprovação de sua área.</p>
+  <div class="readiness-track" aria-hidden="true"><div data-progress></div></div>
+  <fieldset>
+    <legend class="sr-only">Dimensões da qualidade documental</legend>
+    {criteria.map(([label, description], index) => (
+      <label class="check-row"><input type="checkbox" value={index} /><span class="check-row__body"><strong>{label}</strong><span>{description}</span></span></label>
+    ))}
+  </fieldset>
+  <p class="readiness-feedback" data-feedback aria-live="polite">Selecione os critérios atendidos para identificar lacunas.</p>
+  <div class="readiness-footer"><button type="button" data-reset>Limpar seleção</button><span>Os dados não são enviados ou armazenados.</span></div>
+</section>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-readiness]').forEach((root) => {
+    const checks = Array.from(root.querySelectorAll<HTMLInputElement>('input[type="checkbox"]'));
+    const score = root.querySelector<HTMLElement>('[data-score]');
+    const progress = root.querySelector<HTMLElement>('[data-progress]');
+    const feedback = root.querySelector<HTMLElement>('[data-feedback]');
+    const reset = root.querySelector<HTMLButtonElement>('[data-reset]');
+    function update() {
+      const n = checks.filter(c => c.checked).length;
+      if (score) score.textContent = String(n) + '/' + String(checks.length);
+      if (progress) progress.style.width = String(100*n/checks.length) + '%';
+      if (feedback) feedback.textContent = n === checks.length
+        ? 'Todas as dimensões foram assinaladas. Ainda é necessário validar a qualidade das evidências e obter aprovação de quem responde pelo conteúdo.'
+        : n === 0 ? 'Selecione os critérios atendidos para identificar lacunas.'
+        : String(checks.length - n) + ' dimensão(ões) ainda requer(em) verificação. Identifique as lacunas antes de solicitar aprovação.';
+    }
+    checks.forEach(c => c.addEventListener('change', update));
+    reset?.addEventListener('click', () => { checks.forEach(c => {c.checked = false;}); update(); });
+    update();
+  });
+</script>
