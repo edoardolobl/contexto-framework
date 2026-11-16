@@ -1,0 +1,43 @@
+# Processo descritivo, não especificação BPMN executável.
+id: null
+title: null
+type: process_definition
+status: draft
+version: "0.1"
+owner: null
+approver: null
+valid_from: null
+source_of_truth: null
+
+purpose: null
+scope:
+  applies_when: null
+  not_applicable_when: null
+trigger: null
+preconditions: []
+required_inputs: []
+roles:
+  process_owner: null
+  performers: []
+  approvers: []
+
+steps:
+  - id: S01
+    name: null
+    performer_role: null
+    action: null
+    inputs: []
+    output_evidence: null
+    next_step: null
+    exception_handling: null
+
+decision_rules: []
+completion:
+  success_criteria: []
+  failure_outcomes: []
+  evidence_record: null
+
+exceptions: []
+escalation: null
+open_questions: []
+related_documents: []

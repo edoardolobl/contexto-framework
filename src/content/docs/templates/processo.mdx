@@ -1,0 +1,74 @@
+---
+title: Template — Processo e procedimento
+description: Especifique gatilho, pré-condições, atores, passos, decisões, exceções e resultado de um fluxo.
+---
+
+import TemplateDownloads from '../../../components/TemplateDownloads.astro';
+
+# Documente um processo que alguém consiga executar
+
+## Quando usar
+
+Quando a organização depende de uma sequência de atividades, com entradas, responsáveis, transferências de trabalho e critérios para encerrar ou interromper o fluxo.
+
+**Um checklist de tarefas não basta** quando cada etapa depende de condições, evidências, responsáveis ou decisões que só algumas pessoas conhecem.
+
+## O que descobrir com a equipe
+
+| Elemento | Pergunta operacional |
+|---|---|
+| Gatilho | O que inicia o processo? Um e-mail, um formulário, um evento ou uma solicitação? |
+| Pré-condição | Que informações ou autorizações devem existir antes da primeira etapa? |
+| Entrada e resultado | O que entra, o que sai e como reconhecer a conclusão? |
+| Ator | Quem executa cada etapa e para quem o trabalho é transferido? |
+| Sequência | Qual a ordem? O que pode ocorrer em paralelo? |
+| Decisão | Qual critério muda o caminho? Onde está sua regra aprovada? |
+| Exceção | Como lidar com documento ausente, atraso, rejeição ou conflito? |
+| Evidência | Qual registro comprova o cumprimento de uma etapa? |
+| Escalonamento | Quem decide quando a regra não cobre o caso? |
+
+## Uma representação acessível
+
+```text
+Solicitação recebida
+  ├─ Dados insuficientes → Solicitar complementação → Aguardar
+  └─ Dados suficientes
+       → Revisar conteúdo → Aplicar regra de aprovação
+       ├─ Pendente → Escalar ao responsável
+       └─ Aprovado → Executar publicação → Registrar evidência
+```
+
+Esse desenho **é meramente didático**, não um fluxograma BPMN formal nem um processo real de cliente.
+
+## Exemplo de trecho estruturado
+
+```yaml
+---
+id: PROCESS-CAMPAIGN-001
+type: process_definition
+status: pending_approval
+title: "Publicação de campanha — exemplo"
+trigger: "Brief registrado"
+start_condition: "Brief contém finalidade e canal"
+steps:
+  - id: S01
+    action: "Conferir campos obrigatórios"
+    owner_role: "Operação de marketing"
+    on_missing_information: "Solicitar complementação"
+decision_rules:
+  - "DECISION-CAMPAIGN-001"
+open_questions:
+  - "Qual é o prazo de complementação?"
+```
+
+## Processo não é o mesmo que regra
+
+A frase “validar a elegibilidade” é uma **etapa do processo**, não uma regra suficiente. A elegibilidade precisa ser definida separadamente, com condições e fontes. Da mesma forma, “enviar para aprovação” não basta sem dizer **quem** aprova e **quando**.
+
+<TemplateDownloads kind="processo" />
+
+Leia o [processo de campanha explicado passo a passo](../../exemplos/processo-campanha/) e depois o [modelo de regras](../decisao/) que determina as possíveis transições.
+
+### Fundamentação
+
+[OMG — BPMN 2.0.2](https://www.omg.org/spec/BPMN/2.0.2) formaliza notações de processos; [IIBA — The Business Analysis Standard](https://www.iiba.org/knowledgehub/the-business-analysis-standard/) trata da elicitação, comunicação e modelagem de requisitos. O template é uma **adaptação pedagógica original**, sem alegar conformidade BPMN.

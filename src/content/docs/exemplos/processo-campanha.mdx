@@ -1,0 +1,71 @@
+---
+title: Exemplo — Processo de campanha
+description: Como transformar uma orientação vaga de marketing em fluxo com etapas, evidências e limites.
+---
+
+# Exemplo: solicitação e publicação de campanha
+
+**Cenário fictício:** a operação de marketing da Aurora recebe briefs por canais diferentes e precisa decidir quem revisa o material antes da publicação. O projeto não representa política de nenhuma empresa real.
+
+## Antes: um procedimento que exige conhecimento tácito
+
+> “Receber o briefing, verificar se está tudo certo, pedir aprovação aos envolvidos e publicar. Se houver algum problema, falar com a pessoa responsável.”
+
+Embora pareça indicar um fluxo, ele omite entradas, aprovações, condições, exceções e evidências. Uma pessoa nova ainda depende de outra pessoa para fazer o trabalho.
+
+## Quais perguntas revelam as lacunas?
+
+| Expressão vaga | Pergunta para o especialista |
+|---|---|
+| “Briefing” | Quais campos mínimos e anexos tornam o pedido processável? |
+| “Tudo certo” | Existe uma lista aprovada de verificações? |
+| “Envolvidos” | Qual é o papel aprovador de cada tipo de conteúdo? |
+| “Problema” | Quais casos levam a devolução, pausa ou escalonamento? |
+| “Publicar” | O que conta como conclusão e qual evidência deve ser armazenada? |
+
+## Depois: fluxo demonstrativo com pontos de decisão
+
+```text
+Solicitação recebida
+  │
+  ├── Brief incompleto → Devolver com lista de lacunas
+  │                          └── Aguardar complementação
+  │
+  └── Brief completo
+       └── Conferir evidências e conteúdo
+            ├── Evidência ausente → Revisão responsável
+            └── Evidência presente → Solicitar aprovação formal
+                                      ├── Rejeitado → Registrar motivo
+                                      ├── Em avaliação → Aguardar
+                                      └── Aprovado → Publicar → Registrar evidência
+```
+
+Este fluxo é **uma hipótese para fins didáticos**, e não uma regra aprovada de publicação.
+
+| Etapa | Responsável ilustrativo | Entrada necessária | Saída/evidência |
+|---|---|---|---|
+| Receber e classificar | Operação de marketing | Identificador do pedido | Registro da demanda |
+| Verificar completude | Operação de marketing | Campos de briefing | Pendências ou brief conferido |
+| Aplicar regra de encaminhamento | Responsável definido na regra | Evidências e critérios | Caminho escolhido e motivo |
+| Solicitar aprovação formal | Área indicada na governança | Material revisado | Aprovação registrada |
+| Publicar e fechar | Operação autorizada | Aprovação válida | Endereço da publicação e registro |
+
+## Duas perguntas que ainda precisam de resposta
+
+O fluxo melhorou, mas não temos **a definição de “brief completo”** nem **quem autoriza exceções**. Também não existe um prazo de atendimento homologado. Essas lacunas devem ser documentadas, não preenchidas com um SLA genérico.
+
+Esse é o ponto em que o [template de regras e decisões](../../templates/decisao/) complementa o [template de processo](../../templates/processo/). A leitura em conjunto permite entender o caminho e os critérios sem repetir uma mesma decisão em vários documentos.
+
+## O que uma documentação pronta para revisão permite verificar
+
+- É possível identificar exatamente onde o pedido está?
+- Cada transferência de responsabilidade produz evidência?
+- O fluxo termina com resultado verificável, inclusive em rejeição?
+- Pessoas novas distinguem *pendente* de *aprovado*?
+- As definições que faltam têm uma pessoa responsável pela resposta?
+
+**Nenhum fluxograma por si só garante uma publicação segura**: documentação e controle operacional são responsabilidades distintas.
+
+### Referências
+
+[OMG BPMN 2.0.2](https://www.omg.org/spec/BPMN/2.0.2) e [IIBA — The Business Analysis Standard](https://www.iiba.org/knowledgehub/the-business-analysis-standard/). O exemplo é simplificado e não declara conformidade BPMN.

@@ -1,0 +1,70 @@
+---
+title: Template — Regras e decisões
+description: Especifique condições, resultados, prioridades, exceções e critérios de desempate sem inventar decisões.
+---
+
+import TemplateDownloads from '../../../components/TemplateDownloads.astro';
+
+# Documente como uma decisão é tomada
+
+## Quando usar
+
+Quando o resultado depende de critérios, limites, prioridades, combinações de condições ou exceções. Pense numa dúvida recorrente: “Esta solicitação deve ser aprovada, devolvida ou encaminhada para revisão?”.
+
+**Não basta escrever “aplicar regras internas”.** A documentação precisa permitir reconhecer cada condição e indicar a autoridade da decisão.
+
+## Elementos que precisam ser explícitos
+
+| Campo | Pergunta de elicitação |
+|---|---|
+| Decisão | Qual pergunta precisa ser respondida? |
+| Entradas | Quais evidências são necessárias e quem as fornece? |
+| Valores e significados | O que significam “completo”, “urgente”, “regular”? |
+| Saídas | Quais resultados são possíveis e o que acontece depois? |
+| Critérios | Que combinação de condições determina cada saída? |
+| Prioridade | Se duas regras coincidirem, qual prevalece? |
+| Ausência de dado | A decisão é interrompida, rejeitada ou escalada? |
+| Autoridade | Quem aprova regra, exceção e atualização? |
+| Casos-limite | Quais exemplos demonstram a diferença entre resultados semelhantes? |
+
+## Como estruturar uma tabela de decisão
+
+Exemplo **hipotético** de triagem de campanha numa empresa fictícia. A tabela não aprova automaticamente nenhuma publicação.
+
+| Brief completo? | Evidências para alegações? | Resultado documental |
+|---|---|---|
+| Não | Qualquer situação | Devolver ao solicitante com lacunas |
+| Sim | Não | Encaminhar para revisão responsável |
+| Sim | Sim | Seguir para avaliação de aprovação, não publicar automaticamente |
+| Desconhecido | Qualquer situação | Suspender decisão e solicitar esclarecimento |
+
+A condição “qualquer situação” tem precedência **somente no exemplo descrito**. No mundo real, a hierarquia deve ser definida e aprovada pelo proprietário.
+
+## Diferença entre regra declarada e implementação
+
+```yaml
+---
+id: DECISION-CAMPAIGN-001
+type: decision_rule
+status: pending_approval
+decision: "Encaminhamento do pedido de campanha"
+required_inputs:
+  - brief_completo
+  - evidencias_suficientes
+unknown_input_behavior: "Pedir esclarecimento"
+output_values:
+  - complementar
+  - revisao_responsavel
+  - seguir_para_aprovacao
+priority: "lacuna_de_brief_prevalece"
+```
+
+O conteúdo é um **contrato de significado em construção**, não um mecanismo de regras executável.
+
+<TemplateDownloads kind="decisao" />
+
+Consulte o [caso comentado de decisão](../../exemplos/decisao-campanha/) para entender ambiguidade, precedência e conflito entre critérios.
+
+### Fundamentação
+
+[OMG — DMN 1.6](https://www.omg.org/spec/DMN/1.6) oferece uma notação formal de modelagem de decisões. O modelo acima é **simplificado e autoral**, não um documento DMN válido, nem substitui a validação da área responsável.

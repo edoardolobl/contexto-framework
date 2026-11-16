@@ -1,47 +1,60 @@
 ---
 title: Bibliografia e rastreabilidade
-description: Fontes metodológicas, estudos empíricos e a origem de cada decisão editorial.
+description: Fontes metodológicas, estudos empíricos e origem das decisões do framework.
 ---
 
 # Bibliografia e rastreabilidade
 
-O framework combina disciplinas que são **anteriores à IA** com pesquisas e documentação tecnológica contemporâneas. Não existe uma única norma universal que defina “documentação AI-ready” com os oito campos aqui propostos.
+O Contexto organiza um método pedagógico **autoral** que combina literatura sobre conhecimento organizacional, análise de negócios, documentação e modelagem de dados. **Não existe uma norma que determine as “oito dimensões” exatamente como apresentadas neste site.**
 
-## Fundamentos da metodologia
+## Origem dos fundamentos
 
-| Referência | Por que importa | Uso no framework |
+| Referência | Relevância para o framework | Limite |
 |---|---|---|
-| [Nonaka (1994), *A Dynamic Theory of Organizational Knowledge Creation*](https://doi.org/10.1287/orsc.5.1.14) | Distinção e interação entre conhecimento tácito e explícito | Justificativa do problema |
-| [KCS v6, *Practices Guide*](https://library.serviceinnovation.org/KCS/KCS_v6/KCS_v6_Practices_Guide) | Padrões de conteúdo, manutenção e melhoria contínua | Ciclo de vida documental |
-| [IIBA, *Elicitation and Collaboration*](https://www.iiba.org/knowledgehub/the-business-analysis-standard/5-applying-business-analysis-tasks/5-3-business-analysis-knowledge-areas/elicitation-and-collaboration/) | Elicitação, confirmação e colaboração com especialistas | Perguntas e validação |
-| [Diátaxis](https://diataxis.fr/) | Separação entre tutorial, how-to, explicação e referência | Arquitetura editorial |
-| [ISO 30401:2018](https://www.iso.org/standard/68683.html) | Gestão do conhecimento na organização | Princípios de governança |
-| [Dublin Core Metadata Terms](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/) | Vocabulário para descrever recursos | Inspiração para metadados |
-| [W3C SKOS](https://www.w3.org/TR/skos-reference/) | Relações, rótulos e alternativas entre conceitos | Termos preferidos e sinônimos |
-| [OMG DMN](https://www.omg.org/spec/DMN/) | Formalização de regras e decisões | Módulo de regras planejado |
+| [Nonaka (1994), *A Dynamic Theory of Organizational Knowledge Creation*](https://doi.org/10.1287/orsc.5.1.14) | Relação entre conhecimento tácito e explícito | Não implica que todo conhecimento tácito possa ser formalizado |
+| [KCS v6, *Practices Guide*](https://library.serviceinnovation.org/KCS/KCS_v6/KCS_v6_Practices_Guide) | Práticas de captura, contextualização, reutilização e melhoria | Não reproduzimos o guia ou seus checklists como se fossem de domínio público |
+| [IIBA, *The Business Analysis Standard*](https://www.iiba.org/knowledgehub/the-business-analysis-standard/) | Elicitação, confirmação, comunicação, modelagem e validação | Oito dimensões e campos YAML são adaptações do Contexto |
+| [Diátaxis](https://diataxis.fr/) | Diferenciar aprendizado, como fazer, explicação e referência | É uma referência editorial, não uma especificação de RAG |
+| [ISO 30401:2018](https://www.iso.org/standard/68683.html) | Gestão do conhecimento e responsabilidades | Não substituímos o texto pago nem afirmamos conformidade |
+| [DCMI Metadata Terms](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/) | Descrição e proveniência dos recursos | Campos dos templates são convenções nossas |
+| [W3C SKOS Reference](https://www.w3.org/TR/skos-reference/) | Termos preferidos, alternativos e relacionados | Nosso YAML não é RDF nem serialização SKOS |
+
+## Modelagem de processos, decisões e políticas
+
+| Referência | Utilização no Contexto | Limite |
+|---|---|---|
+| [OMG BPMN 2.0.2](https://www.omg.org/spec/BPMN/2.0.2) | Conceitos de atividades, participantes, eventos e fluxos | Diagramas textuais do Contexto **não** são BPMN formal |
+| [OMG DMN 1.6](https://www.omg.org/spec/DMN/1.6) | Condições, decisões, tabelas e resultados | Tabelas didáticas **não** são DMN executável |
+| [IIBA — Confirm Elicitation Results](https://www.iiba.org/knowledgehub/the-business-analysis-standard/) | Verificação das interpretações com especialistas | Não autoriza decisões de negócio substitutivas |
+| [KCS Practices Guide](https://library.serviceinnovation.org/KCS/KCS_v6/KCS_v6_Practices_Guide) | Revisão, reutilização e manutenção do acervo | Licença e propriedade intelectual devem ser respeitadas |
 
 ## Data Analytics e contexto semântico
 
-| Referência | Utilização e ressalva |
+| Referência | Uso e ressalva |
 |---|---|
-| [Rumiantsau & Fokeev (2026), *Semantic Layers for Reliable LLM-Powered Data Analytics*](https://arxiv.org/abs/2604.25149) | Estudo empírico contextual; autores vinculados à Cube, um dataset e um banco, avaliação single-shot e ~30% de falhas residuais. Não certifica solução. |
-| [dbt MetricFlow](https://docs.getdbt.com/docs/build/about-metricflow) | Vocabulário de entidades, dimensões, métricas e modelagem semântica |
-| [LookML](https://docs.cloud.google.com/looker/docs/what-is-lookml) | Referência de descrição de medidas e dimensões |
-| [Snowflake Semantic Views](https://docs.snowflake.com/en/user-guide/views-semantic/semantic-view-yaml-spec) | Relações, semântica e consultas verificadas |
+| [Rumiantsau & Fokeev (2026), *Semantic Layers for Reliable LLM-Powered Data Analytics*](https://arxiv.org/abs/2604.25149) | Estudo empírico contextual: autores ligados à Cube, um dataset, um banco, avaliação single-shot e erros residuais. Não prova garantia de correção. |
+| [dbt MetricFlow](https://docs.getdbt.com/docs/build/about-metricflow) | Entidades, dimensões, métricas e modelagem semântica |
+| [LookML](https://docs.cloud.google.com/looker/docs/what-is-lookml) | Representação de medidas e dimensões |
+| [Snowflake Semantic Views](https://docs.snowflake.com/en/user-guide/views-semantic/semantic-view-yaml-spec) | Relações e consultas verificadas |
 
-## Decisões próprias e rastreabilidade
+## Rastreabilidade: decisão → fundamento → adaptação
 
-| Decisão editorial | Deriva de | Adaptação aqui |
+| Recomendação do Contexto | Fonte-base | O que foi adaptado |
 |---|---|---|
-| Oito dimensões universais | Gestão do conhecimento, IIBA, metadados e glossários | Lista original de perguntas, não cláusula de norma |
-| Separar “relato” e “regra aprovada” | Elicitação, confirmação e autoridade do conhecimento | Campo `status` com pendências explícitas |
-| Duas camadas de metadados | DCMI e modelagem de documentos | Frontmatter do portal diferente do YAML de negócio |
-| Template de KPI com fórmula + semântica | dbt, LookML, semantic layers | Esquema didático portável, não runtime executável |
-| Checklist em oito dimensões | KCS e qualidade documental | Instrumento pedagógico, não certificação |
-| Exemplos fictícios | Princípios de privacidade e neutralidade | Nenhuma atribuição a clientes reais |
+| Investigar conhecimento tácito antes de reescrever | Nonaka; IIBA | Roteiro de perguntas e registro de lacunas |
+| Exigir proprietário, contexto, evidência e validade | KCS; DCMI; ISO 30401 | Oito dimensões e contrato editorial |
+| Distinguir sinônimo de termo apenas relacionado | W3C SKOS | Template de conceito e exemplo RH |
+| Registrar gatilho, entradas, passos e exceções | OMG BPMN; IIBA | Template de processo não executável |
+| Declarar regras, prioridade e tratamento do desconhecido | OMG DMN; IIBA | Tabela de decisão didática e exemplos |
+| Diferenciar prática informal de política vigente | ISO 30401; KCS; IIBA | Registro de conflito e autoridade documental |
+| Entregar documentação com pendências explícitas | IIBA; KCS | Ficha de passagem de conhecimento |
+| Separar documentação semântica de runtime | Pesquisa semântica; dbt; Snowflake | Exemplos YAML portáveis e não executáveis |
+| Avaliar o documento antes de consumir com IA | IIBA; KCS | Checklist próprio em oito dimensões |
 
-## Limites de uso das fontes
+## Como citar, interpretar e adaptar
 
-As normas podem exigir licenças para consulta integral. O portal utiliza **referências e sínteses originais**, sem reproduzir extensamente conteúdo protegido. Resultados divulgados por fornecedores são tratados como evidência contextual, não como provas universais. Sempre consulte as fontes primárias e valide suas versões antes de uso normativo.
+O conteúdo deste portal é uma **síntese independente**. Os exemplos fictícios não devem ser confundidos com políticas reais. Normas podem ter acesso e reprodução controlados; consultá-las é diferente de reproduzi-las.
 
-**Última revisão bibliográfica desta baseline:** novembro de 2026. O catálogo bibliográfico será expandido conforme os módulos forem publicados.
+Publicações de fornecedores e estudos publicados sem revisão por pares devem ser lidos com suas limitações explícitas. Se uma empresa adotar os templates, cabe a ela definir seus proprietários, fontes oficiais, vigência, aprovação e controles próprios.
+
+**Última revisão das fontes desta versão:** novembro de 2026.

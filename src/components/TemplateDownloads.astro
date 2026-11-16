@@ -1,0 +1,41 @@
+---
+interface Props {
+  kind: 'conceito' | 'processo' | 'decisao' | 'politica' | 'kpi';
+}
+const { kind } = Astro.props;
+const files: Record<Props['kind'], { name: string; href: string; format: string }[]> = {
+  conceito: [
+    { name: 'Modelo de conceito', href: 'template-conceito.md', format: 'Markdown' },
+    { name: 'Modelo estruturado', href: 'template-conceito.yaml', format: 'YAML' },
+    { name: 'Exemplo preenchido', href: 'exemplo-conceito-ficticio.yaml', format: 'YAML' },
+  ],
+  processo: [
+    { name: 'Modelo de processo', href: 'template-processo.md', format: 'Markdown' },
+    { name: 'Modelo estruturado', href: 'template-processo.yaml', format: 'YAML' },
+    { name: 'Exemplo preenchido', href: 'exemplo-processo-ficticio.yaml', format: 'YAML' },
+  ],
+  decisao: [
+    { name: 'Modelo de decisão', href: 'template-decisao.md', format: 'Markdown' },
+    { name: 'Modelo estruturado', href: 'template-decisao.yaml', format: 'YAML' },
+    { name: 'Exemplo preenchido', href: 'exemplo-decisao-ficticia.yaml', format: 'YAML' },
+  ],
+  politica: [
+    { name: 'Modelo de política', href: 'template-politica.md', format: 'Markdown' },
+    { name: 'Modelo estruturado', href: 'template-politica.yaml', format: 'YAML' },
+    { name: 'Exemplo preenchido', href: 'exemplo-politica-ficticia.yaml', format: 'YAML' },
+  ],
+  kpi: [
+    { name: 'Modelo de KPI', href: 'template-kpi.md', format: 'Markdown' },
+    { name: 'Modelo estruturado', href: 'template-kpi.yaml', format: 'YAML' },
+    { name: 'Exemplo preenchido', href: 'exemplo-kpi-ficticio.yaml', format: 'YAML' },
+  ],
+};
+const raw = import.meta.env.BASE_URL;
+const base = raw.endsWith('/') ? raw : raw + '/';
+---
+<div class="template-downloads" aria-label="Arquivos de exemplo e template para reutilizar">
+  {files[kind].map((file) => <a href={base + 'downloads/' + file.href} download>
+    <span class="download-icon" aria-hidden="true">↓</span>
+    <span class="download-name">{file.name}<small>{file.format} · copiar, adaptar e validar</small></span>
+  </a>)}
+</div>

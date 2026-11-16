@@ -1,29 +1,40 @@
 ---
 title: Biblioteca de templates
-description: Escolha o modelo pelo tipo de conhecimento, sem exigir domínio de ferramentas técnicas.
+description: Modelos reutilizáveis para conceitos, processos, decisões, políticas e KPIs.
 ---
 
 # Biblioteca de templates
 
-Um template é um **roteiro de perguntas**, não uma autorização para preencher lacunas por aproximação. Se uma definição não existe ou ainda não foi aprovada, marque a pendência e identifique quem pode resolvê-la.
+Os templates do Contexto ensinam especialistas a **descobrir, registrar e validar** informações que normalmente ficam implícitas. Eles não substituem políticas oficiais nem são especificações executáveis.
 
-## Disponível nesta versão
+Se não sabe qual modelo usar, vá para [Escolha o que documentar](../../fundamentos/escolher-documento/).
 
-| Tipo de conhecimento | Quando usar | Material |
+## Selecione pela finalidade
+
+| Preciso documentar… | Modelo | Exemplo comentado |
 |---|---|---|
-| KPI ou métrica | Quando uma pergunta depende da definição, da fórmula e da população | [Template de KPI](kpi/) |
+| O significado de um termo em determinada área | [Conceito e glossário](conceito/) | [“Participante ativo” em RH](../../exemplos/conceito-onboarding/) |
+| Uma sequência com responsáveis e exceções | [Processo ou procedimento](processo/) | [Publicação de campanha](../../exemplos/processo-campanha/) |
+| Condições que mudam uma decisão | [Regras e decisões](decisao/) | [Triagem e precedência](../../exemplos/decisao-campanha/) |
+| Uma orientação com autoridade e vigência | [Política e referência](politica/) | [Conflito entre fontes](../../exemplos/politica-despesas/) |
+| Uma métrica de negócio | [KPI ou indicador](kpi/) | [Conversão de e-commerce](../../exemplos/kpi/) |
 
-## Previsto para próximas versões
+## Cada tipo oferece três arquivos
 
-- **Conceitos e glossário:** nome preferido, sinônimos e diferenças entre departamentos.
-- **Processos e procedimentos:** etapas, responsáveis, entradas, exceções e escalonamento.
-- **Regras e decisões:** condições, precedência, conflitos e autoridade de aprovação.
-- **Políticas:** escopo, fontes normativas, restrições e vigência.
-- **Datasets e contratos semânticos:** granularidade, chaves, valores, joins e convenções de consulta.
-- **Rubricas AI-ready:** critérios, níveis de desempenho, pesos, exemplos e revisão humana.
+**Markdown** para redigir e revisar de maneira natural, **YAML** para visualizar os campos de maneira estruturada e um **exemplo fictício** para mostrar a diferença entre o preenchimento e a validação efetiva.
 
-Estas categorias são a **arquitetura editorial planejada**, não templates já disponíveis nesta versão. Para os conceitos aplicáveis ao domínio de dados, consulte a [trilha de semântica](../dados/semantica/).
+Você não precisa usar YAML em sua organização: um documento do Word, Google Docs ou outra ferramenta pode expressar o mesmo conhecimento, desde que preserve significado, contexto, regras, exceções, propriedade, fontes e validade.
 
-## Por que um núcleo universal e modelos distintos?
+### Antes de marcar um documento como aprovado
 
-Todo documento precisa dizer o que significa, quando vale, quem responde e como é verificado. Mas exigir fórmula numérica de uma política ou caminho de join de uma rubrica geraria burocracia sem ganho real de clareza.
+- A regra está explícita ou apenas implícita nos exemplos?
+- As fontes que a sustentam são identificadas e autorizadas?
+- Uma pessoa de fora da área entende o que ainda não foi decidido?
+- O proprietário confirma o conteúdo e sua vigência?
+- Há algum conflito que precisa ser resolvido antes de usar o documento?
+
+Se não, mantenha a pendência visível. O próximo passo é [revisar e entregar o conhecimento](../../metodo/revisao-e-entrega/), e não pedir à engenharia de IA que preencha as lacunas.
+
+## Próximos módulos
+
+A v0.3 está planejada para aprofundar semântica de datasets, relacionamentos, dashboards e rubricas de avaliação. O núcleo transversal da metodologia **não depende** desses módulos especializados.

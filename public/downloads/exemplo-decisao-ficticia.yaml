@@ -1,0 +1,59 @@
+# Exemplo didático: não constitui regra aprovada.
+id: DECISION-CAMPAIGN-001
+title: "Triagem de campanha — Aurora"
+type: decision_rule
+status: pending_approval
+version: "0.1"
+owner: null
+approver: null
+valid_from: null
+source_of_truth: null
+
+decision_question: "Que encaminhamento deve receber um pedido de campanha?"
+purpose: "Expor critérios de triagem e evitar que etapas sejam confundidas com aprovação"
+scope:
+  applies_when: "Pedido de campanha externa na organização fictícia Aurora"
+  not_applicable_when: "Outro tipo de publicação"
+required_inputs:
+  - name: brief_complete
+    allowed_values: [true, false, unknown]
+    definition: "Confirmar com a área quais campos são obrigatórios"
+  - name: evidence_sufficient
+    allowed_values: [true, false, unknown]
+    definition: "Confirmar quais evidências são suficientes"
+possible_outputs:
+  - complement_information
+  - responsible_review
+  - request_formal_approval
+  - request_clarification
+decision_table:
+  - when: {brief_complete: false, evidence_sufficient: any}
+    then: complement_information
+  - when: {brief_complete: true, evidence_sufficient: false}
+    then: responsible_review
+  - when: {brief_complete: true, evidence_sufficient: true}
+    then: request_formal_approval
+  - when: {brief_complete: unknown, evidence_sufficient: any}
+    then: request_clarification
+  - when: {brief_complete: true, evidence_sufficient: unknown}
+    then: request_clarification
+priority_rules:
+  - "Se brief_complete for desconhecido, solicitar esclarecimento"
+  - "Se brief_complete for falso, devolver independentemente de evidence_sufficient"
+  - "Se brief_complete for verdadeiro e evidência for desconhecida, solicitar esclarecimento"
+  - "Se brief e evidência forem verdadeiros, encaminhar à aprovação formal"
+default_behavior: request_clarification
+unknown_input_behavior: request_clarification
+exceptions: []
+tests:
+  - inputs: {brief_complete: true, evidence_sufficient: false}
+    expected_outcome: responsible_review
+    reasoning: "Falta evidência para seguir a solicitação"
+  - inputs: {brief_complete: true, evidence_sufficient: true}
+    expected_outcome: request_formal_approval
+    reasoning: "Encaminhar à autoridade; não publicar"
+conflicts: []
+open_questions:
+  - "A tabela e a prioridade foram aprovadas pela área?"
+  - "Quem decide se evidência é suficiente?"
+related_documents: ["PROCESS-CAMPAIGN-001"]

@@ -1,0 +1,57 @@
+# Exemplo didático — não representa processo de um cliente.
+id: PROCESS-CAMPAIGN-001
+title: "Solicitar e publicar campanha — Aurora"
+type: process_definition
+status: pending_approval
+version: "0.1"
+owner: null
+approver: null
+valid_from: null
+source_of_truth: null
+
+purpose: "Descrever as transferências e evidências necessárias até a publicação"
+scope:
+  applies_when: "Campanha externa fictícia"
+  not_applicable_when: "Comunicados internos não promocionais"
+trigger: "Solicitação identificada e registrada"
+preconditions: []
+required_inputs: ["brief", "canal", "objetivo", "material"]
+roles:
+  process_owner: null
+  performers: ["Operação de marketing"]
+  approvers: []
+
+steps:
+  - id: S01
+    name: "Conferir brief"
+    performer_role: "Operação de marketing"
+    action: "Registrar lacunas e encaminhamento"
+    inputs: ["brief"]
+    output_evidence: "Registro de triagem"
+    next_step: "S02 se completo; devolver se incompleto"
+    exception_handling: "Complementação solicitada por escrito"
+  - id: S02
+    name: "Conferir evidências e critérios"
+    performer_role: null
+    action: "Aplicar decisão DECISION-CAMPAIGN-001"
+    inputs: ["brief", "evidências"]
+    output_evidence: "Resultado da triagem"
+    next_step: "Solicitar aprovação formal se elegível"
+    exception_handling: "Pausar quando dados indispensáveis faltarem"
+
+decision_rules:
+  - "DECISION-CAMPAIGN-001"
+completion:
+  success_criteria: ["Publicação autorizada, registrada e comprovada"]
+  failure_outcomes: ["Devolvido", "Rejeitado", "Cancelado"]
+  evidence_record: null
+
+exceptions:
+  - "Pedido cancelado depois de aprovado"
+escalation: null
+open_questions:
+  - question: "Quem aprova cada classe de conteúdo?"
+    owner_to_resolve: null
+  - question: "Qual é o prazo da revisão?"
+    owner_to_resolve: null
+related_documents: ["DECISION-CAMPAIGN-001"]

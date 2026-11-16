@@ -1,77 +1,69 @@
 # Contexto — Framework de Conhecimento para IA
 
-> Um método para que especialistas documentem o significado de processos, métricas, regras e exceções sem delegar ao engenheiro de IA a tarefa de inferir conhecimento que ninguém formalizou.
+> **Uma IA não deveria adivinhar como sua organização funciona.**
 
-**Status:** v0.1 — primeira fatia vertical: método, exemplo pedagógico de KPI, checklist e bibliografia. Os demais módulos seguem em expansão.
+Contexto é um framework pedagógico, genérico e independente de fornecedores para ajudar especialistas de domínio a **explicitar conhecimento tácito, conceitos, regras, exceções, fontes e autoridade**, de modo que engenheiros de IA não precisem inventar definições ausentes em acervos ambíguos e dispersos.
 
-## O que está incluído
+## Promessa única
 
-- Portal **Astro + Starlight**, em português brasileiro, com navegação e busca estática.
-- Contrato editorial em [`docs/CONTRATO_EDITORIAL.md`](docs/CONTRATO_EDITORIAL.md).
-- Método das oito dimensões, elicitação, promessa e limites.
-- Template de KPI portável em `public/downloads/` e exemplo fictício.
-- Comparação antes/depois e checklist interativo sem backend.
-- Bibliografia e matriz inicial de rastreabilidade.
-- Workflow GitHub Pages e workflow de validação editorial em pull requests.
+**Ensinar como documentar o conhecimento organizacional**, com método, perguntas de elicitação, templates e exemplos comentados. Preencher templates **não garante** SQL, RAG ou agentes corretos. A implementação, o controle de acesso e a avaliação técnica permanecem sob responsabilidade das equipes de engenharia.
 
-## Pré-requisitos
+## Versão v0.2
 
-- Node.js 22.12 ou superior e npm.
-- Python 3 e PyYAML para validação completa dos exemplos YAML.
+Além do módulo de KPI da v0.1, agora há uma trilha transversal para:
 
-## Desenvolvimento local
+- **Conceitos e glossários:** termos preferidos, sinônimos, contraexemplos e diferenças entre domínios.
+- **Processos:** gatilhos, entradas, atividades, responsáveis, decisões, desvios e evidências.
+- **Regras e decisões:** condições, prioridades, resultados e tratamento do desconhecido.
+- **Políticas e referências:** autoridade, vigência, fontes, conflito documental e exceções.
+- **Revisão e entrega:** lista de pendências e verificação da qualidade documental.
+
+Cada novo template oferece **Markdown + YAML + exemplo preenchido fictício**. Um seletor pedagógico ajuda a escolher o modelo por tarefa. A trilha de Dados & Analytics será ampliada na v0.3.
+
+## Portal publicado
+
+https://edoardolobl.github.io/contexto-framework/
+
+## Desenvolvimento
+
+Requer Node.js 22.12+ e Python 3. Para verificar YAML, instale PyYAML com `python3 -m pip install PyYAML`.
 
 ```bash
 npm install
 npm run validate:content
+npm run build
 npm run dev
 ```
 
-Abra a URL informada pelo Astro. O projeto utiliza um subcaminho `/contexto-framework/` na publicação padrão do GitHub Pages. Para validar a versão estática:
+O projeto usa Astro Starlight e publica automaticamente via GitHub Pages após merge na branch `main`. Pull requests executam validação de conteúdo e build.
 
-```bash
-npm run build
-npm run preview
-```
-
-## Publicação
-
-O site é publicado por `.github/workflows/deploy.yml` após push em `main`. O GitHub Pages deve usar a opção **GitHub Actions** em Settings → Pages.
-
-**Portal:** https://edoardolobl.github.io/contexto-framework/
-
-## Organização do código
+## Organização
 
 ```text
 src/
-  components/           Componentes visuais e checklist
-  content/docs/         Páginas Markdown e MDX
-  styles/               Design system
-  content.config.ts     Coleção Starlight
-public/downloads/      Templates portáteis
-.github/workflows/      Validação e publicação
-scripts/                Validação documental
-docs/                   Contrato editorial e roadmap
+  components/          Componentes pedagógicos e downloads
+  content/docs/        Páginas de metodologia, templates e exemplos
+  styles/              Identidade visual
+public/downloads/     Modelos e exemplos Markdown/YAML
+docs/                 Contrato editorial e roadmap
+scripts/              Validação editorial
+.github/workflows/    Verificação e publicação
 ```
 
-## Como editar o conteúdo
+## Como contribuir editorialmente ao projeto
 
-A manutenção é individual: edite páginas em `src/content/docs/`. O YAML no início das páginas do portal controla navegação e apresentação. Os templates baixados possuem outros metadados, referentes ao objeto documentado.
+1. Comece pelo [contrato editorial](docs/CONTRATO_EDITORIAL.md).
+2. Escreva uma página que ajude o leitor a compreender, observar e aplicar a técnica.
+3. Crie template, exemplo fictício, questões de elicitação e referências primárias.
+4. Não preencha lacunas com suposições. Escreva **quem deve decidir**.
+5. Execute o validador e o build antes do pull request.
 
-Ao publicar um template novo, inclua explicação de uso, perguntas de elicitação, exemplo incompleto, exemplo revisado, fontes, lacunas e validação.
+O repositório é mantido por uma pessoa. A proposta editorial independe de qualquer empresa ou cliente.
 
-## Princípios
+## Referências
 
-1. Uma prática relatada não é necessariamente uma regra oficialmente aprovada.
-2. Metadados não devem ser preenchidos por suposição.
-3. Documento bem estruturado não garante desempenho de RAG, SQL ou agentes.
-4. Exemplos são fictícios e não contêm dados confidenciais.
-5. O framework pertence à camada documental, não à camada de execução.
-
-## Fontes metodológicas
-
-[Diátaxis](https://diataxis.fr/) · [KCS v6](https://library.serviceinnovation.org/KCS/KCS_v6/KCS_v6_Practices_Guide) · [IIBA](https://www.iiba.org/knowledgehub/the-business-analysis-standard/) · [Rumiantsau & Fokeev (2026)](https://arxiv.org/abs/2604.25149)
+[IIBA](https://www.iiba.org/knowledgehub/the-business-analysis-standard/) · [KCS](https://library.serviceinnovation.org/KCS/KCS_v6/KCS_v6_Practices_Guide) · [Diátaxis](https://diataxis.fr/) · [OMG BPMN](https://www.omg.org/spec/BPMN/2.0.2) · [OMG DMN](https://www.omg.org/spec/DMN/1.6) · [W3C SKOS](https://www.w3.org/TR/skos-reference/)
 
 ## Licença
 
-Ainda não definida. Não pressupor licença open source ou permissão geral de redistribuição.
+A definir pelo mantenedor. Até a escolha explícita de licença, não presumir autorização geral de redistribuição de código ou conteúdo.

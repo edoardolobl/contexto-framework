@@ -1,0 +1,38 @@
+# Preencha apenas informações confirmadas. null = desconhecido.
+id: null
+title: null
+type: concept_definition
+status: draft
+version: "0.1"
+owner: null
+approver: null
+valid_from: null
+last_reviewed: null
+source_of_truth: null
+
+context:
+  domain: null
+  purpose: null
+  applies_when: null
+  does_not_apply_when: null
+
+vocabulary:
+  preferred_term: null
+  synonyms: []
+  related_terms: []
+  not_synonyms: []
+  other_domain_meanings: []
+
+definition: null
+inclusion_criteria: []
+exclusion_criteria: []
+examples: []
+counterexamples: []
+
+validation:
+  decisions_confirmed_by: null
+  confirmation_evidence: null
+  review_history: []
+
+open_questions: []
+related_documents: []

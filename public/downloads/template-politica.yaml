@@ -1,0 +1,41 @@
+# O template documenta autoridade e vigência; não cria obrigações reais.
+id: null
+title: null
+type: policy_reference
+status: draft
+version: "0.1"
+owner: null
+approver: null
+valid_from: null
+last_reviewed: null
+source_of_truth: null
+
+purpose: null
+scope:
+  audiences: []
+  activities: []
+  localities: []
+  exclusions: []
+
+authority:
+  issuing_body: null
+  approver_role: null
+  version: null
+  effective_date: null
+  expiry_date: null
+  supersedes: null
+
+obligations: []
+permissions: []
+prohibitions: []
+exceptions:
+  - condition: null
+    approval_role: null
+    evidence_needed: null
+
+conflicting_sources: []
+source_precedence_rule: null
+how_to_verify: null
+review_trigger: null
+open_questions: []
+related_documents: []

@@ -1,0 +1,64 @@
+---
+title: Template — Conceito e glossário
+description: Defina termos, sinônimos, ambiguidades e significado específico de cada contexto.
+---
+
+import TemplateDownloads from '../../../components/TemplateDownloads.astro';
+
+# Documente um conceito sem impor uma definição genérica
+
+## Quando usar
+
+Quando a mesma palavra aparece em áreas, documentos, dashboards ou sistemas diferentes. O objetivo é dar ao leitor uma definição **válida para um contexto específico**, identificar termos relacionados e tornar visíveis possíveis conflitos.
+
+**Exemplo:** “participante ativo” pode significar pessoa inscrita, pessoa que começou atividades ou pessoa que concluiu uma etapa. Nenhuma dessas interpretações deve ser presumida.
+
+## O que descobrir com o especialista
+
+| Questão | Evidência que deve aparecer no documento |
+|---|---|
+| Como a área explica esse termo a uma pessoa recém-chegada? | Definição em linguagem natural e exemplo |
+| Existe uma definição formal em outra área? | Contexto de uso e diferenças explícitas |
+| Quais expressões são equivalentes? | Sinônimos reconhecidos e termos que **não** são sinônimos |
+| Que situação costuma ser confundida com o conceito? | Contraexemplo |
+| Qual regra define pertencimento à categoria? | Critérios de inclusão e exclusão, quando aplicáveis |
+| Quem pode resolver divergências? | Responsável, fonte e status da definição |
+
+## Exemplo introdutório de YAML
+
+```yaml
+---
+id: CONCEPT-ONBOARDING-001
+type: concept_definition
+title: "Participante ativo — programa de integração"
+status: pending_approval
+owner: null
+context: "Programa fictício Aurora"
+definition: null
+synonyms: []
+not_synonyms:
+  - "Participante inscrito"
+inclusion_criteria: []
+examples: []
+counterexamples: []
+open_questions:
+  - "A presença em uma atividade é suficiente?"
+```
+
+Mesmo com um identificador, o documento **não é uma definição aprovada**: a ausência de critérios é parte do diagnóstico.
+
+## Distinções que importam
+
+**Termo preferido** é o nome adotado em determinado domínio; **sinônimo** é outro rótulo usado para o mesmo conceito nesse domínio; **termo relacionado** é semelhante, mas não equivalente. Não trate “cliente”, “visitante” e “usuário” como sinônimos sem confirmação.
+
+O padrão [SKOS do W3C](https://www.w3.org/TR/skos-reference/) inspira a distinção entre rótulos preferenciais, alternativos e relações entre conceitos. **Este YAML não é serialização SKOS nem uma ontologia formal.**
+
+## Reutilize o modelo
+
+<TemplateDownloads kind="conceito" />
+
+Para ver como o template identifica uma ambiguidade comum em RH, leia o [exemplo comentado](../../exemplos/conceito-onboarding/).
+
+## Critério de aprovação documental
+
+Uma pessoa de outra área consegue explicar o termo, reconhecer um caso que **não** pertence a ele e apontar a fonte oficial sem perguntar ao autor original? Se não, explicite a dúvida e solicite validação; não fabrique uma definição.

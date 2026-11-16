@@ -16,10 +16,32 @@ export default defineConfig({
       locales: { root: { label: 'Português', lang: 'pt-BR' } },
       customCss: ['./src/styles/custom.css'],
       sidebar: [
-        { label: 'Comece aqui', items: [{ slug: 'fundamentos/promessa' }, { slug: 'fundamentos/conhecimento-tacito' }] },
-        { label: 'O método', items: [{ slug: 'metodo/visao-geral' }, { slug: 'metodo/oito-dimensoes' }, { slug: 'metodo/elicitar' }] },
-        { label: 'Templates', items: [{ slug: 'templates' }, { slug: 'templates/kpi' }] },
-        { label: 'Exemplos', items: [{ slug: 'exemplos/kpi' }] },
+        { label: 'Comece aqui', items: [
+          { slug: 'fundamentos/promessa' },
+          { slug: 'fundamentos/conhecimento-tacito' },
+          { slug: 'fundamentos/escolher-documento' }
+        ] },
+        { label: 'O método', items: [
+          { slug: 'metodo/visao-geral' },
+          { slug: 'metodo/oito-dimensoes' },
+          { slug: 'metodo/elicitar' },
+          { slug: 'metodo/revisao-e-entrega' }
+        ] },
+        { label: 'Biblioteca de templates', items: [
+          { slug: 'templates' },
+          { slug: 'templates/conceito' },
+          { slug: 'templates/processo' },
+          { slug: 'templates/decisao' },
+          { slug: 'templates/politica' },
+          { slug: 'templates/kpi' }
+        ] },
+        { label: 'Exemplos comentados', items: [
+          { slug: 'exemplos/conceito-onboarding' },
+          { slug: 'exemplos/processo-campanha' },
+          { slug: 'exemplos/decisao-campanha' },
+          { slug: 'exemplos/politica-despesas' },
+          { slug: 'exemplos/kpi' }
+        ] },
         { label: 'Dados e Analytics', items: [{ slug: 'dados/semantica' }] },
         { label: 'Validação', items: [{ slug: 'validacao/checklist' }] },
         { label: 'Governança', items: [{ slug: 'governanca/papeis' }] },

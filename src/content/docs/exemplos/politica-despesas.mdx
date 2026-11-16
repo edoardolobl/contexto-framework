@@ -1,0 +1,68 @@
+---
+title: Exemplo — Versões conflitantes
+description: Como documentar a autoridade e a vigência de políticas sem tomar decisões por aproximação.
+---
+
+# Exemplo: qual política de despesas está valendo?
+
+**Cenário fictício:** uma pessoa da área Financeira encontra um manual de reembolso, um e-mail posterior e uma página de intranet com instruções diferentes.
+
+O objetivo **não é decidir quais despesas são reembolsáveis**, mas demonstrar o trabalho documental necessário para que a informação oficial seja reconhecível.
+
+## Antes: a instrução costuma esconder a dúvida
+
+> “Despesas de evento devem seguir a política mais recente.”
+
+A palavra *recente* descreve a data, mas não garante autoridade. Um e-mail novo pode apenas comunicar uma prática não aprovada; uma página antiga pode continuar vigente até revogação formal.
+
+## Inventário das fontes conflitantes
+
+| Fonte fictícia | Informação disponível | O que ainda precisa ser verificado |
+|---|---|---|
+| Manual `POL-FIN-014` | Versão identificada, sem relação explícita com atualização | Vigência, autoridade e substituição |
+| E-mail da equipe | Orientação operacional mais recente | Se altera formalmente a política |
+| Página de intranet | Resumo diferente do manual | Qual documento é a fonte oficial |
+
+**Não é seguro escolher a regra mais nova ou a mais repetida** sem conhecer o processo de aprovação da organização.
+
+## Depois: registro de conflito, não decisão inventada
+
+```yaml
+---
+id: POLICY-EVENTS-001
+type: policy_reference
+status: pending_approval
+title: "Despesas de eventos — Aurora"
+policy_owner: null
+source_of_truth: null
+effective_date: null
+scope: "Reembolsos de eventos — exemplo fictício"
+conflicts:
+  - id: CONFLICT-001
+    sources: ["POL-FIN-014", "E-MAIL-EVENTOS", "INTRANET-EVENTOS"]
+    issue: "Orientações sobre despesas não coincidem"
+    resolution_status: unresolved
+    decision_owner: null
+open_questions:
+  - "Qual fonte tem autoridade para definir a regra?"
+  - "Existe revogação ou substituição formal?"
+  - "A partir de que data a versão atual se aplica?"
+```
+
+O valor desta documentação é que **a divergência não desaparece** apenas porque os arquivos foram indexados num RAG.
+
+## O que validar com quem responde pela política
+
+- Qual fonte é oficial? É possível apontá-la diretamente?
+- O documento distingue “aprovado”, “comunicado” e “em revisão”?
+- Há evidência da revogação ou substituição de versões?
+- Quem pode interpretar e autorizar exceções?
+- Como uma pessoa sabe que o documento não deve mais ser utilizado?
+
+Se ninguém souber responder, o documento deve continuar pendente, e a área responsável deve ser identificada para solucionar a lacuna.
+
+Consulte o [template de políticas](../../templates/politica/) e o [guia de responsabilidades](../../governanca/papeis/).
+
+### Fundamentação
+
+A disciplina de gestão de conhecimento é tratada em [ISO 30401:2018](https://www.iso.org/standard/68683.html), e a confirmação de informações e decisões é parte do trabalho descrito pelo [IIBA](https://www.iiba.org/knowledgehub/the-business-analysis-standard/). A solução de hierarquia e fonte precisa ser definida pela organização, não pelo Contexto.
