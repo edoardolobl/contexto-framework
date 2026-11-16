@@ -1,6 +1,6 @@
 # Dataset de sessões fictício, derivado da amostra SQLite do Contexto.
 id: DATASET-AURORA-SESSIONS
-title: "Sessões web e app — Aurora (fictício)"
+title: "Sessões web e app: Aurora (fictício)"
 type: dataset_semantics
 status: pending_approval
 version: "0.1"

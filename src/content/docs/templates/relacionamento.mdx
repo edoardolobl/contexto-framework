@@ -1,5 +1,5 @@
 ---
-title: Template — Relacionamentos e joins
+title: "Template: Relacionamentos e joins"
 description: Registre chaves, cardinalidade, tipos de junção, regras temporais e riscos de multiplicação de linhas.
 ---
 
@@ -33,7 +33,7 @@ O primeiro quadro mostra o documento no começo do trabalho: muita coisa ainda s
 
 Repare no **histórico de versões** do segundo quadro: cada linha traz a data, o que mudou na regra e quem aprovou. É isso que permite a alguém saber se está lendo a regra de hoje ou a do mês passado.
 
-Para contar **sessões convertidas**, um `COUNT(*)` após essa junção pode gerar resultado errado. Um exemplo documental pode registrar a intenção de contar sessões únicas — mas a implementação SQL precisa ser testada separadamente.
+Para contar **sessões convertidas**, um `COUNT(*)` após essa junção pode gerar resultado errado. Um exemplo documental pode registrar a intenção de contar sessões únicas, mas a implementação SQL precisa ser testada separadamente.
 
 ### Não transforme convenções em regras universais
 
@@ -45,4 +45,4 @@ Consulte o [caso integrado de conversão](../../exemplos/analytics-integrado/).
 
 ### Referências
 
-[dbt MetricFlow](https://docs.getdbt.com/docs/build/about-metricflow), [Snowflake Semantic Views](https://docs.snowflake.com/en/user-guide/views-semantic/semantic-view-yaml-spec) e [Databricks — definições de joins](https://docs.databricks.com/gcp/en/genie/add-instructions). O YAML é original e não executável.
+[dbt MetricFlow](https://docs.getdbt.com/docs/build/about-metricflow), [Snowflake Semantic Views](https://docs.snowflake.com/en/user-guide/views-semantic/semantic-view-yaml-spec) e [Databricks: definições de joins](https://docs.databricks.com/gcp/en/genie/add-instructions). O YAML é original e não executável.

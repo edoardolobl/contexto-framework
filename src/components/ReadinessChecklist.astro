@@ -13,7 +13,7 @@ const criteria = [
 ];
 ---
 <section class="readiness" data-readiness>
-  <div class="readiness-heading"><div><p class="eyebrow">FERRAMENTA PEDAGÓGICA</p><h3>{title}</h3></div><span class="readiness-score" data-score aria-live="polite">0/8</span></div>
+  <div class="readiness-heading"><div><p class="eyebrow">FERRAMENTA PEDAGÓGICA</p><h3>{title}</h3></div><span class="readiness-score" data-score aria-hidden="true">0/8</span></div>
   <p>Marque cada item somente se o documento contiver evidências verificáveis. Este instrumento <strong>não certifica</strong> o documento nem substitui a aprovação de sua área.</p>
   <div class="readiness-track" aria-hidden="true"><div data-progress></div></div>
   <fieldset>
@@ -37,9 +37,9 @@ const criteria = [
       if (score) score.textContent = String(n) + '/' + String(checks.length);
       if (progress) progress.style.width = String(100*n/checks.length) + '%';
       if (feedback) feedback.textContent = n === checks.length
-        ? 'Todas as dimensões foram assinaladas. Ainda é necessário validar a qualidade das evidências e obter aprovação de quem responde pelo conteúdo.'
+        ? '8 de 8 marcadas. Ainda é necessário validar a qualidade das evidências e obter aprovação de quem responde pelo conteúdo.'
         : n === 0 ? 'Selecione os critérios atendidos para identificar lacunas.'
-        : String(checks.length - n) + ' dimensão(ões) ainda requer(em) verificação. Identifique as lacunas antes de solicitar aprovação.';
+        : n + ' de ' + checks.length + ' marcadas. ' + (checks.length - n === 1 ? 'Falta 1 dimensão' : 'Faltam ' + (checks.length - n) + ' dimensões') + '. Identifique as lacunas antes de solicitar aprovação.';
     }
     checks.forEach(c => c.addEventListener('change', update));
     reset?.addEventListener('click', () => { checks.forEach(c => {c.checked = false;}); update(); });

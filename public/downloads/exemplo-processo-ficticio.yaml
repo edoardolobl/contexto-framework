@@ -1,6 +1,6 @@
-# Exemplo didático — não representa processo de um cliente.
+# Exemplo didático: não representa processo de um cliente.
 id: PROCESS-CAMPAIGN-001
-title: "Solicitar e publicar campanha — Aurora"
+title: "Solicitar e publicar campanha: Aurora"
 type: process_definition
 status: pending_approval
 version: "0.1"

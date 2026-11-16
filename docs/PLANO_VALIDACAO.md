@@ -1,4 +1,4 @@
-# Plano de validação com leitores — proposta para após v0.3
+# Plano de validação com leitores: proposta para após v0.3
 
 **Estado:** planejamento, não teste já realizado.
 
@@ -18,7 +18,7 @@ Essas quantidades são um **ponto de partida exploratório**, não uma recomenda
 
 ## Roteiro
 
-### Cenário A — Regras e processos
+### Cenário A: Regras e processos
 
 1. Fornecer um processo fictício com termos ambíguos.
 2. Pedir à pessoa participante que encontre o template apropriado sem orientação.
@@ -26,7 +26,7 @@ Essas quantidades são um **ponto de partida exploratório**, não uma recomenda
 4. Pedir que registre pelo menos duas lacunas sem inventar respostas.
 5. Verificar se ela distingue “pendente de aprovação” de “aprovado”.
 
-### Cenário B — Analítica de dados
+### Cenário B: Analítica de dados
 
 1. Apresentar os dados fictícios da Aurora.
 2. Solicitar a definição de “sessões convertidas”.
@@ -34,12 +34,19 @@ Essas quantidades são um **ponto de partida exploratório**, não uma recomenda
 4. Observar se a pessoa identifica cardinalidade e diferença de unidade.
 5. Pedir que complete o template de KPI com fontes e pendências.
 
-### Cenário C — Rubrica
+### Cenário C: Rubrica
 
 1. Apresentar a frase “avaliar a qualidade da análise”.
 2. Pedir critérios observáveis e exemplos de nível 2 versus nível 4.
 3. Perguntar o que fazer quando não há evidência suficiente.
 4. Verificar se ela evita concluir automaticamente o resultado da avaliação.
+
+### Cenário D: Download e reuso
+
+1. Pedir que a pessoa baixe o modelo Markdown do tipo que escolheu e o abra no editor que costuma usar.
+2. Observar se ela entende a tabela "Identificação" e o "Histórico de versões" sem ajuda.
+3. Pedir que registre a versão e a data do rascunho.
+4. Mostrar o exemplo completo e perguntar se a aprovação é real ou fictícia.
 
 ## O que coletar
 
@@ -53,7 +60,7 @@ Essas quantidades são um **ponto de partida exploratório**, não uma recomenda
 
 ## Critério de êxito
 
-Não existe uma nota pré-definida nesta edição. Registre erros, dúvidas e melhorias por tarefa. A revisão editorial deve responder **qual lacuna pedagógica precisa ser corrigida**, e não apenas reunir elogios.
+Proposta de limiar mínimo, a confirmar pelo mantenedor antes das sessões: pelo menos 2 de cada 3 participantes encontram o modelo sem ajuda, e nenhum preenche uma lacuna por dedução sem marcá-la. Abaixo disso, a edição 1.0 não deve se declarar validada com leitores. Registre erros, dúvidas e melhorias por tarefa. A revisão editorial deve responder **qual lacuna pedagógica precisa ser corrigida**, e não apenas reunir elogios.
 
 ## Limites
 

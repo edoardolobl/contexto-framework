@@ -1,0 +1,95 @@
+---
+title: Como ler os campos
+description: O que significam null, status, id, versão e os outros campos dos modelos, em linguagem simples.
+---
+
+Os modelos existem em dois formatos. O **Markdown** é texto comum, com perguntas para responder: use este se você não é da área técnica. O **YAML** organiza as mesmas respostas em campos com nome fixo, o que ajuda quem vai processar o documento depois. O conteúdo é o mesmo. **Você não precisa de YAML para usar o método.**
+
+## Os campos de identificação
+
+Todo documento começa com os mesmos campos.
+
+| No modelo Markdown | No YAML | O que escrever |
+|---|---|---|
+| Identificador | `id` | Um código curto e único, como `KPI-VENDAS-001`. Serve para outros documentos apontarem para este |
+| Tipo de documento | `type` | Já vem preenchido no modelo |
+| Estado | `status` | Em que ponto o documento está. Veja a tabela abaixo |
+| Responsável | `owner` | O cargo ou a área que responde pelo conteúdo. Não o nome de uma pessoa, que muda |
+| Quem aprova | `approver` | O cargo ou a área com autoridade para dizer "esta é a regra" |
+| Versão atual | `version` | 0.1 para o primeiro rascunho; 1.0 para a primeira versão aprovada |
+| Data desta versão | `version_date` | O dia em que esta versão foi escrita ou aprovada |
+| Vale a partir de | `valid_from` | O dia em que a regra começa a valer. Pode ser depois da data da versão |
+| Fonte oficial | `source_of_truth` | Onde está o documento ou sistema que manda quando há divergência |
+
+## O que significa `null`
+
+`null` quer dizer **"ainda não sei"** ou **"ainda não foi decidido"**. Não é erro e não é zero.
+
+- No YAML, deixe `null` e anote a dúvida em `open_questions`.
+- No Markdown, deixe em branco e anote em "Lacunas" ou "Perguntas em aberto".
+
+Nunca troque um `null` por um palpite para o documento parecer completo.
+
+## Os estados
+
+**Estado do documento:**
+
+| Em português | No YAML | Quando usar |
+|---|---|---|
+| Rascunho | `draft` | Você ainda está escrevendo |
+| Pendente de aprovação | `pending_approval` | Está estruturado, falta quem aprova confirmar |
+| Aprovado | `approved` | Quem aprova confirmou por escrito |
+| Obsoleto | `deprecated` | Não vale mais. Diga qual documento o substitui |
+
+**Estado de uma pergunta em aberto ou de um conflito entre fontes:**
+
+| Em português | No YAML |
+|---|---|
+| Não resolvido | `unresolved` |
+| Resolvido | `resolved`, com a resolução, quem resolveu e a data |
+
+## O histórico de versões
+
+No fim de todo documento há uma linha por versão, a mais recente primeiro:
+
+| Versão | Data | O que mudou e por quê | Aprovado por |
+|---|---|---|---|
+| 1.1 | 01/09/2026 | Janela reduzida de 60 para 30 dias, para coincidir com o relatório mensal | Gerência de Pessoas |
+| 1.0 | 03/08/2026 | Primeira definição aprovada | Gerência de Pessoas |
+| 0.1 | 20/07/2026 | Primeiro rascunho | Não aprovado |
+
+Três cuidados:
+
+1. Descreva a mudança **na regra**, não a edição do texto. "Corrigi a redação" não ajuda ninguém; "o limite passou de 60 para 30 dias" ajuda.
+2. Um rascunho também tem versão e data.
+3. Não apague versões antigas. Quem analisa um relatório de agosto precisa saber qual regra valia em agosto.
+
+## O mínimo que um documento precisa ter
+
+Os modelos têm muitos campos porque cobrem muitos casos. Você não precisa preencher todos. O núcleo é este:
+
+1. O que é (identificador e título);
+2. O significado ou a regra, com as palavras da sua área;
+3. Quando vale e quando não vale;
+4. Um exemplo e um contraexemplo;
+5. Quem responde e quem aprova;
+6. Estado, versão e data;
+7. As perguntas em aberto.
+
+O resto é aprofundamento. Um documento curto e verdadeiro serve mais do que um longo e presumido.
+
+## Relato, regra e pendência
+
+Dentro de um mesmo documento convivem três tipos de afirmação. Mantenha-os separados:
+
+| Tipo | Como reconhecer | Onde registrar |
+|---|---|---|
+| Regra confirmada | Existe fonte oficial e alguém com autoridade confirmou | Nos campos do documento |
+| Prática relatada | "A gente costuma fazer assim" | Em perguntas em aberto, como prática a confirmar |
+| Decisão pendente | Ninguém decidiu, ou há duas fontes em conflito | Em perguntas em aberto, com quem pode decidir |
+
+Enquanto o estado do documento for "Rascunho" ou "Pendente de aprovação", quem lê deve tratar tudo como ainda não confirmado.
+
+## Duas coisas que parecem iguais e não são
+
+O bloco entre `---` no topo de algumas páginas de sites é configuração da página (título, descrição). Ele não tem relação com os campos dos modelos do Contexto, embora use a mesma notação. Os modelos YAML do Contexto também não são arquivos de configuração de nenhuma ferramenta: são uma convenção de escrita.
