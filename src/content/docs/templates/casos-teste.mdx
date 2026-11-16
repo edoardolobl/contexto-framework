@@ -1,0 +1,62 @@
+---
+title: Template — Perguntas e respostas de referência
+description: Documente o que uma fonte permite responder, quando pedir esclarecimento e quando não responder.
+---
+
+import TemplateDownloads from '../../../components/TemplateDownloads.astro';
+
+# Documente perguntas que o acervo deve conseguir responder
+
+Antes de uma equipe técnica avaliar um RAG ou agente, os responsáveis pelo conhecimento precisam definir **o que a documentação autoriza afirmar**, qual evidência sustenta a resposta e em quais situações não há informação suficiente.
+
+Isso é diferente de criar testes automatizados de modelos. O primeiro resultado é um conjunto de **perguntas e respostas de referência validado pelo domínio**.
+
+## Três categorias indispensáveis
+
+| Categoria | Quando ocorre | Exemplo de comportamento esperado |
+|---|---|---|
+| Respondível | Fontes cobrem significado, escopo e período | Responder com definição e evidência |
+| Ambígua | Faltam escolhas como canal, período ou unidade | Pedir esclarecimento e listar alternativas |
+| Não respondível | As fontes não cobrem a pergunta ou a regra não foi aprovada | Declarar limite ou encaminhar a quem decide |
+
+## Campos de cada pergunta
+
+- Texto da pergunta tal como uma pessoa a faria;
+- Intenção e contexto esperado;
+- Identificador da fonte vigente e o trecho ou regra que sustenta a resposta;
+- Resultado ou interpretação de referência;
+- Nível de confiança e revisão **humana** da resposta de referência;
+- Condição de abstenção ou necessidade de esclarecimento;
+- Casos-limite que diferenciam respostas parecidas;
+- Data de referência dos dados, quando a resposta depende dela.
+
+## Exemplo
+
+```yaml
+---
+id: QA-AURORA-001
+type: reference_question_set
+status: pending_approval
+questions:
+  - id: Q-001
+    question: "Qual a taxa de sessões convertidas na amostra web?"
+    expected_behavior: answer
+    expected_answer: "25% na amostra fictícia"
+    required_sources:
+      - "KPI-AURORA-001"
+      - "DATASET-AURORA-SESSIONS"
+  - id: Q-002
+    question: "Qual a taxa no mês anterior?"
+    expected_behavior: abstain
+    reason: "A amostra não contém esse período"
+```
+
+**O número 25% depende da amostra fictícia do nosso tutorial**, não de dados de uma organização real.
+
+<TemplateDownloads kind="casos-teste" />
+
+Veja o [estudo de caso e suas perguntas](../../exemplos/testes-analytics/). A engenharia de IA ainda terá de testar recuperação, segurança, execução de ferramentas e comportamento do modelo.
+
+### Referências
+
+[Microsoft — Fase de preparação do RAG](https://learn.microsoft.com/pt-br/azure/architecture/ai-ml/guide/rag/rag-preparation-phase) orienta reunir conteúdo e consultas de teste; [Microsoft — Avaliação de recuperação](https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/rag/rag-information-retrieval) diferencia consultas positivas e negativas. O template é uma adaptação voltada a documentação do domínio, não um benchmark universal.
