@@ -1,0 +1,78 @@
+# EXEMPLO FICTÍCIO COMPLETO. Organização inventada (Aurora).
+# A aprovação, o responsável, as datas e a fonte abaixo são fictícios e existem
+# só para mostrar como fica um documento depois que a área responsável decide.
+id: DECISION-CAMPAIGN-001
+title: "Triagem de campanha: Aurora"
+type: decision_rule
+status: approved
+example_notice: "Aprovação fictícia, válida só dentro deste exemplo. A Aurora não existe."
+version: "1.1"
+version_date: "2026-09-10"
+owner: "Revisão de Conteúdo (Aurora)"
+approver: "Liderança de Marca (Aurora)"
+valid_from: "2026-09-10"
+source_of_truth: "Procedimento PRC-MKT-007, anexo B (documento fictício)"
+version_history:
+  - version: "1.1"
+    date: "2026-09-10"
+    change: "Evidência desconhecida deixa de seguir para revisão e passa a pedir esclarecimento ao solicitante"
+    approved_by: "Liderança de Marca (Aurora)"
+  - version: "1.0"
+    date: "2026-08-12"
+    change: "Primeira tabela aprovada, com definição de brief completo e de evidência suficiente"
+    approved_by: "Liderança de Marca (Aurora)"
+  - version: "0.1"
+    date: "2026-07-20"
+    change: "Primeiro rascunho, com lacunas registradas"
+    approved_by: null
+
+decision_question: "Que encaminhamento deve receber um pedido de campanha?"
+purpose: "Expor critérios de triagem e evitar que etapas sejam confundidas com aprovação"
+scope:
+  applies_when: "Pedido de campanha externa na organização fictícia Aurora"
+  not_applicable_when: "Outro tipo de publicação"
+required_inputs:
+  - name: brief_complete
+    allowed_values: [true, false, unknown]
+    definition: "Os cinco campos obrigatórios estão preenchidos: objetivo, canal, público, período e material"
+  - name: evidence_sufficient
+    allowed_values: [true, false, unknown]
+    definition: "Cada alegação verificável do material tem uma fonte anexada e datada; quem classifica é a Revisão de Conteúdo"
+possible_outputs:
+  - complement_information
+  - responsible_review
+  - request_formal_approval
+  - request_clarification
+decision_table:
+  - when: {brief_complete: false, evidence_sufficient: any}
+    then: complement_information
+  - when: {brief_complete: true, evidence_sufficient: false}
+    then: responsible_review
+  - when: {brief_complete: true, evidence_sufficient: true}
+    then: request_formal_approval
+  - when: {brief_complete: unknown, evidence_sufficient: any}
+    then: request_clarification
+  - when: {brief_complete: true, evidence_sufficient: unknown}
+    then: request_clarification
+priority_rules:
+  - "As cinco linhas são mutuamente exclusivas: cada combinação de entradas casa com uma única linha, então não há precedência a aplicar."
+  - "O conflito do texto original (pedido completo, mas sem evidência) foi resolvido criando uma linha própria para esse caso."
+default_behavior: request_clarification
+unknown_input_behavior: request_clarification
+exceptions: 
+  - condition: "Campanha de utilidade pública com prazo legal"
+    approval_role: "Diretoria de Marketing (Aurora)"
+    evidence_needed: "Autorização escrita anexada ao pedido"
+tests:
+  - inputs: {brief_complete: true, evidence_sufficient: false}
+    expected_outcome: responsible_review
+    reasoning: "Falta evidência para seguir a solicitação"
+  - inputs: {brief_complete: true, evidence_sufficient: true}
+    expected_outcome: request_formal_approval
+    reasoning: "Encaminhar à autoridade; não publicar"
+  - inputs: {brief_complete: false, evidence_sufficient: unknown}
+    expected_outcome: complement_information
+    reasoning: "Brief incompleto é devolvido, qualquer que seja o estado das evidências"
+conflicts: []
+open_questions: []
+related_documents: ["PROCESS-CAMPAIGN-001"]

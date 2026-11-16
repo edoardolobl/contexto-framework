@@ -1,0 +1,67 @@
+# EXEMPLO FICTÍCIO COMPLETO. Organização inventada (Aurora).
+# A aprovação, o responsável, as datas e a fonte abaixo são fictícios e existem
+# só para mostrar como fica um documento depois que a área responsável decide.
+id: CONCEPT-ONBOARDING-001
+title: "Participante ativo: programa de integração Aurora"
+type: concept_definition
+status: approved
+example_notice: "Aprovação fictícia, válida só dentro deste exemplo. A Aurora não existe."
+version: "1.1"
+version_date: "2026-09-01"
+owner: "Coordenação de Integração (Aurora)"
+approver: "Gerência de Pessoas (Aurora)"
+valid_from: "2026-09-01"
+last_reviewed: "2026-09-01"
+source_of_truth: "Manual do Programa de Integração Aurora, seção 2.1 (documento fictício)"
+version_history:
+  - version: "1.1"
+    date: "2026-09-01"
+    change: "Janela de atividade reduzida de 60 para 30 dias, para coincidir com o relatório mensal"
+    approved_by: "Gerência de Pessoas (Aurora)"
+  - version: "1.0"
+    date: "2026-08-03"
+    change: "Primeira definição aprovada: presença em pelo menos uma atividade nos últimos 60 dias"
+    approved_by: "Gerência de Pessoas (Aurora)"
+  - version: "0.1"
+    date: "2026-07-20"
+    change: "Primeiro rascunho, com lacunas registradas"
+    approved_by: null
+
+context:
+  domain: "Programa voluntário de integração: Aurora (fictício)"
+  purpose: "Contar, nos relatórios do programa, quem está de fato participando"
+  applies_when: "Relatórios e acompanhamento do programa de integração"
+  does_not_apply_when: "Avaliação de desempenho, contratação ou benefícios"
+
+vocabulary:
+  preferred_term: "Participante ativo"
+  synonyms: []
+  related_terms: ["Participante inscrito", "Participante em pausa", "Participante concluinte"]
+  not_synonyms: ["Participante inscrito", "Participante concluinte"]
+  other_domain_meanings:
+    - "Na folha de pagamento, 'ativo' significa vínculo de trabalho vigente. Não é o mesmo conceito."
+
+definition: "Pessoa inscrita no programa que registrou presença em pelo menos uma atividade nos últimos 30 dias corridos, contados a partir da data de referência do relatório."
+inclusion_criteria:
+  - "Inscrição confirmada no programa"
+  - "Pelo menos uma presença registrada nos últimos 30 dias corridos"
+exclusion_criteria:
+  - "Inscrição sem nenhuma presença registrada: é participante inscrito"
+  - "Afastamento registrado na data de referência: é participante em pausa"
+  - "Todas as atividades concluídas: é participante concluinte"
+examples:
+  - "Inscrita em 01/08, presente na oficina de 20/08. Em 31/08 é participante ativa."
+counterexamples:
+  - "Inscrito em 01/08, sem nenhuma presença. Em 31/08 é participante inscrito, não ativo."
+  - "Presente em 05/07 e nunca mais. Em 31/08 passaram mais de 30 dias: não é ativo."
+boundary_cases:
+  - "Presença exatamente 30 dias antes da data de referência: conta como ativa."
+
+validation:
+  decisions_confirmed_by: "Gerência de Pessoas (Aurora)"
+  confirmation_evidence: "Ata de aprovação de 01/09/2026 (documento fictício)"
+  review_history:
+    - "2026-09-01: janela alterada de 60 para 30 dias"
+
+open_questions: []
+related_documents: []

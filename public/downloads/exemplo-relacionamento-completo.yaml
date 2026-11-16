@@ -1,0 +1,62 @@
+# EXEMPLO FICTÍCIO COMPLETO. Organização inventada (Aurora).
+# A aprovação, o responsável, as datas e a fonte abaixo são fictícios e existem
+# só para mostrar como fica um documento depois que a área responsável decide.
+id: REL-AURORA-SESSIONS-ORDERS
+title: "Sessões para pedidos: Aurora"
+type: relationship_semantics
+status: approved
+example_notice: "Aprovação fictícia, válida só dentro deste exemplo. A Aurora não existe."
+version: "1.1"
+version_date: "2026-09-15"
+owner: "Engenharia de Dados (Aurora)"
+approver: "Analytics de E-commerce (Aurora)"
+valid_from: "2026-09-15"
+source_of_truth: "Catálogo de dados da Aurora, relacionamento sessões e pedidos (documento fictício)"
+version_history:
+  - version: "1.1"
+    date: "2026-09-15"
+    change: "Incluída a regra de contar sessão distinta, acompanhando a versão 1.1 do KPI-AURORA-001"
+    approved_by: "Analytics de E-commerce (Aurora)"
+  - version: "1.0"
+    date: "2026-08-20"
+    change: "Primeira versão aprovada, com chave e cardinalidade um para muitos"
+    approved_by: "Analytics de E-commerce (Aurora)"
+  - version: "0.1"
+    date: "2026-07-20"
+    change: "Primeiro rascunho, com lacunas registradas"
+    approved_by: null
+
+business_intent: "Relacionar cada pedido à sessão em que foi criado"
+left:
+  dataset: demo_sessions        # DATASET-AURORA-SESSIONS
+  grain: "Uma linha por sessão"
+right:
+  dataset: demo_orders          # DATASET-AURORA-ORDERS
+  grain: "Uma linha por pedido"
+join_keys:
+  - left: session_id
+    right: session_id
+cardinality: one_to_many
+coverage:
+  unmatched_rows_expected: true
+  null_keys_expected: false
+  temporal_join_rule: "O laboratório usa apenas 2026-10-01"
+usage_rules:
+  approved_question_classes:
+    - "Sessões elegíveis com pelo menos um pedido confirmado"
+  disallowed_question_classes:
+    - "Contar sessões usando COUNT(*) após a junção sem tratar multiplicidade"
+  join_strategy_by_question:
+    - "Para sessões convertidas, contar session_id distinto dos pedidos confirmados elegíveis"
+  duplication_risks:
+    - "S1 possui O1 e O2: a linha de S1 aparece duas vezes no join"
+  aggregation_safeguards:
+    - "Deduplicar sessão convertida antes da razão por sessões elegíveis"
+validation:
+  test_cases:
+    - "S1 possui dois pedidos confirmados mas conta como uma sessão convertida"
+    - "S2 tem pedido cancelado e não conta como sessão convertida"
+  verified_query: "aurora-reference-query.sql"
+  reviewer: "Engenharia de Dados (Aurora)"
+open_questions: []
+related_documents: ["DATASET-AURORA-SESSIONS", "DATASET-AURORA-ORDERS", "KPI-AURORA-001"]

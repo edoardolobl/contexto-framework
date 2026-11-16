@@ -1,0 +1,79 @@
+# EXEMPLO FICTÍCIO COMPLETO. Organização inventada (Aurora).
+# A aprovação, o responsável, as datas e a fonte abaixo são fictícios e existem
+# só para mostrar como fica um documento depois que a área responsável decide.
+id: KPI-AURORA-001
+title: "Taxa de sessões convertidas: loja web Aurora"
+type: metric_definition
+status: approved
+example_notice: "Aprovação fictícia, válida só dentro deste exemplo. A Aurora não existe."
+version: "1.1"
+version_date: "2026-09-15"
+owner: "Analytics de E-commerce (Aurora)"
+approver: "Gerência de E-commerce (Aurora)"
+valid_from: "2026-09-15"
+domain: ecommerce
+last_reviewed: "2026-09-15"
+source_of_truth: "Catálogo de métricas da Aurora, entrada KPI-AURORA-001 (documento fictício)"
+version_history:
+  - version: "1.1"
+    date: "2026-09-15"
+    change: "O numerador passa a contar sessões únicas com pedido confirmado. Antes contava pedidos, o que inflava a taxa quando uma sessão tinha mais de um pedido"
+    approved_by: "Gerência de E-commerce (Aurora)"
+  - version: "1.0"
+    date: "2026-08-15"
+    change: "Primeira definição aprovada: pedidos confirmados divididos por sessões elegíveis"
+    approved_by: "Gerência de E-commerce (Aurora)"
+  - version: "0.1"
+    date: "2026-07-20"
+    change: "Primeiro rascunho, com lacunas registradas"
+    approved_by: null
+
+business_definition:
+  concept: "Proporção de sessões elegíveis que resultaram em pelo menos um pedido confirmado"
+  purpose: "Acompanhar o resultado do funil web"
+  synonyms: ["conversão web"]
+  different_meanings_in_other_domains:
+    - "Conversão de lead: outra métrica, não usar como sinônimo"
+    - "Pedidos por sessão: era a definição da versão 1.0; hoje é outra medida, sem documento próprio"
+
+scope:
+  included_channels: ["web"]
+  excluded_channels: ["app", "loja física"]
+  applicable_population: "Sessões do canal web que não são tráfego interno"
+  exclusions: ["tráfego interno", "pedidos de teste", "pedidos cancelados"]
+
+calculation:
+  formula_description: "(sessoes_unicas_com_pedido_confirmado / sessoes_elegiveis) * 100"
+  numerator: "Quantidade de sessões elegíveis com pelo menos um pedido CONFIRMED. Uma sessão com dois pedidos confirmados conta uma vez"
+  denominator: "Quantidade de sessões elegíveis: channel = web e is_internal = 0"
+  unit: "percentual"
+  granularity: "dia + canal web"
+  aggregation_rule: "Para períodos maiores, somar numeradores e denominadores dos dias e só então dividir. Não tirar média das taxas diárias"
+  null_handling: "Sessão sem pedido conta no denominador e não no numerador"
+  zero_denominator_policy: "Sem sessões elegíveis, exibir 'sem dados'. Não exibir 0%"
+
+time:
+  reference_date_field: "demo_sessions.session_date"
+  timezone: "Data local da loja, já gravada em session_date"
+  reporting_window: "Diária"
+  data_freshness: "Carga estática no laboratório"
+
+data_sources:
+  authoritative_dataset: "DATASET-AURORA-SESSIONS"
+  relevant_columns: ["demo_sessions.session_id", "demo_sessions.channel", "demo_sessions.is_internal", "demo_sessions.session_date", "demo_orders.session_id", "demo_orders.status_code"]
+  valid_join_paths: ["REL-AURORA-SESSIONS-ORDERS"]
+  source_conflicts_and_precedence:
+    - "Se um painel mostrar valor diferente, vale o cálculo de aurora-reference-query.sql"
+
+validation:
+  approved_examples:
+    - "Em 2026-10-01: 4 sessões elegíveis, 1 convertida, taxa de 25%"
+  expected_questions_and_answers: ["QA-AURORA-001"]
+  known_edge_cases:
+    - "Sessão S1 tem dois pedidos confirmados e conta uma vez"
+    - "Sessão S2 tem pedido cancelado e não conta como convertida"
+    - "Sessão S5 tem pedido de teste e não conta como convertida"
+  tests: ["aurora-reference-query.sql sobre aurora-fixture.sql deve retornar 25.0"]
+
+open_questions: []
+related_documents: ["DATASET-AURORA-SESSIONS", "DATASET-AURORA-ORDERS", "REL-AURORA-SESSIONS-ORDERS", "DASH-AURORA-WEB", "QA-AURORA-001"]

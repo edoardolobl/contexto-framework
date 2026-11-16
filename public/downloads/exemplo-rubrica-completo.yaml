@@ -1,0 +1,107 @@
+# EXEMPLO FICTÍCIO COMPLETO. Organização inventada (Aurora).
+# A aprovação, o responsável, as datas e a fonte abaixo são fictícios e existem
+# só para mostrar como fica uma rubrica depois que a área responsável decide.
+# Não usar para avaliar pessoas reais.
+id: RUBRIC-ANALYTICS-001
+title: "Rubrica de entregável de análise de dados: Aurora"
+type: evaluation_rubric
+status: approved
+example_notice: "Aprovação fictícia, válida só dentro deste exemplo. A Aurora não existe."
+version: "1.1"
+version_date: "2026-09-22"
+owner: "Guilda de Analytics (Aurora)"
+approver: "Liderança de Dados (Aurora)"
+valid_from: "2026-09-22"
+source_of_truth: "Guia de revisão de análises da Aurora, anexo A (documento fictício)"
+version_history:
+  - version: "1.1"
+    date: "2026-09-22"
+    change: "Duplicidade e granularidade passam a contar só em interpretação de negócio. Antes o mesmo erro era punido em dois critérios. Âncoras 0 e 1 reescritas com comportamento observável"
+    approved_by: "Liderança de Dados (Aurora)"
+  - version: "1.0"
+    date: "2026-08-25"
+    change: "Primeira versão aprovada, com quatro critérios e pesos 35, 30, 20 e 15"
+    approved_by: "Liderança de Dados (Aurora)"
+  - version: "0.1"
+    date: "2026-07-20"
+    change: "Primeiro rascunho, com lacunas registradas"
+    approved_by: null
+
+evaluation_target: "Entregável escrito de análise sobre os dados sintéticos do laboratório Aurora"
+business_goal: "Dar a revisores diferentes o mesmo critério para discutir a qualidade de uma análise"
+allowed_use: ["Revisão entre pares de análises", "Calibração entre revisores com exemplos fictícios"]
+disallowed_use: ["Tomar qualquer decisão automática sobre uma pessoa", "Inferir características pessoais", "Usar a nota sem a justificativa escrita"]
+criteria:
+  - id: technical_accuracy
+    name: "Precisão técnica"
+    definition: "As contas estão certas para a pergunta que o próprio entregável declarou responder, e podem ser refeitas"
+    not_in_scope: "Se a pergunta escolhida é a pergunta de negócio certa. Isso pertence a interpretação de negócio"
+    weight: 35
+    expected_evidence: ["Consultas ou fórmulas", "Resultado conferido contra a amostra", "Verificações feitas"]
+    anchors:
+      "0": "O resultado principal não pode ser refeito a partir do que foi entregue, ou refeito dá outro número"
+      "1": "O resultado principal pode ser refeito, mas tem erro de conta que muda a conclusão"
+      "2": "Resultado principal correto; não há verificação nem tratamento de casos como denominador zero"
+      "3": "Resultado correto, refeito sem ajuda, com pelo menos uma verificação descrita"
+      "4": "Além do nível 3, testa casos-limite e mostra o que aconteceria com os dados fora do padrão"
+  - id: business_semantics
+    name: "Interpretação de negócio"
+    definition: "O entregável mede o conceito pedido, com a unidade, o escopo e as exclusões da definição aprovada"
+    not_in_scope: "Erros de aritmética ou de sintaxe. Isso pertence a precisão técnica"
+    weight: 30
+    expected_evidence: ["Definição do indicador usada", "Unidade contada (sessão, pedido, cliente)", "Escopo e exclusões", "Tratamento de duplicidade"]
+    anchors:
+      "0": "Não diz qual indicador mede nem qual unidade conta"
+      "1": "Mede outra coisa que não o indicador pedido, sem perceber. Exemplo: conta pedidos quando a definição conta sessões"
+      "2": "Mede o indicador pedido, mas ignora uma exclusão ou um limite de escopo da definição"
+      "3": "Mede o indicador pedido, com unidade, escopo e exclusões corretos, e reconhece os limites"
+      "4": "Além do nível 3, mostra como o número mudaria sob outra definição e explica por que não a usou"
+  - id: method_and_traceability
+    name: "Método e rastreabilidade"
+    definition: "Premissas, fontes e passos estão escritos de modo que outra pessoa chegue ao mesmo lugar"
+    not_in_scope: "A qualidade da escrita. Isso pertence a comunicação"
+    weight: 20
+    expected_evidence: ["Passos de reprodução", "Fontes citadas por identificador", "Suposições declaradas"]
+    anchors:
+      "0": "Não há passos nem fontes"
+      "1": "Há passos, mas falta uma fonte ou suposição sem a qual não se reproduz o resultado"
+      "2": "O resultado principal é reproduzível; partes secundárias dependem de perguntar ao autor"
+      "3": "Tudo é reproduzível, com fontes identificadas e suposições declaradas"
+      "4": "Além do nível 3, registra alternativas testadas e por que foram descartadas"
+  - id: communication
+    name: "Comunicação"
+    definition: "Um leitor da área entende a pergunta, a resposta, a incerteza e o que fazer com isso"
+    not_in_scope: "Se a resposta está certa. Um texto claro com número errado pontua aqui e perde nos outros critérios"
+    weight: 15
+    expected_evidence: ["Pergunta e resposta no início", "Gráfico ou tabela adequados", "Limitações escritas"]
+    anchors:
+      "0": "Não é possível localizar qual é a conclusão"
+      "1": "A conclusão existe, mas o leitor precisa refazer a análise para entendê-la"
+      "2": "A conclusão é clara; limitações ou incertezas importantes não aparecem"
+      "3": "Conclusão, evidência e limitações claras"
+      "4": "Além do nível 3, orienta a decisão sem exagerar a certeza"
+
+scoring:
+  weight_sum: 100
+  scale: [0, 1, 2, 3, 4]
+  missing_evidence_behavior: not_evaluable
+  not_evaluable_rule: "O critério sem evidência sai da conta e os pesos restantes são reescalados para somar 100. A nota final é publicada com o aviso 'parcial: N de 4 critérios avaliados'. Com dois ou mais critérios não avaliáveis, não se publica nota"
+  decision_threshold: null
+  automatic_decision_allowed: false
+
+human_review_required: true
+calibration_examples:
+  - case: "Entrega afirma conversão de 50% porque há dois pedidos confirmados em quatro sessões"
+    expected: "Interpretação de negócio nível 1: mede pedidos, não sessões. Precisão técnica pode ser 2 ou 3: a conta declarada está certa"
+  - case: "Entrega afirma 25% e explica que duas compras na mesma sessão contam uma vez"
+    expected: "Interpretação de negócio nível 3. Os outros critérios são avaliados separadamente"
+  - case: "Entrega afirma 25%, mas não inclui a consulta nem os passos"
+    expected: "Precisão técnica não avaliável ou nível 0, conforme haja ou não como refazer. Método e rastreabilidade nível 0"
+disagreement_resolution: "Dois revisores pontuam separadamente. Diferença de dois níveis ou mais em um critério exige conversa e justificativa escrita; persistindo, decide a Liderança de Dados"
+privacy_and_fairness_considerations:
+  - "Avaliar o entregável, não a pessoa"
+  - "Não utilizar atributos pessoais"
+  - "Aceitar abordagem diferente da consulta de referência quando chega ao indicador definido"
+  - "Não emitir decisão automatizada sobre pessoas"
+open_questions: []
+related_documents: ["KPI-AURORA-001", "QA-AURORA-001"]

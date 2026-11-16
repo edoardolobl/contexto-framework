@@ -1,0 +1,55 @@
+# EXEMPLO FICTÍCIO COMPLETO. Organização inventada (Aurora).
+# A aprovação, o responsável, as datas e a fonte abaixo são fictícios e existem
+# só para mostrar como fica um documento depois que a área responsável decide.
+id: DASH-AURORA-WEB
+title: "Acompanhamento de sessões convertidas: Aurora"
+type: dashboard_definition
+status: approved
+example_notice: "Aprovação fictícia, válida só dentro deste exemplo. A Aurora não existe."
+version: "1.1"
+version_date: "2026-09-15"
+owner: "Analytics de E-commerce (Aurora)"
+approver: "Gerência de E-commerce (Aurora)"
+valid_from: "2026-09-15"
+source_of_truth: "Painel Conversão Web no portal de BI da Aurora (documento fictício)"
+version_history:
+  - version: "1.1"
+    date: "2026-09-15"
+    change: "Cartão passa a seguir a versão 1.1 do KPI-AURORA-001. Incluído aviso de que valores anteriores não são comparáveis"
+    approved_by: "Gerência de E-commerce (Aurora)"
+  - version: "1.0"
+    date: "2026-08-22"
+    change: "Primeira versão aprovada, com filtros padrão de canal web e sem tráfego interno"
+    approved_by: "Gerência de E-commerce (Aurora)"
+  - version: "0.1"
+    date: "2026-07-20"
+    change: "Primeiro rascunho, com lacunas registradas"
+    approved_by: null
+
+purpose: "Distinguir sessões web convertidas de quantidade de pedidos por sessão"
+audiences: ["Operação de marketing (fictícia)"]
+supported_decisions: ["Investigar diferenças entre definições de conversão"]
+metrics: ["KPI-AURORA-001"]
+default_filters:
+  channel: web
+  is_internal: 0
+dimensions: ["session_date", "channel"]
+time_semantics:
+  date_field: session_date
+  timezone: "Data local da loja, sem hora"
+  reporting_period: "2026-10-01 (laboratório)"
+  comparison_baseline: "Mesmo dia da semana anterior, somente a partir de 2026-09-15, quando a definição 1.1 do KPI passou a valer"
+freshness:
+  refresh_frequency: "Carga estática sintética"
+  latency: "Não aplicável"
+  verified_at: "2026-10-02"
+official_or_exploratory: "Oficial para a taxa de sessões convertidas no canal web"
+known_limitations:
+  - "Valores anteriores a 2026-09-15 usam a definição antiga (pedidos por sessão) e não são comparáveis"
+  - "Não cobre períodos fora da amostra"
+  - "Não contém receita líquida nem métricas de app"
+  - "Não equivale a painéis reais de qualquer organização"
+conflicting_dashboards: []
+reference_questions: ["QA-AURORA-001"]
+open_questions: []
+related_documents: ["KPI-AURORA-001", "DATASET-AURORA-SESSIONS", "DATASET-AURORA-ORDERS"]

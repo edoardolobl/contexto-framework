@@ -4,11 +4,17 @@ title: "Participante ativo — programa de integração Aurora"
 type: concept_definition
 status: pending_approval
 version: "0.1"
+version_date: "2026-07-20"
 owner: null
 approver: null
 valid_from: null
 last_reviewed: null
 source_of_truth: null
+version_history:
+  - version: "0.1"
+    date: "2026-07-20"
+    change: "Primeiro rascunho, com lacunas registradas"
+    approved_by: null
 
 context:
   domain: "Programa voluntário de integração — Aurora (fictício)"
@@ -28,6 +34,7 @@ inclusion_criteria: []
 exclusion_criteria: []
 examples: []
 counterexamples: []
+boundary_cases: []
 
 validation:
   decisions_confirmed_by: null

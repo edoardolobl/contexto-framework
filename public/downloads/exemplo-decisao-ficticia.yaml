@@ -4,10 +4,16 @@ title: "Triagem de campanha — Aurora"
 type: decision_rule
 status: pending_approval
 version: "0.1"
+version_date: "2026-07-20"
 owner: null
 approver: null
 valid_from: null
 source_of_truth: null
+version_history:
+  - version: "0.1"
+    date: "2026-07-20"
+    change: "Primeiro rascunho, com lacunas registradas"
+    approved_by: null
 
 decision_question: "Que encaminhamento deve receber um pedido de campanha?"
 purpose: "Expor critérios de triagem e evitar que etapas sejam confundidas com aprovação"
@@ -17,10 +23,10 @@ scope:
 required_inputs:
   - name: brief_complete
     allowed_values: [true, false, unknown]
-    definition: "Confirmar com a área quais campos são obrigatórios"
+    definition: "Ainda não definido: confirmar com a área quais campos são obrigatórios"
   - name: evidence_sufficient
     allowed_values: [true, false, unknown]
-    definition: "Confirmar quais evidências são suficientes"
+    definition: "Ainda não definido: confirmar quais evidências são suficientes e quem decide"
 possible_outputs:
   - complement_information
   - responsible_review
@@ -38,10 +44,8 @@ decision_table:
   - when: {brief_complete: true, evidence_sufficient: unknown}
     then: request_clarification
 priority_rules:
-  - "Se brief_complete for desconhecido, solicitar esclarecimento"
-  - "Se brief_complete for falso, devolver independentemente de evidence_sufficient"
-  - "Se brief_complete for verdadeiro e evidência for desconhecida, solicitar esclarecimento"
-  - "Se brief e evidência forem verdadeiros, encaminhar à aprovação formal"
+  - "As cinco linhas são mutuamente exclusivas: cada combinação de entradas casa com uma única linha, então não há precedência a aplicar."
+  - "O conflito do texto original (pedido completo, mas sem evidência) foi resolvido criando uma linha própria para esse caso."
 default_behavior: request_clarification
 unknown_input_behavior: request_clarification
 exceptions: []
@@ -52,8 +56,12 @@ tests:
   - inputs: {brief_complete: true, evidence_sufficient: true}
     expected_outcome: request_formal_approval
     reasoning: "Encaminhar à autoridade; não publicar"
+  - inputs: {brief_complete: false, evidence_sufficient: unknown}
+    expected_outcome: complement_information
+    reasoning: "Brief incompleto é devolvido, qualquer que seja o estado das evidências"
 conflicts: []
-open_questions:
-  - "A tabela e a prioridade foram aprovadas pela área?"
-  - "Quem decide se evidência é suficiente?"
+open_questions: 
+  - "A tabela foi aprovada pela área?"
+  - "Quem decide se a evidência é suficiente?"
+  - "Quais campos tornam um brief completo?"
 related_documents: ["PROCESS-CAMPAIGN-001"]

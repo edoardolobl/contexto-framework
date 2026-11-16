@@ -4,11 +4,17 @@ title: "Despesas em eventos — Aurora"
 type: policy_reference
 status: pending_approval
 version: "0.1"
+version_date: "2026-07-20"
 owner: null
 approver: null
 valid_from: null
 last_reviewed: null
 source_of_truth: null
+version_history:
+  - version: "0.1"
+    date: "2026-07-20"
+    change: "Primeiro rascunho, com lacunas registradas"
+    approved_by: null
 
 purpose: "Identificar a regra vigente antes de orientar solicitações de despesa"
 scope:
