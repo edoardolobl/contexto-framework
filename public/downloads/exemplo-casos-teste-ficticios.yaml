@@ -1,5 +1,6 @@
 # Perguntas sobre o laboratório Aurora, com lacunas: respostas ainda não aprovadas.
 id: QA-AURORA-001
+revision_id: "QA-AURORA-001@0.1"  # revisão específica; id = assunto estável
 title: "Gabarito documental: sessões convertidas Aurora"
 type: reference_question_set
 status: pending_approval
@@ -8,6 +9,8 @@ version_date: "2026-07-20"
 owner: null
 approver: null
 valid_from: null
+valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
+supersedes_revision: null
 source_of_truth: null
 version_history:
   - version: "0.1"
