@@ -1,0 +1,72 @@
+---
+title: Exemplo — Rubrica AI-ready para case
+description: Transforme um julgamento genérico em critérios evidenciáveis sem delegar decisões sobre pessoas a uma IA.
+---
+
+# Exemplo: uma rubrica para um case de Data Analytics
+
+**Situação fictícia:** uma equipe avaliadora recebe análises de um conjunto de dados de varejo e precisa revisar as entregas de forma consistente. A rubrica não é uma decisão de contratação, e **nenhuma pessoa real é avaliada aqui**.
+
+## Antes: “avaliar qualidade técnica e visão de negócio”
+
+A frase não informa o que conta como evidência, como diferenciar níveis de qualidade ou o que fazer quando há uma solução alternativa tecnicamente válida.
+
+## Depois: quatro dimensões observáveis
+
+| Critério | Peso ilustrativo | Evidências observáveis |
+|---|---:|---|
+| Precisão técnica | 35% | Cálculos reproduzíveis, tratamento de granularidade e validação de resultados |
+| Interpretação de negócio | 30% | Indicadores definidos e conclusões compatíveis com escopo e limitações |
+| Método e rastreabilidade | 20% | Premissas explícitas, fontes e passos de reprodução |
+| Comunicação | 15% | Perguntas claras, gráficos adequados e apresentação de incertezas |
+
+Os pesos **são inventados para fins didáticos**, não foram validados por uma organização.
+
+## A diferença entre nível 2 e nível 4
+
+Considere o critério *Precisão técnica*:
+
+| Nível | Âncora didática |
+|---|---|
+| 0 | Evidência submetida demonstra erro central de cálculo não reconhecido |
+| 1 | Há tentativa identificável, mas erros materiais comprometem o resultado |
+| 2 | Cálculo principal correto, porém com validação ou casos-limite insuficientes |
+| 3 | Cálculo correto, reproduzível, com verificações relevantes |
+| 4 | Além do nível 3, antecipa riscos de granularidade, joins e interpretações alternativas |
+
+**Não confundir “não avaliável” com 0:** se o artefato necessário não foi entregue ou não está acessível, pode ser impossível aplicar o critério. A área avaliadora precisa aprovar o tratamento dessa ausência.
+
+## Calibrar com exemplos
+
+Uma entrega diz: “conversão = 50% porque há dois pedidos confirmados em quatro sessões”. No [estudo de caso Aurora](../../exemplos/analytics-integrado/), essa conta mede **pedidos por sessão**, não **sessões convertidas**. A rubrica deve exigir que o avaliador identifique esse problema sem atribuir pontuação automaticamente a uma pessoa.
+
+Outra entrega responde 25% e documenta por que duas compras na mesma sessão contam uma vez. Isso é **evidência favorável** de interpretação semântica — mas não dispensa avaliar os demais critérios.
+
+## O que uma IA avaliadora poderia e não poderia fazer
+
+Poderia: apontar trechos associados a cada critério, sugerir perguntas, identificar cálculos e lacunas para revisão.
+
+Não deveria: inferir competências ausentes, utilizar atributos pessoais irrelevantes ou tomar uma decisão final de contratação com base apenas na rubrica preenchida.
+
+```yaml
+---
+id: RUBRIC-ANALYTICS-001
+type: evaluation_rubric
+status: pending_approval
+human_review_required: true
+automatic_hiring_decision: false
+criteria:
+  - {id: technical_accuracy, weight: 35}
+  - {id: business_semantics, weight: 30}
+  - {id: method_and_traceability, weight: 20}
+  - {id: communication, weight: 15}
+rating_scale: [0, 1, 2, 3, 4]
+missing_evidence_behavior: not_evaluable
+decision_threshold: null
+```
+
+A rubrica completa para reutilização inclui âncoras de todos os critérios, evidências, políticas de conflitos e aprovação humana. Consulte o [template](../../templates/rubrica/).
+
+### Referências e limites
+
+[NIST AI RMF — Measure](https://airc.nist.gov/airmf-resources/playbook/measure/) contempla mensuração e supervisão humana. [IIBA](https://www.iiba.org/knowledgehub/the-business-analysis-standard/) fundamenta a necessidade de critérios especificados e validados. Este exemplo não representa prática jurídica ou de RH de qualquer cliente.
