@@ -1,0 +1,76 @@
+---
+title: Exemplo — Decisão e precedência
+description: Uma regra aparentemente clara pode gerar resultados opostos quando condições se sobrepõem.
+---
+
+# Exemplo: quando encaminhar uma campanha para aprovação?
+
+**Cenário fictício:** ao completar um fluxo de solicitação, a equipe de marketing quer saber qual caminho seguir. O documento original descreve regras sem uma ordem de precedência.
+
+## Antes: duas instruções que podem entrar em conflito
+
+> “Pedidos completos seguem para aprovação. Materiais sem evidência precisam de revisão.”
+
+E se o pedido estiver completo, mas apresentar uma afirmação sem evidência? **Ambas as condições são verdadeiras.** Um leitor pode encaminhar diretamente para aprovação e outro pode interromper para revisão.
+
+## O que a área precisa decidir
+
+1. O que caracteriza um pedido *completo*?
+2. O que é uma *evidência suficiente* e quem decide isso?
+3. As regras são avaliadas em qual ordem?
+4. A ausência de uma entrada produz qual resultado?
+5. Quem autoriza exceções e onde registra essa autorização?
+6. Uma conclusão de revisão **é** uma aprovação ou apenas uma etapa anterior?
+
+## Depois: tabela de decisão ilustrativa
+
+| Brief completo? | Evidência suficiente? | Encaminhamento exemplificativo |
+|---|---|---|
+| Não | Sim, não ou desconhecida | Devolver pedido |
+| Sim | Não | Revisão responsável |
+| Sim | Sim | Solicitar aprovação formal |
+| Sim | Desconhecida | Solicitar esclarecimento |
+| Desconhecido | Qualquer valor | Solicitar esclarecimento |
+
+**Política de precedência desta simulação:** a ausência de informação exigida suspende a decisão; a falta de completude retorna ao solicitante; só o caso de brief completo e evidências suficientes segue à aprovação formal. Não há publicação automática.
+
+```yaml
+---
+id: DECISION-CAMPAIGN-001
+type: decision_rule
+status: pending_approval
+name: "Triagem de campanha — Aurora"
+inputs:
+  brief_complete: [true, false, unknown]
+  evidence_sufficient: [true, false, unknown]
+outputs:
+  - complement_information
+  - responsible_review
+  - request_formal_approval
+  - request_clarification
+priority_rule: "unknown_blocks_decision"
+auto_publish: false
+owner: null
+open_questions:
+  - "Quem é a pessoa autorizada a classificar evidências?"
+  - "A ordem de precedência foi aprovada pelo negócio?"
+```
+
+As condições da tabela servem para demonstrar **como documentar**, não são recomendação operacional universal.
+
+## Casos de teste documentais
+
+A área pode revisar o texto perguntando:
+
+- Se `brief_complete=true` e `evidence_sufficient=false`, qual resultado o documento prescreve?
+- Se ambas as entradas forem desconhecidas, existe uma instrução inequívoca?
+- O resultado “solicitar aprovação” pode ser confundido com “aprovado”?
+- Se duas regras mudarem ao mesmo tempo, existe responsável pela definição da precedência?
+
+Essas perguntas verificam a clareza do documento. A integração posterior a um agente exigirá **testes técnicos independentes**.
+
+Veja [o processo completo](../../exemplos/processo-campanha/) e o [template de regras](../../templates/decisao/).
+
+### Fundamentação
+
+[OMG — DMN 1.6](https://www.omg.org/spec/DMN/1.6) fornece conceitos para modelar decisões. Esta tabela didática **não usa a notação formal DMN nem sua semântica de execução**.
