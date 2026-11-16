@@ -22,43 +22,46 @@ export default defineConfig({
       ],
       sidebar: [
         { label: 'Comece aqui', items: [
+          { slug: 'fundamentos/comece-em-5-minutos' },
           { slug: 'fundamentos/promessa' },
           { slug: 'fundamentos/conhecimento-tacito' },
-          { slug: 'fundamentos/escolher-documento' }
+          { slug: 'fundamentos/escolher-documento' },
+          { slug: 'fundamentos/como-ler-os-campos' }
         ] },
         { label: 'O método', items: [
           { slug: 'metodo/visao-geral' },
           { slug: 'metodo/oito-dimensoes' },
           { slug: 'metodo/elicitar' },
-          { slug: 'metodo/revisao-e-entrega' }
+          { slug: 'metodo/revisao-e-entrega' },
+          { slug: 'metodo/limites' }
         ] },
-        { label: 'Biblioteca transversal', items: [
-          { slug: 'templates' },
-          { slug: 'templates/conceito' },
-          { slug: 'templates/processo' },
-          { slug: 'templates/decisao' },
-          { slug: 'templates/politica' },
-          { slug: 'templates/kpi' }
+        { label: 'Modelos', items: [
+          { slug: 'templates', label: 'Biblioteca de modelos' },
+          { slug: 'templates/conceito', label: 'Conceito e glossário' },
+          { slug: 'templates/processo', label: 'Processo e procedimento' },
+          { slug: 'templates/decisao', label: 'Regras e decisões' },
+          { slug: 'templates/politica', label: 'Política e referência' },
+          { slug: 'templates/kpi', label: 'KPI e métricas' },
+          { slug: 'templates/rubrica', label: 'Rubrica de avaliação' }
         ] },
-        { label: 'Exemplos transversais', items: [
-          { slug: 'exemplos/conceito-onboarding' },
-          { slug: 'exemplos/processo-campanha' },
-          { slug: 'exemplos/decisao-campanha' },
-          { slug: 'exemplos/politica-despesas' },
-          { slug: 'exemplos/kpi' }
+        { label: 'Exemplos', items: [
+          { slug: 'exemplos/conceito-onboarding', label: 'Um conceito em RH' },
+          { slug: 'exemplos/processo-campanha', label: 'Processo de campanha' },
+          { slug: 'exemplos/decisao-campanha', label: 'Decisão e precedência' },
+          { slug: 'exemplos/politica-despesas', label: 'Versões conflitantes' },
+          { slug: 'exemplos/kpi', label: 'KPI de conversão' },
+          { slug: 'exemplos/rubrica-case', label: 'Rubrica de uma análise' }
         ] },
         { label: 'Dados e Analytics', items: [
           { slug: 'dados/visao-geral' },
           { slug: 'dados/semantica' },
           { slug: 'dados/contrato-de-conhecimento' },
-          { slug: 'templates/dataset' },
-          { slug: 'templates/relacionamento' },
-          { slug: 'templates/dashboard' },
-          { slug: 'templates/rubrica' },
-          { slug: 'templates/casos-teste' },
-          { slug: 'exemplos/analytics-integrado' },
-          { slug: 'exemplos/rubrica-case' },
-          { slug: 'exemplos/testes-analytics' }
+          { slug: 'templates/dataset', label: 'Modelo: dataset' },
+          { slug: 'templates/relacionamento', label: 'Modelo: relacionamentos' },
+          { slug: 'templates/dashboard', label: 'Modelo: dashboard' },
+          { slug: 'templates/casos-teste', label: 'Modelo: perguntas de referência' },
+          { slug: 'exemplos/analytics-integrado', label: 'Laboratório Aurora' },
+          { slug: 'exemplos/testes-analytics', label: 'Perguntas do laboratório' }
         ] },
         { label: 'Validação', items: [{ slug: 'validacao/checklist' }] },
         { label: 'Governança', items: [{ slug: 'governanca/papeis' }] },

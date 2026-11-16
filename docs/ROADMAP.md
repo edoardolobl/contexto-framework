@@ -20,7 +20,7 @@
 - [x] Dataset e dicionário semântico + exemplo SQLite
 - [x] Relacionamentos, cardinalidade e joins + exemplo 1:N
 - [x] Dashboard e interpretação com filtros e escopo
-- [x] Rubricas AI-ready para entregáveis analíticos, com âncoras e revisão humana
+- [x] Rubricas para entregáveis analíticos, com âncoras e revisão humana
 - [x] Perguntas de referência respondíveis, ambíguas e não respondíveis
 - [x] Estudo de caso integrado de KPI, dataset, dashboard e rubrica
 - [x] SQL sintético reproduzível + teste automatizado independente de LLM
@@ -28,12 +28,22 @@
 - [x] Fundamentação bibliográfica e ressalvas ampliadas
 - [ ] Revisão visual manual e testes de acessibilidade com pessoas
 
+## v0.4: correções da auditoria independente (16/11/2026)
+- [x] Links da biblioteca, título único por página, estados alinhados
+- [x] Licenças MIT (código) e CC BY 4.0 (conteúdo), autoria e página de créditos
+- [x] Versão, data da versão e histórico de versões em todos os modelos e exemplos
+- [x] Par de exemplos por tipo: com lacunas e completo com aprovação fictícia
+- [x] Modelos Markdown sem bloco YAML; páginas leem os exemplos dos arquivos de download
+- [x] Páginas "Comece em 5 minutos", "Como ler os campos" e "Quando o método não basta"
+- [x] Ressalvas do preprint e das fontes; lockfile; validação de links no HTML gerado
+- [ ] Versão `.docx` dos modelos
+
 ## Antes de declarar a edição 1.0
-- [ ] Pesquisar a aplicabilidade do método com leitores técnicos e não técnicos
-- [ ] Revisão editorial externa e correção de dúvidas reais
-- [ ] Revisão de acessibilidade, linguagem e experiência mobile
-- [ ] Definir licença pública e nome definitivo (decisões do mantenedor)
+- [ ] Pesquisar a aplicabilidade do método com leitores técnicos e não técnicos (issue #4)
+- [ ] Teste com leitor de tela e em celular físico
+- [ ] Revisão humana dos 11 exemplos completos, cujo conteúdo fictício foi escrito na v0.4
+- [ ] Decidir nome definitivo e domínio (issue #5)
 - [ ] Planejar contribuições e governança de versões
-- [ ] Validar permanência de fontes e links oficiais
+- [ ] Verificação periódica de links externos
 
 O framework documenta *como tornar o conhecimento explícito*. Não certifica agentes, RAG ou SQL gerado.

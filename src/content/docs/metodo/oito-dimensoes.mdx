@@ -5,16 +5,33 @@ description: Perguntas comuns para documentar qualquer domínio de conhecimento.
 
 Estas perguntas funcionam como um roteiro, não como burocracia. Faça-as ao especialista do assunto e documente respostas verificáveis.
 
-| Dimensão | Pergunta |
+| Dimensão | Pergunta | Resposta fraca | Resposta útil |
+|---|---|---|---|
+| Significado | O que este termo significa nesta organização? | "Cliente ativo é o cliente que está ativo" | "Cliente com pelo menos uma compra nos últimos 90 dias" |
+| Contexto | Quando se aplica e quando não se aplica? | "Vale para a empresa" | "Vale para a loja web; não vale para app nem loja física" |
+| Objetivo | Para que este conhecimento é utilizado? | "Para acompanhar" | "Para decidir o orçamento mensal de reativação" |
+| Regras | Quais condições definem o comportamento correto? | "Seguir a política" | "Acima de R$ 500 por evento, pedir aprovação prévia" |
+| Exceções | O que acontece fora do fluxo esperado? | "Tratar caso a caso" | "Em emergência, justificar por escrito em até 5 dias úteis" |
+| Responsabilidade | Quem executa, decide, aprova e esclarece dúvidas? | "O time" | "Executa: Operação. Aprova: Liderança de Marca" |
+| Evidência | Qual é a fonte oficial e como se verifica? | "Está no sistema" | "Política POL-FIN-014, versão 3, na intranet" |
+| Validade | Desde quando vale, qual versão é esta e quem revisa? | "É a regra atual" | "Versão 1.1, de 01/09/2026; revisão anual pela Controladoria" |
+
+Os valores da coluna da direita são fictícios, tirados dos [exemplos](../../exemplos/conceito-onboarding/) do portal.
+
+## Onde cada dimensão aparece nos modelos
+
+| Dimensão | Campos nos modelos |
 |---|---|
-| Significado | O que este termo significa nesta organização? |
-| Contexto | Quando se aplica e quando não se aplica? |
-| Objetivo | Para que este conhecimento é utilizado? |
-| Regras | Quais condições e restrições definem o comportamento correto? |
-| Exceções | O que acontece fora do fluxo esperado? |
-| Responsabilidade | Quem executa, decide, aprova e esclarece dúvidas? |
-| Evidência | Qual é a fonte oficial e como se verifica a informação? |
-| Validade | Desde quando a informação é verdadeira e quem a revisa? |
+| Significado | Definição, termo preferido, sinônimos, o que não é sinônimo |
+| Contexto | Quando se aplica, quando não se aplica, escopo, exclusões |
+| Objetivo | Finalidade, pergunta de negócio, decisão apoiada |
+| Regras | Critérios, condições, fórmula, obrigações e proibições |
+| Exceções | Exceções, casos de fronteira, o que fazer quando falta informação |
+| Responsabilidade | Responsável, quem aprova, papéis, escalonamento |
+| Evidência | Fonte oficial, exemplos conferidos, como verificar |
+| Validade | Estado, versão, data da versão, vale a partir de, histórico de versões |
+
+As oito dimensões são um roteiro autoral. Nenhuma norma as define desta forma; a [bibliografia](../../referencias/) mostra de onde vem a inspiração de cada uma. Duas fronteiras costumam gerar dúvida: **Contexto** diz onde a regra vale, **Regras** diz o que ela manda; **Exceções** são desvios previstos da regra, não casos em que ela não se aplica.
 
 ## Como aplicar
 
@@ -26,3 +43,5 @@ Estas perguntas funcionam como um roteiro, não como burocracia. Faça-as ao esp
 6. Marque como aprovado apenas o que foi efetivamente validado.
 
 Um template pode ajudar, mas a qualidade depende do entendimento e da validação do conteúdo.
+
+Se alguma dimensão não puder ser respondida, veja [Quando o método não basta](../limites/).

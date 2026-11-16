@@ -41,6 +41,13 @@ Essas quantidades são um **ponto de partida exploratório**, não uma recomenda
 3. Perguntar o que fazer quando não há evidência suficiente.
 4. Verificar se ela evita concluir automaticamente o resultado da avaliação.
 
+### Cenário D: Download e reuso
+
+1. Pedir que a pessoa baixe o modelo Markdown do tipo que escolheu e o abra no editor que costuma usar.
+2. Observar se ela entende a tabela "Identificação" e o "Histórico de versões" sem ajuda.
+3. Pedir que registre a versão e a data do rascunho.
+4. Mostrar o exemplo completo e perguntar se a aprovação é real ou fictícia.
+
 ## O que coletar
 
 - Se a pessoa encontrou o template sem assistência;
@@ -53,7 +60,7 @@ Essas quantidades são um **ponto de partida exploratório**, não uma recomenda
 
 ## Critério de êxito
 
-Não existe uma nota pré-definida nesta edição. Registre erros, dúvidas e melhorias por tarefa. A revisão editorial deve responder **qual lacuna pedagógica precisa ser corrigida**, e não apenas reunir elogios.
+Proposta de limiar mínimo, a confirmar pelo mantenedor antes das sessões: pelo menos 2 de cada 3 participantes encontram o modelo sem ajuda, e nenhum preenche uma lacuna por dedução sem marcá-la. Abaixo disso, a edição 1.0 não deve se declarar validada com leitores. Registre erros, dúvidas e melhorias por tarefa. A revisão editorial deve responder **qual lacuna pedagógica precisa ser corrigida**, e não apenas reunir elogios.
 
 ## Limites
 
