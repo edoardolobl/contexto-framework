@@ -1,0 +1,43 @@
+---
+title: Responsabilidades e governança
+description: Quem explicita, aprova, publica e utiliza as informações, sem transferir decisões de negócio para a engenharia.
+---
+
+# Responsabilidades e governança
+
+O framework é mantido por uma pessoa. **Os documentos que cada organização produzir a partir dele continuam sendo responsabilidade das respectivas áreas.** Não há uma transferência automática de autoridade para o mantenedor do portal.
+
+## Papéis de referência
+
+| Papel | Decisão ou responsabilidade |
+|---|---|
+| Especialista do domínio | Apresenta regras, exemplos, exceções e pontos ainda não definidos |
+| Proprietário do conhecimento | Confirma definições e aprova o documento no domínio |
+| Governança | Resolve hierarquia de fontes e define políticas de revisão e acesso |
+| Engenharia de IA | Especifica requisitos de consumo, integra e testa os sistemas |
+
+Um colaborador pode desempenhar mais de um papel, mas a autoridade precisa estar registrada.
+
+## Modelo simplificado de matriz RACI
+
+| Atividade | Especialista | Proprietário | Governança | Engenharia IA |
+|---|---|---|---|---|
+| Explicar regra de negócio | **R** | A | C | C |
+| Aprovar definição | C | **A/R** | C | I |
+| Definir precedência entre fontes | C | R | **A** | C |
+| Testar a aplicação em RAG ou agente | C | C | I | **A/R** |
+| Atualizar conteúdo de negócio | **R** | **A** | C | I |
+
+R = executa; A = responde pela aprovação final; C = consultado; I = informado. **Exemplo metodológico**, não organograma ou política corporativa.
+
+## Quando surgem documentos contraditórios
+
+Não escolha a fonte mais recente automaticamente: data de publicação não garante autoridade. Registre o conflito, a origem, o impacto e o responsável pelo desempate. Se não houver decisão, sinalize `pending_resolution`.
+
+## Governança editorial do portal
+
+O mantenedor é responsável pelos templates, exemplos e bibliografia deste site. Ele **não é responsável** por aprovar políticas, indicadores ou processos específicos de organizações que adotem o método.
+
+### Referências
+
+[ISO 30401](https://www.iso.org/standard/68683.html) e [KCS — Roles and Competencies](https://library.serviceinnovation.org/KCS/KCS_v6/KCS_v6_Practices_Guide). A tabela RACI é uma proposta do framework.
