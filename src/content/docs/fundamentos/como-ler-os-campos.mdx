@@ -11,14 +11,17 @@ Todo documento começa com os mesmos campos.
 
 | No modelo Markdown | No YAML | O que escrever |
 |---|---|---|
-| Identificador | `id` | Um código curto e único, como `KPI-VENDAS-001`. Serve para outros documentos apontarem para este |
+| Identificador do assunto | `id` | Um código estável para a definição, como `KPI-VENDAS-001` |
+| Identificador da revisão | `revision_id` | O código do assunto mais a revisão, como `KPI-VENDAS-001@1.1`; duas revisões nunca compartilham o mesmo ID |
 | Tipo de documento | `type` | Já vem preenchido no modelo |
 | Estado | `status` | Em que ponto o documento está. Veja a tabela abaixo |
 | Responsável | `owner` | O cargo ou a área que responde pelo conteúdo. Não o nome de uma pessoa, que muda |
 | Quem aprova | `approver` | O cargo ou a área com autoridade para dizer "esta é a regra" |
 | Versão atual | `version` | 0.1 para o primeiro rascunho; 1.0 para a primeira versão aprovada |
 | Data desta versão | `version_date` | O dia em que esta versão foi escrita ou aprovada |
-| Vale a partir de | `valid_from` | O dia em que a regra começa a valer. Pode ser depois da data da versão |
+| Vale a partir de | `valid_from` | Dia em que **esta revisão** começa a valer |
+| Vale até (sem incluir esse dia) | `valid_to` | Dia em que esta revisão deixa de valer; `null` significa sem fim registrado |
+| Substitui qual revisão? | `supersedes_revision` | Identificador da revisão anterior, quando houver |
 | Fonte oficial | `source_of_truth` | Onde está o documento ou sistema que manda quando há divergência |
 
 ## O que significa `null`
@@ -39,7 +42,7 @@ Nunca troque um `null` por um palpite para o documento parecer completo.
 | Rascunho | `draft` | Você ainda está escrevendo |
 | Pendente de aprovação | `pending_approval` | Está estruturado, falta quem aprova confirmar |
 | Aprovado | `approved` | Quem aprova confirmou por escrito |
-| Obsoleto | `deprecated` | Não vale mais. Diga qual documento o substitui |
+| Obsoleto | `deprecated` | Não é mais recomendado como referência atual; isso não apaga sua utilidade para análise histórica |
 
 **Estado de uma pergunta em aberto ou de um conflito entre fontes:**
 
@@ -62,7 +65,9 @@ Três cuidados:
 
 1. Descreva a mudança **na regra**, não a edição do texto. "Corrigi a redação" não ajuda ninguém; "o limite passou de 60 para 30 dias" ajuda.
 2. Um rascunho também tem versão e data.
-3. Não apague versões antigas. Quem analisa um relatório de agosto precisa saber qual regra valia em agosto.
+3. **Preserve a cópia integral das versões aprovadas.** A tabela de mudanças não permite saber exatamente qual regra valia em agosto. Declare a vigência de cada revisão e verifique se os intervalos não se sobrepõem.
+
+Consulte o [guia prático de identificação e vigência](../../metodo/identificacao-versoes/) para comparar duas versões históricas completas.
 
 ## O mínimo que um documento precisa ter
 

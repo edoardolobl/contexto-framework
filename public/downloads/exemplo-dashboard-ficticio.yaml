@@ -1,5 +1,6 @@
 # Demonstração sintética, nenhum dashboard de cliente é descrito.
 id: DASH-AURORA-WEB
+revision_id: "DASH-AURORA-WEB@0.1"  # revisão específica; id = assunto estável
 title: "Acompanhamento de sessões convertidas: Aurora"
 type: dashboard_definition
 status: pending_approval
@@ -8,6 +9,8 @@ version_date: "2026-07-20"
 owner: null
 approver: null
 valid_from: null
+valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
+supersedes_revision: null
 source_of_truth: null
 version_history:
   - version: "0.1"

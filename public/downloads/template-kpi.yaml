@@ -4,6 +4,7 @@
 # Não preencha informações desconhecidas com suposições. Use null + open_questions.
 ---
 id: null
+revision_id: null  # revisão específica; id = assunto estável
 title: null
 type: metric_definition
 domain: null
@@ -13,6 +14,8 @@ approver: null
 version: "0.1"
 version_date: null           # data desta versão, no formato AAAA-MM-DD
 valid_from: null
+valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
+supersedes_revision: null
 last_reviewed: null
 source_of_truth: null
 version_history:            # uma entrada por versão, a mais recente primeiro

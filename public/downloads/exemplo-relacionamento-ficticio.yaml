@@ -1,5 +1,6 @@
 # Exemplo de relacionamento sintético validável no SQLite.
 id: REL-AURORA-SESSIONS-ORDERS
+revision_id: "REL-AURORA-SESSIONS-ORDERS@0.1"  # revisão específica; id = assunto estável
 title: "Sessões para pedidos: Aurora (fictício)"
 type: relationship_semantics
 status: pending_approval
@@ -8,6 +9,8 @@ version_date: "2026-07-20"
 owner: null
 approver: null
 valid_from: null
+valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
+supersedes_revision: null
 source_of_truth: null
 version_history:
   - version: "0.1"

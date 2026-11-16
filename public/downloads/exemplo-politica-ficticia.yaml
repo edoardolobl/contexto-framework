@@ -1,5 +1,6 @@
 # Política totalmente fictícia. Não há regras de reembolso aprovadas.
 id: POLICY-EVENTS-001
+revision_id: "POLICY-EVENTS-001@0.1"  # revisão específica; id = assunto estável
 title: "Despesas em eventos: Aurora"
 type: policy_reference
 status: pending_approval
@@ -8,6 +9,8 @@ version_date: "2026-07-20"
 owner: null
 approver: null
 valid_from: null
+valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
+supersedes_revision: null
 last_reviewed: null
 source_of_truth: null
 version_history:

@@ -1,5 +1,6 @@
 # Dataset de sessões fictício, derivado da amostra SQLite do Contexto.
 id: DATASET-AURORA-SESSIONS
+revision_id: "DATASET-AURORA-SESSIONS@0.1"  # revisão específica; id = assunto estável
 title: "Sessões web e app: Aurora (fictício)"
 type: dataset_semantics
 status: pending_approval
@@ -8,6 +9,8 @@ version_date: "2026-07-20"
 owner: null
 approver: null
 valid_from: null
+valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
+supersedes_revision: null
 source_of_truth: null
 version_history:
   - version: "0.1"

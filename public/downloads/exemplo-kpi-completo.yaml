@@ -2,6 +2,7 @@
 # A aprovação, o responsável, as datas e a fonte abaixo são fictícios e existem
 # só para mostrar como fica um documento depois que a área responsável decide.
 id: KPI-AURORA-001
+revision_id: "KPI-AURORA-001@1.1"  # revisão específica; id = assunto estável
 title: "Taxa de sessões convertidas: loja web Aurora"
 type: metric_definition
 status: approved
@@ -11,6 +12,8 @@ version_date: "2026-09-15"
 owner: "Analytics de E-commerce (Aurora)"
 approver: "Gerência de E-commerce (Aurora)"
 valid_from: "2026-09-15"
+valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
+supersedes_revision: "KPI-AURORA-001@1.0"
 domain: ecommerce
 last_reviewed: "2026-09-15"
 source_of_truth: "Catálogo de métricas da Aurora, entrada KPI-AURORA-001 (documento fictício)"
@@ -67,13 +70,13 @@ data_sources:
 
 validation:
   approved_examples:
-    - "Em 2026-10-01: 4 sessões elegíveis, 1 convertida, taxa de 25%"
-  expected_questions_and_answers: ["QA-AURORA-001"]
+    - "Exemplo hipotético para explicar a regra: quatro sessões elegíveis, uma convertida, resultado de 25%"
+  expected_questions_and_answers: []  # gabarito de outubro foi criado depois desta revisão
   known_edge_cases:
-    - "Sessão S1 tem dois pedidos confirmados e conta uma vez"
-    - "Sessão S2 tem pedido cancelado e não conta como convertida"
-    - "Sessão S5 tem pedido de teste e não conta como convertida"
-  tests: ["aurora-reference-query.sql sobre aurora-fixture.sql deve retornar 25.0"]
+    - "Uma sessão com dois pedidos confirmados conta uma única vez"
+    - "Uma sessão com somente pedido cancelado não conta como convertida"
+    - "Uma sessão com somente pedido de teste não conta como convertida"
+  tests: []  # demonstração executável de outubro está no laboratório, posterior a esta revisão
 
 open_questions: []
-related_documents: ["DATASET-AURORA-SESSIONS", "DATASET-AURORA-ORDERS", "REL-AURORA-SESSIONS-ORDERS", "DASH-AURORA-WEB", "QA-AURORA-001"]
+related_documents: ["DATASET-AURORA-SESSIONS", "DATASET-AURORA-ORDERS", "REL-AURORA-SESSIONS-ORDERS", "DASH-AURORA-WEB"]

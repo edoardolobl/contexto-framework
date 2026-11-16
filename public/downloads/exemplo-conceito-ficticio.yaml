@@ -1,5 +1,6 @@
 # Exemplo didático e fictício; nenhuma regra real de RH é representada.
 id: CONCEPT-ONBOARDING-001
+revision_id: "CONCEPT-ONBOARDING-001@0.1"  # revisão específica; id = assunto estável
 title: "Participante ativo: programa de integração Aurora"
 type: concept_definition
 status: pending_approval
@@ -8,6 +9,8 @@ version_date: "2026-07-20"
 owner: null
 approver: null
 valid_from: null
+valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
+supersedes_revision: null
 last_reviewed: null
 source_of_truth: null
 version_history:

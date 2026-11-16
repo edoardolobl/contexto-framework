@@ -3,6 +3,7 @@
 # só para mostrar como fica uma rubrica depois que a área responsável decide.
 # Não usar para avaliar pessoas reais.
 id: RUBRIC-ANALYTICS-001
+revision_id: "RUBRIC-ANALYTICS-001@1.1"  # revisão específica; id = assunto estável
 title: "Rubrica de entregável de análise de dados: Aurora"
 type: evaluation_rubric
 status: approved
@@ -12,6 +13,8 @@ version_date: "2026-09-22"
 owner: "Guilda de Analytics (Aurora)"
 approver: "Liderança de Dados (Aurora)"
 valid_from: "2026-09-22"
+valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
+supersedes_revision: "RUBRIC-ANALYTICS-001@1.0"
 source_of_truth: "Guia de revisão de análises da Aurora, anexo A (documento fictício)"
 version_history:
   - version: "1.1"

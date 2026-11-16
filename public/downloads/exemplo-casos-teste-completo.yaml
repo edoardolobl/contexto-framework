@@ -2,28 +2,31 @@
 # A aprovação, o responsável, as datas e a fonte abaixo são fictícios e existem
 # só para mostrar como fica um gabarito depois que a área responsável decide.
 id: QA-AURORA-001
+revision_id: "QA-AURORA-001@1.1"  # revisão específica; id = assunto estável
 title: "Gabarito documental: sessões convertidas Aurora"
 type: reference_question_set
 status: approved
 example_notice: "Aprovação fictícia, válida só dentro deste exemplo. A Aurora não existe."
 version: "1.1"
-version_date: "2026-09-16"
+version_date: "2026-10-02"
 owner: "Analytics de E-commerce (Aurora)"
 approver: "Gerência de E-commerce (Aurora)"
-valid_from: "2026-09-16"
+valid_from: "2026-10-02"
+valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
+supersedes_revision: "QA-AURORA-001@1.0"
 source_of_truth: "Catálogo de métricas da Aurora, gabarito do KPI-AURORA-001 (documento fictício)"
 version_history:
   - version: "1.1"
-    date: "2026-09-16"
-    change: "Respostas de Q01 e Q02 revistas depois que o KPI-AURORA-001 mudou para a versão 1.1, que conta sessões únicas"
+    date: "2026-10-02"
+    change: "Após obter a amostra de 01/10, foram conferidos os valores e os casos Q01–Q06 segundo o KPI 1.1"
     approved_by: "Gerência de E-commerce (Aurora)"
   - version: "1.0"
-    date: "2026-08-18"
-    change: "Primeiro gabarito aprovado, com seis perguntas"
+    date: "2026-10-01"
+    change: "Primeira revisão aprovada do gabarito, após disponibilização da amostra em 01/10"
     approved_by: "Gerência de E-commerce (Aurora)"
   - version: "0.1"
-    date: "2026-07-20"
-    change: "Primeiro rascunho, com lacunas registradas"
+    date: "2026-10-01"
+    change: "Rascunho do gabarito após disponibilização da amostra sintética"
     approved_by: null
 
 domain: "Analytics: laboratório sintético"
@@ -48,7 +51,7 @@ questions:
     ambiguity: null
     reason_if_abstain: null
     reviewed_by: "Analytics de E-commerce (Aurora)"
-    reviewed_at: "2026-09-16"
+    reviewed_at: "2026-10-02"
   - id: Q02
     question: "Por que a taxa de sessões web convertidas em 2026-10-01 não é 50%?"
     intent: "Explicar a diferença entre contar pedidos e contar sessões"
@@ -60,7 +63,7 @@ questions:
     ambiguity: null
     reason_if_abstain: null
     reviewed_by: "Analytics de E-commerce (Aurora)"
-    reviewed_at: "2026-09-16"
+    reviewed_at: "2026-10-02"
   - id: Q03
     question: "Qual foi a conversão em 2026-10-01?"
     intent: "Pergunta sem canal e sem dizer qual conversão"
@@ -72,7 +75,7 @@ questions:
     ambiguity: "Falta o canal, e conversão pode significar sessões ou pedidos"
     reason_if_abstain: null
     reviewed_by: "Analytics de E-commerce (Aurora)"
-    reviewed_at: "2026-09-16"
+    reviewed_at: "2026-10-02"
   - id: Q04
     question: "Qual foi a taxa de sessões convertidas no app em 2026-10-01?"
     intent: "Aplicar o indicador a um canal fora do escopo"
@@ -84,7 +87,7 @@ questions:
     ambiguity: null
     reason_if_abstain: "Fora do escopo declarado: o indicador não foi definido para app. Encaminhar a quem responde pelo KPI"
     reviewed_by: "Analytics de E-commerce (Aurora)"
-    reviewed_at: "2026-09-16"
+    reviewed_at: "2026-10-02"
   - id: Q05
     question: "Qual foi a taxa de sessões web convertidas em setembro de 2026?"
     intent: "Consultar período sem dados"
@@ -96,7 +99,7 @@ questions:
     ambiguity: null
     reason_if_abstain: "Sem cobertura de dados para o período"
     reviewed_by: "Analytics de E-commerce (Aurora)"
-    reviewed_at: "2026-09-16"
+    reviewed_at: "2026-10-02"
   - id: Q06
     question: "Qual foi a receita líquida em 2026-10-01?"
     intent: "Consultar métrica sem definição"
@@ -108,7 +111,7 @@ questions:
     ambiguity: null
     reason_if_abstain: "Métrica não definida na documentação"
     reviewed_by: "Analytics de E-commerce (Aurora)"
-    reviewed_at: "2026-09-16"
+    reviewed_at: "2026-10-02"
 
 revalidation_triggers:
   - "Mudança de definição ou de versão do KPI"

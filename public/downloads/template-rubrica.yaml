@@ -1,6 +1,7 @@
 # Contrato documental. Não é avaliador automático nem motor de seleção.
 # null significa "ainda não sei" ou "ainda não decidido". Não troque null por um palpite: registre a dúvida em open_questions.
 id: null
+revision_id: null  # revisão específica; id = assunto estável
 title: null
 type: evaluation_rubric
 status: draft                # draft | pending_approval | approved | deprecated
@@ -9,6 +10,8 @@ version_date: null           # data desta versão, no formato AAAA-MM-DD
 owner: null                  # cargo ou área responsável, não o nome de uma pessoa
 approver: null
 valid_from: null
+valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
+supersedes_revision: null
 source_of_truth: null
 version_history:            # uma entrada por versão, a mais recente primeiro
   - version: "0.1"

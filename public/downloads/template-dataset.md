@@ -6,14 +6,17 @@
 
 | Campo | Preenchimento |
 |---|---|
-| Identificador | |
+| Identificador do assunto (estável) | |
+| Identificador desta revisão (único) | |
 | Tipo de documento | Dataset e dicionário de dados |
 | Estado | Rascunho |
 | Responsável (cargo ou área) | |
 | Quem aprova (cargo ou área) | |
 | Versão atual | 0.1 |
 | Data desta versão | |
+| Substitui qual revisão? | |
 | Vale a partir de | |
+| Vale até, sem incluir a data final | |
 | Fonte oficial | |
 
 Estados possíveis: **Rascunho**, **Pendente de aprovação**, **Aprovado**, **Obsoleto**. Só marque "Aprovado" quando quem aprova tiver confirmado por escrito.
@@ -56,7 +59,7 @@ Para cada campo, documente:
 
 ## Histórico de versões
 
-Acrescente uma linha a cada mudança, a mais recente primeiro. Registre o que mudou na regra, não só que o texto foi editado.
+Acrescente uma linha a cada mudança, a mais recente primeiro. Registre o que mudou na regra, não só que o texto foi editado. **Guarde o documento completo de cada revisão aprovada:** o resumo abaixo não permite reconstruir a definição anterior.
 
 | Versão | Data | O que mudou e por quê | Aprovado por (cargo ou área) |
 |---|---|---|---|
