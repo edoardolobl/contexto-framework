@@ -1,0 +1,37 @@
+# Demonstração sintética, nenhum dashboard de cliente é descrito.
+id: DASH-AURORA-WEB
+title: "Acompanhamento de sessões convertidas — Aurora"
+type: dashboard_definition
+status: pending_approval
+version: "0.1"
+owner: null
+approver: null
+valid_from: null
+source_of_truth: null
+
+purpose: "Distinguir sessões web convertidas de quantidade de pedidos por sessão"
+audiences: ["Operação de marketing (fictícia)"]
+supported_decisions: ["Investigar diferenças entre definições de conversão"]
+metrics: ["KPI-AURORA-001"]
+default_filters:
+  channel: web
+  is_internal: 0
+dimensions: ["session_date", "channel"]
+time_semantics:
+  date_field: session_date
+  timezone: null
+  reporting_period: "2026-10-01 (laboratório)"
+  comparison_baseline: null
+freshness:
+  refresh_frequency: "Carga estática sintética"
+  latency: "Não aplicável"
+  verified_at: null
+known_limitations:
+  - "Não cobre períodos fora da amostra"
+  - "Não contém receita líquida nem métricas de app"
+  - "Não equivale a painéis reais de qualquer organização"
+conflicting_dashboards: []
+reference_questions: ["QA-AURORA-001"]
+open_questions:
+  - "Quem homologaria os filtros e as definições num projeto real?"
+related_documents: ["KPI-AURORA-001", "DATASET-AURORA-SESSIONS"]

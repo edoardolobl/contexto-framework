@@ -1,0 +1,61 @@
+---
+title: Template — Dataset e dicionário semântico
+description: Documente o significado de tabelas e campos, granularidade, códigos, valores especiais, fonte e vigência.
+---
+
+import TemplateDownloads from '../../../components/TemplateDownloads.astro';
+
+# Mais que descrever colunas: documente o dataset
+
+O DDL mostra quais colunas existem. Um dicionário semântico esclarece **por que elas existem, o que seus valores significam e quais decisões de negócio podem ser feitas usando esses dados**.
+
+## Perguntas ao especialista
+
+| Campo | Descubra e registre |
+|---|---|
+| Propósito | Que processo ou pergunta o dataset representa? |
+| Granularidade | O que **uma linha** significa? Há várias linhas para o mesmo negócio? |
+| Chaves | O que identifica a entidade? Campos podem ser nulos ou reutilizados? |
+| Colunas | O que o campo significa, incluindo unidade e exemplos de valores? |
+| Valores especiais | O que significam `UNKNOWN`, `0`, `-1`, códigos ou `null`? |
+| Tempo | Qual timestamp representa criação, efetivação, snapshot ou atualização? |
+| Autoridade | Esse é o dataset oficial para a pergunta? Quem aprova sua semântica? |
+| Freshness | Como e quando ele atualiza? Existe atraso habitual? |
+| Restrições | Pode ser somado? Pode ser unido a outra tabela? Em que limites? |
+
+## Exemplo fictício
+
+```yaml
+---
+id: DATASET-AURORA-ORDERS
+type: dataset_semantics
+status: pending_approval
+dataset: demo_orders
+grain: "Uma linha por pedido"
+primary_key: order_id
+columns:
+  - name: status_code
+    meaning: "Estado do pedido segundo a tabela de códigos"
+    allowed_values:
+      CONFIRMED: "Pedido confirmado"
+      CANCELED: "Pedido cancelado"
+      TEST: "Pedido de teste"
+    unknown_value_behavior: "Não inferir"
+source_of_truth: null
+```
+
+O fato de a tabela possuir um campo chamado `total_amount` **não demonstra** se inclui taxas, descontos, impostos ou devoluções. Essa decisão precisa ser documentada e aprovada separadamente.
+
+## Cuidados com valores de exemplo
+
+Exemplos precisam representar a codificação real sem divulgar informações sensíveis. `is_active='Y'`, `is_active=true` e `is_active=1` **não são equivalentes** sem confirmação no catálogo.
+
+Quando houver discrepância entre o schema técnico e a descrição de negócio, mantenha a lacuna visível. Não troque a definição por aquela que parece mais provável.
+
+<TemplateDownloads kind="dataset" />
+
+Veja o [caso integrado](../../exemplos/analytics-integrado/) e o [template de relacionamento](../relacionamento/).
+
+### Referências
+
+[Snowflake Semantic Views — YAML](https://docs.snowflake.com/en/user-guide/views-semantic/semantic-view-yaml-spec) e [Databricks — instruções e contexto de dados](https://docs.databricks.com/gcp/en/genie/add-instructions). Os nossos campos são **uma proposta pedagógica**, não schemas dessas plataformas.

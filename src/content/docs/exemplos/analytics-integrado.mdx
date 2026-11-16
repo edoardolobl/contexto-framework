@@ -1,0 +1,107 @@
+---
+title: Estudo integrado — KPI, schema e dashboard
+description: Uma pequena amostra fictícia mostra como SQL válido pode responder à pergunta errada.
+---
+
+import AnalyticsLabDownloads from '../../../components/AnalyticsLabDownloads.astro';
+
+# Uma análise correta começa no significado da pergunta
+
+**Cenário fictício:** a loja Aurora quer documentar a **taxa de sessões web convertidas**. A pergunta parece simples, mas uma sessão pode conter mais de um pedido. Uma contagem de pedidos é diferente de uma contagem de sessões.
+
+Este tutorial usa uma pequena amostra sintética para que os cálculos possam ser reproduzidos. **Não representa dados de Natura, Monks ou qualquer cliente.**
+
+## 1. As duas tabelas
+
+`demo_sessions`: uma linha por sessão.
+
+| session_id | channel | is_internal |
+|---|---|---|
+| S1 | web | 0 |
+| S2 | web | 0 |
+| S3 | web | 1 |
+| S4 | app | 0 |
+| S5 | web | 0 |
+| S6 | web | 0 |
+
+`demo_orders`: uma linha por pedido.
+
+| order_id | session_id | status_code |
+|---|---|---|
+| O1 | S1 | CONFIRMED |
+| O2 | S1 | CONFIRMED |
+| O3 | S2 | CANCELED |
+| O4 | S3 | CONFIRMED |
+| O5 | S4 | CONFIRMED |
+| O6 | S5 | TEST |
+
+O período do exemplo é **1º de outubro de 2026**. Os registros são inventados.
+
+## 2. O schema sozinho não resolve a questão
+
+Um modelo consegue identificar `session_id`, `status_code` e `channel`. Mas não sabe, sem documentação adicional, se `CONFIRMED` é uma conversão válida, se sessões internas entram ou se uma sessão com dois pedidos conta uma ou duas vezes.
+
+Para esta **definição demonstrativa**, estabelecemos:
+
+- Sessões elegíveis: `channel='web'` e `is_internal=0` → S1, S2, S5 e S6 (**4 sessões**).
+- Sessões convertidas: sessões elegíveis com pelo menos um pedido `CONFIRMED` → somente S1 (**1 sessão**).
+- Indicador: `sessões_convertidas ÷ sessões_elegíveis × 100` → **25%**.
+
+Isso é uma definição de **taxa de sessões convertidas**, não uma taxa genérica universal de e-commerce.
+
+## 3. A armadilha do join
+
+S1 possui dois pedidos confirmados. Se uma consulta conta **pedidos confirmados por sessão elegível**, encontra **2 ÷ 4 = 50%**. Esse cálculo pode estar matematicamente correto para uma **métrica diferente**, mas não corresponde à nossa pergunta, que mede sessões únicas convertidas.
+
+A relação documentada entre `demo_sessions` e `demo_orders` é **um-para-muitos**. Essa informação, e não somente o nome da chave, explica o risco de duplicidade.
+
+## 4. SQL de referência para esta amostra
+
+```sql
+WITH eligible_sessions AS (
+  SELECT session_id FROM demo_sessions
+  WHERE channel = 'web' AND is_internal = 0
+    AND session_date = '2026-10-01'
+),
+converted_sessions AS (
+  SELECT DISTINCT o.session_id
+  FROM demo_orders AS o
+  JOIN eligible_sessions AS s ON s.session_id = o.session_id
+  WHERE o.status_code = 'CONFIRMED'
+)
+SELECT ROUND(
+  100.0 * (SELECT COUNT(*) FROM converted_sessions)
+  / NULLIF((SELECT COUNT(*) FROM eligible_sessions), 0),
+  2
+) AS converted_session_rate;
+```
+
+A consulta está associada **somente à amostra SQL fictícia**. Não a copie para dados de produção sem revisar a semântica e a estrutura reais.
+
+## 5. O dashboard precisa repetir o mesmo significado
+
+Um painel hipotético com o cartão “Conversão web” deve apontar ao documento da métrica e registrar seus filtros, a data e a regra de contagem. Se não o fizer, dois dashboards podem mostrar 25% e 50% sem que o leitor perceba que estão respondendo a perguntas diferentes.
+
+Isso é precisamente o problema que a [documentação semântica de datasets](../../templates/dataset/), [relacionamentos](../../templates/relacionamento/) e [dashboards](../../templates/dashboard/) ajuda a prevenir.
+
+## 6. Perguntas que o acervo deve sustentar
+
+| Pergunta | Comportamento documental esperado |
+|---|---|
+| “Qual a taxa de sessões convertidas na amostra web?” | **25%**, com referência à definição e aos dados da amostra |
+| “Por que não é 50%?” | Explicar que 50% é pedidos por sessão elegível, não sessões convertidas |
+| “E no app?” | Informar que **esta métrica foi definida apenas para web** |
+| “E no mês anterior?” | Informar que **não há dados deste período na amostra** |
+| “Qual a receita líquida?” | Indicar que a documentação não define essa métrica |
+
+## 7. Reproduza e reutilize
+
+<AnalyticsLabDownloads />
+
+Consulte as [perguntas e respostas de referência](../../exemplos/testes-analytics/).
+
+O portal não executa consultas nem acessa bancos. Os arquivos são um **laboratório pedagógico**, não uma conexão com dados de clientes.
+
+### Fundamentação
+
+[Rumiantsau & Fokeev (2026)](https://arxiv.org/abs/2604.25149), [Snowflake Semantic Views](https://docs.snowflake.com/en/user-guide/views-semantic/semantic-view-yaml-spec) e [Databricks — contextos e exemplos SQL](https://docs.databricks.com/gcp/en/genie/add-instructions). Nenhuma dessas fontes certifica nosso SQL fictício; sua correção na amostra deve ser testada diretamente.

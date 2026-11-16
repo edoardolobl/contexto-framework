@@ -1,0 +1,52 @@
+# Convenção documental didática, não é schema executável de fornecedor.
+id: null
+title: null
+type: dataset_semantics
+status: draft
+version: "0.1"
+owner: null
+approver: null
+valid_from: null
+source_of_truth: null
+
+dataset:
+  physical_name: null
+  platform: null
+  business_purpose: null
+  grain: null
+  primary_key: null
+  alternative_keys: []
+  uniqueness_assumption: null
+
+columns:
+  - physical_name: null
+    technical_type: null
+    business_name: null
+    meaning: null
+    unit: null
+    allowed_values: []
+    sentinel_values: []
+    null_meaning: null
+    examples: []
+    do_not_use_for: []
+
+time_semantics:
+  reference_field: null
+  timezone: null
+  update_frequency: null
+  known_latency: null
+  snapshot_or_events: null
+
+usage:
+  authoritative_questions: []
+  invalid_aggregations: []
+  related_datasets: []
+  known_caveats: []
+  sample_queries: []
+
+validation:
+  checked_by: null
+  checked_at: null
+  evidence: []
+open_questions: []
+related_documents: []

@@ -1,0 +1,56 @@
+---
+title: Template — Relacionamentos e joins
+description: Registre chaves, cardinalidade, tipos de junção, regras temporais e riscos de multiplicação de linhas.
+---
+
+import TemplateDownloads from '../../../components/TemplateDownloads.astro';
+
+# Documente como os dados se relacionam
+
+Saber o nome de duas tabelas não garante que a junção entre elas represente o conceito de negócio. Uma chave compartilhada pode gerar duplicação, associar períodos incompatíveis ou misturar entidades diferentes.
+
+## Perguntas ao responsável pelo modelo
+
+| Pergunta | Por que importa |
+|---|---|
+| O que cada linha representa em cada lado? | Define a granularidade de origem e destino |
+| Qual par de chaves deve ser usado? | Evita joins por campos parecidos, mas não equivalentes |
+| A relação é 1:1, 1:N ou N:N? | Permite antecipar multiplicação de linhas |
+| Existem chaves sem correspondência? | Define se um `INNER JOIN` é apropriado |
+| Qual é a regra de período? | Evita associar status atual a períodos históricos |
+| Há tabelas snapshot ou slowly changing? | Ajuda a definir a referência temporal correta |
+| O dado contém valores sentinela ou nulos? | Evita interpretar ausências como entidades reais |
+| Quais combinações são proibidas ou ambíguas? | Registra armadilhas conhecidas |
+
+## Exemplo fictício: sessão → pedidos
+
+```yaml
+---
+id: REL-AURORA-SESSIONS-ORDERS
+type: relationship_semantics
+status: pending_approval
+left: demo_sessions
+right: demo_orders
+left_grain: "Uma linha por sessão"
+right_grain: "Uma linha por pedido"
+join_keys:
+  - left: session_id
+    right: session_id
+cardinality: one_to_many
+join_intent: "Atribuir pedidos à sessão de origem"
+risk: "Uma sessão com dois pedidos duplica linhas da sessão"
+```
+
+Para contar **sessões convertidas**, um `COUNT(*)` após essa junção pode gerar resultado errado. Um exemplo documental pode registrar a intenção de contar sessões únicas — mas a implementação SQL precisa ser testada separadamente.
+
+### Não transforme convenções em regras universais
+
+A decisão por `LEFT JOIN`, `INNER JOIN`, janelas temporais ou contagens distintas depende da pergunta e do domínio. O template **não prescreve** um join correto para todo caso.
+
+<TemplateDownloads kind="relacionamento" />
+
+Consulte o [caso integrado de conversão](../../exemplos/analytics-integrado/).
+
+### Referências
+
+[dbt MetricFlow](https://docs.getdbt.com/docs/build/about-metricflow), [Snowflake Semantic Views](https://docs.snowflake.com/en/user-guide/views-semantic/semantic-view-yaml-spec) e [Databricks — definições de joins](https://docs.databricks.com/gcp/en/genie/add-instructions). O YAML é original e não executável.

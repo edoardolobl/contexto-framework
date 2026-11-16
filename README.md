@@ -2,68 +2,79 @@
 
 > **Uma IA não deveria adivinhar como sua organização funciona.**
 
-Contexto é um framework pedagógico, genérico e independente de fornecedores para ajudar especialistas de domínio a **explicitar conhecimento tácito, conceitos, regras, exceções, fontes e autoridade**, de modo que engenheiros de IA não precisem inventar definições ausentes em acervos ambíguos e dispersos.
+O Contexto é um framework pedagógico, independente de fornecedores e clientes, para orientar especialistas de qualquer domínio a **explicitar conceitos, processos, regras, exceções e fontes**, de forma que engenheiros de IA não precisem inventar semântica de negócio a partir de acervos vagos e dispersos.
 
-## Promessa única
+**Promessa única:** ensinar **como documentar o conhecimento organizacional**. Preencher os templates **não garante** o acerto de SQL, RAG, agentes ou avaliações automatizadas.
 
-**Ensinar como documentar o conhecimento organizacional**, com método, perguntas de elicitação, templates e exemplos comentados. Preencher templates **não garante** SQL, RAG ou agentes corretos. A implementação, o controle de acesso e a avaliação técnica permanecem sob responsabilidade das equipes de engenharia.
-
-## Versão v0.2
-
-Além do módulo de KPI da v0.1, agora há uma trilha transversal para:
-
-- **Conceitos e glossários:** termos preferidos, sinônimos, contraexemplos e diferenças entre domínios.
-- **Processos:** gatilhos, entradas, atividades, responsáveis, decisões, desvios e evidências.
-- **Regras e decisões:** condições, prioridades, resultados e tratamento do desconhecido.
-- **Políticas e referências:** autoridade, vigência, fontes, conflito documental e exceções.
-- **Revisão e entrega:** lista de pendências e verificação da qualidade documental.
-
-Cada novo template oferece **Markdown + YAML + exemplo preenchido fictício**. Um seletor pedagógico ajuda a escolher o modelo por tarefa. A trilha de Dados & Analytics será ampliada na v0.3.
-
-## Portal publicado
+## Portal
 
 https://edoardolobl.github.io/contexto-framework/
 
+## O que existe na v0.3
+
+### Núcleo transversal
+- Princípios e método das oito dimensões;
+- Roteiro de elicitação e passagem do conhecimento;
+- Templates de conceitos, processos, regras, políticas e KPIs;
+- Exemplos comentados em RH, Marketing, Financeiro e Analytics.
+
+### Trilha de Dados e Analytics
+- Definições semânticas de **datasets**, campos, granularidade e códigos;
+- **Relacionamentos** entre tabelas, cardinalidade e riscos de junção;
+- **Dashboards**, filtros, métricas, vigência e limites;
+- **Rubricas AI-ready** com evidências, níveis e revisão humana;
+- **Perguntas e respostas de referência**, incluindo ambiguidade e abstenção;
+- **Laboratório Aurora** com dados sintéticos SQLite, SQL verificável e cálculo de taxa de sessões convertidas.
+
+Cada tipo de documento oferece Markdown, YAML e exemplo fictício para download. Os formatos são **convenções pedagógicas**, não schemas de fornecedores.
+
+## Reproduza o laboratório SQL
+
+```bash
+python3 -m pip install PyYAML
+python3 scripts/check_analytics_fixture.py
+```
+
+A consulta em `public/downloads/aurora-reference-query.sql` deve retornar **25%** na amostra fictícia `aurora-fixture.sql`. Ela calcula **sessões únicas convertidas**, não quantidade de pedidos. Isso é um exemplo de como a documentação ajuda a explicitar a unidade da métrica, não uma prova de acurácia de modelos de IA.
+
 ## Desenvolvimento
 
-Requer Node.js 22.12+ e Python 3. Para verificar YAML, instale PyYAML com `python3 -m pip install PyYAML`.
+Requer Node.js 22.12 ou superior, npm, Python 3 e PyYAML.
 
 ```bash
 npm install
 npm run validate:content
+python3 scripts/check_decision_examples.py
+python3 scripts/check_analytics_fixture.py
 npm run build
 npm run dev
 ```
 
-O projeto usa Astro Starlight e publica automaticamente via GitHub Pages após merge na branch `main`. Pull requests executam validação de conteúdo e build.
+O GitHub Actions executa validação de conteúdo, checagens de exemplos e build em PRs. Merges na `main` acionam a publicação do Astro Starlight no GitHub Pages.
 
-## Organização
+## Estrutura
 
 ```text
 src/
-  components/          Componentes pedagógicos e downloads
-  content/docs/        Páginas de metodologia, templates e exemplos
+  components/          Elementos visuais e downloads
+  content/docs/        Metodologia, templates e exemplos
   styles/              Identidade visual
-public/downloads/     Modelos e exemplos Markdown/YAML
+public/downloads/     Templates Markdown/YAML e laboratório SQL
+scripts/              Validações independentes de LLM
 docs/                 Contrato editorial e roadmap
-scripts/              Validação editorial
-.github/workflows/    Verificação e publicação
+.github/workflows/    Testes e publicação
 ```
 
-## Como contribuir editorialmente ao projeto
+## Como editar com qualidade
 
-1. Comece pelo [contrato editorial](docs/CONTRATO_EDITORIAL.md).
-2. Escreva uma página que ajude o leitor a compreender, observar e aplicar a técnica.
-3. Crie template, exemplo fictício, questões de elicitação e referências primárias.
-4. Não preencha lacunas com suposições. Escreva **quem deve decidir**.
-5. Execute o validador e o build antes do pull request.
+Leia `docs/CONTRATO_EDITORIAL.md`. Cada nova página deve ensinar o leitor a compreender, observar e aplicar o conceito. Todo template publicado deve incluir instrução de uso, exemplo, perguntas de elicitação, registro de lacunas, responsáveis e fontes.
 
-O repositório é mantido por uma pessoa. A proposta editorial independe de qualquer empresa ou cliente.
+Os documentos são destinados a pessoas de negócio e tecnologia. **Não presumir que todo colaborador sabe Markdown, YAML, SQL ou arquitetura de IA**.
 
-## Referências
+## Bibliografia
 
-[IIBA](https://www.iiba.org/knowledgehub/the-business-analysis-standard/) · [KCS](https://library.serviceinnovation.org/KCS/KCS_v6/KCS_v6_Practices_Guide) · [Diátaxis](https://diataxis.fr/) · [OMG BPMN](https://www.omg.org/spec/BPMN/2.0.2) · [OMG DMN](https://www.omg.org/spec/DMN/1.6) · [W3C SKOS](https://www.w3.org/TR/skos-reference/)
+[Nonaka (1994)](https://doi.org/10.1287/orsc.5.1.14) · [IIBA](https://www.iiba.org/knowledgehub/the-business-analysis-standard/) · [KCS v6](https://library.serviceinnovation.org/KCS/KCS_v6/KCS_v6_Practices_Guide) · [OMG DMN](https://www.omg.org/spec/DMN/1.6) · [Snowflake Semantic Views](https://docs.snowflake.com/en/user-guide/views-semantic/semantic-view-yaml-spec) · [Rumiantsau & Fokeev (2026)](https://arxiv.org/abs/2604.25149) · [Microsoft — RAG Preparation](https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/rag/rag-preparation-phase) · [NIST AI RMF](https://airc.nist.gov/airmf-resources/playbook/measure/)
 
 ## Licença
 
-A definir pelo mantenedor. Até a escolha explícita de licença, não presumir autorização geral de redistribuição de código ou conteúdo.
+A definir pelo mantenedor. Até a escolha explícita, não presumir autorização geral de redistribuição de código ou conteúdo.

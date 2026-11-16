@@ -94,3 +94,18 @@ Checklist de aprovação editorial do template: necessidade e aplicabilidade; pe
 - Cada alteração significativa de método deve registrar versão e motivo.
 - Um template novo só entra na navegação após possuir exemplo e instruções de uso.
 - Referências substituídas devem ser revistas para evitar justificativas obsoletas.
+
+## Regras adicionais para exemplos de Data Analytics
+
+1. **Unidade antes da fórmula:** diferenciar pedidos, sessões, clientes, itens e eventos antes de mostrar a conta.
+2. **Granularidade e joins:** declarar o que cada linha representa, cardinalidade e riscos de multiplicação.
+3. **Exemplo numérico verificável:** quando houver valor esperado, fornecer amostra sintética e consulta ou procedimento reproduzível.
+4. **Abstenção fundamentada:** incluir pelo menos um exemplo sem cobertura temporal, sem definição ou fora do escopo.
+5. **Rubricas e decisões humanas:** diferenciar `not_evaluable` de nota zero; não fazer inferências pessoais nem autorizar contratação automática.
+6. **Documentação não é enforcement:** diferenciar gabarito documental, SQL verificado, camada semântica executável e sistema de agentes.
+
+A execução de testes automatizados pode encontrar contradições nos exemplos, mas não prova que um documento de produção é correto. A aprovação do especialista continua indispensável.
+
+## Como validar o próprio framework
+
+O [plano de validação exploratória](PLANO_VALIDACAO.md) propõe exercícios com pessoas técnicas e não técnicas. Não marcar como “validado por usuários” um material que apenas passou pelo build do Astro.

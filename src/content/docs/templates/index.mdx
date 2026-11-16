@@ -1,40 +1,48 @@
 ---
 title: Biblioteca de templates
-description: Modelos reutilizáveis para conceitos, processos, decisões, políticas e KPIs.
+description: Modelos reutilizáveis para documentação transversal e semântica de Dados e Analytics.
 ---
 
 # Biblioteca de templates
 
-Os templates do Contexto ensinam especialistas a **descobrir, registrar e validar** informações que normalmente ficam implícitas. Eles não substituem políticas oficiais nem são especificações executáveis.
+Os templates do Contexto ensinam especialistas a **descobrir, registrar e validar** informações normalmente implícitas. Eles não substituem a autoridade de políticas reais nem são especificações executáveis.
 
-Se não sabe qual modelo usar, vá para [Escolha o que documentar](../../fundamentos/escolher-documento/).
+Se não sabe qual modelo usar, comece por [Escolha o que documentar](../../fundamentos/escolher-documento/).
 
-## Selecione pela finalidade
+## Modelos transversais
 
-| Preciso documentar… | Modelo | Exemplo comentado |
+| Preciso documentar… | Template | Exemplo comentado |
 |---|---|---|
-| O significado de um termo em determinada área | [Conceito e glossário](conceito/) | [“Participante ativo” em RH](../../exemplos/conceito-onboarding/) |
-| Uma sequência com responsáveis e exceções | [Processo ou procedimento](processo/) | [Publicação de campanha](../../exemplos/processo-campanha/) |
-| Condições que mudam uma decisão | [Regras e decisões](decisao/) | [Triagem e precedência](../../exemplos/decisao-campanha/) |
-| Uma orientação com autoridade e vigência | [Política e referência](politica/) | [Conflito entre fontes](../../exemplos/politica-despesas/) |
-| Uma métrica de negócio | [KPI ou indicador](kpi/) | [Conversão de e-commerce](../../exemplos/kpi/) |
+| Significado de um termo | [Conceito e glossário](conceito/) | [“Participante ativo” em RH](../../exemplos/conceito-onboarding/) |
+| Etapas e responsáveis | [Processo ou procedimento](processo/) | [Publicação de campanha](../../exemplos/processo-campanha/) |
+| Condições e prioridades | [Regras e decisões](decisao/) | [Triagem e precedência](../../exemplos/decisao-campanha/) |
+| Autoridade e vigência | [Política e referência](politica/) | [Fontes conflitantes](../../exemplos/politica-despesas/) |
+| Indicadores e cálculos | [KPI ou métrica](kpi/) | [Conversão de e-commerce](../../exemplos/kpi/) |
 
-## Cada tipo oferece três arquivos
+## Modelos especializados — Dados e Analytics
 
-**Markdown** para redigir e revisar de maneira natural, **YAML** para visualizar os campos de maneira estruturada e um **exemplo fictício** para mostrar a diferença entre o preenchimento e a validação efetiva.
+| Preciso documentar… | Template | Exemplo ou exercício |
+|---|---|---|
+| Tabelas, campos, códigos e granularidade | [Dataset e dicionário semântico](dataset/) | [Caso integrado Aurora](../../exemplos/analytics-integrado/) |
+| Chaves, cardinalidade e joins válidos | [Relacionamentos](relacionamento/) | [Sessões × pedidos](../../exemplos/analytics-integrado/) |
+| Interpretação de indicadores num painel | [Dashboard](dashboard/) | [Caso integrado Aurora](../../exemplos/analytics-integrado/) |
+| Critérios para avaliar um trabalho | [Rubrica AI-ready](rubrica/) | [Rubrica de case analítico](../../exemplos/rubrica-case/) |
+| O que a documentação deve responder | [Perguntas de referência](casos-teste/) | [Perguntas e limites da amostra](../../exemplos/testes-analytics/) |
 
-Você não precisa usar YAML em sua organização: um documento do Word, Google Docs ou outra ferramenta pode expressar o mesmo conhecimento, desde que preserve significado, contexto, regras, exceções, propriedade, fontes e validade.
+Os cinco modelos especializados complementam o núcleo metodológico, **não o substituem**. Consulte a [trilha de Dados e Analytics](../../dados/visao-geral/) para saber quando aplicá-los.
 
-### Antes de marcar um documento como aprovado
+## Cada template oferece arquivos reutilizáveis
 
-- A regra está explícita ou apenas implícita nos exemplos?
-- As fontes que a sustentam são identificadas e autorizadas?
-- Uma pessoa de fora da área entende o que ainda não foi decidido?
-- O proprietário confirma o conteúdo e sua vigência?
-- Há algum conflito que precisa ser resolvido antes de usar o documento?
+**Markdown** para redigir e revisar, **YAML** para visualizar estrutura e metadados, e **um exemplo fictício** para demonstrar como registrar lacunas.
 
-Se não, mantenha a pendência visível. O próximo passo é [revisar e entregar o conhecimento](../../metodo/revisao-e-entrega/), e não pedir à engenharia de IA que preencha as lacunas.
+Não é necessário utilizar YAML em sua organização. O conhecimento pode permanecer em Word, Google Docs ou na ferramenta já adotada, desde que seja explícito, contextualizado, rastreável e revisado.
 
-## Próximos módulos
+## Antes de declarar um documento aprovado
 
-A v0.3 está planejada para aprofundar semântica de datasets, relacionamentos, dashboards e rubricas de avaliação. O núcleo transversal da metodologia **não depende** desses módulos especializados.
+- O conteúdo responde à pergunta de negócio, ou apenas oferece termos que parecem familiares?
+- As regras e exceções estão escritas ou somente na memória de colegas?
+- As fontes são válidas, possuem autoridade e têm vigência conhecida?
+- Um exemplo foi apresentado como regra sem ter sido aprovado?
+- As lacunas foram registradas com responsáveis?
+
+Se houver dúvidas, use [a passagem de conhecimento](../../metodo/revisao-e-entrega/) e mantenha as pendências visíveis. **Não delegue ao engenheiro de IA a tarefa de inventar o que a organização ainda não decidiu.**

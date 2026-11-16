@@ -1,41 +1,52 @@
 ---
-title: Semântica de dados
-description: Por que estruturas físicas não explicam completamente conceitos do negócio.
+title: Além do schema
+description: Semântica é a diferença entre saber o que existe no banco e saber o que os dados significam.
 ---
 
-# Além do schema: documentando a semântica dos dados
+# Além do schema: documentando o significado dos dados
 
-Um DDL descreve tabelas e colunas; não registra necessariamente o que significam nem quando devem ser usadas.
+Um DDL descreve tabelas e colunas; não registra necessariamente **o que representam, quando devem ser utilizadas e quais decisões de negócio fundamentam**.
 
-## O que registrar
+## O que precisa ficar explícito
 
-- Qual tabela representa cada processo ou indicador.
-- Granularidade de cada tabela (por pedido, item, sessão, snapshot).
-- Chaves, cardinalidade, caminhos de junção e riscos de duplicidade.
-- Códigos, nulos, sentinelas e convenções especiais.
-- Fórmulas de métricas, agregações e unidades.
-- Regras de desambiguação e fontes de autoridade.
-- Exemplos de consultas verificadas e critérios de abstinência.
+- Qual tabela representa cada conceito ou classe de pergunta;
+- Granularidade de cada tabela (pedido, item, sessão ou snapshot);
+- Chaves, cardinalidade, caminhos de junção e riscos de duplicidade;
+- Códigos, nulos, sentinelas e convenções especiais;
+- Fórmulas de métricas, agregações e unidades;
+- Regras de desambiguação e fontes de autoridade;
+- Exemplos de consultas verificadas e perguntas sem resposta;
+- Vigência, proprietário e revisão da semântica.
 
-## Exemplo
+## Exemplo de estrutura
 
 ```yaml
+---
+id: DATASET-EXAMPLE-001
+type: dataset_semantics
+status: draft
 dataset: analytics.fact_orders
-grain: one_row_per_order
+grain: "Uma linha por pedido"
 fields:
   status_code:
-    CONFIRMED: Pedido confirmado
-    CANCELED: Pedido cancelado
-business_rules:
-  confirmed_sales:
-    eligible_statuses: [CONFIRMED]
-status: draft
+    CONFIRMED: "Pedido confirmado"
+    CANCELED: "Pedido cancelado"
+usage_rules:
+  confirmed_orders:
+    valid_codes: [CONFIRMED]
+source_of_truth: null
 ```
 
-Esse documento é fictício. Uma camada semântica **documental** fornece contexto ao LLM; uma camada **executável** também pode impor determinadas regras por compilação ou validação.
+O exemplo é fictício e incompleto. **Não descreve um modelo executável**.
 
-### Evidência
+## Contexto documental e execução determinística
 
-Rumiantsau e Fokeev (2026), *Semantic Layers for Reliable LLM-Powered Data Analytics*, compararam respostas com schema puro e com um documento semântico adicional. Em um benchmark com 99 perguntas válidas, o segundo contexto melhorou a taxa de acerto em aproximadamente 17 a 23 pontos percentuais nos três modelos estudados. Os próprios autores reconhecem limites de generalização e erros remanescentes.
+Uma camada semântica **documental** fornece explicações para uma pessoa ou um modelo; ela não obriga a aplicação correta das regras. Uma camada **executável** pode impor determinadas restrições na compilação ou execução da consulta. Ambas precisam de definições verdadeiras e homologadas.
 
-[Leia o estudo](https://arxiv.org/abs/2604.25149) · [Veja a bibliografia](../../referencias/)
+No estudo de Rumiantsau e Fokeev (2026), fornecer documentação semântica junto ao schema melhorou o desempenho num benchmark específico de text-to-SQL, mas deixou erros residuais. A evidência favorece explicitar o contexto; **não garante o acerto de um agente em produção**.
+
+## Da explicação à prática
+
+Consulte o [guia de Dados e Analytics](../visao-geral/) para entender as quatro camadas do conhecimento. Depois use os modelos de [dataset](../../templates/dataset/), [relacionamento](../../templates/relacionamento/) e [dashboard](../../templates/dashboard/). O [caso integrado Aurora](../../exemplos/analytics-integrado/) mostra o efeito concreto de uma relação 1:N.
+
+[Artigo de Rumiantsau & Fokeev](https://arxiv.org/abs/2604.25149) · [Bibliografia crítica](../../referencias/)

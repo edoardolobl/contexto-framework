@@ -5,56 +5,70 @@ description: Fontes metodológicas, estudos empíricos e origem das decisões do
 
 # Bibliografia e rastreabilidade
 
-O Contexto organiza um método pedagógico **autoral** que combina literatura sobre conhecimento organizacional, análise de negócios, documentação e modelagem de dados. **Não existe uma norma que determine as “oito dimensões” exatamente como apresentadas neste site.**
+O Contexto combina literatura sobre conhecimento organizacional, análise de negócios, documentação, modelos semânticos e avaliação. É uma **metodologia autoral**: não existe uma norma que determine as “oito dimensões” exatamente como apresentadas aqui.
 
-## Origem dos fundamentos
+Para cada tema, distinguimos **o que a fonte realmente sustenta**, **qual adaptação pedagógica propomos** e **qual limite não podemos ultrapassar**.
 
-| Referência | Relevância para o framework | Limite |
+## Fundamentos da metodologia
+
+| Fonte primária | Uso no framework | Ressalva |
 |---|---|---|
-| [Nonaka (1994), *A Dynamic Theory of Organizational Knowledge Creation*](https://doi.org/10.1287/orsc.5.1.14) | Relação entre conhecimento tácito e explícito | Não implica que todo conhecimento tácito possa ser formalizado |
-| [KCS v6, *Practices Guide*](https://library.serviceinnovation.org/KCS/KCS_v6/KCS_v6_Practices_Guide) | Práticas de captura, contextualização, reutilização e melhoria | Não reproduzimos o guia ou seus checklists como se fossem de domínio público |
-| [IIBA, *The Business Analysis Standard*](https://www.iiba.org/knowledgehub/the-business-analysis-standard/) | Elicitação, confirmação, comunicação, modelagem e validação | Oito dimensões e campos YAML são adaptações do Contexto |
-| [Diátaxis](https://diataxis.fr/) | Diferenciar aprendizado, como fazer, explicação e referência | É uma referência editorial, não uma especificação de RAG |
-| [ISO 30401:2018](https://www.iso.org/standard/68683.html) | Gestão do conhecimento e responsabilidades | Não substituímos o texto pago nem afirmamos conformidade |
-| [DCMI Metadata Terms](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/) | Descrição e proveniência dos recursos | Campos dos templates são convenções nossas |
-| [W3C SKOS Reference](https://www.w3.org/TR/skos-reference/) | Termos preferidos, alternativos e relacionados | Nosso YAML não é RDF nem serialização SKOS |
+| [Nonaka (1994), *A Dynamic Theory of Organizational Knowledge Creation*](https://doi.org/10.1287/orsc.5.1.14) | Relação entre conhecimento tácito e explícito | Não sugere que todo julgamento humano pode ser formalizado |
+| [KCS v6, *Practices Guide*](https://library.serviceinnovation.org/KCS/KCS_v6/KCS_v6_Practices_Guide) | Captura, estrutura e evolução de conhecimento | Conteúdo e licença do guia devem ser respeitados |
+| [IIBA, *The Business Analysis Standard*](https://www.iiba.org/knowledgehub/the-business-analysis-standard/) | Elicitação, confirmação, modelagem e validação | Templates não são formulários oficiais IIBA |
+| [Diátaxis](https://diataxis.fr/) | Explicação, tutorial, how-to e referência | Modelo editorial, não especificação de IA |
+| [ISO 30401:2018](https://www.iso.org/standard/68683.html) | Gestão do conhecimento e responsabilidades | Não alegamos certificação nem reproduzimos norma integral |
+| [DCMI Metadata Terms](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/) | Propriedades e identificação de documentos | YAML de exemplo não é schema DCMI |
+| [W3C SKOS](https://www.w3.org/TR/skos-reference/) | Termos preferidos, alternativos e relacionados | Nosso glossário não é serialização formal SKOS |
 
-## Modelagem de processos, decisões e políticas
+## Processos, decisões e políticas
 
-| Referência | Utilização no Contexto | Limite |
+| Fonte | Utilização | Limite |
 |---|---|---|
-| [OMG BPMN 2.0.2](https://www.omg.org/spec/BPMN/2.0.2) | Conceitos de atividades, participantes, eventos e fluxos | Diagramas textuais do Contexto **não** são BPMN formal |
-| [OMG DMN 1.6](https://www.omg.org/spec/DMN/1.6) | Condições, decisões, tabelas e resultados | Tabelas didáticas **não** são DMN executável |
-| [IIBA — Confirm Elicitation Results](https://www.iiba.org/knowledgehub/the-business-analysis-standard/) | Verificação das interpretações com especialistas | Não autoriza decisões de negócio substitutivas |
-| [KCS Practices Guide](https://library.serviceinnovation.org/KCS/KCS_v6/KCS_v6_Practices_Guide) | Revisão, reutilização e manutenção do acervo | Licença e propriedade intelectual devem ser respeitadas |
+| [OMG BPMN 2.0.2](https://www.omg.org/spec/BPMN/2.0.2) | Participantes, atividades e fluxos | Diagramas ASCII e YAML do Contexto não são BPMN formal |
+| [OMG DMN 1.6](https://www.omg.org/spec/DMN/1.6) | Decisões, condições e tabelas de decisão | Tabelas didáticas não constituem DMN executável |
+| [IIBA — Confirm Elicitation Results](https://www.iiba.org/knowledgehub/the-business-analysis-standard/) | Confirmação de interpretações por especialistas | Não transforma prática relatada em regra automaticamente |
+| [KCS](https://library.serviceinnovation.org/KCS/KCS_v6/KCS_v6_Practices_Guide) | Revisão, versionamento e autoridade do conteúdo | Conformidade e governança dependem da organização |
 
-## Data Analytics e contexto semântico
+## Semântica e análise de dados
 
-| Referência | Uso e ressalva |
-|---|---|
-| [Rumiantsau & Fokeev (2026), *Semantic Layers for Reliable LLM-Powered Data Analytics*](https://arxiv.org/abs/2604.25149) | Estudo empírico contextual: autores ligados à Cube, um dataset, um banco, avaliação single-shot e erros residuais. Não prova garantia de correção. |
-| [dbt MetricFlow](https://docs.getdbt.com/docs/build/about-metricflow) | Entidades, dimensões, métricas e modelagem semântica |
-| [LookML](https://docs.cloud.google.com/looker/docs/what-is-lookml) | Representação de medidas e dimensões |
-| [Snowflake Semantic Views](https://docs.snowflake.com/en/user-guide/views-semantic/semantic-view-yaml-spec) | Relações e consultas verificadas |
-
-## Rastreabilidade: decisão → fundamento → adaptação
-
-| Recomendação do Contexto | Fonte-base | O que foi adaptado |
+| Fonte | O que aprendemos | Limite |
 |---|---|---|
-| Investigar conhecimento tácito antes de reescrever | Nonaka; IIBA | Roteiro de perguntas e registro de lacunas |
-| Exigir proprietário, contexto, evidência e validade | KCS; DCMI; ISO 30401 | Oito dimensões e contrato editorial |
-| Distinguir sinônimo de termo apenas relacionado | W3C SKOS | Template de conceito e exemplo RH |
-| Registrar gatilho, entradas, passos e exceções | OMG BPMN; IIBA | Template de processo não executável |
-| Declarar regras, prioridade e tratamento do desconhecido | OMG DMN; IIBA | Tabela de decisão didática e exemplos |
-| Diferenciar prática informal de política vigente | ISO 30401; KCS; IIBA | Registro de conflito e autoridade documental |
-| Entregar documentação com pendências explícitas | IIBA; KCS | Ficha de passagem de conhecimento |
-| Separar documentação semântica de runtime | Pesquisa semântica; dbt; Snowflake | Exemplos YAML portáveis e não executáveis |
-| Avaliar o documento antes de consumir com IA | IIBA; KCS | Checklist próprio em oito dimensões |
+| [Rumiantsau & Fokeev (2026), *Semantic Layers for Reliable LLM-Powered Data Analytics*](https://arxiv.org/abs/2604.25149) | Com contexto semântico adicional, houve ganho de 17–23 pontos percentuais num benchmark pareado | Pesquisadores vinculados à Cube, um dataset, um banco, single-shot e erros residuais; não comprova produção |
+| [dbt MetricFlow](https://docs.getdbt.com/docs/build/about-metricflow) | Modelos de entidade, dimensão e métrica | YAML pedagógico não é arquivo MetricFlow executável |
+| [Snowflake Semantic Views YAML](https://docs.snowflake.com/en/user-guide/views-semantic/semantic-view-yaml-spec) | Descrições, sinônimos, valores de exemplo, relações e consultas verificadas | Nosso template não é arquivo Snowflake válido |
+| [Databricks Genie — Quality & Instructions](https://docs.databricks.com/gcp/en/genie/add-instructions) | Exemplos SQL e contexto de negócio para consultas analíticas | Recursos e nomes específicos podem evoluir |
+| [Microsoft — Preparação de RAG](https://learn.microsoft.com/pt-br/azure/architecture/ai-ml/guide/rag/rag-preparation-phase) | Delimitar domínio, selecionar conteúdo e perguntas de referência | Preparação documental não substitui validação de sistema |
+| [Microsoft — Avaliação de recuperação](https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/rag/rag-information-retrieval) | Casos positivos e negativos de recuperação | Não atribuímos pontuação de RAG neste portal |
+| [NIST AI RMF — Measure](https://airc.nist.gov/airmf-resources/playbook/measure/) | Avaliação, supervisão humana e registro de riscos | Nossa rubrica não certifica decisões de alto impacto |
 
-## Como citar, interpretar e adaptar
+## Rastreabilidade — decisão → fundamento → adaptação
 
-O conteúdo deste portal é uma **síntese independente**. Os exemplos fictícios não devem ser confundidos com políticas reais. Normas podem ter acesso e reprodução controlados; consultá-las é diferente de reproduzi-las.
+| Decisão original do Contexto | Fonte-base | Adaptação e consequência |
+|---|---|---|
+| Método das oito dimensões | IIBA, KCS, DCMI, ISO 30401 | Perguntas de elicitação que qualquer especialista pode usar |
+| Separar relato de regra aprovada | IIBA, KCS | `status`, pendências, proprietários e evidências |
+| Distinguir sinônimo e termo relacionado | W3C SKOS | Template de conceito com exemplos e contraexemplos |
+| Registrar gatilhos, atores e exceções | BPMN, IIBA | Template de processo independente de BPMN formal |
+| Declarar precedência e tratar desconhecidos | DMN, IIBA | Tabelas didáticas com 9 combinações verificadas |
+| Não resolver políticas conflitantes por data | ISO 30401, KCS | Registro de fontes divergentes e autoridade pendente |
+| Documentar granularidade e códigos | Snowflake, Databricks | Template semântico de dataset portável |
+| Registrar caminhos de junção e cardinalidade | dbt, Snowflake | Template de relacionamento e caso 1:N |
+| Explicitar a interpretação de dashboards | dbt, IIBA | Template de dashboard que referencia KPI e fonte |
+| Usar âncoras e evidências em rubricas | NIST, IIBA | Rubrica original com revisão humana e exemplos |
+| Separar responder, esclarecer e abster-se | Microsoft RAG, princípios de evidência | Perguntas de referência e limites conhecidos |
+| Testar um caso sintético sem LLM | Verificabilidade analítica e literaturas semânticas | Fixture SQLite com resultado reproduzível de 25% |
 
-Publicações de fornecedores e estudos publicados sem revisão por pares devem ser lidos com suas limitações explícitas. Se uma empresa adotar os templates, cabe a ela definir seus proprietários, fontes oficiais, vigência, aprovação e controles próprios.
+## O que o experimento de exemplo realmente demonstra
 
-**Última revisão das fontes desta versão:** novembro de 2026.
+Na amostra fictícia Aurora, o SQL de referência conta **uma sessão convertida entre quatro elegíveis**, retornando **25%**. Contar **dois pedidos confirmados entre as mesmas quatro sessões** retorna **50%** para uma medida diferente.
+
+O teste automatizado valida o resultado **nesses registros e nessa consulta**, não a capacidade de um LLM interpretar corretamente uma pergunta de produção. Esta distinção é intencional e central para a promessa do framework.
+
+## Cuidados com fontes, licenças e inferências
+
+Normas oficiais podem possuir direitos e restrições de reprodução. Este portal oferece referências e sínteses próprias, sem reproduzir longamente textos protegidos. Resultados de fornecedores e preprints devem ser apresentados com seus limites de generalização.
+
+A aprovação das definições reais, o controle de permissões, a implementação de ferramentas e a avaliação de agentes são de responsabilidade das organizações que usam a documentação.
+
+**Revisão desta edição:** novembro de 2026.

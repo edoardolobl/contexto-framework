@@ -1,6 +1,6 @@
 ---
 interface Props {
-  kind: 'conceito' | 'processo' | 'decisao' | 'politica' | 'kpi';
+  kind: 'conceito' | 'processo' | 'decisao' | 'politica' | 'kpi' | 'dataset' | 'relacionamento' | 'dashboard' | 'rubrica' | 'casos-teste';
 }
 const { kind } = Astro.props;
 const files: Record<Props['kind'], { name: string; href: string; format: string }[]> = {
@@ -23,6 +23,31 @@ const files: Record<Props['kind'], { name: string; href: string; format: string 
     { name: 'Modelo de política', href: 'template-politica.md', format: 'Markdown' },
     { name: 'Modelo estruturado', href: 'template-politica.yaml', format: 'YAML' },
     { name: 'Exemplo preenchido', href: 'exemplo-politica-ficticia.yaml', format: 'YAML' },
+  ],
+  dataset: [
+    { name: 'Modelo de dataset', href: 'template-dataset.md', format: 'Markdown' },
+    { name: 'Modelo estruturado', href: 'template-dataset.yaml', format: 'YAML' },
+    { name: 'Exemplo preenchido', href: 'exemplo-dataset-ficticio.yaml', format: 'YAML' },
+  ],
+  relacionamento: [
+    { name: 'Modelo de relacionamento', href: 'template-relacionamento.md', format: 'Markdown' },
+    { name: 'Modelo estruturado', href: 'template-relacionamento.yaml', format: 'YAML' },
+    { name: 'Exemplo preenchido', href: 'exemplo-relacionamento-ficticio.yaml', format: 'YAML' },
+  ],
+  dashboard: [
+    { name: 'Modelo de dashboard', href: 'template-dashboard.md', format: 'Markdown' },
+    { name: 'Modelo estruturado', href: 'template-dashboard.yaml', format: 'YAML' },
+    { name: 'Exemplo preenchido', href: 'exemplo-dashboard-ficticio.yaml', format: 'YAML' },
+  ],
+  rubrica: [
+    { name: 'Modelo de rubrica', href: 'template-rubrica.md', format: 'Markdown' },
+    { name: 'Modelo estruturado', href: 'template-rubrica.yaml', format: 'YAML' },
+    { name: 'Exemplo preenchido', href: 'exemplo-rubrica-ficticia.yaml', format: 'YAML' },
+  ],
+  'casos-teste': [
+    { name: 'Modelo de gabarito', href: 'template-casos-teste.md', format: 'Markdown' },
+    { name: 'Modelo estruturado', href: 'template-casos-teste.yaml', format: 'YAML' },
+    { name: 'Exemplo preenchido', href: 'exemplo-casos-teste-ficticios.yaml', format: 'YAML' },
   ],
   kpi: [
     { name: 'Modelo de KPI', href: 'template-kpi.md', format: 'Markdown' },

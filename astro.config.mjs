@@ -27,7 +27,7 @@ export default defineConfig({
           { slug: 'metodo/elicitar' },
           { slug: 'metodo/revisao-e-entrega' }
         ] },
-        { label: 'Biblioteca de templates', items: [
+        { label: 'Biblioteca transversal', items: [
           { slug: 'templates' },
           { slug: 'templates/conceito' },
           { slug: 'templates/processo' },
@@ -35,14 +35,26 @@ export default defineConfig({
           { slug: 'templates/politica' },
           { slug: 'templates/kpi' }
         ] },
-        { label: 'Exemplos comentados', items: [
+        { label: 'Exemplos transversais', items: [
           { slug: 'exemplos/conceito-onboarding' },
           { slug: 'exemplos/processo-campanha' },
           { slug: 'exemplos/decisao-campanha' },
           { slug: 'exemplos/politica-despesas' },
           { slug: 'exemplos/kpi' }
         ] },
-        { label: 'Dados e Analytics', items: [{ slug: 'dados/semantica' }] },
+        { label: 'Dados e Analytics', items: [
+          { slug: 'dados/visao-geral' },
+          { slug: 'dados/semantica' },
+          { slug: 'dados/contrato-de-conhecimento' },
+          { slug: 'templates/dataset' },
+          { slug: 'templates/relacionamento' },
+          { slug: 'templates/dashboard' },
+          { slug: 'templates/rubrica' },
+          { slug: 'templates/casos-teste' },
+          { slug: 'exemplos/analytics-integrado' },
+          { slug: 'exemplos/rubrica-case' },
+          { slug: 'exemplos/testes-analytics' }
+        ] },
         { label: 'Validação', items: [{ slug: 'validacao/checklist' }] },
         { label: 'Governança', items: [{ slug: 'governanca/papeis' }] },
         { label: 'Referências', items: [{ slug: 'referencias' }] }

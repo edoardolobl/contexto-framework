@@ -1,0 +1,45 @@
+---
+title: Conhecimento analítico e semântico
+description: Diferencie a estrutura técnica, o significado do negócio, a interpretação e os critérios de avaliação.
+---
+
+# Dados disponíveis não são dados compreendidos
+
+Uma IA pode escrever SQL válido, obter linhas do banco e ainda dar uma resposta que **não corresponde ao significado adotado pela organização**. O problema não é necessariamente capacidade de calcular: é ausência de decisões semânticas explícitas.
+
+A documentação analítica deve conectar quatro camadas complementares:
+
+| Camada | Qual pergunta responde? | Exemplo de artefato |
+|---|---|---|
+| Significado de negócio | “O que é uma conversão para esta área?” | [Definição de KPI](../../templates/kpi/) |
+| Semântica dos dados | “Quais estruturas, chaves, códigos e relações representam o conceito?” | [Dataset](../../templates/dataset/) + [Relacionamentos](../../templates/relacionamento/) |
+| Interpretação analítica | “Como ler um dashboard, seus filtros e suas limitações?” | [Documentação de dashboard](../../templates/dashboard/) |
+| Critérios de avaliação | “Como sabemos que uma explicação ou análise é adequada?” | [Rubrica](../../templates/rubrica/) + [perguntas de referência](../../templates/casos-teste/) |
+
+## Contexto semântico documental versus camada executável
+
+Uma camada semântica **documental** registra significados em linguagem natural ou metadados. Pode ser usada como contexto em sistemas de busca, RAG e agentes, mas não obriga o modelo a seguir cada regra.
+
+Uma camada semântica **executável** utiliza modelos e ferramentas que validam ou compilam determinadas consultas segundo regras definidas. As duas abordagens são relacionadas, mas não intercambiáveis.
+
+Nosso framework ensina a produzir **o conhecimento necessário**. Não pretende implementar uma camada semântica executável nem prometer a correção do SQL gerado.
+
+## O que costuma faltar no schema
+
+- **Granularidade:** uma linha representa pedido, item, sessão ou fotografia diária do estoque?
+- **Chaves e cardinalidade:** uma sessão tem quantos pedidos? Uma junção pode multiplicar linhas?
+- **Valores especiais:** `status='C'` significa concluído ou cancelado?
+- **Tempo:** qual timestamp define o período e qual fuso deve ser aplicado?
+- **Agregações válidas:** um snapshot de estoque pode ser somado entre datas?
+- **Precedência:** quando duas tabelas exibem valores diferentes, qual é a fonte oficial?
+- **Perguntas não respondíveis:** quando o dado não cobre canal, período ou unidade solicitados?
+
+## Evidência experimental e seus limites
+
+Rumiantsau e Fokeev (2026) compararam condições com schema puro versus schema mais documentação semântica em um benchmark com 99 perguntas válidas. A condição com documento apresentou ganhos de 17 a 23 pontos percentuais de acerto nos três modelos analisados. O estudo usou um único conjunto de dados e um único banco, e ainda apresentou falhas residuais. É **evidência de utilidade**, não prova de suficiência ou garantia de produção.
+
+Consulte [o artigo](https://arxiv.org/abs/2604.25149) e a [bibliografia crítica](../../referencias/).
+
+## Como começar
+
+Leia o [caso integrado Aurora](../../exemplos/analytics-integrado/) para observar uma mesma definição conectada a duas tabelas, uma consulta de referência e um dashboard. Depois escolha o artefato que sua equipe realmente precisa documentar.

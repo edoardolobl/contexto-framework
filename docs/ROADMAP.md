@@ -1,37 +1,39 @@
 # Roadmap do Contexto
 
 ## v0.1 — baseline técnica e editorial
-- [x] Propósito, promessa e limites.
-- [x] Método das oito dimensões e elicitação.
-- [x] Template de KPI e estudo de caso fictício.
-- [x] Checklist interativo e referências.
-- [x] Publicação automatizada por GitHub Pages.
-- [x] Validação de links, metadados, YAML e build.
+- [x] Propósito, promessa e limites
+- [x] Método das oito dimensões, elicitação e revisão
+- [x] Template de KPI e exemplo
+- [x] Checklist interativo e bibliografia
+- [x] Publicação automatizada e validação em PR
 
-## v0.2 — documentação transversal entre domínios
-- [x] Seletor pedagógico de templates por objetivo.
-- [x] Conceitos/glossário (orientações + Markdown/YAML + exemplo RH).
-- [x] Processos/procedimentos (orientações + Markdown/YAML + exemplo Marketing).
-- [x] Regras/decisões (condições + prioridades + exemplo Marketing).
-- [x] Políticas/referências (autoridade + conflitos + exemplo Financeiro).
-- [x] Página de revisão e passagem de conhecimento.
-- [x] Biblioteca integrada, navegação e downloads com base de URL segura.
-- [x] Rastreabilidade bibliográfica expandida.
-- [ ] Validação com leitores técnicos e não técnicos (estudo futuro).
+## v0.2 — documentação transversal
+- [x] Seletor pedagógico de modelos
+- [x] Conceitos/glossário + exemplo RH
+- [x] Processos + exemplo Marketing
+- [x] Regras e decisões + tabela de precedência
+- [x] Políticas e referências + conflito de fontes
+- [x] Passagem de conhecimento com pendências
+- [x] Modelos Markdown/YAML e testes de qualidade estrutural
 
 ## v0.3 — Dados e Analytics
-- [ ] Dataset, dicionário semântico e amostras de valores.
-- [ ] Relações, cardinalidade, caminhos de junção e limitações.
-- [ ] Documentação de dashboards e KPIs com fontes múltiplas.
-- [ ] Rubricas AI-ready para cases e critérios analíticos.
-- [ ] Casos de teste, consultas e respostas de referência.
-- [ ] Estudo de caso integrado: KPI, dataset, dashboard e rubrica.
+- [x] Dataset e dicionário semântico + exemplo SQLite
+- [x] Relacionamentos, cardinalidade e joins + exemplo 1:N
+- [x] Dashboard e interpretação com filtros e escopo
+- [x] Rubricas AI-ready para entregáveis analíticos, com âncoras e revisão humana
+- [x] Perguntas de referência respondíveis, ambíguas e não respondíveis
+- [x] Estudo de caso integrado de KPI, dataset, dashboard e rubrica
+- [x] SQL sintético reproduzível + teste automatizado independente de LLM
+- [x] Validação de todas as famílias de templates e arquivos
+- [x] Fundamentação bibliográfica e ressalvas ampliadas
+- [ ] Revisão visual manual e testes de acessibilidade com pessoas
 
-## Versões seguintes
-- [ ] Auditoria de acessibilidade e UX com usuários.
-- [ ] Expansão de exemplos de domínios.
-- [ ] Guia de evolução e manutenção das fontes.
-- [ ] Escolha de licença pública e nome definitivo (decisão do mantenedor).
-- [ ] Internacionalização quando houver demanda.
+## Antes de declarar a edição 1.0
+- [ ] Pesquisar a aplicabilidade do método com leitores técnicos e não técnicos
+- [ ] Revisão editorial externa e correção de dúvidas reais
+- [ ] Revisão de acessibilidade, linguagem e experiência mobile
+- [ ] Definir licença pública e nome definitivo (decisões do mantenedor)
+- [ ] Planejar contribuições e governança de versões
+- [ ] Validar permanência de fontes e links oficiais
 
-A cada versão, registrar o que foi implementado e o que ainda depende de confirmação. Não confundir planos com funcionalidades publicadas.
+O framework documenta *como tornar o conhecimento explícito*. Não certifica agentes, RAG ou SQL gerado.

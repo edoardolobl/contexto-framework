@@ -44,7 +44,7 @@ business_definition:
   context: "Exemplo hipotético de e-commerce web"
 
 calculation:
-  numerator: "Pedidos confirmados, excluídos cancelados e testes"
+  numerator: "Sessões únicas com pedido confirmado (excluídos cancelados e testes)"
   denominator: "Sessões elegíveis, excluído tráfego interno"
   unit: "percentual"
   aggregation_rule: "Somar componentes antes de dividir"
@@ -78,6 +78,8 @@ Essas informações exigem **documentação semântica adicional**, associada à
 | “Posso incluir pedidos cancelados?” | Responder segundo uma regra aprovada, com sua fonte |
 | “Qual dashboard está certo?” | Consultar a hierarquia de fontes definida pela organização |
 | “Qual é a métrica oficial deste documento ainda pendente?” | **Não apresentá-la como aprovada** |
+
+No [laboratório Aurora](../../exemplos/analytics-integrado/), os mesmos dados produzem 25% de sessões convertidas, mas 50% de pedidos confirmados por sessão elegível. A distinção precisa ser explícita.
 
 Não estamos testando se um LLM específico acertaria essas perguntas. Estamos avaliando **se a documentação contém os elementos necessários** para que uma implementação possa ser construída e testada.
 

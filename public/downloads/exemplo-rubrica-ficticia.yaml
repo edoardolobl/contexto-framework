@@ -1,0 +1,79 @@
+# Case analítico fictício, não uso real em seleção ou decisão de emprego.
+id: RUBRIC-ANALYTICS-001
+title: "Rubrica de case Data Analytics — exemplo"
+type: evaluation_rubric
+status: pending_approval
+version: "0.1"
+owner: null
+approver: null
+valid_from: null
+source_of_truth: null
+
+evaluation_target: "Entregável de análise sobre dados sintéticos"
+business_goal: "Formalizar evidências de qualidade técnica e analítica"
+allowed_use: ["Discussão humana de critérios", "Calibração de exemplos fictícios"]
+disallowed_use: ["Decidir contratação automaticamente", "Inferir características pessoais"]
+criteria:
+  - id: technical_accuracy
+    name: "Precisão técnica"
+    definition: "Cálculos corretos e reproduzíveis segundo o escopo do case"
+    weight: 35
+    expected_evidence: ["Consultas", "Tratamento de duplicidade", "Verificações"]
+    anchors:
+      "0": "Erro central demonstrado, não reconhecido"
+      "1": "Erros materiais comprometem os cálculos"
+      "2": "Cálculo principal correto, validação limitada"
+      "3": "Cálculo correto, reproduzível e verificado"
+      "4": "Além de 3, antecipa edge cases e armadilhas de granularidade"
+  - id: business_semantics
+    name: "Interpretação de negócio"
+    definition: "Mede o conceito solicitado, não apenas uma fórmula plausível"
+    weight: 30
+    expected_evidence: ["Definição de KPI", "Escopo e exclusões", "Interpretação"]
+    anchors:
+      "0": "Não conecta cálculo à pergunta de negócio"
+      "1": "Interpretação incompatível com a definição principal"
+      "2": "Interpretação parcialmente alinhada, com lacunas relevantes"
+      "3": "Interpretação alinhada e limites reconhecidos"
+      "4": "Além de 3, distingue alternativas e efeitos de diferentes definições"
+  - id: method_and_traceability
+    name: "Método e rastreabilidade"
+    definition: "Premissas e fontes podem ser verificadas"
+    weight: 20
+    expected_evidence: ["Passos de reprodução", "Fontes", "Suposições"]
+    anchors:
+      "0": "Não há trilha de evidências"
+      "1": "Trilha incompleta que impede reprodução"
+      "2": "Partes relevantes são reproduzíveis, outras ficam implícitas"
+      "3": "Método reproduzível, fontes e limitações reconhecidas"
+      "4": "Além de 3, documenta escolhas e testes alternativos"
+  - id: communication
+    name: "Comunicação"
+    definition: "Explica perguntas, evidências, incertezas e conclusões"
+    weight: 15
+    expected_evidence: ["Texto claro", "Visualizações adequadas", "Limitações"]
+    anchors:
+      "0": "Resultados não interpretáveis"
+      "1": "Apresentação impede reconhecer conclusões"
+      "2": "Ideia principal compreensível, pontos importantes não explicados"
+      "3": "Clareza e limitações bem comunicadas"
+      "4": "Além de 3, orienta interpretação crítica sem exagerar a certeza"
+
+scoring:
+  weight_sum: 100
+  scale: [0, 1, 2, 3, 4]
+  missing_evidence_behavior: not_evaluable
+  decision_threshold: null
+  automatic_hiring_decision: false
+
+human_review_required: true
+calibration_examples:
+  - "Pedido contado duas vezes em uma sessão: revisar semântica, não só sintaxe"
+disagreement_resolution: null
+privacy_and_fairness_considerations:
+  - "Não utilizar atributos pessoais irrelevantes"
+  - "Não emitir decisão automatizada de contratação"
+open_questions:
+  - "Quem aprovaria critérios, âncoras e pesos?"
+  - "Qual procedimento trataria divergência entre avaliadores?"
+related_documents: ["QA-AURORA-001"]

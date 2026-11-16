@@ -1,0 +1,29 @@
+# Gabarito documental, não resultado de teste de um modelo de IA.
+id: null
+title: null
+type: reference_question_set
+status: draft
+version: "0.1"
+owner: null
+approver: null
+valid_from: null
+source_of_truth: null
+
+domain: null
+purpose: null
+covered_documents: []
+questions:
+  - id: null
+    question: null
+    intent: null
+    context: null
+    expected_behavior: null  # answer | clarify | abstain
+    reference_answer: null
+    required_sources: []
+    evidence_description: null
+    ambiguity: null
+    reason_if_abstain: null
+    reviewed_by: null
+    reviewed_at: null
+revalidation_triggers: []
+open_questions: []

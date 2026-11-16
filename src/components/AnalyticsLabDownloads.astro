@@ -1,0 +1,14 @@
+---
+const raw = import.meta.env.BASE_URL;
+const base = raw.endsWith('/') ? raw : raw + '/';
+const files = [
+ {name: 'Dados fictícios do laboratório',file:'aurora-fixture.sql',note:'SQLite · DDL e 12 registros sintéticos'},
+ {name: 'Consulta SQL de referência',file:'aurora-reference-query.sql',note:'SQLite · cálculo de 25% para a amostra'}
+];
+---
+<div class="template-downloads" aria-label="Arquivos do laboratório Aurora">
+  {files.map(item => <a href={base + 'downloads/' + item.file} download>
+    <span class="download-icon" aria-hidden="true">↓</span>
+    <span class="download-name">{item.name}<small>{item.note}</small></span>
+  </a>)}
+</div>
