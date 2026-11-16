@@ -29,7 +29,8 @@ export default defineConfig({
         { label: 'Guias para fazer', items: [
           { slug: 'metodo/elicitar', label: 'Descobrir o que falta' },
           { slug: 'metodo/revisao-e-entrega', label: 'Preparar para revisão' },
-          { slug: 'fundamentos/como-ler-os-campos', label: 'Entender os campos' }
+          { slug: 'fundamentos/como-ler-os-campos', label: 'Entender os campos' },
+          { slug: 'metodo/identificacao-versoes', label: 'Versões e vigência' }
         ] },
         { label: 'Modelos para reutilizar', collapsed: true, items: [
           { slug: 'templates', label: 'Todos os modelos' },
