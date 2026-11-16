@@ -1,0 +1,63 @@
+---
+title: Template — Dashboard e interpretação
+description: Documente o propósito, métricas, filtros, atualização, contexto e limites de um dashboard.
+---
+
+import TemplateDownloads from '../../../components/TemplateDownloads.astro';
+
+# Documente o significado de um dashboard
+
+Um print de gráfico não explica o que cada KPI mede, quais filtros estão ativos, qual período é válido nem como diferentes áreas devem interpretar mudanças.
+
+## Perguntas de elicitação
+
+| Campo | O que esclarecer |
+|---|---|
+| Pergunta de negócio | Qual decisão o dashboard apoia? |
+| Público | Quem usa e qual conhecimento prévio é esperado? |
+| Métricas | Quais definições aprovadas cada cartão utiliza? |
+| Escopo | Quais canais, produtos, regiões ou populações estão incluídos? |
+| Filtros padrão | Quais filtros aparecem ativos quando o painel abre? |
+| Tempo | Qual fuso, janela, corte e horário de atualização? |
+| Comparações | Quais séries podem ser comparadas? Qual baseline é apropriada? |
+| Limitações | Atrasos, dados ausentes, reprocessamentos, mudança de definição |
+| Autoridade | Dashboard exploratório ou fonte oficial? Quem o mantém? |
+
+## Exemplo fictício
+
+```yaml
+---
+id: DASH-AURORA-WEB
+type: dashboard_definition
+status: pending_approval
+purpose: "Acompanhar a conversão de sessões web"
+metrics:
+  - KPI-AURORA-CONVERSION
+default_filters:
+  channel: web
+  is_internal: false
+freshness:
+  last_verified_at: null
+source_of_truth: null
+open_questions:
+  - "O relatório é oficial ou exploratório?"
+```
+
+O dashboard deve apontar para a **definição do KPI**, não copiar uma fórmula diferente. Se dois painéis usam conceitos divergentes, documente o conflito e a decisão de precedência.
+
+## Que perguntas ele deve ajudar a responder?
+
+- O número é definitivo ou sujeito a atraso?
+- Por que ele difere de outro dashboard?
+- A queda é comparável a períodos com alterações no tracking?
+- O dashboard mede pedidos, sessões ou clientes?
+
+Se a documentação não responde, marque a limitação. Não presuma que um gráfico mostra toda a verdade do negócio.
+
+<TemplateDownloads kind="dashboard" />
+
+Para a aplicação prática, veja o [estudo de caso integrado](../../exemplos/analytics-integrado/).
+
+### Referências
+
+[Microsoft — preparação de soluções RAG](https://learn.microsoft.com/pt-br/azure/architecture/ai-ml/guide/rag/rag-preparation-phase) e [Snowflake Semantic Views](https://docs.snowflake.com/en/user-guide/views-semantic/semantic-view-yaml-spec). Esta proposta é uma adaptação didática.
