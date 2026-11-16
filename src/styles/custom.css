@@ -725,8 +725,22 @@ main:has(.context-hero) > .content-panel:first-child {
   list-style: none;
   transition: background-color .16s ease;
 }
+/* O Starlight adiciona uma seta via ::before; este painel usa somente o SVG.
+   Suprimir ambos os marcadores nativos/gerados evita o chevron duplicado. */
+.sl-markdown-content .example-doc .example-doc__details > summary {
+  list-style: none !important;
+  list-style-type: none !important;
+}
+.sl-markdown-content .example-doc .example-doc__details > summary::before,
+.sl-markdown-content .example-doc .example-doc__details > summary::after {
+  content: none !important;
+  display: none !important;
+}
 .example-doc .example-doc__details > summary::-webkit-details-marker {
-  display: none;
+  display: none !important;
+}
+.example-doc .example-doc__details > summary::marker {
+  content: '' !important;
 }
 .example-doc .example-doc__details > summary::marker {
   content: '';
