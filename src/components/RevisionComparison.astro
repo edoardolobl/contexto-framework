@@ -1,0 +1,44 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+import { parse } from 'yaml';
+
+interface Props { kind: 'conceito' | 'kpi' }
+const { kind } = Astro.props;
+const files = kind === 'conceito'
+  ? ['historico/exemplo-conceito-v1.0.yaml', 'exemplo-conceito-completo.yaml']
+  : ['historico/exemplo-kpi-v1.0.yaml', 'exemplo-kpi-completo.yaml'];
+const entries = files.map(file => {
+  const raw = fs.readFileSync(path.join(process.cwd(), 'public', 'downloads', file), 'utf8');
+  return { ...parse(raw), file };
+});
+const prettyDate = (date: string | null) => date?.split('-').reverse().join('/') ?? 'sem fim documentado';
+const rawBase = import.meta.env.BASE_URL;
+const base = rawBase.endsWith('/') ? rawBase : rawBase + '/';
+const rule = (doc: any) => kind === 'conceito' ? doc.definition : doc.calculation?.formula_description;
+const details = (doc: any) => kind === 'conceito'
+  ? doc.inclusion_criteria?.[1] ?? doc.inclusion_criteria?.[0]
+  : doc.calculation?.numerator;
+---
+<section class="revision-comparison" aria-label="Duas revisões do mesmo documento fictício">
+  {entries.map((doc, i) => <article class:list={['revision-comparison__card', i === 1 && 'revision-comparison__card--current']}>
+    <p class="panel-kicker">{i === 0 ? 'REVISÃO HISTÓRICA · NÃO VIGENTE' : 'REVISÃO ATUAL NO EXEMPLO FICTÍCIO'}</p>
+    <h3>Revisão {doc.version}</h3>
+    <dl class="revision-comparison__metadata">
+      <div><dt>ID do assunto</dt><dd><code>{doc.id}</code></dd></div>
+      <div><dt>ID da revisão</dt><dd><code>{doc.revision_id}</code></dd></div>
+      <div><dt>Data do registro</dt><dd>{prettyDate(doc.version_date)}</dd></div>
+      <div><dt>Regra válida desde</dt><dd>{prettyDate(doc.valid_from)}</dd></div>
+      <div><dt>Regra válida até</dt><dd>{doc.valid_to ? 'antes de ' + prettyDate(doc.valid_to) : 'sem fim documentado'}</dd></div>
+    </dl>
+    <div class="revision-comparison__rule">
+      <strong>{kind === 'conceito' ? 'Definição nesta revisão' : 'Fórmula nesta revisão'}</strong>
+      <p>{rule(doc)}</p>
+      {details(doc) && <small>{details(doc)}</small>}
+    </div>
+    <a class="revision-comparison__download" href={base + 'downloads/' + doc.file} download>
+      Baixar revisão {doc.version} <span aria-hidden="true">↓</span>
+    </a>
+  </article>)}
+</section>
+<p class="revision-comparison__notice">Exemplos inteiramente fictícios. A aprovação representa somente a narrativa da Aurora. As duas revisões nunca têm vigência simultânea.</p>
