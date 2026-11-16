@@ -5,6 +5,7 @@ description: Aprenda a identificar ambiguidades e a documentar um indicador sem 
 
 import BeforeAfter from '../../../components/BeforeAfter.astro';
 import ReadinessChecklist from '../../../components/ReadinessChecklist.astro';
+import ExampleDoc from '../../../components/ExampleDoc.astro';
 
 **Cenário fictício.** A loja demonstrativa Aurora deseja usar IA para responder perguntas sobre conversão de e-commerce. Seu acervo contém dashboards, um schema SQL e a frase “taxa de conversão = conversões ÷ visitas”. Os números estão disponíveis, mas o significado ainda não está formalizado.
 
@@ -30,30 +31,21 @@ No segundo quadro, uma definição operacional **hipotética** é apresentada pa
 
 Depois de entrevistar especialistas e **antes de marcar como aprovado**, é possível registrar o conteúdo em um formato portável:
 
-```yaml
----
-id: KPI-AURORA-001
-type: metric_definition
-status: pending_approval
-owner: null
-
-business_definition:
-  concept: "Sessões elegíveis que geraram pedidos confirmados"
-  context: "Exemplo hipotético de e-commerce web"
-
-calculation:
-  numerator: "Sessões únicas com pedido confirmado (excluídos cancelados e testes)"
-  denominator: "Sessões elegíveis, excluído tráfego interno"
-  unit: "percentual"
-  aggregation_rule: "Somar componentes antes de dividir"
-
-open_questions:
-  - "Qual a fonte oficial?"
-  - "Qual o campo de data de referência?"
-  - "Qual área aprova esta definição?"
-```
+<ExampleDoc file="exemplo-kpi-ficticio.yaml" />
 
 A estrutura **não substitui** a decisão de negócio. Ela torna a decisão visível quando existe e impede que uma ausência passe despercebida.
+
+### Depois da decisão: o indicador aprovado
+
+A Gerência de E-commerce aprovou a definição. As perguntas em aberto viraram campos preenchidos, com exemplo conferido e teste:
+
+<ExampleDoc file="exemplo-kpi-completo.yaml" />
+
+O histórico mostra o ponto central deste portal. A versão 1.0 contava **pedidos** confirmados por sessão. A 1.1 passou a contar **sessões** com pedido confirmado. Na amostra do laboratório, a primeira daria 50% e a segunda dá 25%. Sem a data e a descrição da mudança, alguém compararia agosto com outubro achando que a conversão caiu pela metade.
+
+:::caution[Aprovação fictícia]
+A Aurora não existe. Em um documento real, nunca invente responsável, data, fonte ou aprovação para o documento parecer pronto.
+:::
 
 ## 4. Como isso se conecta ao banco de dados?
 

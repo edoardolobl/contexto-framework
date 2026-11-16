@@ -3,6 +3,8 @@ title: Exemplo — Processo de campanha
 description: Como transformar uma orientação vaga de marketing em fluxo com etapas, evidências e limites.
 ---
 
+import ExampleDoc from '../../../components/ExampleDoc.astro';
+
 <p class="editorial-lead">Exemplo: solicitação e publicação de campanha</p>
 
 **Cenário fictício:** a operação de marketing da Aurora recebe briefs por canais diferentes e precisa decidir quem revisa o material antes da publicação. O projeto não representa política de nenhuma empresa real.
@@ -55,6 +57,28 @@ Este fluxo é **uma hipótese para fins didáticos**, e não uma regra aprovada 
 O fluxo melhorou, mas não temos **a definição de “brief completo”** nem **quem autoriza exceções**. Também não existe um prazo de atendimento homologado. Essas lacunas devem ser documentadas, não preenchidas com um SLA genérico.
 
 Esse é o ponto em que o [template de regras e decisões](../../templates/decisao/) complementa o [template de processo](../../templates/processo/). A leitura em conjunto permite entender o caminho e os critérios sem repetir uma mesma decisão em vários documentos.
+
+## Os dois documentos lado a lado
+
+<ExampleDoc file="exemplo-processo-ficticio.yaml" />
+
+Depois que a Liderança de Marca decidiu o que estava em aberto, o mesmo documento passa a ter cinco etapas, prazos e quem escala:
+
+<ExampleDoc file="exemplo-processo-completo.yaml" />
+
+| Lacuna do rascunho | Como ficou escrita |
+|---|---|
+| Qual é o prazo de complementação? | 2 dias úteis; sem resposta, o pedido é encerrado como devolvido |
+| Quem aprova? | Liderança de Marca; sem decisão em 3 dias úteis, escala à Diretoria de Marketing |
+| O que comprova a publicação? | Endereço e data da publicação, anexados ao pedido |
+
+### O que o histórico de versões ensina
+
+A versão 1.0 tinha quatro etapas. A 1.1 acrescentou a quinta, o registro da evidência, depois que uma auditoria interna encontrou publicações sem comprovante. O histórico guarda o motivo da mudança, não só a mudança.
+
+:::caution[Aprovação fictícia]
+A Aurora não existe. Em um documento real, nunca invente responsável, data, fonte ou aprovação para o documento parecer pronto.
+:::
 
 ## O que uma documentação pronta para revisão permite verificar
 

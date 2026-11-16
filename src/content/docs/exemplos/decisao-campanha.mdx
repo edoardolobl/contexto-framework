@@ -3,6 +3,8 @@ title: Exemplo — Decisão e precedência
 description: Uma regra aparentemente clara pode gerar resultados opostos quando condições se sobrepõem.
 ---
 
+import ExampleDoc from '../../../components/ExampleDoc.astro';
+
 <p class="editorial-lead">Exemplo: quando encaminhar uma campanha para aprovação?</p>
 
 **Cenário fictício:** ao completar um fluxo de solicitação, a equipe de marketing quer saber qual caminho seguir. O documento original descreve regras sem uma ordem de precedência.
@@ -32,31 +34,25 @@ E se o pedido estiver completo, mas apresentar uma afirmação sem evidência? *
 | Sim | Desconhecida | Solicitar esclarecimento |
 | Desconhecido | Qualquer valor | Solicitar esclarecimento |
 
-**Precedência desta simulação:** se o estado do brief for desconhecido, pedir esclarecimento; se estiver incompleto, devolver ao solicitante **independentemente do estado das evidências**; se estiver completo mas as evidências forem desconhecidas, pedir esclarecimento; se estiver completo e sem evidências suficientes, revisar; só o caso de brief completo e evidências suficientes segue à aprovação formal. Não há publicação automática.
+**Como o conflito foi resolvido:** as cinco linhas não se sobrepõem. O caso que gerava dúvida, pedido completo com alegação sem evidência, ganhou uma linha própria (revisão responsável). Como cada combinação casa com uma única linha, não é preciso regra de precedência. Não há publicação automática.
 
-```yaml
----
-id: DECISION-CAMPAIGN-001
-type: decision_rule
-status: pending_approval
-name: "Triagem de campanha — Aurora"
-inputs:
-  brief_complete: [true, false, unknown]
-  evidence_sufficient: [true, false, unknown]
-outputs:
-  - complement_information
-  - responsible_review
-  - request_formal_approval
-  - request_clarification
-priority_rule: "brief_incompleto_prevalece_sobre_evidencia_desconhecida"
-auto_publish: false
-owner: null
-open_questions:
-  - "Quem é a pessoa autorizada a classificar evidências?"
-  - "A ordem de precedência foi aprovada pelo negócio?"
-```
+<ExampleDoc file="exemplo-decisao-ficticia.yaml" />
 
 As condições da tabela servem para demonstrar **como documentar**, não são recomendação operacional universal.
+
+## Depois da decisão: a regra aprovada
+
+A tabela é a mesma. O que muda é que "brief completo" e "evidência suficiente" deixam de ser palavras e passam a ter definição, dono e exceção:
+
+<ExampleDoc file="exemplo-decisao-completo.yaml" />
+
+### O que o histórico de versões ensina
+
+Na versão 1.0, evidência desconhecida seguia para revisão. Na 1.1, passa a pedir esclarecimento ao solicitante. Quem auditar um pedido de agosto precisa aplicar a regra de agosto: o histórico diz qual era.
+
+:::caution[Aprovação fictícia]
+A Aurora não existe. Em um documento real, nunca invente responsável, data, fonte ou aprovação para o documento parecer pronto.
+:::
 
 ## Casos de teste documentais
 
