@@ -2,6 +2,7 @@
 # A aprovação, o responsável, as datas e a fonte abaixo são fictícios e existem
 # só para mostrar como fica um documento depois que a área responsável decide.
 id: DASH-AURORA-WEB
+revision_id: "DASH-AURORA-WEB@1.1"  # revisão específica; id = assunto estável
 title: "Acompanhamento de sessões convertidas: Aurora"
 type: dashboard_definition
 status: approved
@@ -11,6 +12,8 @@ version_date: "2026-09-15"
 owner: "Analytics de E-commerce (Aurora)"
 approver: "Gerência de E-commerce (Aurora)"
 valid_from: "2026-09-15"
+valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
+supersedes_revision: "DASH-AURORA-WEB@1.0"
 source_of_truth: "Painel Conversão Web no portal de BI da Aurora (documento fictício)"
 version_history:
   - version: "1.1"
