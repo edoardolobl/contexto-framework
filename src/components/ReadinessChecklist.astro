@@ -13,36 +13,72 @@ const criteria = [
 ];
 ---
 <section class="readiness" data-readiness>
-  <div class="readiness-heading"><div><p class="eyebrow">FERRAMENTA PEDAGÓGICA</p><h3>{title}</h3></div><span class="readiness-score" data-score aria-hidden="true">0/8</span></div>
+  <div class="readiness-heading"><div><p class="eyebrow">FERRAMENTA PEDAGÓGICA</p><h3>{title}</h3></div></div>
   <p>Marque o item quando o documento trouxer uma resposta explícita, não apenas um campo ou um título. <strong>Não é uma nota:</strong> a consistência das respostas e a aprovação da área são verificadas nas próximas etapas.</p>
-  <div class="readiness-track" aria-hidden="true"><div data-progress></div></div>
   <fieldset>
     <legend class="sr-only">Dimensões da qualidade documental</legend>
     {criteria.map(([label, description], index) => (
       <label class="check-row"><input type="checkbox" value={index} /><span class="check-row__body"><strong>{label}</strong><span>{description}</span></span></label>
     ))}
   </fieldset>
-  <p class="readiness-feedback" data-feedback aria-live="polite">Selecione os critérios atendidos para identificar lacunas.</p>
+  <p class="readiness-feedback" data-feedback aria-live="polite">Marque o que o documento já responde. O que ficar sem marca vira a sua lista de lacunas.</p>
+  <div class="readiness-gaps" data-gaps hidden>
+    <p class="readiness-gaps__title">Lacunas para levar à revisão</p>
+    <ul data-gap-list></ul>
+    <button type="button" data-copy>Copiar lista de lacunas</button>
+  </div>
   <div class="readiness-footer"><button type="button" data-reset>Limpar seleção</button><span>Os dados não são enviados ou armazenados.</span></div>
 </section>
 <script>
   document.querySelectorAll<HTMLElement>('[data-readiness]').forEach((root) => {
     const checks = Array.from(root.querySelectorAll<HTMLInputElement>('input[type="checkbox"]'));
-    const score = root.querySelector<HTMLElement>('[data-score]');
-    const progress = root.querySelector<HTMLElement>('[data-progress]');
     const feedback = root.querySelector<HTMLElement>('[data-feedback]');
+    const gaps = root.querySelector<HTMLElement>('[data-gaps]');
+    const gapList = root.querySelector<HTMLElement>('[data-gap-list]');
+    const copy = root.querySelector<HTMLButtonElement>('[data-copy]');
+    const label = (c: HTMLInputElement) => {
+      const body = c.closest('label');
+      const name = body?.querySelector('strong')?.textContent ?? '';
+      const question = body?.querySelector('.check-row__body > span')?.textContent ?? '';
+      return { name, question };
+    };
+    let touched = false;
     const reset = root.querySelector<HTMLButtonElement>('[data-reset]');
     function update() {
-      const n = checks.filter(c => c.checked).length;
-      if (score) score.textContent = String(n) + '/' + String(checks.length);
-      if (progress) progress.style.width = String(100*n/checks.length) + '%';
-      if (feedback) feedback.textContent = n === checks.length
-        ? '8 de 8 dimensões assinaladas. Agora confronte as afirmações com as fontes e solicite confirmação de quem responde pelo conteúdo.'
-        : n === 0 ? 'Selecione os critérios atendidos para identificar lacunas.'
-        : n + ' de ' + checks.length + ' marcadas. ' + (checks.length - n === 1 ? 'Falta 1 dimensão' : 'Faltam ' + (checks.length - n) + ' dimensões') + '. Identifique as lacunas antes de solicitar aprovação.';
+      const open = checks.filter(c => !c.checked);
+      if (feedback) feedback.textContent = !touched
+        ? 'Marque o que o documento já responde. O que ficar sem marca vira a sua lista de lacunas.'
+        : open.length === 0
+        ? 'Nenhuma lacuna nas oito dimensões. Agora confronte as afirmações com as fontes e peça a confirmação de quem responde pelo conteúdo.'
+        : 'Sem marca, a dimensão vira pendência. Leve a lista abaixo para quem responde pelo conteúdo.';
+      if (gaps && gapList) {
+        gaps.hidden = !touched || open.length === 0;
+        gapList.replaceChildren(...open.map((c) => {
+          const { name, question } = label(c);
+          const li = document.createElement('li');
+          const strong = document.createElement('strong');
+          strong.textContent = name;
+          li.append(strong, ': ' + question);
+          return li;
+        }));
+      }
     }
-    checks.forEach(c => c.addEventListener('change', update));
-    reset?.addEventListener('click', () => { checks.forEach(c => {c.checked = false;}); update(); });
+    checks.forEach(c => c.addEventListener('change', () => { touched = true; update(); }));
+    reset?.addEventListener('click', () => { checks.forEach(c => {c.checked = false;}); touched = false; update(); });
+    copy?.addEventListener('click', async () => {
+      const lines = checks.filter(c => !c.checked).map((c) => {
+        const { name, question } = label(c);
+        return '- ' + name + ': ' + question;
+      });
+      const textToCopy = 'Lacunas encontradas na verificação das oito dimensões:\n' + lines.join('\n');
+      try {
+        await navigator.clipboard.writeText(textToCopy);
+        copy.textContent = 'Lista copiada';
+      } catch {
+        copy.textContent = 'Não foi possível copiar; selecione a lista e copie';
+      }
+      setTimeout(() => { copy.textContent = 'Copiar lista de lacunas'; }, 2500);
+    });
     update();
   });
 </script>

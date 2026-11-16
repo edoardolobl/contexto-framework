@@ -1,9 +1,14 @@
 ---
-/** Exemplo didático extraído do mesmo YAML entregue no download. */
+/**
+ * Exemplo didático extraído do mesmo YAML entregue no download.
+ * Três formas de ver o mesmo documento, em abas: o que ele diz, a identificação
+ * com o histórico e o arquivo YAML. A linha de revisão fica fora das abas,
+ * sempre visível, porque é a lição principal sobre versões.
+ */
 import fs from 'node:fs';
 import path from 'node:path';
 import { parse } from 'yaml';
-import { Code } from '@astrojs/starlight/components';
+import { Code, Tabs, TabItem } from '@astrojs/starlight/components';
 import ExampleMeaning from './ExampleMeaning.astro';
 
 interface Props { file: string }
@@ -13,12 +18,26 @@ const doc = parse(raw);
 const STATUS: Record<string, string> = {
   draft: 'Rascunho',
   pending_approval: 'Pendente de aprovação',
-  approved: 'Aprovado (aprovação fictícia)',
+  approved: 'Aprovado',
   deprecated: 'Obsoleto',
 };
 const complete = doc.status === 'approved';
 const text = (v: unknown) => (v === null || v === undefined || v === '' ? 'Ainda não definido' : String(v));
-const date = (v: unknown) => (typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v) ? v.split('-').reverse().join('/') : text(v));
+const isDay = (v: unknown): v is string => typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v);
+const date = (v: unknown) => (isDay(v) ? v.split('-').reverse().join('/') : text(v));
+/** valid_to é exclusivo; para quem lê, mostramos o último dia em que a revisão vale. */
+const dayBefore = (v: string) => {
+  const d = new Date(v + 'T00:00:00Z');
+  d.setUTCDate(d.getUTCDate() - 1);
+  return d.toISOString().slice(0, 10);
+};
+const lastDay = isDay(doc.valid_to)
+  ? date(dayBefore(doc.valid_to))
+  : (complete ? 'Sem fim registrado' : 'Ainda não definido');
+
+const history: any[] = doc.version_history ?? [];
+const current = history[0];
+const previous = doc.supersedes_revision ? history[1] : undefined;
 const questions = (doc.open_questions ?? []).map((q: any) => (typeof q === 'string' ? q : q.question));
 const rawBase = import.meta.env.BASE_URL;
 const base = rawBase.endsWith('/') ? rawBase : rawBase + '/';
@@ -26,61 +45,67 @@ const base = rawBase.endsWith('/') ? rawBase : rawBase + '/';
 <section class:list={['example-doc', complete ? 'example-doc--complete' : 'example-doc--gaps']}>
   <p class="panel-kicker">{complete ? 'EXEMPLO COMPLETO · APROVAÇÃO FICTÍCIA' : 'EXEMPLO COM LACUNAS · NADA APROVADO'}</p>
   <p class="example-doc__title">{doc.title}</p>
-  <p class="example-doc__status-line">
-    <strong>{STATUS[doc.status] ?? doc.status}</strong>
-    <span aria-hidden="true">·</span>
-    Revisão <code>{doc.version}</code>
-    <span aria-hidden="true">·</span>
-    {complete ? 'Vigente no exemplo desde ' + date(doc.valid_from) : 'Vigência não aprovada'}
+  <p class="example-doc__byline">
+    {complete
+      ? <>Aprovado por {text(doc.approver)}<span aria-hidden="true"> · </span>Fonte: {text(doc.source_of_truth)}</>
+      : <>Responsável: {text(doc.owner)}<span aria-hidden="true"> · </span>Fonte a confirmar: {text(doc.source_of_truth)}</>}
   </p>
 
-  <ExampleMeaning doc={doc}/>
-
-  {questions.length > 0 && <section class="example-doc__gaps" aria-label="Perguntas que ainda precisam de resposta">
-    <h4>Perguntas em aberto ({questions.length})</h4>
-    <ul>{questions.map((q: string) => <li>{q}</li>)}</ul>
-  </section>}
-
-  <p class="example-doc__source"><strong>Fonte {complete ? 'fictícia de referência' : 'a confirmar'}:</strong> {text(doc.source_of_truth)}</p>
-
-  {complete && <p class="panel-note">A Aurora não existe. Responsável, datas, fonte e aprovação são inventados para mostrar o documento pronto.</p>}
-
-  <details class="example-doc__details">
-    <summary>
-      <svg class="example-doc__disclosure-chevron" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="m9 5 7 7-7 7" />
-      </svg>
-      <span class="example-doc__disclosure-copy">
-        <span class="example-doc__disclosure-title">Dados técnicos e YAML</span>
-        <span class="example-doc__disclosure-subtitle">Identificação, responsáveis, vigência, histórico e arquivo fonte completo.</span>
+  <div class="example-doc__revision" role="group" aria-label="Revisão deste documento">
+    {previous && isDay(doc.valid_from) && <>
+      <span class="example-doc__revision-old">
+        Revisão {previous.version} · até {date(dayBefore(doc.valid_from))}
       </span>
-      <span class="example-doc__disclosure-tag" aria-hidden="true">Opcional</span>
-    </summary>
-    <div class="example-doc__details-content">
-      <h4>Identificação, responsáveis e vigência</h4>
-    <dl>
-      <div><dt>ID do assunto</dt><dd><code>{doc.id}</code></dd></div>
-      <div><dt>ID da revisão</dt><dd><code>{text(doc.revision_id)}</code></dd></div>
-      <div><dt>Estado</dt><dd>{STATUS[doc.status] ?? doc.status}</dd></div>
-      <div><dt>Responsável</dt><dd>{text(doc.owner)}</dd></div>
-      <div><dt>Quem aprova</dt><dd>{text(doc.approver)}</dd></div>
-      <div><dt>Versão e data</dt><dd>{doc.version} · {date(doc.version_date)}</dd></div>
-      <div><dt>Regra válida desde</dt><dd>{date(doc.valid_from)}</dd></div>
-      <div><dt>Regra válida até</dt><dd>{doc.valid_to ? `Antes de ${date(doc.valid_to)}` : (complete ? 'Sem fim documentado' : 'Ainda não definido')}</dd></div>
-      <div><dt>Substitui revisão</dt><dd>{doc.supersedes_revision ? <code>{doc.supersedes_revision}</code> : 'Nenhuma registrada'}</dd></div>
-    </dl>
-    <div class="example-doc__history-scroll" role="region" aria-label="Histórico de mudanças do documento" tabindex="0">
-      <table>
-        <caption>Histórico de mudanças (o resumo não contém a versão antiga completa)</caption>
-      <thead><tr><th scope="col">Versão</th><th scope="col">Data</th><th scope="col">O que mudou</th><th scope="col">Aprovado por</th></tr></thead>
-      <tbody>{(doc.version_history ?? []).map((v: any) => (
-        <tr><td>{v.version}</td><td>{date(v.date)}</td><td>{text(v.change)}</td><td>{v.approved_by ?? 'Não aprovado'}</td></tr>
-      ))}</tbody>
-      </table>
-    </div>
-      <h4>Arquivo YAML integral</h4>
-      <Code code={raw} lang="yaml" title={file} />
-    </div>
-  </details>
-  <p class="example-doc__download"><a href={base + 'downloads/' + file} download>Baixar este exemplo <span aria-hidden="true">↓</span></a></p>
+      <span class="example-doc__revision-arrow" aria-hidden="true">→</span>
+    </>}
+    {complete
+      ? <span class="example-doc__revision-current">Revisão {doc.version} · vigente desde {date(doc.valid_from)}</span>
+      : <span class="example-doc__revision-draft">{STATUS[doc.status] ?? doc.status} {doc.version} · nada aprovado ainda</span>}
+  </div>
+  {complete && current && <p class="example-doc__change">
+    <strong>{previous ? 'O que mudou:' : 'Nesta versão:'}</strong> {text(current.change)}
+  </p>}
+
+  <div class="example-doc__tabs">
+    <Tabs>
+      <TabItem label="O que diz">
+        <ExampleMeaning doc={doc}/>
+        {questions.length > 0 && <section class="example-doc__gaps" aria-label="Perguntas que ainda precisam de resposta">
+          <h4>Perguntas em aberto ({questions.length})</h4>
+          <ul>{questions.map((q: string) => <li>{q}</li>)}</ul>
+        </section>}
+      </TabItem>
+      <TabItem label="Identificação e histórico">
+        <dl class="example-doc__ids">
+          <div><dt>ID do assunto</dt><dd><code>{doc.id}</code></dd></div>
+          <div><dt>ID da revisão</dt><dd><code>{text(doc.revision_id)}</code></dd></div>
+          <div><dt>Estado</dt><dd>{STATUS[doc.status] ?? doc.status}{complete ? ' (aprovação fictícia)' : ''}</dd></div>
+          <div><dt>Responsável</dt><dd>{text(doc.owner)}</dd></div>
+          <div><dt>Quem aprova</dt><dd>{text(doc.approver)}</dd></div>
+          <div><dt>Versão e data</dt><dd>{doc.version} · {date(doc.version_date)}</dd></div>
+          <div><dt>Vale a partir de</dt><dd>{date(doc.valid_from)}</dd></div>
+          <div><dt>Último dia de vigência</dt><dd>{lastDay}</dd></div>
+          <div><dt>Substitui a revisão</dt><dd>{doc.supersedes_revision ? <code>{doc.supersedes_revision}</code> : 'Nenhuma'}</dd></div>
+        </dl>
+        <div class="example-doc__history-scroll" role="region" aria-label="Histórico de mudanças do documento" tabindex="0">
+          <table>
+            <caption>Histórico de mudanças (o resumo não guarda a versão antiga completa)</caption>
+            <thead><tr><th scope="col">Versão</th><th scope="col">Data</th><th scope="col">O que mudou</th><th scope="col">Aprovado por</th></tr></thead>
+            <tbody>{history.map((v: any) => (
+              <tr><td>{v.version}</td><td>{date(v.date)}</td><td>{text(v.change)}</td><td>{v.approved_by ?? 'Não aprovado'}</td></tr>
+            ))}</tbody>
+          </table>
+        </div>
+      </TabItem>
+      <TabItem label="YAML">
+        <p class="example-doc__yaml-note">O mesmo documento no formato que um sistema de IA ou uma pessoa técnica consegue processar. O conteúdo é idêntico ao das outras abas.</p>
+        <Code code={raw} lang="yaml" title={file} />
+      </TabItem>
+    </Tabs>
+  </div>
+
+  <div class="example-doc__footer">
+    {complete && doc.example_notice && <p class="example-doc__notice">{doc.example_notice}</p>}
+    <a class="example-doc__download" href={base + 'downloads/' + file} download>Baixar YAML <span aria-hidden="true">↓</span></a>
+  </div>
 </section>

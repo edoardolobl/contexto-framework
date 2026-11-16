@@ -6,7 +6,7 @@
  */
 interface Props { doc: Record<string, any> }
 const { doc } = Astro.props;
-type Pair = { label: string; value: string };
+type Pair = { label: string; value: string; items?: string[] };
 type Entry = { heading: string; body?: string; note?: string; detail?: string; levels?: Record<string, string> };
 type Group = { heading: string; pairs?: Pair[]; bullets?: string[]; entries?: Entry[] };
 
@@ -21,7 +21,9 @@ const display = (v: any): string => {
   return present(v) ? String(v) : 'Ainda não definido';
 };
 const pair = (label: string, value: any, showMissing = false): Pair[] =>
-  present(value) || showMissing ? [{ label, value: display(value) }] : [];
+  present(value) || showMissing
+    ? [{ label, value: display(value), items: Array.isArray(value) && value.length > 1 ? value.map(display) : undefined }]
+    : [];
 const list = (value: any): string[] =>
   Array.isArray(value) ? value.filter((v) => typeof v === 'string' && v.trim()).map(String) : [];
 const groups: Group[] = [];
@@ -275,11 +277,12 @@ switch (doc.type) {
 }
 ---
 <section class="example-meaning" aria-label="Conteúdo principal do documento em linguagem natural">
-  <p class="example-meaning__eyebrow">O QUE O DOCUMENTO DIZ</p>
   {groups.map((group) => <section class="example-meaning__group">
     <h4>{group.heading}</h4>
     {group.pairs && group.pairs.length > 0 && <dl class="example-meaning__facts">
-      {group.pairs.map((p) => <div><dt>{p.label}</dt><dd>{p.value}</dd></div>)}
+      {group.pairs.map((p) => <div><dt>{p.label}</dt><dd>{p.items
+        ? <ul class="example-meaning__list">{p.items.map((item) => <li>{item}</li>)}</ul>
+        : p.value}</dd></div>)}
     </dl>}
     {group.bullets && group.bullets.length > 0 && <ul>{group.bullets.map(b => <li>{b}</li>)}</ul>}
     {group.entries && group.entries.length > 0 && <ol class="example-meaning__entries">
