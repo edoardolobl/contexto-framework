@@ -500,3 +500,19 @@ main:has(.context-hero) > .content-panel:first-child {
 @media(max-width:800px){
  .revision-comparison{grid-template-columns:1fr}
 }
+
+
+/* Checkpoint C: reset Starlight's flow spacing on direct grid children.
+   Without this, the second card inherits margin-block-start and drops 1rem. */
+.sl-markdown-content .before-after,
+.sl-markdown-content .revision-comparison {
+  align-items: stretch;
+}
+.sl-markdown-content .before-after > .comparison-panel,
+.sl-markdown-content .revision-comparison > .revision-comparison__card {
+  margin-block: 0 !important;
+  align-self: stretch;
+  box-sizing: border-box;
+  min-width: 0;
+  height: 100%;
+}
