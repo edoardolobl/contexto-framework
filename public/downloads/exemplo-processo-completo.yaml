@@ -2,12 +2,12 @@
 # A aprovação, o responsável, as datas e a fonte abaixo são fictícios e existem
 # só para mostrar como fica um documento depois que a área responsável decide.
 id: PROCESS-CAMPAIGN-001
-revision_id: "PROCESS-CAMPAIGN-001@1.1"  # revisão específica; id = assunto estável
+revision_id: "PROCESS-CAMPAIGN-001@2.0"  # revisão específica; id = assunto estável
 title: "Solicitar e publicar campanha: Aurora"
 type: process_definition
 status: approved
 example_notice: "Aprovação fictícia, válida só dentro deste exemplo. A Aurora não existe."
-version: "1.1"
+version: "2.0"
 version_date: "2026-09-10"
 owner: "Operação de Marketing (Aurora)"
 approver: "Liderança de Marca (Aurora)"
@@ -16,7 +16,7 @@ valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
 supersedes_revision: "PROCESS-CAMPAIGN-001@1.0"
 source_of_truth: "Procedimento PRC-MKT-007 (documento fictício)"
 version_history:
-  - version: "1.1"
+  - version: "2.0"
     date: "2026-09-10"
     change: "Incluída a etapa S05, registro da evidência de publicação, após auditoria interna apontar publicações sem comprovante"
     approved_by: "Liderança de Marca (Aurora)"

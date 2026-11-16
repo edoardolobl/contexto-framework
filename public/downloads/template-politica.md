@@ -4,31 +4,32 @@
 
 ## Identificação
 
+Os campos marcados com **(obrigatório)** são o mínimo para começar. Os demais você completa quando a revisão for aprovada.
+
 | Campo | Preenchimento |
 |---|---|
-| Identificador do assunto (estável) | |
-| Identificador desta revisão (único) | |
+| Identificador do assunto (estável) **(obrigatório)** | |
 | Tipo de documento | Política ou referência normativa |
-| Estado | Rascunho |
-| Responsável (cargo ou área) | |
-| Quem aprova (cargo ou área) | |
-| Versão atual | 0.1 |
-| Data desta versão | |
+| Estado **(obrigatório)** | Rascunho |
+| Responsável (cargo ou área) **(obrigatório)** | |
+| Quem aprova (cargo ou área) **(obrigatório)** | |
+| Versão atual **(obrigatório)** | 0.1 |
+| Data desta versão **(obrigatório)** | |
+| Fonte oficial | |
+| Identificador desta revisão | |
 | Substitui qual revisão? | |
 | Vale a partir de | |
-| Vale até, sem incluir a data final | |
-| Fonte oficial | |
+| Último dia de vigência (em branco se não houver fim) | |
 
 Estados possíveis: **Rascunho**, **Pendente de aprovação**, **Aprovado**, **Obsoleto**. Só marque "Aprovado" quando quem aprova tiver confirmado por escrito.
 
-## Autoridade e identificação
-- Identificador:
-- Emissor/proprietário:
-- Fonte oficial e URL:
-- Aprovador:
-- Versão:
-- Data de entrada em vigor:
-- Documento substituído, se houver:
+## Autoridade da política
+- Quem emitiu a política (cargo ou área):
+- Endereço (URL) do documento oficial:
+- Versão e data de entrada em vigor da própria política:
+- Política anterior que ela substitui, se houver:
+
+Estes campos descrevem a política em si. A versão e a vigência da Identificação descrevem este registro sobre a política; as duas podem ser diferentes.
 
 ## Escopo
 - Finalidade:

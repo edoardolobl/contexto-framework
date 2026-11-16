@@ -5,11 +5,11 @@ Use este arquivo no Word, Google Docs ou outro editor. **Não é um certificado*
 ## Identificação
 
 - Nome do assunto:
-- Identificador do assunto (`id`):
-- Identificador desta revisão (`revision_id`):
-- Data da revisão:
-- Vale desde / vale até (quando aplicável):
-- Pessoa ou área responsável pela definição:
+- Identificador do assunto:
+- Revisão avaliada (versão e identificador, se houver):
+- Data desta conferência:
+- Vale a partir de / último dia de vigência (quando houver):
+- Cargo ou área responsável pela definição:
 - Documento de referência:
 - Estado inicial: rascunho / pendente / aprovado / obsoleto
 
@@ -38,7 +38,7 @@ Registre separadamente as **afirmações relevantes** do documento, não apenas 
 
 | Afirmação ou decisão | Fonte exata e trecho | Data/versão da fonte | Verificação e conclusão | Pendência / responsável |
 |---|---|---|---|---|
-| Ex.: “participante ativo = presença nos últimos 30 dias” | Ex.: manual fictício Aurora, revisão 1.1, item 2.1 | Desde 01/09/2026 | Válido para perguntas a partir de 01/09; não aplicar à regra de agosto | Nenhuma neste exemplo fictício |
+| Ex.: “participante ativo = presença nos últimos 30 dias” | Ex.: manual fictício Aurora, revisão 2.0, item 2.1 | Desde 01/09/2026 | Válido para perguntas a partir de 01/09; não aplicar à regra de agosto | Nenhuma neste exemplo fictício |
 | | | | | |
 | | | | | |
 
@@ -53,10 +53,10 @@ Verificações úteis:
 
 **O que precisa ser corrigido ou confirmado:**
 
-## 3. Confirmação pela pessoa responsável
+## 3. Confirmação por quem tem autoridade
 
-- Pessoa/área autorizada a revisar:
-- Revisão específica avaliada (`revision_id`):
+- Cargo ou área autorizada a confirmar:
+- Revisão específica avaliada:
 - Data e modo da confirmação:
 - Fontes ou evidências consideradas:
 - Ressalvas registradas:

@@ -2,12 +2,12 @@
 # A aprovação, o responsável, as datas e a fonte abaixo são fictícios e existem
 # só para mostrar como fica um documento depois que a área responsável decide.
 id: DASH-AURORA-WEB
-revision_id: "DASH-AURORA-WEB@1.1"  # revisão específica; id = assunto estável
+revision_id: "DASH-AURORA-WEB@2.0"  # revisão específica; id = assunto estável
 title: "Acompanhamento de sessões convertidas: Aurora"
 type: dashboard_definition
 status: approved
 example_notice: "Aprovação fictícia, válida só dentro deste exemplo. A Aurora não existe."
-version: "1.1"
+version: "2.0"
 version_date: "2026-09-15"
 owner: "Analytics de E-commerce (Aurora)"
 approver: "Gerência de E-commerce (Aurora)"
@@ -16,9 +16,9 @@ valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
 supersedes_revision: "DASH-AURORA-WEB@1.0"
 source_of_truth: "Painel Conversão Web no portal de BI da Aurora (documento fictício)"
 version_history:
-  - version: "1.1"
+  - version: "2.0"
     date: "2026-09-15"
-    change: "Cartão passa a seguir a versão 1.1 do KPI-AURORA-001. Incluído aviso de que valores anteriores não são comparáveis"
+    change: "Cartão passa a seguir a versão 2.0 do KPI-AURORA-001. Incluído aviso de que valores anteriores não são comparáveis"
     approved_by: "Gerência de E-commerce (Aurora)"
   - version: "1.0"
     date: "2026-08-22"
@@ -41,7 +41,7 @@ time_semantics:
   date_field: session_date
   timezone: "Data local da loja, sem hora"
   reporting_period: "2026-10-01 (laboratório)"
-  comparison_baseline: "Mesmo dia da semana anterior, somente a partir de 2026-09-15, quando a definição 1.1 do KPI passou a valer"
+  comparison_baseline: "Mesmo dia da semana anterior, somente a partir de 2026-09-15, quando a definição 2.0 do KPI passou a valer"
 freshness:
   refresh_frequency: "Carga estática sintética"
   latency: "Não aplicável"

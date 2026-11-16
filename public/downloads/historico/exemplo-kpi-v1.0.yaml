@@ -33,7 +33,7 @@ business_definition:
   synonyms: ["conversão web (rótulo histórico impreciso)"]
   different_meanings_in_other_domains:
     - "Conversão de lead: outra métrica"
-    - "Sessões convertidas: definição revisada na versão 1.1"
+    - "Sessões convertidas: definição revisada na versão 2.0"
 
 scope:
   included_channels: ["web"]
@@ -62,7 +62,7 @@ data_sources:
   relevant_columns: ["demo_sessions.session_id", "demo_sessions.channel", "demo_sessions.is_internal", "demo_sessions.session_date", "demo_orders.session_id", "demo_orders.status_code"]
   valid_join_paths: ["REL-AURORA-SESSIONS-ORDERS"]
   source_conflicts_and_precedence:
-    - "A consulta aurora-reference-query.sql implementa a revisão 1.1, NÃO a 1.0. Não a utilizar para reconstruir esta fórmula histórica."
+    - "A consulta aurora-reference-query.sql implementa a revisão 2.0, NÃO a 1.0. Não a utilizar para reconstruir esta fórmula histórica."
 
 validation:
   approved_examples:

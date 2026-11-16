@@ -2,12 +2,12 @@
 # A aprovação, o responsável, as datas e a fonte abaixo são fictícios e existem
 # só para mostrar como fica um documento depois que a área responsável decide.
 id: KPI-AURORA-001
-revision_id: "KPI-AURORA-001@1.1"  # revisão específica; id = assunto estável
+revision_id: "KPI-AURORA-001@2.0"  # revisão específica; id = assunto estável
 title: "Taxa de sessões convertidas: loja web Aurora"
 type: metric_definition
 status: approved
 example_notice: "Aprovação fictícia, válida só dentro deste exemplo. A Aurora não existe."
-version: "1.1"
+version: "2.0"
 version_date: "2026-09-15"
 owner: "Analytics de E-commerce (Aurora)"
 approver: "Gerência de E-commerce (Aurora)"
@@ -18,7 +18,7 @@ domain: ecommerce
 last_reviewed: "2026-09-15"
 source_of_truth: "Catálogo de métricas da Aurora, entrada KPI-AURORA-001 (documento fictício)"
 version_history:
-  - version: "1.1"
+  - version: "2.0"
     date: "2026-09-15"
     change: "O numerador passa a contar sessões únicas com pedido confirmado. Antes contava pedidos, o que inflava a taxa quando uma sessão tinha mais de um pedido"
     approved_by: "Gerência de E-commerce (Aurora)"

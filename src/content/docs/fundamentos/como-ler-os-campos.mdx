@@ -5,9 +5,23 @@ description: O que significam null, status, id, versão e os outros campos dos m
 
 Os modelos existem em dois formatos. O **Markdown** é texto comum, com perguntas para responder: use este se você não é da área técnica. O **YAML** organiza as mesmas respostas em campos com nome fixo, o que ajuda quem vai processar o documento depois. O conteúdo é o mesmo. **Você não precisa de YAML para usar o método.**
 
+## O mínimo que um documento precisa ter
+
+Comece por aqui. Os modelos têm muitos campos porque cobrem muitos casos, mas você não precisa preencher todos. O núcleo é este (nos modelos em Markdown, os campos de identificação que fazem parte dele aparecem marcados como **(obrigatório)**):
+
+1. O que é (identificador e título);
+2. O significado ou a regra, com as palavras da sua área;
+3. Quando vale e quando não vale;
+4. Um exemplo e um contraexemplo;
+5. Quem responde e quem aprova;
+6. Estado, versão e data;
+7. As perguntas em aberto.
+
+O resto é aprofundamento. Um documento curto e verdadeiro serve mais do que um longo e presumido.
+
 ## Os campos de identificação
 
-Todo documento começa com os mesmos campos.
+Quando o núcleo estiver claro, complete a identificação. Todo modelo tem estes campos:
 
 | No modelo Markdown | No YAML | O que escrever |
 |---|---|---|
@@ -17,10 +31,10 @@ Todo documento começa com os mesmos campos.
 | Estado | `status` | Em que ponto o documento está. Veja a tabela abaixo |
 | Responsável | `owner` | O cargo ou a área que responde pelo conteúdo. Não o nome de uma pessoa, que muda |
 | Quem aprova | `approver` | O cargo ou a área com autoridade para dizer "esta é a regra" |
-| Versão atual | `version` | 0.1 para o primeiro rascunho; 1.0 para a primeira versão aprovada |
+| Versão atual | `version` | 0.1 para o primeiro rascunho; 1.0 para a primeira versão aprovada. Para as seguintes, veja [como numerar](#como-numerar-as-versões) |
 | Data desta versão | `version_date` | O dia em que esta versão foi escrita ou aprovada |
 | Vale a partir de | `valid_from` | Dia em que **esta revisão** começa a valer |
-| Vale até (sem incluir esse dia) | `valid_to` | Dia em que esta revisão deixa de valer; `null` significa sem fim registrado |
+| Último dia de vigência | `valid_to` | No Markdown, escreva o último dia em que esta revisão vale. No YAML, `valid_to` guarda **o dia seguinte**, o primeiro em que ela já não vale: último dia 31/08 vira `valid_to: "2026-09-01"`. `null` significa sem fim registrado |
 | Substitui qual revisão? | `supersedes_revision` | Identificador da revisão anterior, quando houver |
 | Fonte oficial | `source_of_truth` | Onde está o documento ou sistema que manda quando há divergência |
 
@@ -57,7 +71,7 @@ No fim de todo documento há uma linha por versão, a mais recente primeiro:
 
 | Versão | Data | O que mudou e por quê | Aprovado por |
 |---|---|---|---|
-| 1.1 | 01/09/2026 | Janela reduzida de 60 para 30 dias, para coincidir com o relatório mensal | Gerência de Pessoas |
+| 2.0 | 01/09/2026 | Janela reduzida de 60 para 30 dias, para coincidir com o relatório mensal | Gerência de Pessoas |
 | 1.0 | 03/08/2026 | Primeira definição aprovada | Gerência de Pessoas |
 | 0.1 | 20/07/2026 | Primeiro rascunho | Não aprovado |
 
@@ -67,31 +81,30 @@ Três cuidados:
 2. Um rascunho também tem versão e data.
 3. **Preserve a cópia integral das versões aprovadas.** A tabela de mudanças não permite saber exatamente qual regra valia em agosto. Declare a vigência de cada revisão e verifique se os intervalos não se sobrepõem.
 
+### Como numerar as versões
+
+A pergunta que decide o número é: **alguém que aplicar a regra nova chega a um resultado diferente em algum caso?**
+
+| O que mudou | Número | Exemplo na Aurora |
+|---|---|---|
+| Só o texto, nada muda no resultado (erro de digitação, link) | Mesma versão | Corrigir uma palavra |
+| Esclarece sem mudar o resultado de nenhum caso | Versão menor: 1.0 → 1.1 | Política de despesas: incluiu quando revisar a política |
+| Muda o resultado de algum caso, mas mede ou descreve a mesma coisa | Versão maior: 1.x → 2.0 | Participante ativo: janela de 60 para 30 dias; KPI de conversão: fórmula corrigida |
+| Passa a medir ou descrever outra coisa | Identificador novo | Trocar "conversão" por "receita por sessão" |
+
+Na dúvida entre menor e maior, escolha maior: avisa quem compara números antigos e novos de que talvez não sejam comparáveis.
+
 Consulte o [guia prático de identificação e vigência](../../metodo/identificacao-versoes/) para comparar duas versões históricas completas.
 
-## O mínimo que um documento precisa ter
+## Confirmado, relatado e pendente
 
-Os modelos têm muitos campos porque cobrem muitos casos. Você não precisa preencher todos. O núcleo é este:
-
-1. O que é (identificador e título);
-2. O significado ou a regra, com as palavras da sua área;
-3. Quando vale e quando não vale;
-4. Um exemplo e um contraexemplo;
-5. Quem responde e quem aprova;
-6. Estado, versão e data;
-7. As perguntas em aberto.
-
-O resto é aprofundamento. Um documento curto e verdadeiro serve mais do que um longo e presumido.
-
-## Relato, regra e pendência
-
-Dentro de um mesmo documento convivem três tipos de afirmação. Mantenha-os separados:
+Dentro de um mesmo documento convivem três tipos de afirmação. Mantenha-os separados. Esses três nomes aparecem em todo o portal com o mesmo sentido:
 
 | Tipo | Como reconhecer | Onde registrar |
 |---|---|---|
-| Regra confirmada | Existe fonte oficial e alguém com autoridade confirmou | Nos campos do documento |
-| Prática relatada | "A gente costuma fazer assim" | Em perguntas em aberto, como prática a confirmar |
-| Decisão pendente | Ninguém decidiu, ou há duas fontes em conflito | Em perguntas em aberto, com quem pode decidir |
+| **Confirmado** | Existe fonte oficial e alguém com autoridade confirmou | Nos campos do documento |
+| **Relatado** | "A gente costuma fazer assim", sem fonte ou confirmação | Em perguntas em aberto, como prática a confirmar |
+| **Pendente** | Ninguém decidiu, ou duas fontes estão em conflito | Em perguntas em aberto, com quem pode decidir |
 
 Enquanto o estado do documento for "Rascunho" ou "Pendente de aprovação", quem lê deve tratar tudo como ainda não confirmado.
 
