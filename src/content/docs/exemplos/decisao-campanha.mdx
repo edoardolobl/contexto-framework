@@ -32,7 +32,7 @@ E se o pedido estiver completo, mas apresentar uma afirmação sem evidência? *
 | Sim | Desconhecida | Solicitar esclarecimento |
 | Desconhecido | Qualquer valor | Solicitar esclarecimento |
 
-**Política de precedência desta simulação:** a ausência de informação exigida suspende a decisão; a falta de completude retorna ao solicitante; só o caso de brief completo e evidências suficientes segue à aprovação formal. Não há publicação automática.
+**Precedência desta simulação:** se o estado do brief for desconhecido, pedir esclarecimento; se estiver incompleto, devolver ao solicitante **independentemente do estado das evidências**; se estiver completo mas as evidências forem desconhecidas, pedir esclarecimento; se estiver completo e sem evidências suficientes, revisar; só o caso de brief completo e evidências suficientes segue à aprovação formal. Não há publicação automática.
 
 ```yaml
 ---
@@ -48,7 +48,7 @@ outputs:
   - responsible_review
   - request_formal_approval
   - request_clarification
-priority_rule: "unknown_blocks_decision"
+priority_rule: "brief_incompleto_prevalece_sobre_evidencia_desconhecida"
 auto_publish: false
 owner: null
 open_questions:
