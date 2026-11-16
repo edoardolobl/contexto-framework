@@ -1,20 +1,47 @@
 ---
-title: Referências
-description: Bibliografia que fundamenta as recomendações metodológicas.
+title: Bibliografia e rastreabilidade
+description: Fontes metodológicas, estudos empíricos e a origem de cada decisão editorial.
 ---
 
 # Bibliografia e rastreabilidade
 
-O Contexto é uma **síntese metodológica própria**, não uma norma ou certificação. As referências fundamentam práticas específicas; não implicam chancela dos autores ao framework.
+O framework combina disciplinas que são **anteriores à IA** com pesquisas e documentação tecnológica contemporâneas. Não existe uma única norma universal que defina “documentação AI-ready” com os oito campos aqui propostos.
 
-- **Diátaxis**, Daniele Procida — separação entre explicação, tutorial, guia e referência. [diataxis.fr](https://diataxis.fr/)
-- **KCS v6**, Consortium for Service Innovation — captura, estruturação, reutilização e melhoria do conhecimento. [KCS Practices Guide](https://library.serviceinnovation.org/KCS/KCS_v6/KCS_v6_Practices_Guide)
-- **ISO 30401:2018** — gestão do conhecimento organizacional. [ISO](https://www.iso.org/standard/68683.html)
-- **IIBA — Elicitation and Collaboration** — obtenção e validação de informações junto a especialistas. [IIBA](https://www.iiba.org/knowledgehub/the-business-analysis-standard/)
-- **Dublin Core Metadata Terms** — metadados de informação. [DCMI](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/)
-- **SKOS Reference**, W3C — vocabulário controlado e relações entre conceitos. [W3C](https://www.w3.org/TR/skos-reference/)
-- **Rumiantsau, M.; Fokeev, I. (2026).** Semantic Layers for Reliable LLM-Powered Data Analytics: A Paired Benchmark of Accuracy and Hallucination Across Three Frontier Models. [arXiv](https://arxiv.org/abs/2604.25149)
+## Fundamentos da metodologia
 
-## Como usar as fontes
+| Referência | Por que importa | Uso no framework |
+|---|---|---|
+| [Nonaka (1994), *A Dynamic Theory of Organizational Knowledge Creation*](https://doi.org/10.1287/orsc.5.1.14) | Distinção e interação entre conhecimento tácito e explícito | Justificativa do problema |
+| [KCS v6, *Practices Guide*](https://library.serviceinnovation.org/KCS/KCS_v6/KCS_v6_Practices_Guide) | Padrões de conteúdo, manutenção e melhoria contínua | Ciclo de vida documental |
+| [IIBA, *Elicitation and Collaboration*](https://www.iiba.org/knowledgehub/the-business-analysis-standard/5-applying-business-analysis-tasks/5-3-business-analysis-knowledge-areas/elicitation-and-collaboration/) | Elicitação, confirmação e colaboração com especialistas | Perguntas e validação |
+| [Diátaxis](https://diataxis.fr/) | Separação entre tutorial, how-to, explicação e referência | Arquitetura editorial |
+| [ISO 30401:2018](https://www.iso.org/standard/68683.html) | Gestão do conhecimento na organização | Princípios de governança |
+| [Dublin Core Metadata Terms](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/) | Vocabulário para descrever recursos | Inspiração para metadados |
+| [W3C SKOS](https://www.w3.org/TR/skos-reference/) | Relações, rótulos e alternativas entre conceitos | Termos preferidos e sinônimos |
+| [OMG DMN](https://www.omg.org/spec/DMN/) | Formalização de regras e decisões | Módulo de regras planejado |
 
-Diferencie: (1) uma recomendação diretamente extraída de uma norma ou método, (2) uma adaptação contextual e (3) uma decisão editorial original do Contexto. Não reproduza integralmente documentos protegidos sem observar suas licenças.
+## Data Analytics e contexto semântico
+
+| Referência | Utilização e ressalva |
+|---|---|
+| [Rumiantsau & Fokeev (2026), *Semantic Layers for Reliable LLM-Powered Data Analytics*](https://arxiv.org/abs/2604.25149) | Estudo empírico contextual; autores vinculados à Cube, um dataset e um banco, avaliação single-shot e ~30% de falhas residuais. Não certifica solução. |
+| [dbt MetricFlow](https://docs.getdbt.com/docs/build/about-metricflow) | Vocabulário de entidades, dimensões, métricas e modelagem semântica |
+| [LookML](https://docs.cloud.google.com/looker/docs/what-is-lookml) | Referência de descrição de medidas e dimensões |
+| [Snowflake Semantic Views](https://docs.snowflake.com/en/user-guide/views-semantic/semantic-view-yaml-spec) | Relações, semântica e consultas verificadas |
+
+## Decisões próprias e rastreabilidade
+
+| Decisão editorial | Deriva de | Adaptação aqui |
+|---|---|---|
+| Oito dimensões universais | Gestão do conhecimento, IIBA, metadados e glossários | Lista original de perguntas, não cláusula de norma |
+| Separar “relato” e “regra aprovada” | Elicitação, confirmação e autoridade do conhecimento | Campo `status` com pendências explícitas |
+| Duas camadas de metadados | DCMI e modelagem de documentos | Frontmatter do portal diferente do YAML de negócio |
+| Template de KPI com fórmula + semântica | dbt, LookML, semantic layers | Esquema didático portável, não runtime executável |
+| Checklist em oito dimensões | KCS e qualidade documental | Instrumento pedagógico, não certificação |
+| Exemplos fictícios | Princípios de privacidade e neutralidade | Nenhuma atribuição a clientes reais |
+
+## Limites de uso das fontes
+
+As normas podem exigir licenças para consulta integral. O portal utiliza **referências e sínteses originais**, sem reproduzir extensamente conteúdo protegido. Resultados divulgados por fornecedores são tratados como evidência contextual, não como provas universais. Sempre consulte as fontes primárias e valide suas versões antes de uso normativo.
+
+**Última revisão bibliográfica desta baseline:** novembro de 2026. O catálogo bibliográfico será expandido conforme os módulos forem publicados.
