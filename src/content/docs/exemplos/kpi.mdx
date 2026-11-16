@@ -1,0 +1,56 @@
+---
+title: Antes e depois — KPI
+description: Um indicador aparentemente claro que não possui regras suficientes.
+---
+
+# Exemplo comentado: documentação de um KPI
+
+Todos os exemplos são fictícios.
+
+## Antes: descrição insuficiente
+
+> A taxa de conversão mede o percentual de clientes que realizam uma compra. O indicador é atualizado diariamente.
+
+**O que o texto deixa implícito?**
+
+- "Clientes" significa visitantes, usuários autenticados ou leads?
+- Uma compra é um pedido iniciado, confirmado ou faturado?
+- Cancelamentos entram no numerador?
+- Qual data e fuso organizam o período?
+- Quais canais são incluídos?
+- Quem pode aprovar interpretações conflitantes?
+
+## Depois: documentação que expõe decisões e lacunas
+
+```yaml
+id: KPI-CONVERSION-001
+title: Taxa de conversão
+scope: ecommerce
+status: draft
+owner: null
+definition: >
+  Proporção de unidades elegíveis que produziram
+  uma conversão no período de referência.
+numerator:
+  event: null
+  validation_status: needs_approval
+denominator:
+  entity: null
+  validation_status: needs_approval
+period:
+  timezone: null
+  lookback: null
+excluded_orders: null
+source_of_truth: null
+```
+
+O progresso importante é que **não inventamos as regras faltantes**. Em vez de converter suposições em fatos, o documento torna visível o que precisa ser validado com o negócio.
+
+## Perguntas de homologação
+
+1. O indicador tem a mesma definição nos diferentes canais?
+2. Qual unidade é contada em cada parte da fórmula?
+3. Quais exceções são indispensáveis para reproduzir o indicador?
+4. Qual pessoa ou área aprova as decisões documentadas?
+
+Uma IA poderá consultar o indicador depois da validação. O template não garante, por si só, correção das respostas.
