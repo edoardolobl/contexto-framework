@@ -224,6 +224,33 @@ for kind in REQUIRED_TYPES:
     if not (DOWNLOADS / f"exemplo-{kind}-completo.yaml").exists():
         record(TEMPLATE_COMPONENT, f"falta o exemplo completo de {kind}")
 
+# Editorial rule: no em dashes in published text, components, downloads or docs.
+EDITORIAL_FILES = [
+    *PAGES,
+    *sorted((ROOT / "src" / "components").glob("*.astro")),
+    *sorted(DOWNLOADS.rglob("*.md")),
+    *sorted(DOWNLOADS.rglob("*.yaml")),
+    *sorted((ROOT / "docs").rglob("*.md")),
+    ROOT / "README.md",
+    ROOT / "astro.config.mjs",
+]
+for path in EDITORIAL_FILES:
+    if not path.is_file():
+        continue
+    for lineno, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
+        if "—" in line:
+            record(path, f"linha {lineno}: travessão (use dois-pontos, vírgula ou parênteses)")
+
+# One H1 per page: Starlight renders the frontmatter title as the page H1.
+for path in PAGES:
+    in_code = False
+    for lineno, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
+        if line.lstrip().startswith("```"):
+            in_code = not in_code
+            continue
+        if not in_code and re.match(r"^# \S", line):
+            record(path, f"linha {lineno}: título H1 no corpo duplica o título da página")
+
 if errors:
     print("\n".join("ERRO: " + error for error in errors))
     sys.exit(1)

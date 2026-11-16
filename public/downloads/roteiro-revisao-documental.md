@@ -1,4 +1,4 @@
-# Roteiro de revisão documental — Contexto
+# Roteiro de revisão documental: Contexto
 
 Use este arquivo no Word, Google Docs ou outro editor. **Não é um certificado**, nem substitui a aprovação do proprietário da informação. Marque “não verificado” quando a resposta não existir. Não inclua dados pessoais ou informações confidenciais em exemplos públicos.
 
@@ -13,7 +13,7 @@ Use este arquivo no Word, Google Docs ou outro editor. **Não é um certificado*
 - Documento de referência:
 - Estado inicial: rascunho / pendente / aprovado / obsoleto
 
-## 1. Cobertura — o que o documento explica?
+## 1. Cobertura: o que o documento explica?
 
 Para cada dimensão, registre **o local em que a informação aparece**, a lacuna ou “não se aplica” com justificativa. Ter todos os campos não garante sua correção.
 
@@ -32,7 +32,7 @@ Para cada dimensão, registre **o local em que a informação aparece**, a lacun
 
 **Quem pode esclarecê-la:**
 
-## 2. Consistência e evidências — as regras são sustentadas?
+## 2. Consistência e evidências: as regras são sustentadas?
 
 Registre separadamente as **afirmações relevantes** do documento, não apenas uma fonte genérica para todo o arquivo.
 
@@ -86,4 +86,4 @@ Verificações úteis:
 
 ---
 
-**Fontes do método:** [IIBA — Business Analysis Standard](https://www.iiba.org/knowledgehub/the-business-analysis-standard/) · [KCS Practices Guide](https://library.serviceinnovation.org/KCS/KCS_v6/KCS_v6_Practices_Guide). As três verificações e este roteiro são uma proposta editorial original do Contexto.
+**Fontes do método:** [IIBA: Business Analysis Standard](https://www.iiba.org/knowledgehub/the-business-analysis-standard/) · [KCS Practices Guide](https://library.serviceinnovation.org/KCS/KCS_v6/KCS_v6_Practices_Guide). As três verificações e este roteiro são uma proposta editorial original do Contexto.

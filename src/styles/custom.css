@@ -323,6 +323,7 @@ main:has(.context-hero) > .content-panel:first-child {
   gap: clamp(.9rem, 2vw, 1.5rem);
 }
 .template-start__grid > div { min-width: 0; }
+.sl-markdown-content .template-start__grid > div { margin-top: 0; }
 .template-start__grid h2 {
   margin: 0 0 .45rem;
   font-size: .92rem;
@@ -701,7 +702,7 @@ main:has(.context-hero) > .content-panel:first-child {
 }
 
 
-/* Approved mock — high-visibility native disclosure, dark and light themes.
+/* Approved mock: high-visibility native disclosure, dark and light themes.
    Keep the entire summary clickable and keyboard-accessible. */
 .example-doc .example-doc__details {
   border: 1px solid #91d6b0;
@@ -906,7 +907,7 @@ main:has(.context-hero) > .content-panel:first-child {
   .sl-markdown-content .review-stages__card { gap: .1rem; }
 }
 
-/* Checkpoint E — legibilidade, reflow e foco em conteúdo documental.
+/* Checkpoint E: legibilidade, reflow e foco em conteúdo documental.
    Ajustes contidos: sem framework de UI novo nem mudança na informação. */
 .example-doc__history-scroll {
   max-width: 100%;

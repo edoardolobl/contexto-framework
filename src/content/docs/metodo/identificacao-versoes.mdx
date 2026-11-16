@@ -5,8 +5,6 @@ description: Como distinguir o assunto, a revisão e a data de validade sem mist
 
 import RevisionComparison from '../../../components/RevisionComparison.astro';
 
-# Como descobrir qual versão de uma regra vale
-
 Uma regra pode mudar sem mudar de nome. Se alguém pergunta “quantos participantes estavam ativos em agosto?”, aplicar a definição vigente hoje pode produzir uma resposta **historicamente errada**.
 
 A solução documental não é escolher automaticamente o arquivo com a data mais recente. Precisamos distinguir **o assunto**, **a revisão registrada**, **o período em que ela vale** e **a aprovação**.
@@ -44,7 +42,7 @@ A amostra sintética do laboratório tem quatro sessões elegíveis e dois pedid
 Isso é uma **comparação didática das fórmulas sobre uma mesma amostra**, não autorização para aplicar a versão antiga a uma pergunta sobre outubro, quando ela já não estava vigente. Também não comprova queda real de conversão.
 
 :::caution[Quando criar outro identificador]
-Se a mudança altera o próprio conceito — por exemplo, trocar “pedidos por sessão” por “sessões convertidas” —, muitas organizações devem preferir **um novo ID de métrica**, mantendo a relação com a anterior. A Aurora fictícia preservou o mesmo ID para ilustrar uma redefinição histórica com quebra de comparabilidade, não como regra universal para renomear KPIs.
+Se a mudança altera o próprio conceito (por exemplo, trocar “pedidos por sessão” por “sessões convertidas”), muitas organizações devem preferir **um novo ID de métrica**, mantendo a relação com a anterior. A Aurora fictícia preservou o mesmo ID para ilustrar uma redefinição histórica com quebra de comparabilidade, não como regra universal para renomear KPIs.
 :::
 
 ## O que significa “válido até”
@@ -98,6 +96,6 @@ Diferencie sempre **a vigência da regra de origem** da **vigência do registro 
 
 - [Dublin Core Metadata Terms](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/): identificação, versões, datas e relações entre recursos.
 - [W3C PROV-O](https://www.w3.org/TR/prov-o/): proveniência, revisões e atribuições.
-- [IIBA — The Business Analysis Standard](https://www.iiba.org/knowledgehub/the-business-analysis-standard/): confirmação e controle das interpretações documentadas.
+- [IIBA: The Business Analysis Standard](https://www.iiba.org/knowledgehub/the-business-analysis-standard/): confirmação e controle das interpretações documentadas.
 
 A convenção `id@version` e o intervalo `[valid_from, valid_to)` são **propostas próprias do Contexto**, inspiradas nesses fundamentos. Não afirmamos conformidade automática com DCMI ou PROV-O. 

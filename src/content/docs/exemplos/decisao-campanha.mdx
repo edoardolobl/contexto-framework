@@ -1,6 +1,6 @@
 ---
-title: "Exemplo: Decisão e precedência"
-description: Uma regra aparentemente clara pode gerar resultados opostos quando condições se sobrepõem.
+title: "Exemplo: Regras que não se sobrepõem"
+description: Uma regra aparentemente clara pode gerar resultados opostos quando condições se sobrepõem. A saída é uma tabela em que cada caso casa com uma única linha.
 ---
 
 import ExampleDoc from '../../../components/ExampleDoc.astro';
@@ -36,19 +36,21 @@ E se o pedido estiver completo, mas apresentar uma afirmação sem evidência? *
 
 **Como o conflito foi resolvido:** as cinco linhas não se sobrepõem. O caso que gerava dúvida, pedido completo com alegação sem evidência, ganhou uma linha própria (revisão responsável). Como cada combinação casa com uma única linha, não é preciso regra de precedência. Não há publicação automática.
 
+Em tabelas de decisão (DMN), isso tem nome: política de acerto **única**, em que só uma linha pode valer. A alternativa é a política **primeira**: as linhas podem se sobrepor e vale a primeira que bater, então a ordem das linhas passa a fazer parte da regra e precisa ser aprovada junto.
+
 <ExampleDoc file="exemplo-decisao-ficticia.yaml" />
 
 As condições da tabela servem para demonstrar **como documentar**, não são recomendação operacional universal.
 
 ## Depois da decisão: a regra aprovada
 
-A tabela é a mesma. O que muda é que "brief completo" e "evidência suficiente" deixam de ser palavras e passam a ter definição, dono e exceção:
+A estrutura da tabela é a mesma. O que muda é que "brief completo" e "evidência suficiente" deixam de ser palavras e passam a ter definição, dono e exceção:
 
 <ExampleDoc file="exemplo-decisao-completo.yaml" />
 
 ### O que o histórico de versões ensina
 
-Na versão 1.0, evidência desconhecida seguia para revisão. Na 1.1, passa a pedir esclarecimento ao solicitante. Quem auditar um pedido de agosto precisa aplicar a regra de agosto: o histórico diz qual era.
+O rascunho 0.1 propunha pedir esclarecimento quando a evidência fosse desconhecida. Ao aprovar a 1.0, a área preferiu mandar esses casos para revisão. Na 1.1, depois de um mês de uso, voltou a pedir esclarecimento ao solicitante. Um rascunho não é a regra: quem auditar um pedido de agosto precisa aplicar a 1.0, e o histórico diz qual era.
 
 :::caution[Aprovação fictícia]
 A Aurora não existe. Em um documento real, nunca invente responsável, data, fonte ou aprovação para o documento parecer pronto.
@@ -58,7 +60,7 @@ A Aurora não existe. Em um documento real, nunca invente responsável, data, fo
 
 A área pode revisar o texto perguntando:
 
-- Se `brief_complete=true` e `evidence_sufficient=false`, qual resultado o documento prescreve?
+- Se o brief estiver completo e a evidência for insuficiente, qual resultado o documento prescreve?
 - Se ambas as entradas forem desconhecidas, existe uma instrução inequívoca?
 - O resultado “solicitar aprovação” pode ser confundido com “aprovado”?
 - Se duas regras mudarem ao mesmo tempo, existe responsável pela definição da precedência?
