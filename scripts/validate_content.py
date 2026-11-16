@@ -13,7 +13,7 @@ DOWNLOADS = ROOT / "public" / "downloads"
 TEMPLATE_COMPONENT = ROOT / "src" / "components" / "TemplateDownloads.astro"
 
 PAGES = sorted([*DOCS.rglob("*.md"), *DOCS.rglob("*.mdx")])
-REQUIRED_TYPES = ("kpi", "conceito", "processo", "decisao", "politica")
+REQUIRED_TYPES = ("kpi", "conceito", "processo", "decisao", "politica", "dataset", "relacionamento", "dashboard", "rubrica", "casos-teste")
 VALID_STATUSES = {"draft", "pending_approval", "approved", "deprecated"}
 errors: list[str] = []
 
@@ -117,6 +117,13 @@ component = TEMPLATE_COMPONENT.read_text(encoding="utf-8")
 for filename in re.findall(r"href:\s*'([^']+)'", component):
     if not (DOWNLOADS / filename).is_file():
         record(TEMPLATE_COMPONENT, f"arquivo de download ausente: {filename}")
+
+# Check the SQLite example links separately; they are not included in template cards.
+analytics = ROOT / "src" / "components" / "AnalyticsLabDownloads.astro"
+if analytics.exists():
+    for filename in re.findall(r"file:\s*'([^']+)'", analytics.read_text(encoding="utf8")):
+        if not (DOWNLOADS / filename).is_file():
+            record(analytics, f"arquivo SQL não encontrado: {filename}")
 
 for kind in REQUIRED_TYPES:
     for suffix in (".md", ".yaml"):
