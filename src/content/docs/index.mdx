@@ -1,29 +1,37 @@
 ---
 title: Início
-description: Documentação clara para pessoas e sistemas de IA
+description: Um método para transformar conhecimento tácito em documentação clara, verificável e utilizável por pessoas e IA.
 template: splash
 sidebar:
   hidden: true
 ---
 
-# Uma IA não deveria adivinhar como sua organização funciona.
+import LandingHero from '../../components/LandingHero.astro';
+import PrincipleTiles from '../../components/PrincipleTiles.astro';
 
-**Contexto** é um framework aberto para ajudar especialistas a transformar conhecimento tácito, regras e significados em documentação explícita, contextualizada e verificável.
+<LandingHero />
 
-Não ensinamos a preencher documentos por preencher. Ensinamos **como descobrir o que falta** e como registrar o conhecimento sem delegar suposições à engenharia de IA.
+## A documentação começa antes do modelo
 
-[Entenda a promessa](fundamentos/promessa/) · [Conheça as oito dimensões](metodo/oito-dimensoes/) · [Veja o exemplo de KPI](exemplos/kpi/)
+**Informações acessíveis não são necessariamente informações compreensíveis.** Um sistema pode encontrar a tabela certa, executar SQL válido e ainda interpretar incorretamente a regra de negócio. O mesmo vale para fluxos de aprovação, políticas internas e critérios de avaliação.
 
-## Três movimentos
+O papel deste framework é orientar quem **conhece** o assunto a registrá-lo de modo que quem **consome** a documentação não dependa de suposições.
 
-1. **Compreender:** reconhecer conhecimento implícito, decisões e limitações.
-2. **Documentar:** explicitar termos, regras, exceções, responsabilidades e fontes.
-3. **Validar:** confirmar com especialistas o que está aprovado e o que continua indefinido.
+<PrincipleTiles />
 
-## Para quem?
+## O que está dentro — e fora — desta promessa
 
-Negócios, Dados, Marketing, RH, Jurídico, Operações e Tecnologia. O framework não pressupõe conhecimento de SQL, Markdown ou engenharia de IA.
+| O framework ajuda a fazer | O framework não promete |
+|---|---|
+| Descobrir lacunas e pressupostos | Eliminar toda ambiguidade do mundo real |
+| Definir o significado de termos e métricas | Substituir a aprovação de especialistas |
+| Registrar exceções, fontes e responsabilidades | Garantir SQL, RAG ou agentes corretos |
+| Produzir documentos portáveis e rastreáveis | Impor um fornecedor, banco ou ferramenta de IA |
 
-> Documentação AI-ready é um insumo; não é garantia de que SQL, RAG ou agentes funcionarão corretamente.
+## Uma metodologia comum, diferentes contextos
 
-Versão 0.1 · Exemplos fictícios · Sem vínculo institucional.
+O mesmo núcleo de **oito dimensões** apoia diferentes tipos de documentação. Os campos específicos variam: um KPI requer fórmula e população; um processo requer etapas e escalonamento; uma rubrica requer critérios e evidências; um dataset requer granularidade e semântica de campos.
+
+**Para começar:** leia [a promessa e os limites](fundamentos/promessa/), conheça [as oito dimensões](metodo/oito-dimensoes/) ou vá direto ao [exemplo de KPI](exemplos/kpi/).
+
+<small>Versão 0.1 · conteúdo pedagógico · exemplos fictícios · projeto em evolução.</small>
