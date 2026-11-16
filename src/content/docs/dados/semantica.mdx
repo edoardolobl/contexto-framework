@@ -1,0 +1,41 @@
+---
+title: Semântica de dados
+description: Por que estruturas físicas não explicam completamente conceitos do negócio.
+---
+
+# Além do schema: documentando a semântica dos dados
+
+Um DDL descreve tabelas e colunas; não registra necessariamente o que significam nem quando devem ser usadas.
+
+## O que registrar
+
+- Qual tabela representa cada processo ou indicador.
+- Granularidade de cada tabela (por pedido, item, sessão, snapshot).
+- Chaves, cardinalidade, caminhos de junção e riscos de duplicidade.
+- Códigos, nulos, sentinelas e convenções especiais.
+- Fórmulas de métricas, agregações e unidades.
+- Regras de desambiguação e fontes de autoridade.
+- Exemplos de consultas verificadas e critérios de abstinência.
+
+## Exemplo
+
+```yaml
+dataset: analytics.fact_orders
+grain: one_row_per_order
+fields:
+  status_code:
+    CONFIRMED: Pedido confirmado
+    CANCELED: Pedido cancelado
+business_rules:
+  confirmed_sales:
+    eligible_statuses: [CONFIRMED]
+status: draft
+```
+
+Esse documento é fictício. Uma camada semântica **documental** fornece contexto ao LLM; uma camada **executável** também pode impor determinadas regras por compilação ou validação.
+
+### Evidência
+
+Rumiantsau e Fokeev (2026), *Semantic Layers for Reliable LLM-Powered Data Analytics*, compararam respostas com schema puro e com um documento semântico adicional. Em um benchmark com 99 perguntas válidas, o segundo contexto melhorou a taxa de acerto em aproximadamente 17 a 23 pontos percentuais nos três modelos estudados. Os próprios autores reconhecem limites de generalização e erros remanescentes.
+
+[Leia o estudo](https://arxiv.org/abs/2604.25149) · [Veja a bibliografia](../referencias/)
