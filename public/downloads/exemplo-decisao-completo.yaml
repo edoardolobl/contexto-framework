@@ -2,6 +2,7 @@
 # A aprovação, o responsável, as datas e a fonte abaixo são fictícios e existem
 # só para mostrar como fica um documento depois que a área responsável decide.
 id: DECISION-CAMPAIGN-001
+revision_id: "DECISION-CAMPAIGN-001@1.1"  # revisão específica; id = assunto estável
 title: "Triagem de campanha: Aurora"
 type: decision_rule
 status: approved
@@ -11,6 +12,8 @@ version_date: "2026-09-10"
 owner: "Revisão de Conteúdo (Aurora)"
 approver: "Liderança de Marca (Aurora)"
 valid_from: "2026-09-10"
+valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
+supersedes_revision: "DECISION-CAMPAIGN-001@1.0"
 source_of_truth: "Procedimento PRC-MKT-007, anexo B (documento fictício)"
 version_history:
   - version: "1.1"
