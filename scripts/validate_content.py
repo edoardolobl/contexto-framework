@@ -1,16 +1,28 @@
 #!/usr/bin/env python3
-"""Validações editoriais leves; não substituem o build nem a validação humana."""
+"""Quality gates for the Contexto documentation, not certification of its business rules."""
 from pathlib import Path
 from posixpath import normpath
 import re
 import sys
 
+import yaml
+
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "src" / "content" / "docs"
-PAGES = sorted([*DOCS.rglob("*.md"), *DOCS.rglob("*.mdx")])
-errors = []
+DOWNLOADS = ROOT / "public" / "downloads"
+TEMPLATE_COMPONENT = ROOT / "src" / "components" / "TemplateDownloads.astro"
 
-def route(path):
+PAGES = sorted([*DOCS.rglob("*.md"), *DOCS.rglob("*.mdx")])
+REQUIRED_TYPES = ("kpi", "conceito", "processo", "decisao", "politica")
+VALID_STATUSES = {"draft", "pending_approval", "approved", "deprecated"}
+errors: list[str] = []
+
+
+def record(path: Path, msg: str):
+    errors.append(f"{path.relative_to(ROOT)}: {msg}")
+
+
+def route(path: Path):
     rel = path.relative_to(DOCS)
     parts = list(rel.parts)
     parts[-1] = path.stem
@@ -18,44 +30,102 @@ def route(path):
         parts.pop()
     return "/" + "/".join(parts) + ("/" if parts else "")
 
+
 routes = {route(p): p for p in PAGES}
 
 for path in PAGES:
     content = path.read_text(encoding="utf-8")
-    if not content.startswith("---\n") or "\n---\n" not in content[4:]:
-        errors.append(f"{path.relative_to(ROOT)}: frontmatter YAML ausente")
+    match = re.match(r"\A---\r?\n(.*?)\r?\n---\r?\n", content, re.S)
+    if not match:
+        record(path, "frontmatter YAML ausente")
         continue
-    front = content.split("---\n", 2)[1]
+    try:
+        front = yaml.safe_load(match.group(1))
+    except yaml.YAMLError as exc:
+        record(path, f"frontmatter YAML inválido: {exc}")
+        continue
+    if not isinstance(front, dict):
+        record(path, "frontmatter não é um objeto")
+        continue
     for required in ("title", "description"):
-        if not re.search(rf"^{required}:\s*\S+", front, re.M):
-            errors.append(f"{path.relative_to(ROOT)}: campo {required} ausente")
+        if not isinstance(front.get(required), str) or not front[required].strip():
+            record(path, f"campo obrigatório {required} ausente/vazio")
+
+    # Simple Markdown link check: verify routes, not remote URLs.
     for url in re.findall(r"\]\(([^)]+)\)", content):
         if re.match(r"^(https?:|mailto:|#|/)", url):
             continue
         rel_url = url.split("#")[0].split("?")[0]
-        if not rel_url:
+        if not rel_url or "{" in rel_url or "}" in rel_url:
             continue
-        if rel_url.endswith((".yaml", ".md", ".pdf")) and "downloads" in rel_url:
-            continue
-        if "{" in rel_url or "}" in rel_url:
+        if "downloads" in rel_url and rel_url.endswith((".yaml", ".md", ".pdf")):
+            file = DOWNLOADS / Path(rel_url).name
+            if not file.exists():
+                record(path, f"download inexistente: {url}")
             continue
         target = normpath(route(path) + rel_url)
         target = "/" + target.strip("/") + "/" if target.strip("/") else "/"
         if target not in routes:
-            errors.append(f"{path.relative_to(ROOT)}: link interno não encontrado {url} => {target}")
+            record(path, f"link interno não encontrado: {url} => {target}")
 
-try:
-    import yaml
-    for path in sorted((ROOT / "public" / "downloads").glob("*.yaml")):
+seen_ids: dict[str, str] = {}
+yaml_count = 0
+for path in sorted(DOWNLOADS.glob("*.yaml")):
+    yaml_count += 1
+    try:
         data = yaml.safe_load(path.read_text(encoding="utf8"))
-        if not isinstance(data, dict) or not all(key in data for key in ("type", "status")):
-            errors.append(f"{path.relative_to(ROOT)}: YAML sem type/status")
-except ImportError:
-    print("AVISO: PyYAML ausente; exemplos YAML não foram validados.")
-except Exception as exc:
-    errors.append(f"Falha ao validar YAML: {exc}")
+    except yaml.YAMLError as exc:
+        record(path, f"YAML inválido: {exc}")
+        continue
+    if not isinstance(data, dict):
+        record(path, "YAML deve ser mapa na raiz")
+        continue
+    if not data.get("type"):
+        record(path, "campo type ausente")
+    if data.get("status") not in VALID_STATUSES:
+        record(path, f"status inválido: {data.get('status')}")
+    if data.get("status") == "approved":
+        for key in ("owner", "source_of_truth", "valid_from"):
+            if data.get(key) in (None, "", []):
+                record(path, f"documento approved sem {key}")
+    if path.name.startswith("exemplo-"):
+        if not data.get("id"):
+            record(path, "exemplo sem identificador")
+        elif data["id"] in seen_ids:
+            record(path, f"identificador duplicado em {seen_ids[data['id']]}")
+        else:
+            seen_ids[data["id"]] = str(path.relative_to(ROOT))
+
+markdown_count = 0
+for path in sorted(DOWNLOADS.glob("*.md")):
+    markdown_count += 1
+    content = path.read_text(encoding="utf-8")
+    match = re.match(r"\A---\r?\n(.*?)\r?\n---\r?\n", content, re.S)
+    if not match:
+        record(path, "template Markdown sem metadados")
+        continue
+    try:
+        front = yaml.safe_load(match.group(1))
+    except yaml.YAMLError as exc:
+        record(path, f"frontmatter inválido: {exc}")
+        continue
+    if not isinstance(front, dict) or not front.get("type") or front.get("status") not in VALID_STATUSES:
+        record(path, "campos type ou status inválidos")
+
+# Every download card must lead to an existing file.
+component = TEMPLATE_COMPONENT.read_text(encoding="utf-8")
+for filename in re.findall(r"href:\s*'([^']+)'", component):
+    if not (DOWNLOADS / filename).is_file():
+        record(TEMPLATE_COMPONENT, f"arquivo de download ausente: {filename}")
+
+for kind in REQUIRED_TYPES:
+    for suffix in (".md", ".yaml"):
+        expected = DOWNLOADS / f"template-{kind}{suffix}"
+        if not expected.exists():
+            record(TEMPLATE_COMPONENT, f"template anunciado não existe: {expected.name}")
 
 if errors:
     print("\n".join("ERRO: " + error for error in errors))
     sys.exit(1)
-print(f"OK: {len(PAGES)} páginas verificadas; metadados, links e exemplos YAML checados.")
+print(f"OK: {len(PAGES)} páginas, {markdown_count} templates Markdown, "
+      f"{yaml_count} arquivos YAML, rotas internas e downloads verificados.")
