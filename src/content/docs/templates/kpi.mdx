@@ -1,0 +1,59 @@
+---
+title: Template de KPI
+description: Modelo para explicitar definições de indicadores de negócio.
+---
+
+# Como documentar um KPI
+
+O nome de um indicador não informa necessariamente como ele deve ser calculado. É preciso documentar seu significado, população, fórmula, fontes, exclusões e limites de uso.
+
+## Campos essenciais
+
+| Campo | Pergunta ao especialista |
+|---|---|
+| Nome e identificador | Qual indicador estamos definindo? |
+| Definição | O que ele mede, no contexto da organização? |
+| População | Quais entidades entram no cálculo? |
+| Fórmula | Quais variáveis, agregações e unidades devem ser utilizadas? |
+| Período | Qual janela temporal, fuso e data de referência? |
+| Exclusões | Cancelamentos, testes, duplicatas ou outros casos? |
+| Fonte oficial | Onde o indicador é definido ou implementado? |
+| Responsável | Quem valida sua definição? |
+| Exceções | Quando não deve ser utilizado? |
+
+## Modelo Markdown com metadados YAML
+
+```md
+---
+id: KPI-001
+title: Taxa de conversão de e-commerce
+type: metric_definition
+owner: A definir
+status: draft
+version: "0.1"
+---
+
+# Taxa de conversão
+
+## Definição
+[Pergunte qual evento constitui uma conversão.]
+
+## Fórmula
+[Aguardando homologação da área.]
+
+## População
+[Quem entra no denominador?]
+
+## Exclusões
+[Pedidos de teste, cancelados, devoluções?]
+
+## Fonte oficial
+[Referência a dashboard, catálogo ou política.]
+
+## Exceções
+[Quando não aplicar este indicador?]
+```
+
+**Atenção:** este modelo não determina sozinho o SQL correto. Quando houver modelo semântico executável ou implementação homologada, inclua sua referência.
+
+Veja o [antes e depois](../../exemplos/kpi/) para uma aplicação didática.
