@@ -46,7 +46,16 @@ const base = rawBase.endsWith('/') ? rawBase : rawBase + '/';
   {complete && <p class="panel-note">A Aurora não existe. Responsável, datas, fonte e aprovação são inventados para mostrar o documento pronto.</p>}
 
   <details class="example-doc__details">
-    <summary>Ver dados técnicos, histórico e YAML</summary>
+    <summary>
+      <svg class="example-doc__disclosure-chevron" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="m9 5 7 7-7 7" />
+      </svg>
+      <span class="example-doc__disclosure-copy">
+        <span class="example-doc__disclosure-title">Dados técnicos e YAML</span>
+        <span class="example-doc__disclosure-subtitle">Identificação, responsáveis, vigência, histórico e arquivo fonte completo.</span>
+      </span>
+      <span class="example-doc__disclosure-tag" aria-hidden="true">Opcional</span>
+    </summary>
     <div class="example-doc__details-content">
       <h4>Identificação, responsáveis e vigência</h4>
     <dl>

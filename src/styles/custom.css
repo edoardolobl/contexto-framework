@@ -699,3 +699,140 @@ main:has(.context-hero) > .content-panel:first-child {
     gap:.1rem;
   }
 }
+
+
+/* Approved mock — high-visibility native disclosure, dark and light themes.
+   Keep the entire summary clickable and keyboard-accessible. */
+.example-doc .example-doc__details {
+  border: 1px solid #91d6b0;
+  border-radius: 9px;
+  padding: 0;
+  margin: 1.1rem 0 0 !important;
+  overflow: clip;
+  background: var(--context-surface);
+}
+.example-doc .example-doc__details > summary {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  min-height: 5.2rem;
+  margin: 0 !important;
+  padding: 1rem 1.15rem;
+  border-radius: 8px;
+  background: #27513f;
+  color: #f5fff8;
+  cursor: pointer;
+  list-style: none;
+  transition: background-color .16s ease;
+}
+.example-doc .example-doc__details > summary::-webkit-details-marker {
+  display: none;
+}
+.example-doc .example-doc__details > summary::marker {
+  content: '';
+}
+.example-doc .example-doc__details > summary:hover {
+  background: #32634d;
+}
+.example-doc .example-doc__details > summary:focus-visible {
+  outline: 3px solid #f2d79c;
+  outline-offset: -5px;
+}
+.example-doc .example-doc__details[open] > summary {
+  border-radius: 8px 8px 0 0;
+  background: #2c6048;
+  border-bottom: 1px solid #91d6b0;
+}
+.example-doc__disclosure-chevron {
+  flex: 0 0 1.5rem;
+  color: #f5fff8;
+  transition: transform .16s ease;
+}
+.example-doc__details[open] .example-doc__disclosure-chevron {
+  transform: rotate(90deg);
+}
+.example-doc__disclosure-copy {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: .25rem;
+  min-width: 0;
+  line-height: 1.4;
+}
+.example-doc__disclosure-title {
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1.35;
+}
+.example-doc__disclosure-subtitle {
+  color: #e5f1e9;
+  font-size: .84rem;
+  line-height: 1.5;
+  font-weight: 450;
+}
+.example-doc__disclosure-tag {
+  flex-shrink: 0;
+  border: 1px solid #a6ddbd;
+  color: #f5fff8;
+  border-radius: 100px;
+  padding: .22rem .55rem;
+  font-size: .74rem;
+  font-weight: 750;
+  line-height: 1.3;
+}
+.example-doc .example-doc__details-content {
+  padding: .95rem 1.1rem 1.1rem;
+  min-width: 0;
+}
+:root[data-theme='light'] .example-doc .example-doc__details {
+  border-color: #357456;
+  background: #f3f8f1;
+}
+:root[data-theme='light'] .example-doc .example-doc__details > summary {
+  background: #dceee1;
+  color: #143d2b;
+}
+:root[data-theme='light'] .example-doc .example-doc__details > summary:hover {
+  background: #c5e2d0;
+}
+:root[data-theme='light'] .example-doc .example-doc__details[open] > summary {
+  background: #cee7d5;
+  border-bottom-color: #357456;
+}
+:root[data-theme='light'] .example-doc__disclosure-title,
+:root[data-theme='light'] .example-doc__disclosure-chevron {
+  color: #143d2b;
+}
+:root[data-theme='light'] .example-doc__disclosure-subtitle {
+  color: #315a46;
+}
+:root[data-theme='light'] .example-doc__disclosure-tag {
+  color: #174a32;
+  border-color: #357456;
+}
+:root[data-theme='light'] .example-doc .example-doc__details > summary:focus-visible {
+  outline-color: #a15a16;
+}
+@media(max-width: 540px) {
+  .example-doc .example-doc__details > summary {
+    flex-wrap: wrap;
+    gap: .7rem;
+    padding: .85rem;
+  }
+  .example-doc__disclosure-copy {
+    flex-basis: calc(100% - 2.3rem);
+  }
+  .example-doc__disclosure-tag {
+    margin-left: 2.25rem;
+  }
+  .example-doc .example-doc__details-content {
+    padding: .8rem;
+  }
+}
+@media(prefers-reduced-motion: reduce) {
+  .example-doc__disclosure-chevron,
+  .example-doc .example-doc__details > summary {
+    transition: none;
+  }
+}
