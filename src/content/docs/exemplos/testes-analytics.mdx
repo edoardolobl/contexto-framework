@@ -1,0 +1,55 @@
+---
+title: Exemplo — Perguntas que os dados respondem
+description: Um conjunto de perguntas com respostas, esclarecimentos e recusas fundamentadas.
+---
+
+# Perguntas e respostas de referência no caso Aurora
+
+A documentação não deve apenas afirmar “o agente poderá responder perguntas sobre o dashboard”. Deve identificar **quais perguntas têm resposta sustentada**, quais dependem de esclarecimento e quais estão fora da cobertura.
+
+Este material é **um gabarito documental para especialistas**, não um relatório de desempenho de um modelo.
+
+## O que nossa pequena amostra autoriza responder?
+
+| ID | Pergunta | Comportamento de referência | Evidência necessária |
+|---|---|---|---|
+| Q01 | Qual a taxa de sessões web convertidas no dia 01/10/2026? | **Responder:** 25% nesta amostra sintética | Definição do KPI, sessão elegível, status do pedido |
+| Q02 | Por que não é 50%? | **Explicar:** há dois pedidos confirmados na mesma sessão; ela conta uma vez | Cardinalidade 1:N e regra do numerador |
+| Q03 | Qual foi a taxa de conversão no app? | **Esclarecer escopo:** a métrica documentada se aplica apenas a web | Metadados de aplicabilidade |
+| Q04 | E no mês anterior? | **Não responder com número:** a amostra não contém esse período | Limite temporal documentado |
+| Q05 | Qual foi a receita líquida? | **Não responder com número:** a métrica não foi definida no acervo | Ausência de fórmula e fontes |
+
+**Importante:** os comportamentos Q03–Q05 não equivalem a dizer que um banco maior seria incapaz de respondê-los. Significam apenas que **esta documentação e esta definição não os sustentam**.
+
+## Um exemplo estruturado
+
+```yaml
+---
+id: QA-AURORA-001
+type: reference_question_set
+status: pending_approval
+questions:
+  - id: Q01
+    question: "Taxa de sessões web convertidas?"
+    expected_behavior: answer
+    reference_answer: "25% na amostra sintética em 01/10/2026"
+    evidence:
+      - "KPI-AURORA-001"
+      - "DATASET-AURORA-SESSIONS"
+  - id: Q05
+    question: "Qual a receita líquida?"
+    expected_behavior: abstain
+    reason: "Definição e dados insuficientes"
+```
+
+## Como tornar o gabarito confiável?
+
+Cada pergunta precisa de quem a revisou, data, fonte e contexto. Quando um indicador muda de versão, as respostas de referência que dependem dele **também precisam ser revisadas**.
+
+A engenharia poderá depois usar essas perguntas para testes de recuperação, respostas e ferramentas. O framework **não certifica** nenhuma arquitetura RAG ou agente.
+
+Consulte os [templates de perguntas](../../templates/casos-teste/), [dataset](../../templates/dataset/) e o [caso integrado](../../exemplos/analytics-integrado/).
+
+### Fundamentação
+
+A [fase de preparação do RAG (Microsoft)](https://learn.microsoft.com/pt-br/azure/architecture/ai-ml/guide/rag/rag-preparation-phase) recomenda definir perguntas junto ao conteúdo que as sustenta. O conjunto Q01–Q05 é um exemplo autoral.
