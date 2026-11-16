@@ -22,6 +22,8 @@ jobs:
         run: python scripts/check_decision_examples.py
       - name: Reproduzir a amostra de Analytics e verificar rubricas
         run: python scripts/check_analytics_fixture.py
+      - name: Verificar versões, vigência e recuperação histórica dos exemplos
+        run: python scripts/check_revisions.py
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
