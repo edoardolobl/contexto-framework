@@ -229,7 +229,7 @@ switch (doc.type) {
     add('Como interpretar o dashboard', [
       ...pair('Finalidade', doc.purpose),
       ...pair('Público', doc.audiences),
-      ...pair('Indicadores', doc.metrics),
+      ...pair('Indicadores', (doc.metrics ?? []).map((m: string) => doc.metric_versions?.[m] ? `${m}, versão ${doc.metric_versions[m]}` : m)),
       ...pair('Filtros padrão', doc.default_filters ? Object.entries(doc.default_filters).map(([k, v]) => `${k}: ${display(v)}`) : []),
       ...pair('Período', doc.time_semantics?.reporting_period),
       ...pair('Referência comparativa', doc.time_semantics?.comparison_baseline),

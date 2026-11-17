@@ -103,8 +103,6 @@ for page, numbers in pages.items():
 formulas_de_referencia = {
     "historico/exemplo-kpi-v1.0.yaml":
         "(Pedidos confirmados elegíveis / Sessões elegíveis) × 100",
-    "exemplo-kpi-lacunas.yaml":
-        "(Sessões únicas com pelo menos um pedido confirmado / Sessões elegíveis) × 100",
     "exemplo-kpi-completo.yaml":
         "(Sessões únicas com pelo menos um pedido confirmado / Sessões elegíveis) × 100",
 }
@@ -121,6 +119,14 @@ for name, formula_esperada in formulas_de_referencia.items():
             fail(f"{name}: fórmula histórica não pode contar sessões únicas")
     elif "quantidade de sessões" not in numerador:
         fail(f"{name}: a fórmula atual precisa contar sessões únicas convertidas")
+
+# O rascunho 0.1 ainda não sabia se conversão era pedido ou sessão: o numerador fica em aberto,
+# e a pergunta aparece entre as perguntas em aberto. Assim a 1.0, que contou pedidos, não "volta atrás".
+draft = load("exemplo-kpi-lacunas.yaml")
+if draft["calculation"]["numerator"] is not None:
+    fail("exemplo-kpi-lacunas.yaml: o rascunho não pode já trazer o numerador que só foi decidido depois")
+if not any("pedidos confirmados ou sessões" in q["question"] for q in draft["open_questions"]):
+    fail("exemplo-kpi-lacunas.yaml: falta a pergunta em aberto sobre contar pedidos ou sessões")
 
 for name in ("exemplo-relacionamento-lacunas.yaml", "exemplo-relacionamento-completo.yaml"):
     if load(name)["cardinality"] != "one_to_many":

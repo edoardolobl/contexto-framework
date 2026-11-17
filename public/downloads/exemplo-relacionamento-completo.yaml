@@ -40,7 +40,7 @@ cardinality: one_to_many
 coverage:
   unmatched_rows_expected: true
   null_keys_expected: false
-  temporal_join_rule: "O laboratório usa apenas 2026-10-01"
+  temporal_join_rule: "O pedido conta na data da sessão em que foi criado (session_date)"
 usage_rules:
   approved_question_classes:
     - "Sessões elegíveis com pelo menos um pedido confirmado"

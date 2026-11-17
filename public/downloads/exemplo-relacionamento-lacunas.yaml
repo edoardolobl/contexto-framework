@@ -32,7 +32,7 @@ cardinality: one_to_many
 coverage:
   unmatched_rows_expected: true
   null_keys_expected: false
-  temporal_join_rule: "O laboratório usa apenas 2026-10-01"
+  temporal_join_rule: null
 usage_rules:
   approved_question_classes:
     - "Sessões elegíveis com pelo menos um pedido confirmado"
@@ -51,6 +51,12 @@ validation:
   verified_query: "aurora-reference-query.sql"
   reviewer: null
 open_questions:
-  - "Para contar sessões convertidas, conta-se cada pedido confirmado ou cada sessão distinta? Na amostra, a resposta muda o resultado de 25% para 50%."
-  - "Um pedido sem sessão correspondente pode existir? O que fazer com ele?"
+  - question: "Para contar sessões convertidas, conta-se cada pedido confirmado ou cada sessão distinta?"
+    impact: "Uma sessão com dois pedidos conta em dobro"
+    resolution_owner: null
+    state: unresolved
+  - question: "Um pedido sem sessão correspondente pode existir? O que fazer com ele?"
+    impact: "Pedidos podem sumir da conta ou entrar sem sessão"
+    resolution_owner: null
+    state: unresolved
 related_documents: ["DATASET-AURORA-SESSIONS", "KPI-AURORA-001"]

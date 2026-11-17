@@ -44,7 +44,7 @@ const lastDay = isDay(doc.valid_to)
 const history: any[] = doc.version_history ?? [];
 const current = history[0];
 const previous = doc.supersedes_revision ? history[1] : undefined;
-const questions = (doc.open_questions ?? []).map((q: any) => (typeof q === 'string' ? q : q.question));
+const questions = (doc.open_questions ?? []).map((q: any) => (typeof q === 'string' ? { text: q } : { text: q.question, impact: q.impact }));
 const rawBase = import.meta.env.BASE_URL;
 const base = rawBase.endsWith('/') ? rawBase : rawBase + '/';
 ---
@@ -78,7 +78,7 @@ const base = rawBase.endsWith('/') ? rawBase : rawBase + '/';
         <ExampleMeaning doc={doc}/>
         {questions.length > 0 && <section class="example-doc__gaps" aria-label="Perguntas que ainda precisam de resposta">
           <h4>Perguntas em aberto ({questions.length})</h4>
-          <ul>{questions.map((q: string) => <li>{q}</li>)}</ul>
+          <ul>{questions.map((q: any) => <li>{q.text}{q.impact && <span class="example-doc__impact">Se ficar sem resposta: {q.impact}</span>}</li>)}</ul>
         </section>}
       </TabItem>
       <TabItem label="Identificação e histórico">

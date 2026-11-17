@@ -46,9 +46,11 @@ validation:
 
 open_questions:
   - question: "Qual atividade marca uma pessoa como ativa?"
-    resolution_owner: null
     impact: "Relatórios podem contar populações diferentes"
-  - question: "Qual período determina a classificação?"
     resolution_owner: null
+    state: unresolved
+  - question: "Qual período determina a classificação?"
     impact: "Atividade passada pode ser confundida com status atual"
+    resolution_owner: null
+    state: unresolved
 related_documents: []

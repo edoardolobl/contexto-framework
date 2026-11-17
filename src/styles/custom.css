@@ -932,3 +932,5 @@ main:has(.context-hero) > .content-panel:first-child {
 @media (prefers-reduced-motion: reduce) {
   .example-doc__tabs .tab > [role='tab'] { transition: none; }
 }
+
+.example-doc__impact { display:block; font-size:.81rem; color:var(--context-muted); margin-top:.15rem; }

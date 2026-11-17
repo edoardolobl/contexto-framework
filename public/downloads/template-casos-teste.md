@@ -51,7 +51,13 @@ Estados possíveis: **Rascunho**, **Pendente de aprovação**, **Aprovado**, **O
 ## Atualização
 - Mudanças de KPI, fontes e políticas que exigem revalidar respostas:
 - Responsável, data e estado da versão:
-- Perguntas em aberto:
+
+## Perguntas em aberto
+Repita para cada pergunta que ninguém decidiu.
+- Pergunta:
+- Impacto (o que dá errado enquanto não há resposta):
+- Quem pode resolver:
+- Estado (em aberto, ou resolvida com data e evidência):
 
 ## Histórico de versões
 

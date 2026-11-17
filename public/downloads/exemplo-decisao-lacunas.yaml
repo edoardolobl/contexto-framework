@@ -66,8 +66,17 @@ tests:
     expected_outcome: complement_information
     reasoning: "Brief incompleto é devolvido, qualquer que seja o estado das evidências"
 conflicts: []
-open_questions: 
-  - "A tabela foi aprovada pela área?"
-  - "Quem decide se a evidência é suficiente?"
-  - "Quais campos tornam um brief completo?"
+open_questions:
+  - question: "A tabela foi aprovada pela área?"
+    impact: "Sem aprovação, a tabela não pode encaminhar pedidos"
+    resolution_owner: null
+    state: unresolved
+  - question: "Quem decide se a evidência é suficiente?"
+    impact: "Dois revisores podem classificar o mesmo material de forma diferente"
+    resolution_owner: null
+    state: unresolved
+  - question: "Quais campos tornam um brief completo?"
+    impact: "Pedidos iguais podem ser devolvidos ou aceitos conforme quem confere"
+    resolution_owner: null
+    state: unresolved
 related_documents: ["PROCESS-CAMPAIGN-001"]

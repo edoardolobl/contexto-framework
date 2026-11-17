@@ -116,6 +116,17 @@ for stable, as_of, expected in expectations:
         errors.append(f"Seleção histórica {stable} em {as_of}: esperado {expected}, obtido {actual}")
 
 
+# Documento datado antes de 01/10 não pode citar a amostra de 01/10 nem o gabarito, que nasceram nesse dia.
+LAB_DAY = date(2026, 10, 1)
+for path in FILES:
+    data = yaml.safe_load(path.read_text(encoding="utf-8"))
+    created = day(path, data.get("version_date"), "version_date")
+    if created and created < LAB_DAY:
+        body = "\n".join(l for l in path.read_text(encoding="utf-8").splitlines() if not l.lstrip().startswith("#"))
+        for marker in ("2026-10-01", "01/10", "QA-AURORA-001"):
+            if marker in body:
+                err(path, f"versão de {created.isoformat()} cita {marker}, que só existe a partir de 01/10")
+
 # Uma resposta calculada sobre dados de 01/10 não deveria ter sido aprovada em setembro.
 qa = next((r for k, r in revisions.items() if k.startswith("QA-AURORA-001@") and r["data"].get("status") == "approved"), None)
 if not qa:

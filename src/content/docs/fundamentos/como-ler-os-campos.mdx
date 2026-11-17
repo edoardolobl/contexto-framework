@@ -25,12 +25,12 @@ Quando o núcleo estiver claro, complete a identificação. Todo modelo tem este
 
 | No modelo Markdown | No YAML | O que escrever |
 |---|---|---|
-| Identificador do assunto | `id` | Um código estável para a definição, como `KPI-VENDAS-001` |
-| Identificador da versão | `revision_id` | O código do assunto mais a versão, como `KPI-VENDAS-001@1.1`; duas versões nunca compartilham o mesmo ID |
+| Identificador do assunto | `id` | Um código estável para a definição, como `KPI-AURORA-001` |
+| Identificador da versão | `revision_id` | O código do assunto mais a versão, como `KPI-AURORA-001@2.0`; duas versões nunca compartilham o mesmo ID |
 | Tipo de documento | `type` | Já vem preenchido no modelo |
 | Estado | `status` | Em que ponto o documento está. Veja a tabela abaixo |
 | Responsável | `owner` | O cargo ou a área que responde pelo conteúdo. Não o nome de uma pessoa, que muda |
-| Quem aprova | `approver` | O cargo ou a área com autoridade para dizer "esta é a regra" |
+| Quem aprova | `approver` | O cargo ou a área com autoridade para dizer “esta é a regra” |
 | Versão atual | `version` | 0.1 para o primeiro rascunho; 1.0 para a primeira versão aprovada. Para as seguintes, veja [como numerar](#como-numerar-as-versões) |
 | Data desta versão | `version_date` | O dia em que esta versão foi escrita ou aprovada |
 | Vale a partir de | `valid_from` | Dia em que **esta versão** começa a valer |
@@ -40,10 +40,10 @@ Quando o núcleo estiver claro, complete a identificação. Todo modelo tem este
 
 ## O que significa `null`
 
-`null` quer dizer **"ainda não sei"** ou **"ainda não foi decidido"**. Não é erro e não é zero.
+`null` quer dizer **“ainda não sei”** ou **“ainda não foi decidido”**. Não é erro e não é zero.
 
 - No YAML, deixe `null` e anote a dúvida em `open_questions`.
-- No Markdown, deixe em branco e anote em "Perguntas em aberto".
+- No Markdown, deixe em branco e anote em “Perguntas em aberto”.
 
 Nunca troque um `null` por um palpite para o documento parecer completo.
 
@@ -77,7 +77,7 @@ No fim de todo documento há uma linha por versão, a mais recente primeiro:
 
 Três cuidados:
 
-1. Descreva a mudança **na regra**, não a edição do texto. "Corrigi a redação" não ajuda ninguém; "o limite passou de 60 para 30 dias" ajuda.
+1. Descreva a mudança **na regra**, não a edição do texto. “Corrigi a redação” não ajuda ninguém; “o limite passou de 60 para 30 dias” ajuda.
 2. Um rascunho também tem versão e data.
 3. **Preserve a cópia integral das versões aprovadas.** A tabela de mudanças não permite saber exatamente qual regra valia em agosto. Declare a vigência de cada versão e verifique se os intervalos não se sobrepõem.
 
@@ -90,7 +90,7 @@ A pergunta que decide o número é: **alguém que aplicar a regra nova chega a u
 | Só o texto, nada muda no resultado (erro de digitação, link) | Mesma versão | Corrigir uma palavra |
 | Esclarece sem mudar o resultado de nenhum caso | Versão menor: 1.0 → 1.1 | Política de despesas: incluiu quando revisar a política |
 | Muda o resultado de algum caso, mas mede ou descreve a mesma coisa | Versão maior: 1.x → 2.0 | Participante ativo: janela de 60 para 30 dias; KPI de conversão: fórmula corrigida |
-| Passa a medir ou descrever outra coisa | Identificador novo | Trocar "conversão" por "receita por sessão" |
+| Passa a medir ou descrever outra coisa | Identificador novo | Trocar “conversão” por “receita por sessão” |
 
 Na dúvida entre menor e maior, escolha maior: avisa quem compara números antigos e novos de que talvez não sejam comparáveis.
 
@@ -103,10 +103,10 @@ Dentro de um mesmo documento convivem três tipos de afirmação. Mantenha-os se
 | Tipo | Como reconhecer | Onde registrar |
 |---|---|---|
 | **Confirmado** | Existe fonte oficial e alguém com autoridade confirmou | Nos campos do documento |
-| **Relatado** | "A gente costuma fazer assim", sem fonte ou confirmação | Em perguntas em aberto, como prática a confirmar |
+| **Relatado** | “A gente costuma fazer assim”, sem fonte ou confirmação | Em perguntas em aberto, como prática a confirmar |
 | **Em aberto** | Ninguém decidiu, ou duas fontes estão em conflito | Em perguntas em aberto, com quem pode decidir |
 
-Enquanto o estado do documento for "Rascunho" ou "Pendente de aprovação", quem lê deve tratar tudo como ainda não confirmado.
+Enquanto o estado do documento for “Rascunho” ou “Pendente de aprovação”, quem lê deve tratar tudo como ainda não confirmado.
 
 ## Duas coisas que parecem iguais e não são
 

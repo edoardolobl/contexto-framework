@@ -53,9 +53,15 @@ Estados possíveis: **Rascunho**, **Pendente de aprovação**, **Aprovado**, **O
 - Casos-limite e exceções:
 - Conflito com outras regras:
 
-## Revisão e perguntas em aberto
+## Revisão
 - Quando esta regra deve ser revista:
-- Perguntas em aberto:
+
+## Perguntas em aberto
+Repita para cada pergunta que ninguém decidiu.
+- Pergunta:
+- Impacto (o que dá errado enquanto não há resposta):
+- Quem pode resolver:
+- Estado (em aberto, ou resolvida com data e evidência):
 
 ## Histórico de versões
 

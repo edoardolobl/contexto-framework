@@ -57,8 +57,20 @@ source_precedence_rule: null
 how_to_verify: "Solicitar confirmação da área responsável"
 review_trigger: "Resolução do conflito de versões"
 open_questions:
-  - "Qual das três fontes tem autoridade vigente: R$ 500, R$ 1.000 ou R$ 300?"
-  - "O e-mail de 03/08 mudou a política ou só comunicou uma prática?"
-  - "Qual documento substitui o anterior?"
-  - "Quem pode aprovar exceções?"
+  - question: "'Qual das três fontes tem autoridade vigente: R$ 500, R$ 1.000 ou R$ 300?'"
+    impact: "Uma despesa de R$ 800 precisa ou não de aprovação prévia, conforme a fonte"
+    resolution_owner: null
+    state: unresolved
+  - question: "O e-mail de 03/08 mudou a política ou só comunicou uma prática?"
+    impact: "Quem seguiu o e-mail pode ter gastado sem aprovação"
+    resolution_owner: null
+    state: unresolved
+  - question: "Qual documento substitui o anterior?"
+    impact: "Uma versão antiga pode continuar sendo usada"
+    resolution_owner: null
+    state: unresolved
+  - question: "Quem pode aprovar exceções?"
+    impact: "Uma despesa de emergência fica sem caminho para reembolso"
+    resolution_owner: null
+    state: unresolved
 related_documents: []

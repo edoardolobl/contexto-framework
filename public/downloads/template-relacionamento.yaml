@@ -42,5 +42,9 @@ validation:
   test_cases: []
   verified_query: null
   reviewer: null
-open_questions: []
+open_questions:   # uma entrada por pergunta que ninguém decidiu
+  - question: null
+    impact: null            # o que dá errado enquanto ela não tem resposta
+    resolution_owner: null  # quem pode resolver
+    state: unresolved
 related_documents: []

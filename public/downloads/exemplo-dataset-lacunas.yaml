@@ -66,7 +66,7 @@ columns:
     allowed_values: []
     sentinel_values: []
     null_meaning: "Não permitido no laboratório"
-    examples: ["2026-10-01"]
+    examples: ["2026-09-01"]
     do_not_use_for: ["Inferir hora local ou duração"]
 
 time_semantics:
@@ -88,7 +88,16 @@ validation:
   checked_at: null
   evidence: ["aurora-fixture.sql"]
 open_questions:
-  - "is_internal = 1 marca o quê: testes da equipe, a rede do escritório, compras de funcionários?"
-  - "Sessões internas entram na taxa de conversão? Na amostra de 01/10, a resposta muda a taxa de 25% para 40%."
-  - "Quem aprova a semântica do dicionário?"
+  - question: "'is_internal = 1 marca o quê: testes da equipe, a rede do escritório, compras de funcionários?'"
+    impact: "Sem o significado, ninguém sabe se o filtro tira só testes ou também compras reais"
+    resolution_owner: null
+    state: unresolved
+  - question: "Sessões internas entram na taxa de conversão? Uma compra de funcionário feita da rede do escritório conta?"
+    impact: "A resposta muda o denominador e o numerador da taxa"
+    resolution_owner: null
+    state: unresolved
+  - question: "Quem aprova a semântica do dicionário?"
+    impact: "Sem quem aprova, o dicionário não pode ser citado como fonte"
+    resolution_owner: null
+    state: unresolved
 related_documents: ["KPI-AURORA-001", "REL-AURORA-SESSIONS-ORDERS"]

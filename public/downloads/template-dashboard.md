@@ -29,7 +29,7 @@ Estados possíveis: **Rascunho**, **Pendente de aprovação**, **Aprovado**, **O
 - Qual dashboard ou relatório é a fonte oficial?
 
 ## Indicadores
-- KPI referenciado:
+- Indicador referenciado e versão que o cartão segue:
 - Definição, fonte e responsável:
 - O que o indicador não mede:
 
@@ -56,7 +56,13 @@ Estados possíveis: **Rascunho**, **Pendente de aprovação**, **Aprovado**, **O
 ## Rastreabilidade
 - Links para a definição de cada indicador:
 - Exemplos de perguntas e respostas:
-- Perguntas em aberto:
+
+## Perguntas em aberto
+Repita para cada pergunta que ninguém decidiu.
+- Pergunta:
+- Impacto (o que dá errado enquanto não há resposta):
+- Quem pode resolver:
+- Estado (em aberto, ou resolvida com data e evidência):
 
 ## Histórico de versões
 

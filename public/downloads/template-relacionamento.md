@@ -41,7 +41,7 @@ Estados possíveis: **Rascunho**, **Pendente de aprovação**, **Aprovado**, **O
 
 ## Tempo e histórico
 - Relação depende de data ou versão?
-- É snapshot ou entidade historizada?
+- A tabela guarda uma fotografia por data ou o histórico de cada mudança?
 - O relacionamento é válido ao longo de todo o período?
 
 ## Limites e testes
@@ -50,6 +50,13 @@ Estados possíveis: **Rascunho**, **Pendente de aprovação**, **Aprovado**, **O
 - Efeito na contagem e nos indicadores:
 - Validação realizada pelo time de dados:
 - Quem aprova e perguntas em aberto:
+
+## Perguntas em aberto
+Repita para cada pergunta que ninguém decidiu.
+- Pergunta:
+- Impacto (o que dá errado enquanto não há resposta):
+- Quem pode resolver:
+- Estado (em aberto, ou resolvida com data e evidência):
 
 ## Histórico de versões
 

@@ -45,6 +45,8 @@ Para cada critério:
 - Como tratar soluções alternativas válidas:
 
 ## Qualidade da avaliação
+- Como calcular a nota (por exemplo, soma de nível ÷ 4 × peso):
+- A nota alimenta outro documento? Qual entrada, e a partir de qual nível:
 - Casos de calibração entre revisores:
 - Como documentar justificativas:
 - Resolução de discordâncias:
@@ -53,9 +55,15 @@ Para cada critério:
 - Tratamento de privacidade:
 - Condições para interromper ou escalar:
 
-## Governança e perguntas em aberto
+## Governança
 - Procedimento de revisão:
-- Critérios ainda não definidos:
+
+## Perguntas em aberto
+Repita para cada pergunta que ninguém decidiu.
+- Pergunta:
+- Impacto (o que dá errado enquanto não há resposta):
+- Quem pode resolver:
+- Estado (em aberto, ou resolvida com data e evidência):
 
 ## Histórico de versões
 

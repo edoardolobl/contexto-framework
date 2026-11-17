@@ -86,10 +86,28 @@ disagreement_resolution: null
 privacy_and_fairness_considerations:
   - "Avaliar o material, nunca a pessoa que o produziu"
 open_questions:
-  - "Quem aprova critérios, âncoras e pesos? Os pesos iguais são provisórios."
-  - "As âncoras dizem 'fonte fraca' e 'fonte adequada'. O que um revisor observa no material para separar uma da outra?"
-  - "Uma fonte sem data conta como prova?"
-  - "Uma restrição da oferta que aparece só no regulamento é suficiente?"
-  - "A nota de alegações com prova decide a entrada 'evidência suficiente' da triagem? A partir de qual nível?"
-  - "Como resolver quando dois revisores dão níveis diferentes ao mesmo critério?"
+  - question: "Quem aprova critérios, âncoras e pesos? Os pesos iguais são provisórios."
+    impact: "Sem aprovação, a nota não pode alimentar a triagem"
+    resolution_owner: null
+    state: unresolved
+  - question: "As âncoras dizem 'fonte fraca' e 'fonte adequada'. O que um revisor observa no material para separar uma da outra?"
+    impact: "Dois revisores dão notas diferentes ao mesmo material"
+    resolution_owner: null
+    state: unresolved
+  - question: "Uma fonte sem data conta como prova?"
+    impact: "Um número desatualizado pode passar como provado"
+    resolution_owner: null
+    state: unresolved
+  - question: "Uma restrição da oferta que aparece só no regulamento é suficiente?"
+    impact: "Clientes podem ter a oferta negada sem ter sido avisados"
+    resolution_owner: null
+    state: unresolved
+  - question: "A nota de alegações com prova decide a entrada 'evidência suficiente' da triagem? A partir de qual nível?"
+    impact: "A triagem continua sem critério para encaminhar"
+    resolution_owner: null
+    state: unresolved
+  - question: "Como resolver quando dois revisores dão níveis diferentes ao mesmo critério?"
+    impact: "A discordância fica sem quem decida"
+    resolution_owner: null
+    state: unresolved
 related_documents: ["PROCESS-CAMPAIGN-001", "DECISION-CAMPAIGN-001"]
