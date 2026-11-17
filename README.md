@@ -4,7 +4,7 @@
 
 O Contexto é um framework pedagógico, independente de fornecedores e clientes, para orientar especialistas de qualquer domínio a **explicitar conceitos, processos, regras, exceções e fontes**, de forma que engenheiros de IA não precisem inventar semântica de negócio a partir de acervos vagos e dispersos.
 
-**Promessa única:** ensinar **como documentar o conhecimento organizacional**. Preencher os templates **não garante** o acerto de SQL, RAG, agentes ou avaliações automatizadas.
+**Promessa única:** ensinar **como documentar o conhecimento organizacional**. Preencher os modelos **não garante** o acerto de SQL, RAG, agentes ou avaliações automatizadas.
 
 ## Portal
 
@@ -16,7 +16,7 @@ https://edoardolobl.github.io/contexto-framework/
 - Revisão de documentos em **três verificações independentes**: cobertura, consistência/evidências e confirmação por quem tem autoridade; [ficha em texto](public/downloads/roteiro-revisao-documental.md) para preencher sem YAML;
 - Princípios e método das oito dimensões;
 - Roteiro de elicitação e passagem do conhecimento;
-- Templates de conceitos, processos, regras, políticas e KPIs;
+- Modelos de conceitos, processos, regras, políticas e KPIs;
 - Exemplos comentados em RH, Marketing, Financeiro e Analytics.
 
 ### Trilha de Dados e Analytics
@@ -60,9 +60,9 @@ O GitHub Actions executa validação de conteúdo, checagens de exemplos e build
 ```text
 src/
   components/          Elementos visuais e downloads
-  content/docs/        Metodologia, templates e exemplos
+  content/docs/        Metodologia, modelos e exemplos
   styles/              Identidade visual
-public/downloads/     Templates Markdown/YAML e laboratório SQL
+public/downloads/     Modelos Markdown/YAML e laboratório SQL
 scripts/              Validações independentes de LLM
 docs/                 Contrato editorial e roadmap
 .github/workflows/    Testes e publicação
@@ -70,7 +70,7 @@ docs/                 Contrato editorial e roadmap
 
 ## Como editar com qualidade
 
-Leia `docs/CONTRATO_EDITORIAL.md`. Cada nova página deve ensinar o leitor a compreender, observar e aplicar o conceito. Todo template publicado deve incluir instrução de uso, os dois exemplos (com lacunas e completo), histórico de versões, perguntas de elicitação, registro de lacunas, responsáveis e fontes.
+Leia `docs/CONTRATO_EDITORIAL.md`. Cada nova página deve ensinar o leitor a compreender, observar e aplicar o conceito. Todo modelo publicado deve incluir instrução de uso, os dois exemplos (com lacunas e completo), histórico de versões, perguntas de elicitação, registro de lacunas, responsáveis e fontes.
 
 Os documentos são destinados a pessoas de negócio e tecnologia. **Não presumir que todo colaborador sabe Markdown, YAML, SQL ou arquitetura de IA**.
 
@@ -85,8 +85,8 @@ Criado e mantido por **Edoardo Lobl** ([LinkedIn](https://www.linkedin.com/in/ed
 ## Licença
 
 - **Código** (componentes, estilos, scripts, configuração, arquivos SQL e blocos de código exibidos nas páginas): [MIT](LICENSE).
-- **Conteúdo** (páginas do portal, método, templates e exemplos em Markdown e YAML, documentação): [CC BY 4.0](LICENSE-CONTENT).
+- **Conteúdo** (páginas do portal, método, modelos e exemplos em Markdown e YAML, documentação): [CC BY 4.0](LICENSE-CONTENT).
 
 O nome "Contexto" e o logotipo não são licenciados para uso como marca. Normas, guias, artigos e marcas de terceiros citados na bibliografia permanecem sob os direitos de seus titulares.
 
-Usar os templates para escrever documentos internos da sua organização não exige atribuição. Ao republicar ou adaptar o material, cite: *Contexto: Framework de Conhecimento para IA*, de Edoardo Lobl, CC BY 4.0, com o link do portal.
+Usar os modelos para escrever documentos internos da sua organização não exige atribuição. Ao republicar ou adaptar o material, cite: *Contexto: Framework de Conhecimento para IA*, de Edoardo Lobl, CC BY 4.0, com o link do portal.

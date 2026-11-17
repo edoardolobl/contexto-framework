@@ -464,6 +464,31 @@ main:has(.context-hero) > .content-panel:first-child {
   overflow-wrap:anywhere;
 }
 .revision-comparison__metadata code {font-size:.84rem;white-space:normal}
+/* IDs are identifiers, not prose: stack labels and keep values intact.
+   Only the value scrolls if a narrow screen cannot display it. */
+.revision-comparison__metadata > .revision-comparison__metadata-id {
+  flex-direction: column;
+  align-items: stretch;
+  gap: .22rem;
+}
+.revision-comparison__metadata-id dt { flex: none; }
+.revision-comparison__metadata-id dd {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  text-align: left;
+  white-space: nowrap;
+  overflow-wrap: normal;
+  overflow-x: auto;
+  padding: .12rem 0 .2rem;
+}
+.revision-comparison__metadata-id code {
+  display: inline-block;
+  white-space: nowrap;
+  overflow-wrap: normal;
+  word-break: normal;
+}
 .revision-comparison__rule {
   margin:1.15rem 0 1rem;
   border-left:3px solid var(--sl-color-accent);

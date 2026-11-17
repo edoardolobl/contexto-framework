@@ -12,7 +12,14 @@ const entries = files.map(file => {
   const raw = fs.readFileSync(path.join(process.cwd(), 'public', 'downloads', file), 'utf8');
   return { ...parse(raw), file };
 });
-const prettyDate = (date: string | null) => date?.split('-').reverse().join('/') ?? 'sem fim documentado';
+const prettyDate = (date: string | null) => date?.split('-').reverse().join('/') ?? 'Sem fim registrado';
+// valid_to no YAML é exclusivo; ao leitor, mostramos o último dia incluído.
+const lastDay = (endExclusive: string | null) => {
+  if (!endExclusive) return 'Sem fim registrado';
+  const end = new Date(endExclusive + 'T00:00:00Z');
+  end.setUTCDate(end.getUTCDate() - 1);
+  return prettyDate(end.toISOString().slice(0, 10));
+};
 const rawBase = import.meta.env.BASE_URL;
 const base = rawBase.endsWith('/') ? rawBase : rawBase + '/';
 const rule = (doc: any) => kind === 'conceito' ? doc.definition : doc.calculation?.formula_description;
@@ -25,11 +32,11 @@ const details = (doc: any) => kind === 'conceito'
     <p class="panel-kicker">{i === 0 ? 'REVISÃO HISTÓRICA · NÃO VIGENTE' : 'REVISÃO ATUAL NO EXEMPLO FICTÍCIO'}</p>
     <h3>Revisão {doc.version}</h3>
     <dl class="revision-comparison__metadata">
-      <div><dt>ID do assunto</dt><dd><code>{doc.id}</code></dd></div>
-      <div><dt>ID da revisão</dt><dd><code>{doc.revision_id}</code></dd></div>
+      <div class="revision-comparison__metadata-id"><dt>ID do assunto</dt><dd><code>{doc.id}</code></dd></div>
+      <div class="revision-comparison__metadata-id"><dt>ID da revisão</dt><dd><code>{doc.revision_id}</code></dd></div>
       <div><dt>Data do registro</dt><dd>{prettyDate(doc.version_date)}</dd></div>
       <div><dt>Regra válida desde</dt><dd>{prettyDate(doc.valid_from)}</dd></div>
-      <div><dt>Regra válida até</dt><dd>{doc.valid_to ? 'antes de ' + prettyDate(doc.valid_to) : 'sem fim documentado'}</dd></div>
+      <div><dt>Último dia de vigência</dt><dd>{lastDay(doc.valid_to)}</dd></div>
     </dl>
     <div class="revision-comparison__rule">
       <strong>{kind === 'conceito' ? 'Definição nesta revisão' : 'Fórmula nesta revisão'}</strong>

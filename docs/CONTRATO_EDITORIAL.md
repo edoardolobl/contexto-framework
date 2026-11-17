@@ -11,7 +11,7 @@
 
 Orientar especialistas de diferentes áreas a produzir documentação que explicite conhecimento, contexto, critérios e exceções para que engenheiros de IA não precisem inventar regras ausentes ou inferir significados a partir de documentos ambíguos.
 
-Este projeto **não promete** que os templates resolvem por si só problemas de SQL, RAG, avaliação automática ou agentes. Documentos são insumos; sistemas precisam ser projetados e testados.
+Este projeto **não promete** que os modelos resolvem por si só problemas de SQL, RAG, avaliação automática ou agentes. Documentos são insumos; sistemas precisam ser projetados e testados.
 
 ## Público e linguagem
 
@@ -24,9 +24,9 @@ Este projeto **não promete** que os templates resolvem por si só problemas de 
 
 1. **Ensinar como fazer:** toda regra editorial acompanha pergunta operacional e evidência esperada.
 2. **Explicar a origem:** diferenciar normas, estudos, práticas industriais e decisões autorais.
-3. **Exibir os dois lados:** cada template publicado tem um exemplo com lacunas e um exemplo completo. Ver "Exemplos completos e aprovação fictícia".
+3. **Exibir os dois lados:** cada modelo publicado tem um exemplo com lacunas e um exemplo completo. Ver "Exemplos completos e aprovação fictícia".
 4. **Separar conhecimento e execução:** documentação não é enforcement de regras em runtime.
-5. **Marcar incertezas:** em documento real, nunca inventar responsável, aprovação, fórmula, vigência, fonte, regra ou valor para deixar um template “completo”.
+5. **Marcar incertezas:** em documento real, nunca inventar responsável, aprovação, fórmula, vigência, fonte, regra ou valor para deixar um modelo “completo”.
 6. **Datar e versionar:** todo documento diz qual é a versão, de que data, e guarda o histórico do que mudou.
 
 ## Exemplos completos e aprovação fictícia
@@ -38,7 +38,7 @@ O leitor precisa ver o destino, não só o ponto de partida. Por isso:
    - a organização é a Aurora, fictícia;
    - responsável e aprovador são um cargo ou área, nunca o nome de uma pessoa;
    - o arquivo abre com aviso de exemplo fictício e traz o campo `example_notice` dizendo que a aprovação vale só dentro do exemplo.
-3. Todo tipo de template tem **os dois exemplos**: `exemplo-<tipo>-ficticio.yaml` (com lacunas, nunca `approved`) e `exemplo-<tipo>-completo.yaml` (`approved`, sem perguntas em aberto).
+3. Todo tipo de modelo tem **os dois exemplos**: `exemplo-<tipo>-ficticio.yaml` (com lacunas, nunca `approved`) e `exemplo-<tipo>-completo.yaml` (`approved`, sem perguntas em aberto).
 4. O exemplo completo traz um **histórico com pelo menos duas versões**, para ensinar o que muda quando a regra muda.
 5. Os dois exemplos compartilham o mesmo `id`: são o mesmo documento em momentos diferentes.
 
@@ -48,7 +48,7 @@ O validador (`scripts/validate_content.py`) confere as condições 2 a 5.
 
 ## Versionamento com data
 
-Campos obrigatórios em todo template e exemplo:
+Campos obrigatórios em todo modelo e exemplo:
 
 ```yaml
 version: "1.1"              # versão deste documento
@@ -64,13 +64,13 @@ version_history:            # a mais recente primeiro
 - `version_date` e `valid_from` são coisas diferentes: uma regra pode ser aprovada hoje para valer no mês que vem.
 - `change` descreve a mudança na regra, não a edição do texto.
 - Um rascunho também tem versão e data; `approved_by` fica `null`.
-- Nos templates Markdown, os mesmos dados aparecem nas seções "Identificação" e "Histórico de versões", em português.
+- Nos modelos Markdown, os mesmos dados aparecem nas seções "Identificação" e "Histórico de versões", em português.
 
 ## Estrutura de uma página prática
 
 - **Compreender:** qual problema resolve, quando aplicar, por que importa.
 - **Observar:** texto ambíguo, perguntas de elicitação, versão melhorada e interpretação das mudanças.
-- **Aplicar:** template, instrução, perguntas e verificação.
+- **Aplicar:** modelo, instrução, perguntas e verificação.
 - **Aprofundar:** referências primárias com implicações e limitações.
 
 ## Estrutura de duas camadas de metadados
@@ -139,22 +139,22 @@ Não usar outras grafias (`needs_approval`, `pending_confirmation`, `pendente_de
 - UI responsiva, legível em celular, e busca local quando o site for compilado.
 - Interações pedagógicas não enviam nem armazenam respostas.
 
-## Critério de aceitação por template
+## Critério de aceitação por modelo
 
-> Um especialista que domina o assunto, mas não a engenharia de IA, consegue usar o template para explicar seu conceito/processo, identificar lacunas e determinar a quem cabe resolvê-las, sem ter de inventar definições?
+> Um especialista que domina o assunto, mas não a engenharia de IA, consegue usar o modelo para explicar seu conceito/processo, identificar lacunas e determinar a quem cabe resolvê-las, sem ter de inventar definições?
 
-Checklist de aprovação editorial do template: necessidade e aplicabilidade; perguntas de elicitação; exemplo com lacunas; exemplo completo com aprovação fictícia; histórico de versões; pendências explícitas; responsáveis; fontes; vocabulário; links; revisão.
+Checklist de aprovação editorial do modelo: necessidade e aplicabilidade; perguntas de elicitação; exemplo com lacunas; exemplo completo com aprovação fictícia; histórico de versões; pendências explícitas; responsáveis; fontes; vocabulário; links; revisão.
 
 ## Uma só fonte para os exemplos
 
 As páginas não copiam trechos YAML dos exemplos. Usam o componente `ExampleDoc`, que lê o arquivo em `public/downloads/` na hora do build. O que a página mostra é o que o leitor baixa.
 
-Os templates Markdown não começam com bloco YAML: abrem com a tabela "Identificação", em português, para quem não conhece YAML.
+Os modelos Markdown não começam com bloco YAML: abrem com a tabela "Identificação", em português, para quem não conhece YAML.
 
 ## Gestão de alterações
 
 - Cada alteração significativa de método deve registrar versão e motivo.
-- Um template novo só entra na navegação após possuir exemplo e instruções de uso.
+- Um modelo novo só entra na navegação após possuir exemplo e instruções de uso.
 - Referências substituídas devem ser revistas para evitar justificativas obsoletas.
 
 ## Regras adicionais para exemplos de Data Analytics
