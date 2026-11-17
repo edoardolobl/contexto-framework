@@ -12,6 +12,12 @@ export default defineConfig({
       description: 'Método para documentar conhecimento organizacional de modo explícito, contextualizado e verificável.',
       logo: { src: './src/assets/brand.svg', alt: 'Contexto' },
       favicon: '/favicon.svg', // Starlight já acrescenta o base
+      // SVG não aparece em todos os navegadores (Safari, por exemplo): PNG e ICO como alternativa.
+      head: [
+        { tag: 'link', attrs: { rel: 'icon', type: 'image/png', sizes: '32x32', href: base.replace(/\/$/, '') + '/favicon-32.png' } },
+        { tag: 'link', attrs: { rel: 'alternate icon', href: base.replace(/\/$/, '') + '/favicon.ico' } },
+        { tag: 'link', attrs: { rel: 'apple-touch-icon', sizes: '180x180', href: base.replace(/\/$/, '') + '/apple-touch-icon.png' } },
+      ],
       locales: { root: { label: 'Português', lang: 'pt-BR' } },
       customCss: ['./src/styles/custom.css'],
       components: { Footer: './src/components/SiteFooter.astro' },
