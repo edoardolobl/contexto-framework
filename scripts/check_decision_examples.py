@@ -13,9 +13,25 @@ FILES = ["exemplo-decisao-lacunas.yaml", "exemplo-decisao-completo.yaml"]
 errors = relatorio.erros
 summary = []
 
+
+def conferir_campos(name: str, doc: dict, tipo: str, campos: tuple[str, ...]) -> bool:
+    """Confere type e a presença dos campos lidos; falta vira ERRO legível, não KeyError."""
+    ok = True
+    if doc.get("type") != tipo:
+        errors.append(f"{name}: type deve ser {tipo!r}, encontrado {doc.get('type')!r}")
+        ok = False
+    for campo in campos:
+        if doc.get(campo) in (None, ""):
+            errors.append(f"{name}: falta o campo {campo}, que a conferência precisa ler")
+            ok = False
+    return ok
+
+
 for name in FILES:
     doc = carregar_yaml(DL / name, relatorio)
     if doc is None:
+        continue
+    if not conferir_campos(name, doc, "decisao", ("required_inputs", "decision_table", "possible_outputs")):
         continue
     inputs = doc["required_inputs"]
     columns = [entry["name"] for entry in inputs]
@@ -57,7 +73,7 @@ def route(brief_complete: bool, evidence_sufficient: bool) -> str | None:
 calibrated = 0
 for name in ("exemplo-rubrica-lacunas.yaml", "exemplo-rubrica-completo.yaml"):
     rubric = carregar_yaml(DL / name, relatorio)
-    if rubric is None:
+    if rubric is None or not conferir_campos(name, rubric, "rubrica", ("criteria", "scoring", "human_review_required")):
         continue
     weights = {c["id"]: c["weight"] for c in rubric["criteria"]}
     if sum(weights.values()) != 100 or rubric["scoring"]["weight_sum"] != 100:
@@ -73,7 +89,7 @@ for name in ("exemplo-rubrica-lacunas.yaml", "exemplo-rubrica-completo.yaml"):
         continue
     if not rubric["scoring"]["not_evaluable_rule"] or any(not c.get("not_in_scope") for c in rubric["criteria"]):
         errors.append(f"{name}: a rubrica aprovada precisa da regra de não avaliável e do que cada critério não avalia")
-    for case in rubric["calibration_examples"]:
+    for case in rubric.get("calibration_examples") or []:
         levels = case["levels"]
         if set(levels) != set(weights):
             errors.append(f"{name}: calibração sem nível para todos os critérios")

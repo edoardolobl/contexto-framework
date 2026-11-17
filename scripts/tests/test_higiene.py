@@ -134,3 +134,30 @@ class TestContratoPorCelula:
 
     def test_tabela_de_outra_secao_nao_conta(self):
         assert h.termos_fora_do_contrato([{"termo": "junção"}], self.CONTRATO) == ["junção"]
+
+
+class TestChavesNovas:
+    def test_campos_yaml_rotulo_e_descricao(self):
+        dados = {"cabecalho": [{"chave": "id", "rotulo": "Identificador", "descricao": "identificador"}]}
+        assert ("Identificador", "identificador") in list(h.pares_nome_descricao(dados))
+
+    def test_prefLabel_conta_como_nome(self):
+        assert ("Canal", "canal") in list(h.pares_nome_descricao({"prefLabel": "Canal", "description": "canal"}))
+
+    def test_descricao_acrescenta_informacao_nao_e_acusada(self):
+        dados = {"rotulo": "Identificador", "descricao": "Código único e estável do documento"}
+        assert not any(h.descricao_tautologica(n, d) for n, d in h.pares_nome_descricao(dados))
+
+
+class TestParesDeSchema:
+    def test_objeto_com_title_e_description_iguais_e_acusado(self):
+        schema = {"properties": {"owner": {"title": "Responsável", "description": "responsável"}}}
+        assert list(h.pares_de_schema(schema)) == [("Responsável", "responsável")]
+
+    def test_ignora_propriedade_chamada_title(self):
+        schema = {"properties": {"title": {"type": "string", "description": "Nome do documento"}}}
+        assert list(h.pares_de_schema(schema)) == []
+
+    def test_percorre_listas_e_niveis(self):
+        schema = {"allOf": [{"title": "A", "description": "a"}], "$defs": {"x": {"title": "B", "description": "c"}}}
+        assert set(h.pares_de_schema(schema)) == {("A", "a"), ("B", "c")}

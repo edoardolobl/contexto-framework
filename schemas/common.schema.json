@@ -1,0 +1,696 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:contexto:schemas:1.0.0:common",
+  "title": "Cabeçalho comum do Contexto",
+  "description": "Campos que todo documento do Contexto tem, na mesma ordem, e os blocos técnicos opcionais. Cada schema de tipo inclui este e acrescenta os campos do tipo.",
+  "type": "object",
+  "required": [
+    "id",
+    "schema_version",
+    "type",
+    "title",
+    "version",
+    "revision_id",
+    "status",
+    "owner",
+    "approver",
+    "valid_from",
+    "valid_to",
+    "version_date",
+    "last_reviewed",
+    "review_interval",
+    "source_of_truth",
+    "supersedes_revision",
+    "superseded_by_revision",
+    "intent",
+    "plain_summary",
+    "open_questions",
+    "version_history"
+  ],
+  "properties": {
+    "id": {
+      "title": "Identificador do assunto",
+      "description": "Código estável do assunto, igual em todas as versões, em maiúsculas com hífens (por exemplo KPI-AURORA-001). Não muda quando a regra muda.",
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "pattern": "^[A-Z][A-Z0-9]*(-[A-Z0-9]+)+$"
+        }
+      ]
+    },
+    "schema_version": {
+      "title": "Versão do formato",
+      "description": "Versão do formato do arquivo, hoje 1.0.0. Diz quais campos o arquivo tem e não muda quando o conteúdo muda.",
+      "const": "1.0.0"
+    },
+    "type": {
+      "title": "Tipo de documento",
+      "description": "Tipo de documento, igual ao nome do modelo (kpi, dataset, conceito e outros). Define quais campos vêm depois do cabeçalho.",
+      "enum": [
+        "kpi",
+        "dataset",
+        "relacionamento",
+        "decisao",
+        "perguntas-de-negocio",
+        "conceito",
+        "politica",
+        "processo",
+        "dashboard",
+        "rubrica"
+      ]
+    },
+    "title": {
+      "title": "Título",
+      "description": "Nome que uma pessoa da área reconhece, com o assunto e a organização. Pode mudar entre versões sem mudar o identificador.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "version": {
+      "title": "Versão atual",
+      "description": "Número desta versão no formato MAIOR.MENOR (1.0, 1.1, 2.0). Suba o número maior quando a regra muda de sentido e o menor quando só esclarece.",
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+(\\.\\d+)?$"
+    },
+    "revision_id": {
+      "title": "Identificador desta versão",
+      "description": "Identificador e versão juntos, no formato id@versão (KPI-AURORA-001@2.0). É o que outro documento cita para apontar exatamente esta versão.",
+      "$ref": "urn:contexto:schemas:1.0.0:common#/$defs/revisao_ou_nulo"
+    },
+    "status": {
+      "title": "Estado",
+      "description": "Um de cinco valores, draft (rascunho), pending_approval (pendente de aprovação), approved (aprovado), superseded (substituído) ou deprecated (obsoleto). Só use approved depois da confirmação por escrito de quem aprova.",
+      "enum": [
+        "draft",
+        "pending_approval",
+        "approved",
+        "superseded",
+        "deprecated"
+      ]
+    },
+    "owner": {
+      "title": "Responsável (cargo ou área)",
+      "description": "Cargo ou área que mantém o documento e responde às dúvidas, nunca o nome de uma pessoa.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "approver": {
+      "title": "Quem aprova (cargo ou área)",
+      "description": "Cargo ou área com a palavra final sobre a regra. Pode ser diferente do responsável.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "valid_from": {
+      "title": "Vale a partir de",
+      "description": "Primeiro dia em que a regra vale, no formato AAAA-MM-DD. Pode ser depois da data desta versão; em rascunho, fica em branco.",
+      "$ref": "urn:contexto:schemas:1.0.0:common#/$defs/data_ou_nulo"
+    },
+    "valid_to": {
+      "title": "Primeiro dia em que já não vale",
+      "description": "Dia em que a vigência acaba, sem contar esse dia. Em branco quando não há fim previsto.",
+      "$ref": "urn:contexto:schemas:1.0.0:common#/$defs/data_ou_nulo"
+    },
+    "recorded_at": {
+      "title": "Data em que esta versão foi registrada",
+      "description": "Só na cópia de uma versão substituída. Guarda o dia do registro, para responder o que se sabia naquela data.",
+      "$ref": "urn:contexto:schemas:1.0.0:common#/$defs/data_ou_nulo"
+    },
+    "version_date": {
+      "title": "Data desta versão",
+      "description": "Dia em que esta versão foi escrita ou aprovada, no formato AAAA-MM-DD. Não é o início da vigência.",
+      "$ref": "urn:contexto:schemas:1.0.0:common#/$defs/data_ou_nulo"
+    },
+    "last_reviewed": {
+      "title": "Última revisão",
+      "description": "Último dia em que alguém conferiu o documento inteiro, mesmo sem mudar nada. Em branco se ninguém revisou ainda.",
+      "$ref": "urn:contexto:schemas:1.0.0:common#/$defs/data_ou_nulo"
+    },
+    "review_interval": {
+      "title": "De quanto em quanto tempo revisar",
+      "description": "Prazo entre revisões em ISO 8601 (P6M são seis meses, P1Y um ano). Obrigatório quando há instrução ao agente em context.instructions.",
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "pattern": "^P(?=\\d|T\\d)(\\d+Y)?(\\d+M)?(\\d+W)?(\\d+D)?(T(?=\\d)(\\d+H)?(\\d+M)?(\\d+S)?)?$"
+        }
+      ]
+    },
+    "source_of_truth": {
+      "title": "Fonte oficial",
+      "description": "Sistema, documento ou tabela que vale quando duas fontes discordam. Fica em branco enquanto ninguém confirmou qual é.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "supersedes_revision": {
+      "title": "Substitui qual versão?",
+      "description": "Versão anterior do mesmo assunto que esta substitui, no formato id@versão. Em branco na primeira versão.",
+      "$ref": "urn:contexto:schemas:1.0.0:common#/$defs/revisao_ou_nulo"
+    },
+    "superseded_by_revision": {
+      "title": "Substituída por qual versão?",
+      "description": "Só na cópia de uma versão substituída, aponta a versão que tomou o lugar dela. Em documento aprovado e em vigor, fica em branco.",
+      "$ref": "urn:contexto:schemas:1.0.0:common#/$defs/revisao_ou_nulo"
+    },
+    "intent": {
+      "title": "Intenção",
+      "description": "Por que o documento existe: a pergunta que responde, quem usa, para quê e quais decisões apoia. Fica no cabeçalho de todo tipo, para que pessoas e agentes saibam o que procurar antes de ler o resto.",
+      "type": "object",
+      "properties": {
+        "question": {
+          "title": "Pergunta de negócio que o documento responde",
+          "description": "A pergunta escrita como alguém da área faria. Sem ela, o documento não sai do rascunho, porque ninguém sabe o que ele precisa responder.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "audience": {
+          "title": "Quem usa",
+          "description": "Cargos ou áreas que leem e usam o documento. Ajuda a escolher o nível de detalhe e quem precisa saber de cada mudança.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "purpose": {
+          "title": "Para quê",
+          "description": "Para que o documento existe, em uma frase, dizendo o problema que ele evita.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "decisions": {
+          "title": "Decisões que apoia",
+          "description": "Decisões que mudam conforme a resposta. Se nenhuma decisão depende do documento, vale perguntar se ele é necessário.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "question",
+        "audience",
+        "purpose",
+        "decisions"
+      ],
+      "additionalProperties": false
+    },
+    "plain_summary": {
+      "title": "Em poucas palavras",
+      "description": "Uma ou duas frases em linguagem direta, ao lado da definição formal (por exemplo, conta só pedidos pagos até sete dias depois do contato). Não substitui os campos do tipo.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "open_questions": {
+      "title": "Perguntas em aberto",
+      "description": "Uma entrada por pergunta que ninguém decidiu, com o impacto, quem pode resolver, o estado e a resolução. Uma dúvida registrada vale mais do que um palpite.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/pergunta_em_aberto"
+      }
+    },
+    "version_history": {
+      "title": "Histórico de versões",
+      "description": "Uma entrada por versão, a mais recente primeiro, com data, o que mudou na regra e quem aprovou. O resumo não substitui a cópia completa de cada versão aprovada.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/entrada_do_historico"
+      }
+    },
+    "context": {
+      "title": "Contexto para agentes (para quem é técnico)",
+      "description": "Bloco opcional, com as chaves do ODCS 3.2.0. Use só para o que não cabe nos campos estruturados; o significado continua nos campos do tipo.",
+      "type": "object",
+      "properties": {
+        "instructions": {
+          "title": "Instrução ao agente",
+          "description": "Instrução curta em texto, até 500 caracteres. Quando preenchida, review_interval deixa de poder ficar em branco, para a instrução não envelhecer sem revisão.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 500
+        },
+        "verifiedStatements": {
+          "title": "Perguntas verificadas",
+          "description": "Perguntas típicas do assunto, no formato do ODCS 3.2.0: cada item tem a pergunta e, quando já conferida por quem aprova, a resposta que um agente pode repetir sem recalcular.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "question": {
+                "title": "Pergunta",
+                "description": "A pergunta como alguém da área faria.",
+                "type": "string",
+                "minLength": 1
+              },
+              "answer": {
+                "title": "Resposta verificada",
+                "description": "A resposta já conferida por quem aprova. Sem ela, o item registra só a pergunta típica.",
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "question"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "constraints": {
+          "title": "Limites",
+          "description": "O que um agente não pode fazer com este documento, como comparar períodos de regras diferentes. Cada item segue o formato do ODCS 3.2.0.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "constraint": {
+                "title": "Limite",
+                "description": "Uma coisa que o agente não pode fazer, em uma frase.",
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "constraint"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "authoritativeDefinitions": {
+      "title": "Onde mora a regra executável (para quem é técnico)",
+      "description": "Lista opcional de lugares com a versão executável da regra (consulta SQL, metric view, filtro). O documento aponta, sem copiar o código; se a regra mudar lá, o documento precisa de nova versão.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/definicao_oficial"
+      }
+    },
+    "related_documents": {
+      "title": "Documentos relacionados",
+      "description": "Identificadores de outros documentos que ajudam a ler este. Cite o identificador do assunto, sem a versão, a não ser que dependa de uma versão específica.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "archival_note": {
+      "title": "Nota de arquivo",
+      "description": "Só em cópia histórica: nota escrita depois da aprovação, com a própria data. Não muda o que foi aprovado; explica o que aconteceu depois.",
+      "type": "object",
+      "properties": {
+        "date": {
+          "title": "Data da nota",
+          "description": "Dia em que a nota foi escrita, que pode ser posterior à versão.",
+          "$ref": "urn:contexto:schemas:1.0.0:common#/$defs/data_ou_nulo"
+        },
+        "text": {
+          "title": "Texto da nota",
+          "description": "O que aconteceu com esta versão depois de aprovada.",
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "date",
+        "text"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "required": [
+          "status"
+        ],
+        "properties": {
+          "status": {
+            "enum": [
+              "pending_approval",
+              "approved"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "id": {
+            "not": {
+              "type": "null"
+            }
+          },
+          "title": {
+            "not": {
+              "type": "null"
+            }
+          },
+          "owner": {
+            "not": {
+              "type": "null"
+            }
+          },
+          "approver": {
+            "not": {
+              "type": "null"
+            }
+          },
+          "version_date": {
+            "not": {
+              "type": "null"
+            }
+          },
+          "intent": {
+            "properties": {
+              "question": {
+                "not": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "status"
+        ],
+        "properties": {
+          "status": {
+            "enum": [
+              "approved",
+              "superseded"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "valid_from": {
+            "not": {
+              "type": "null"
+            }
+          },
+          "source_of_truth": {
+            "not": {
+              "type": "null"
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "status"
+        ],
+        "properties": {
+          "status": {
+            "const": "superseded"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "recorded_at"
+        ],
+        "properties": {
+          "valid_to": {
+            "not": {
+              "type": "null"
+            }
+          },
+          "superseded_by_revision": {
+            "not": {
+              "type": "null"
+            }
+          },
+          "recorded_at": {
+            "not": {
+              "type": "null"
+            }
+          }
+        }
+      },
+      "else": {
+        "not": {
+          "required": [
+            "recorded_at"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "status"
+        ],
+        "properties": {
+          "status": {
+            "const": "approved"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "superseded_by_revision": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "context"
+        ],
+        "properties": {
+          "context": {
+            "required": [
+              "instructions"
+            ],
+            "properties": {
+              "instructions": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "review_interval": {
+            "not": {
+              "type": "null"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "data_ou_nulo": {
+      "title": "Data",
+      "description": "Texto no formato AAAA-MM-DD, ou null quando ainda não se sabe.",
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "format": "date",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        }
+      ]
+    },
+    "revisao_ou_nulo": {
+      "title": "Versão de um documento",
+      "description": "Identificador e versão no formato id@versão, ou null.",
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "pattern": "^[A-Z][A-Z0-9]*(-[A-Z0-9]+)+@\\d+\\.\\d+(\\.\\d+)?$"
+        }
+      ]
+    },
+    "pergunta_em_aberto": {
+      "title": "Pergunta em aberto",
+      "description": "Algo que ninguém decidiu. Quando alguém decide, o estado vira resolved e a resolução fica registrada.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "question",
+        "impact",
+        "owner_to_resolve",
+        "status",
+        "resolution"
+      ],
+      "properties": {
+        "question": {
+          "title": "Pergunta",
+          "description": "Escrita como pergunta que uma pessoa consegue responder com sim, não ou um valor.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "impact": {
+          "title": "Impacto",
+          "description": "O que dá errado enquanto a pergunta não tem resposta, de preferência com um número ou um caso.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "owner_to_resolve": {
+          "title": "Quem pode resolver",
+          "description": "Cargo ou área com autoridade para decidir; em branco enquanto ninguém foi indicado.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "status": {
+          "title": "Estado da pergunta",
+          "description": "unresolved (não resolvida) ou resolved (resolvida, com a resolução preenchida).",
+          "enum": [
+            "unresolved",
+            "resolved"
+          ]
+        },
+        "resolution": {
+          "title": "Resolução",
+          "description": "O que foi decidido, por quem e quando, com a evidência. Obrigatória quando o estado é resolved.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "if": {
+        "properties": {
+          "status": {
+            "const": "resolved"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "resolution": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "entrada_do_historico": {
+      "title": "Entrada do histórico",
+      "description": "Uma versão do documento. A mais recente vem primeiro e tem a mesma versão do cabeçalho.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "date",
+        "change",
+        "approved_by"
+      ],
+      "properties": {
+        "version": {
+          "title": "Versão",
+          "description": "Número da versão, no mesmo formato do campo version.",
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+(\\.\\d+)?$"
+        },
+        "date": {
+          "title": "Data",
+          "description": "Data desta versão; a da entrada mais recente é igual a version_date.",
+          "$ref": "urn:contexto:schemas:1.0.0:common#/$defs/data_ou_nulo"
+        },
+        "change": {
+          "title": "O que mudou e por quê",
+          "description": "A mudança na regra, não só a edição do texto.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "approved_by": {
+          "title": "Aprovado por",
+          "description": "Cargo ou área que aprovou; em branco enquanto a versão não foi aprovada.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "definicao_oficial": {
+      "title": "Definição executável",
+      "description": "Um lugar onde a regra roda de fato. Se o lugar mudar, o documento precisa de nova versão.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "url"
+      ],
+      "properties": {
+        "type": {
+          "title": "Tipo",
+          "description": "sql (consulta), metricView, filter (filtro salvo), dashboard, document ou other.",
+          "enum": [
+            "sql",
+            "metricView",
+            "filter",
+            "dashboard",
+            "document",
+            "other"
+          ]
+        },
+        "url": {
+          "title": "Endereço",
+          "description": "Caminho do arquivo ou endereço onde a regra está. Arquivo citado precisa existir na data da versão.",
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "title": "Descrição",
+          "description": "O que a regra executável calcula e para qual versão do documento.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    }
+  }
+}

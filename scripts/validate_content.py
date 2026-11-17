@@ -5,11 +5,11 @@ import re
 
 import yaml
 
-from comum import (DADOS, DOCS, DOWNLOADS, ROOT, Relatorio, arquivo_de_download, carregar_dimensoes, carregar_modelos,
-                   carregar_vocabulario, carregar_yaml, exigir_minimo, links_do_repositorio_ausentes, resolver_link,
-                   rota_da_pagina)
+from comum import (DADOS, DOCS, DOWNLOADS, ESTADOS_DO_DOCUMENTO, ROOT, Relatorio, arquivo_de_download, carregar_dimensoes,
+                   carregar_modelos, carregar_vocabulario, carregar_yaml, erros_do_markdown_de_download, exigir_minimo,
+                   faltas_de_leitura, ids_citados, links_do_repositorio_ausentes, resolver_link, rota_da_pagina)
 
-VALID_STATUSES = {"draft", "pending_approval", "approved", "deprecated"}
+VALID_STATUSES = ESTADOS_DO_DOCUMENTO
 relatorio = Relatorio()
 relatorio.instalar()
 
@@ -64,29 +64,7 @@ for path in PAGES:
             record(path, f"link interno não encontrado: {url} => {target}")
 
 ID_PREFIXES = ("KPI-", "DATASET-", "REL-", "DASH-", "QA-", "RUBRIC-", "CONCEPT-", "PROCESS-", "DECISION-", "POLICY-")
-REFERENCE_FIELDS = ("related_documents", "covered_documents", "metrics", "decision_rules",
-                    "reference_questions", "valid_join_paths", "expected_questions_and_answers")
-
-
-def walk_references(data):
-    """Yield every document id cited by an example, wherever the convention allows one."""
-    for field in REFERENCE_FIELDS:
-        for value in data.get(field) or []:
-            if isinstance(value, str):
-                yield value
-    sources = data.get("data_sources") or {}
-    for field in ("valid_join_paths",):
-        for value in sources.get(field) or []:
-            yield value
-    if isinstance(sources.get("authoritative_dataset"), str):
-        yield sources["authoritative_dataset"]
-    validation = data.get("validation") or {}
-    for value in validation.get("expected_questions_and_answers") or []:
-        if isinstance(value, str):
-            yield value
-    for question in data.get("questions") or []:
-        for value in question.get("required_sources") or []:
-            yield value
+walk_references = ids_citados
 
 
 def check_version_history(path, data, minimum):
@@ -145,6 +123,8 @@ for path in yaml_files:
                     record(path, f"{key} deve ser um cargo ou área da organização fictícia Aurora")
             if data.get("open_questions"):
                 record(path, "exemplo completo não deve ter open_questions")
+            for falta in faltas_de_leitura(data):
+                record(path, f"exemplo completo sem {falta} preenchido")
             check_version_history(path, data, 2)
             if isinstance(data.get("version_history"), list) and data["version_history"] and not data["version_history"][0].get("approved_by"):
                 record(path, "a versão atual de um exemplo completo precisa de approved_by")
@@ -177,11 +157,8 @@ markdown_count = len(markdown_files)
 for path in markdown_files:
     relatorio.arquivo_atual = path
     content = path.read_text(encoding="utf-8")
-    if content.startswith("---"):
-        record(path, "template Markdown não deve começar com bloco YAML")
-    for heading in ("## Identificação", "## Histórico de versões"):
-        if heading not in content:
-            record(path, f"template Markdown sem a seção {heading}")
+    for mensagem in erros_do_markdown_de_download(path.name, content):
+        record(path, mensagem)
 
 # Check the SQLite example links separately; they are not included in template cards.
 analytics = ROOT / "src" / "components" / "AnalyticsLabDownloads.astro"
@@ -206,7 +183,7 @@ for modelo in MODELOS:
 
 # Dados editoriais que alimentam o portal. vocabulario.yaml, contraste.yaml e artefatos.yaml ficam de fora
 # de propósito: trazem os padrões proibidos.
-NOVOS_DADOS = [DADOS / nome for nome in ("modelos.yaml", "percurso.yaml", "entradas.yaml", "dimensoes.yaml")]
+NOVOS_DADOS = [DADOS / nome for nome in ("modelos.yaml", "percurso.yaml", "entradas.yaml", "dimensoes.yaml", "campos.yaml")]
 
 # Editorial rule: no em dashes in published text, components, downloads or docs.
 EDITORIAL_FILES = [
@@ -215,6 +192,8 @@ EDITORIAL_FILES = [
     *sorted(DOWNLOADS.rglob("*.md")),
     *sorted(DOWNLOADS.rglob("*.yaml")),
     *sorted((ROOT / "docs").rglob("*.md")),
+    *sorted((ROOT / "src" / "modelos").rglob("*.md")),
+    *sorted((ROOT / "src" / "exemplos").rglob("*.md")),
     ROOT / "README.md",
     ROOT / "astro.config.mjs",
     *NOVOS_DADOS,

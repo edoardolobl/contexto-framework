@@ -1,7 +1,7 @@
 ---
 /**
  * Os quatro arquivos de um modelo, montados a partir do slug de src/data/modelos.yaml.
- * kind: o slug do tipo (Perguntas de negócio usa 'casos-teste' até a F3).
+ * kind: o slug do tipo, igual ao type do documento e ao nome dos arquivos.
  */
 import { baseUrl, modeloPorSlug } from '../lib/dados';
 
@@ -9,8 +9,8 @@ interface Props { kind: string }
 const { kind } = Astro.props;
 const modelo = modeloPorSlug(kind);
 const arquivos = [
-  { name: modelo.rotulo_download, href: `template-${modelo.slug}.md`, format: 'Markdown · para preencher em texto' },
-  { name: 'Modelo estruturado', href: `template-${modelo.slug}.yaml`, format: 'YAML · campos vazios' },
+  { name: modelo.rotulo_download, href: `template-${modelo.slug}.md`, format: 'Markdown · campos no topo e explicação em português' },
+  { name: 'Modelo estruturado', href: `template-${modelo.slug}.yaml`, format: 'YAML · gerado do Markdown' },
   { name: 'Exemplo com lacunas', href: `exemplo-${modelo.slug}-lacunas.yaml`, format: 'YAML · nada aprovado' },
   { name: 'Exemplo completo', href: `exemplo-${modelo.slug}-completo.yaml`, format: 'YAML · aprovado' },
 ];

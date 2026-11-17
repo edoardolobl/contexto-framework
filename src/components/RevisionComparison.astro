@@ -29,7 +29,7 @@ const details = (doc: any) => kind === 'conceito'
 ---
 <section class="revision-comparison" aria-label="Duas versões do mesmo documento">
   {entries.map((doc, i) => <article class:list={['revision-comparison__card', i === 1 && 'revision-comparison__card--current']}>
-    <p class="panel-kicker">{i === 0 ? 'VERSÃO HISTÓRICA · NÃO VIGENTE' : 'VERSÃO ATUAL'}</p>
+    <p class="panel-kicker">{i === 1 ? 'VERSÃO ATUAL' : doc.status === 'superseded' ? 'VERSÃO SUBSTITUÍDA · NÃO VIGENTE' : 'VERSÃO HISTÓRICA · NÃO VIGENTE'}</p>
     <h3>Versão {doc.version}</h3>
     <dl class="revision-comparison__metadata">
       <div class="revision-comparison__metadata-id"><dt>ID do assunto</dt><dd><code>{doc.id}</code></dd></div>

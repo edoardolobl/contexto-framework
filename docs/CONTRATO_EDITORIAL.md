@@ -1,15 +1,16 @@
 # Contrato editorial: Contexto
 
-**Versão:** 0.7 · **Data desta versão:** 2026-11-17 · **Estado:** proposto (F2), aguarda aprovação do mantenedor · **Mantenedor:** Edoardo Lobl
+**Versão:** 0.8 · **Data desta versão:** 2026-11-17 · **Estado:** proposto (F3), aguarda aprovação do mantenedor · **Mantenedor:** Edoardo Lobl
 
 | Versão | Data | O que mudou | Aprovado por |
 |---|---|---|---|
+| 0.8 | 2026-11-17 | Fonte única em Markdown com frontmatter; downloads gerados e conferidos no CI; schema 1.0.0 com JSON Schema por tipo; cabeçalho comum e intent; estado superseded e campo status nas perguntas em aberto (ADR 0005, 0006, 0009 e 0015); exemplo YAML do cabeçalho na ordem que o validador exige | Proposto (F3), aguarda aprovação do mantenedor |
 | 0.7 | 2026-11-17 | Comece aqui descrito como o menu publicado: tutorial de negócio e visão do método; o tutorial de dados fica em aberto no ROADMAP | Proposto (F2), aguarda aprovação do mantenedor |
 | 0.6 | 2026-11-17 | Promessa única da seção 1.2 da direção (EDI-01); público em três perfis leitores; portal em percurso, com grupos do menu, bloco Próximo passo, prev/next pela ordem do menu, YAML fora do percurso e sem página órfã, conferido por `scripts/check_navegacao.py`; tipo Perguntas de negócio no vocabulário (ADR 0007); oito dimensões como checklist e convenção (ADR 0014) | Proposto (F2), aguarda aprovação do mantenedor |
 | 0.5 | 2026-11-17 | Termo "modelo" no lugar de "template" em rótulos e textos; cinco tipos de fonte e ADR para toda convenção do Contexto; exemplo com lacunas em `draft`; aprovações em dia útil e artefatos com data conferida; cópia histórica intacta, com notas em `archival_note` | Proposto (F1), aguarda aprovação do mantenedor |
 | 0.4 | 2026-11-17 | Vocabulário com fonte única em `src/data/vocabulario.yaml` | Proposto (F0), aguarda aprovação do mantenedor |
 | 0.3 | 2026-11-17 | Um termo por ideia; aviso de que a Aurora é inventada só em três lugares; uma página por tipo de documento, com estrutura fixa; menu igual ao título; regras para exemplos concretos; regra de versão | Mantenedor |
-| 0.2 | 2026-11-16 | Regra dos exemplos completos e aprovados; versionamento com data obrigatório; estados de perguntas em aberto; templates Markdown sem bloco YAML | Mantenedor |
+| 0.2 | 2026-11-16 | Regra dos exemplos completos e aprovados; versionamento com data obrigatório; estados de perguntas em aberto; modelos Markdown sem bloco YAML | Mantenedor |
 | 0.1 | 2026-11-16 | Primeira versão do contrato | Mantenedor |
 
 ## Promessa única
@@ -76,7 +77,7 @@ Todos os exemplos usam a Aurora, uma organização inventada. Isso é dito **em 
 
 1. uma frase na página inicial;
 2. a seção “Os exemplos são fictícios”, em Autoria e licença;
-3. a primeira linha de comentário de cada YAML de exemplo, porque o arquivo baixado circula sem o site.
+3. a primeira linha de comentário do frontmatter de cada exemplo, que vira a primeira linha do YAML gerado, porque o arquivo baixado circula sem o site.
 
 Fora deles, nenhum “fictício”, “hipotético”, “ilustrativo”, “didático”, “demonstrativo” ou “A Aurora não existe”. Repetir o aviso trata o leitor como incapaz de lembrar o que leu. “Amostra sintética” aparece uma vez, no laboratório, porque explica o tamanho da amostra. A restrição “a rubrica avalia o trabalho, nunca a pessoa” não é aviso de ficção e fica, uma vez.
 
@@ -89,7 +90,7 @@ O leitor precisa ver o destino, não só o ponto de partida. Por isso:
    - a organização é a Aurora;
    - responsável e quem aprova são um cargo ou área, nunca o nome de uma pessoa;
    - a primeira linha do arquivo diz que a Aurora é inventada e que nomes, datas e aprovações fazem parte do caso.
-3. Todo tipo de modelo tem **os dois exemplos**: `exemplo-<tipo>-lacunas.yaml` (estado `draft`, nunca `approved`; MOD-11) e `exemplo-<tipo>-completo.yaml` (`approved`, sem perguntas em aberto).
+3. Todo tipo de modelo tem **os dois exemplos**: `exemplo-<tipo>-lacunas.yaml` (estado `draft`, nunca `approved`; MOD-11) e `exemplo-<tipo>-completo.yaml` (`approved`, sem perguntas em aberto). Os nomes de arquivo continuam, mas a fonte fica em `src/exemplos/`.
 4. O exemplo completo traz um **histórico com pelo menos duas versões**, para ensinar o que muda quando a regra muda.
 5. Os dois exemplos compartilham o mesmo `id`: são o mesmo documento em momentos diferentes.
 
@@ -108,12 +109,24 @@ O validador confere as condições de “Exemplos completos e aprovados”, as n
 
 ## Versionamento com data
 
-Campos obrigatórios em todo modelo e exemplo:
+Todo modelo e todo exemplo declara o schema 1.0.0 no campo `schema_version`. Ele diz o formato do arquivo e muda em ritmo próprio, separado da versão do produto e da versão do documento (ADR 0009).
+
+Para sair do rascunho, o documento precisa de um núcleo de oito campos: `id`, `title`, `version`, `status`, `owner`, `approver`, `version_date` e `intent.question`. Os campos de data e de histórico também são obrigatórios:
 
 ```yaml
+id: "METRIC-001"            # o mesmo id em todas as versões do documento
+schema_version: "1.0.0"     # versão do formato, não do documento
+type: kpi                   # igual ao nome do modelo
+title: "Receita reconhecida"
 version: "1.1"              # versão deste documento
-version_date: "2026-09-01"  # data desta versão
+status: approved
+owner: "Cargo ou área"      # responsável por manter o documento
+approver: "Cargo ou área"   # quem aprova
 valid_from: "2026-09-01"    # desde quando a regra vale
+version_date: "2026-09-01"  # data desta versão
+review_interval: "P6M"      # revisão a cada seis meses, em ISO 8601
+intent:
+  question: "Qual é a receita reconhecida no mês?"
 version_history:            # a mais recente primeiro
   - version: "1.1"
     date: "2026-09-01"
@@ -123,8 +136,12 @@ version_history:            # a mais recente primeiro
 
 - `version_date` e `valid_from` são coisas diferentes: uma regra pode ser aprovada hoje para valer no mês que vem.
 - `change` descreve a mudança na regra, não a edição do texto.
-- A cópia histórica de uma versão fica como foi aprovada. Notas escritas depois, por exemplo que a versão foi substituída, vão para `archival_note`, com a data em que a nota foi escrita (MOD-12, AUR-04).
+- `review_interval` usa duração ISO 8601 (`P6M` são seis meses). É obrigatório quando o documento tem `context.instructions`, para que a instrução ao agente não envelheça sem revisão.
+- A cópia histórica de uma versão guarda o texto como foi aprovado. Quando outra versão toma o lugar dela, a cópia passa a `status: superseded`, e `superseded_by_revision` aponta a versão que a substituiu. O campo `recorded_at`, data em que o registro foi feito, aparece só nessa cópia substituída (I-15).
+- Notas escritas depois, por exemplo que a versão foi substituída, vão para `archival_note`, com a data em que a nota foi escrita (MOD-12, AUR-04).
+- Todo Indicador com versão maior declara `history_recalculation`: `recalculate`, quando a série antiga é recalculada, ou `method_break`, quando ela fica marcada como quebra de método (I-14).
 - Um rascunho também tem versão e data; `approved_by` fica `null`.
+- A versão do documento segue MAJOR.MINOR. O formato aceita PATCH, mas nenhum exemplo o usa.
 - Nos modelos Markdown, os mesmos dados aparecem nas seções "Identificação" e "Histórico de versões", em português.
 
 Qual número mudar:
@@ -189,18 +206,38 @@ valid_from: null
 
 **Nunca misturar estas duas camadas** nem presumir que o YAML de negócio é uma especificação executável em qualquer plataforma.
 
+## Nomes das chaves e camadas (ADR 0015)
+
+- **Chaves** (nomes dos campos no frontmatter e no YAML) ficam em inglês e em `snake_case`. Onde há equivalente no ODCS 3.2.0 usado nesta fase, a grafia é a do ODCS: o bloco `context` com `instructions`, `verifiedStatements` e `constraints`, `synonyms` e `authoritativeDefinitions`.
+- **Rótulos** que o leitor vê ficam em português e vêm de `src/data/campos.yaml`.
+- **O Conceito** usa SKOS no bloco `vocabulary`: `prefLabel`, `altLabel`, `broader`, `related` e `not_synonyms`.
+- **Três camadas por documento** (I-13): o significado em linguagem humana; o lugar onde mora a regra executável (SQL, metric view ou filtro), que o documento aponta sem repetir; e a instrução curta ao agente. Instrução em texto só quando não há alternativa estruturada.
+
 ## Estados
 
-**Estado do documento** (campo `status`). Só estes quatro:
+**Estado do documento** (campo `status`). Só estes cinco:
 
 | Código | Em português | Significa |
 |---|---|---|
 | `draft` | Rascunho | Em construção |
 | `pending_approval` | Pendente de aprovação | Estruturado, ainda não validado por quem aprova |
 | `approved` | Aprovado | Confirmado pela autoridade identificada |
-| `deprecated` | Obsoleto | Não vale mais; aponta para o substituto quando houver |
+| `superseded` | Substituído | Outra versão do mesmo `id` tomou o lugar; `superseded_by_revision` aponta qual |
+| `deprecated` | Obsoleto | O assunto deixou de valer; pode apontar outro documento, quando houver |
 
-**Estado de uma pergunta em aberto ou de um conflito** (campo `state`, dentro de perguntas em aberto e de fontes em conflito). Só estes dois:
+A fronteira entre os dois estados de saída:
+
+- **Substituído** (`superseded`): o assunto continua valendo, e outra versão do mesmo `id` tomou o lugar. A cópia histórica aprovada e trocada usa este estado.
+- **Obsoleto** (`deprecated`): o assunto deixou de valer, e nenhuma versão nova do mesmo `id` o substitui.
+
+**Estado de uma pergunta em aberto** (campo `status`, junto de `question`, `impact`, `owner_to_resolve` e `resolution`; MOD-07). Só estes dois:
+
+| Código | Em português |
+|---|---|
+| `unresolved` | Não resolvido |
+| `resolved` | Resolvido, com a resolução, quem resolveu e a data |
+
+**Estado de uma fonte em conflito** (campo `state`, dentro da política conflitante). Só estes dois:
 
 | Código | Em português |
 |---|---|
@@ -236,7 +273,12 @@ Checklist de aprovação editorial do modelo: necessidade e aplicabilidade; perg
 
 As páginas não copiam trechos YAML dos exemplos. Usam o componente `ExampleDoc`, que lê o arquivo em `public/downloads/` na hora do build. O que a página mostra é o que o leitor baixa.
 
-Os modelos Markdown não começam com bloco YAML: abrem com a tabela "Identificação", em português, para quem não conhece YAML.
+A fonte de cada modelo é `src/modelos/<slug>.md`, e a de cada exemplo é `src/exemplos/<nome>.md`. Ambas são Markdown com frontmatter, e só essas fontes se editam à mão.
+
+- Os `.yaml` e os `.md` de `public/downloads/` são gerados por `scripts/gerar_downloads.py` e não se editam à mão. Para regenerar, rode `npm run gerar:downloads`.
+- O CI falha se os arquivos gerados estiverem fora de sincronia com as fontes.
+- O modelo `.md` baixado abre com os campos no topo, para quem não conhece YAML. As seções "Identificação" (rótulos em português de `src/data/campos.yaml`) e "Histórico de versões" são geradas.
+- O `ExampleDoc` lê o `.yaml` gerado.
 
 Os modelos vêm de `src/data/modelos.yaml`, que alimenta `TemplateFinder`, `TemplateDownloads` e `TemplateStart`. As oito dimensões vêm de `src/data/dimensoes.yaml`, que alimenta o checklist.
 

@@ -1,32 +1,62 @@
 # Exemplo do Contexto, versão com lacunas: nada aqui foi aprovado. A Aurora é uma organização inventada.
 id: DATASET-AURORA-SESSIONS
-revision_id: "DATASET-AURORA-SESSIONS@0.1"  # versão específica; id = assunto estável
+schema_version: "1.0.0"
+type: dataset
 title: "Sessões web e app: Aurora"
-type: dataset_semantics
-status: draft
 version: "0.1"
-version_date: "2026-07-20"
+revision_id: "DATASET-AURORA-SESSIONS@0.1" # versão específica; id = assunto estável
+status: draft
 owner: null
 approver: null
 valid_from: null
-valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
-supersedes_revision: null
+valid_to: null               # fim exclusivo da vigência; null = sem fim documentado
+version_date: "2026-07-20"
+last_reviewed: null
+review_interval: null
 source_of_truth: null
+supersedes_revision: null
+superseded_by_revision: null
+intent:
+  question: "O que significa cada coluna da tabela de sessões da Aurora?"
+  audience: ["Analytics de E-commerce", "Engenharia de Dados"]
+  purpose: "Representar sessões registradas por canal"
+  decisions: []
+plain_summary: "Rascunho: uma linha por sessão, com canal, data e uma marca de sessão interna; o que conta como interna ainda está em aberto."
+open_questions:
+  - question: "'is_internal = 1 marca o quê: testes da equipe, a rede do escritório, compras de funcionários?'"
+    impact: "Sem o significado, ninguém sabe se o filtro tira só testes ou também compras reais"
+    owner_to_resolve: null
+    status: unresolved
+    resolution: null
+  - question: "Sessões internas entram na taxa de conversão? Uma compra de funcionário feita da rede do escritório conta?"
+    impact: "A resposta muda o denominador e o numerador da taxa"
+    owner_to_resolve: null
+    status: unresolved
+    resolution: null
+  - question: "Quem aprova a semântica do dicionário?"
+    impact: "Sem quem aprova, o dicionário não pode ser citado como fonte"
+    owner_to_resolve: null
+    status: unresolved
+    resolution: null
 version_history:
   - version: "0.1"
     date: "2026-07-20"
     change: "Primeiro rascunho, com lacunas registradas"
     approved_by: null
 
+context:
+  instructions: null
+  verifiedStatements: []
+  constraints: []
+authoritativeDefinitions: []
+
 dataset:
   physical_name: demo_sessions
-  platform: SQLite (laboratório)
-  business_purpose: "Representar sessões registradas por canal"
+  platform: "SQLite (laboratório)"
   grain: "Uma linha por sessão"
   primary_key: session_id
   alternative_keys: []
   uniqueness_assumption: "Cada session_id representa uma única sessão"
-
 columns:
   - physical_name: session_id
     technical_type: TEXT
@@ -36,7 +66,7 @@ columns:
     allowed_values: []
     sentinel_values: []
     null_meaning: "Não permitido no laboratório"
-    examples: ["SES-101", "SES-102"]
+    examples: [SES-101, SES-102]
     do_not_use_for: ["Identificar pessoas"]
   - physical_name: channel
     technical_type: TEXT
@@ -68,36 +98,21 @@ columns:
     null_meaning: "Não permitido no laboratório"
     examples: ["2026-09-01"]
     do_not_use_for: ["Inferir hora local ou duração"]
-
 time_semantics:
   reference_field: session_date
   timezone: null
   update_frequency: "Carga estática do laboratório"
   known_latency: "Não aplicável ao laboratório"
   snapshot_or_events: "Registro de sessão; não snapshot de estoque"
-
 usage:
   authoritative_questions: ["Taxa de sessões web convertidas na amostra do laboratório"]
   invalid_aggregations: ["Contar sessões com COUNT(*) após junção 1:N sem avaliar duplicidade"]
-  related_datasets: ["demo_orders"]
+  related_datasets: [demo_orders]
   known_caveats: ["Não extrapolar a amostra para outros períodos ou canais"]
   sample_queries: []
-
 validation:
   checked_by: null
   checked_at: null
   evidence: []
-open_questions:
-  - question: "'is_internal = 1 marca o quê: testes da equipe, a rede do escritório, compras de funcionários?'"
-    impact: "Sem o significado, ninguém sabe se o filtro tira só testes ou também compras reais"
-    resolution_owner: null
-    state: unresolved
-  - question: "Sessões internas entram na taxa de conversão? Uma compra de funcionário feita da rede do escritório conta?"
-    impact: "A resposta muda o denominador e o numerador da taxa"
-    resolution_owner: null
-    state: unresolved
-  - question: "Quem aprova a semântica do dicionário?"
-    impact: "Sem quem aprova, o dicionário não pode ser citado como fonte"
-    resolution_owner: null
-    state: unresolved
-related_documents: ["KPI-AURORA-001", "REL-AURORA-SESSIONS-ORDERS"]
+
+related_documents: [KPI-AURORA-001, REL-AURORA-SESSIONS-ORDERS]

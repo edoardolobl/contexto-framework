@@ -1,17 +1,28 @@
 # Exemplo do Contexto. A Aurora é uma organização inventada; nomes, datas e aprovações fazem parte do caso.
 id: PROCESS-CAMPAIGN-001
-revision_id: "PROCESS-CAMPAIGN-001@2.0"  # versão específica; id = assunto estável
+schema_version: "1.0.0"
+type: processo
 title: "Solicitar e publicar campanha: Aurora"
-type: process_definition
-status: approved
 version: "2.0"
-version_date: "2026-09-10"
+revision_id: "PROCESS-CAMPAIGN-001@2.0" # versão específica; id = assunto estável
+status: approved
 owner: "Operação de Marketing (Aurora)"
 approver: "Liderança de Marca (Aurora)"
 valid_from: "2026-09-10"
-valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
-supersedes_revision: "PROCESS-CAMPAIGN-001@1.0"
+valid_to: null               # fim exclusivo da vigência; null = sem fim documentado
+version_date: "2026-09-10"
+last_reviewed: "2026-09-10"
+review_interval: null
 source_of_truth: "Procedimento PRC-MKT-007"
+supersedes_revision: "PROCESS-CAMPAIGN-001@1.0"
+superseded_by_revision: null
+intent:
+  question: "Que caminho um pedido de campanha percorre até ser publicado?"
+  audience: ["Operação de Marketing", "Revisão de Conteúdo", "Liderança de Marca"]
+  purpose: "Descrever as transferências e evidências necessárias até a publicação de uma campanha externa"
+  decisions: []
+plain_summary: "Cinco etapas, do registro do pedido à publicação com evidência; sem decisão em 3 dias úteis, o pedido sobe à Diretoria de Marketing."
+open_questions: []
 version_history:
   - version: "2.0"
     date: "2026-09-10"
@@ -26,33 +37,36 @@ version_history:
     change: "Primeiro rascunho, com lacunas registradas"
     approved_by: null
 
-purpose: "Descrever as transferências e evidências necessárias até a publicação de uma campanha externa"
+context:
+  instructions: null
+  verifiedStatements: []
+  constraints: []
+authoritativeDefinitions: []
+
 scope:
   applies_when: "Campanha externa da Aurora em canais próprios ou pagos"
   not_applicable_when: "Comunicados internos não promocionais"
 trigger: "Brief registrado no formulário de solicitação"
-preconditions:
-  - "Solicitante identificado e área responsável informada"
-required_inputs: ["objetivo", "canal", "público", "período", "material"]
+preconditions: ["Solicitante identificado e área responsável informada"]
+required_inputs: [objetivo, canal, "público", "período", material]
 roles:
   process_owner: "Operação de Marketing (Aurora)"
   performers: ["Operação de Marketing", "Revisão de Conteúdo"]
   approvers: ["Liderança de Marca"]
-
 steps:
   - id: S01
     name: "Receber e registrar"
     performer_role: "Operação de Marketing"
     action: "Registrar o pedido e atribuir identificador"
-    inputs: ["brief"]
+    inputs: [brief]
     output_evidence: "Registro do pedido com identificador"
-    next_step: "S02"
+    next_step: S02
     exception_handling: "Pedido sem solicitante identificado é devolvido"
   - id: S02
     name: "Conferir brief"
     performer_role: "Operação de Marketing"
     action: "Verificar os cinco campos obrigatórios"
-    inputs: ["brief"]
+    inputs: [brief]
     output_evidence: "Lista de conferência preenchida"
     next_step: "S03 se completo; devolver ao solicitante se incompleto"
     exception_handling: "Complementação pedida por escrito; prazo de 2 dias úteis; sem resposta, o pedido é encerrado como devolvido"
@@ -60,7 +74,7 @@ steps:
     name: "Aplicar regra de encaminhamento"
     performer_role: "Revisão de Conteúdo"
     action: "Aplicar a decisão DECISION-CAMPAIGN-001"
-    inputs: ["brief", "evidências das alegações", "avaliação pela RUBRIC-CAMPAIGN-001"]
+    inputs: [brief, "evidências das alegações", "avaliação pela RUBRIC-CAMPAIGN-001"]
     output_evidence: "Resultado da triagem e motivo"
     next_step: "S04 se o resultado for solicitar aprovação formal; depois de revisão responsável ou esclarecimento, o material corrigido volta a S03"
     exception_handling: "Evidência ausente ou desconhecida segue o resultado previsto na regra"
@@ -78,18 +92,14 @@ steps:
     action: "Publicar e guardar o endereço e a data da publicação"
     inputs: ["aprovação válida"]
     output_evidence: "Endereço da publicação e data, anexados ao pedido"
-    next_step: "Fim"
+    next_step: Fim
     exception_handling: "Falha de publicação é registrada e o pedido volta a S05"
-
-decision_rules:
-  - "DECISION-CAMPAIGN-001"
+decision_rules: [DECISION-CAMPAIGN-001]
 completion:
   success_criteria: ["Publicação aprovada, publicada e com evidência anexada"]
-  failure_outcomes: ["Devolvido", "Rejeitado", "Cancelado"]
+  failure_outcomes: [Devolvido, Rejeitado, Cancelado]
   evidence_record: "Pedido no sistema de solicitações, com anexos"
-
-exceptions:
-  - "Pedido cancelado depois de aprovado: registrar o cancelamento e não publicar"
+exceptions: ["Pedido cancelado depois de aprovado: registrar o cancelamento e não publicar"]
 escalation: "Diretoria de Marketing (Aurora), quando a Liderança de Marca não decidir no prazo"
-open_questions: []
-related_documents: ["DECISION-CAMPAIGN-001", "RUBRIC-CAMPAIGN-001"]
+
+related_documents: [DECISION-CAMPAIGN-001, RUBRIC-CAMPAIGN-001]

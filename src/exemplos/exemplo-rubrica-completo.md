@@ -1,0 +1,148 @@
+---
+# Exemplo do Contexto. A Aurora é uma organização inventada; nomes, datas e aprovações fazem parte do caso.
+id: RUBRIC-CAMPAIGN-001
+schema_version: "1.0.0"
+type: rubrica
+title: "Rubrica de revisão de material de campanha: Aurora"
+version: "2.0"
+revision_id: "RUBRIC-CAMPAIGN-001@2.0" # versão específica; id = assunto estável
+status: approved
+owner: "Revisão de Conteúdo (Aurora)"
+approver: "Liderança de Marca (Aurora)"
+valid_from: "2026-09-10"
+valid_to: null               # fim exclusivo da vigência; null = sem fim documentado
+version_date: "2026-09-10"
+last_reviewed: "2026-09-10"
+review_interval: null
+source_of_truth: "Guia de revisão de conteúdo da Aurora, anexo B"
+supersedes_revision: "RUBRIC-CAMPAIGN-001@1.0"
+superseded_by_revision: null
+intent:
+  question: "Como avaliar um material de campanha antes da aprovação formal?"
+  audience: ["Revisão de Conteúdo", "Liderança de Marca"]
+  purpose: "Dar a todo revisor o mesmo critério para o mesmo material, e decidir a entrada “evidência suficiente” da triagem de campanha"
+  decisions: ["Definir a entrada evidência suficiente da triagem de campanha"]
+plain_summary: "Quatro critérios com pesos 40, 25, 20 e 15 dão uma nota de 0 a 100; a nota orienta a triagem, mas uma pessoa sempre revisa."
+open_questions: []
+version_history:
+  - version: "2.0"
+    date: "2026-09-10"
+    change: "Condições da oferta: restrição que aparece só no regulamento cai de nível 3 para 2. Motivo: 41 reclamações no SAC em agosto sobre frete grátis negado na região Norte, exclusão que estava só no regulamento"
+    approved_by: "Liderança de Marca (Aurora)"
+  - version: "1.0"
+    date: "2026-08-12"
+    change: "Primeira versão aprovada, com quatro critérios, pesos 40, 25, 20 e 15, e ligação com a entrada “evidência suficiente” da triagem"
+    approved_by: "Liderança de Marca (Aurora)"
+  - version: "0.1"
+    date: "2026-07-20"
+    change: "Primeiro rascunho, com lacunas registradas"
+    approved_by: null
+
+context:
+  instructions: null
+  verifiedStatements: []
+  constraints: []
+authoritativeDefinitions: []
+
+evaluation_target: "Material de campanha externa (e-mail, página de oferta, peça para rede social) antes da aprovação formal"
+allowed_use: ["Revisão de material na etapa 3 do processo de campanha", "Calibração entre revisores"]
+disallowed_use:
+  - "Avaliar a pessoa que produziu o material"
+  - "Usar a nota sem a justificativa por critério"
+  - "Aprovar ou publicar automaticamente"
+criteria:
+  - id: claims_with_proof
+    name: "Alegações com prova"
+    definition: "Cada alegação verificável do material (número, comparação, benefício) tem uma fonte anexada e datada que diz o mesmo que o material"
+    not_in_scope: "Se a alegação convence ou está bem escrita. Isso pertence a adequação ao público"
+    weight: 40
+    expected_evidence:
+      - "Fonte anexada ao pedido para cada alegação"
+      - "Data da fonte"
+      - "Trecho da fonte que sustenta o texto"
+    anchors:
+      "0": "Há alegação verificável sem nenhuma fonte anexada"
+      "1": "Todas as alegações têm fonte, mas pelo menos uma fonte não diz o que o material diz (a planilha mostra 22%, o e-mail diz 30%)"
+      "2": "As fontes dizem o que o material diz, mas pelo menos uma não tem data"
+      "3": "Cada alegação verificável tem fonte anexada e datada que diz exatamente o que o material diz. Material sem alegação verificável também fica em 3"
+      "4": "Além do nível 3, o material repete a condição que a fonte impõe (\"22% menos plástico que o frasco de 2024\")"
+  - id: offer_terms
+    name: "Condições da oferta"
+    definition: "Valor, período e restrições da oferta aparecem no próprio material, iguais ao regulamento"
+    not_in_scope: "A prova de números sobre o produto. Isso pertence a alegações com prova"
+    weight: 25
+    expected_evidence:
+      - "Regulamento anexado"
+      - "Valor mínimo ou preço"
+      - "Período com datas"
+      - "Restrições (região, estoque, canal)"
+    anchors:
+      "0": "A oferta não diz valor nem período"
+      "1": "Falta o período ou o valor mínimo (\"frete grátis nesta semana\", sem dizer acima de quanto)"
+      "2": "Valor e período estão no material, mas uma restrição relevante aparece só no regulamento (a exclusão de uma região)"
+      "3": "Valor, período e restrições estão no próprio material, com o mesmo texto do regulamento"
+      "4": "Além do nível 3, diz o que acontece quando a condição não é atendida (\"abaixo de R$ 99, o frete é calculado no carrinho\")"
+  - id: audience_fit
+    name: "Adequação ao público"
+    definition: "O material fala com o público definido no brief, sem supor o que esse público não sabe, no formato do canal pedido"
+    not_in_scope: "Logotipo, cores e tom. Isso pertence a conformidade com a marca"
+    weight: 20
+    expected_evidence: ["Campo público do brief", "Canal do brief", "Chamada para ação"]
+    anchors:
+      "0": "Fala com outro público (o brief pede quem não compra há 90 dias; o texto agradece a compra recente)"
+      "1": "Público certo, mas supõe algo que esse público não sabe ou não tem (\"use seu crédito de refil\" para quem nunca comprou refil)"
+      "2": "Público e suposições corretos, mas o formato não serve ao canal (texto de 300 caracteres para SMS de 160)"
+      "3": "Público, suposições e formato coerentes com o brief"
+      "4": "Além do nível 3, há uma única chamada para ação e ela leva ao passo seguinte desse público (link direto para o refil, não para a página inicial)"
+  - id: brand_compliance
+    name: "Conformidade com a marca"
+    definition: "Nome de produto, logotipo e tom seguem o Guia de Marca da Aurora, versão 4"
+    not_in_scope: "Se o texto fala com o público certo. Isso pertence a adequação ao público"
+    weight: 15
+    expected_evidence: ["Nomes de produto", "Logotipo e cores", "Regras de tom do guia"]
+    anchors:
+      "0": "Nome de produto errado ou logotipo fora do guia"
+      "1": "Nome e logotipo certos, mas contraria uma regra de tom do guia (frase inteira em caixa alta, \"IMPERDÍVEL\")"
+      "2": "Segue o guia, com um ou dois desvios de detalhe (cor secundária, espaçamento)"
+      "3": "Segue o guia sem desvios"
+      "4": "Além do nível 3, usa um bloco já aprovado da biblioteca de marca em vez de criar um novo"
+scoring:
+  weight_sum: 100
+  scale: [0, 1, 2, 3, 4]
+  formula: "Soma de (nível ÷ 4 × peso) dos critérios avaliados, de 0 a 100"
+  missing_evidence_behavior: not_evaluable
+  not_evaluable_rule: "Critério sem o que avaliar sai da conta: peça institucional sem oferta não tem condições da oferta; regulamento não anexado deixa o critério não avaliável. Os pesos restantes são reescalados para somar 100 e a nota sai como 'parcial: N de 4 critérios'. Com dois ou mais critérios não avaliáveis, não se publica nota"
+  feeds_decision: "DECISION-CAMPAIGN-001, entrada “evidência suficiente”: sim com alegações com prova em nível 3 ou 4; não em 0, 1 ou 2; desconhecida enquanto o critério não foi avaliado"
+  decision_threshold: null
+  automatic_decision_allowed: false
+human_review_required: true
+calibration_examples:
+  - case: "E-mail Semana do Refil, primeira versão (pedido CAMP-0914, avaliado em 15/09/2026). Assunto: 'Refil Aurora: 30% menos plástico e frete grátis'. Corpo: 'O refil usa 30% menos plástico. Frete grátis nesta semana. Use seu crédito de refil.' Anexos: planilha de 12/03/2026 que mostra 22% em comparação com o frasco de 2024; regulamento com frete grátis acima de R$ 99, de 22 a 28/09, exceto região Norte. Público do brief: clientes sem compra há mais de 90 dias que nunca compraram refil"
+    levels: {claims_with_proof: 1, offer_terms: 1, audience_fit: 1, brand_compliance: 3}
+    justification:
+      claims_with_proof: "Há fonte, mas ela diz 22%, não 30%"
+      offer_terms: "Falta o valor mínimo de R$ 99 e o período é 'nesta semana', sem datas"
+      audience_fit: "O público do brief nunca comprou refil, então não tem crédito de refil"
+      brand_compliance: "Nome do produto, logotipo e tom dentro do guia"
+    score: 32.5
+    evidence_sufficient: false
+    routing: responsible_review
+  - case: "Mesmo e-mail, segunda versão (avaliado em 16/09/2026). Corpo: 'O refil usa 22% menos plástico que o frasco de 2024. Frete grátis acima de R$ 99, de 22 a 28/09, exceto região Norte. Experimente o refil.' Link leva direto à página do refil"
+    levels: {claims_with_proof: 4, offer_terms: 3, audience_fit: 4, brand_compliance: 3}
+    justification:
+      claims_with_proof: "A fonte diz 22% e o material repete a comparação com o frasco de 2024"
+      offer_terms: "Valor, datas e exclusão da região Norte estão no próprio e-mail, iguais ao regulamento"
+      audience_fit: "Convida a experimentar, sem supor compra anterior; uma chamada, que leva à página do refil"
+      brand_compliance: "Dentro do guia"
+    score: 90
+    evidence_sufficient: true
+    routing: request_formal_approval
+disagreement_resolution: "Dois revisores pontuam separadamente. Diferença de dois níveis ou mais em um critério exige conversa e justificativa escrita; persistindo, decide a Liderança de Marca"
+privacy_and_fairness_considerations: ["Avaliar o material, nunca a pessoa que o produziu", "A nota não entra em avaliação de desempenho"]
+
+related_documents: [PROCESS-CAMPAIGN-001, DECISION-CAMPAIGN-001]
+---
+
+Cada nível descreve algo que se vê no material, com um exemplo da Aurora. Os dois exemplos de calibração mostram o mesmo e-mail antes e depois da correção, com a nota recalculada e o encaminhamento que a tabela de decisão dá.
+
+O que observar: `not_in_scope` evita punir o mesmo erro em dois critérios, e `automatic_decision_allowed: false` deixa claro que a nota não decide sozinha.

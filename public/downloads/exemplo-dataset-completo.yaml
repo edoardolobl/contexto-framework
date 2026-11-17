@@ -1,17 +1,28 @@
 # Exemplo do Contexto. A Aurora é uma organização inventada; nomes, datas e aprovações fazem parte do caso.
 id: DATASET-AURORA-SESSIONS
-revision_id: "DATASET-AURORA-SESSIONS@1.2"  # versão específica; id = assunto estável
+schema_version: "1.0.0"
+type: dataset
 title: "Sessões web e app: Aurora"
-type: dataset_semantics
-status: approved
 version: "1.2"
-version_date: "2026-10-02"
+revision_id: "DATASET-AURORA-SESSIONS@1.2" # versão específica; id = assunto estável
+status: approved
 owner: "Engenharia de Dados (Aurora)"
 approver: "Analytics de E-commerce (Aurora)"
 valid_from: "2026-10-02"
-valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
-supersedes_revision: "DATASET-AURORA-SESSIONS@1.1"
+valid_to: null               # fim exclusivo da vigência; null = sem fim documentado
+version_date: "2026-10-02"
+last_reviewed: "2026-10-02"
+review_interval: null
 source_of_truth: "Catálogo de dados da Aurora, tabela demo_sessions"
+supersedes_revision: "DATASET-AURORA-SESSIONS@1.1"
+superseded_by_revision: null
+intent:
+  question: "O que significa cada coluna da tabela de sessões da Aurora?"
+  audience: ["Analytics de E-commerce", "Engenharia de Dados"]
+  purpose: "Representar sessões registradas por canal"
+  decisions: ["Decidir quais sessões entram na taxa de conversão web"]
+plain_summary: "Uma linha por sessão. Sessões abertas na rede do escritório ficam fora da taxa de conversão; sem esse filtro, a taxa da amostra sobe de 25% para 40%."
+open_questions: []
 version_history:
   - version: "1.2"
     date: "2026-10-02"
@@ -30,15 +41,19 @@ version_history:
     change: "Primeiro rascunho, com lacunas registradas"
     approved_by: null
 
+context:
+  instructions: null
+  verifiedStatements: []
+  constraints: []
+authoritativeDefinitions: []
+
 dataset:
   physical_name: demo_sessions
-  platform: SQLite (laboratório)
-  business_purpose: "Representar sessões registradas por canal"
+  platform: "SQLite (laboratório)"
   grain: "Uma linha por sessão"
   primary_key: session_id
   alternative_keys: []
   uniqueness_assumption: "Cada session_id representa uma única sessão"
-
 columns:
   - physical_name: session_id
     technical_type: TEXT
@@ -48,7 +63,7 @@ columns:
     allowed_values: []
     sentinel_values: []
     null_meaning: "Não permitido no laboratório"
-    examples: ["S1", "S2"]
+    examples: [S1, S2]
     do_not_use_for: ["Identificar pessoas"]
   - physical_name: channel
     technical_type: TEXT
@@ -80,26 +95,23 @@ columns:
     null_meaning: "Não permitido no laboratório"
     examples: ["2026-09-01"]
     do_not_use_for: ["Inferir hora local ou duração"]
-
 time_semantics:
   reference_field: session_date
   timezone: "Data local da loja, sem hora"
   update_frequency: "Carga estática do laboratório"
   known_latency: "Não aplicável ao laboratório"
   snapshot_or_events: "Registro de sessão; não snapshot de estoque"
-
 usage:
   authoritative_questions: ["Taxa de sessões web convertidas na amostra do laboratório"]
   invalid_aggregations: ["Contar sessões com COUNT(*) após junção 1:N sem avaliar duplicidade"]
-  related_datasets: ["DATASET-AURORA-ORDERS"]
+  related_datasets: [DATASET-AURORA-ORDERS]
   known_caveats:
     - "Não extrapolar a amostra para outros períodos ou canais"
     - "Caso-limite: S3 é interna e tem o pedido O4 confirmado, uma compra real de funcionário. Mesmo assim fica fora do KPI-AURORA-001, que exclui toda sessão interna. Sem esse filtro, a taxa de 01/10 passa de 25% para 40%"
-  sample_queries: ["aurora-reference-query.sql"]
-
+  sample_queries: [aurora-reference-query.sql]
 validation:
   checked_by: "Engenharia de Dados (Aurora)"
   checked_at: "2026-10-02"
-  evidence: ["aurora-fixture.sql"]
-open_questions: []
-related_documents: ["KPI-AURORA-001", "DATASET-AURORA-ORDERS", "REL-AURORA-SESSIONS-ORDERS"]
+  evidence: [aurora-fixture.sql]
+
+related_documents: [KPI-AURORA-001, DATASET-AURORA-ORDERS, REL-AURORA-SESSIONS-ORDERS]

@@ -30,8 +30,8 @@ PERMITIDOS = {"\t", "\n", "\r"}
 FAIXAS_INVISIVEIS = ((0xFE00, 0xFE0F), (0xE0100, 0xE01EF))
 PREENCHEDORES = {0x3164, 0x115F, 0x1160, 0x2800, 0xFFA0}
 PASTAS_IGNORADAS = {".git", "node_modules", "dist", ".astro", ".codegraph", ".taste-skill", "__pycache__", ".pytest_cache"}
-CHAVES_DE_NOME = ("name", "physical_name", "business_name", "term", "field")
-CHAVES_DE_DESCRICAO = ("meaning", "description", "definition")
+CHAVES_DE_NOME = ("name", "physical_name", "business_name", "term", "field", "prefLabel", "rotulo")
+CHAVES_DE_DESCRICAO = ("meaning", "description", "definition", "descricao")
 PALAVRAS_VAZIAS = {"a", "o", "as", "os", "de", "da", "do", "das", "dos", "e", "em", "no", "na", "the", "of"}
 
 
@@ -95,6 +95,19 @@ def pares_nome_descricao(dados: Any) -> Iterator[tuple[str, str]]:
     elif isinstance(dados, list):
         for item in dados:
             yield from pares_nome_descricao(item)
+
+
+def pares_de_schema(dados: Any) -> Iterator[tuple[str, str]]:
+    """Cada objeto de um JSON Schema que tem 'title' e 'description' em texto (I-02)."""
+    if isinstance(dados, dict):
+        titulo, descricao = dados.get("title"), dados.get("description")
+        if isinstance(titulo, str) and isinstance(descricao, str):
+            yield titulo, descricao
+        for valor in dados.values():
+            yield from pares_de_schema(valor)
+    elif isinstance(dados, list):
+        for item in dados:
+            yield from pares_de_schema(item)
 
 
 def maior_menor(versao: str) -> str | None:
@@ -168,6 +181,22 @@ def main() -> None:
         for nome, descricao in pares_nome_descricao(dados or {}):
             if descricao_tautologica(nome, descricao):
                 relatorio.erro(caminho, f"a descrição \"{descricao}\" só repete o nome \"{nome}\"; diga como interpretar o valor")
+
+    campos = carregar_yaml(DADOS / "campos.yaml", relatorio) if (DADOS / "campos.yaml").is_file() else None
+    for nome, descricao in pares_nome_descricao(campos or {}):
+        if descricao_tautologica(nome, descricao):
+            relatorio.erro(DADOS / "campos.yaml", f"a descrição \"{descricao}\" só repete o rótulo \"{nome}\"; diga o que escrever")
+    esquemas = sorted((ROOT / "schemas").glob("*.json"))
+    for caminho in esquemas:
+        relatorio.arquivo_atual = caminho
+        try:
+            conteudo = json.loads(caminho.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError, UnicodeDecodeError) as exc:
+            relatorio.erro(caminho, f"JSON ilegível: {exc}")
+            continue
+        for titulo, descricao in pares_de_schema(conteudo):
+            if descricao_tautologica(titulo, descricao):
+                relatorio.erro(caminho, f"a descrição \"{descricao}\" só repete o título \"{titulo}\"; diga como interpretar o valor")
 
     versoes = versoes_do_produto(ROOT)
     lidas = {fonte: v for fonte, v in versoes.items() if v}

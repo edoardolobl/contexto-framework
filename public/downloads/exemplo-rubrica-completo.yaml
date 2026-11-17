@@ -1,17 +1,28 @@
 # Exemplo do Contexto. A Aurora é uma organização inventada; nomes, datas e aprovações fazem parte do caso.
 id: RUBRIC-CAMPAIGN-001
-revision_id: "RUBRIC-CAMPAIGN-001@2.0"  # versão específica; id = assunto estável
+schema_version: "1.0.0"
+type: rubrica
 title: "Rubrica de revisão de material de campanha: Aurora"
-type: evaluation_rubric
-status: approved
 version: "2.0"
-version_date: "2026-09-10"
+revision_id: "RUBRIC-CAMPAIGN-001@2.0" # versão específica; id = assunto estável
+status: approved
 owner: "Revisão de Conteúdo (Aurora)"
 approver: "Liderança de Marca (Aurora)"
 valid_from: "2026-09-10"
-valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
-supersedes_revision: "RUBRIC-CAMPAIGN-001@1.0"
+valid_to: null               # fim exclusivo da vigência; null = sem fim documentado
+version_date: "2026-09-10"
+last_reviewed: "2026-09-10"
+review_interval: null
 source_of_truth: "Guia de revisão de conteúdo da Aurora, anexo B"
+supersedes_revision: "RUBRIC-CAMPAIGN-001@1.0"
+superseded_by_revision: null
+intent:
+  question: "Como avaliar um material de campanha antes da aprovação formal?"
+  audience: ["Revisão de Conteúdo", "Liderança de Marca"]
+  purpose: "Dar a todo revisor o mesmo critério para o mesmo material, e decidir a entrada “evidência suficiente” da triagem de campanha"
+  decisions: ["Definir a entrada evidência suficiente da triagem de campanha"]
+plain_summary: "Quatro critérios com pesos 40, 25, 20 e 15 dão uma nota de 0 a 100; a nota orienta a triagem, mas uma pessoa sempre revisa."
+open_questions: []
 version_history:
   - version: "2.0"
     date: "2026-09-10"
@@ -26,17 +37,28 @@ version_history:
     change: "Primeiro rascunho, com lacunas registradas"
     approved_by: null
 
+context:
+  instructions: null
+  verifiedStatements: []
+  constraints: []
+authoritativeDefinitions: []
+
 evaluation_target: "Material de campanha externa (e-mail, página de oferta, peça para rede social) antes da aprovação formal"
-business_goal: "Dar a todo revisor o mesmo critério para o mesmo material, e decidir a entrada “evidência suficiente” da triagem de campanha"
 allowed_use: ["Revisão de material na etapa 3 do processo de campanha", "Calibração entre revisores"]
-disallowed_use: ["Avaliar a pessoa que produziu o material", "Usar a nota sem a justificativa por critério", "Aprovar ou publicar automaticamente"]
+disallowed_use:
+  - "Avaliar a pessoa que produziu o material"
+  - "Usar a nota sem a justificativa por critério"
+  - "Aprovar ou publicar automaticamente"
 criteria:
   - id: claims_with_proof
     name: "Alegações com prova"
     definition: "Cada alegação verificável do material (número, comparação, benefício) tem uma fonte anexada e datada que diz o mesmo que o material"
     not_in_scope: "Se a alegação convence ou está bem escrita. Isso pertence a adequação ao público"
     weight: 40
-    expected_evidence: ["Fonte anexada ao pedido para cada alegação", "Data da fonte", "Trecho da fonte que sustenta o texto"]
+    expected_evidence:
+      - "Fonte anexada ao pedido para cada alegação"
+      - "Data da fonte"
+      - "Trecho da fonte que sustenta o texto"
     anchors:
       "0": "Há alegação verificável sem nenhuma fonte anexada"
       "1": "Todas as alegações têm fonte, mas pelo menos uma fonte não diz o que o material diz (a planilha mostra 22%, o e-mail diz 30%)"
@@ -48,7 +70,11 @@ criteria:
     definition: "Valor, período e restrições da oferta aparecem no próprio material, iguais ao regulamento"
     not_in_scope: "A prova de números sobre o produto. Isso pertence a alegações com prova"
     weight: 25
-    expected_evidence: ["Regulamento anexado", "Valor mínimo ou preço", "Período com datas", "Restrições (região, estoque, canal)"]
+    expected_evidence:
+      - "Regulamento anexado"
+      - "Valor mínimo ou preço"
+      - "Período com datas"
+      - "Restrições (região, estoque, canal)"
     anchors:
       "0": "A oferta não diz valor nem período"
       "1": "Falta o período ou o valor mínimo (\"frete grátis nesta semana\", sem dizer acima de quanto)"
@@ -79,7 +105,6 @@ criteria:
       "2": "Segue o guia, com um ou dois desvios de detalhe (cor secundária, espaçamento)"
       "3": "Segue o guia sem desvios"
       "4": "Além do nível 3, usa um bloco já aprovado da biblioteca de marca em vez de criar um novo"
-
 scoring:
   weight_sum: 100
   scale: [0, 1, 2, 3, 4]
@@ -89,7 +114,6 @@ scoring:
   feeds_decision: "DECISION-CAMPAIGN-001, entrada “evidência suficiente”: sim com alegações com prova em nível 3 ou 4; não em 0, 1 ou 2; desconhecida enquanto o critério não foi avaliado"
   decision_threshold: null
   automatic_decision_allowed: false
-
 human_review_required: true
 calibration_examples:
   - case: "E-mail Semana do Refil, primeira versão (pedido CAMP-0914, avaliado em 15/09/2026). Assunto: 'Refil Aurora: 30% menos plástico e frete grátis'. Corpo: 'O refil usa 30% menos plástico. Frete grátis nesta semana. Use seu crédito de refil.' Anexos: planilha de 12/03/2026 que mostra 22% em comparação com o frasco de 2024; regulamento com frete grátis acima de R$ 99, de 22 a 28/09, exceto região Norte. Público do brief: clientes sem compra há mais de 90 dias que nunca compraram refil"
@@ -113,8 +137,6 @@ calibration_examples:
     evidence_sufficient: true
     routing: request_formal_approval
 disagreement_resolution: "Dois revisores pontuam separadamente. Diferença de dois níveis ou mais em um critério exige conversa e justificativa escrita; persistindo, decide a Liderança de Marca"
-privacy_and_fairness_considerations:
-  - "Avaliar o material, nunca a pessoa que o produziu"
-  - "A nota não entra em avaliação de desempenho"
-open_questions: []
-related_documents: ["PROCESS-CAMPAIGN-001", "DECISION-CAMPAIGN-001"]
+privacy_and_fairness_considerations: ["Avaliar o material, nunca a pessoa que o produziu", "A nota não entra em avaliação de desempenho"]
+
+related_documents: [PROCESS-CAMPAIGN-001, DECISION-CAMPAIGN-001]

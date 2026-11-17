@@ -10,10 +10,17 @@ SCRIPTS = Path(__file__).resolve().parents[1]
 
 @pytest.mark.parametrize(
     "script",
-    ["validate_content.py", "check_higiene.py", "check_decision_examples.py", "check_analytics_fixture.py", "check_revisions.py", "check_contraste.py", "check_navegacao.py"],
+    ["validate_content.py", "check_higiene.py", "check_decision_examples.py", "check_analytics_fixture.py", "check_revisions.py", "check_schemas.py", "check_contraste.py", "check_navegacao.py"],
 )
 def test_validador_passa_no_repositorio(script: str):
     resultado = subprocess.run([sys.executable, str(SCRIPTS / script)], capture_output=True, text=True, timeout=120)
+    assert resultado.returncode == 0, resultado.stdout + resultado.stderr
+    assert any(linha.startswith("OK:") for linha in resultado.stdout.splitlines()), resultado.stdout
+    assert "Traceback" not in resultado.stderr
+
+
+def test_gerar_downloads_check_passa_no_repositorio():
+    resultado = subprocess.run([sys.executable, str(SCRIPTS / "gerar_downloads.py"), "--check"], capture_output=True, text=True, timeout=120)
     assert resultado.returncode == 0, resultado.stdout + resultado.stderr
     assert any(linha.startswith("OK:") for linha in resultado.stdout.splitlines()), resultado.stdout
     assert "Traceback" not in resultado.stderr

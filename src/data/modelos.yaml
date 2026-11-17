@@ -1,10 +1,11 @@
 # Tipos de documento do Contexto: fonte única da lista de modelos.
 # Alimenta o menu (astro.config.mjs confere a ordem), a tabela da página de modelos (TemplateFinder),
 # o resumo de cada página (TemplateStart), os arquivos para baixar (TemplateDownloads) e os validadores.
-# slug: chave de arquivo e de type. Os arquivos template-<slug>.md, template-<slug>.yaml,
-#   exemplo-<slug>-lacunas.yaml e exemplo-<slug>-completo.yaml seguem o slug. O slug muda só na F3 (ADR 0007).
-# pagina: endereço da página em src/content/docs/templates/<pagina>.mdx. Quase sempre igual ao slug;
-#   Perguntas de negócio já tem endereço novo e mantém o slug casos-teste até a F3.
+# slug: chave de arquivo e valor do campo type (ADR 0026). As fontes são src/modelos/<slug>.md e
+#   src/exemplos/exemplo-<slug>-lacunas.md e exemplo-<slug>-completo.md, em Markdown com frontmatter.
+#   Os arquivos de public/downloads (template-<slug>.md, template-<slug>.yaml, exemplo-<slug>-lacunas.yaml
+#   e exemplo-<slug>-completo.yaml) são gerados dessas fontes por scripts/gerar_downloads.py.
+# pagina: endereço da página em src/content/docs/templates/<pagina>.mdx. Igual ao slug nos dez tipos.
 # nome: título da página. nivel segue o ADR 0013 (núcleo de entrada) e o ADR 0003 (Rubrica na trilha complementar):
 #   nucleo: aparece na porta de entrada; segundo: segundo nível; complementar: trilha à parte.
 # tarefa e resumo: o que a pessoa quer fazer e o que o modelo cobre, na tabela da página de modelos.
@@ -52,7 +53,7 @@ tipos:
     resultado: Critérios verificáveis, resultados possíveis e tratamento de conflitos.
     preparar: Uma decisão recorrente, exemplos de resultados e quem tem autoridade.
     rotulo_download: Modelo de regra e decisão
-  - slug: casos-teste
+  - slug: perguntas-de-negocio
     pagina: perguntas-de-negocio
     nome: Perguntas de negócio
     nivel: nucleo

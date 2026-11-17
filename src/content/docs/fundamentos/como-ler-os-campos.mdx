@@ -3,47 +3,59 @@ title: Como ler os campos
 description: O que significam null, status, id, versão e os outros campos dos modelos, em linguagem simples.
 ---
 
-Os modelos existem em dois formatos. O **Markdown** é texto comum, com perguntas para responder: use este se você não é da área técnica. O **YAML** organiza as mesmas respostas em campos com nome fixo, o que ajuda quem vai processar o documento depois. O conteúdo é o mesmo. **Você não precisa de YAML para usar o método.**
+O modelo é um arquivo em **Markdown**, texto comum que abre em qualquer editor. No topo, entre duas linhas `---`, ficam os campos com nome fixo, um por linha, como `title: Taxa de conversão`; esse bloco se chama frontmatter. Abaixo dele, o resto do arquivo explica cada campo em português e traz as perguntas para responder. O **YAML** que você também pode baixar é gerado desse topo: tem os mesmos campos e serve a quem vai processar o documento depois. **Você não precisa de YAML para usar o método.**
 
 ## O mínimo que um documento precisa ter
 
-Comece por aqui. Os modelos têm muitos campos porque cobrem muitos casos, mas você não precisa preencher todos. O núcleo é este (nos modelos em Markdown, os campos de identificação que fazem parte dele aparecem marcados como **(obrigatório)**):
+Comece por aqui. Os modelos têm muitos campos porque cobrem muitos casos, mas você não precisa preencher todos. Para sair do rascunho, um documento precisa destes oito:
 
-1. O que é (identificador e título);
-2. O significado ou a regra, com as palavras da sua área;
-3. Quando vale e quando não vale;
-4. Um exemplo e um contraexemplo;
-5. Quem responde e quem aprova;
-6. Estado, versão e data;
-7. As perguntas em aberto.
+1. Identificador do assunto;
+2. Título;
+3. Versão atual;
+4. Estado;
+5. Responsável (cargo ou área);
+6. Quem aprova (cargo ou área);
+7. Data desta versão;
+8. Pergunta de negócio que o documento responde.
 
-O resto é aprofundamento. Um documento curto e verdadeiro serve mais do que um longo e presumido.
+Depois deles vêm o significado ou a regra com as palavras da sua área, quando vale e quando não vale, um exemplo e um contraexemplo, e as perguntas em aberto. O resto é aprofundamento. Um documento curto e verdadeiro serve mais do que um longo e presumido.
 
 ## Os campos de identificação
 
-Quando o núcleo estiver claro, complete a identificação. Todo modelo tem estes campos:
+Quando o núcleo estiver claro, complete a identificação. Todo modelo tem estes campos, nesta ordem, no topo do arquivo. Os quatro campos que começam com `intent.` formam o bloco da intenção:
 
-| No modelo Markdown | No YAML | O que escrever |
+| Rótulo em português | Nome do campo | O que escrever |
 |---|---|---|
 | Identificador do assunto | `id` | Um código estável para a definição, como `KPI-AURORA-001` |
-| Identificador da versão | `revision_id` | O código do assunto mais a versão, como `KPI-AURORA-001@2.0`; duas versões nunca compartilham o mesmo ID |
-| Tipo de documento | `type` | Já vem preenchido no modelo |
-| Estado | `status` | Em que ponto o documento está. Veja a tabela abaixo |
-| Responsável | `owner` | O cargo ou a área que responde pelo conteúdo. Não o nome de uma pessoa, que muda |
-| Quem aprova | `approver` | O cargo ou a área com autoridade para dizer “esta é a regra” |
+| Versão do formato | `schema_version` | Já vem preenchido (`1.0.0`). Diz em qual formato o arquivo foi escrito, não a versão do documento |
+| Tipo de documento | `type` | Já vem preenchido com o nome do modelo, como `kpi` ou `perguntas-de-negocio` |
+| Título | `title` | O nome do assunto, como as pessoas da área o chamam |
 | Versão atual | `version` | 0.1 para o primeiro rascunho; 1.0 para a primeira versão aprovada. Para as seguintes, veja [como numerar](#como-numerar-as-versões) |
-| Data desta versão | `version_date` | O dia em que esta versão foi escrita ou aprovada |
+| Identificador desta versão | `revision_id` | O código do assunto mais a versão, como `KPI-AURORA-001@2.0`; duas versões nunca compartilham o mesmo ID |
+| Estado | `status` | Em que ponto o documento está. Veja a tabela abaixo |
+| Responsável (cargo ou área) | `owner` | O cargo ou a área que responde pelo conteúdo. Não o nome de uma pessoa, que muda |
+| Quem aprova (cargo ou área) | `approver` | O cargo ou a área com autoridade para dizer “esta é a regra” |
 | Vale a partir de | `valid_from` | Dia em que **esta versão** começa a valer |
-| Último dia de vigência | `valid_to` | No Markdown, escreva o último dia em que esta versão vale. No YAML, `valid_to` guarda **o dia seguinte**, o primeiro em que ela já não vale: último dia 31/08 vira `valid_to: "2026-09-01"`. `null` significa sem fim registrado |
-| Substitui qual versão? | `supersedes_revision` | Identificador da versão anterior, quando houver |
+| Primeiro dia em que já não vale | `valid_to` | **O dia seguinte** ao último dia em que esta versão vale, o primeiro em que ela já não vale: último dia 31/08 vira `valid_to: "2026-09-01"`. `null` significa sem fim registrado |
+| Data em que esta versão foi registrada | `recorded_at` | Só na cópia de uma versão substituída: o dia em que essa cópia foi registrada. Serve para responder “o que se sabia naquela data” |
+| Data desta versão | `version_date` | O dia em que esta versão foi escrita ou aprovada |
+| Última revisão | `last_reviewed` | O dia em que alguém conferiu o documento pela última vez, mesmo sem mudar nada |
+| De quanto em quanto tempo revisar | `review_interval` | De quanto em quanto tempo conferir o documento, no formato ISO 8601: `P6M` são seis meses. Obrigatório quando houver instrução ao agente |
 | Fonte oficial | `source_of_truth` | Onde está o documento ou sistema que manda quando há divergência |
+| Substitui qual versão? | `supersedes_revision` | Identificador da versão anterior, quando houver |
+| Substituída por qual versão? | `superseded_by_revision` | Só quando outra versão tomou o lugar desta: o identificador da versão nova |
+| Pergunta de negócio que o documento responde | `intent.question` | A pergunta escrita como alguém da área faria. Sem ela, o documento não sai do rascunho |
+| Quem usa | `intent.audience` | Cargos ou áreas que leem e usam o documento |
+| Para quê | `intent.purpose` | Para que o documento existe, em uma frase |
+| Decisões que apoia | `intent.decisions` | Decisões que mudam conforme a resposta |
+| Em poucas palavras | `plain_summary` | Uma ou duas frases em linguagem direta, ao lado da definição formal, como “conta só pedidos pagos até sete dias depois do contato” |
 
 ## O que significa `null`
 
 `null` quer dizer **“ainda não sei”** ou **“ainda não foi decidido”**. Não é erro e não é zero.
 
-- No YAML, deixe `null` e anote a dúvida em `open_questions`.
-- No Markdown, deixe em branco e anote em “Perguntas em aberto”.
+- No topo do arquivo, deixe o campo como `null` (ou vazio, que dá no mesmo).
+- Anote a dúvida em `open_questions`: a pergunta (`question`), o que acontece se ela ficar sem resposta (`impact`), quem pode resolver (`owner_to_resolve`) e `status: unresolved`.
 
 Nunca troque um `null` por um palpite para o documento parecer completo.
 
@@ -56,16 +68,21 @@ Nunca troque um `null` por um palpite para o documento parecer completo.
 | Rascunho | `draft` | Você ainda está escrevendo |
 | Pendente de aprovação | `pending_approval` | Está estruturado, falta quem aprova confirmar |
 | Aprovado | `approved` | Quem aprova confirmou por escrito |
-| Obsoleto | `deprecated` | Não é mais recomendado como referência atual; isso não apaga sua utilidade para análise histórica |
+| Substituído | `superseded` | Outra versão do mesmo identificador tomou o lugar desta. `superseded_by_revision` aponta qual |
+| Obsoleto | `deprecated` | O assunto deixou de valer e nenhuma versão nova o substitui. Isso não apaga sua utilidade para análise histórica |
+
+A diferença entre os dois últimos: **substituído** quando outra versão do mesmo `id` tomou o lugar, e o assunto continua valendo; **obsoleto** quando o próprio assunto deixou de valer.
 
 Um exemplo com perguntas estruturais em aberto fica em “Rascunho”, mesmo que já tenha campos preenchidos.
 
-**Estado de uma pergunta em aberto ou de um conflito entre fontes:**
+**Estado de uma pergunta em aberto** (campo `status` de cada item de `open_questions`, ao lado de `question`, `impact` e `owner_to_resolve`, quem pode resolver):
 
 | Em português | No YAML |
 |---|---|
 | Não resolvido | `unresolved` |
-| Resolvido | `resolved`, com a resolução, quem resolveu e a data |
+| Resolvido | `resolved`, com a resposta em `resolution`: o que se decidiu, quem resolveu e a data |
+
+Um conflito entre fontes, na política, continua com o campo `state` e os mesmos dois valores.
 
 ## O histórico de versões
 
@@ -112,4 +129,4 @@ Enquanto o estado do documento for “Rascunho” ou “Pendente de aprovação�
 
 ## Duas coisas que parecem iguais e não são
 
-O bloco entre `---` no topo de algumas páginas de sites é configuração da página (título, descrição). Ele não tem relação com os campos dos modelos do Contexto, embora use a mesma notação. Os modelos YAML do Contexto também não são arquivos de configuração de nenhuma ferramenta: são uma convenção de escrita.
+O bloco entre duas linhas `---` no topo do modelo é o frontmatter, e nele ficam os campos do documento (ADR 0006). Muitos sites usam a mesma notação para configurar uma página, com título e descrição, mas não há relação entre as duas coisas. Os campos do Contexto também não configuram nenhuma ferramenta: são uma convenção de escrita. O `.yaml` é só esse mesmo topo em um arquivo separado, gerado a partir do Markdown; se os dois parecerem diferentes, vale o Markdown.

@@ -1,0 +1,68 @@
+# Gabarito documental, não resultado de teste de um modelo de IA.
+# null significa "ainda não sei" ou "ainda não decidido". Não troque null por um palpite: registre a dúvida em open_questions.
+# Campos marcados (obrigatório) são o núcleo para sair do rascunho; os blocos "para quem é técnico" são opcionais.
+id: null                     # (obrigatório) identificador do assunto, igual em todas as versões
+schema_version: "1.0.0"      # versão do formato do arquivo; não mude
+type: perguntas-de-negocio
+title: null                  # (obrigatório)
+version: "0.1"               # (obrigatório) versão deste documento
+revision_id: null            # versão específica: id@version; id = assunto estável
+status: draft                # (obrigatório) draft | pending_approval | approved | superseded | deprecated
+owner: null                  # (obrigatório) cargo ou área responsável, não o nome de uma pessoa
+approver: null               # (obrigatório) cargo ou área que aprova
+valid_from: null             # primeiro dia da vigência, AAAA-MM-DD
+valid_to: null               # fim exclusivo da vigência; null = sem fim documentado
+version_date: null           # (obrigatório) data desta versão, no formato AAAA-MM-DD
+last_reviewed: null          # data da última revisão completa, AAAA-MM-DD
+review_interval: null        # de quanto em quanto tempo revisar, em ISO 8601: P6M = seis meses
+source_of_truth: null        # onde está a versão oficial
+supersedes_revision: null    # versão que esta substitui: id@version
+superseded_by_revision: null # só na cópia de uma versão substituída: id@version da sucessora
+intent:
+  question: null             # (obrigatório) pergunta de negócio que o documento responde
+  audience: []               # quem usa: cargos ou áreas
+  purpose: null              # para quê
+  decisions: []              # decisões que mudam conforme a resposta
+plain_summary: null          # uma ou duas frases em linguagem direta
+open_questions:              # uma entrada por pergunta que ninguém decidiu
+  - question: null
+    impact: null             # o que dá errado enquanto ela não tem resposta
+    owner_to_resolve: null   # quem pode resolver
+    status: unresolved       # unresolved | resolved
+    resolution: null         # o que foi decidido, com data e evidência; obrigatório quando resolved
+version_history:             # uma entrada por versão, a mais recente primeiro
+  - version: "0.1"
+    date: null
+    change: null             # o que mudou nesta versão e por quê
+    approved_by: null        # cargo ou área que aprovou; null enquanto não aprovado
+
+# Para quem é técnico: os dois blocos abaixo são opcionais.
+context:                     # para quem é técnico: opcional (bloco context do ODCS 3.2.0)
+  instructions: null         # instrução curta ao agente, até 500 caracteres; exige review_interval
+  verifiedStatements: []     # perguntas típicas; cada item: question e, se já conferida, answer
+  constraints: []            # limites do agente; cada item: constraint
+# Cada item: type (sql | metricView | filter | dashboard | document | other), url e description.
+authoritativeDefinitions: [] # para quem é técnico: opcional. Onde mora a regra executável
+
+domain: null
+covered_documents: []
+depends_on_versions: {}      # versão de cada documento coberto em que as respostas se apoiam
+questions:
+  - id: null
+    question: null
+    goal: null               # o que a pessoa quer saber
+    assumptions: null        # o que a pergunta supõe: canal, período, filtro
+    phrasings: []            # opcional: outras formas de fazer a mesma pergunta
+    onboarding: false        # opcional: true se todo agente novo precisa acertar esta pergunta
+    expected_behavior: null  # answer | clarify | abstain
+    reference_answer: null
+    reference_sql: null      # para quem é técnico: opcional. Consulta que calcula a resposta
+    required_sources: []
+    evidence_description: null
+    ambiguity: null
+    reason_if_abstain: null
+    reviewed_by: null
+    reviewed_at: null
+revalidation_triggers: []
+
+related_documents: []        # identificadores de outros documentos

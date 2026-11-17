@@ -1,0 +1,31 @@
+---
+title: Correspondência com o ODCS
+description: Quais campos do Contexto têm equivalente no ODCS 3.2.0, o padrão aberto de contratos de dados, e onde os dois diferem.
+---
+
+O ODCS (Open Data Contract Standard) é um padrão aberto para descrever contratos de dados entre quem produz e quem usa um dataset. A versão de referência desta página é a **3.2.0**. O Contexto não depende do ODCS: os modelos funcionam sem ele, e os oito campos do núcleo não exigem nenhuma chave do padrão. Onde o significado é o mesmo, porém, o Contexto usa o mesmo nome de chave, o que facilita levar um documento para um contrato de dados (ADR 0015).
+
+Esta é uma tabela curta, só com as chaves principais. A tabela completa fica para a fase F6. Para o que cada campo significa no Contexto, veja [Como ler os campos](../../fundamentos/como-ler-os-campos/); para o que mudou do formato 0.x para o 1.0, veja [Migração para o schema 1.0](../migracao-schema-1-0/).
+
+| Chave no Contexto | Chave no ODCS 3.2.0 | Observação |
+|---|---|---|
+| `id` | `id` | Mesmo papel: identificador estável. O ODCS sugere um código único, como um UUID; o Contexto usa um código legível, como `KPI-AURORA-001` |
+| `version` | `version` | Mesmo papel: a versão do documento, separada da versão do formato |
+| `status` | `status` | Mesma chave, valores diferentes. O Contexto usa `draft`, `pending_approval`, `approved`, `superseded` e `deprecated`; o ODCS dá como exemplos `proposed`, `draft`, `active`, `deprecated` e `retired` |
+| `title` | `name` | Nome do documento. No ODCS, `name` é o nome do contrato |
+| `intent.purpose` | `description.purpose` | Para que o documento serve. No ODCS, fica dentro de `description`, ao lado de `usage` e `limitations` |
+| `context.instructions` | `context.instructions` | Mesma grafia. Orientação em texto para a IA sobre como usar o documento |
+| `context.verifiedStatements` | `context.verifiedStatements` | Mesma grafia e mesmo formato. Perguntas típicas do assunto: cada item tem `question` e, quando quem aprova já conferiu, `answer`. O ODCS aceita outras chaves no item, como `id` e `tags`, que o Contexto ainda não usa |
+| `context.constraints` | `context.constraints` | Mesma grafia e mesmo formato. O que a IA não deve fazer com o documento, um limite por item, em `constraint` |
+| `synonyms` | `synonyms` | Mesma grafia, formato diferente. No Contexto, cada item é um texto; no ODCS, cada item é um objeto com `synonym` e, se preciso, `locale`, e fica no elemento do schema |
+| `authoritativeDefinitions` | `authoritativeDefinitions` | Mesma grafia. Links para a fonte que define o assunto, cada um com `url` e `type`. O ODCS aceita qualquer texto em `type`; os valores do Contexto (`sql`, `metricView`, `filter` e outros) não estão entre os exemplos dele |
+| `dataset.physical_name` | `schema[].physicalName` | Equivalentes. O Contexto mantém o nome em `snake_case` até a F6 |
+| `columns[].physical_name` | `schema[].properties[].physicalName` | Equivalentes. O Contexto mantém o nome em `snake_case` até a F6 |
+
+Cada chave foi conferida em 17/11/2026 no JSON Schema oficial do ODCS 3.2.0, citado abaixo.
+
+## Fontes
+
+- [Bitol: ODCS 3.2.0, JSON Schema oficial](https://github.com/bitol-io/open-data-contract-standard/blob/main/schema/odcs-json-schema-v3.2.0.json)
+- [Bitol: ODCS, fundamentos](https://github.com/bitol-io/open-data-contract-standard/blob/main/docs/fundamentals.md)
+- [Bitol: ODCS, histórico de versões](https://github.com/bitol-io/open-data-contract-standard/blob/main/CHANGELOG.md)

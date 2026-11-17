@@ -78,7 +78,8 @@ export default defineConfig({
           'dados/visao-geral', 'fundamentos/conhecimento-tacito', 'metodo/limites'
         ] },
         { label: 'Consultar', collapsed: true, items: [
-          'metodo/oito-dimensoes', 'fundamentos/como-ler-os-campos', 'metodo/identificacao-versoes',
+          'metodo/oito-dimensoes', 'fundamentos/como-ler-os-campos', 'referencias/migracao-schema-1-0', 'referencias/correspondencia-odcs',
+          'metodo/identificacao-versoes',
           'governanca/papeis', 'referencias', 'sobre/creditos'
         ] },
         { label: 'Usar com IA', items: ['usar-com-ia/agents-md'] }

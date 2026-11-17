@@ -1,0 +1,307 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:contexto:schemas:1.0.0:rubrica",
+  "title": "Rubrica de avaliação",
+  "description": "Critérios, níveis, nota e calibração para avaliar um trabalho. A nota nunca decide sozinha.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "urn:contexto:schemas:1.0.0:common"
+    }
+  ],
+  "properties": {
+    "type": {
+      "const": "rubrica"
+    },
+    "evaluation_target": {
+      "title": "O que se avalia",
+      "description": "O trabalho avaliado, não a pessoa.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "allowed_use": {
+      "title": "Usos permitidos",
+      "description": "Para que a nota pode servir.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "disallowed_use": {
+      "title": "Usos proibidos",
+      "description": "Para que a nota não pode servir.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "criteria": {
+      "title": "Critérios",
+      "description": "Uma entrada por critério.",
+      "type": "array",
+      "items": {
+        "title": "Critério",
+        "description": "Um critério com peso e o que se vê em cada nível.",
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Identificador",
+            "description": "Código do critério, usado na calibração.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "name": {
+            "title": "Nome",
+            "description": "Nome do critério.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "definition": {
+            "title": "Definição",
+            "description": "O que o critério avalia.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "not_in_scope": {
+            "title": "O que não avalia",
+            "description": "Para não punir o mesmo erro duas vezes.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "weight": {
+            "title": "Peso",
+            "description": "Peso do critério; os pesos somam 100.",
+            "type": [
+              "integer",
+              "number",
+              "null"
+            ]
+          },
+          "expected_evidence": {
+            "title": "Evidências aceitas",
+            "description": "O que o revisor procura.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "anchors": {
+            "title": "Níveis",
+            "description": "O que se vê no trabalho em cada nível, de 0 a 4.",
+            "type": "object",
+            "properties": {
+              "0": {
+                "title": "Nível",
+                "description": "O que se vê no trabalho neste nível.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "1": {
+                "title": "Nível",
+                "description": "O que se vê no trabalho neste nível.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "2": {
+                "title": "Nível",
+                "description": "O que se vê no trabalho neste nível.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "3": {
+                "title": "Nível",
+                "description": "O que se vê no trabalho neste nível.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "4": {
+                "title": "Nível",
+                "description": "O que se vê no trabalho neste nível.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "scoring": {
+      "title": "Nota",
+      "description": "Como a nota é calculada e o que ela alimenta.",
+      "type": "object",
+      "properties": {
+        "weight_sum": {
+          "title": "Soma dos pesos",
+          "description": "Deve ser 100.",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "scale": {
+          "title": "Escala",
+          "description": "Níveis possíveis.",
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "formula": {
+          "title": "Fórmula",
+          "description": "Como a nota sai dos níveis e pesos.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "missing_evidence_behavior": {
+          "title": "Sem evidência",
+          "description": "not_evaluable: falta de evidência não vira zero em silêncio.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "not_evaluable_rule": {
+          "title": "Critério não avaliável",
+          "description": "Como a nota é calculada sem um critério.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "feeds_decision": {
+          "title": "Decisão alimentada",
+          "description": "Documento e entrada que a nota alimenta, e a partir de qual nível.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "decision_threshold": {
+          "title": "Limiar",
+          "description": "Nota mínima, se houver.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "automatic_decision_allowed": {
+          "title": "Decisão automática",
+          "description": "Sempre false: uma pessoa revisa.",
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "human_review_required": {
+      "title": "Revisão humana obrigatória",
+      "description": "Sempre true.",
+      "type": "boolean"
+    },
+    "calibration_examples": {
+      "title": "Exemplos de calibração",
+      "description": "Trabalhos já avaliados, com nível, justificativa, nota e encaminhamento.",
+      "type": "array",
+      "items": {
+        "title": "Exemplo de calibração",
+        "description": "Um trabalho avaliado.",
+        "type": "object",
+        "properties": {
+          "case": {
+            "title": "Caso",
+            "description": "O trabalho avaliado, com data.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "levels": {
+            "title": "Níveis",
+            "description": "Nível de cada critério, pelo identificador.",
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4
+            }
+          },
+          "justification": {
+            "title": "Justificativa",
+            "description": "Motivo de cada nível, pelo identificador.",
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "score": {
+            "title": "Nota",
+            "description": "Nota recalculada pela fórmula.",
+            "type": "number"
+          },
+          "evidence_sufficient": {
+            "title": "Evidência suficiente",
+            "description": "Valor que a nota dá à entrada da decisão.",
+            "type": "boolean"
+          },
+          "routing": {
+            "title": "Encaminhamento",
+            "description": "Resultado da tabela de decisão.",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "disagreement_resolution": {
+      "title": "Discordância entre revisores",
+      "description": "Como resolver e quem decide.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "privacy_and_fairness_considerations": {
+      "title": "Privacidade e justiça",
+      "description": "Cuidados com quem produziu o trabalho.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "related_documents": {
+      "title": "Documentos relacionados",
+      "description": "Identificadores de outros documentos que ajudam a ler este.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "unevaluatedProperties": false
+}

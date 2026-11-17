@@ -13,7 +13,7 @@ from pathlib import Path
 import re
 from typing import Any
 
-from comum import DADOS, DOWNLOADS as DL, Relatorio, carregar_yaml, exigir_minimo
+from comum import DADOS, DOWNLOADS as DL, ESTADOS_JA_APROVADOS, Relatorio, carregar_yaml, exigir_minimo
 
 DIAS_DE_FIM_DE_SEMANA = {5: "sábado", 6: "domingo"}
 DATA_DA_AMOSTRA = date(2026, 10, 1)
@@ -165,7 +165,7 @@ def checar_datas(documentos: dict[Path, dict], registro: Registro, relatorio: Re
         criado = converter_data(dados.get("version_date"))
         if criado is None:
             continue
-        for texto in textos_do_yaml(dados, ignorar=("archival_note",)):
+        for texto in textos_do_yaml(dados, ignorar=("archival_note", "superseded_by_revision", "recorded_at")):
             acusar_texto(caminho, "versão", criado, texto, registro, relatorio)
         if "archival_note" in dados:
             _checar_nota_de_arquivo(caminho, dados["archival_note"], criado, registro, relatorio)
@@ -236,13 +236,18 @@ def _checar_documento(path: Path, data: dict, revisions: dict[str, dict], relato
     elif dia(path, history[0].get("date"), "version_history[0].date", relatorio) != created:
         err(path, "data do histórico atual difere de version_date")
 
+    gravado = dia(path, data.get("recorded_at"), "recorded_at", relatorio)
+    if gravado and created and gravado < created:
+        err(path, f"recorded_at ({gravado.isoformat()}) é anterior a version_date ({created.isoformat()})")
+
     previous = data.get("supersedes_revision")
     if previous and (previous == rev or not str(previous).startswith(f"{stable}@")):
         err(path, "supersedes_revision deve apontar uma revisão anterior do mesmo assunto")
     if previous and not any(f"{stable}@{x.get('version')}" == previous for x in history[1:]):
         err(path, "revisão substituída precisa constar no histórico")
 
-    if data.get("status") == "approved":
+    ja_aprovada = data.get("status") in ESTADOS_JA_APROVADOS
+    if ja_aprovada:
         if not start:
             err(path, "revisão aprovada precisa de valid_from")
         if created and start and start < created:
@@ -251,8 +256,31 @@ def _checar_documento(path: Path, data: dict, revisions: dict[str, dict], relato
             err(path, "valid_to deve ser posterior a valid_from")
     elif start or end:
         err(path, "rascunho pendente não deve se passar por regra vigente")
-    if data.get("status") != "approved" and previous:
+    if not ja_aprovada and previous:
         err(path, "rascunho inicial não deve afirmar que substitui uma revisão aprovada")
+
+
+def checar_substituicao(revisions: dict[str, dict], relatorio: Relatorio) -> None:
+    """Revisão superseded aponta o sucessor, o sucessor aponta de volta e a vigência passa sem folga."""
+    for rev, item in revisions.items():
+        path, data = item["path"], item["data"]
+        if data.get("status") != "superseded":
+            continue
+        sucessora = data.get("superseded_by_revision")
+        if not isinstance(sucessora, str) or sucessora.split("@")[0] != data.get("id"):
+            relatorio.erro(path, "superseded exige superseded_by_revision com o mesmo id")
+            continue
+        if sucessora not in revisions:
+            relatorio.erro(path, f"superseded_by_revision {sucessora} não está no registro")
+            continue
+        sucessor = revisions[sucessora]["data"]
+        if sucessor.get("supersedes_revision") != rev:
+            relatorio.erro(path, f"{sucessora} não é recíproca: supersedes_revision deveria ser {rev}")
+        fim = converter_data(data.get("valid_to"))
+        inicio_do_sucessor = converter_data(sucessor.get("valid_from"))
+        if fim != inicio_do_sucessor:
+            relatorio.erro(path, f"valid_to da revisão substituída ({data.get('valid_to')}) deve ser igual ao valid_from "
+                                 f"do sucessor {sucessora} ({sucessor.get('valid_from')})")
 
 
 def agrupar_por_id(documentos: dict[Path, dict]) -> dict[Any, list[tuple[Path, dict]]]:
@@ -267,7 +295,7 @@ def checar_sobreposicao(grouped: dict, relatorio: Relatorio) -> None:
         approved = []
         for path, data in items:
             start = dia(path, data.get("valid_from"), "valid_from", relatorio)
-            if data.get("status") == "approved" and start:
+            if data.get("status") in ESTADOS_JA_APROVADOS and start:
                 approved.append((start, dia(path, data.get("valid_to"), "valid_to", relatorio), path, data))
         approved.sort(key=lambda x: x[0])
         for earlier, later in zip(approved, approved[1:]):
@@ -281,7 +309,7 @@ def select(grouped: dict, stable: str, as_of: str, relatorio: Relatorio) -> list
     found = []
     for path, data in grouped[stable]:
         start = dia(path, data.get("valid_from"), "valid_from", relatorio)
-        if data.get("status") != "approved" or not start:
+        if data.get("status") not in ESTADOS_JA_APROVADOS or not start:
             continue
         end = dia(path, data.get("valid_to"), "valid_to", relatorio)
         if start <= target and (end is None or target < end):
@@ -355,6 +383,7 @@ def main() -> None:
 
     revisions = checar_documentos(documentos, relatorio)
     grouped = agrupar_por_id(documentos)
+    checar_substituicao(revisions, relatorio)
     checar_sobreposicao(grouped, relatorio)
     checar_selecoes(grouped, relatorio)
     artefatos = carregar_artefatos(DADOS / "artefatos.yaml", relatorio)

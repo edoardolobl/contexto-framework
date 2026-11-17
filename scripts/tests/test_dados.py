@@ -82,7 +82,7 @@ def test_tipos_reais_tem_os_dez_slugs():
     slugs = comum.carregar_tipos(comum.DADOS / "modelos.yaml", relatorio)
     assert relatorio.erros == []
     assert sorted(slugs) == sorted(["kpi", "conceito", "processo", "decisao", "politica", "dataset",
-                                    "relacionamento", "dashboard", "rubrica", "casos-teste"])
+                                    "relacionamento", "dashboard", "rubrica", "perguntas-de-negocio"])
 
 
 @pytest.mark.parametrize(

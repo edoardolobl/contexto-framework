@@ -11,7 +11,7 @@ import TemplateStart from '../../../components/TemplateStart.astro';
 
 O mesmo documento serve duas vezes: é a ficha de entrada, onde você [escreve as perguntas](../../percurso/escreva-a-pergunta/#banco-de-perguntas-por-tipo-de-documento) no passo 1, e é o gabarito com que você [testa a IA](../../percurso/teste-com-as-perguntas/) no passo 6.
 
-<TemplateStart kind="casos-teste" />
+<TemplateStart kind="perguntas-de-negocio" />
 
 ## O problema
 
@@ -56,11 +56,11 @@ Q04 a Q06 não dizem que um banco maior seria incapaz de respondê-las; dizem qu
 
 Enquanto a Analytics de E-commerce não conferiu as respostas e a Gerência de E-commerce não aprovou, Q01 carrega essa ressalva:
 
-<ExampleDoc file="exemplo-casos-teste-lacunas.yaml" />
+<ExampleDoc file="exemplo-perguntas-de-negocio-lacunas.yaml" />
 
 Depois da revisão, a ressalva sai, cada pergunta ganha revisor e data e, na versão 1.1, entra Q07:
 
-<ExampleDoc file="exemplo-casos-teste-completo.yaml" />
+<ExampleDoc file="exemplo-perguntas-de-negocio-completo.yaml" />
 
 Quando um indicador muda de versão, as respostas esperadas que dependem dele **também precisam ser revisadas**. A versão 1.1, de 05/10, acrescentou Q07 sem mudar as respostas de Q01 a Q06: é uma versão menor.
 
@@ -75,9 +75,9 @@ Quando um indicador muda de versão, as respostas esperadas que dependem dele **
 
 ## Baixe o modelo
 
-<TemplateDownloads kind="casos-teste" />
+<TemplateDownloads kind="perguntas-de-negocio" />
 
-Os arquivos ainda se chamam template-casos-teste; o nome muda com o schema 1.0. Quem monta o sistema pode usar as mesmas perguntas em testes de recuperação e de respostas; o Contexto **não certifica** nenhuma arquitetura RAG ou agente.
+Se você baixou este modelo antes do schema 1.0, o arquivo antigo continua guardado em `historico/0.x`; veja o que mudou em [Migração para o schema 1.0](../../referencias/migracao-schema-1-0/). Quem monta o sistema pode usar as mesmas perguntas em testes de recuperação e de respostas; o Contexto **não certifica** nenhuma arquitetura RAG ou agente.
 
 ### Fundamentação
 

@@ -2,40 +2,60 @@
 # null significa "ainda não sei" ou "ainda não decidido". Não troque null por um palpite: registre a dúvida em open_questions.
 # Exemplos e nomes de campos são convenções propostas, não um padrão universal.
 # Não preencha informações desconhecidas com suposições. Use null + open_questions.
----
-id: null
-revision_id: null  # versão específica; id = assunto estável
-title: null
-type: metric_definition
-domain: null
-status: draft                # draft | pending_approval | approved | deprecated
-owner: null                  # cargo ou área responsável, não o nome de uma pessoa
-approver: null
-version: "0.1"
-version_date: null           # data desta versão, no formato AAAA-MM-DD
-valid_from: null
-valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
-supersedes_revision: null
-last_reviewed: null
-source_of_truth: null
-version_history:            # uma entrada por versão, a mais recente primeiro
+# Campos marcados (obrigatório) são o núcleo para sair do rascunho; os blocos "para quem é técnico" são opcionais.
+id: null                     # (obrigatório) identificador do assunto, igual em todas as versões
+schema_version: "1.0.0"      # versão do formato do arquivo; não mude
+type: kpi
+title: null                  # (obrigatório)
+version: "0.1"               # (obrigatório) versão deste documento
+revision_id: null            # versão específica: id@version; id = assunto estável
+status: draft                # (obrigatório) draft | pending_approval | approved | superseded | deprecated
+owner: null                  # (obrigatório) cargo ou área responsável, não o nome de uma pessoa
+approver: null               # (obrigatório) cargo ou área que aprova
+valid_from: null             # primeiro dia da vigência, AAAA-MM-DD
+valid_to: null               # fim exclusivo da vigência; null = sem fim documentado
+version_date: null           # (obrigatório) data desta versão, no formato AAAA-MM-DD
+last_reviewed: null          # data da última revisão completa, AAAA-MM-DD
+review_interval: null        # de quanto em quanto tempo revisar, em ISO 8601: P6M = seis meses
+source_of_truth: null        # onde está a versão oficial
+supersedes_revision: null    # versão que esta substitui: id@version
+superseded_by_revision: null # só na cópia de uma versão substituída: id@version da sucessora
+intent:
+  question: null             # (obrigatório) pergunta de negócio que o documento responde
+  audience: []               # quem usa: cargos ou áreas
+  purpose: null              # para quê
+  decisions: []              # decisões que mudam conforme a resposta
+plain_summary: null          # uma ou duas frases em linguagem direta
+open_questions:              # uma entrada por pergunta que ninguém decidiu
+  - question: null
+    impact: null             # o que dá errado enquanto ela não tem resposta
+    owner_to_resolve: null   # quem pode resolver
+    status: unresolved       # unresolved | resolved
+    resolution: null         # o que foi decidido, com data e evidência; obrigatório quando resolved
+version_history:             # uma entrada por versão, a mais recente primeiro
   - version: "0.1"
     date: null
     change: null             # o que mudou nesta versão e por quê
     approved_by: null        # cargo ou área que aprovou; null enquanto não aprovado
 
+# Para quem é técnico: os dois blocos abaixo são opcionais.
+context:                     # para quem é técnico: opcional (bloco context do ODCS 3.2.0)
+  instructions: null         # instrução curta ao agente, até 500 caracteres; exige review_interval
+  verifiedStatements: []     # perguntas típicas; cada item: question e, se já conferida, answer
+  constraints: []            # limites do agente; cada item: constraint
+# Cada item: type (sql | metricView | filter | dashboard | document | other), url e description.
+authoritativeDefinitions: [] # para quem é técnico: opcional. Onde mora a regra executável
+
+domain: null
 business_definition:
   concept: null
-  purpose: null
-  synonyms: []
   different_meanings_in_other_domains: []
-
+synonyms: []                 # nomes que querem dizer exatamente a mesma coisa
 scope:
   included_channels: []
   excluded_channels: []
   applicable_population: null
   exclusions: []
-
 calculation:
   formula_description: null
   numerator: null
@@ -45,28 +65,23 @@ calculation:
   aggregation_rule: null
   null_handling: null
   zero_denominator_policy: null
-
+history_recalculation:       # obrigatório quando a versão maior muda (2.0, 3.0)
+  policy: null               # recalculate | method_break
+  description: null
 time:
   reference_date_field: null
   timezone: null
   reporting_window: null
   data_freshness: null
-
 data_sources:
   authoritative_dataset: null
   relevant_columns: []
   valid_join_paths: []
   source_conflicts_and_precedence: []
-
 validation:
   approved_examples: []
   expected_questions_and_answers: []
   known_edge_cases: []
   tests: []
 
-open_questions:   # uma entrada por pergunta que ninguém decidiu
-  - question: null
-    impact: null            # o que dá errado enquanto ela não tem resposta
-    resolution_owner: null  # quem pode resolver
-    state: unresolved
-related_documents: []
+related_documents: []        # identificadores de outros documentos

@@ -1,0 +1,112 @@
+# Dicionário de campos do cabeçalho comum do Contexto (ADR 0015 e ADR 0026, schema 1.0.0).
+# As chaves ficam em inglês, como no frontmatter; rótulos e descrições ficam em português, no vocabulário
+# do contrato editorial (docs/CONTRATO_EDITORIAL.md, seção Vocabulário).
+# scripts/gerar_downloads.py lê a lista 'cabecalho' para montar a seção "Identificação" de cada modelo .md,
+# e os títulos e descrições de schemas/common.schema.json repetem estes rótulos e descrições.
+# Campos de cada item:
+#   chave: nome do campo no frontmatter; intent aparece desdobrado (intent.question, intent.audience...).
+#   rotulo: nome que o leitor vê.
+#   obrigatorio: true só nos oito campos do núcleo, o mínimo para sair do rascunho.
+#   descricao: como interpretar o campo (regra, tratamento do vazio ou ressalva), não só o rótulo repetido.
+# A ordem da lista é a ordem do cabeçalho em todo documento.
+cabecalho:
+  - chave: id
+    rotulo: Identificador do assunto
+    obrigatorio: true
+    descricao: Código estável do assunto, igual em todas as versões, em maiúsculas com hífens (por exemplo KPI-AURORA-001). Não muda quando a regra muda.
+  - chave: schema_version
+    rotulo: Versão do formato
+    obrigatorio: false
+    descricao: Versão do formato do arquivo, hoje 1.0.0. Diz quais campos o arquivo tem e não muda quando o conteúdo muda.
+  - chave: type
+    rotulo: Tipo de documento
+    obrigatorio: false
+    descricao: Tipo de documento, igual ao nome do modelo (kpi, dataset, conceito e outros). Define quais campos vêm depois do cabeçalho.
+  - chave: title
+    rotulo: Título
+    obrigatorio: true
+    descricao: Nome que uma pessoa da área reconhece, com o assunto e a organização. Pode mudar entre versões sem mudar o identificador.
+  - chave: version
+    rotulo: Versão atual
+    obrigatorio: true
+    descricao: Número desta versão no formato MAIOR.MENOR (1.0, 1.1, 2.0). Suba o número maior quando a regra muda de sentido e o menor quando só esclarece.
+  - chave: revision_id
+    rotulo: Identificador desta versão
+    obrigatorio: false
+    descricao: Identificador e versão juntos, no formato id@versão (KPI-AURORA-001@2.0). É o que outro documento cita para apontar exatamente esta versão.
+  - chave: status
+    rotulo: Estado
+    obrigatorio: true
+    descricao: Um de cinco valores, draft (rascunho), pending_approval (pendente de aprovação), approved (aprovado), superseded (substituído) ou deprecated (obsoleto). Só use approved depois da confirmação por escrito de quem aprova.
+  - chave: owner
+    rotulo: Responsável (cargo ou área)
+    obrigatorio: true
+    descricao: Cargo ou área que mantém o documento e responde às dúvidas, nunca o nome de uma pessoa.
+  - chave: approver
+    rotulo: Quem aprova (cargo ou área)
+    obrigatorio: true
+    descricao: Cargo ou área com a palavra final sobre a regra. Pode ser diferente do responsável.
+  - chave: valid_from
+    rotulo: Vale a partir de
+    obrigatorio: false
+    descricao: Primeiro dia em que a regra vale, no formato AAAA-MM-DD. Pode ser depois da data desta versão; em rascunho, fica em branco.
+  - chave: valid_to
+    rotulo: Primeiro dia em que já não vale
+    obrigatorio: false
+    descricao: Dia em que a vigência acaba, sem contar esse dia. Em branco quando não há fim previsto.
+  - chave: recorded_at
+    rotulo: Data em que esta versão foi registrada
+    obrigatorio: false
+    descricao: Só na cópia de uma versão substituída. Guarda o dia do registro, para responder o que se sabia naquela data.
+  - chave: version_date
+    rotulo: Data desta versão
+    obrigatorio: true
+    descricao: Dia em que esta versão foi escrita ou aprovada, no formato AAAA-MM-DD. Não é o início da vigência.
+  - chave: last_reviewed
+    rotulo: Última revisão
+    obrigatorio: false
+    descricao: Último dia em que alguém conferiu o documento inteiro, mesmo sem mudar nada. Em branco se ninguém revisou ainda.
+  - chave: review_interval
+    rotulo: De quanto em quanto tempo revisar
+    obrigatorio: false
+    descricao: Prazo entre revisões em ISO 8601 (P6M são seis meses, P1Y um ano). Obrigatório quando há instrução ao agente em context.instructions.
+  - chave: source_of_truth
+    rotulo: Fonte oficial
+    obrigatorio: false
+    descricao: Sistema, documento ou tabela que vale quando duas fontes discordam. Fica em branco enquanto ninguém confirmou qual é.
+  - chave: supersedes_revision
+    rotulo: Substitui qual versão?
+    obrigatorio: false
+    descricao: Versão anterior do mesmo assunto que esta substitui, no formato id@versão. Em branco na primeira versão.
+  - chave: superseded_by_revision
+    rotulo: Substituída por qual versão?
+    obrigatorio: false
+    descricao: Só na cópia de uma versão substituída, aponta a versão que tomou o lugar dela. Em documento aprovado e em vigor, fica em branco.
+  - chave: intent.question
+    rotulo: Pergunta de negócio que o documento responde
+    obrigatorio: true
+    descricao: A pergunta escrita como alguém da área faria. Sem ela, o documento não sai do rascunho, porque ninguém sabe o que ele precisa responder.
+  - chave: intent.audience
+    rotulo: Quem usa
+    obrigatorio: false
+    descricao: Cargos ou áreas que leem e usam o documento. Ajuda a escolher o nível de detalhe e quem precisa saber de cada mudança.
+  - chave: intent.purpose
+    rotulo: Para quê
+    obrigatorio: false
+    descricao: Para que o documento existe, em uma frase, dizendo o problema que ele evita.
+  - chave: intent.decisions
+    rotulo: Decisões que apoia
+    obrigatorio: false
+    descricao: Decisões que mudam conforme a resposta. Se nenhuma decisão depende do documento, vale perguntar se ele é necessário.
+  - chave: plain_summary
+    rotulo: Em poucas palavras
+    obrigatorio: false
+    descricao: Uma ou duas frases em linguagem direta, ao lado da definição formal (por exemplo, conta só pedidos pagos até sete dias depois do contato). Não substitui os campos do tipo.
+  - chave: open_questions
+    rotulo: Perguntas em aberto
+    obrigatorio: false
+    descricao: Uma entrada por pergunta que ninguém decidiu, com o impacto, quem pode resolver, o estado e a resolução. Uma dúvida registrada vale mais do que um palpite.
+  - chave: version_history
+    rotulo: Histórico de versões
+    obrigatorio: false
+    descricao: Uma entrada por versão, a mais recente primeiro, com data, o que mudou na regra e quem aprovou. O resumo não substitui a cópia completa de cada versão aprovada.

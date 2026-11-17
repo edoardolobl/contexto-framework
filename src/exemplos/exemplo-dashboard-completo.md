@@ -1,0 +1,85 @@
+---
+# Exemplo do Contexto. A Aurora é uma organização inventada; nomes, datas e aprovações fazem parte do caso.
+id: DASH-AURORA-WEB
+schema_version: "1.0.0"
+type: dashboard
+title: "Acompanhamento de sessões convertidas: Aurora"
+version: "2.1"
+revision_id: "DASH-AURORA-WEB@2.1" # versão específica; id = assunto estável
+status: approved
+owner: "Analytics de E-commerce (Aurora)"
+approver: "Gerência de E-commerce (Aurora)"
+valid_from: "2026-10-02"
+valid_to: null               # fim exclusivo da vigência; null = sem fim documentado
+version_date: "2026-10-02"
+last_reviewed: "2026-10-02"
+review_interval: null
+source_of_truth: "Dashboard Conversão Web no portal de BI da Aurora"
+supersedes_revision: "DASH-AURORA-WEB@2.0"
+superseded_by_revision: null
+intent:
+  question: "Como ler o dashboard de sessões convertidas da Aurora?"
+  audience: ["Operação de marketing"]
+  purpose: "Distinguir sessões web convertidas de quantidade de pedidos por sessão"
+  decisions: ["Investigar diferenças entre definições de conversão"]
+plain_summary: "Mostra a taxa de sessões convertidas do canal web pela versão 2.0 do KPI-AURORA-001; valores de antes de 2026-09-15 não se comparam com os de depois."
+open_questions: []
+version_history:
+  - version: "2.1"
+    date: "2026-10-02"
+    change: "Ligados o período do laboratório (01/10) e o gabarito QA-AURORA-001. Registrado o conflito com o Resumo semanal da Diretoria, que mostrava 50% para 01/10. Nenhum número deste dashboard mudou"
+    approved_by: "Gerência de E-commerce (Aurora)"
+  - version: "2.0"
+    date: "2026-09-15"
+    change: "Cartão passa a seguir a versão 2.0 do KPI-AURORA-001. Incluído aviso de que valores anteriores não são comparáveis"
+    approved_by: "Gerência de E-commerce (Aurora)"
+  - version: "1.0"
+    date: "2026-08-21"
+    change: "Primeira versão aprovada, com filtros padrão de canal web e sem tráfego interno"
+    approved_by: "Gerência de E-commerce (Aurora)"
+  - version: "0.1"
+    date: "2026-07-20"
+    change: "Primeiro rascunho, com lacunas registradas"
+    approved_by: null
+
+context:
+  instructions: null
+  verifiedStatements: []
+  constraints: []
+authoritativeDefinitions: []
+
+metrics: [KPI-AURORA-001]
+metric_versions:
+  KPI-AURORA-001: "2.0"
+default_filters:
+  channel: web
+  is_internal: 0
+dimensions: [session_date, channel]
+time_semantics:
+  date_field: session_date
+  timezone: "Data local da loja, sem hora"
+  reporting_period: "2026-10-01 (laboratório)"
+  comparison_baseline: "Mesmo dia da semana anterior, somente a partir de 2026-09-15, quando a definição 2.0 do KPI passou a valer"
+freshness:
+  refresh_frequency: "Carga estática do laboratório"
+  latency: "Não aplicável"
+  verified_at: "2026-10-02"
+official_or_exploratory: "Oficial para a taxa de sessões convertidas no canal web"
+known_limitations:
+  - "Valores anteriores a 2026-09-15 usam a definição antiga (pedidos por sessão) e não são comparáveis"
+  - "Não cobre períodos fora da amostra"
+  - "Não contém receita líquida nem indicadores de app"
+conflicting_dashboards:
+  - name: "Resumo semanal da Diretoria"
+    shows: "Conversão web em 01/10/2026: 50%"
+    cause: "Continua com a fórmula da versão 1.0 do KPI-AURORA-001: conta pedidos confirmados por sessão, não sessões convertidas"
+    precedence: "Este dashboard é o oficial para a taxa de sessões convertidas. O resumo da Diretoria foi marcado para correção pela Engenharia de Dados"
+    found_at: "2026-10-02"
+reference_questions: [QA-AURORA-001]
+
+related_documents: [KPI-AURORA-001, DATASET-AURORA-SESSIONS, DATASET-AURORA-ORDERS]
+---
+
+O guia diz a versão do indicador que o cartão segue, em `metric_versions`, e registra outro dashboard que mostra outro número para o mesmo dia, com a causa e qual dos dois vale.
+
+O que observar: `known_limitations` avisa que valores de antes da mudança de definição usam outra regra. É isso que impede comparar 50% com 25% como se fosse queda.

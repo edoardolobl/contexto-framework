@@ -1,17 +1,28 @@
 # Exemplo do Contexto. A Aurora é uma organização inventada; nomes, datas e aprovações fazem parte do caso.
 id: DECISION-CAMPAIGN-001
-revision_id: "DECISION-CAMPAIGN-001@2.0"  # versão específica; id = assunto estável
+schema_version: "1.0.0"
+type: decisao
 title: "Triagem de campanha: Aurora"
-type: decision_rule
-status: approved
 version: "2.0"
-version_date: "2026-09-10"
+revision_id: "DECISION-CAMPAIGN-001@2.0" # versão específica; id = assunto estável
+status: approved
 owner: "Revisão de Conteúdo (Aurora)"
 approver: "Liderança de Marca (Aurora)"
 valid_from: "2026-09-10"
-valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
-supersedes_revision: "DECISION-CAMPAIGN-001@1.0"
+valid_to: null               # fim exclusivo da vigência; null = sem fim documentado
+version_date: "2026-09-10"
+last_reviewed: "2026-09-10"
+review_interval: null
 source_of_truth: "Procedimento PRC-MKT-007, anexo B"
+supersedes_revision: "DECISION-CAMPAIGN-001@1.0"
+superseded_by_revision: null
+intent:
+  question: "Que encaminhamento deve receber um pedido de campanha?"
+  audience: ["Operação de Marketing", "Revisão de Conteúdo", "Liderança de Marca"]
+  purpose: "Expor critérios de triagem e evitar que etapas sejam confundidas com aprovação"
+  decisions: ["Encaminhar cada pedido de campanha"]
+plain_summary: "Brief incompleto volta para quem pediu; sem evidência, o pedido vai para revisão; com tudo certo, segue para quem aprova; na dúvida, pede esclarecimento."
+open_questions: []
 version_history:
   - version: "2.0"
     date: "2026-09-10"
@@ -26,8 +37,12 @@ version_history:
     change: "Primeiro rascunho, com lacunas registradas"
     approved_by: null
 
-decision_question: "Que encaminhamento deve receber um pedido de campanha?"
-purpose: "Expor critérios de triagem e evitar que etapas sejam confundidas com aprovação"
+context:
+  instructions: null
+  verifiedStatements: []
+  constraints: []
+authoritativeDefinitions: []
+
 scope:
   applies_when: "Pedido de campanha externa na Aurora"
   not_applicable_when: "Outro tipo de publicação"
@@ -38,11 +53,7 @@ required_inputs:
   - name: evidence_sufficient
     allowed_values: [true, false, unknown]
     definition: "Cada alegação verificável do material tem uma fonte anexada e datada que diz o mesmo que o material. Quem classifica é a Revisão de Conteúdo, pela RUBRIC-CAMPAIGN-001: alegações com prova em nível 3 ou 4"
-possible_outputs:
-  - complement_information
-  - responsible_review
-  - request_formal_approval
-  - request_clarification
+possible_outputs: [complement_information, responsible_review, request_formal_approval, request_clarification]
 decision_table:
   - when: {brief_complete: false, evidence_sufficient: any}
     then: complement_information
@@ -59,7 +70,7 @@ priority_rules:
   - "O conflito do texto original (pedido completo, mas sem evidência) foi resolvido criando uma linha própria para esse caso."
 default_behavior: request_clarification
 unknown_input_behavior: request_clarification
-exceptions: 
+exceptions:
   - condition: "Campanha de utilidade pública com prazo legal"
     approval_role: "Diretoria de Marketing (Aurora)"
     evidence_needed: "Autorização escrita anexada ao pedido"
@@ -77,5 +88,5 @@ tests:
     expected_outcome: complement_information
     reasoning: "Brief incompleto é devolvido, qualquer que seja o estado das evidências"
 conflicts: []
-open_questions: []
-related_documents: ["PROCESS-CAMPAIGN-001", "RUBRIC-CAMPAIGN-001"]
+
+related_documents: [PROCESS-CAMPAIGN-001, RUBRIC-CAMPAIGN-001]

@@ -35,8 +35,27 @@ Esta é a versão do **produto** (portal, método e ferramentas). Os modelos de 
 - ADRs 0023 (percurso em sete passos), 0024 (descoberta por incidente) e 0025 (instrução mínima ao agente), em estado Proposto.
 - Protocolo de card sorting e tree test da F2 em `docs/PLANO_VALIDACAO.md`, aguardando execução.
 - Regra de vocabulário "Perguntas de negócio" no lugar de "perguntas de referência" e "casos de teste" (fora da bibliografia).
+- Schema 1.0 (F3): fontes únicas em `src/modelos/<slug>.md` (10 modelos) e `src/exemplos/<nome>.md` (23 exemplos, com `historico/`), em Markdown com os campos no topo do arquivo (frontmatter, ADR 0006).
+- `scripts/gerar_downloads.py` (`npm run gerar:downloads`): gera os `.yaml` e os `.md` de `public/downloads` a partir das fontes, com as seções "Identificação" e "Histórico de versões" montadas automaticamente; com `--check`, só confere a sincronia e acusa arquivo desatualizado, ausente ou órfão. Entra no começo de `check:content`.
+- `schemas/`: um JSON Schema 1.0.0 por tipo mais o cabeçalho comum (`$id` em URN), e `scripts/check_schemas.py`, que valida o frontmatter de cada fonte, confere a ordem do cabeçalho, o `type` igual ao nome do arquivo e o dicionário de campos. Dependência nova: `jsonschema==4.26.0`.
+- `src/data/campos.yaml`: rótulos em português do cabeçalho comum, com 8 campos obrigatórios para sair do rascunho (ADR 0015).
+- Cabeçalho comum em todos os tipos: `schema_version`, `superseded_by_revision`, `review_interval` (duração ISO 8601), `last_reviewed`, `intent` (pergunta de negócio, quem usa, para quê, decisões que apoia) e `plain_summary`; blocos técnicos opcionais `context` e `authoritativeDefinitions`; `recorded_at` só na cópia histórica.
+- Estado `superseded` (Substituído, ADR 0005), usado pelas cópias históricas do KPI 1.0 e do Conceito 1.0, e regras novas em `check_revisions.py`: a substituída aponta a sucessora, que aponta de volta; a vigência de uma termina onde a da outra começa; `recorded_at` não é anterior à data da versão.
+- Indicador com versão maior exige `history_recalculation` (`recalculate` ou `method_break`, I-14); o KPI 2.0 usa `method_break`, coerente com a resposta de Q07, e `check_analytics_fixture.py` cruza os dois.
+- Modelos 0.x preservados em `public/downloads/historico/0.x/` (os 10 pares `.md` e `.yaml`, sem alteração).
+- Páginas "Migração para o schema 1.0" e "Correspondência com o ODCS" no grupo Consultar.
+- Contrato editorial 0.8 e ADR 0026, ambos em estado Proposto.
 
 ### Mudado
+
+- **Breaking:** schema 1.0.0 (ADR 0009). A chave `type` passa a ser o slug do tipo (`metric_definition` vira `kpi`, `reference_question_set` vira `perguntas-de-negocio` e assim por diante); vários campos mudam de lugar (por exemplo `purpose` vai para `intent.purpose`, `decision_question` para `intent.question`, `vocabulary.preferred_term` para `vocabulary.prefLabel`); perguntas em aberto passam a usar `owner_to_resolve` (antes `resolution_owner`), `status` (antes `state`) e `resolution`; no KPI, `business_definition.synonyms` vira `synonyms`, no primeiro nível; os itens de `context.verifiedStatements` e `context.constraints` seguem o formato do ODCS 3.2.0, com `question` e `answer` opcional, e com `constraint`. A tabela completa está em [Migração para o schema 1.0](src/content/docs/referencias/migracao-schema-1-0.mdx), publicada no portal em Consultar.
+- **Breaking:** os downloads `template-casos-teste.md`, `template-casos-teste.yaml` e `exemplo-casos-teste-*.yaml` passam a se chamar `template-perguntas-de-negocio.*` e `exemplo-perguntas-de-negocio-*.yaml` (ADR 0007). Os endereços antigos não redirecionam; os modelos antigos ficam em `historico/0.x/`.
+- Os arquivos de `public/downloads` deixam de ser editados à mão: são gerados das fontes e o CI falha se estiverem fora de sincronia. O modelo `.md` baixado abre com os campos no topo.
+- Os exemplos ganham pergunta de negócio e resumo em poucas palavras (I-16); o cartão do exemplo mostra o resumo, a linha "Substituída por" e só as perguntas em aberto ainda sem resposta; a comparação de versões marca a cópia antiga como substituída.
+- `perguntas-de-negocio`: `questions[].intent` vira `goal`, `questions[].context` vira `assumptions`, com `phrasings`, `onboarding` e `reference_sql` opcionais; `depends_on_versions` lista todos os documentos cobertos.
+- Conceito com vocabulário no padrão SKOS (`prefLabel`, `altLabel`, `broader`, `related`, `not_synonyms`); `context` passa a ser o bloco técnico do ODCS.
+- Validadores: `validate_content.py` aceita `superseded`, exige que o modelo Markdown comece com frontmatter e que o exemplo completo tenha `intent.question` e `plain_summary`; `check_higiene.py` confere também `campos.yaml` e os `title` e `description` dos schemas; `check_decision_examples.py` confere o `type` e relata campo ausente como `ERRO:`; links para `historico/0.x/` passam a ser conferidos no caminho certo.
+- README, "Como ler os campos", "Comece em 5 minutos", "Limites" e "Identificação e versões" descrevem o formato novo, o núcleo de 8 campos e a diferença entre Substituído e Obsoleto.
 
 - A publicação no GitHub Pages só acontece depois que todos os validadores passam.
 - O deploy não é mais cancelado no meio: uma publicação em andamento termina, e uma publicação que está na fila é substituída pela mais recente.
