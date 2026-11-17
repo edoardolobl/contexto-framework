@@ -40,7 +40,7 @@ O período do exemplo é **1º de outubro de 2026**.
 
 ## 2. O schema sozinho não resolve a questão
 
-Um modelo consegue identificar `session_id`, `status_code` e `channel`. Mas não sabe, sem documentação adicional, se `CONFIRMED` é uma conversão válida, se sessões internas entram ou se uma sessão com dois pedidos conta uma ou duas vezes.
+Um modelo consegue identificar `session_id`, `status_code` e `channel`. Mas não sabe, sem documentação adicional, se `CONFIRMED` é uma conversão válida, se sessões internas entram, se uma sessão com dois pedidos conta uma ou duas vezes, se `session_date` está em UTC ou no fuso da loja, nem se `session_id` identifica uma sessão do mesmo jeito na web e no app.
 
 A definição aprovada pela Aurora estabelece:
 
@@ -87,14 +87,7 @@ Isso é precisamente o problema que a [documentação semântica de datasets](..
 
 ## 6. Perguntas que o acervo deve sustentar
 
-| Pergunta | Comportamento documental esperado |
-|---|---|
-| “Qual foi a taxa de sessões web convertidas em 01/10/2026?” | **25%**, com referência à definição e aos dados da amostra |
-| “Por que essa taxa não é 50%?” | Explicar que 50% é pedidos por sessão elegível, não sessões convertidas |
-| “Qual foi a conversão em 01/10/2026?” | Pedir esclarecimento: falta o canal e qual conversão |
-| “E a taxa no app em 01/10/2026?” | Informar que **o indicador foi definido apenas para web** |
-| “E em setembro de 2026?” | Informar que **não há dados desse período na amostra** |
-| “Qual foi a receita líquida?” | Indicar que a documentação não define esse indicador |
+Seis perguntas sobre esta amostra formam o gabarito do laboratório: uma respondível (25%), uma de explicação (por que não 50%), uma ambígua e três sem número. Estão, com a resposta esperada de cada uma, em [Perguntas de referência](../../templates/casos-teste/).
 
 ## 7. Os documentos do laboratório
 
@@ -109,11 +102,7 @@ O cálculo acima só é confiável porque seis documentos dizem a mesma coisa. C
 | Dashboard | `DASH-AURORA-WEB` | [Dashboard](../../templates/dashboard/) |
 | Gabarito | `QA-AURORA-001` | [Perguntas de referência](../../templates/casos-teste/) |
 
-O indicador, na versão aprovada:
-
-<ExampleDoc file="exemplo-kpi-completo.yaml" />
-
-A tabela de pedidos é onde mora o significado de "confirmado". Sem este dicionário, `CONFIRMED`, `CANCELED` e `TEST` são só palavras:
+O indicador aprovado, com histórico e testes, está em [Indicador (KPI)](../../templates/kpi/). A tabela de pedidos é onde mora o significado de "confirmado". Sem este dicionário, `CONFIRMED`, `CANCELED` e `TEST` são só palavras:
 
 <ExampleDoc file="exemplo-dataset-pedidos-completo.yaml" />
 
@@ -122,8 +111,6 @@ A versão 1.0 do indicador contava pedidos; a 2.0 corrige a fórmula e conta ses
 ## 8. Reproduza e reutilize
 
 <AnalyticsLabDownloads />
-
-Consulte as [perguntas de referência](../../exemplos/testes-analytics/).
 
 O portal não executa consultas nem acessa bancos. Os arquivos servem para refazer as contas; não se conectam a dados de ninguém.
 

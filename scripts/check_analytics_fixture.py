@@ -52,7 +52,7 @@ with sqlite3.connect(":memory:") as db:
 def load(name):
     return yaml.safe_load((DL / name).read_text(encoding="utf8"))
 
-for name in ("exemplo-rubrica-ficticia.yaml", "exemplo-rubrica-completo.yaml"):
+for name in ("exemplo-rubrica-lacunas.yaml", "exemplo-rubrica-completo.yaml"):
     rubric = load(name)
     weights = [item["weight"] for item in rubric["criteria"]]
     if sum(weights) != 100 or rubric["scoring"]["weight_sum"] != 100:
@@ -71,7 +71,7 @@ if any(not c.get("not_in_scope") for c in complete_rubric["criteria"]):
     fail("A rubrica completa precisa delimitar o que cada critério não avalia")
 
 expected = {"Q01": "answer", "Q02": "answer", "Q03": "clarify", "Q04": "abstain", "Q05": "abstain", "Q06": "abstain"}
-for name in ("exemplo-casos-teste-ficticios.yaml", "exemplo-casos-teste-completo.yaml"):
+for name in ("exemplo-casos-teste-lacunas.yaml", "exemplo-casos-teste-completo.yaml"):
     questions = load(name)["questions"]
     behaviors = {q["id"]: q["expected_behavior"] for q in questions}
     if behaviors != expected:
@@ -85,8 +85,8 @@ for name in ("exemplo-casos-teste-ficticios.yaml", "exemplo-casos-teste-completo
         if q["expected_behavior"] == "clarify" and not q["ambiguity"]:
             fail(f"{name}: {q['id']} pede esclarecimento e precisa dizer o que falta")
 # Uma resposta apoiada em definição ainda não aprovada precisa dizer isso.
-pending_kpi = load("exemplo-kpi-ficticio.yaml")
-pending_q01 = next(q for q in load("exemplo-casos-teste-ficticios.yaml")["questions"] if q["id"] == "Q01")
+pending_kpi = load("exemplo-kpi-lacunas.yaml")
+pending_q01 = next(q for q in load("exemplo-casos-teste-lacunas.yaml")["questions"] if q["id"] == "Q01")
 if pending_kpi["status"] != "approved" and "não foi aprovada" not in pending_q01["reference_answer"]:
     fail("Q01 do exemplo com lacunas responde a partir de KPI pendente sem ressalva")
 
@@ -95,7 +95,7 @@ if pending_kpi["status"] != "approved" and "não foi aprovada" not in pending_q0
 formulas_de_referencia = {
     "historico/exemplo-kpi-v1.0.yaml":
         "(Pedidos confirmados elegíveis / Sessões elegíveis) × 100",
-    "exemplo-kpi-ficticio.yaml":
+    "exemplo-kpi-lacunas.yaml":
         "(Sessões únicas com pelo menos um pedido confirmado / Sessões elegíveis) × 100",
     "exemplo-kpi-completo.yaml":
         "(Sessões únicas com pelo menos um pedido confirmado / Sessões elegíveis) × 100",
@@ -114,7 +114,7 @@ for name, formula_esperada in formulas_de_referencia.items():
     elif "quantidade de sessões" not in numerador:
         fail(f"{name}: a fórmula atual precisa contar sessões únicas convertidas")
 
-for name in ("exemplo-relacionamento-ficticio.yaml", "exemplo-relacionamento-completo.yaml"):
+for name in ("exemplo-relacionamento-lacunas.yaml", "exemplo-relacionamento-completo.yaml"):
     if load(name)["cardinality"] != "one_to_many":
         fail(f"{name}: a relação sessões para pedidos deve ser um para muitos")
 

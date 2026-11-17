@@ -6,6 +6,21 @@ const base = process.env.BASE_PATH || '/contexto-framework';
 export default defineConfig({
   site: process.env.SITE_URL || 'https://edoardolobl.github.io',
   base,
+  // Páginas fundidas em outras (rodada 3): o endereço antigo leva ao novo.
+  redirects: {
+    '/exemplos/conceito-onboarding/': `${base}/templates/conceito/`,
+    '/exemplos/processo-campanha/': `${base}/templates/processo/`,
+    '/exemplos/decisao-campanha/': `${base}/templates/decisao/`,
+    '/exemplos/politica-despesas/': `${base}/templates/politica/`,
+    '/exemplos/kpi/': `${base}/templates/kpi/`,
+    '/exemplos/rubrica-case/': `${base}/templates/rubrica/`,
+    '/exemplos/testes-analytics/': `${base}/templates/casos-teste/`,
+    '/dados/semantica/': `${base}/dados/visao-geral/`,
+    '/dados/contrato-de-conhecimento/': `${base}/dados/visao-geral/`,
+    '/fundamentos/promessa/': `${base}/metodo/visao-geral/`,
+    '/metodo/revisao-e-entrega/': `${base}/validacao/checklist/`,
+    '/fundamentos/escolher-documento/': `${base}/templates/`
+  },
   integrations: [
     starlight({
       title: 'Contexto',
@@ -25,57 +40,23 @@ export default defineConfig({
         { icon: 'github', label: 'Repositório no GitHub', href: 'https://github.com/edoardolobl/contexto-framework' },
         { icon: 'linkedin', label: 'Edoardo Lobl no LinkedIn', href: 'https://www.linkedin.com/in/edoardolobl/' }
       ],
+      // Sem rótulos próprios: o menu mostra o título da página, então os dois nunca divergem.
       sidebar: [
-        { label: 'Comece por uma tarefa', items: [
-          { slug: 'fundamentos/comece-em-5-minutos', label: 'Comece em 5 minutos' },
-          { slug: 'validacao/checklist', label: 'Revisar um documento' },
-          { slug: 'fundamentos/escolher-documento', label: 'Encontrar um modelo' }
-        ] },
-        { label: 'Guias para fazer', items: [
-          { slug: 'metodo/elicitar', label: 'Descobrir o que falta' },
-          { slug: 'metodo/revisao-e-entrega', label: 'Preparar para revisão' },
-          { slug: 'fundamentos/como-ler-os-campos', label: 'Entender os campos' },
-          { slug: 'metodo/identificacao-versoes', label: 'Versões e vigência' }
-        ] },
-        { label: 'Modelos para reutilizar', collapsed: true, items: [
-          { slug: 'templates', label: 'Todos os modelos' },
-          { slug: 'templates/conceito', label: 'Conceito e glossário' },
-          { slug: 'templates/processo', label: 'Processo e procedimento' },
-          { slug: 'templates/decisao', label: 'Regras e decisões' },
-          { slug: 'templates/politica', label: 'Política e referência' },
-          { slug: 'templates/kpi', label: 'Indicador (KPI)' },
-          { slug: 'templates/rubrica', label: 'Rubrica de avaliação' }
-        ] },
-        { label: 'Exemplos comentados', collapsed: true, items: [
-          { slug: 'exemplos/conceito-onboarding', label: 'Um conceito em RH' },
-          { slug: 'exemplos/processo-campanha', label: 'Processo de campanha' },
-          { slug: 'exemplos/decisao-campanha', label: 'Decisão e precedência' },
-          { slug: 'exemplos/politica-despesas', label: 'Versões conflitantes' },
-          { slug: 'exemplos/kpi', label: 'KPI de conversão' },
-          { slug: 'exemplos/rubrica-case', label: 'Rubrica de uma análise' }
+        { label: 'Início', link: '/' },
+        { label: 'Comece por uma tarefa', items: ['fundamentos/comece-em-5-minutos', 'validacao/checklist', 'templates'] },
+        { label: 'Guias', items: ['metodo/elicitar', 'metodo/identificacao-versoes'] },
+        { label: 'Documentos do negócio', collapsed: true, items: [
+          'templates/conceito', 'templates/processo', 'templates/decisao', 'templates/politica', 'templates/rubrica'
         ] },
         { label: 'Dados e Analytics', collapsed: true, items: [
-          { slug: 'dados/visao-geral', label: 'Por onde começar' },
-          { slug: 'dados/semantica', label: 'Além do schema' },
-          { slug: 'dados/contrato-de-conhecimento', label: 'Contrato de conhecimento' },
-          { slug: 'templates/dataset', label: 'Dataset e dicionário' },
-          { slug: 'templates/relacionamento', label: 'Relacionamento entre tabelas' },
-          { slug: 'templates/dashboard', label: 'Dashboard e interpretação' },
-          { slug: 'templates/casos-teste', label: 'Perguntas de referência' },
-          { slug: 'exemplos/analytics-integrado', label: 'Laboratório Aurora' },
-          { slug: 'exemplos/testes-analytics', label: 'Perguntas do laboratório' }
+          'dados/visao-geral', 'exemplos/analytics-integrado', 'templates/kpi', 'templates/dataset',
+          'templates/relacionamento', 'templates/dashboard', 'templates/casos-teste'
         ] },
         { label: 'Entenda o método', collapsed: true, items: [
-          { slug: 'fundamentos/promessa', label: 'Promessa e limites' },
-          { slug: 'fundamentos/conhecimento-tacito', label: 'Conhecimento tácito' },
-          { slug: 'metodo/visao-geral', label: 'Visão geral' },
-          { slug: 'metodo/oito-dimensoes', label: 'As oito dimensões' },
-          { slug: 'metodo/limites', label: 'Quando o método não basta' }
+          'metodo/visao-geral', 'metodo/oito-dimensoes', 'fundamentos/conhecimento-tacito', 'metodo/limites'
         ] },
-        { label: 'Sobre e referências', collapsed: true, items: [
-          { slug: 'governanca/papeis', label: 'Responsabilidades' },
-          { slug: 'referencias', label: 'Fontes e bibliografia' },
-          { slug: 'sobre/creditos', label: 'Autoria e licenças' }
+        { label: 'Consulta', collapsed: true, items: [
+          'fundamentos/como-ler-os-campos', 'governanca/papeis', 'referencias', 'sobre/creditos'
         ] }
       ]
     })

@@ -1,67 +1,98 @@
 ---
-title: "Modelo: Processo e procedimento"
-description: Especifique gatilho, pré-condições, atores, passos, decisões, exceções e resultado de um fluxo.
+title: Processo
+description: Documente um processo que alguém novo consiga executar sem perguntar a quem já faz.
 ---
 
 import TemplateDownloads from '../../../components/TemplateDownloads.astro';
 import ExampleDoc from '../../../components/ExampleDoc.astro';
 import TemplateStart from '../../../components/TemplateStart.astro';
 
-<p class="editorial-lead">Documente um processo que alguém consiga executar</p>
+<p class="editorial-lead">Um procedimento que só funciona para quem já sabe fazer</p>
 
 <TemplateStart kind="processo" />
 
-## A situação típica
+## O problema
 
-Quando a organização depende de uma sequência de atividades, com entradas, responsáveis, transferências de trabalho e critérios para encerrar ou interromper o fluxo.
+A operação de marketing da Aurora recebe briefs por canais diferentes e precisa decidir quem revisa o material antes da publicação. O procedimento escrito diz:
 
-**Um checklist de tarefas não basta** quando cada etapa depende de condições, evidências, responsáveis ou decisões que só algumas pessoas conhecem.
+> “Receber o brief, verificar se está tudo certo, pedir aprovação aos envolvidos e publicar. Se houver algum problema, falar com a pessoa responsável.”
 
-## O que descobrir com a equipe
+Parece um fluxo, mas omite entradas, aprovações, condições, exceções e evidências. Uma pessoa nova ainda depende de outra para fazer o trabalho. **Um checklist de tarefas não basta** quando cada etapa depende de condições ou decisões que só algumas pessoas conhecem.
 
-| Elemento | Pergunta operacional |
-|---|---|
-| Gatilho | O que inicia o processo? Um e-mail, um formulário, um evento ou uma solicitação? |
-| Pré-condição | Que informações ou autorizações devem existir antes da primeira etapa? |
-| Entrada e resultado | O que entra, o que sai e como reconhecer a conclusão? |
-| Ator | Quem executa cada etapa e para quem o trabalho é transferido? |
-| Sequência | Qual a ordem? O que pode ocorrer em paralelo? |
-| Decisão | Qual critério muda o caminho? Onde está sua regra aprovada? |
-| Exceção | Como lidar com documento ausente, atraso, rejeição ou conflito? |
-| Evidência | Qual registro comprova o cumprimento de uma etapa? |
-| Escalonamento | Quem decide quando a regra não cobre o caso? |
+## O que perguntar
 
-## Uma representação acessível
+Cada expressão vaga da frase esconde uma pergunta:
 
-```text
-Solicitação recebida
-  ├─ Dados insuficientes → Solicitar complementação → Aguardar
-  └─ Dados suficientes
-       → Revisar conteúdo → Aplicar regra de aprovação
-       ├─ Em aberto → Escalar ao responsável
-       └─ Aprovado → Executar publicação → Registrar evidência
-```
+| Elemento | Na frase da Aurora | Pergunta a fazer |
+|---|---|---|
+| Entrada | “Brief” | Quais campos mínimos e anexos tornam o pedido processável? |
+| Verificação | “Tudo certo” | Existe uma lista aprovada de verificações? |
+| Quem aprova | “Envolvidos” | Qual papel aprova cada tipo de conteúdo? |
+| Exceção | “Problema” | Quais casos levam a devolução, pausa ou escalonamento? |
+| Conclusão | “Publicar” | O que conta como conclusão e qual evidência fica guardada? |
+| Prazo | (ausente) | Quanto tempo cada etapa pode esperar, e o que acontece depois? |
+| Escalonamento | “Pessoa responsável” | Quem decide quando a regra não cobre o caso? |
 
-Esse desenho não é um fluxograma BPMN formal.
+## Antes e depois da decisão
 
-## Dois exemplos do mesmo documento
+Com as perguntas feitas, o fluxo ganha pontos de decisão:
 
-O primeiro quadro mostra o documento no começo do trabalho: muita coisa ainda sem resposta, e isso está escrito. O segundo mostra o mesmo documento depois que a área responsável decidiu.
+1. **Receber e registrar a solicitação.**
+2. **Conferir o brief.**
+   - Incompleto: devolver com a lista de lacunas e aguardar a complementação.
+   - Não dá para saber se está completo: pedir esclarecimento ao solicitante.
+   - Completo: seguir para o passo 3.
+3. **Aplicar a [regra de encaminhamento](../decisao/)** às evidências do material.
+   - Evidência insuficiente: revisão responsável.
+   - Evidência desconhecida: pedir esclarecimento ao solicitante.
+   - Evidência suficiente: seguir para o passo 4.
+4. **Solicitar aprovação formal.**
+   - Rejeitado: registrar o motivo e encerrar.
+   - Aprovado: seguir para o passo 5.
+5. **Publicar e registrar a evidência** (endereço e data da publicação).
 
-<ExampleDoc file="exemplo-processo-ficticio.yaml" />
+Os desvios dos passos 2 e 3 são os mesmos da tabela de decisão: **o processo diz quando decidir, e a regra diz o que decidir.** “Conferir o brief” é uma etapa; o que torna um brief completo é uma regra, documentada à parte.
+
+| Etapa | Responsável | Entrada necessária | Saída e evidência |
+|---|---|---|---|
+| Receber e classificar | Operação de marketing | Identificador do pedido | Registro da demanda |
+| Conferir o brief | Operação de marketing | Campos do brief | Perguntas em aberto ou brief conferido |
+| Aplicar regra de encaminhamento | Revisão de Conteúdo | Evidências e critérios | Caminho escolhido e motivo |
+| Solicitar aprovação formal | Liderança de Marca | Material revisado | Aprovação registrada |
+| Publicar e fechar | Operação de marketing | Aprovação válida | Endereço e data da publicação |
+
+Enquanto ninguém decidiu a definição de “brief completo”, quem autoriza exceções e o prazo de atendimento, o documento registra essas três perguntas em vez de preenchê-las com um prazo genérico:
+
+<ExampleDoc file="exemplo-processo-lacunas.yaml" />
+
+Depois que a Liderança de Marca decidiu o que estava em aberto, o mesmo documento passa a ter cinco etapas, prazos e quem escala:
 
 <ExampleDoc file="exemplo-processo-completo.yaml" />
 
-O **histórico de versões** indica o que mudou, mas não substitui uma cópia da regra anterior. Para interpretar o passado, é preciso identificar a versão certa e sua vigência; veja o [guia de identificação e versões](../../metodo/identificacao-versoes/).
+| Lacuna do rascunho | Como ficou escrita |
+|---|---|
+| Qual é o prazo de complementação? | 2 dias úteis; sem resposta, o pedido é encerrado como devolvido |
+| Quem aprova? | Liderança de Marca; sem decisão em 3 dias úteis, escala à Diretoria de Marketing |
+| O que comprova a publicação? | Endereço e data da publicação, anexados ao pedido |
 
-## Processo não é o mesmo que regra
+### O que o histórico de versões ensina
 
-A frase “validar a elegibilidade” é uma **etapa do processo**, não uma regra suficiente. A elegibilidade precisa ser definida separadamente, com condições e fontes. Da mesma forma, “enviar para aprovação” não basta sem dizer **quem** aprova e **quando**.
+A versão 1.0 tinha quatro etapas. A 2.0 acrescentou a quinta, o registro da evidência, depois que uma auditoria interna encontrou publicações sem comprovante. O histórico guarda o motivo da mudança, não só a mudança. A versão é maior porque uma publicação sem comprovante, que antes encerrava o processo, agora deixa o processo incompleto.
+
+## Verifique o seu documento
+
+- É possível dizer exatamente em que etapa um pedido está?
+- Cada passagem de responsabilidade deixa evidência?
+- O fluxo termina com resultado verificável, inclusive quando o pedido é rejeitado?
+- Uma pessoa nova distingue *pendente de aprovação* de *aprovado*?
+- Cada definição que falta tem alguém responsável pela resposta?
+
+## Baixe o modelo
 
 <TemplateDownloads kind="processo" />
 
-Leia o [processo de campanha explicado passo a passo](../../exemplos/processo-campanha/) e depois o [modelo de regras](../decisao/) que determina as possíveis transições.
+Um fluxo documentado não garante uma publicação segura: documentação e controle operacional são responsabilidades distintas.
 
 ### Fundamentação
 
-[OMG: BPMN 2.0.2](https://www.omg.org/spec/BPMN/2.0.2) formaliza notações de processos; [IIBA: The Business Analysis Standard](https://www.iiba.org/knowledgehub/the-business-analysis-standard/) trata da elicitação, comunicação e modelagem de requisitos. O modelo é uma **adaptação original**, sem alegar conformidade BPMN.
+[OMG: BPMN 2.0.2](https://www.omg.org/spec/BPMN/2.0.2) formaliza notações de processos; [IIBA: The Business Analysis Standard](https://www.iiba.org/knowledgehub/the-business-analysis-standard/) trata da descoberta, comunicação e modelagem de requisitos. O modelo é uma **adaptação original**, sem alegar conformidade BPMN.

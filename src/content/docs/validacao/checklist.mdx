@@ -1,6 +1,6 @@
 ---
-title: Revisar um documento
-description: Verifique cobertura, consistência das afirmações e aprovação por uma pessoa autorizada.
+title: Revisar e entregar
+description: Verifique cobertura, evidências e aprovação, e entregue o documento com as perguntas em aberto à vista.
 ---
 
 import ReadinessChecklist from '../../../components/ReadinessChecklist.astro';
@@ -65,7 +65,49 @@ O fato de uma pessoa **conhecer** uma prática não significa que ela possa **ap
 | A versão foi confirmada, com escopo e vigência explícitos | Registrar a aprovação e o arquivo da versão, segundo a governança da organização |
 | O documento descreve uma regra substituída | Arquivar como histórico e apontar para a versão vigente; não apagar a versão anterior |
 
-[**Baixar ficha de revisão**](../../downloads/roteiro-revisao-documental.md) e consulte o guia [Revisar e entregar conhecimento](../../metodo/revisao-e-entrega/) para organizar as perguntas em aberto e a passagem de responsabilidade.
+## 4. Entregar: o pacote e as perguntas em aberto
+
+O objetivo não é produzir muitos arquivos. É entregar uma **descrição verificável do assunto, com autoridade identificada e lacunas visíveis**. Não cabe ao engenheiro de IA descobrir sozinho regras, significados ou exceções que a organização ainda não formalizou.
+
+| Item | Pergunta de revisão |
+|---|---|
+| Documento principal | Está claro o que significa, quando vale, como se aplica e como verificar? |
+| Fonte e autoridade | Existe uma fonte oficial e alguém autorizado a confirmar a versão? |
+| Documentos relacionados | Regras, conceitos, processo, política e indicadores estão ligados quando necessários? |
+| Exemplos e contraexemplos | Um leitor reconhece o caso esperado e um caso fora da definição? |
+| Perguntas em aberto | Cada uma tem impacto e responsável por resolvê-la? |
+| Vigência e mudanças | Cada versão aprovada tem ID da versão, início e fim de vigência, e cópia integral recuperável quando necessário? |
+
+Quando sobram perguntas, entregue-as numa ficha. Esta é a do [processo de campanha](../../templates/processo/) antes da decisão:
+
+```yaml
+---
+id: HANDOFF-001
+type: documentation_handoff
+status: pending_approval
+domain_owner: null
+related_documents:
+  - PROCESS-CAMPAIGN-001
+open_questions:
+  - id: GAP-01
+    question: "Quem pode autorizar uma exceção de publicação?"
+    impact: "O fluxo não define qual responsável deve decidir"
+    resolution_owner: null
+    priority: null
+    state: unresolved
+  - id: GAP-02
+    question: "Qual é o prazo da revisão?"
+    impact: "Não há referência para interpretar atrasos"
+    resolution_owner: null
+    priority: null
+    state: unresolved
+```
+
+O `status` da ficha não aprova a regra correspondente.
+
+**Não entregue como aprovado** se não houver autoridade identificada, se documentos se contradizem sem resolução, se uma condição decisiva não tem definição ou se um exemplo foi confundido com regra vigente. **Documentação incompleta e transparente é uma saída legítima da revisão:** mostra onde o trabalho precisa continuar.
+
+[**Baixar ficha de revisão**](../../downloads/roteiro-revisao-documental.md)
 
 ## O que este roteiro não certifica
 
@@ -75,4 +117,4 @@ A engenharia de IA ainda precisará validar recuperação, permissões, execuç�
 
 ### Fontes metodológicas
 
-[IIBA: The Business Analysis Standard](https://www.iiba.org/knowledgehub/the-business-analysis-standard/) · [KCS v6: Practices Guide](https://library.serviceinnovation.org/KCS/KCS_v6/KCS_v6_Practices_Guide). As oito dimensões e a divisão entre cobertura, consistência e confirmação são adaptações editoriais próprias deste framework.
+[IIBA: Confirm Elicitation Results](https://www.iiba.org/knowledgehub/the-business-analysis-standard/5-applying-business-analysis-tasks/5-3-business-analysis-knowledge-areas/elicitation-and-collaboration/) · [KCS v6: Practices Guide](https://library.serviceinnovation.org/KCS/KCS_v6/KCS_v6_Practices_Guide). As oito dimensões, a divisão entre cobertura, consistência e confirmação e a ficha de perguntas em aberto são adaptações próprias do Contexto.

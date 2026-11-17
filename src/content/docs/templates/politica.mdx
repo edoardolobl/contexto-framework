@@ -1,60 +1,74 @@
 ---
-title: "Modelo: Política e referência normativa"
-description: Identifique escopo, autoridade, vigência, versões, exceções e conflitos entre fontes.
+title: Política
+description: Documente qual política vale, quem a emitiu, desde quando, e o que fazer quando duas fontes dizem coisas diferentes.
 ---
 
 import TemplateDownloads from '../../../components/TemplateDownloads.astro';
 import ExampleDoc from '../../../components/ExampleDoc.astro';
 import TemplateStart from '../../../components/TemplateStart.astro';
 
-<p class="editorial-lead">Documente uma política sem confundir prática com norma</p>
+<p class="editorial-lead">Três fontes sobre a mesma despesa, e a mais nova não é necessariamente a que vale</p>
 
 <TemplateStart kind="politica" />
 
-## A situação típica
+## O problema
 
-Quando alguém precisa saber o que a organização **autoriza, restringe, recomenda ou exige**, por qual motivo, durante qual período e com base em que documento oficial.
+Uma pessoa da área Financeira da Aurora encontra um manual de reembolso, um e-mail posterior e uma página de intranet com instruções diferentes. A orientação que circula é:
 
-Uma frase num chat, um procedimento antigo e uma política aprovada podem tratar do mesmo tema, mas **não têm necessariamente a mesma autoridade**.
+> “Despesas de evento devem seguir a política mais recente.”
 
-## Elementos fundamentais
+*Recente* descreve a data, não a autoridade. Um e-mail novo pode só comunicar uma prática não aprovada; uma página antiga pode continuar vigente até ser revogada. Uma frase num chat, um procedimento antigo e uma política aprovada podem tratar do mesmo tema **sem ter a mesma autoridade**.
 
-| Elemento | Pergunta a fazer |
-|---|---|
-| Finalidade | Qual problema ou risco esta política pretende gerir? |
-| Alcance | Quais áreas, atividades e localidades estão abrangidas? |
-| Autoridade | Quem emitiu e quem pode interpretar ou alterar a política? |
-| Fonte oficial | Onde fica a versão válida? |
-| Vigência | A partir de quando vale? Houve revogação ou substituição? |
-| Obrigação e permissão | O que é obrigatório, permitido e proibido, em termos verificáveis? |
-| Exceções | Quem autoriza exceções e que evidência precisa ser registrada? |
-| Divergência | Quando duas instruções conflitam, como identificar a hierarquia válida? |
-| Revisão | Em que situação a política deve ser revisitada? |
+| Fonte | O que se sabe | O que ainda precisa ser verificado |
+|---|---|---|
+| Manual `POL-FIN-014` | Versão identificada, sem relação explícita com atualização | Vigência, autoridade e substituição |
+| E-mail da equipe | Orientação operacional mais recente | Se altera formalmente a política |
+| Página de intranet | Resumo diferente do manual | Qual documento é a fonte oficial |
 
-## Exemplo de uma lacuna comum
+**Escolher a regra mais nova ou a mais repetida não é seguro** sem conhecer o processo de aprovação da organização.
 
-> “As despesas de evento seguem a política atual da empresa.”
+## O que perguntar
 
-Isso não permite descobrir se a política está vigente, quem aprova as exceções, qual documento é referência e como tratar uma atualização publicada em canais diferentes.
+| Pergunta | Na Aurora | O que registrar |
+|---|---|---|
+| Qual fonte é oficial, e onde fica? | O manual, o e-mail ou a intranet? | Identificador e localização da fonte |
+| Quem emitiu e quem pode interpretar ou alterar? | A Controladoria ou a equipe de eventos? | Autoridade |
+| Desde quando vale? Houve revogação? | O e-mail revogou o manual? | Início de vigência e substituição |
+| O que é obrigatório, permitido e proibido? | Que despesa precisa de aprovação prévia? | Obrigações e permissões verificáveis |
+| A quem e a que atividades se aplica? | Só eventos, ou qualquer viagem? | Alcance |
+| Quem autoriza exceções, e com que evidência? | Despesa acima do limite em evento com cliente | Exceção e registro |
+| O documento distingue aprovado, comunicado e em revisão? | O e-mail é norma ou aviso? | Estado de cada fonte |
+| Quando revisar? | Mudança de limite, reorganização da área | Gatilho de revisão |
 
-Melhore documentando **o identificador da fonte oficial**, data de vigência, alcance e autoridade. Se existirem versões conflitantes e nenhuma hierarquia confirmada, registre o conflito como não resolvido (`unresolved`).
+## Antes e depois da decisão
 
-## Dois exemplos do mesmo documento
+Enquanto ninguém com autoridade confirmou qual fonte vale, o documento registra o conflito como não resolvido (`unresolved`). O valor disso é que **a divergência não desaparece** só porque os três arquivos foram indexados num RAG:
 
-O primeiro quadro mostra o documento no começo do trabalho: muita coisa ainda sem resposta, e isso está escrito. O segundo mostra o mesmo documento depois que a área responsável decidiu.
+<ExampleDoc file="exemplo-politica-lacunas.yaml" />
 
-<ExampleDoc file="exemplo-politica-ficticia.yaml" />
+Depois, a Controladoria confirmou qual documento vale e a Diretoria Financeira aprovou o registro. O conflito continua no documento, agora marcado como resolvido e com a explicação:
 
 <ExampleDoc file="exemplo-politica-completo.yaml" />
 
-O **histórico de versões** indica o que mudou, mas não substitui uma cópia da regra anterior. Para interpretar o passado, é preciso identificar a versão certa e sua vigência; veja o [guia de identificação e versões](../../metodo/identificacao-versoes/).
+### Duas versões diferentes no mesmo documento
 
-A política é diferente do processo que ensina **como solicitar** uma despesa e das regras que decidem **quando aprová-la**. Relacione os artefatos em vez de reproduzir textos inteiros.
+O registro tem a própria versão (1.1) e aponta para uma política que tem outra (versão 3). São coisas distintas: a política muda quando a regra muda; o registro muda quando o que sabemos sobre a política muda. Confundir as duas é uma fonte comum de erro.
+
+A política também é diferente do [processo](../processo/) que ensina **como solicitar** uma despesa e das [regras](../decisao/) que decidem **quando aprová-la**. Ligue os documentos pelo identificador em vez de copiar textos inteiros.
+
+## Verifique o seu documento
+
+- É possível apontar diretamente a fonte oficial?
+- Há evidência de revogação ou substituição das versões anteriores?
+- Está claro quem interpreta e quem autoriza exceções?
+- Uma pessoa sabe reconhecer quando o documento não deve mais ser usado?
+
+Se ninguém souber responder, o documento continua pendente de aprovação, e a área responsável pela resposta fica identificada.
+
+## Baixe o modelo
 
 <TemplateDownloads kind="politica" />
 
-Veja o [estudo de caso sobre fontes conflitantes](../../exemplos/politica-despesas/).
-
 ### Fundamentação
 
-[ISO 30401:2018](https://www.iso.org/standard/68683.html), com emendas de 2022 e 2024, aborda sistemas de gestão do conhecimento; [IIBA](https://www.iiba.org/knowledgehub/the-business-analysis-standard/) trata de governança e confirmação de informações. O modelo não reproduz nem substitui requisitos normativos, jurídicos ou políticas reais.
+A gestão do conhecimento como sistema é tratada em [ISO 30401:2018](https://www.iso.org/standard/68683.html), com emendas de 2022 e 2024; a confirmação de informações e decisões faz parte do trabalho descrito pelo [IIBA](https://www.iiba.org/knowledgehub/the-business-analysis-standard/). A hierarquia de fontes precisa ser definida pela organização, não pelo Contexto.

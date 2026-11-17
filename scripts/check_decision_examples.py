@@ -9,7 +9,7 @@ import sys
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
-FILES = ["exemplo-decisao-ficticia.yaml", "exemplo-decisao-completo.yaml"]
+FILES = ["exemplo-decisao-lacunas.yaml", "exemplo-decisao-completo.yaml"]
 errors = []
 summary = []
 

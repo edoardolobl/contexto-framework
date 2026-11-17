@@ -336,6 +336,23 @@ for path in TERM_FILES:
         if m and rel != "exemplos/analytics-integrado.mdx":
             record(path, f"linha {lineno}: \"{m.group(0)}\" só no laboratório")
 
+# Menu = título: o sidebar lista só slugs, sem rótulo próprio, e nenhuma página muda o rótulo.
+CONFIG = (DOCS.parents[2] / "astro.config.mjs").read_text(encoding="utf8")
+sidebar = CONFIG[CONFIG.index("sidebar: ["):]
+if re.search(r"\bslug\s*:", sidebar):
+    record(DOCS.parents[2] / "astro.config.mjs", "item do menu com slug e rótulo próprio; use só o slug para o menu mostrar o título da página")
+for path in sorted(DOCS.rglob("*.mdx")):
+    head = path.read_text(encoding="utf8").split("---", 2)[1]
+    if re.search(r"^sidebar\s*:\s*\n(?:[ \t]+.*\n)*?[ \t]+label\s*:", head + "\n", re.M):
+        record(path, "frontmatter 'sidebar' muda o rótulo do menu; o menu deve mostrar o título")
+# Endereços que viraram redirecionamento não devem ser usados em links do portal.
+moved = re.findall(r"'/([\w/-]+)/'\s*:\s*`", CONFIG)
+for path in [*DOCS.rglob("*.mdx"), *(DOCS.parents[1] / "components").glob("*.astro")]:
+    text = path.read_text(encoding="utf8")
+    for old in moved:
+        if re.search(r"[(/'\"]" + re.escape(old) + r"/", text):
+            record(path, f"link para endereço antigo {old}/; aponte para o destino do redirecionamento")
+
 # One H1 per page: Starlight renders the frontmatter title as the page H1.
 for path in PAGES:
     in_code = False
