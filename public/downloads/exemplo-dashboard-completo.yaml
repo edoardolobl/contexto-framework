@@ -34,6 +34,7 @@ purpose: "Distinguir sessões web convertidas de quantidade de pedidos por sess�
 audiences: ["Operação de marketing"]
 supported_decisions: ["Investigar diferenças entre definições de conversão"]
 metrics: ["KPI-AURORA-001"]
+metric_versions: {KPI-AURORA-001: "2.0"}
 default_filters:
   channel: web
   is_internal: 0

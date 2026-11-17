@@ -39,7 +39,7 @@ Estados possíveis: **Rascunho**, **Pendente de aprovação**, **Aprovado**, **O
 Para cada campo, documente:
 - Nome físico, tipo técnico e nome de negócio:
 - Significado contextual:
-- Unidade, timezone e exemplo:
+- Unidade, fuso horário e exemplo:
 - Possíveis valores e códigos especiais:
 - Comportamento para nulos e ausências:
 - Quando não usar o campo:
@@ -47,15 +47,21 @@ Para cada campo, documente:
 ## Regras de atualização e consulta
 - Data de referência:
 - Frequência e atraso conhecidos:
-- Snapshot versus eventos:
+- Fotografia por data ou registro de eventos:
 - Restrições de agregação:
 - Tabelas relacionadas e cardinalidade:
 - Armadilhas conhecidas:
 
-## Validação e perguntas em aberto
+## Validação
 - Registros de exemplo conferidos por especialistas:
 - Consultas e perguntas de referência:
-- Dúvidas não resolvidas:
+
+## Perguntas em aberto
+Repita para cada pergunta que ninguém decidiu.
+- Pergunta:
+- Impacto (o que dá errado enquanto não há resposta):
+- Quem pode resolver:
+- Estado (em aberto, ou resolvida com data e evidência):
 
 ## Histórico de versões
 

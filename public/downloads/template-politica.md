@@ -57,10 +57,11 @@ Estes campos descrevem a política em si. A versão e a vigência da Identifica�
 - Responsável pela revisão:
 
 ## Perguntas em aberto
-- Questão:
-- Impacto:
-- Quem decide:
-- Status da resolução:
+Repita para cada pergunta que ninguém decidiu.
+- Pergunta:
+- Impacto (o que dá errado enquanto não há resposta):
+- Quem pode resolver:
+- Estado (em aberto, ou resolvida com data e evidência):
 
 ## Histórico de versões
 

@@ -105,5 +105,11 @@ revalidation_triggers:
   - "Atualização da carga do laboratório"
   - "Mudança de granularidade ou de relacionamento"
 open_questions:
-  - "Quem aprova o gabarito?"
-  - "A resposta de Q01 pode ser dada antes de o KPI ser aprovado? Hoje ela carrega uma ressalva."
+  - question: "Quem aprova o gabarito?"
+    impact: "Sem aprovação, as respostas esperadas não podem ser usadas para testar um agente"
+    resolution_owner: null
+    state: unresolved
+  - question: "Quem confere as respostas de Q01 a Q06 contra a amostra antes da aprovação?"
+    impact: "Uma resposta esperada errada faz o teste aprovar um agente que erra"
+    resolution_owner: null
+    state: unresolved

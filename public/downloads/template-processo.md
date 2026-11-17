@@ -45,7 +45,8 @@ Para cada etapa, registrar:
 4. Condição para executar:
 5. Resultado e evidência:
 6. Próxima etapa ou desvio:
-7. Exceção e escalonamento:
+7. Prazo e o que acontece quando vence:
+8. Exceção e escalonamento:
 
 ## Decisões
 - Regra referenciada:
@@ -59,10 +60,11 @@ Para cada etapa, registrar:
 - Quem recebe a informação:
 
 ## Perguntas em aberto
+Repita para cada pergunta que ninguém decidiu.
 - Pergunta:
-- Impacto:
-- Quem decide:
-- Data e evidência da decisão:
+- Impacto (o que dá errado enquanto não há resposta):
+- Quem pode resolver:
+- Estado (em aberto, ou resolvida com data e evidência):
 
 ## Histórico de versões
 

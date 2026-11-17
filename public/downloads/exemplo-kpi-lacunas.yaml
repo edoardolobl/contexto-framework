@@ -21,7 +21,7 @@ version_history:
     approved_by: null
 
 business_definition:
-  concept: "Proporção de sessões elegíveis que resultaram em pedidos confirmados"
+  concept: "Taxa de conversão do canal web: conversões ÷ visitas"
   purpose: "Acompanhar o resultado do funil web"
   synonyms: ["conversão web"]
   different_meanings_in_other_domains:
@@ -34,8 +34,8 @@ scope:
   exclusions: ["tráfego interno", "pedidos de teste", "pedidos cancelados"]
 
 calculation:
-  formula_description: "(Sessões únicas com pelo menos um pedido confirmado / Sessões elegíveis) × 100"
-  numerator: "Quantidade de sessões elegíveis com pelo menos um pedido CONFIRMED"
+  formula_description: "(Conversões / Sessões elegíveis) × 100; o que conta como conversão está em aberto"
+  numerator: null
   denominator: "Quantidade de sessões elegíveis"
   unit: "percentual"
   granularity: "dia + canal web"
@@ -46,7 +46,7 @@ calculation:
 time:
   reference_date_field: null
   timezone: null
-  reporting_window: "2026-10-01 na amostra; janela mensal ainda não aprovada"
+  reporting_window: "Janela mensal ainda não aprovada"
   data_freshness: null
 
 data_sources:
@@ -62,7 +62,20 @@ validation:
   tests: []
 
 open_questions:
-  - "Qual campo data determina o mês do pedido?"
-  - "O que fazer quando o denominador é zero?"
-  - "Quem aprova a fonte oficial e a vigência?"
+  - question: "O numerador conta pedidos confirmados ou sessões com pelo menos um pedido confirmado?"
+    impact: "Na mesma amostra, uma leitura pode dar o dobro da outra"
+    resolution_owner: null
+    state: unresolved
+  - question: "Qual campo de data determina o dia da sessão?"
+    impact: "Sessões perto da meia-noite podem cair no dia errado"
+    resolution_owner: null
+    state: unresolved
+  - question: "O que fazer quando o denominador é zero?"
+    impact: "Um dia sem sessões pode virar erro ou 0% sem aviso"
+    resolution_owner: null
+    state: unresolved
+  - question: "Quem aprova a fonte oficial e a vigência?"
+    impact: "Sem quem aprova, a definição não pode ser usada como oficial"
+    resolution_owner: null
+    state: unresolved
 related_documents: ["DATASET-AURORA-SESSIONS", "REL-AURORA-SESSIONS-ORDERS", "DASH-AURORA-WEB"]

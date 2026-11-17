@@ -1,18 +1,22 @@
 # Exemplo do Contexto. A Aurora é uma organização inventada; nomes, datas e aprovações fazem parte do caso.
 id: DATASET-AURORA-SESSIONS
-revision_id: "DATASET-AURORA-SESSIONS@1.1"  # versão específica; id = assunto estável
+revision_id: "DATASET-AURORA-SESSIONS@1.2"  # versão específica; id = assunto estável
 title: "Sessões web e app: Aurora"
 type: dataset_semantics
 status: approved
-version: "1.1"
-version_date: "2026-09-12"
+version: "1.2"
+version_date: "2026-10-02"
 owner: "Engenharia de Dados (Aurora)"
 approver: "Analytics de E-commerce (Aurora)"
-valid_from: "2026-09-12"
+valid_from: "2026-10-02"
 valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
-supersedes_revision: "DATASET-AURORA-SESSIONS@1.0"
+supersedes_revision: "DATASET-AURORA-SESSIONS@1.1"
 source_of_truth: "Catálogo de dados da Aurora, tabela demo_sessions"
 version_history:
+  - version: "1.2"
+    date: "2026-10-02"
+    change: "Registrado o caso-limite de S3, sessão interna com pedido confirmado, e o efeito do filtro na amostra de 01/10. Nenhum resultado mudou"
+    approved_by: "Analytics de E-commerce (Aurora)"
   - version: "1.1"
     date: "2026-09-12"
     change: "Documentado que session_date é data local sem hora, depois de dúvida sobre fuso no fechamento diário"
@@ -74,7 +78,7 @@ columns:
     allowed_values: []
     sentinel_values: []
     null_meaning: "Não permitido no laboratório"
-    examples: ["2026-10-01"]
+    examples: ["2026-09-01"]
     do_not_use_for: ["Inferir hora local ou duração"]
 
 time_semantics:

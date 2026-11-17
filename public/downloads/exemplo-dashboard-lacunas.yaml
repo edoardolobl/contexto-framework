@@ -29,7 +29,7 @@ dimensions: ["session_date", "channel"]
 time_semantics:
   date_field: session_date
   timezone: null
-  reporting_period: "2026-10-01 (laboratório)"
+  reporting_period: null
   comparison_baseline: null
 freshness:
   refresh_frequency: "Carga estática do laboratório"
@@ -40,9 +40,18 @@ known_limitations:
   - "Não cobre períodos fora da amostra"
   - "Não contém receita líquida nem indicadores de app"
 conflicting_dashboards: []
-reference_questions: ["QA-AURORA-001"]
+reference_questions: []
 open_questions:
-  - "O cartão de conversão segue qual versão do KPI-AURORA-001?"
-  - "Quem aprova os filtros padrão do dashboard?"
-  - "Se outro dashboard mostrar outro número para o mesmo dia, qual prevalece?"
+  - question: "O cartão de conversão segue qual versão do KPI-AURORA-001?"
+    impact: "Sem a versão, ninguém sabe se o número conta pedidos ou sessões"
+    resolution_owner: null
+    state: unresolved
+  - question: "Quem aprova os filtros padrão do dashboard?"
+    impact: "Um filtro mudado sem aprovação muda o número sem aviso"
+    resolution_owner: null
+    state: unresolved
+  - question: "Se outro dashboard mostrar outro número para o mesmo dia, qual prevalece?"
+    impact: "A Diretoria pode decidir com o número errado"
+    resolution_owner: null
+    state: unresolved
 related_documents: ["KPI-AURORA-001", "DATASET-AURORA-SESSIONS"]

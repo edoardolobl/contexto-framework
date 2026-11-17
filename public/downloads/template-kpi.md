@@ -63,6 +63,13 @@ Estados possíveis: **Rascunho**, **Pendente de aprovação**, **Aprovado**, **O
 ## 8. Perguntas ainda em aberto
 - [ ] Pergunta em aberto, responsável e impacto se não resolvida:
 
+## Perguntas em aberto
+Repita para cada pergunta que ninguém decidiu.
+- Pergunta:
+- Impacto (o que dá errado enquanto não há resposta):
+- Quem pode resolver:
+- Estado (em aberto, ou resolvida com data e evidência):
+
 ## Histórico de versões
 
 Acrescente uma linha a cada mudança, a mais recente primeiro. Registre o que mudou na regra, não só que o texto foi editado. **Guarde o documento completo de cada versão aprovada:** o resumo abaixo não permite reconstruir a definição anterior.

@@ -30,8 +30,8 @@ O segundo quadro mostra o nível de detalhe que falta no primeiro. O estado cont
 | O indicador vale para app, web e loja física? | Canais | `scope` |
 | A qual data e fuso o cálculo se refere? Como fechar um mês com eventos atrasados? | Referência temporal e atualização | `time` |
 | Qual tabela tem autoridade? Que chaves e filtros usar? | Fonte e junção | `data_sources` |
-| Qual dashboard é a referência quando os valores divergem? | Hierarquia de fontes | `validation` |
-| Quem pode mudar a definição, e desde quando vale a atual? | Responsabilidade e vigência | `owner`, `valid_from` |
+| Qual dashboard é a referência quando os valores divergem? | Hierarquia de fontes | `data_sources` |
+| Quem pode mudar a definição, e desde quando vale a atual? | Quem aprova e vigência | `approver`, `valid_from` |
 
 ## Antes e depois da decisão
 
@@ -67,7 +67,7 @@ Essas perguntas verificam se o documento tem o que é preciso para responder. N�
 <TemplateDownloads kind="kpi" />
 
 :::note[Sobre os metadados]
-Os campos são uma **convenção editorial proposta neste framework**. Não são uma norma universal nem uma especificação executável por dbt, Cube ou Snowflake. Adaptá-los para um runtime exige engenharia e validação adicionais.
+Os campos são uma **convenção editorial proposta neste framework**. Não são uma norma universal nem uma especificação executável por dbt, Cube ou Snowflake. Adaptá-los para uma ferramenta em execução exige engenharia e validação adicionais.
 :::
 
 ### Fundamentação

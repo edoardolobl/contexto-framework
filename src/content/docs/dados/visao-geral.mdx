@@ -15,7 +15,7 @@ Um DDL descreve tabelas e colunas. Não registra:
 - **Chaves e cardinalidade:** uma sessão tem quantos pedidos? Uma junção pode multiplicar linhas?
 - **Valores especiais:** `status='C'` é concluído ou cancelado? O que um nulo significa?
 - **Tempo:** qual data define o período, e em que fuso?
-- **Agregações válidas:** um snapshot de estoque pode ser somado entre datas?
+- **Agregações válidas:** uma fotografia diária do estoque pode ser somada entre datas?
 - **Autoridade:** quando duas tabelas mostram valores diferentes, qual é a fonte oficial?
 - **Limites:** quais perguntas o dado não cobre, por canal, período ou unidade?
 
@@ -28,7 +28,7 @@ Um DDL descreve tabelas e colunas. Não registra:
 | Interpretação | “Como ler um dashboard, seus filtros e limites?” | [Dashboard](../../templates/dashboard/) |
 | Verificação | “Quais perguntas o acervo deve conseguir responder?” | [Perguntas de referência](../../templates/casos-teste/) |
 
-Não é obrigatório criar um arquivo por camada: um documento pode reunir aspectos relacionados, desde que não misture autoridades e não esconda lacunas. O que não pode faltar é uma lista de **perguntas em aberto**, cada uma com responsável e quem aprova. Quando uma pergunta exige uma decisão de negócio ainda não tomada, ela fica registrada; a resposta não deve ser inventada para “destravar” a integração. Quem faz o quê está em [Responsabilidades](../../governanca/papeis/).
+Não é obrigatório criar um arquivo por camada: um documento pode reunir aspectos relacionados, desde que não misture autoridades e não esconda lacunas. O que não pode faltar é uma lista de **perguntas em aberto**, cada uma com quem pode resolvê-la. Quando uma pergunta exige uma decisão de negócio ainda não tomada, ela fica registrada; a resposta não deve ser inventada para “destravar” a integração. Quem faz o quê está em [Responsabilidades](../../governanca/papeis/).
 
 ## Documentar não é executar
 

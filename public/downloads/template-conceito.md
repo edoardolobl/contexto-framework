@@ -42,13 +42,14 @@ Estados possíveis: **Rascunho**, **Pendente de aprovação**, **Aprovado**, **O
 ## Exemplos
 - Exemplo que pertence ao conceito:
 - Contraexemplo:
-- Caso que gera dúvida:
+- Caso-limite:
 
 ## Perguntas em aberto
+Repita para cada pergunta que ninguém decidiu.
 - Pergunta:
-- Responsável:
-- Impacto:
-- Status:
+- Impacto (o que dá errado enquanto não há resposta):
+- Quem pode resolver:
+- Estado (em aberto, ou resolvida com data e evidência):
 
 ## Histórico de versões
 
