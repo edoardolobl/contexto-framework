@@ -320,7 +320,7 @@ for path in TERM_FILES:
 
 # Fiction notices: one sentence on the home page, the section in Autoria and the first
 # comment line of each example YAML. Repeating it elsewhere reads as distrust of the reader.
-FICTION = re.compile(r"\bfict[íi]ci\w*|\bhipot[ée]tic\w*|\bdemonstrativ\w*|\bilustrativ\w*|\bdid[áa]tic\w*|A Aurora não existe", re.I)
+FICTION = re.compile(r"\bfict[íi]ci\w*|\bhipot[ée]tic\w*|\bdemonstrativ\w*|\bilustrativ\w*|\bdid[áa]tic\w*|\bfic[çc][ãa]o\b|\bexemplificativ\w*|\blaborat[óo]rio pedag[óo]gico|A Aurora não existe", re.I)
 SYNTHETIC = re.compile(r"\bsint[ée]tic\w*", re.I)
 FICTION_ALLOWED = {"index.mdx", "sobre/creditos.mdx"}
 for path in TERM_FILES:
