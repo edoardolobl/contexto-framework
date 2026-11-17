@@ -1,0 +1,139 @@
+---
+title: "Laboratório Aurora: eventos de coleta"
+description: "Um evento raro com dias em zero não está quebrado, e outro que sumiu está: como a documentação por operação separa os dois, refeito em SQLite."
+---
+
+import AnalyticsLabDownloads from '../../../components/AnalyticsLabDownloads.astro';
+import ExampleDoc from '../../../components/ExampleDoc.astro';
+
+<p class="editorial-lead">Zero disparos num dia não quer dizer evento quebrado</p>
+
+A Aurora tem um plano de mensuração com os eventos que o site e o app precisam coletar, em duas operações: Brasil (BR) e México (MX). Alguém pergunta a um agente de IA quais eventos pararam. Sem contexto, o agente aponta o evento errado e deixa passar o certo. Este laboratório mostra por quê, com números que você refaz.
+
+## 1. O caso em números
+
+A pergunta fraca: **“O generate_lead parou?”** Ela não diz a operação nem o período.
+
+A pergunta boa: **“Quais eventos do plano de mensuração pararam de coletar, considerando os dias completos até 15/11/2026?”**
+
+Com os dados da amostra, a resposta certa é uma só:
+
+- O `generate_lead` no Brasil é um evento raro: 30 disparos em 27 dias completos, média de 1,1 por dia, zero em 9 de 27 dias. A maior sequência em zero foi de 3 dias (27 a 29/10). Agora está em zero há 2 dias (14 e 15/11), abaixo da tolerância de 4 dias. **Está normal.**
+- O `generate_lead` no México não está ativo. Não dispara lá, e isso é esperado.
+- O `add_to_cart` no México não tem nenhuma linha desde 11/11: são 5 dias completos seguidos em zero, para um evento que dispara todo dia. **Este é o que parou.**
+
+## 2. As tabelas, resumidas
+
+O plano de mensuração (`lab2_plano`) diz o que deveria coletar:
+
+| Evento | Operação | Ativo | Tolerância de silêncio |
+|---|---|---|---|
+| add_to_cart | BR | sim | 1 dia |
+| add_to_cart | MX | sim | 1 dia |
+| purchase | BR | sim | 1 dia |
+| purchase | MX | sim | 1 dia |
+| generate_lead | BR | sim | 4 dias |
+| generate_lead | MX | não | não se aplica |
+
+A tabela de eventos diários (`lab2_eventos_diarios`) espelha a tabela de produção `aurora_prod.tracking.eventos_diarios` e **não tem linha nos dias sem disparo**. A amostra cobre 28 datas, de 20/10/2026 a 16/11/2026. O quadro abaixo resume cada operação nos 27 dias completos, até 15/11:
+
+| Operação | Evento | Dias em zero | Média por dia | Dias seguidos em zero agora |
+|---|---|---|---|---|
+| BR | add_to_cart | 0 de 27 | 72,9 | 0 |
+| BR | purchase | 0 de 27 | 8,2 | 0 |
+| BR | generate_lead | 9 de 27 | 1,1 | 2 dias |
+| MX | add_to_cart | 5 de 27 | 30,0 | 5 dias |
+| MX | purchase | 0 de 27 | 5,9 | 0 |
+
+O dia 16/11 ainda está incompleto nas duas operações: a carga fecha dois dias depois (regra D+2). As contagens parciais de `purchase` nesse dia são menores, e isso não é queda. A tabela `lab2_carga` diz quais dias estão completos.
+
+## 3. O erro do agente sem contexto
+
+Sem a documentação, o agente comete dois erros:
+
+1. **Lê o nulo como zero, ou ignora o nulo.** Ao juntar o plano com as contagens (`LEFT JOIN`), o dia sem disparo volta como nulo. Sem saber que "sem linha" significa zero, o agente pode descartar esses dias e achar que o `generate_lead` nunca para, ou tratar o México como se fosse o Brasil.
+2. **Lê o dia incompleto como queda.** Em 16/11 o `purchase` tem poucas linhas e o `generate_lead` não tem nenhuma. O agente conclui que tudo caiu, quando o dia ainda não fechou.
+
+Os dois erros somem quando o agente separa por operação, usa só dias completos e compara com o histórico daquele evento.
+
+## 4. A regra canônica
+
+A regra que separa quebra de silêncio normal fica num documento de decisão. Um evento só é candidato a falha quando está ativo na operação, a carga está completa, ele costuma disparar na janela e a sequência atual em zero chegou à tolerância do evento, sem exceção conhecida. O número da tolerância mora no evento, não na regra. Veja o modelo em [Evento de coleta](../../templates/evento-coleta/) e outros casos em [cenários de mensuração](../../referencias/cenarios-de-mensuracao/).
+
+<ExampleDoc file="exemplo-decisao-evento-quebrado-completo.yaml" />
+
+## 5. A consulta de referência
+
+A consulta parte do plano, junta com a contagem diária, troca o nulo por zero (`COALESCE`), usa só dias completos e separa por operação:
+
+```sql
+WITH consulta AS (
+  SELECT date('2026-11-17', '-2 days') AS ultimo_dia_completo
+),
+dias_completos AS (
+  SELECT c.operation, c.event_date
+  FROM lab2_carga AS c, consulta
+  WHERE c.is_complete = 1 AND c.event_date <= consulta.ultimo_dia_completo
+),
+contagem AS (
+  SELECT p.event_name, p.operation, p.active, d.event_date,
+         CASE WHEN d.event_date IS NULL THEN NULL
+              ELSE COALESCE(e.event_count, 0) END AS n
+  FROM lab2_plano AS p
+  LEFT JOIN dias_completos AS d
+    ON d.operation = p.operation AND d.event_date >= p.launch_date
+  LEFT JOIN lab2_eventos_diarios AS e
+    ON e.event_date = d.event_date AND e.operation = p.operation
+   AND e.event_name = p.event_name
+),
+ultimo_disparo AS (
+  SELECT event_name, operation,
+         MAX(CASE WHEN n > 0 THEN event_date END) AS ultimo_dia
+  FROM contagem GROUP BY event_name, operation
+)
+SELECT c.event_name, c.operation, c.active,
+       ROUND(AVG(c.n), 1) AS avg_daily,
+       COUNT(c.n) AS complete_days,
+       COALESCE(SUM(c.n = 0), 0) AS zero_days,
+       COALESCE(SUM(c.event_date IS NOT NULL
+                    AND (u.ultimo_dia IS NULL OR c.event_date > u.ultimo_dia)), 0) AS current_zero_streak
+FROM contagem AS c
+JOIN ultimo_disparo AS u
+  ON u.event_name = c.event_name AND u.operation = c.operation
+GROUP BY c.event_name, c.operation, c.active
+ORDER BY c.event_name, c.operation;
+```
+
+A consulta vale para esta amostra. Não a copie para dados de produção sem revisar a semântica e a estrutura reais.
+
+## 6. O gabarito: quais eventos pararam?
+
+Seis perguntas sobre esta amostra formam o gabarito: três com resposta, uma que pede esclarecimento (falta a operação) e duas em que a IA não deve responder (dia incompleto e indicador sem definição). As perguntas marcadas como onboarding são as que todo agente novo precisa acertar.
+
+<ExampleDoc file="exemplo-perguntas-de-negocio-eventos-completo.yaml" />
+
+## 7. Exercício: a receita duplicada depois da junção
+
+Na amostra, a BR teve 3 pedidos em 02/11/2026: R$ 120, R$ 80 e R$ 300. O pedido de R$ 300 tem 3 itens. Duas contas, as duas em SQL válido:
+
+- Somar a receita na tabela de pedidos: **R$ 500**.
+- Juntar `lab2_pedidos` com `lab2_itens` e somar a receita: **R$ 1.100**, porque o pedido de R$ 300 aparece uma vez por item.
+
+Antes da junção, cada linha é um pedido. Depois, cada linha é um item. Somar a receita do pedido depois da junção conta o pedido de novo para cada item. É o mesmo cuidado de contar sessões em vez de pedidos no [laboratório de conversão](../analytics-integrado/).
+
+## 8. Teste você
+
+1. Em que dia o `add_to_cart` do México deixou de ter linha?
+2. Por que 2 dias em zero no `generate_lead` da BR não pedem chamado, e 5 dias no `add_to_cart` do MX pedem?
+3. Por que o `purchase` de 16/11 não entra na conta?
+4. O que muda na resposta se a pergunta não disser a operação?
+
+## 9. Reproduza e reutilize
+
+<AnalyticsLabDownloads lab="2" />
+
+O portal não executa consultas nem acessa bancos. Um validador refaz a conta em SQLite e confere se os textos repetem os mesmos números. Ele não avalia nenhum modelo de IA: mostra que a documentação sustenta a resposta certa, não que um sistema acerta.
+
+### Fundamentação
+
+[ADR 0022: laboratório pequeno verificado em SQLite](https://github.com/edoardolobl/contexto-framework/blob/main/docs/adr/0022-laboratorio-pequeno-verificado-em-sqlite.md). Os dois casos que motivaram o laboratório são do mantenedor do projeto; nenhuma fonte externa certifica o SQL desta amostra.

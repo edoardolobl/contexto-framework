@@ -7,8 +7,9 @@ import pytest
 import comum
 
 # As 15 regras que estavam escritas em scripts/validate_content.py no commit d08c810,
-# mais a regra 'modelo' (EDI-32, contrato 0.5) e a regra 'Perguntas de negócio'
-# (ADR 0007, contrato 0.6).
+# mais a regra 'modelo' (EDI-32, contrato 0.5), a regra 'Perguntas de negócio'
+# (ADR 0007, contrato 0.6) e as regras 'linha de base' e 'plano de mensuração'
+# (contrato 0.9, fase F4; a segunda só é permitida na página do tipo Evento de coleta).
 # Se o YAML mudar, este teste lembra de atualizar a tabela do contrato junto.
 REGRAS_ORIGINAIS = [
     (r"\bcasos? de fronteira\b|\bedge cases?\b|\bcasos? limites?\b", "caso-limite", re.I, ()),
@@ -28,6 +29,8 @@ REGRAS_ORIGINAIS = [
     (r"\bconjuntos? de dados\b", "dataset", re.I, ()),
     (r"\btemplates?\b(?![-_./])", "modelo (template só em nome de arquivo, endereço e código)", re.I, ()),
     (r"\bperguntas de refer[eê]ncia\b|\bcasos? de teste\b", "Perguntas de negócio (o tipo) ou gabarito (as respostas)", re.I, ("referencias/index.mdx",)),
+    (r"\bbaselines?\b", "linha de base", re.I, ()),
+    (r"\btag plans?\b", "plano de mensuração", re.I, ("templates/evento-coleta.mdx",)),
 ]
 
 REGRA_OK = "  - termo: dashboard\n    padrao: '\\bpainel\\b'\n    sugestao: dashboard\n    ignorar_maiusculas: true\n    permitido_em: []\n"
@@ -77,12 +80,13 @@ def test_vocabulario_vazio_vira_erro(tmp_path: Path):
     assert "nenhuma regra" in relatorio.erros[0]
 
 
-def test_tipos_reais_tem_os_dez_slugs():
+def test_tipos_reais_tem_os_onze_slugs():
     relatorio = comum.Relatorio()
     slugs = comum.carregar_tipos(comum.DADOS / "modelos.yaml", relatorio)
     assert relatorio.erros == []
     assert sorted(slugs) == sorted(["kpi", "conceito", "processo", "decisao", "politica", "dataset",
-                                    "relacionamento", "dashboard", "rubrica", "perguntas-de-negocio"])
+                                    "relacionamento", "dashboard", "rubrica", "perguntas-de-negocio",
+                                    "evento-coleta"])
 
 
 @pytest.mark.parametrize(

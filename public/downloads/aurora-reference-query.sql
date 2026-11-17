@@ -1,3 +1,4 @@
+-- Exemplo do Contexto. A Aurora é uma organização inventada; nomes, datas e aprovações fazem parte do caso.
 -- CONTEXTO: taxa de sessões web convertidas na amostra Aurora.
 -- Definição da Aurora (KPI-AURORA-001, versão 2.0); não equivale ao indicador de outra empresa.
 -- Denominador: sessões web não internas em 2026-10-01.

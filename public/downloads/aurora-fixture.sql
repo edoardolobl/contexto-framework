@@ -1,3 +1,4 @@
+-- Exemplo do Contexto. A Aurora é uma organização inventada; nomes, datas e aprovações fazem parte do caso.
 -- Laboratório Aurora: 6 sessões e 6 pedidos, para refazer as contas à mão.
 -- Dialeto: SQLite 3. Uma sessão pode produzir muitos pedidos.
 -- O indicador usa só 01/10, canal web, sem sessões internas; S3 (interna) e S4 (app) estão na amostra para mostrar os filtros.

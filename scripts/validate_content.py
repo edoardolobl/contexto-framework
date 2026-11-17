@@ -63,7 +63,7 @@ for path in PAGES:
         elif target is not None and target not in routes:
             record(path, f"link interno não encontrado: {url} => {target}")
 
-ID_PREFIXES = ("KPI-", "DATASET-", "REL-", "DASH-", "QA-", "RUBRIC-", "CONCEPT-", "PROCESS-", "DECISION-", "POLICY-")
+ID_PREFIXES = ("KPI-", "DATASET-", "REL-", "DASH-", "QA-", "RUBRIC-", "CONCEPT-", "PROCESS-", "DECISION-", "POLICY-", "EVENT-")
 walk_references = ids_citados
 
 

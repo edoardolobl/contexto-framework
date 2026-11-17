@@ -45,6 +45,14 @@ Esta é a versão do **produto** (portal, método e ferramentas). Os modelos de 
 - Modelos 0.x preservados em `public/downloads/historico/0.x/` (os 10 pares `.md` e `.yaml`, sem alteração).
 - Páginas "Migração para o schema 1.0" e "Correspondência com o ODCS" no grupo Consultar.
 - Contrato editorial 0.8 e ADR 0026, ambos em estado Proposto.
+- Tipo Evento de coleta (F4, I-18): `schemas/evento-coleta.schema.json`, modelo `src/modelos/evento-coleta.md` com as duas instruções ao agente já preenchidas em `context.instructions` (`review_interval` P6M) e par de exemplos `EVENT-AURORA-GENERATE-LEAD` (com lacunas 0.1 e completo 1.1); núcleo curto com `trigger`, `destination` e `active_scopes`. Página "Evento de coleta" em Modelos, com a triagem em cinco passos antes de chamar um evento de quebrado (I-20) e os quatro downloads.
+- Regra canônica de evento quebrado (I-19): exemplo `DECISION-AURORA-EVENTO-QUEBRADO` (tipo decisão, só o completo), com cinco entradas categóricas, 11 linhas exclusivas e 6 casos; o número de dias seguidos em zero fica no Evento de coleta, como escolha do time. Testes em `scripts/tests/test_decisao_evento.py`.
+- Laboratório Aurora de eventos de coleta (Lab 2), no grupo Laboratórios: amostra `aurora-lab2-fixture.sql` (2 operações, 3 eventos, 28 dias, 1 dia incompleto, 1 incidente), consulta de referência `aurora-lab2-reference-query.sql`, gabarito `QA-AURORA-002` ("quais eventos pararam?") e exercício de duplicação depois da junção de pedidos com itens (I-23).
+- `scripts/check_lab2_mensuracao.py`, com testes em `scripts/tests/test_lab2_mensuracao.py`: confere o limite fixo do Lab 2, recalcula no SQLite os números citados nas páginas e nos exemplos, aplica a regra canônica a cada evento e operação e confere o gabarito, sem chamar modelo de IA (ADR 0022). Entra em `check:content`.
+- Página "Cenários de mensuração" no grupo Consultar (I-22): 15 cenários, cada um com fonte primária do Google Analytics Help ou do Google for Developers, e a ficha de reconciliação entre fontes `POLICY-AURORA-RECONCILIACAO-MIDIA`, exemplo do tipo Política (I-21).
+- Protocolo do experimento do caso 1 em `docs/experimentos/caso-1.md` (com e sem documentação, pontuação pelo gabarito `QA-AURORA-002`), aguardando execução com agentes reais.
+- Regras de vocabulário "linha de base" (no lugar de baseline) e "plano de mensuração" (no lugar de tag plan, permitido uma vez na página do tipo Evento de coleta).
+- Contrato editorial 0.9 e ADR 0027, ambos em estado Proposto.
 
 ### Mudado
 
@@ -56,6 +64,15 @@ Esta é a versão do **produto** (portal, método e ferramentas). Os modelos de 
 - Conceito com vocabulário no padrão SKOS (`prefLabel`, `altLabel`, `broader`, `related`, `not_synonyms`); `context` passa a ser o bloco técnico do ODCS.
 - Validadores: `validate_content.py` aceita `superseded`, exige que o modelo Markdown comece com frontmatter e que o exemplo completo tenha `intent.question` e `plain_summary`; `check_higiene.py` confere também `campos.yaml` e os `title` e `description` dos schemas; `check_decision_examples.py` confere o `type` e relata campo ausente como `ERRO:`; links para `historico/0.x/` passam a ser conferidos no caminho certo.
 - README, "Como ler os campos", "Comece em 5 minutos", "Limites" e "Identificação e versões" descrevem o formato novo, o núcleo de 8 campos e a diferença entre Substituído e Obsoleto.
+- Onze tipos de documento: Evento de coleta entra no núcleo, logo depois de Relacionamento (ADR 0013), em `modelos.yaml`, no menu, no enum de `type` do cabeçalho comum e no cartão do exemplo (`ExampleMeaning`), que também ganha rótulos em português para as entradas e saídas da regra de evento quebrado.
+- A entrada da home "Um evento parece ter parado de coletar" deixa o destino provisório e passa a levar à página Evento de coleta.
+- `check_decision_examples.py` lê todo `exemplo-decisao-*.yaml` em vez de uma lista fixa, relata linha da tabela sem uma entrada como `ERRO:` e, quando a regra tem `failure_candidate`, exige as cinco condições e recusa número em `allowed_values`; `validate_content.py` passa a conferir referências com o prefixo `EVENT-`.
+- Os `.sql` do Lab 1 (`aurora-fixture.sql` e `aurora-reference-query.sql`) ganham o aviso de que a Aurora é inventada na primeira linha (ADR 0012), sem mudar o resultado de 25%.
+- `AnalyticsLabDownloads` recebe a escolha do laboratório (`lab`), e `artefatos.yaml` registra a amostra do Lab 2 a partir de 16/11/2026.
+- Revisão da F4: o link do cenário 14 para a ficha de reconciliação usa a âncora com acento, e `check_built_links.py` passa a conferir as âncoras (`#`) na página de destino, com testes em `scripts/tests/test_links_construidos.py`.
+- `check_lab2_mensuracao.py` monta a partir da amostra cada linha do quadro-resumo da página do Lab 2 e as frases completas que a página, o Evento de coleta, o gabarito e a página do modelo repetem (médias, dias em zero, sequências e seus períodos, "desde 11/11"), em vez de procurar números soltos.
+- As versões 1.1 do Evento de coleta `generate_lead` e da regra de evento quebrado passam de 16/11 para 17/11/2026: pela regra D+2, o dia 15/11 da linha de base e do teste do México só fica completo em 17/11.
+- Protocolo do caso 1: as duas condições recebem só a tabela de eventos diários e a lista de eventos do plano por operação, sem escopo, tolerância nem marca de dia incompleto; o prompt diz a data da consulta; a pontuação compara a única pergunta feita com a Q01 do gabarito, sem colunas de esclarecer e abster-se.
 
 - A publicação no GitHub Pages só acontece depois que todos os validadores passam.
 - O deploy não é mais cancelado no meio: uma publicação em andamento termina, e uma publicação que está na fila é substituída pela mais recente.

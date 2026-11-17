@@ -1,9 +1,10 @@
 # Contrato editorial: Contexto
 
-**Versão:** 0.8 · **Data desta versão:** 2026-11-17 · **Estado:** proposto (F3), aguarda aprovação do mantenedor · **Mantenedor:** Edoardo Lobl
+**Versão:** 0.9 · **Data desta versão:** 2026-11-17 · **Estado:** proposto (F4), aguarda aprovação do mantenedor · **Mantenedor:** Edoardo Lobl
 
 | Versão | Data | O que mudou | Aprovado por |
 |---|---|---|---|
+| 0.9 | 2026-11-17 | Tipo Evento de coleta no núcleo de entrada (ADR 0013 e 0027); grupo Laboratórios com dois laboratórios; seção opcional de triagem na página do tipo, quando o tipo pede; aviso de ficção também na primeira linha de cada .sql baixável (ADR 0012); regras para exemplos de Data Analytics sobre limite fixo do Lab 2, falta de linha x zero, dia incompleto em D+2, cenário só com fonte primária e limiar numérico como escolha do time; termos "linha de base" e "plano de mensuração" na tabela Vocabulário | Proposto (F4), aguarda aprovação do mantenedor |
 | 0.8 | 2026-11-17 | Fonte única em Markdown com frontmatter; downloads gerados e conferidos no CI; schema 1.0.0 com JSON Schema por tipo; cabeçalho comum e intent; estado superseded e campo status nas perguntas em aberto (ADR 0005, 0006, 0009 e 0015); exemplo YAML do cabeçalho na ordem que o validador exige | Proposto (F3), aguarda aprovação do mantenedor |
 | 0.7 | 2026-11-17 | Comece aqui descrito como o menu publicado: tutorial de negócio e visão do método; o tutorial de dados fica em aberto no ROADMAP | Proposto (F2), aguarda aprovação do mantenedor |
 | 0.6 | 2026-11-17 | Promessa única da seção 1.2 da direção (EDI-01); público em três perfis leitores; portal em percurso, com grupos do menu, bloco Próximo passo, prev/next pela ordem do menu, YAML fora do percurso e sem página órfã, conferido por `scripts/check_navegacao.py`; tipo Perguntas de negócio no vocabulário (ADR 0007); oito dimensões como checklist e convenção (ADR 0014) | Proposto (F2), aguarda aprovação do mantenedor |
@@ -64,6 +65,8 @@ Cada ideia tem um nome só, em páginas, componentes, modelos e textos dos YAML.
 | Conjunto de dados | dataset | conjunto de dados |
 | Pedido ao banco | consulta | query |
 | Arquivo para preencher | modelo | template, fora de nome de arquivo, endereço e código |
+| Ponto de comparação de uma série no tempo | linha de base | baseline |
+| Documento que diz o que cada evento deve fazer e quando | plano de mensuração | tag plan (só na página do tipo Evento de coleta) |
 
 A tríade para o que se sabe é **Confirmado / Relatado / Em aberto**. “Lacuna” é só o que o checklist encontra num documento.
 
@@ -77,7 +80,7 @@ Todos os exemplos usam a Aurora, uma organização inventada. Isso é dito **em 
 
 1. uma frase na página inicial;
 2. a seção “Os exemplos são fictícios”, em Autoria e licença;
-3. a primeira linha de comentário do frontmatter de cada exemplo, que vira a primeira linha do YAML gerado, porque o arquivo baixado circula sem o site.
+3. a primeira linha de comentário do frontmatter de cada exemplo, que vira a primeira linha do YAML gerado, e a primeira linha de comentário de cada `.sql` baixável, porque o arquivo baixado circula sem o site (ADR 0012).
 
 Fora deles, nenhum “fictício”, “hipotético”, “ilustrativo”, “didático”, “demonstrativo” ou “A Aurora não existe”. Repetir o aviso trata o leitor como incapaz de lembrar o que leu. “Amostra sintética” aparece uma vez, no laboratório, porque explica o tamanho da amostra. A restrição “a rubrica avalia o trabalho, nunca a pessoa” não é aviso de ficção e fica, uma vez.
 
@@ -157,10 +160,10 @@ Qual número mudar:
 
 O portal segue o percurso do leitor, não a ordem das pastas. A decisão está no [ADR 0023](adr/0023-percurso-em-sete-passos.md).
 
-- **Grupos do menu:** Comece aqui (tutorial de negócio e visão do método; o tutorial de dados ainda não existe e está em aberto no [ROADMAP](ROADMAP.md)), Percurso, Modelos, Laboratórios, Entender, Consultar e Usar com IA.
+- **Grupos do menu:** Comece aqui (tutorial de negócio e visão do método; o tutorial de dados ainda não existe e está em aberto no [ROADMAP](ROADMAP.md)), Percurso, Modelos, Laboratórios (dois: o de Data Analytics e o de eventos de coleta), Entender, Consultar e Usar com IA.
 - **Percurso em sete passos**, com fonte em `src/data/percurso.yaml`: 1 Escreva a pergunta de negócio; 2 Delimite o acervo; 3 Descubra o que falta; 4 Escreva com o modelo (a página de modelos); 5 Revise e aprove; 6 Teste com as perguntas; 7 Leve à sua ferramenta de IA.
 - **Próximo passo:** toda página do percurso termina com o bloco Próximo passo. O prev/next segue a ordem do menu, e não a ordem das pastas.
-- **Modelos:** o grupo segue o nível de `src/data/modelos.yaml`: o núcleo de entrada (ADR 0013), o segundo nível e a trilha complementar da rubrica (ADR 0003).
+- **Modelos:** o grupo segue o nível de `src/data/modelos.yaml`: o núcleo de entrada (ADR 0013), o segundo nível e a trilha complementar da rubrica (ADR 0003). O tipo Evento de coleta está no núcleo de entrada (ADR 0013 e 0027).
 - **Nenhuma página órfã:** toda página tem entrada no menu ou em outra página, e nenhuma página fica sem saída. `scripts/check_navegacao.py` confere.
 - **YAML só em páginas de modelo e de referência,** nunca no percurso (NAV-08).
 - **Uma página por tipo de documento**, com o modelo e o exemplo juntos. O endereço continua em `/templates/...`.
@@ -173,8 +176,9 @@ O portal segue o percurso do leitor, não a ordem das pastas. A decisão está n
 1. **O problema**, com números: uma situação da Aurora em que a falta do documento custa algo visível.
 2. **O que perguntar**, numa tabela só: pergunta, como ela aparece na Aurora, o que registrar.
 3. **Antes e depois da decisão**: o cartão com lacunas e o cartão completo, cada um uma vez, e o que o histórico de versões ensina.
-4. **Teste você**, com as respostas escondidas.
-5. **Baixe o modelo**, e a fundamentação.
+4. **Triagem**, seção opcional que só entra quando o tipo pede. O tipo Evento de coleta a usa para separar o que é quebra do que é esperado (ADR 0027).
+5. **Teste você**, com as respostas escondidas.
+6. **Baixe o modelo**, e a fundamentação.
 
 ## Estrutura de duas camadas de metadados
 
@@ -296,6 +300,11 @@ Os modelos vêm de `src/data/modelos.yaml`, que alimenta `TemplateFinder`, `Temp
 3. **Exemplo numérico verificável:** quando houver valor esperado, fornecer amostra sintética e consulta ou procedimento reproduzível.
 4. **Abstenção fundamentada:** incluir pelo menos um exemplo sem cobertura temporal, sem definição ou fora do escopo.
 5. **Documentação não é enforcement:** diferenciar gabarito documental, SQL verificado, camada semântica executável e sistema de agentes.
+6. **Limite fixo do laboratório:** cada laboratório declara o seu limite de escopo (operações, eventos, dias e incidentes) e não cresce além dele. O Lab 2 segue o limite fixo do ADR 0027, que fecha o ponto em aberto do ADR 0022.
+7. **Falta de linha não é zero:** numa tabela agregada, um dia sem linha pode significar zero ou falha de coleta. O exemplo diz qual dos dois, com a política de dia sem linha do Evento de coleta.
+8. **Dia incompleto:** um dia recente não entra na conclusão enquanto não estiver completo. No Lab 2, o dia D só fica completo em D+2 às 06h no fuso da operação; antes disso, fica fora da conta. Esse prazo vale para a tabela diária da Aurora e é escolha do time; outra fonte, como o export do GA4 para o BigQuery, pode ter janela própria de chegada tardia, que o exemplo cita quando usa essa fonte.
+9. **Cenário só com fonte primária:** cada cenário do banco de cenários cita documentação oficial lida (Google Analytics Help ou Google for Developers). Cenário sem confirmação nessas fontes fica de fora (ADR 0027).
+10. **Limiar numérico é escolha do time:** nenhum limiar de alerta é regra universal. Quando um exemplo traz número, diz que é escolha do time que o adota.
 
 A execução de testes automatizados pode encontrar contradições nos exemplos, mas não prova que um documento de produção é correto. A aprovação do especialista continua indispensável.
 

@@ -9,7 +9,15 @@ from comum import DOWNLOADS as DL, Relatorio, carregar_yaml
 
 relatorio = Relatorio()
 relatorio.instalar()
-FILES = ["exemplo-decisao-lacunas.yaml", "exemplo-decisao-completo.yaml"]
+FILES = sorted(p.name for p in DL.glob("exemplo-decisao-*.yaml"))
+FAILURE = "failure_candidate"
+FAILURE_REQUIRED = {
+    "active_in_scope": True,
+    "ingestion_complete": True,
+    "expected_in_window": True,
+    "deviation_streak_reached": True,
+    "known_exception_applies": False,
+}
 errors = relatorio.erros
 summary = []
 
@@ -27,16 +35,43 @@ def conferir_campos(name: str, doc: dict, tipo: str, campos: tuple[str, ...]) ->
     return ok
 
 
-for name in FILES:
-    doc = carregar_yaml(DL / name, relatorio)
-    if doc is None:
-        continue
+def conferir_linhas(name: str, rules: list, columns: list[str]) -> bool:
+    """Cada linha precisa de when com todas as entradas e de then; falta vira ERRO legível."""
+    ok = True
+    for numero, rule in enumerate(rules, start=1):
+        when = rule.get("when") if isinstance(rule, dict) else None
+        if not isinstance(when, dict) or "then" not in rule:
+            errors.append(f"{name}: linha {numero} da tabela precisa de when e then")
+            ok = False
+            continue
+        for coluna in (c for c in columns if c not in when):
+            errors.append(f"{name}: linha {numero} da tabela não traz a entrada {coluna} no when (use any se não importa)")
+            ok = False
+    return ok
+
+
+def conferir_failure_candidate(name: str, rules: list, inputs: list) -> None:
+    """Regra canônica de evento quebrado: só vira failure_candidate com as cinco condições e sem limiar."""
+    candidatas = [r for r in rules if r["then"] == FAILURE]
+    if not candidatas:
+        errors.append(f"{name}: nenhuma combinação dá {FAILURE}")
+    for rule in candidatas:
+        for entrada, esperado in FAILURE_REQUIRED.items():
+            if rule["when"].get(entrada) is not esperado:
+                errors.append(f"{name}: {FAILURE} exige {entrada}={str(esperado).lower()}, mas a linha {rule['when']} aceita {rule['when'].get(entrada)!r}")
+    for entry in inputs:
+        if any(isinstance(v, (int, float)) and not isinstance(v, bool) for v in entry["allowed_values"]):
+            errors.append(f"{name}: a entrada {entry['name']} tem número em allowed_values; limiar é escolha do time e mora no Evento de coleta")
+
+
+def conferir_documento(name: str, doc: dict) -> None:
     if not conferir_campos(name, doc, "decisao", ("required_inputs", "decision_table", "possible_outputs")):
-        continue
+        return
     inputs = doc["required_inputs"]
     columns = [entry["name"] for entry in inputs]
-    domains = [entry["allowed_values"] for entry in inputs]
     rules = doc["decision_table"]
+    if not conferir_linhas(name, rules, columns):
+        return
     possible_outputs = set(doc["possible_outputs"])
 
     def classify(values):
@@ -50,14 +85,22 @@ for name in FILES:
         return outcome
 
     seen = 0
-    for combination in product(*domains):
+    for combination in product(*(entry["allowed_values"] for entry in inputs)):
         classify(dict(zip(columns, combination)))
         seen += 1
     for case in doc.get("tests", []):
         observed = classify(case["inputs"])
         if observed != case["expected_outcome"]:
             errors.append(f"{name}: teste {case['inputs']}: esperado {case['expected_outcome']}, observado {observed}")
+    if FAILURE in possible_outputs:
+        conferir_failure_candidate(name, rules, inputs)
     summary.append(f"{name}: {seen} combinações, {len(doc.get('tests', []))} casos")
+
+
+for name in FILES:
+    doc = carregar_yaml(DL / name, relatorio)
+    if doc is not None:
+        conferir_documento(name, doc)
 
 # Rubrica de material de campanha: pesos, âncoras, nota recalculada e encaminhamento pela tabela aprovada.
 decision = carregar_yaml(DL / "exemplo-decisao-completo.yaml", relatorio) or {"decision_table": []}

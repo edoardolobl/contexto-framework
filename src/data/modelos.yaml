@@ -5,13 +5,12 @@
 #   src/exemplos/exemplo-<slug>-lacunas.md e exemplo-<slug>-completo.md, em Markdown com frontmatter.
 #   Os arquivos de public/downloads (template-<slug>.md, template-<slug>.yaml, exemplo-<slug>-lacunas.yaml
 #   e exemplo-<slug>-completo.yaml) são gerados dessas fontes por scripts/gerar_downloads.py.
-# pagina: endereço da página em src/content/docs/templates/<pagina>.mdx. Igual ao slug nos dez tipos.
+# pagina: endereço da página em src/content/docs/templates/<pagina>.mdx. Igual ao slug nos onze tipos.
 # nome: título da página. nivel segue o ADR 0013 (núcleo de entrada) e o ADR 0003 (Rubrica na trilha complementar):
 #   nucleo: aparece na porta de entrada; segundo: segundo nível; complementar: trilha à parte.
 # tarefa e resumo: o que a pessoa quer fazer e o que o modelo cobre, na tabela da página de modelos.
 # quando, resultado e preparar: o bloco "Antes de preencher" de cada página de modelo.
 # rotulo_download: nome do primeiro arquivo para baixar, o modelo em texto.
-# O tipo Evento de coleta entra na fase F4, junto com os arquivos dele.
 tipos:
   - slug: kpi
     pagina: kpi
@@ -43,6 +42,16 @@ tipos:
     resultado: Uma relação documentada com chaves, cardinalidade e limites de uso.
     preparar: Os dois datasets, um exemplo de junção e riscos conhecidos.
     rotulo_download: Modelo de relacionamento
+  - slug: evento-coleta
+    pagina: evento-coleta
+    nome: Evento de coleta
+    nivel: nucleo
+    tarefa: Registrar o comportamento esperado de um evento
+    resumo: Onde dispara, frequência por operação, quando zero é normal e o que já aconteceu com o evento.
+    quando: Um evento parece ter parado de coletar e ninguém sabe se o silêncio é normal.
+    resultado: Um registro do evento com escopo, linha de base por operação, tolerância ao silêncio e exceções.
+    preparar: O plano de mensuração, a contagem diária por operação e quem decide o limiar de silêncio.
+    rotulo_download: Modelo de evento de coleta
   - slug: decisao
     pagina: decisao
     nome: Regra e decisão

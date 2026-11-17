@@ -1,0 +1,160 @@
+---
+title: Cenários de mensuração
+description: Quinze perguntas de marketing em que uma IA sem contexto costuma errar, a regra que corrige cada uma e a fonte oficial do Google.
+---
+
+import ExampleDoc from '../../../components/ExampleDoc.astro';
+
+<p class="editorial-lead">Quinze perguntas em que a IA erra até o time escrever a regra</p>
+
+Uma IA que não conhece o seu time responde com o que aprendeu em outros lugares, e essas respostas costumam parecer corretas. Esta página reúne quinze cenários de mensuração com Google Analytics, BigQuery e plataformas de mídia. Cada um traz a pergunta de negócio, a resposta errada, a regra ou o campo que a corrige, onde ela mora no Contexto e a fonte oficial.
+
+Só entram comportamentos que o Google documenta. Cada página foi aberta e lida antes de entrar, e as fontes estão na seção [Fontes](#fontes), no fim. Nenhum limiar numérico aparece como regra universal: quando há um número, ele é a configuração padrão do Google ou uma escolha do time que a adota.
+
+Os cenários servem de banco para os [laboratórios](../../exemplos/laboratorio-eventos/), para o Teste você das páginas de tipo e para o tipo [Perguntas de negócio](../../templates/perguntas-de-negocio/).
+
+## Cenários
+
+### 1. Quantas compras o site teve?
+
+- **Pergunta de negócio:** quantos pedidos foram pagos no período?
+- **Resposta errada de uma IA sem contexto:** conta cada linha do evento `purchase` como um pedido. Se o evento disparou duas vezes para o mesmo pedido, o número sobe sem aviso.
+- **O que corrige:** o Google diz que o `transaction_id` ajuda a evitar eventos de compra duplicados. A contagem de pedidos usa o `transaction_id` distinto, e a chave fica declarada no documento.
+- **Onde mora no Contexto:** no [Evento de coleta](../../templates/evento-coleta/), campo `deduplication_key`.
+- **Fonte primária:** [Referência de eventos, Google for Developers, evento purchase](https://developers.google.com/analytics/devguides/collection/ga4/reference/events) (em inglês).
+
+### 2. Qual foi a receita da compra?
+
+- **Pergunta de negócio:** quanto de receita entrou com as compras do período?
+- **Resposta errada de uma IA sem contexto:** soma o campo `value` sem olhar a moeda, e inclui frete e imposto porque o site mostra o total da compra.
+- **O que corrige:** o `value` do `purchase` é a soma de preço vezes quantidade dos itens, sem frete e sem imposto. Se o `value` vier preenchido, a moeda (`currency`) é obrigatória para a receita sair certa.
+- **Onde mora no Contexto:** no [Indicador](../../templates/kpi/), no bloco `calculation`, com a moeda e a exclusão de frete e imposto.
+- **Fonte primária:** [Referência de eventos do Google for Developers, evento purchase](https://developers.google.com/analytics/devguides/collection/ga4/reference/events) (em inglês).
+
+### 3. O site envia os eventos com o nome que os relatórios esperam?
+
+- **Pergunta de negócio:** a compra, o carrinho e a geração de lead chegam ao Analytics do jeito que os relatórios esperam?
+- **Resposta errada de uma IA sem contexto:** qualquer nome serve, desde que faça sentido para o time, e os relatórios de e-commerce funcionam do mesmo jeito.
+- **O que corrige:** o Google recomenda `purchase`, `add_to_cart` e `generate_lead` com os parâmetros prescritos. Os relatórios de compra são preenchidos pelo evento `purchase`, e outro nome não alimenta esse relatório.
+- **Onde mora no Contexto:** no [Evento de coleta](../../templates/evento-coleta/), com o nome e os parâmetros de cada evento.
+- **Fonte primária:** [Recommended events, Google Analytics Help](https://support.google.com/analytics/answer/9267735) (em inglês).
+
+### 4. Em que dia caiu esta venda?
+
+- **Pergunta de negócio:** quantos pedidos caíram em cada dia, no horário de São Paulo?
+- **Resposta errada de uma IA sem contexto:** agrupa pelo `event_timestamp` como se fosse a data local, ou assume que `event_date` também está em UTC.
+- **O que corrige:** no export para o BigQuery, `event_date` é a data no fuso registrado para o app, que é o fuso da propriedade. `event_timestamp` é um instante em microssegundos, em UTC. Para agrupar por dia, use `event_date`; para ordenar ou converter, use o instante.
+- **Onde mora no Contexto:** no [Dataset](../../templates/dataset/), no bloco `time_semantics`, campo `timezone`.
+- **Fonte primária:** [BigQuery Export schema, Google Analytics Help](https://support.google.com/analytics/answer/7029846) (em inglês).
+
+### 5. Os dados de ontem já estão completos?
+
+- **Pergunta de negócio:** o relatório de ontem pode ser fechado hoje cedo?
+- **Resposta errada de uma IA sem contexto:** lê a tabela de hoje como definitiva, ou assume que o dia fecha à meia-noite.
+- **O que corrige:** a tabela diária (`events_AAAAMMDD`) recebe eventos com datas de até três dias antes, e eventos que chegam depois dessa janela não são gravados. A tabela `events_intraday_AAAAMMDD` existe só com a exportação de streaming, muda durante o dia e é apagada quando a diária fica completa. Na sandbox do BigQuery não há intraday.
+- **Onde mora no Contexto:** no [Evento de coleta](../../templates/evento-coleta/), campo `late_arrival_window`, e no [Dataset](../../templates/dataset/), campo `update_frequency`.
+- **Fonte primária:** [BigQuery Export schema, Google Analytics Help](https://support.google.com/analytics/answer/7029846) (em inglês).
+
+### 6. Esse número ainda pode mudar?
+
+- **Pergunta de negócio:** os números de ontem, lidos hoje, são definitivos?
+- **Resposta errada de uma IA sem contexto:** trata o relatório como final assim que abre, ou compara um número de agora com outro de uma hora atrás como se fossem o mesmo dado.
+- **O que corrige:** o Google diz que o processamento pode levar de 24 a 48 horas e que os dados dos relatórios podem mudar nesse intervalo. O atraso típico vai no documento, e um dia só entra na conclusão depois de completo.
+- **Onde mora no Contexto:** no [Dataset](../../templates/dataset/), campo `known_latency`.
+- **Fonte primária:** [Data freshness, Google Analytics Help](https://support.google.com/analytics/answer/11198161) (em inglês).
+
+### 7. Por que uma linha sumiu do relatório?
+
+- **Pergunta de negócio:** por que um segmento desapareceu do relatório de público?
+- **Resposta errada de uma IA sem contexto:** conclui que não houve evento naquele segmento e registra zero.
+- **O que corrige:** o Google aplica limites de dados (data thresholds) para impedir que alguém identifique pessoas. Eles são definidos pelo sistema e não podem ser ajustados. Linhas somem em relatórios com dados demográficos ou em buscas com poucos usuários. Sumir não é zero. Também não entram no BigQuery os dados do Google signals, então a contagem por usuário pode diferir entre o Analytics e o BigQuery.
+- **Onde mora no Contexto:** no [Evento de coleta](../../templates/evento-coleta/), campo `known_exceptions`.
+- **Fonte primária:** [[GA4] About data thresholds, Google Analytics Help](https://support.google.com/analytics/answer/9383630) (em inglês).
+
+### 8. A queda de sessões depois do banner de cookies é perda de coleta?
+
+- **Pergunta de negócio:** depois do banner de consentimento, o número de sessões caiu. A coleta quebrou?
+- **Resposta errada de uma IA sem contexto:** diz que houve falha no código e manda corrigir a implementação, ou lê o número como o total real de visitas.
+- **O que corrige:** com o modo de consentimento, quem recusa não tem cookies de análise gravados. O Google envia sinais sem cookies, e a modelagem comportamental estima parte do que falta, se a propriedade for elegível. Dado modelado não é dado observado, e a elegibilidade não é garantida.
+- **Onde mora no Contexto:** no [Evento de coleta](../../templates/evento-coleta/), campo `consent_requirements`.
+- **Fonte primária:** [Consent mode on websites and mobile apps, Google Analytics Help](https://support.google.com/analytics/answer/9976101) e [[GA4] Behavioral modeling for consent mode, Google Analytics Help](https://support.google.com/analytics/answer/11161109) (em inglês).
+
+### 9. Robôs inflam as sessões?
+
+- **Pergunta de negócio:** as sessões do site incluem robôs e rastreadores?
+- **Resposta errada de uma IA sem contexto:** cria um filtro para cada robô conhecido, ou presume que nenhum robô chega ao relatório.
+- **O que corrige:** o Google informa que o tráfego de bots e spiders é excluído automaticamente. A página não diz quanto tráfego automatizado sobra. Por isso, o documento não promete limpeza total e registra a ressalva.
+- **Onde mora no Contexto:** no [Dataset](../../templates/dataset/), em `usage.known_caveats`.
+- **Fonte primária:** [Filter, report on, or restrict access to data subsets, Google Analytics Help](https://support.google.com/analytics/answer/10227574) (em inglês).
+
+### 10. Os números antigos mudaram depois do filtro de tráfego interno?
+
+- **Pergunta de negócio:** depois de criar o filtro de tráfego interno, os números de meses atrás mudaram?
+- **Resposta errada de uma IA sem contexto:** acha que o filtro limpou o histórico, ou que ele pode ser desfeito sem perda.
+- **O que corrige:** o filtro de dados vale só a partir da data de criação e não afeta dados históricos. Quando é de exclusão, os dados excluídos nunca são processados e nunca chegam ao BigQuery. Por isso a data de criação do filtro entra no documento.
+- **Onde mora no Contexto:** no [Dataset](../../templates/dataset/), em `usage.known_caveats`.
+- **Fonte primária:** [Data filters, Google Analytics Help](https://support.google.com/analytics/answer/10108813) (em inglês).
+
+### 11. Por que o gateway de pagamento aparece como origem da venda?
+
+- **Pergunta de negócio:** parte das vendas aparece como vinda do gateway de pagamento, e não do anúncio. Por quê?
+- **Resposta errada de uma IA sem contexto:** trata o gateway como canal de origem e conclui que a campanha não gerou essa venda.
+- **O que corrige:** quando o cliente volta do domínio do gateway depois de pagar, o Google pode registrar esse domínio como referência. A lista de exclusão evita isso dali em diante, mas não corrige o passado. Pelo modelo de último clique não direto, uma sessão posterior também pode ser atribuída ao domínio.
+- **Onde mora no Contexto:** no [Evento de coleta](../../templates/evento-coleta/), campo `known_exceptions`, com os domínios excluídos.
+- **Fonte primária:** [Identify unwanted referrals, Google Analytics Help](https://support.google.com/analytics/answer/10327750) (em inglês).
+
+### 12. Quantas sessões a campanha teve, exatamente?
+
+- **Pergunta de negócio:** quantas sessões a campanha gerou no período?
+- **Resposta errada de uma IA sem contexto:** lê o número da exploração como contagem exata, sem ver o ícone de qualidade de dados.
+- **O que corrige:** quando o número de eventos passa da cota da propriedade, a exploração usa uma parte dos dados e amplia o resultado. A porcentagem usada aparece no ícone de qualidade de dados. Um número amostrado precisa dizer que é amostra.
+- **Onde mora no Contexto:** no [Indicador](../../templates/kpi/), no bloco `calculation`, com a origem do número.
+- **Fonte primária:** [About data sampling, Google Analytics Help](https://support.google.com/analytics/answer/13331292) (em inglês).
+
+### 13. A linha "(other)" é um canal de tráfego?
+
+- **Pergunta de negócio:** a linha "(other)" é um canal novo, ou um evento que ninguém configurou?
+- **Resposta errada de uma IA sem contexto:** trata "(other)" como categoria de negócio e tenta explicar a queda de um canal por ela.
+- **O que corrige:** a linha aparece quando a tabela passa do limite de linhas. O Google mostra os valores mais comuns e agrupa os menos comuns nela. Não é categoria de negócio, e a leitura do relatório precisa dizer isso.
+- **Onde mora no Contexto:** no [Dashboard](../../templates/dashboard/), como guia de leitura do número.
+- **Fonte primária:** [About the (other) row, Google Analytics Help](https://support.google.com/analytics/answer/13331684) (em inglês).
+
+### 14. Qual venda conta para qual campanha?
+
+- **Pergunta de negócio:** a venda de quem clicou no anúncio meses antes conta para a campanha?
+- **Resposta errada de uma IA sem contexto:** assume que a janela de atribuição é a mesma em todas as ferramentas e que o último clique vence em todas.
+- **O que corrige:** janela e modelo de atribuição são configurações da propriedade. Por padrão, eventos-chave que não são de aquisição usam janela de 90 dias, que pode ser trocada por 30 ou 60 dias, e a troca vale daí em diante. A [ficha de reconciliação](#ficha-de-reconciliação-entre-fontes) desta página declara a configuração de cada conta.
+- **Onde mora no Contexto:** na [Política](../../templates/politica/), no bloco de fontes em conflito.
+- **Fonte primária:** [Select attribution settings, Google Analytics Help](https://support.google.com/analytics/answer/10597962) (em inglês).
+
+### 15. O estorno desconta a venda?
+
+- **Pergunta de negócio:** um pedido estornado continua aparecendo como venda nos relatórios?
+- **Resposta errada de uma IA sem contexto:** espera que o estorno apareça sozinho no `purchase`, ou acha que basta apagar o evento de compra para corrigir.
+- **O que corrige:** o estorno tem evento próprio, `refund`, e o `transaction_id` é obrigatório nele, como na compra. O Google recomenda incluir os itens no estorno para ver o efeito por item.
+- **Onde mora no Contexto:** no [Evento de coleta](../../templates/evento-coleta/), campo `deduplication_key`, que liga a compra ao estorno.
+- **Fonte primária:** [Referência de eventos do Google for Developers, evento refund](https://developers.google.com/analytics/devguides/collection/ga4/reference/events) (em inglês).
+
+## Ficha de reconciliação entre fontes
+
+Esta ficha responde ao terceiro caso que o projeto analisou: um agente ligado ao BigQuery e às APIs de mídia somou conversões de plataformas diferentes, juntou campanhas pelo nome e chamou a diferença entre cliques e pedidos de perda de rastreamento. A ficha diz qual fonte vale para verba, pedidos e receita, declara a janela, o modelo, a data e o fuso de cada fonte e aponta o desvio que aciona investigação.
+
+<ExampleDoc file="exemplo-politica-reconciliacao-midia-completo.yaml" />
+
+## Fontes
+
+Todas as fontes foram abertas e lidas em 17/11/2026. Estão em inglês.
+
+- [Referência de eventos, Google for Developers](https://developers.google.com/analytics/devguides/collection/ga4/reference/events): purchase, add_to_cart, generate_lead e refund.
+- [Recommended events, Google Analytics Help](https://support.google.com/analytics/answer/9267735).
+- [BigQuery Export schema, Google Analytics Help](https://support.google.com/analytics/answer/7029846).
+- [Data freshness, Google Analytics Help](https://support.google.com/analytics/answer/11198161).
+- [[GA4] About data thresholds, Google Analytics Help](https://support.google.com/analytics/answer/9383630).
+- [Consent mode on websites and mobile apps, Google Analytics Help](https://support.google.com/analytics/answer/9976101).
+- [[GA4] Behavioral modeling for consent mode, Google Analytics Help](https://support.google.com/analytics/answer/11161109).
+- [Filter, report on, or restrict access to data subsets, Google Analytics Help](https://support.google.com/analytics/answer/10227574).
+- [Data filters, Google Analytics Help](https://support.google.com/analytics/answer/10108813).
+- [Identify unwanted referrals, Google Analytics Help](https://support.google.com/analytics/answer/10327750).
+- [About data sampling, Google Analytics Help](https://support.google.com/analytics/answer/13331292).
+- [About the (other) row, Google Analytics Help](https://support.google.com/analytics/answer/13331684).
+- [Select attribution settings, Google Analytics Help](https://support.google.com/analytics/answer/10597962).

@@ -48,11 +48,12 @@
     },
     "type": {
       "title": "Tipo de documento",
-      "description": "Tipo de documento, igual ao nome do modelo (kpi, dataset, conceito e outros). Define quais campos vêm depois do cabeçalho.",
+      "description": "Tipo de documento, igual ao nome do modelo (kpi, dataset, evento-coleta, conceito e outros). Define quais campos vêm depois do cabeçalho.",
       "enum": [
         "kpi",
         "dataset",
         "relacionamento",
+        "evento-coleta",
         "decisao",
         "perguntas-de-negocio",
         "conceito",

@@ -11,3 +11,7 @@ artefatos:
     desde: 2026-10-01
     origem: 'registros de sessões e pedidos com session_date 2026-10-01'
     padroes: ['aurora-fixture\.sql', '\b2026-10-01\b', '\b01/10\b', '\b[SO][1-9]\b']
+  - nome: 'amostra do laboratório de eventos (aurora-lab2-fixture.sql)'
+    desde: 2026-11-16
+    origem: 'eventos diários de 2026-10-20 a 2026-11-16, com a carga de 16/11 ainda incompleta'
+    padroes: ['aurora-lab2-fixture\.sql', 'aurora-lab2-reference-query\.sql']

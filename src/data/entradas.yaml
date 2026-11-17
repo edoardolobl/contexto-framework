@@ -7,10 +7,9 @@ entradas:
     pagina: templates/kpi
     provisorio: false
   - sintoma: Um evento parece ter parado de coletar
-    texto: Antes de chamar de quebra, descubra o que falta saber sobre o comportamento esperado do evento.
-    pagina: percurso/descubra-o-que-falta
-    provisorio: true
-    nota: enquanto o modelo de evento de coleta não sai, comece pela entrevista sobre o último caso
+    texto: Registre onde o evento dispara, com que frequência e quando zero é normal, antes de chamar de quebra.
+    pagina: templates/evento-coleta
+    provisorio: false
   - sintoma: Duas ferramentas dão números diferentes
     texto: Explique de onde vem cada número, com filtros, período e atualização.
     pagina: templates/dashboard

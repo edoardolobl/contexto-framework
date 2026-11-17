@@ -2,6 +2,8 @@
 
 **Estado:** planejamento, não teste já realizado.
 
+**Protocolo do caso 1 (F4):** [pergunta, dados, duas condições e pontuação](experimentos/caso-1.md), com a tabela de resultados ainda em branco.
+
 ## Pergunta principal
 
 O framework realmente permite que uma pessoa **experiente no assunto, mas sem familiaridade com engenharia de IA**, produza documentação mais explícita e saiba reconhecer o que ainda precisa ser decidido?

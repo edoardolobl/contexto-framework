@@ -10,7 +10,7 @@ SCRIPTS = Path(__file__).resolve().parents[1]
 
 @pytest.mark.parametrize(
     "script",
-    ["validate_content.py", "check_higiene.py", "check_decision_examples.py", "check_analytics_fixture.py", "check_revisions.py", "check_schemas.py", "check_contraste.py", "check_navegacao.py"],
+    ["validate_content.py", "check_higiene.py", "check_decision_examples.py", "check_analytics_fixture.py", "check_lab2_mensuracao.py", "check_revisions.py", "check_schemas.py", "check_contraste.py", "check_navegacao.py"],
 )
 def test_validador_passa_no_repositorio(script: str):
     resultado = subprocess.run([sys.executable, str(SCRIPTS / script)], capture_output=True, text=True, timeout=120)
