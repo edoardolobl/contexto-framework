@@ -37,7 +37,7 @@ required_inputs:
     definition: "Os cinco campos obrigatórios estão preenchidos: objetivo, canal, público, período e material"
   - name: evidence_sufficient
     allowed_values: [true, false, unknown]
-    definition: "Cada alegação verificável do material tem uma fonte anexada e datada; quem classifica é a Revisão de Conteúdo"
+    definition: "Cada alegação verificável do material tem uma fonte anexada e datada que diz o mesmo que o material. Quem classifica é a Revisão de Conteúdo, pela RUBRIC-CAMPAIGN-001: alegações com prova em nível 3 ou 4"
 possible_outputs:
   - complement_information
   - responsible_review
@@ -75,4 +75,4 @@ tests:
     reasoning: "Brief incompleto é devolvido, qualquer que seja o estado das evidências"
 conflicts: []
 open_questions: []
-related_documents: ["PROCESS-CAMPAIGN-001"]
+related_documents: ["PROCESS-CAMPAIGN-001", "RUBRIC-CAMPAIGN-001"]

@@ -23,7 +23,7 @@ version_history:
     change: "Conflito entre fontes resolvido: a Controladoria confirmou a POL-FIN-014 versão 3 como fonte oficial. Registradas obrigações, permissões e exceção"
     approved_by: "Diretoria Financeira (Aurora)"
   - version: "0.1"
-    date: "2026-07-20"
+    date: "2026-08-11"
     change: "Primeiro rascunho, com três fontes em conflito e nenhuma autoridade confirmada"
     approved_by: null
 
@@ -44,7 +44,7 @@ authority:
   version: "3"
   effective_date: "2026-07-01"
   expiry_date: null
-  supersedes: "POL-FIN-014, versão 2"
+  supersedes: "POL-FIN-014, versão 2: aprovação prévia acima de R$ 300, vigente até 30/06/2026"
 
 obligations:
   - "Toda despesa precisa de comprovante fiscal anexado ao pedido de reembolso"
@@ -61,9 +61,17 @@ exceptions:
 conflicting_sources:
   - id: CONFLICT-001
     sources: ["POL-FIN-014", "E-MAIL-EVENTOS", "INTRANET-EVENTOS"]
-    description: "Instruções que não coincidiam sobre o limite de aprovação prévia"
+    description: "Três limites diferentes para aprovação prévia de despesa de evento"
+    positions:
+      - source: "POL-FIN-014 versão 3, em Políticas > Finanças, com vigência desde 01/07/2026"
+        says: "Aprovação prévia para despesa de evento acima de R$ 500"
+      - source: "E-mail da equipe de eventos, 03/08/2026"
+        says: "Aprovação prévia só acima de R$ 1.000"
+      - source: "Resumo na intranet, atualizado em 15/03/2026"
+        says: "Aprovação prévia acima de R$ 300"
+    impact: "Uma despesa de R$ 800 precisa ou não de aprovação prévia, conforme a fonte consultada"
     state: resolved
-    resolution: "Vale a POL-FIN-014 versão 3. O e-mail era um comunicado sem força de política. O resumo da intranet foi corrigido."
+    resolution: "Vale a POL-FIN-014 versão 3: R$ 500. O e-mail era um comunicado sem força de política e não mudou o limite. O resumo da intranet repetia a versão 2 (R$ 300, vigente até 30/06/2026) e foi corrigido em 14/08."
     resolution_owner: "Controladoria (Aurora)"
     resolved_at: "2026-08-14"
 

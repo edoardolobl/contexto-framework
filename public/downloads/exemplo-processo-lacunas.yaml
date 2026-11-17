@@ -61,6 +61,8 @@ escalation: null
 open_questions:
   - question: "Quem aprova cada classe de conteúdo?"
     owner_to_resolve: null
-  - question: "Qual é o prazo da revisão?"
+  - question: "Qual é o prazo de cada etapa, e o que acontece quando ele vence?"
+    owner_to_resolve: null
+  - question: "Quem pode autorizar uma exceção de publicação?"
     owner_to_resolve: null
 related_documents: ["DECISION-CAMPAIGN-001"]

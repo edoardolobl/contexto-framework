@@ -19,13 +19,15 @@ Uma pessoa da área Financeira da Aurora encontra um manual de reembolso, um e-m
 
 *Recente* descreve a data, não a autoridade. Um e-mail novo pode só comunicar uma prática não aprovada; uma página antiga pode continuar vigente até ser revogada. Uma frase num chat, um procedimento antigo e uma política aprovada podem tratar do mesmo tema **sem ter a mesma autoridade**.
 
-| Fonte | O que se sabe | O que ainda precisa ser verificado |
-|---|---|---|
-| Manual `POL-FIN-014` | Versão identificada, sem relação explícita com atualização | Vigência, autoridade e substituição |
-| E-mail da equipe | Orientação operacional mais recente | Se altera formalmente a política |
-| Página de intranet | Resumo diferente do manual | Qual documento é a fonte oficial |
+As três fontes falam da mesma coisa, o limite acima do qual uma despesa de evento precisa de aprovação prévia, e dão três números:
 
-**Escolher a regra mais nova ou a mais repetida não é seguro** sem conhecer o processo de aprovação da organização.
+| Fonte | Data | O que diz | O que ainda precisa ser verificado |
+|---|---|---|---|
+| Manual `POL-FIN-014`, versão 3 | Vigente desde 01/07/2026 | Aprovação prévia acima de **R$ 500** | Se continua vigente depois do e-mail |
+| E-mail da equipe de eventos | 03/08/2026 | Aprovação prévia só acima de **R$ 1.000** | Se o e-mail muda a política ou só comunica uma prática |
+| Resumo na intranet | Atualizado em 15/03/2026 | Aprovação prévia acima de **R$ 300** | De qual versão da política o resumo saiu |
+
+Em 10/08, alguém da equipe de eventos gasta R$ 800 num coffee break, sem aprovação prévia, porque seguiu o e-mail. Pelo manual, precisava. Pelo resumo da intranet, também. **Escolher a fonte mais nova ou a mais repetida não é seguro** sem conhecer o processo de aprovação da organização: a mais nova diz não, as outras duas dizem sim, e nenhuma das três respostas está garantida.
 
 ## O que perguntar
 
@@ -50,11 +52,32 @@ Depois, a Controladoria confirmou qual documento vale e a Diretoria Financeira a
 
 <ExampleDoc file="exemplo-politica-completo.yaml" />
 
+### A pergunta de 10/08, respondida
+
+A resolução mostra que cada fonte tinha um motivo para dizer o que dizia:
+
+| Fonte | Por que dizia aquilo | Vale? |
+|---|---|---|
+| POL-FIN-014, versão 3: R$ 500 | É a política publicada, em vigor desde 01/07 | **Sim** |
+| E-mail de 03/08: R$ 1.000 | Comunicado da equipe, sem força para mudar a política | Não |
+| Intranet: R$ 300 | Resumo da versão 2, que valia até 30/06 e não foi atualizado | Não; corrigido em 14/08 |
+
+Então a despesa de R$ 800 em 10/08 **precisava de aprovação prévia**. A exceção da política, para evento contratado em emergência, não se aplica a um coffee break planejado. O conflito foi resolvido em 14/08, depois da despesa, mas a resolução não criou regra nova: confirmou a que já valia desde 01/07.
+
 ### Duas versões diferentes no mesmo documento
 
 O registro tem a própria versão (1.1) e aponta para uma política que tem outra (versão 3). São coisas distintas: a política muda quando a regra muda; o registro muda quando o que sabemos sobre a política muda. Confundir as duas é uma fonte comum de erro.
 
 A política também é diferente do [processo](../processo/) que ensina **como solicitar** uma despesa e das [regras](../decisao/) que decidem **quando aprová-la**. Ligue os documentos pelo identificador em vez de copiar textos inteiros.
+
+## Teste você
+
+1. Despesa de evento de R$ 400 em 20/06/2026. Precisava de aprovação prévia?
+   <details><summary>Ver resposta</summary>Sim. Em 20/06 valia a versão 2 da POL-FIN-014, com limite de R$ 300. O resumo da intranet estava certo para aquela data.</details>
+2. A mesma despesa de R$ 400, em 10/08/2026?
+   <details><summary>Ver resposta</summary>Não. Desde 01/07 vale a versão 3, com limite de R$ 500.</details>
+3. Despesa de R$ 1.200 em 10/08, num evento contratado às pressas porque o fornecedor original cancelou na véspera. Sem aprovação prévia, pode ser reembolsada?
+   <details><summary>Ver resposta</summary>Pode, pela exceção de emergência, se a Diretoria Financeira aprovar e houver justificativa escrita em até 5 dias úteis depois do evento.</details>
 
 ## Verifique o seu documento
 

@@ -5,7 +5,7 @@ title: "Despesas em eventos: Aurora"
 type: policy_reference
 status: pending_approval
 version: "0.1"
-version_date: "2026-07-20"
+version_date: "2026-08-11"
 owner: null
 approver: null
 valid_from: null
@@ -15,7 +15,7 @@ last_reviewed: null
 source_of_truth: null
 version_history:
   - version: "0.1"
-    date: "2026-07-20"
+    date: "2026-08-11"
     change: "Primeiro rascunho, com lacunas registradas"
     approved_by: null
 
@@ -41,7 +41,15 @@ exceptions: []
 conflicting_sources:
   - id: CONFLICT-001
     sources: ["POL-FIN-014", "E-MAIL-EVENTOS", "INTRANET-EVENTOS"]
-    description: "Instruções que não coincidem"
+    description: "Três limites diferentes para aprovação prévia de despesa de evento"
+    positions:
+      - source: "POL-FIN-014 versão 3, em Políticas > Finanças, com vigência desde 01/07/2026"
+        says: "Aprovação prévia para despesa de evento acima de R$ 500"
+      - source: "E-mail da equipe de eventos, 03/08/2026"
+        says: "Aprovação prévia só acima de R$ 1.000"
+      - source: "Resumo na intranet, atualizado em 15/03/2026"
+        says: "Aprovação prévia acima de R$ 300"
+    impact: "Uma despesa de R$ 800 precisa ou não de aprovação prévia, conforme a fonte consultada"
     state: unresolved
     resolution_owner: null
 
@@ -49,7 +57,8 @@ source_precedence_rule: null
 how_to_verify: "Solicitar confirmação da área responsável"
 review_trigger: "Resolução do conflito de versões"
 open_questions:
-  - "Qual fonte tem autoridade vigente?"
+  - "Qual das três fontes tem autoridade vigente: R$ 500, R$ 1.000 ou R$ 300?"
+  - "O e-mail de 03/08 mudou a política ou só comunicou uma prática?"
   - "Qual documento substitui o anterior?"
   - "Quem pode aprovar exceções?"
 related_documents: []

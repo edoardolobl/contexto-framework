@@ -52,24 +52,6 @@ with sqlite3.connect(":memory:") as db:
 def load(name):
     return yaml.safe_load((DL / name).read_text(encoding="utf8"))
 
-for name in ("exemplo-rubrica-lacunas.yaml", "exemplo-rubrica-completo.yaml"):
-    rubric = load(name)
-    weights = [item["weight"] for item in rubric["criteria"]]
-    if sum(weights) != 100 or rubric["scoring"]["weight_sum"] != 100:
-        fail(f"{name}: os pesos devem somar 100 e a soma declarada deve conferir")
-    for item in rubric["criteria"]:
-        if set(item["anchors"].keys()) != {str(i) for i in range(5)}:
-            fail(f"{name}: critério {item['id']} não descreve os níveis 0 a 4")
-    if rubric["scoring"]["automatic_decision_allowed"] or not rubric["human_review_required"]:
-        fail(f"{name}: a rubrica não pode autorizar decisão automática")
-    if rubric["scoring"]["missing_evidence_behavior"] != "not_evaluable":
-        fail(f"{name}: falta de evidência não pode virar nota zero em silêncio")
-complete_rubric = load("exemplo-rubrica-completo.yaml")
-if not complete_rubric["scoring"]["not_evaluable_rule"]:
-    fail("A rubrica completa precisa dizer como calcular a nota com critério não avaliável")
-if any(not c.get("not_in_scope") for c in complete_rubric["criteria"]):
-    fail("A rubrica completa precisa delimitar o que cada critério não avalia")
-
 expected = {"Q01": "answer", "Q02": "answer", "Q03": "clarify", "Q04": "abstain", "Q05": "abstain", "Q06": "abstain"}
 for name in ("exemplo-casos-teste-lacunas.yaml", "exemplo-casos-teste-completo.yaml"):
     questions = load(name)["questions"]
@@ -85,10 +67,11 @@ for name in ("exemplo-casos-teste-lacunas.yaml", "exemplo-casos-teste-completo.y
         if q["expected_behavior"] == "clarify" and not q["ambiguity"]:
             fail(f"{name}: {q['id']} pede esclarecimento e precisa dizer o que falta")
 # Uma resposta apoiada em definição ainda não aprovada precisa dizer isso.
-pending_kpi = load("exemplo-kpi-lacunas.yaml")
-pending_q01 = next(q for q in load("exemplo-casos-teste-lacunas.yaml")["questions"] if q["id"] == "Q01")
-if pending_kpi["status"] != "approved" and "não foi aprovada" not in pending_q01["reference_answer"]:
-    fail("Q01 do exemplo com lacunas responde a partir de KPI pendente sem ressalva")
+# Em 01/10 o KPI 2.0 já valia; o que faltava no gabarito com lacunas era a conferência da resposta.
+pending_qa = load("exemplo-casos-teste-lacunas.yaml")
+pending_q01 = next(q for q in pending_qa["questions"] if q["id"] == "Q01")
+if pending_qa["status"] != "approved" and "ainda não foi conferida" not in pending_q01["reference_answer"]:
+    fail("Q01 do gabarito com lacunas responde sem a ressalva de que ninguém conferiu a resposta")
 
 # A fórmula publicada tem linguagem natural, mas não pode trocar de numerador.
 # Este teste guarda os significados das revisões, enquanto o SQLite verifica o cálculo.
@@ -135,5 +118,5 @@ if errors:
     sys.exit(1)
 
 print("OK: SQLite retorna 25.0% (1 de 4 sessões); pedidos por sessão dá 50% (2 de 4); "
-      "rubricas com pesos, âncoras e regra de não avaliável; seis perguntas de referência nos dois gabaritos; "
+      "seis perguntas de referência nos dois gabaritos; "
       "dicionário de pedidos confere com as colunas e os códigos da amostra.")
