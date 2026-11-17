@@ -1,66 +1,82 @@
 ---
-title: "Modelo: Regras e decisões"
-description: Especifique condições, resultados, prioridades, exceções e critérios de desempate sem inventar decisões.
+title: Regras e decisões
+description: Documente como uma decisão é tomada, com entradas definidas, um resultado por combinação e quem aprova exceções.
 ---
 
 import TemplateDownloads from '../../../components/TemplateDownloads.astro';
 import ExampleDoc from '../../../components/ExampleDoc.astro';
 import TemplateStart from '../../../components/TemplateStart.astro';
 
-<p class="editorial-lead">Documente como uma decisão é tomada</p>
+<p class="editorial-lead">Duas instruções verdadeiras ao mesmo tempo, e dois leitores com respostas diferentes</p>
 
 <TemplateStart kind="decisao" />
 
-## A situação típica
+## O problema
 
-Quando o resultado depende de critérios, limites, prioridades, combinações de condições ou exceções. Pense numa dúvida recorrente: “Esta solicitação deve ser aprovada, devolvida ou encaminhada para revisão?”.
+Ao completar a [solicitação de campanha](../processo/), a equipe de marketing da Aurora precisa saber qual caminho seguir. O documento original diz:
 
-**Não basta escrever “aplicar regras internas”.** A documentação precisa permitir reconhecer cada condição e indicar a autoridade da decisão.
+> “Pedidos completos seguem para aprovação. Materiais sem evidência precisam de revisão.”
 
-## Elementos que precisam ser explícitos
+E se o pedido estiver completo e o material afirmar “reduz 30% do consumo” sem fonte? **As duas condições são verdadeiras.** Um leitor encaminha direto para aprovação; outro para revisão. Escrever “aplicar as regras internas” não resolve: o documento precisa dizer o que cada palavra significa e qual resultado sai de cada combinação.
 
-| Campo | Pergunta a fazer |
-|---|---|
-| Decisão | Qual pergunta precisa ser respondida? |
-| Entradas | Quais evidências são necessárias e quem as fornece? |
-| Valores e significados | O que significam “completo”, “urgente”, “regular”? |
-| Saídas | Quais resultados são possíveis e o que acontece depois? |
-| Critérios | Que combinação de condições determina cada saída? |
-| Prioridade | Se duas regras coincidirem, qual prevalece? |
-| Ausência de dado | A decisão é interrompida, rejeitada ou escalada? |
-| Autoridade | Quem aprova regra, exceção e atualização? |
-| Casos-limite | Quais exemplos demonstram a diferença entre resultados semelhantes? |
+## O que perguntar
 
-## Como estruturar uma tabela de decisão
-
-Exemplo de triagem de campanha na Aurora. A tabela não aprova automaticamente nenhuma publicação.
-
-| Brief completo? | Evidências para alegações? | Resultado documental |
+| Pergunta | Na Aurora | O que registrar |
 |---|---|---|
-| Não | Qualquer situação | Devolver ao solicitante com lacunas |
-| Sim | Não | Encaminhar para revisão responsável |
-| Sim | Sim | Seguir para avaliação de aprovação, não publicar automaticamente |
-| Sim | Desconhecido | Suspender decisão e solicitar esclarecimento |
-| Desconhecido | Qualquer situação | Suspender decisão e solicitar esclarecimento |
+| Qual pergunta a decisão responde? | Que encaminhamento um pedido de campanha recebe? | A decisão, numa frase |
+| O que significa cada entrada? | O que torna um brief *completo*? O que é evidência *suficiente*? | Definição de cada valor, e quem classifica |
+| Quais resultados são possíveis? | Devolver, revisar, pedir aprovação, pedir esclarecimento | Lista fechada de saídas |
+| Que combinação leva a cada resultado? | Completo e sem evidência vai para onde? | Tabela de decisão |
+| Se duas regras valerem ao mesmo tempo, qual prevalece? | “Completo” e “sem evidência” juntos | Precedência ou linhas que não se sobrepõem |
+| E se faltar um dado? | Ninguém classificou a evidência ainda | Comportamento para entrada desconhecida |
+| Quem autoriza exceções? | Campanha de utilidade pública com prazo legal | Exceção, quem aprova e evidência exigida |
+| Uma revisão concluída é uma aprovação? | “Revisado” e “aprovado” são o mesmo estado? | Distinção entre etapa e aprovação |
 
-As linhas não se sobrepõem: cada combinação de respostas leva a um único resultado, então não é preciso regra de precedência. Quando duas regras puderem valer ao mesmo tempo, a ordem entre elas precisa ser definida e aprovada junto com a regra.
+## Antes e depois da decisão
 
-## Dois exemplos do mesmo documento
+Respondidas as perguntas, a regra vira uma tabela em que **cada combinação de respostas leva a um único resultado**:
 
-O primeiro quadro mostra o documento no começo do trabalho: muita coisa ainda sem resposta, e isso está escrito. O segundo mostra o mesmo documento depois que a área responsável decidiu.
+| Brief completo? | Evidência suficiente? | Encaminhamento |
+|---|---|---|
+| Não | Sim, não ou desconhecida | Devolver pedido para complementação |
+| Sim | Não | Revisão responsável |
+| Sim | Sim | Solicitar aprovação formal (não publicar ainda) |
+| Sim | Desconhecida | Solicitar esclarecimento |
+| Desconhecido | Qualquer valor | Solicitar esclarecimento |
 
-<ExampleDoc file="exemplo-decisao-ficticia.yaml" />
+**Como o conflito foi resolvido:** o caso que gerava dúvida, pedido completo com alegação sem evidência, ganhou uma linha própria. Como cada combinação casa com uma única linha, não é preciso regra de precedência. Em tabelas de decisão (DMN), isso se chama política de acerto **única**. A alternativa é a política **primeira**: as linhas podem se sobrepor e vale a primeira que bater, e então a ordem das linhas faz parte da regra e precisa ser aprovada junto.
+
+Enquanto “brief completo” e “evidência suficiente” ainda são só palavras, o documento diz isso:
+
+<ExampleDoc file="exemplo-decisao-lacunas.yaml" />
+
+Na versão aprovada, a estrutura da tabela é a mesma. O que muda é que as duas entradas passam a ter definição, quem classifica e uma exceção:
 
 <ExampleDoc file="exemplo-decisao-completo.yaml" />
 
-O **histórico de versões** indica o que mudou, mas não substitui uma cópia da regra anterior. Para interpretar o passado, é preciso identificar a versão certa e sua vigência; veja o [guia de identificação e versões](../../metodo/identificacao-versoes/).
+### O que o histórico de versões ensina
 
-O conteúdo é um **contrato de significado em construção**, não um mecanismo de regras executável.
+O rascunho 0.1 propunha pedir esclarecimento quando a evidência fosse desconhecida. Ao aprovar a 1.0, em 12/08, a área preferiu mandar esses casos para revisão. Na 2.0, em 10/09, depois de um mês de uso, voltou a pedir esclarecimento ao solicitante. É versão maior porque o mesmo pedido passa a ter outro encaminhamento. Um rascunho não é a regra: quem auditar um pedido de agosto precisa aplicar a 1.0, e o histórico diz qual era.
+
+## Teste você
+
+Use a definição aprovada: brief completo tem os cinco campos (objetivo, canal, público, período e material); evidência suficiente é uma fonte anexada e datada para cada alegação verificável.
+
+1. Pedido de 15/09, com os cinco campos. O material afirma “reduz 30% do consumo” e traz uma planilha anexada, sem data. Qual encaminhamento?
+   <details><summary>Ver resposta</summary>Revisão responsável. O brief está completo, mas a fonte não tem data, então a evidência não é suficiente.</details>
+2. Pedido de 20/08, brief completo, e a Revisão de Conteúdo ainda não classificou a evidência. Qual encaminhamento?
+   <details><summary>Ver resposta</summary>Revisão responsável. Em 20/08 valia a versão 1.0, que mandava evidência desconhecida para revisão.</details>
+3. O mesmo pedido, chegando em 15/09. Qual encaminhamento?
+   <details><summary>Ver resposta</summary>Solicitar esclarecimento ao solicitante. Desde 10/09 vale a versão 2.0, que mudou esse caso.</details>
+4. Pedido sem o campo “período”, com todas as alegações bem documentadas. Qual encaminhamento?
+   <details><summary>Ver resposta</summary>Devolver para complementação. Brief incompleto volta, qualquer que seja o estado da evidência.</details>
+
+## Baixe o modelo
 
 <TemplateDownloads kind="decisao" />
 
-Consulte o [caso comentado de decisão](../../exemplos/decisao-campanha/) para entender ambiguidade, precedência e conflito entre critérios.
+O documento é um **contrato de significado**, não um mecanismo de regras executável. Ligar a regra a um agente exigirá testes técnicos à parte.
 
 ### Fundamentação
 
-[OMG: DMN 1.6](https://www.omg.org/spec/DMN/1.6) oferece uma notação formal de modelagem de decisões. O modelo acima é **simplificado e autoral**, não um documento DMN válido, nem substitui a validação da área responsável.
+[OMG: DMN 1.6](https://www.omg.org/spec/DMN/1.6) oferece uma notação formal de modelagem de decisões. O modelo é **simplificado e autoral**: não usa a notação DMN nem sua semântica de execução, e não substitui a validação da área responsável.

@@ -1,57 +1,73 @@
 ---
-title: "Modelo: Indicador (KPI)"
-description: Estruture a definição do indicador, o significado de negócio, suas fontes, exceções e perguntas em aberto.
+title: Indicador (KPI)
+description: Documente o que um indicador mede, como cada parte da fórmula é interpretada e qual versão vale em cada período.
 ---
 
 import TemplateDownloads from '../../../components/TemplateDownloads.astro';
 import ExampleDoc from '../../../components/ExampleDoc.astro';
 import TemplateStart from '../../../components/TemplateStart.astro';
+import BeforeAfter from '../../../components/BeforeAfter.astro';
+
+<p class="editorial-lead">A fórmula pode estar certa e a pergunta de negócio, errada</p>
 
 <TemplateStart kind="kpi" />
 
-Um modelo pode calcular uma fórmula corretamente e errar a pergunta de negócio. Antes de fornecer uma tabela a um agente analítico, a área responsável precisa explicitar **o que o indicador mede e como seus componentes são interpretados**.
+## O problema
 
-## O que este modelo cobre
+A loja Aurora quer usar IA para responder perguntas sobre conversão de e-commerce. O acervo tem dashboards, um schema SQL e a frase “taxa de conversão = conversões ÷ visitas”. Os números estão disponíveis; o significado, não. Na mesma amostra do [Laboratório Aurora](../../exemplos/analytics-integrado/), uma leitura da frase dá **25%** e outra dá **50%**, porque uma sessão tem dois pedidos.
 
-Use este modelo para indicadores que fundamentam relatórios, dashboards, análises, alertas ou decisões. Não use este modelo para documentar sozinho todo um banco de dados; tabelas, relacionamentos e contratos semânticos exigem material complementar. No [Laboratório Aurora](../../exemplos/analytics-integrado/), uma sessão com dois pedidos confirmados deve ser contada **uma vez** num indicador de sessões convertidas.
+<BeforeAfter />
 
-## Preenchimento guiado
+O segundo quadro mostra o nível de detalhe que falta no primeiro. O estado continua pendente de aprovação: quem define o indicador é a área responsável, não quem documenta.
 
-| Campo | O especialista deve responder |
-|---|---|
-| `business_definition` | O que mede no contexto da área? O mesmo nome significa outra coisa em outro departamento? |
-| `scope` | Quais canais, populações e eventos entram? O que fica fora? |
-| `calculation` | Quais numerador, denominador, unidade, granularidade e regras de agregação? |
-| `time` | A qual data e fuso o cálculo se refere? Como tratar atualização atrasada? |
-| `data_sources` | Qual fonte tem autoridade? Quais chaves e filtros precisam ser usados? |
-| `validation` | Quais resultados, consultas ou exemplos foram aprovados? |
-| `open_questions` | Quais decisões não podem ser inferidas com segurança? |
-| `owner`, `status` e `valid_from` | Quem aprova, em que estado está e desde quando vale? |
+## O que perguntar
 
-## Dois exemplos do mesmo documento
+| Pergunta | O que ela descobre | Campo do modelo |
+|---|---|---|
+| “Conversão” é pedido criado, pago, confirmado ou entregue? | Evento que conta no numerador | `calculation` |
+| “Visita” é sessão, usuário ou acesso à página? | Unidade do denominador | `calculation` |
+| Pedidos de teste e cancelados entram? | Critérios de exclusão | `scope` |
+| O indicador vale para app, web e loja física? | Canais | `scope` |
+| A qual data e fuso o cálculo se refere? Como fechar um mês com eventos atrasados? | Referência temporal e atualização | `time` |
+| Qual tabela tem autoridade? Que chaves e filtros usar? | Fonte e junção | `data_sources` |
+| Qual dashboard é a referência quando os valores divergem? | Hierarquia de fontes | `validation` |
+| Quem pode mudar a definição, e desde quando vale a atual? | Responsabilidade e vigência | `owner`, `valid_from` |
 
-O primeiro quadro mostra o documento no começo do trabalho: muita coisa ainda sem resposta, e isso está escrito. O segundo mostra o mesmo documento depois que a área responsável decidiu.
+## Antes e depois da decisão
 
-<ExampleDoc file="exemplo-kpi-ficticio.yaml" />
+Depois de entrevistar a área e **antes de marcar como aprovado**, o documento registra o que se sabe e o que falta. A estrutura não substitui a decisão de negócio: ela impede que uma ausência passe despercebida.
+
+<ExampleDoc file="exemplo-kpi-lacunas.yaml" />
+
+A Gerência de E-commerce aprovou a definição. As perguntas em aberto viraram campos preenchidos, com definição, exemplos e responsável:
 
 <ExampleDoc file="exemplo-kpi-completo.yaml" />
 
-O **histórico de versões** indica o que mudou, mas não substitui uma cópia da regra anterior. Para interpretar o passado, é preciso identificar a versão certa e sua vigência; veja o [guia de identificação e versões](../../metodo/identificacao-versoes/).
+### O que o histórico de versões ensina
 
-No primeiro quadro nada foi aprovado: o objetivo é mostrar que uma pergunta em aberto deve permanecer visível. No segundo, a versão 2.0 corrige a 1.0, que contava pedidos em vez de sessões. É uma versão maior porque a correção muda o resultado.
+A versão 1.0, vigente de 15/08 a 14/09, contava **pedidos** confirmados por sessão, o que inflava a taxa. A 2.0, desde 15/09, conta **sessões** com pedido confirmado; é versão maior porque o resultado muda. Aplicadas à mesma amostra, as fórmulas dão 50% e 25%. Veja as [versões históricas completas e seus intervalos](../../metodo/identificacao-versoes/).
 
-## Arquivos para reutilização
+## Teste você
+
+1. Na amostra de 01/10/2026 do laboratório, quanto vale o indicador?
+   <details><summary>Ver resposta</summary>25%. Em 01/10 vale a versão 2.0: uma sessão convertida (S1) entre quatro elegíveis.</details>
+2. Um relatório de 10/09 calculou pedidos confirmados por sessão elegível. Ele usou a definição errada?
+   <details><summary>Ver resposta</summary>Não. Em 10/09 valia a versão 1.0, que contava pedidos. O relatório estava certo para a regra da época.</details>
+3. Comparando os dois relatórios, a conversão “caiu de 50% para 25%”?
+   <details><summary>Ver resposta</summary>Não se pode dizer isso. São duas fórmulas diferentes; a diferença vem da mudança de definição, não do comportamento dos clientes.</details>
+4. Alguém pergunta “qual a conversão mobile?”. O que a documentação permite responder?
+   <details><summary>Ver resposta</summary>Pedir esclarecimento. O indicador vale só para web; “mobile” pode ser web no celular ou o app, que está fora do escopo.</details>
+
+Essas perguntas verificam se o documento tem o que é preciso para responder. Não testam se um modelo de IA específico acertaria.
+
+## Baixe o modelo
 
 <TemplateDownloads kind="kpi" />
 
 :::note[Sobre os metadados]
-Os campos exemplificados são uma **convenção editorial proposta neste framework**. Não são uma norma universal nem uma especificação diretamente executável por dbt, Cube ou Snowflake. Adaptá-los para um runtime exige engenharia e validação adicionais.
+Os campos são uma **convenção editorial proposta neste framework**. Não são uma norma universal nem uma especificação executável por dbt, Cube ou Snowflake. Adaptá-los para um runtime exige engenharia e validação adicionais.
 :::
-
-## Próximo passo
-
-Compare [o texto insuficiente com a versão revisada](../../exemplos/kpi/) e faça a [verificação das oito dimensões](../../validacao/checklist/).
 
 ### Fundamentação
 
-[DCMI Metadata Terms](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/), [SKOS](https://www.w3.org/TR/skos-reference/), [dbt MetricFlow](https://docs.getdbt.com/docs/build/about-metricflow) e [Rumiantsau & Fokeev (2026)](https://arxiv.org/abs/2604.25149). Consulte a [bibliografia e rastreabilidade](../../referencias/).
+[DCMI Metadata Terms](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/), [SKOS](https://www.w3.org/TR/skos-reference/), [dbt MetricFlow](https://docs.getdbt.com/docs/build/about-metricflow), [IIBA: Elicitation](https://www.iiba.org/knowledgehub/the-business-analysis-standard/5-applying-business-analysis-tasks/5-3-business-analysis-knowledge-areas/elicitation-and-collaboration/) e [Rumiantsau & Fokeev (2026)](https://arxiv.org/abs/2604.25149). Este último é um preprint de autores ligados a uma fornecedora de camada semântica; relata ganhos de acurácia num único benchmark e **não demonstra garantia de acerto em produção**. Consulte [Fontes e bibliografia](../../referencias/).

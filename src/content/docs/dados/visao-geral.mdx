@@ -1,45 +1,49 @@
 ---
-title: Conhecimento analítico e semântico
-description: Diferencie a estrutura técnica, o significado do negócio, a interpretação e os critérios de avaliação.
+title: Por que dados precisam de contexto
+description: O schema diz o que existe no banco; a documentação diz o que os dados significam, como contar e qual fonte vale.
 ---
 
 <p class="editorial-lead">Dados disponíveis não são dados compreendidos</p>
 
-Uma IA pode escrever SQL válido, obter linhas do banco e ainda dar uma resposta que **não corresponde ao significado adotado pela organização**. O problema não é necessariamente capacidade de calcular: é ausência de decisões semânticas explícitas.
+Uma IA pode escrever SQL válido, obter linhas do banco e ainda dar uma resposta que **não corresponde ao significado adotado pela organização**. No [Laboratório Aurora](../../exemplos/analytics-integrado/), a mesma pergunta sobre conversão dá 25% ou 50% nas mesmas seis sessões, dependendo de contar sessões ou pedidos. O schema não diz qual das duas a loja quer.
 
-A documentação analítica deve conectar quatro camadas complementares:
+## O que o schema não diz
 
-| Camada | Qual pergunta responde? | Exemplo de artefato |
-|---|---|---|
-| Significado de negócio | “O que é uma conversão para esta área?” | [Definição de KPI](../../templates/kpi/) |
-| Semântica dos dados | “Quais estruturas, chaves, códigos e relações representam o conceito?” | [Dataset](../../templates/dataset/) + [Relacionamentos](../../templates/relacionamento/) |
-| Interpretação analítica | “Como ler um dashboard, seus filtros e suas limitações?” | [Documentação de dashboard](../../templates/dashboard/) |
-| Critérios de avaliação | “Como sabemos que uma explicação ou análise é adequada?” | [Rubrica](../../templates/rubrica/) + [perguntas de referência](../../templates/casos-teste/) |
+Um DDL descreve tabelas e colunas. Não registra:
 
-## Contexto semântico documental versus camada executável
-
-Uma camada semântica **documental** registra significados em linguagem natural ou metadados. Pode ser usada como contexto em sistemas de busca, RAG e agentes, mas não obriga o modelo a seguir cada regra.
-
-Uma camada semântica **executável** utiliza modelos e ferramentas que validam ou compilam determinadas consultas segundo regras definidas. As duas abordagens são relacionadas, mas não intercambiáveis.
-
-Nosso framework ensina a produzir **o conhecimento necessário**. Não pretende implementar uma camada semântica executável nem prometer a correção do SQL gerado.
-
-## O que costuma faltar no schema
-
-- **Granularidade:** uma linha representa pedido, item, sessão ou fotografia diária do estoque?
+- **Granularidade:** uma linha é pedido, item, sessão ou fotografia diária do estoque?
 - **Chaves e cardinalidade:** uma sessão tem quantos pedidos? Uma junção pode multiplicar linhas?
-- **Valores especiais:** `status='C'` significa concluído ou cancelado?
-- **Tempo:** qual timestamp define o período e qual fuso deve ser aplicado?
+- **Valores especiais:** `status='C'` é concluído ou cancelado? O que um nulo significa?
+- **Tempo:** qual data define o período, e em que fuso?
 - **Agregações válidas:** um snapshot de estoque pode ser somado entre datas?
-- **Precedência:** quando duas tabelas exibem valores diferentes, qual é a fonte oficial?
-- **Perguntas não respondíveis:** quando o dado não cobre canal, período ou unidade solicitados?
+- **Autoridade:** quando duas tabelas mostram valores diferentes, qual é a fonte oficial?
+- **Limites:** quais perguntas o dado não cobre, por canal, período ou unidade?
 
-## Evidência experimental e seus limites
+## Quatro camadas, quatro modelos
 
-Em um preprint ainda sem revisão por pares, Rumiantsau e Fokeev (2026) compararam schema puro com schema mais um documento semântico em 99 perguntas. Com o documento, o acerto subiu de 17 a 23 pontos percentuais nos três modelos testados. Os limites são relevantes: os autores trabalham em uma fornecedora de camada semântica; houve um único dataset e um único banco; cada pergunta teve uma só tentativa; o avaliador foi um modelo de linguagem; e cerca de 30% das respostas continuaram erradas. É **um indício de utilidade**, não prova de suficiência nem garantia de produção.
+| Camada | Qual pergunta responde? | Modelo |
+|---|---|---|
+| Significado de negócio | “O que é uma conversão para esta área?” | [Indicador (KPI)](../../templates/kpi/) |
+| Semântica dos dados | “Quais tabelas, chaves, códigos e relações representam o conceito?” | [Dataset](../../templates/dataset/) e [Relacionamento entre tabelas](../../templates/relacionamento/) |
+| Interpretação | “Como ler um dashboard, seus filtros e limites?” | [Dashboard](../../templates/dashboard/) |
+| Verificação | “Quais perguntas o acervo deve conseguir responder?” | [Perguntas de referência](../../templates/casos-teste/) |
 
-Consulte [o artigo](https://arxiv.org/abs/2604.25149) e a [bibliografia crítica](../../referencias/).
+Não é obrigatório criar um arquivo por camada: um documento pode reunir aspectos relacionados, desde que não misture autoridades e não esconda lacunas. O que não pode faltar é uma lista de **perguntas em aberto**, cada uma com responsável e quem aprova. Quando uma pergunta exige uma decisão de negócio ainda não tomada, ela fica registrada; a resposta não deve ser inventada para “destravar” a integração. Quem faz o quê está em [Responsabilidades](../../governanca/papeis/).
 
-## Como começar
+## Documentar não é executar
 
-Leia o [Laboratório Aurora](../../exemplos/analytics-integrado/) para observar uma mesma definição conectada a duas tabelas, uma consulta de referência e um dashboard. Depois escolha o artefato que sua equipe realmente precisa documentar.
+Uma camada semântica **documental** registra significados em linguagem natural ou metadados. Serve de contexto para busca, RAG e agentes, mas não obriga o modelo a seguir cada regra. Uma camada **executável** usa ferramentas que validam ou compilam consultas segundo regras definidas. As duas precisam de definições verdadeiras e aprovadas; não são intercambiáveis.
+
+O Contexto ensina a produzir **o conhecimento que as duas precisam receber**. Não escolhe banco, não gera embeddings, não executa consultas de produção nem promete a correção do SQL gerado.
+
+## O que a pesquisa mostra
+
+Num preprint ainda sem revisão por pares, Rumiantsau e Fokeev (2026) compararam schema puro com schema mais um documento semântico em 99 perguntas. Com o documento, o acerto subiu de 17 a 23 pontos percentuais nos três modelos testados. Os limites pesam: os autores trabalham numa fornecedora de camada semântica; houve um único dataset e um único banco; cada pergunta teve uma só tentativa; o avaliador foi um modelo de linguagem; e cerca de 30% das respostas continuaram erradas. É **um indício de utilidade**, não prova de suficiência nem garantia de produção.
+
+## Por onde começar
+
+Abra o [Laboratório Aurora](../../exemplos/analytics-integrado/): duas tabelas pequenas, uma definição, uma consulta de referência e um dashboard, todos ligados. Depois escolha o modelo de que a sua equipe precisa.
+
+### Fundamentação
+
+[Rumiantsau & Fokeev (2026)](https://arxiv.org/abs/2604.25149), [dbt MetricFlow](https://docs.getdbt.com/docs/build/about-metricflow) e [Microsoft: Preparação de RAG](https://learn.microsoft.com/pt-br/azure/architecture/ai-ml/guide/rag/rag-preparation-phase). Veja [Fontes e bibliografia](../../referencias/).

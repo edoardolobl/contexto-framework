@@ -1,57 +1,78 @@
 ---
-title: "Modelo: Conceito e glossário"
-description: Defina termos, sinônimos, ambiguidades e significado específico de cada contexto.
+title: Conceito
+description: Defina um termo para um contexto específico, diga quem fica de fora e como tratar o caso-limite.
 ---
 
 import TemplateDownloads from '../../../components/TemplateDownloads.astro';
 import ExampleDoc from '../../../components/ExampleDoc.astro';
 import TemplateStart from '../../../components/TemplateStart.astro';
 
-<p class="editorial-lead">Documente um conceito sem impor uma definição genérica</p>
+<p class="editorial-lead">Uma palavra pode contar três grupos diferentes de pessoas</p>
 
 <TemplateStart kind="conceito" />
 
-## A situação típica
+## O problema
 
-Quando a mesma palavra aparece em áreas, documentos, dashboards ou sistemas diferentes. O objetivo é dar ao leitor uma definição **válida para um contexto específico**, identificar termos relacionados e tornar visíveis possíveis conflitos.
+A Aurora mantém um programa voluntário de integração de pessoas recém-contratadas. Um relatório traz a coluna `participante_ativo`, e o manual só diz para “acompanhar participantes ativos”. Quando alguém pergunta o que é isso, a resposta costuma ser:
 
-**Exemplo:** “participante ativo” pode significar pessoa inscrita, pessoa que começou atividades ou pessoa que concluiu uma etapa. Nenhuma dessas interpretações deve ser presumida.
+> “São participantes ativos aqueles que participam do programa.”
 
-## O que descobrir com o especialista
+Uma pessoa entende “ativo” como **inscrito**, outra como **presente no primeiro encontro**, outra como **quem completou todas as atividades**. São três grupos de tamanhos diferentes, com o mesmo nome. O documento de conceito diz qual deles o termo conta, naquele contexto.
 
-| Questão | Evidência que deve aparecer no documento |
-|---|---|
-| Como a área explica esse termo a uma pessoa recém-chegada? | Definição em linguagem natural e exemplo |
-| Existe uma definição formal em outra área? | Contexto de uso e diferenças explícitas |
-| Quais expressões são equivalentes? | Sinônimos reconhecidos e termos que **não** são sinônimos |
-| Que situação costuma ser confundida com o conceito? | Contraexemplo |
-| Qual regra define pertencimento à categoria? | Critérios de inclusão e exclusão, quando aplicáveis |
-| Quem pode resolver divergências? | Responsável, fonte e status da definição |
+## O que perguntar
 
-## Dois exemplos do mesmo documento
+| Pergunta | Na Aurora | O que registrar |
+|---|---|---|
+| Que regra coloca alguém dentro do termo? | Uma inscrição ainda não iniciada conta como participação ativa? | Critérios de inclusão e exclusão |
+| A regra tem janela de tempo? | Uma presença de quantos dias atrás ainda conta? | Data de referência e janela |
+| Que situação costuma ser confundida com o termo? | Quem faltou a um encontro fica inativo? E quem está afastado? | Contraexemplo e caso-limite |
+| Que outros nomes aparecem para a mesma coisa? | “Participante”, “inscrito” e “ativo” são equivalentes? | Sinônimos e termos que **não** são sinônimos |
+| Qual fonte prevalece quando duas divergem? | O manual ou a regra usada no dashboard? | Fonte e autoridade |
+| Quem pode mudar a definição? | Quem atualiza o significado de ativo? | Responsável e quem aprova |
 
-O primeiro quadro mostra o documento no começo do trabalho: muita coisa ainda sem resposta, e isso está escrito. O segundo mostra o mesmo documento depois que a área responsável decidiu.
+## Antes e depois da decisão
 
-<ExampleDoc file="exemplo-conceito-ficticio.yaml" />
+Com as perguntas feitas, mas ainda sem resposta da área, o documento fica assim. A melhoria está em mostrar **onde termina a descrição e começa uma decisão que ainda não foi tomada**:
+
+<ExampleDoc file="exemplo-conceito-lacunas.yaml" />
+
+Depois, a Coordenação de Integração respondeu às perguntas e a Gerência de Pessoas aprovou. O documento deixa de listar dúvidas e passa a dizer a regra, quem fica de fora e como tratar o caso-limite:
 
 <ExampleDoc file="exemplo-conceito-completo.yaml" />
 
-O **histórico de versões** indica o que mudou, mas não substitui uma cópia da regra anterior. Para interpretar o passado, é preciso identificar a versão certa e sua vigência; veja o [guia de identificação e versões](../../metodo/identificacao-versoes/).
+| Pergunta que estava em aberto | Como ficou escrita |
+|---|---|
+| Que atividade torna uma pessoa ativa? | Pelo menos uma presença entre 30 dias antes da data de referência e a própria data |
+| E quem está afastado? | É “participante em pausa”, mesmo com presença recente |
+| Uma pessoa apenas inscrita está ativa? | Não. É “participante inscrito” |
+| E quem concluiu todas as atividades? | É “participante concluinte” |
+| Quem homologa a definição? | A Gerência de Pessoas, com registro em ata |
 
-No primeiro quadro, mesmo com um identificador, o documento **não é uma definição aprovada**: a ausência de critérios é parte do diagnóstico.
+### O que o histórico de versões ensina
 
-## Distinções que importam
+A versão 1.0 usava uma janela de 60 dias. A 2.0 reduziu para 30, e por isso é uma versão maior: algumas pessoas deixam de ser ativas. Um relatório de agosto e um de setembro podem contar populações diferentes com o mesmo nome. **O histórico avisa que a regra mudou; só a versão histórica integral permite recuperar a redação antiga com segurança.** Compare os dois arquivos em [Versões e vigência](../../metodo/identificacao-versoes/).
 
-**Termo preferido** é o nome adotado em determinado domínio; **sinônimo** é outro rótulo usado para o mesmo conceito nesse domínio; **termo relacionado** é semelhante, mas não equivalente. Não trate “cliente”, “visitante” e “usuário” como sinônimos sem confirmação.
+## Teste você
 
-O padrão [SKOS do W3C](https://www.w3.org/TR/skos-reference/) inspira a distinção entre rótulos preferenciais, alternativos e relações entre conceitos. **Este YAML não é serialização SKOS nem uma ontologia formal.**
+Decida cada caso antes de abrir a resposta. Use a data de referência indicada e a versão que valia nessa data.
 
-## Reutilize o modelo
+1. Presença em 01/09 e nenhuma outra depois. A pessoa está ativa em 30/09?
+   <details><summary>Ver resposta</summary>Sim. Em 30/09 vale a versão 2.0, e 01/09 está dentro dos 30 dias anteriores (29 dias).</details>
+2. Presença em 25/09, mas com afastamento registrado de 28/09 até outubro. Está ativa em 30/09?
+   <details><summary>Ver resposta</summary>Não. Está em pausa, e a definição exclui quem está em pausa, mesmo com presença recente.</details>
+3. Presença em 20/07 e nenhuma outra. A pessoa estava ativa em 31/08?
+   <details><summary>Ver resposta</summary>Sim. Em 31/08 ainda valia a versão 1.0, com janela de 60 dias, e 20/07 está a 42 dias. Pela 2.0 ela não seria ativa, mas a 2.0 só vale a partir de 01/09.</details>
+
+## Termo preferido, sinônimo e termo relacionado
+
+**Termo preferido** é o nome adotado no domínio; **sinônimo** é outro rótulo para o mesmo conceito nesse domínio; **termo relacionado** é parecido, mas não equivalente. Na Aurora, “participante inscrito” é relacionado a “participante ativo”, não sinônimo. Não trate “cliente”, “visitante” e “usuário” como sinônimos sem confirmação.
+
+## Baixe o modelo
 
 <TemplateDownloads kind="conceito" />
 
-Para ver como o modelo identifica uma ambiguidade comum em RH, leia o [exemplo comentado](../../exemplos/conceito-onboarding/).
+**Antes de pedir aprovação:** uma pessoa de outra área consegue explicar o termo, reconhecer um caso que **não** pertence a ele e apontar a fonte oficial sem perguntar ao autor? Se não, registre a dúvida e peça validação.
 
-## Critério de aprovação documental
+### Fundamentação
 
-Uma pessoa de outra área consegue explicar o termo, reconhecer um caso que **não** pertence a ele e apontar a fonte oficial sem perguntar ao autor original? Se não, explicite a dúvida e solicite validação; não fabrique uma definição.
+O [SKOS do W3C](https://www.w3.org/TR/skos-reference/) inspira a distinção entre rótulos preferenciais, alternativos e relações entre conceitos; **este YAML não é serialização SKOS nem uma ontologia formal.** Descobrir definições e exceções com as pessoas segue práticas descritas pelo [IIBA](https://www.iiba.org/knowledgehub/the-business-analysis-standard/).

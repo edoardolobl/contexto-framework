@@ -1,41 +1,38 @@
 ---
-title: Biblioteca de modelos
-description: Encontre orientações e baixe diretamente modelos em texto para suas tarefas.
+title: Encontrar um modelo
+description: Escolha pelo que você precisa explicar, leia como preencher ou baixe o modelo em texto.
 ---
 
-**Não sabe qual formato escolher?** Diga primeiro o que precisa fazer. Os modelos são roteiros de perguntas para ajudar especialistas a registrar conhecimento sem inventar definições.
+import TemplateFinder from '../../../components/TemplateFinder.astro';
 
-Se ainda não tem certeza do tipo de documento, use o [seletor por tarefa](../fundamentos/escolher-documento/).
+**Não é preciso conhecer os nomes dos modelos.** Pense no que você precisa explicar para outra pessoa: o significado de uma palavra, a sequência de um trabalho, os critérios de uma decisão ou a interpretação de dados.
 
-## Conceitos, trabalho e decisões
+<TemplateFinder />
+
+## Todos os modelos
 
 | O que você precisa fazer | Como preencher | Modelo em texto |
 |---|---|---|
-| Explicar o significado de um termo | [Conceito e glossário](conceito/) | [Baixar](../downloads/template-conceito.md) |
-| Descrever as etapas de um trabalho | [Processo e procedimento](processo/) | [Baixar](../downloads/template-processo.md) |
+| Explicar o significado de um termo | [Conceito](conceito/) | [Baixar](../downloads/template-conceito.md) |
+| Descrever as etapas de um trabalho | [Processo](processo/) | [Baixar](../downloads/template-processo.md) |
 | Registrar critérios para decidir | [Regras e decisões](decisao/) | [Baixar](../downloads/template-decisao.md) |
-| Identificar qual política vale | [Política e referência](politica/) | [Baixar](../downloads/template-politica.md) |
-| Explicar como um indicador é calculado | [Indicador (KPI)](kpi/) | [Baixar](../downloads/template-kpi.md) |
+| Identificar qual política vale | [Política](politica/) | [Baixar](../downloads/template-politica.md) |
 | Avaliar um trabalho por critérios verificáveis | [Rubrica de avaliação](rubrica/) | [Baixar](../downloads/template-rubrica.md) |
-
-## Dados e Analytics
-
-| O que você precisa fazer | Como preencher | Modelo em texto |
-|---|---|---|
-| Explicar o significado de tabelas e campos | [Dataset e dicionário semântico](dataset/) | [Baixar](../downloads/template-dataset.md) |
-| Documentar chaves e cardinalidade de relações | [Relacionamentos](relacionamento/) | [Baixar](../downloads/template-relacionamento.md) |
+| Explicar como um indicador é calculado | [Indicador (KPI)](kpi/) | [Baixar](../downloads/template-kpi.md) |
+| Explicar o significado de tabelas e campos | [Dataset](dataset/) | [Baixar](../downloads/template-dataset.md) |
+| Documentar chaves e cardinalidade entre tabelas | [Relacionamento entre tabelas](relacionamento/) | [Baixar](../downloads/template-relacionamento.md) |
 | Explicar filtros, indicadores e limites de um dashboard | [Dashboard](dashboard/) | [Baixar](../downloads/template-dashboard.md) |
-| Definir perguntas que o acervo pode responder | [Perguntas de referência](casos-teste/) | [Baixar](../downloads/template-casos-teste.md) |
+| Definir perguntas que o acervo deve responder | [Perguntas de referência](casos-teste/) | [Baixar](../downloads/template-casos-teste.md) |
 
-Se quiser compreender como esses modelos se conectam, veja a [trilha de Dados e Analytics](../dados/visao-geral/) ou o [Laboratório Aurora](../exemplos/analytics-integrado/).
+## E se meu trabalho precisar de mais de um modelo?
+
+É normal. A solicitação de campanha da Aurora usa um [processo](processo/), que descreve as etapas, e uma [regra](decisao/), que diz quando pedir aprovação. Os dois documentos se ligam pelo identificador, sem repetir o conteúdo. Quem trabalha com tabelas, SQL e dashboards encontra os quatro modelos de dados ligados no [Laboratório Aurora](../exemplos/analytics-integrado/).
 
 ## Como usar um modelo sem conhecer YAML
 
-1. **Baixe o arquivo em texto** e abra-o no editor de sua preferência; você também pode copiar a estrutura para o Word.
-2. **Registre apenas o que consegue confirmar.** O arquivo orienta quais perguntas fazer.
-3. **Anote fontes e lacunas.** Se houver duas interpretações, identifique quem pode resolver a divergência.
-4. **Solicite revisão.** Só declare a informação aprovada após validação por quem responde pelo assunto.
+1. **Baixe o arquivo em texto** e abra no editor que a equipe usa; dá para copiar a estrutura para o Word ou o Google Docs.
+2. **Registre apenas o que consegue confirmar.** Separe o que está **confirmado**, o que é **relatado** e o que está **em aberto**.
+3. **Anote fontes e perguntas em aberto.** Se houver duas interpretações, identifique quem pode resolver.
+4. **Peça revisão.** Só declare a informação aprovada depois da validação de quem responde pelo assunto.
 
-Cada guia também mostra dois momentos do documento: **com lacunas** e **depois da aprovação**.
-
-O Contexto ensina a preparar a documentação. Isso **não garante**, por si só, a correção de SQL, RAG ou agentes.
+Cada página de modelo mostra o mesmo documento em dois momentos: **com lacunas** e **depois da aprovação**. Se você nunca fez esse tipo de registro, comece pelo exercício [Comece em 5 minutos](../fundamentos/comece-em-5-minutos/).

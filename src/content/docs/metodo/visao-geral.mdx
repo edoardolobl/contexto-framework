@@ -1,10 +1,13 @@
 ---
-title: Visão geral do método
-description: O ciclo orientado a tarefas para transformar conhecimento disperso em documentação verificável.
+title: Visão geral
+description: O problema que o Contexto resolve, os cinco movimentos do método e onde cada peça do portal entra.
 ---
 
+O Contexto ensina a **explicitar e documentar o conhecimento organizacional** para que quem constrói sistemas de IA não precise adivinhar regras a partir de documentos ambíguos, dispersos ou incompletos.
 
-Nosso método propõe uma sequência de cinco movimentos. Eles não substituem o processo de governança de cada organização; organizam o trabalho editorial para que especialistas consigam produzir evidências suficientes.
+## O problema
+
+“Cliente ativo” pode significar uma coisa no e-commerce, outra no CRM e outra no Financeiro. Uma IA que executa SQL válido não sabe qual delas a organização adotou. O engenheiro de IA não deveria inventar essa definição. E também não basta pedir a um especialista “produza documentação” sem dizer o que registrar e como saber se ficou completo.
 
 ## Os cinco movimentos
 
@@ -13,22 +16,27 @@ Nosso método propõe uma sequência de cinco movimentos. Eles não substituem o
 | **1. Delimitar** | Identificar o assunto, quem o usa e quando vale | Objetivo e escopo |
 | **2. Descobrir** | Investigar pressupostos, decisões, exceções e divergências | Conhecimento que estava implícito |
 | **3. Estruturar** | Aplicar as oito dimensões e o modelo adequado | Documento contextualizado |
-| **4. Validar** | Confirmar com a fonte autorizada; identificar o que está em aberto | Documento aprovado ou lacunas registradas |
+| **4. Validar** | Confirmar com a fonte autorizada; identificar o que está em aberto | Documento aprovado ou perguntas em aberto registradas |
 | **5. Manter** | Definir revisão, vigência e tratamento de alterações | Fonte rastreável e atualizável |
 
-## Como escolher por onde começar
+Os movimentos não substituem o processo de governança de cada organização; organizam o trabalho editorial para que especialistas produzam evidência suficiente.
 
-- **Você ainda não sabe o que está faltando?** Use o [roteiro de perguntas](../elicitar/).
-- **Você tem um texto existente e quer revisá-lo?** Analise-o pelas [oito dimensões](../oito-dimensoes/).
-- **Você precisa documentar um indicador?** Use o [modelo de KPI](../../templates/kpi/).
-- **Você quer inspecionar um exemplo pronto?** Compare [antes e depois de uma definição](../../exemplos/kpi/).
+## Onde cada peça entra
+
+| Se você precisa… | Use |
+|---|---|
+| Descobrir o que ainda não está escrito | [Descobrir o que falta](../elicitar/) |
+| Saber se um texto cobre o necessário | [As oito dimensões](../oito-dimensoes/) |
+| Escolher o tipo de documento | [Encontrar um modelo](../../templates/) |
+| Preencher um documento de negócio | [Conceito](../../templates/conceito/), [Processo](../../templates/processo/), [Regras e decisões](../../templates/decisao/), [Política](../../templates/politica/) ou [Rubrica de avaliação](../../templates/rubrica/) |
+| Documentar dados e indicadores | [Por que dados precisam de contexto](../../dados/visao-geral/) |
+| Revisar e entregar | [Revisar e entregar](../../validacao/checklist/) |
+| Lidar com mudança de regra no tempo | [Versões e vigência](../identificacao-versoes/) |
 
 ## Quando parar e pedir decisão
 
-Se duas fontes autorizadas se contradizem ou ninguém consegue confirmar a regra, **não escolha a opção mais provável**. Registre o conflito, seus impactos e a pessoa responsável por resolver a questão.
-
-Um documento marcado como pendente de aprovação e com dúvidas explícitas é mais confiável como insumo de trabalho do que outro que aparenta estar completo porque alguém preencheu as lacunas por dedução.
+Se duas fontes autorizadas se contradizem ou ninguém consegue confirmar a regra, **não escolha a opção mais provável**. Registre o conflito, o impacto e quem pode resolver. Um documento pendente de aprovação e com dúvidas explícitas é um insumo mais confiável do que outro que parece completo porque alguém preencheu as lacunas por dedução. O que o método não resolve está em [Quando o método não basta](../limites/).
 
 ### Fundamentação
 
-Estrutura própria baseada nas práticas de elicitação e confirmação do [IIBA](https://www.iiba.org/knowledgehub/the-business-analysis-standard/5-applying-business-analysis-tasks/5-3-business-analysis-knowledge-areas/elicitation-and-collaboration/), nos ciclos de captura e evolução do [KCS](https://library.serviceinnovation.org/KCS/KCS_v6/KCS_v6_Practices_Guide) e na organização de necessidades do leitor do [Diátaxis](https://diataxis.fr/).
+Estrutura própria, que combina quatro fontes: o [Diátaxis](https://diataxis.fr/), para organizar a documentação pelo que o leitor precisa fazer; o [KCS](https://library.serviceinnovation.org/KCS/KCS_v6/KCS_v6_Practices_Guide) e o [IIBA](https://www.iiba.org/knowledgehub/the-business-analysis-standard/5-applying-business-analysis-tasks/5-3-business-analysis-knowledge-areas/elicitation-and-collaboration/), para capturar e confirmar conhecimento; a [ISO 30401](https://www.iso.org/standard/68683.html), para tratar conhecimento como algo que se gere; e a literatura de semântica de dados, para ligar definições de negócio a tabelas.

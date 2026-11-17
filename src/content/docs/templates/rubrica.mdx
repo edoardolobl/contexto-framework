@@ -1,60 +1,87 @@
 ---
-title: "Modelo: Rubrica de avaliação"
-description: Formalize critérios de qualidade, evidências, níveis, pesos e casos-limite com supervisão humana.
+title: Rubrica de avaliação
+description: Explicite como reconhecer a qualidade de um trabalho, com critérios, âncoras por nível e o que fazer quando falta evidência.
 ---
 
 import TemplateDownloads from '../../../components/TemplateDownloads.astro';
 import ExampleDoc from '../../../components/ExampleDoc.astro';
 import TemplateStart from '../../../components/TemplateStart.astro';
 
+<p class="editorial-lead">O que significa um trabalho “bom”?</p>
+
 <TemplateStart kind="rubrica" />
 
-<p class="editorial-lead">O que significa uma análise “boa”?</p>
+## O problema
 
-Uma rubrica é um documento que explicita **como reconhecer a qualidade de um trabalho**. Assim como um KPI, ela precisa de critérios bem definidos. Sem isso, pessoas diferentes, ou uma IA, podem aplicar julgamentos genéricos e inconsistentes.
+Uma equipe recebe análises de um dataset de varejo e precisa revisá-las de forma consistente. A instrução disponível é:
 
-## Um cenário possível
+> “Avaliar qualidade técnica e visão de negócio.”
 
-Num **case de Data Analytics**, avaliadores consideram precisão de cálculos, entendimento de negócio, método e comunicação. Dizer apenas “avaliar tecnicamente e dar uma nota” não fornece evidências ou critérios reproduzíveis.
+A frase não diz o que conta como evidência, como diferenciar níveis nem o que fazer diante de uma solução alternativa válida. Duas pessoas, ou uma IA, aplicam julgamentos genéricos e chegam a notas diferentes para a mesma entrega. A rubrica avalia o trabalho entregue, nunca a pessoa.
 
-## Perguntas para construir a rubrica
+## O que perguntar
 
-| Elemento | O que registrar |
+| Pergunta | O que registrar |
 |---|---|
-| Objeto avaliado | Qual tarefa ou entregável está sendo avaliado? |
-| Objetivo | Que competência ou qualidade se pretende observar? |
-| Critérios | O que cada dimensão avalia e o que explicitamente não avalia? |
-| Evidências | Que trechos, cálculos, arquivos ou decisões sustentam uma avaliação? |
-| Níveis | O que diferencia trabalho insuficiente, adequado e excelente? |
-| Pesos | Por que uma dimensão pesa mais que outra? |
-| Ausência de evidência | Quando marcar “não avaliável”, em vez de atribuir zero? |
-| Casos-limite | Como agir quando há parcialmente correto ou abordagem alternativa válida? |
-| Autoridade | Quem aprova e calibra o critério? |
-| Revisão humana | Quais decisões não podem ser delegadas à IA? |
+| Qual entregável está sendo avaliado, e para quê? | Objeto e objetivo |
+| O que cada critério avalia, e o que explicitamente não avalia? | Critérios com fronteiras |
+| Que trechos, cálculos ou arquivos sustentam uma nota? | Evidências observáveis |
+| O que diferencia o nível 2 do nível 4? | Âncoras descritivas por nível |
+| Por que um critério pesa mais que outro? | Pesos e justificativa |
+| Quando marcar “não avaliável” em vez de zero? | Regra para ausência de evidência |
+| Como tratar resposta parcialmente correta ou abordagem alternativa válida? | Casos-limite |
+| Quem aprova e calibra a rubrica? Que decisões não podem ser delegadas à IA? | Autoridade e revisão humana |
 
-## Dois exemplos do mesmo documento
+## Antes e depois da decisão
 
-O primeiro quadro mostra o documento no começo do trabalho: muita coisa ainda sem resposta, e isso está escrito. O segundo mostra o mesmo documento depois que a área responsável decidiu.
+Com as perguntas feitas, a frase vira quatro critérios observáveis:
 
-<ExampleDoc file="exemplo-rubrica-ficticia.yaml" />
+| Critério | Peso | Evidências observáveis |
+|---|---:|---|
+| Precisão técnica | 35% | Cálculos reproduzíveis, tratamento de granularidade e validação de resultados |
+| Interpretação de negócio | 30% | Indicadores definidos e conclusões compatíveis com escopo e limitações |
+| Método e rastreabilidade | 20% | Premissas explícitas, fontes e passos de reprodução |
+| Comunicação | 15% | Perguntas claras, gráficos adequados e apresentação de incertezas |
+
+Um campo `rating_scale: [0,1,2,3,4]` **não basta**. Cada nível precisa de uma âncora. No critério *Precisão técnica*, a versão aprovada ficou assim:
+
+| Nível | Âncora |
+|---|---|
+| 0 | O resultado principal não pode ser refeito a partir do que foi entregue, ou refeito dá outro número |
+| 1 | O resultado principal pode ser refeito, mas tem erro de conta que muda a conclusão |
+| 2 | Resultado principal correto; não há verificação nem tratamento de casos como denominador zero |
+| 3 | Resultado correto, refeito sem ajuda, com pelo menos uma verificação descrita |
+| 4 | Além do nível 3, testa casos-limite e mostra o que aconteceria com dados fora do padrão |
+
+**“Não avaliável” não é 0.** Se o artefato necessário não foi entregue, o critério não pode ser aplicado. Na rubrica aprovada, o critério sai da conta, os pesos restantes são reescalados para somar 100 e a nota é publicada como parcial; com dois ou mais critérios não avaliáveis, não se publica nota.
+
+Enquanto a área não aprovou pesos e âncoras, o documento diz o que falta:
+
+<ExampleDoc file="exemplo-rubrica-lacunas.yaml" />
+
+Depois que a Liderança de Dados decidiu o que estava em aberto:
 
 <ExampleDoc file="exemplo-rubrica-completo.yaml" />
 
-O **histórico de versões** indica o que mudou, mas não substitui uma cópia da regra anterior. Para interpretar o passado, é preciso identificar a versão certa e sua vigência; veja o [guia de identificação e versões](../../metodo/identificacao-versoes/).
+### O que o histórico de versões ensina
 
-Um campo `rating_scale: [0,1,2,3,4]` **não é suficiente**. A rubrica completa inclui âncoras descritivas por critério, exemplos e forma de resolver discordâncias.
+Na versão 1.0, contar pedidos em vez de sessões derrubava a nota em dois critérios ao mesmo tempo. A 2.0 corrigiu, e é maior porque notas mudam: tratamento de duplicidade conta só em interpretação de negócio, e precisão técnica julga se a conta declarada está certa.
 
-## Separar dois usos
+## Teste você
 
-1. **Avaliar entregáveis feitos por pessoas com apoio de IA:** exige proporcionalidade, privacidade, equidade e revisão humana. Não usar a pontuação para decisões automáticas de emprego.
-2. **Avaliar respostas de sistemas de IA:** as mesmas ideias de critérios e evidências ajudam, mas serão necessários conjuntos de teste e validação técnica do avaliador.
+1. Uma entrega diz: “conversão = 50% porque há dois pedidos confirmados em quatro sessões”. Que nível ela recebe em interpretação de negócio?
+   <details><summary>Ver resposta</summary>Nível 1. No [Laboratório Aurora](../../exemplos/analytics-integrado/), essa conta mede pedidos por sessão, não sessões convertidas. A precisão técnica é avaliada à parte: a conta que a entrega declarou pode estar certa.</details>
+2. Outra entrega responde 25% e explica por que duas compras na mesma sessão contam uma vez. Isso basta para a nota máxima?
+   <details><summary>Ver resposta</summary>Não. É evidência favorável em interpretação de negócio, mas os outros três critérios continuam sendo avaliados.</details>
 
-O Contexto documenta **a rubrica**, não cria um sistema automático de seleção de pessoas.
+## O que uma IA avaliadora pode e não pode fazer
+
+Pode apontar trechos ligados a cada critério, sugerir perguntas e identificar cálculos e lacunas para revisão humana. Não deve inferir competências ausentes, usar atributos pessoais nem tomar decisão final sobre uma pessoa a partir da rubrica preenchida. Avaliar respostas de sistemas de IA usa as mesmas ideias de critério e evidência, mas exige conjuntos de teste e validação técnica do avaliador.
+
+## Baixe o modelo
 
 <TemplateDownloads kind="rubrica" />
 
-Leia o [exemplo de rubrica comentada](../../exemplos/rubrica-case/).
+### Fundamentação
 
-### Referências
-
-[NIST AI RMF: Measure](https://airc.nist.gov/airmf-resources/playbook/measure/) destaca avaliação e supervisão humana; [IIBA](https://www.iiba.org/knowledgehub/the-business-analysis-standard/) inspira a especificação de critérios verificáveis. Os pesos e níveis são **exemplos autorais**, não padrões normativos.
+[NIST AI RMF: Measure](https://airc.nist.gov/airmf-resources/playbook/measure/) destaca avaliação e supervisão humana; [IIBA](https://www.iiba.org/knowledgehub/the-business-analysis-standard/) inspira a especificação de critérios verificáveis. Pesos e níveis são **exemplos autorais**, não padrões normativos.

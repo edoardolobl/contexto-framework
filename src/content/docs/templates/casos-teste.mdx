@@ -1,55 +1,78 @@
 ---
-title: "Modelo: Perguntas de referência"
-description: Documente o que uma fonte permite responder, quando pedir esclarecimento e quando não responder.
+title: Perguntas de referência
+description: Defina as perguntas que o acervo deve conseguir responder, as que pedem esclarecimento e as que ficam sem número.
 ---
 
 import TemplateDownloads from '../../../components/TemplateDownloads.astro';
 import ExampleDoc from '../../../components/ExampleDoc.astro';
 import TemplateStart from '../../../components/TemplateStart.astro';
 
+<p class="editorial-lead">“O agente vai responder perguntas sobre o dashboard.” Quais perguntas?</p>
+
 <TemplateStart kind="casos-teste" />
 
-<p class="editorial-lead">Documente perguntas que o acervo deve conseguir responder</p>
+## O problema
 
-Antes de uma equipe técnica avaliar um RAG ou agente, os responsáveis pelo conhecimento precisam definir **o que a documentação autoriza afirmar**, qual evidência sustenta a resposta e em quais situações não há informação suficiente.
+Antes de uma equipe técnica avaliar um RAG ou agente, quem responde pelo conhecimento precisa dizer **o que a documentação autoriza afirmar**, com qual evidência, e quando não há informação suficiente. Sem isso, “o agente respondeu” não diz se a resposta estava certa. O resultado deste modelo é um **gabarito validado pelo domínio**, não um relatório de desempenho de um modelo.
 
-Isso é diferente de criar testes automatizados de modelos. O primeiro resultado é um conjunto de **perguntas de referência com gabarito validado pelo domínio**.
+Toda pergunta cai numa de três categorias:
 
-## Três categorias indispensáveis
-
-| Categoria | Quando ocorre | Exemplo de comportamento esperado |
+| Categoria | Quando ocorre | Comportamento esperado |
 |---|---|---|
-| Respondível | Fontes cobrem significado, escopo e período | Responder com definição e evidência |
-| Ambígua | Faltam escolhas como canal, período ou unidade | Pedir esclarecimento e listar alternativas |
-| Não respondível | As fontes não cobrem a pergunta ou a regra não foi aprovada | Declarar limite ou encaminhar a quem decide |
+| Respondível | As fontes cobrem significado, escopo e período | Responder com definição e evidência |
+| Ambígua | Falta uma escolha que só quem pergunta pode fazer: canal, período, unidade | Pedir esclarecimento e listar as alternativas |
+| Fora da cobertura | As fontes não cobrem a pergunta ou a regra não foi aprovada | Declarar o limite e encaminhar a quem decide |
 
-## Campos de cada pergunta
+## O que perguntar
 
-- Texto da pergunta tal como uma pessoa a faria;
-- Intenção e contexto esperado;
-- Identificador da fonte vigente e o trecho ou regra que sustenta a resposta;
-- Resultado ou interpretação de referência;
-- Nível de confiança e revisão **humana** da resposta esperada;
-- Condição de abstenção ou necessidade de esclarecimento;
-- Casos-limite que diferenciam respostas parecidas;
-- Data de referência dos dados, quando a resposta depende dela.
+Para cada pergunta do gabarito, registre:
 
-## Dois exemplos do mesmo documento
+- o texto da pergunta, tal como uma pessoa a faria;
+- o identificador da fonte vigente e o trecho ou regra que sustenta a resposta;
+- a resposta esperada, ou a condição para pedir esclarecimento ou não responder;
+- a data de referência dos dados, quando a resposta depende dela;
+- quem revisou a resposta esperada, e quando.
 
-O primeiro quadro mostra o documento no começo do trabalho: muita coisa ainda sem resposta, e isso está escrito. O segundo mostra o mesmo documento depois que a área responsável decidiu.
+**Cada pergunta se lê sozinha.** Um gabarito não deve ter pergunta que dependa da anterior, como “e no mês passado?”.
 
-<ExampleDoc file="exemplo-casos-teste-ficticios.yaml" />
+## Antes e depois da decisão
+
+O gabarito do [Laboratório Aurora](../../exemplos/analytics-integrado/) tem seis perguntas:
+
+| ID | Pergunta | Resposta esperada | Evidência necessária |
+|---|---|---|---|
+| Q01 | Qual foi a taxa de sessões web convertidas em 01/10/2026? | **Responder:** 25% nesta amostra | Definição do KPI, sessão elegível, estado do pedido |
+| Q02 | Por que essa taxa não é 50%? | **Explicar:** há dois pedidos confirmados na mesma sessão; ela conta uma vez | Cardinalidade 1:N e regra do numerador |
+| Q03 | Qual foi a conversão em 01/10/2026? | **Pedir esclarecimento:** a pergunta não diz o canal nem qual conversão | O KPI vale só para web |
+| Q04 | Qual foi a taxa de sessões convertidas no app em 01/10/2026? | **Não responder com número:** o canal app está fora do escopo declarado | Canais excluídos no KPI |
+| Q05 | Qual foi a taxa de sessões web convertidas em setembro de 2026? | **Não responder com número:** a amostra não contém esse período | Limite temporal documentado |
+| Q06 | Qual foi a receita líquida em 01/10/2026? | **Não responder com número:** o indicador não foi definido | Ausência de fórmula e fontes |
+
+Q04 a Q06 não dizem que um banco maior seria incapaz de respondê-las; dizem que **esta documentação e esta definição não as sustentam**.
+
+Enquanto o KPI em que Q01 se apoia não está aprovado, a resposta carrega essa ressalva:
+
+<ExampleDoc file="exemplo-casos-teste-lacunas.yaml" />
+
+Depois da aprovação do KPI e do gabarito, a ressalva sai e cada pergunta ganha revisor e data:
 
 <ExampleDoc file="exemplo-casos-teste-completo.yaml" />
 
-O **histórico de versões** indica o que mudou, mas não substitui uma cópia da regra anterior. Para interpretar o passado, é preciso identificar a versão certa e sua vigência; veja o [guia de identificação e versões](../../metodo/identificacao-versoes/).
+Quando um indicador muda de versão, as respostas do gabarito que dependem dele **também precisam ser revisadas**.
 
-**O número 25% depende da amostra do laboratório.**
+## Teste você
+
+1. Q03 e Q04 parecem iguais: nenhuma recebe número. Qual é a diferença?
+   <details><summary>Ver resposta</summary>Q03 é ambígua: falta uma escolha que só quem pergunta pode fazer, então a resposta é pedir esclarecimento. Q04 não é ambígua: a pessoa disse o canal, e o documento diz que o indicador não vale para ele. É abstenção, com encaminhamento a quem responde pelo indicador.</details>
+2. Alguém propõe acrescentar “E no app?” logo depois de Q01. O que está errado?
+   <details><summary>Ver resposta</summary>A pergunta depende da anterior para ter sentido. Reescreva com tudo explícito, como em Q04.</details>
+
+## Baixe o modelo
 
 <TemplateDownloads kind="casos-teste" />
 
-Veja o [estudo de caso e suas perguntas](../../exemplos/testes-analytics/). A engenharia de IA ainda terá de testar recuperação, segurança, execução de ferramentas e comportamento do modelo.
+A engenharia poderá usar essas perguntas em testes de recuperação, respostas e ferramentas. O Contexto **não certifica** nenhuma arquitetura RAG ou agente.
 
-### Referências
+### Fundamentação
 
-[Microsoft: Fase de preparação do RAG](https://learn.microsoft.com/pt-br/azure/architecture/ai-ml/guide/rag/rag-preparation-phase) orienta reunir conteúdo e consultas de teste; [Microsoft: Avaliação de recuperação](https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/rag/rag-information-retrieval) diferencia consultas positivas e negativas. O modelo é uma adaptação voltada a documentação do domínio, não um benchmark universal.
+A [fase de preparação do RAG (Microsoft)](https://learn.microsoft.com/pt-br/azure/architecture/ai-ml/guide/rag/rag-preparation-phase) recomenda definir perguntas junto ao conteúdo que as sustenta; a [avaliação de recuperação (Microsoft)](https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/rag/rag-information-retrieval) diferencia consultas positivas e negativas. O modelo é uma adaptação voltada à documentação do domínio, não um benchmark universal.
