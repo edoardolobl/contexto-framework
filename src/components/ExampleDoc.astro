@@ -1,6 +1,6 @@
 ---
 /**
- * Exemplo didático extraído do mesmo YAML entregue no download.
+ * Exemplo extraído do mesmo YAML entregue no download.
  * Três formas de ver o mesmo documento, em abas: o que ele diz, a identificação
  * com o histórico e o arquivo YAML. A linha de versão fica fora das abas,
  * sempre visível, porque é a lição principal sobre versões.
@@ -49,7 +49,7 @@ const rawBase = import.meta.env.BASE_URL;
 const base = rawBase.endsWith('/') ? rawBase : rawBase + '/';
 ---
 <section class:list={['example-doc', complete ? 'example-doc--complete' : 'example-doc--gaps']}>
-  <p class="panel-kicker">{complete ? 'EXEMPLO COMPLETO · APROVAÇÃO FICTÍCIA' : 'EXEMPLO COM LACUNAS · NADA APROVADO'}</p>
+  <p class="panel-kicker">{complete ? 'EXEMPLO COMPLETO' : 'EXEMPLO COM LACUNAS · NADA APROVADO'}</p>
   <p class="example-doc__title">{doc.title}</p>
   <p class="example-doc__byline">
     {complete
@@ -85,7 +85,7 @@ const base = rawBase.endsWith('/') ? rawBase : rawBase + '/';
         <dl class="example-doc__ids">
           <div><dt>ID do assunto</dt><dd><code>{doc.id}</code></dd></div>
           <div><dt>ID da versão</dt><dd><code>{text(doc.revision_id)}</code></dd></div>
-          <div><dt>Estado</dt><dd>{STATUS[doc.status] ?? doc.status}{complete ? ' (aprovação fictícia)' : ''}</dd></div>
+          <div><dt>Estado</dt><dd>{STATUS[doc.status] ?? doc.status}</dd></div>
           <div><dt>Responsável</dt><dd>{text(doc.owner)}</dd></div>
           <div><dt>Quem aprova</dt><dd>{text(doc.approver)}</dd></div>
           <div><dt>Versão e data</dt><dd>{doc.version} · {date(doc.version_date)}</dd></div>
@@ -111,7 +111,6 @@ const base = rawBase.endsWith('/') ? rawBase : rawBase + '/';
   </div>
 
   <div class="example-doc__footer">
-    {complete && doc.example_notice && <p class="example-doc__notice">{doc.example_notice}</p>}
     <a class="example-doc__download" href={base + 'downloads/' + file} download>Baixar YAML <span aria-hidden="true">↓</span></a>
   </div>
 </section>

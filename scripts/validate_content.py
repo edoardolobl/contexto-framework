@@ -153,12 +153,13 @@ for path in sorted(DOWNLOADS.glob("*.yaml")):
             example_ids.setdefault(data["id"], []).append(path.name)
         references.extend((path, ref) for ref in walk_references(data))
         if is_complete:
-            # Regra editorial: aprovação só aparece em exemplo fictício completo, com aviso,
+            # Regra editorial: aprovação só aparece em exemplo completo, com uma linha de aviso no topo,
             # cargo (nunca pessoa) da organização inventada e histórico de pelo menos duas versões.
             if data.get("status") != "approved":
                 record(path, "exemplo completo deve estar approved")
-            if "fictícia" not in str(data.get("example_notice", "")):
-                record(path, "exemplo completo sem example_notice de aprovação fictícia")
+            first_line = path.read_text(encoding="utf8").split("\n", 1)[0]
+            if not first_line.startswith("# Exemplo do Contexto") or "organização inventada" not in first_line:
+                record(path, "exemplo completo sem a linha de aviso no topo do arquivo")
             for key in ("owner", "approver", "source_of_truth", "valid_from", "version_date"):
                 if data.get(key) in (None, "", []):
                     record(path, f"exemplo completo sem {key}")
@@ -188,7 +189,7 @@ for path, ref in references:
 # Exemplo não pode usar campo de primeiro nível que o template do mesmo tipo não tem.
 for path in sorted(DOWNLOADS.glob("exemplo-*.yaml")):
     data = yaml.safe_load(path.read_text(encoding="utf8"))
-    allowed = template_keys.get(data.get("type"), set()) | {"example_notice"}
+    allowed = template_keys.get(data.get("type"), set())
     extra = sorted(set(data) - allowed)
     if extra:
         record(path, f"campos fora do template: {', '.join(extra)}")
@@ -316,6 +317,24 @@ for path in TERM_FILES:
             m = re.search(pattern, line, flags)
             if m:
                 record(path, f"linha {lineno}: \"{m.group(0)}\" fora do vocabulário; use {preferred}")
+
+# Fiction notices: one sentence on the home page, the section in Autoria and the first
+# comment line of each example YAML. Repeating it elsewhere reads as distrust of the reader.
+FICTION = re.compile(r"\bfict[íi]ci\w*|\bhipot[ée]tic\w*|\bdemonstrativ\w*|\bilustrativ\w*|\bdid[áa]tic\w*|\bfic[çc][ãa]o\b|\bexemplificativ\w*|\blaborat[óo]rio pedag[óo]gico|A Aurora não existe", re.I)
+SYNTHETIC = re.compile(r"\bsint[ée]tic\w*", re.I)
+FICTION_ALLOWED = {"index.mdx", "sobre/creditos.mdx"}
+for path in TERM_FILES:
+    rel = str(path.relative_to(DOCS)) if DOCS in path.parents else ""
+    for lineno, line in visible_lines(path):
+        line = re.sub(r"[\w-]+\.(yaml|md|sql)\b", " ", line)
+        if path.suffix == ".yaml" and lineno == 1:
+            continue
+        m = FICTION.search(line)
+        if m and rel not in FICTION_ALLOWED:
+            record(path, f"linha {lineno}: aviso de ficção \"{m.group(0)}\" fora dos lugares combinados")
+        m = SYNTHETIC.search(line)
+        if m and rel != "exemplos/analytics-integrado.mdx":
+            record(path, f"linha {lineno}: \"{m.group(0)}\" só no laboratório")
 
 # One H1 per page: Starlight renders the frontmatter title as the page H1.
 for path in PAGES:

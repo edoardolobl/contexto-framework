@@ -1,4 +1,4 @@
-# Exemplo didático e fictício; nenhuma regra real de RH é representada.
+# Exemplo do Contexto, versão com lacunas: nada aqui foi aprovado. A Aurora é uma organização inventada.
 id: CONCEPT-ONBOARDING-001
 revision_id: "CONCEPT-ONBOARDING-001@0.1"  # versão específica; id = assunto estável
 title: "Participante ativo: programa de integração Aurora"
@@ -20,9 +20,9 @@ version_history:
     approved_by: null
 
 context:
-  domain: "Programa voluntário de integração: Aurora (fictício)"
+  domain: "Programa voluntário de integração: Aurora"
   purpose: "Distinguir inscrição, atividade e conclusão em relatórios"
-  applies_when: "Acompanhamento do programa fictício"
+  applies_when: "Acompanhamento do programa"
   does_not_apply_when: "Avaliação de desempenho, contratação ou benefícios"
 
 vocabulary:

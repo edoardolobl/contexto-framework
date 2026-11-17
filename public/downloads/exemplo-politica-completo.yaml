@@ -1,12 +1,9 @@
-# EXEMPLO FICTÍCIO COMPLETO. Organização inventada (Aurora).
-# A aprovação, o responsável, as datas e a fonte abaixo são fictícios e existem
-# só para mostrar como fica um documento depois que a área responsável decide.
+# Exemplo do Contexto. A Aurora é uma organização inventada; nomes, datas e aprovações fazem parte do caso.
 id: POLICY-EVENTS-001
 revision_id: "POLICY-EVENTS-001@1.1"  # versão específica; id = assunto estável
 title: "Despesas em eventos: Aurora"
 type: policy_reference
 status: approved
-example_notice: "Aprovação fictícia, válida só dentro deste exemplo. A Aurora não existe."
 version: "1.1"
 version_date: "2026-10-01"
 owner: "Controladoria (Aurora)"
@@ -15,7 +12,7 @@ valid_from: "2026-10-01"
 valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
 supersedes_revision: "POLICY-EVENTS-001@1.0"
 last_reviewed: "2026-10-01"
-source_of_truth: "POL-FIN-014, versão 3, publicada na intranet em Políticas > Finanças (documento fictício)"
+source_of_truth: "POL-FIN-014, versão 3, publicada na intranet em Políticas > Finanças"
 version_history:
   - version: "1.1"
     date: "2026-10-01"

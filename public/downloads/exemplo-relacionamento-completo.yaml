@@ -1,12 +1,9 @@
-# EXEMPLO FICTÍCIO COMPLETO. Organização inventada (Aurora).
-# A aprovação, o responsável, as datas e a fonte abaixo são fictícios e existem
-# só para mostrar como fica um documento depois que a área responsável decide.
+# Exemplo do Contexto. A Aurora é uma organização inventada; nomes, datas e aprovações fazem parte do caso.
 id: REL-AURORA-SESSIONS-ORDERS
 revision_id: "REL-AURORA-SESSIONS-ORDERS@2.0"  # versão específica; id = assunto estável
 title: "Sessões para pedidos: Aurora"
 type: relationship_semantics
 status: approved
-example_notice: "Aprovação fictícia, válida só dentro deste exemplo. A Aurora não existe."
 version: "2.0"
 version_date: "2026-09-15"
 owner: "Engenharia de Dados (Aurora)"
@@ -14,7 +11,7 @@ approver: "Analytics de E-commerce (Aurora)"
 valid_from: "2026-09-15"
 valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
 supersedes_revision: "REL-AURORA-SESSIONS-ORDERS@1.0"
-source_of_truth: "Catálogo de dados da Aurora, relacionamento sessões e pedidos (documento fictício)"
+source_of_truth: "Catálogo de dados da Aurora, relacionamento sessões e pedidos"
 version_history:
   - version: "2.0"
     date: "2026-09-15"

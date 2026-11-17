@@ -1,7 +1,7 @@
-# Exemplo de relacionamento sintético validável no SQLite.
+# Exemplo do Contexto, versão com lacunas: nada aqui foi aprovado. A Aurora é uma organização inventada.
 id: REL-AURORA-SESSIONS-ORDERS
 revision_id: "REL-AURORA-SESSIONS-ORDERS@0.1"  # versão específica; id = assunto estável
-title: "Sessões para pedidos: Aurora (fictício)"
+title: "Sessões para pedidos: Aurora"
 type: relationship_semantics
 status: pending_approval
 version: "0.1"

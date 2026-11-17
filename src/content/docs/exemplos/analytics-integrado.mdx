@@ -1,6 +1,6 @@
 ---
 title: "Laboratório Aurora"
-description: "KPI, schema e dashboard numa amostra fictícia: como SQL válido pode responder à pergunta errada."
+description: "KPI, schema e dashboard numa amostra pequena: como SQL válido pode responder à pergunta errada."
 ---
 
 import AnalyticsLabDownloads from '../../../components/AnalyticsLabDownloads.astro';
@@ -8,9 +8,9 @@ import ExampleDoc from '../../../components/ExampleDoc.astro';
 
 <p class="editorial-lead">Uma análise correta começa no significado da pergunta</p>
 
-**Cenário fictício:** a loja Aurora quer documentar a **taxa de sessões web convertidas**. A pergunta parece simples, mas uma sessão pode conter mais de um pedido. Uma contagem de pedidos é diferente de uma contagem de sessões.
+A loja Aurora quer documentar a **taxa de sessões web convertidas**. A pergunta parece simples, mas uma sessão pode conter mais de um pedido. Uma contagem de pedidos é diferente de uma contagem de sessões.
 
-Este tutorial usa uma pequena amostra sintética para que os cálculos possam ser reproduzidos. **Não representa dados de nenhuma organização real.**
+O laboratório usa uma amostra sintética pequena, para que cada cálculo possa ser refeito à mão.
 
 ## 1. As duas tabelas
 
@@ -36,13 +36,13 @@ Este tutorial usa uma pequena amostra sintética para que os cálculos possam se
 | O5 | S4 | CONFIRMED |
 | O6 | S5 | TEST |
 
-O período do exemplo é **1º de outubro de 2026**. Os registros são inventados.
+O período do exemplo é **1º de outubro de 2026**.
 
 ## 2. O schema sozinho não resolve a questão
 
 Um modelo consegue identificar `session_id`, `status_code` e `channel`. Mas não sabe, sem documentação adicional, se `CONFIRMED` é uma conversão válida, se sessões internas entram ou se uma sessão com dois pedidos conta uma ou duas vezes.
 
-Para esta **definição demonstrativa**, estabelecemos:
+A definição aprovada pela Aurora estabelece:
 
 - Sessões elegíveis: `channel='web'` e `is_internal=0` → S1, S2, S5 e S6 (**4 sessões**).
 - Sessões convertidas: sessões elegíveis com pelo menos um pedido `CONFIRMED` → somente S1 (**1 sessão**).
@@ -77,7 +77,7 @@ SELECT ROUND(
 ) AS converted_session_rate;
 ```
 
-A consulta está associada **somente à amostra SQL fictícia**. Não a copie para dados de produção sem revisar a semântica e a estrutura reais.
+A consulta vale para esta amostra. Não a copie para dados de produção sem revisar a semântica e a estrutura reais.
 
 ## 5. O dashboard precisa repetir o mesmo significado
 
@@ -109,7 +109,7 @@ O cálculo acima só é confiável porque seis documentos dizem a mesma coisa. C
 | Dashboard | `DASH-AURORA-WEB` | [Dashboard](../../templates/dashboard/) |
 | Gabarito | `QA-AURORA-001` | [Perguntas de referência](../../templates/casos-teste/) |
 
-O indicador, na versão aprovada dentro da ficção:
+O indicador, na versão aprovada:
 
 <ExampleDoc file="exemplo-kpi-completo.yaml" />
 
@@ -125,8 +125,8 @@ A versão 1.0 do indicador contava pedidos; a 2.0 corrige a fórmula e conta ses
 
 Consulte as [perguntas de referência](../../exemplos/testes-analytics/).
 
-O portal não executa consultas nem acessa bancos. Os arquivos são um **laboratório pedagógico**, não uma conexão com dados de clientes.
+O portal não executa consultas nem acessa bancos. Os arquivos servem para refazer as contas; não se conectam a dados de ninguém.
 
 ### Fundamentação
 
-[Rumiantsau & Fokeev (2026)](https://arxiv.org/abs/2604.25149), [Snowflake Semantic Views](https://docs.snowflake.com/en/user-guide/views-semantic/semantic-view-yaml-spec) e [Databricks: contextos e exemplos SQL](https://docs.databricks.com/gcp/en/genie/add-instructions). Nenhuma dessas fontes certifica nosso SQL fictício; sua correção na amostra deve ser testada diretamente.
+[Rumiantsau & Fokeev (2026)](https://arxiv.org/abs/2604.25149), [Snowflake Semantic Views](https://docs.snowflake.com/en/user-guide/views-semantic/semantic-view-yaml-spec) e [Databricks: contextos e exemplos SQL](https://docs.databricks.com/gcp/en/genie/add-instructions). Nenhuma dessas fontes certifica nosso SQL; sua correção na amostra deve ser testada diretamente.

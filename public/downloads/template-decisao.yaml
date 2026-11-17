@@ -1,4 +1,4 @@
-# Contrato documental didático; não é executável DMN.
+# Contrato documental; não é executável DMN.
 # null significa "ainda não sei" ou "ainda não decidido". Não troque null por um palpite: registre a dúvida em open_questions.
 id: null
 revision_id: null  # versão específica; id = assunto estável

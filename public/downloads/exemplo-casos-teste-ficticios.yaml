@@ -1,4 +1,4 @@
-# Perguntas sobre o laboratório Aurora, com lacunas: respostas ainda não aprovadas.
+# Exemplo do Contexto, versão com lacunas: nada aqui foi aprovado. A Aurora é uma organização inventada.
 id: QA-AURORA-001
 revision_id: "QA-AURORA-001@0.1"  # versão específica; id = assunto estável
 title: "Gabarito documental: sessões convertidas Aurora"
@@ -15,10 +15,10 @@ source_of_truth: null
 version_history:
   - version: "0.1"
     date: "2026-10-01"
-    change: "Rascunho do gabarito após disponibilização da amostra sintética de 01/10"
+    change: "Rascunho do gabarito após disponibilização da amostra de 01/10"
     approved_by: null
 
-domain: "Analytics: laboratório sintético"
+domain: "Analytics: Laboratório Aurora"
 purpose: "Distinguir perguntas respondíveis, ambíguas e fora do escopo"
 covered_documents:
   - KPI-AURORA-001
@@ -102,7 +102,7 @@ questions:
 
 revalidation_triggers:
   - "Mudança de definição ou de versão do KPI"
-  - "Atualização da carga sintética"
+  - "Atualização da carga do laboratório"
   - "Mudança de granularidade ou de relacionamento"
 open_questions:
   - "Quem aprova o gabarito?"

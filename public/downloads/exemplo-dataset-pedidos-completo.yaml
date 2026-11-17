@@ -1,12 +1,9 @@
-# EXEMPLO FICTÍCIO COMPLETO. Organização inventada (Aurora).
-# A aprovação, o responsável, as datas e a fonte abaixo são fictícios e existem
-# só para mostrar como fica um documento depois que a área responsável decide.
+# Exemplo do Contexto. A Aurora é uma organização inventada; nomes, datas e aprovações fazem parte do caso.
 id: DATASET-AURORA-ORDERS
 revision_id: "DATASET-AURORA-ORDERS@1.0"  # versão específica; id = assunto estável
 title: "Pedidos: Aurora"
 type: dataset_semantics
 status: approved
-example_notice: "Aprovação fictícia, válida só dentro deste exemplo. A Aurora não existe."
 version: "1.0"
 version_date: "2026-08-20"
 owner: "Engenharia de Dados (Aurora)"
@@ -14,7 +11,7 @@ approver: "Analytics de E-commerce (Aurora)"
 valid_from: "2026-08-20"
 valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
 supersedes_revision: "DATASET-AURORA-ORDERS@0.1"
-source_of_truth: "Catálogo de dados da Aurora, tabela demo_orders (documento fictício)"
+source_of_truth: "Catálogo de dados da Aurora, tabela demo_orders"
 version_history:
   - version: "1.0"
     date: "2026-08-20"
@@ -38,7 +35,7 @@ columns:
   - physical_name: order_id
     technical_type: TEXT
     business_name: "Identificador do pedido"
-    meaning: "Chave única do pedido fictício"
+    meaning: "Chave única do pedido"
     unit: null
     allowed_values: []
     sentinel_values: []
@@ -69,7 +66,7 @@ columns:
 time_semantics:
   reference_field: null
   timezone: null
-  update_frequency: "Carga estática sintética"
+  update_frequency: "Carga estática do laboratório"
   known_latency: "Não aplicável ao laboratório"
   snapshot_or_events: "Um registro por pedido, com o estado atual. A tabela não guarda data própria: o período vem da sessão de origem"
 
