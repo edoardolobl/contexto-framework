@@ -22,6 +22,12 @@ const STATUS: Record<string, string> = {
   deprecated: 'Obsoleto',
 };
 const complete = doc.status === 'approved';
+const hasOwner = typeof doc.owner === 'string' && doc.owner.trim().length > 0;
+const hasSource = typeof doc.source_of_truth === 'string' && doc.source_of_truth.trim().length > 0;
+const draftByline = !hasOwner && !hasSource
+  ? 'Responsável e fonte ainda não definidos'
+  : [hasOwner ? 'Responsável: ' + doc.owner : 'Responsável ainda não definido',
+     hasSource ? 'Fonte: ' + doc.source_of_truth : 'Fonte ainda não definida'].join(' · ');
 const text = (v: unknown) => (v === null || v === undefined || v === '' ? 'Ainda não definido' : String(v));
 const isDay = (v: unknown): v is string => typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v);
 const date = (v: unknown) => (isDay(v) ? v.split('-').reverse().join('/') : text(v));
@@ -48,7 +54,7 @@ const base = rawBase.endsWith('/') ? rawBase : rawBase + '/';
   <p class="example-doc__byline">
     {complete
       ? <>Aprovado por {text(doc.approver)}<span aria-hidden="true"> · </span>Fonte: {text(doc.source_of_truth)}</>
-      : <>Responsável: {text(doc.owner)}<span aria-hidden="true"> · </span>Fonte a confirmar: {text(doc.source_of_truth)}</>}
+      : draftByline}
   </p>
 
   <div class="example-doc__revision" role="group" aria-label="Revisão deste documento">
