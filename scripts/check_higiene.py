@@ -6,6 +6,7 @@
 2. Descrições que só repetem o nome do campo: não ensinam nada a quem lê nem à IA.
 3. Uma versão do produto: package.json, README, página inicial e CHANGELOG dizem a mesma versão.
 4. Vocabulário: todo termo de src/data/vocabulario.yaml aparece na tabela do contrato editorial.
+5. CSS: nenhum bloco <style> em src/components/*.astro, para que todo CSS passe pelo Stylelint em src/styles/.
 
 Política dos caracteres invisíveis: são acusados a categoria Cf (inclui ZWJ, ZWNJ e marcas de direção),
 Cc (exceto tab, \\n e \\r), Zl, Zp, os seletores de variação (U+FE00 a U+FE0F e U+E0100 a U+E01EF) e os
@@ -154,6 +155,24 @@ def termos_fora_do_contrato(regras: list[dict[str, Any]], contrato: str) -> list
     return sorted({r["termo"] for r in regras if r.get("termo") and _normalizar_termo(r["termo"]) not in celulas})
 
 
+_BLOCO_STYLE = re.compile(r"<style\b")
+
+
+def componentes_com_style(raiz: Path) -> list[tuple[Path, int]]:
+    """(componente, linha) de cada bloco <style> em src/components/*.astro."""
+    achados: list[tuple[Path, int]] = []
+    for caminho in sorted((raiz / "src" / "components").glob("*.astro")):
+        for numero, linha in enumerate(caminho.read_text(encoding="utf-8", errors="replace").split("\n"), start=1):
+            if _BLOCO_STYLE.search(linha):
+                achados.append((caminho, numero))
+    return achados
+
+
+def erros_de_style(raiz: Path) -> list[str]:
+    return [f"{caminho.relative_to(raiz).as_posix()}:{linha}: bloco <style> em componente; mova o CSS para src/styles/ (Stylelint só confere essa pasta)"
+            for caminho, linha in componentes_com_style(raiz)]
+
+
 def arquivos_de_texto(raiz: Path) -> Iterator[Path]:
     for caminho in sorted(raiz.rglob("*")):
         if PASTAS_IGNORADAS.intersection(caminho.relative_to(raiz).parts):
@@ -197,6 +216,9 @@ def main() -> None:
         for titulo, descricao in pares_de_schema(conteudo):
             if descricao_tautologica(titulo, descricao):
                 relatorio.erro(caminho, f"a descrição \"{descricao}\" só repete o título \"{titulo}\"; diga como interpretar o valor")
+
+    for mensagem in erros_de_style(ROOT):
+        relatorio.erro(None, mensagem)
 
     versoes = versoes_do_produto(ROOT)
     lidas = {fonte: v for fonte, v in versoes.items() if v}

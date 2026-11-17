@@ -12,10 +12,11 @@ const base = baseUrl();
 // Ids estáveis entre builds, derivados do título; cada instância da página tem título próprio.
 const uid = 'readiness-' + title.normalize('NFD').replace(/[^\w]+/g, '-').replace(/^-|-$/g, '').toLowerCase();
 ---
-<section class="readiness" data-readiness data-total={criteria.length}>
-  <div class="readiness-heading"><div><p class="eyebrow">VERIFICAÇÃO</p><h3>{title}</h3></div></div>
+<section class="readiness ctx-card" data-readiness data-total={criteria.length}>
+  <p class="eyebrow">VERIFICAÇÃO</p>
+  <h3 class="readiness__title">{title}</h3>
   <p>Marque o item quando o documento trouxer uma resposta explícita, não apenas um campo ou um título. <strong>Não é uma nota:</strong> a consistência das respostas e a aprovação da área são verificadas nas próximas etapas.</p>
-  <p class="readiness-convention">As oito dimensões são uma convenção do Contexto. Veja de onde vêm em <a href={`${base}metodo/oito-dimensoes/`}>Checklist das oito dimensões</a>.</p>
+  <p>As oito dimensões são uma convenção do Contexto. Veja de onde vêm em <a href={`${base}metodo/oito-dimensoes/`}>Checklist das oito dimensões</a>.</p>
   <fieldset>
     <legend class="sr-only">Dimensões da qualidade documental</legend>
     {criteria.map(([label, description], index) => (
@@ -26,10 +27,10 @@ const uid = 'readiness-' + title.normalize('NFD').replace(/[^\w]+/g, '-').replac
   <div class="readiness-gaps" data-gaps hidden>
     <p class="readiness-gaps__title" id={`${uid}-lacunas`}>Lacunas para levar à revisão</p>
     <ul data-gap-list aria-labelledby={`${uid}-lacunas`} aria-describedby={`${uid}-retorno`}></ul>
-    <button type="button" data-copy>Copiar lista de lacunas</button>
+    <button type="button" class="ctx-button ctx-button--secondary" data-copy>Copiar lista de lacunas</button>
   </div>
   <p class="readiness-copy-status" role="status" data-copy-status></p>
-  <div class="readiness-footer"><button type="button" data-reset>Limpar seleção</button><span>Os dados não são enviados ou armazenados.</span></div>
+  <div class="readiness-footer"><button type="button" class="ctx-button ctx-button--secondary" data-reset>Limpar seleção</button><span>Os dados não são enviados ou armazenados.</span></div>
 </section>
 <script>
   const INITIAL = 'Marque o que o documento já responde. O que ficar sem marca vira a sua lista de lacunas.';

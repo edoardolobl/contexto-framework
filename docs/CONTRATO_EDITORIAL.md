@@ -1,9 +1,10 @@
 # Contrato editorial: Contexto
 
-**Versão:** 0.9 · **Data desta versão:** 2026-11-17 · **Estado:** proposto (F4), aguarda aprovação do mantenedor · **Mantenedor:** Edoardo Lobl
+**Versão:** 0.10 · **Data desta versão:** 2026-11-17 · **Estado:** proposto (F5), aguarda aprovação do mantenedor · **Mantenedor:** Edoardo Lobl
 
 | Versão | Data | O que mudou | Aprovado por |
 |---|---|---|---|
+| 0.10 | 2026-11-17 | Sequência didática da página de tipo (I-24) em cinco passos recolhíveis, com o modelo em branco por último; limite de até 4 telas a 1440 x 900 px, sem limite próprio no celular (ADR 0017); nomes Diagnóstico e Complete (I-25); duas páginas por tipo, a que ensina e a referência de campos gerada; linha "Exemplo Aurora:" nos modelos .md; sistema visual com IBM Plex, tokens de cor e checklist visual por PR (ADR 0016); "Teste você" com resposta antes do gabarito | Proposto (F5), aguarda aprovação do mantenedor |
 | 0.9 | 2026-11-17 | Tipo Evento de coleta no núcleo de entrada (ADR 0013 e 0027); grupo Laboratórios com dois laboratórios; seção opcional de triagem na página do tipo, quando o tipo pede; aviso de ficção também na primeira linha de cada .sql baixável (ADR 0012); regras para exemplos de Data Analytics sobre limite fixo do Lab 2, falta de linha x zero, dia incompleto em D+2, cenário só com fonte primária e limiar numérico como escolha do time; termos "linha de base" e "plano de mensuração" na tabela Vocabulário | Proposto (F4), aguarda aprovação do mantenedor |
 | 0.8 | 2026-11-17 | Fonte única em Markdown com frontmatter; downloads gerados e conferidos no CI; schema 1.0.0 com JSON Schema por tipo; cabeçalho comum e intent; estado superseded e campo status nas perguntas em aberto (ADR 0005, 0006, 0009 e 0015); exemplo YAML do cabeçalho na ordem que o validador exige | Proposto (F3), aguarda aprovação do mantenedor |
 | 0.7 | 2026-11-17 | Comece aqui descrito como o menu publicado: tutorial de negócio e visão do método; o tutorial de dados fica em aberto no ROADMAP | Proposto (F2), aguarda aprovação do mantenedor |
@@ -104,9 +105,11 @@ Risco aceito: alguém pode copiar um exemplo completo achando que é regra real.
 1. **Começa por um conflito com números:** duas fontes, duas pessoas ou duas datas que dão respostas diferentes.
 2. **O documento completo fala do caso:** critérios, âncoras, passos e limites citam valores, datas e nomes da Aurora, não frases que serviriam para qualquer empresa.
 3. **O texto da página não repete o cartão:** comenta o que o cartão não diz.
-4. **Termina com “Teste você”:** casos com a resposta escondida, pelo menos um atravessando uma mudança de versão.
+4. **Termina com “Teste você”:** o leitor responde antes de ver o gabarito, e a página explica o erro de cada alternativa. Pelo menos um caso atravessa uma mudança de versão. Nada é enviado nem guardado.
 5. **Números da amostra são calculados, não digitados:** o validador refaz a conta no SQLite e confere o texto.
 6. **Datas conferidas:** dia da semana, prazos em dias úteis (fim de semana não conta; o prazo vence no fim do último dia útil), aprovações em dia útil (o validador avisa) e coerência com o histórico de versões. Nenhum documento cita artefato, registro ou versão com data posterior à sua. As datas dos artefatos ficam em `src/data/artefatos.yaml`, e o validador acusa a referência com data posterior.
+
+Diagnóstico e Complete usam os dois exemplos existentes, o com lacunas e o completo. Não criam exemplo nem fato novo.
 
 O validador confere as condições de “Exemplos completos e aprovados”, as notas da rubrica, os encaminhamentos da tabela de decisão e os números da amostra.
 
@@ -166,19 +169,25 @@ O portal segue o percurso do leitor, não a ordem das pastas. A decisão está n
 - **Modelos:** o grupo segue o nível de `src/data/modelos.yaml`: o núcleo de entrada (ADR 0013), o segundo nível e a trilha complementar da rubrica (ADR 0003). O tipo Evento de coleta está no núcleo de entrada (ADR 0013 e 0027).
 - **Nenhuma página órfã:** toda página tem entrada no menu ou em outra página, e nenhuma página fica sem saída. `scripts/check_navegacao.py` confere.
 - **YAML só em páginas de modelo e de referência,** nunca no percurso (NAV-08).
-- **Uma página por tipo de documento**, com o modelo e o exemplo juntos. O endereço continua em `/templates/...`.
+- **Duas páginas por tipo de documento:** a que ensina, em `/templates/<slug>/`, com a sequência descrita abaixo; e a referência de campos, em `/referencias/campos/<slug>/`, gerada por `scripts/gerar_referencias.py` a partir de `src/data/campos.yaml` e dos schemas. A referência não se edita à mão e o CI a confere. O índice "Referência de campos" fica no grupo Consultar.
 - **Cada cartão de exemplo aparece em uma página só.** Onde outra página precisa dele, entra um link.
 - **O menu mostra o título da página.** O sidebar lista só os slugs, sem rótulo próprio, e nenhuma página muda o rótulo pelo frontmatter. O validador confere.
 - **Página movida ou renomeada ganha redirecionamento** em `astro.config.mjs`, e o validador recusa link para o endereço antigo.
 
 ### Estrutura de uma página de tipo
 
-1. **O problema**, com números: uma situação da Aurora em que a falta do documento custa algo visível.
-2. **O que perguntar**, numa tabela só: pergunta, como ela aparece na Aurora, o que registrar.
-3. **Antes e depois da decisão**: o cartão com lacunas e o cartão completo, cada um uma vez, e o que o histórico de versões ensina.
-4. **Triagem**, seção opcional que só entra quando o tipo pede. O tipo Evento de coleta a usa para separar o que é quebra do que é esperado (ADR 0027).
-5. **Teste você**, com as respostas escondidas.
-6. **Baixe o modelo**, e a fundamentação.
+A ordem é a mesma em todo tipo, para que o leitor saiba onde está. Cada página tem **no máximo 4 telas a 1440 x 900 px**, com os passos fechados. Não há limite próprio no celular: ele é conferido pelo checklist visual (ADR 0017). `scripts/check_visual.mjs` confere as 4 telas, e `scripts/check_paginas_modelo.py` confere a ordem abaixo.
+
+1. **Antes de preencher:** para que serve o tipo, quando usá-lo e o que ter em mãos.
+2. **O problema**, com par contrastante: a mesma pergunta, duas definições e dois resultados, de preferência com números tirados dos exemplos ou dos laboratórios, como o 25% x 50% da Aurora.
+3. **Aprenda com a Aurora**, em cinco passos recolhíveis (componente Steps do Starlight, com um details por passo):
+   1. **Exemplo comentado:** o exemplo completo, com 2 a 4 perguntas de autoexplicação e o que o histórico de versões ensina.
+   2. **Diagnóstico:** o exemplo com lacunas, para encontrar o que falta ou o erro sutil antes do gabarito (I-25).
+   3. **Complete:** um trecho do exemplo completo com um campo em branco, para escrever e comparar (I-25).
+   4. **Caso novo:** uma situação nova para o modelo em branco, com a tabela "O que perguntar" (pergunta, como ela aparece na Aurora, o que registrar).
+   5. **Teste você:** perguntas que pedem uma resposta antes do gabarito, e explicam o erro de cada alternativa.
+4. **Triagem**, seção opcional e recolhida, que só entra quando o tipo pede. O tipo Evento de coleta a usa para separar o que é quebra do que é esperado (ADR 0027).
+5. **Baixe o modelo**, por último: o modelo em branco, com o link para a referência de campos e a fundamentação.
 
 ## Estrutura de duas camadas de metadados
 
@@ -266,12 +275,21 @@ Não usar outras grafias (`needs_approval`, `pending_confirmation`, `pendente_de
 - UI responsiva, legível em celular, e busca local quando o site for compilado.
 - Interações pedagógicas não enviam nem armazenam respostas.
 - Códigos do YAML (`not_evaluable`, `evidence_sufficient`) não aparecem crus no texto legível do cartão.
+- **Fonte:** família IBM Plex (Sans no texto, Serif nos títulos de destaque, Mono no YAML e nos nomes de campo), servida pelo próprio site, sem serviço externo (ADR 0016).
+- **Títulos:** um tamanho por nível, de `h1` a `h5`.
+- **Fundos:** três, e só três: base, superfície e inverso.
+- **Componentes:** quatro primitivas (cartão, rótulo, botão e aviso); componentes nativos do Starlight onde houver equivalente.
+- **Botões:** um par só, principal e secundário, em todo o portal.
+- **Cores:** só como tokens em `:root`, sem `!important`. O Stylelint confere.
+- **Checklist visual:** em cada PR, a 1440 e a 390 px, nos temas claro e escuro.
+- **Exercícios:** `fieldset` com `legend`, e resposta anunciada.
+- Detalhes de uso ficam em [GUIA_VISUAL.md](GUIA_VISUAL.md).
 
 ## Critério de aceitação por modelo
 
 > Um especialista que domina o assunto, mas não a engenharia de IA, consegue usar o modelo para explicar seu conceito/processo, identificar lacunas e determinar a quem cabe resolvê-las, sem ter de inventar definições?
 
-Checklist de aprovação editorial do modelo: necessidade e aplicabilidade; perguntas para descobrir o que falta; exemplo com lacunas; exemplo completo e aprovado; histórico de versões; perguntas em aberto explícitas; responsáveis; fontes; vocabulário; links; “Teste você”; revisão.
+Checklist de aprovação editorial do modelo: necessidade e aplicabilidade; perguntas para descobrir o que falta; exemplo com lacunas; exemplo completo e aprovado; histórico de versões; perguntas em aberto explícitas; responsáveis; fontes; vocabulário; links; “Teste você”; par contrastante; exemplo comentado; Diagnóstico; Complete; caso novo; referência de campos; linhas “Exemplo Aurora:” no modelo `.md`; revisão.
 
 ## Uma só fonte para os exemplos
 
@@ -283,6 +301,7 @@ A fonte de cada modelo é `src/modelos/<slug>.md`, e a de cada exemplo é `src/e
 - O CI falha se os arquivos gerados estiverem fora de sincronia com as fontes.
 - O modelo `.md` baixado abre com os campos no topo, para quem não conhece YAML. As seções "Identificação" (rótulos em português de `src/data/campos.yaml`) e "Histórico de versões" são geradas.
 - O `ExampleDoc` lê o `.yaml` gerado.
+- Em cada campo crítico do modelo `.md` baixado há uma linha `Exemplo Aurora:`, gerada do exemplo completo pelo `scripts/gerar_downloads.py`, a partir do marcador `<!-- contexto:exemplo chave -->` na fonte. Sempre há uma linha para `intent.question`, e cada modelo tem pelo menos quatro linhas `Exemplo Aurora:` (seção 1.5 item 9, AUR-13, MOD-03).
 
 Os modelos vêm de `src/data/modelos.yaml`, que alimenta `TemplateFinder`, `TemplateDownloads` e `TemplateStart`. As oito dimensões vêm de `src/data/dimensoes.yaml`, que alimenta o checklist.
 

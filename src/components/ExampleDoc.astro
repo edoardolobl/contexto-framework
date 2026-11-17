@@ -7,11 +7,12 @@
  *
  * nivel: nível do título do exemplo (padrão 3, para uso logo depois de um h2).
  * Os títulos internos ficam sempre um nível abaixo.
+ * Cartão, selo de estado e botão vêm das primitivas (.ctx-card, .ctx-label, LinkButton secundário).
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import { parse } from 'yaml';
-import { Code, Tabs, TabItem } from '@astrojs/starlight/components';
+import { Code, LinkButton, Tabs, TabItem } from '@astrojs/starlight/components';
 import ExampleMeaning from './ExampleMeaning.astro';
 
 type Nivel = 2 | 3 | 4 | 5;
@@ -59,7 +60,7 @@ const hasSuccessor = typeof doc.superseded_by_revision === 'string' && doc.super
 const rawBase = import.meta.env.BASE_URL;
 const base = rawBase.endsWith('/') ? rawBase : rawBase + '/';
 ---
-<section class:list={['example-doc', complete ? 'example-doc--complete' : 'example-doc--gaps']}>
+<section class:list={['example-doc ctx-card', complete && 'ctx-card--destaque']}>
   <p class="panel-kicker">{complete ? 'EXEMPLO COMPLETO' : 'EXEMPLO COM LACUNAS · NADA APROVADO'}</p>
   <Titulo class="example-doc__title">{doc.title}</Titulo>
   <p class="example-doc__byline">
@@ -76,8 +77,8 @@ const base = rawBase.endsWith('/') ? rawBase : rawBase + '/';
       <span class="example-doc__revision-arrow" aria-hidden="true">→</span>
     </>}
     {complete
-      ? <span class="example-doc__revision-current">Versão {doc.version} · vigente desde {date(doc.valid_from)}</span>
-      : <span class="example-doc__revision-draft">{STATUS[doc.status] ?? doc.status} {doc.version} · nada aprovado ainda</span>}
+      ? <span class="ctx-label ctx-label--aprovado">Versão {doc.version} · vigente desde {date(doc.valid_from)}</span>
+      : <span class="ctx-label ctx-label--rascunho">{STATUS[doc.status] ?? doc.status} {doc.version} · nada aprovado ainda</span>}
   </div>
   {complete && current && <p class="example-doc__change">
     <strong>{previous ? 'O que mudou:' : 'Nesta versão:'}</strong> {text(current.change)}
@@ -127,6 +128,6 @@ const base = rawBase.endsWith('/') ? rawBase : rawBase + '/';
   </div>
 
   <div class="example-doc__footer">
-    <a class="example-doc__download" href={base + 'downloads/' + file} download>Baixar YAML <span aria-hidden="true">↓</span></a>
+    <LinkButton href={base + 'downloads/' + file} variant="secondary" download>Baixar YAML <span aria-hidden="true">↓</span></LinkButton>
   </div>
 </section>

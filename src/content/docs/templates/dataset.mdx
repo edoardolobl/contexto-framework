@@ -3,9 +3,13 @@ title: Dataset
 description: Documente o que cada linha e cada valor de uma tabela significam, para que ninguém tenha de adivinhar pelo nome da coluna.
 ---
 
+import { Steps } from '@astrojs/starlight/components';
 import TemplateDownloads from '../../../components/TemplateDownloads.astro';
 import ExampleDoc from '../../../components/ExampleDoc.astro';
 import TemplateStart from '../../../components/TemplateStart.astro';
+import ParContrastante from '../../../components/ParContrastante.astro';
+import EtapaDeEstudo from '../../../components/EtapaDeEstudo.astro';
+import Exercicio from '../../../components/Exercicio.astro';
 
 <p class="editorial-lead">Uma coluna de 0 e 1 muda a taxa de 25% para 40%</p>
 
@@ -13,55 +17,129 @@ import TemplateStart from '../../../components/TemplateStart.astro';
 
 ## O problema
 
-A tabela `demo_sessions` do [Laboratório Aurora](../../exemplos/analytics-integrado/) tem uma coluna `is_internal`. O schema só diz que ela vale 0 ou 1:
+A tabela `demo_sessions` do [Laboratório Aurora](../../exemplos/analytics-integrado/) tem uma coluna `is_internal`, e o schema só diz que ela vale 0 ou 1. A sessão S3 tem o valor 1 e o pedido O4 confirmado. Nada no nome da coluna avisa que uma compra confirmada pode ficar de fora:
 
-```sql
-is_internal INTEGER NOT NULL CHECK (is_internal IN (0, 1))
-```
+<ParContrastante
+  pergunta="Qual foi a conversão web de 01/10/2026?"
+  a={{ rotulo: 'Sem o dicionário', definicao: 'Conta as 5 sessões web, inclusive S3: 2 com pedido confirmado.', resultado: '40%' }}
+  b={{ rotulo: 'Com o dicionário', definicao: 'O valor 1 marca a rede do escritório: testes, demonstrações e compras de funcionários. S3 sai, e fica 1 convertida entre 4.', resultado: '25%' }}
+/>
 
-Quem calcula a conversão web de 01/10 sem saber o que essa coluna significa conta **5 sessões, 2 com pedido confirmado: 40%**. O dicionário diz que 1 marca a sessão aberta na rede do escritório da Aurora: testes da equipe, demonstrações e compras de funcionários. A sessão S3 é uma dessas, com o pedido O4 confirmado. O indicador exclui toda sessão interna, então a conta certa é **4 sessões, 1 convertida: 25%**. Nada no nome da coluna avisa que uma compra confirmada fica de fora.
+## Aprenda com a Aurora
 
-## O que perguntar
+<Steps>
 
-| Pergunta | Na Aurora | O que registrar |
-|---|---|---|
-| O que uma linha representa? | Uma sessão; os pedidos estão em outra tabela | Granularidade |
-| O que identifica a linha? | `session_id`, único | Chave |
-| O que cada valor de código quer dizer? | `is_internal = 1` é teste, rede do escritório ou compra de funcionário? | Significado de cada valor |
-| O que significam nulo, 0, -1 ou `UNKNOWN`? | Pode faltar `session_date`? | Valores especiais |
-| Que data a linha carrega, e em que fuso? | `session_date` é data local, sem hora? | Referência de tempo |
-| Com que frequência atualiza, e com que atraso? | Carga diária ou estática? | Atualização |
-| O que não se pode fazer com a tabela? | Contar linhas depois de juntar com pedidos | Usos proibidos |
-| É a fonte oficial, e quem aprova o significado? | Engenharia de Dados mantém; Analytics de E-commerce aprova | Autoridade |
+1. Leia o dicionário aprovado e tente responder a cada pergunta antes de abrir a resposta.
 
-`is_active='Y'`, `is_active=true` e `is_active=1` não são equivalentes sem confirmação no catálogo: registre a codificação que a tabela usa de fato.
+   <EtapaDeEstudo tipo="comentado" resumo="O dicionário aprovado, com três perguntas para explicar a você mesmo">
 
-## Antes e depois da decisão
+   <ExampleDoc file="exemplo-dataset-completo.yaml" />
 
-No rascunho, o significado de `is_internal` ainda está em aberto, e o documento diz quanto isso pesa:
+   <details><summary>Por que S3 fica fora da taxa, se o pedido O4 é uma compra real?</summary>Porque o indicador exclui toda sessão interna, e o valor 1 em `is_internal` inclui compras de funcionários. O dicionário registra S3 como caso-limite justamente porque o nome da coluna não avisa.</details>
 
-<ExampleDoc file="exemplo-dataset-lacunas.yaml" />
+   <details><summary>Por que contar linhas depois de juntar com pedidos é uso proibido?</summary>A junção com pedidos é um para muitos: uma sessão com dois pedidos vira duas linhas, e a contagem de linhas conta a mesma sessão duas vezes.</details>
 
-Na versão aprovada, a coluna tem significado, e o caso-limite de S3 está escrito:
+   <details><summary>O que o histórico de versões ensina?</summary>A versão 1.0, de 20/08, documentava as quatro colunas. A 1.1, de 11/09, acrescentou que `session_date` é a data local da loja, sem hora, depois de uma dúvida sobre fuso no fechamento diário. A 1.2, de 02/10, registrou o caso-limite de S3 depois que a amostra de 01/10 mostrou o efeito do filtro. As duas são versões menores: esclareceram sem mudar nenhum resultado.</details>
 
-<ExampleDoc file="exemplo-dataset-completo.yaml" />
+   </EtapaDeEstudo>
 
-### O que o histórico de versões ensina
+2. No rascunho, o significado de `is_internal` ainda está em aberto. Encontre a lacuna que muda o número.
 
-A versão 1.0, de 20/08, documentava as quatro colunas. A 1.1, de 11/09, acrescentou que `session_date` é a data local da loja, sem hora, depois de uma dúvida sobre fuso no fechamento diário. É uma versão menor: esclareceu sem mudar nenhum resultado. A 1.2, de 02/10, registrou o caso-limite de S3 depois que a amostra de 01/10 mostrou o efeito do filtro; também menor.
+   <EtapaDeEstudo tipo="diagnostico" resumo="O rascunho, com três perguntas em aberto">
 
-## Teste você
+   <ExampleDoc file="exemplo-dataset-lacunas.yaml" />
 
-1. A sessão S3 tem o pedido O4 confirmado. Ela conta como sessão convertida?
-   <details><summary>Ver resposta</summary>Não. S3 é interna, e o indicador exclui toda sessão interna, inclusive compras reais de funcionários.</details>
-2. Alguém esquece o filtro `is_internal = 0`. Quanto dá a taxa de 01/10?
-   <details><summary>Ver resposta</summary>40%: 5 sessões web, 2 com pedido confirmado (S1 e S3).</details>
-3. O fechamento diário de 31/08 tratou `session_date` como data em UTC. Ele contrariou o dicionário?
-   <details><summary>Ver resposta</summary>Não. Em 31/08 valia a versão 1.0, que não dizia o fuso. Foi essa dúvida que levou à 1.1, em 11/09: desde então, `session_date` é a data local da loja.</details>
+   <Exercicio
+     pergunta="Qual pergunta em aberto do rascunho decide se a taxa de 01/10 é 25% ou 40%?"
+     opcoes={[
+       { texto: 'O que o valor 1 de is_internal marca, e se sessões internas entram na taxa', correta: true, explicacao: 'O próprio rascunho diz o impacto: a resposta muda o denominador e o numerador. S3 entra ou sai conforme essa resposta.' },
+       { texto: 'Quem aprova a semântica do dicionário', explicacao: 'Sem quem aprova, o dicionário não pode ser citado como fonte, mas a conta não muda.' },
+       { texto: 'Em que fuso está session_date', explicacao: 'Essa dúvida foi esclarecida na versão 1.1 sem mudar nenhum resultado, e todas as sessões da amostra são do mesmo dia.' },
+     ]}
+   />
+
+   </EtapaDeEstudo>
+
+3. No trecho da coluna abaixo, o significado foi apagado. Escreva-o de modo que ninguém conte S3 por engano.
+
+   <EtapaDeEstudo tipo="complete" resumo="O significado de uma coluna para escrever">
+
+   ```yaml
+   - physical_name: is_internal
+     technical_type: INTEGER
+     business_name: "Sessão interna"
+     meaning: "____"
+     allowed_values: [0, 1]
+   ```
+
+   <Exercicio
+     pergunta="O que o campo de significado de is_internal precisa dizer?"
+     rotulo="Sua resposta para o significado da coluna"
+     gabarito="1 = sessão aberta na rede do escritório da Aurora: testes da equipe, demonstrações e compras de funcionários. 0 = qualquer outra sessão"
+     explicacao="O significado diz o que cada valor marca, inclusive o que surpreende: compras reais de funcionários também ficam com 1. É isso que tira S3 da taxa."
+   />
+
+   </EtapaDeEstudo>
+
+4. Agora com o modelo em branco, numa tabela que ainda não tem dicionário.
+
+   <EtapaDeEstudo tipo="caso-novo" resumo="A tabela de carga do Laboratório de eventos">
+
+   A tabela `lab2_carga` do [Laboratório de eventos](../../exemplos/laboratorio-eventos/) diz, por operação e por dia, se a carga daquele dia está completa. Ela ainda não tem dicionário. Baixe o modelo em branco e responda a estas perguntas sobre ela; a coluna “Na Aurora” mostra como elas apareceram em `demo_sessions`:
+
+   | Pergunta | Na Aurora | O que registrar |
+   |---|---|---|
+   | O que uma linha representa? | Uma sessão; os pedidos estão em outra tabela | Granularidade |
+   | O que identifica a linha? | `session_id`, único | Chave |
+   | O que cada valor de código quer dizer? | `is_internal = 1` é teste, rede do escritório ou compra de funcionário? | Significado de cada valor |
+   | O que significam nulo, 0, -1 ou `UNKNOWN`? | Pode faltar `session_date`? | Valores especiais |
+   | Que data a linha carrega, e em que fuso? | `session_date` é data local, sem hora? | Referência de tempo |
+   | Com que frequência atualiza, e com que atraso? | Carga diária ou estática? | Atualização |
+   | O que não se pode fazer com a tabela? | Contar linhas depois de juntar com pedidos | Usos proibidos |
+   | É a fonte oficial, e quem aprova o significado? | Engenharia de Dados mantém; Analytics de E-commerce aprova | Autoridade |
+
+   `is_active='Y'`, `is_active=true` e `is_active=1` não são equivalentes sem confirmação no catálogo: registre a codificação que a tabela usa de fato.
+
+   </EtapaDeEstudo>
+
+5. Responda antes de conferir. Cada alternativa errada traz a explicação do erro.
+
+   <EtapaDeEstudo tipo="teste" resumo="Três casos, um atravessando a versão 1.1">
+
+   <Exercicio
+     pergunta="A sessão S3 tem o pedido O4 confirmado. Ela conta como sessão convertida?"
+     opcoes={[
+       { texto: 'Não', correta: true, explicacao: 'S3 é interna, e o indicador exclui toda sessão interna, inclusive compras reais de funcionários.' },
+       { texto: 'Sim, porque O4 está confirmado', explicacao: 'Pedido confirmado não basta: a sessão também precisa ser elegível, e sessão interna não é.' },
+     ]}
+   />
+
+   <Exercicio
+     pergunta="Alguém esquece o filtro is_internal = 0. Quanto dá a taxa de 01/10?"
+     opcoes={[
+       { texto: '40%', correta: true, explicacao: '5 sessões web, 2 com pedido confirmado (S1 e S3).' },
+       { texto: '25%', explicacao: '25% é a conta com o filtro: 4 sessões, 1 convertida.' },
+       { texto: '50%', explicacao: '50% sai de contar os dois pedidos de S1 com o filtro aplicado: é outro erro, de junção, não de filtro.' },
+     ]}
+   />
+
+   <Exercicio
+     pergunta="O fechamento diário de 31/08 tratou session_date como data em UTC. Ele contrariou o dicionário?"
+     opcoes={[
+       { texto: 'Não', correta: true, explicacao: 'Em 31/08 valia a versão 1.0, que não dizia o fuso. Foi essa dúvida que levou à 1.1, em 11/09: desde então, session_date é a data local da loja.' },
+       { texto: 'Sim', explicacao: 'Essa resposta aplica a versão 1.1, de 11/09, a um fechamento anterior a ela.' },
+     ]}
+   />
+
+   </EtapaDeEstudo>
+
+</Steps>
 
 ## Baixe o modelo
 
 <TemplateDownloads kind="dataset" />
+
+O que cada campo significa e aceita está na [Referência de campos de Dataset](../../referencias/campos/dataset/).
 
 ### Fundamentação
 

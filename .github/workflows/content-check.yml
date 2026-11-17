@@ -25,6 +25,8 @@ jobs:
       - name: Instalar dependências
         run: npm ci --no-audit --no-fund
       # Mesma ordem do `npm run check` local.
+      - name: Verificar CSS
+        run: npm run lint:css
       - name: Testar os validadores
         run: npm run test:scripts
       - name: Verificar páginas, metadados, downloads, higiene, decisão, amostra e versões
@@ -33,3 +35,7 @@ jobs:
         run: npm run build
       - name: Conferir links internos no HTML gerado
         run: npm run check:links
+      - name: Instalar Chromium para o checklist visual
+        run: npx playwright-core install --with-deps chromium
+      - name: Checklist visual (1440 e 390, claro e escuro)
+        run: npm run check:visual

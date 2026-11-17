@@ -2,36 +2,66 @@
 # frente: token da cor do texto ou da borda; fundos: tokens dos fundos onde ela aparece.
 # minimo: 4.5 para texto, 3 para bordas e objetos gráficos, 7 para o texto secundário (UX-09).
 # Os tokens ficam em src/styles/custom.css (ADR 0016). Sem 'temas', valem os dois.
+# Fundos de página: base (--context-bg), superfície (--context-surface) e os fundos do Starlight
+# mapeados para eles (navegação e barra lateral). O fundo inverso (--context-inverse) é igual nos dois temas.
 pares:
-  - nome: Texto principal sobre os três fundos
+  - nome: Texto principal sobre os fundos de página
     frente: --context-ink
-    fundos: [--context-bg, --context-surface, --context-surface-2]
+    fundos: [--context-bg, --context-surface, --sl-color-bg-nav, --sl-color-bg-sidebar]
     minimo: 4.5
-  - nome: Texto dourado (selo de rascunho, número errado do diagrama) sobre os três fundos
-    frente: --context-gold-text
-    fundos: [--context-bg, --context-surface, --context-surface-2]
-    minimo: 4.5
-  - nome: Destaque e links sobre os três fundos
-    frente: --sl-color-accent
-    fundos: [--context-bg, --context-surface, --context-surface-2]
-    minimo: 4.5
-  - nome: Texto secundário sobre os três fundos
+  - nome: Texto secundário sobre os fundos de página
     frente: --context-muted
-    fundos: [--context-bg, --context-surface, --context-surface-2]
+    fundos: [--context-bg, --context-surface, --sl-color-bg-nav, --sl-color-bg-sidebar]
     minimo: 7
-  - nome: Borda de componente (caixas e ligações do diagrama) sobre os três fundos
+  - nome: Destaque, links, selo de aprovado e botão secundário (texto e borda) sobre os fundos de página
+    frente: --sl-color-accent
+    fundos: [--context-bg, --context-surface, --sl-color-bg-nav, --sl-color-bg-sidebar]
+    minimo: 4.5
+  - nome: Texto dourado (selo de rascunho, número errado do diagrama) sobre a base e a superfície
+    frente: --context-gold-text
+    fundos: [--context-bg, --context-surface]
+    minimo: 4.5
+  - nome: Borda de componente (caixas e ligações do diagrama) sobre a base e a superfície
     frente: --context-border
-    fundos: [--context-bg, --context-surface, --context-surface-2]
+    fundos: [--context-bg, --context-surface]
     minimo: 3
-  - nome: Título do aviso note sobre o fundo do aviso
+  - nome: Borda tracejada do selo de rascunho sobre a base e a superfície
+    frente: --context-gold
+    fundos: [--context-bg, --context-surface]
+    minimo: 3
+  - nome: Texto do fundo inverso (frases do cartão da home)
+    frente: --context-card-text
+    fundos: [--context-inverse]
+    minimo: 7
+  - nome: Rótulos e nomes de campo no fundo inverso
+    frente: --context-card-label
+    fundos: [--context-inverse]
+    minimo: 4.5
+  - nome: Números, palavra DOCUMENTAR e estado em destaque no fundo inverso
+    frente: --context-card-accent
+    fundos: [--context-inverse]
+    minimo: 4.5
+  - nome: Bordas dos blocos internos do fundo inverso
+    frente: --context-card-border
+    fundos: [--context-inverse]
+    minimo: 3
+  - nome: Título e borda dos avisos note e tip sobre a superfície
     frente: --sl-color-accent
     fundos: [--context-surface]
     minimo: 4.5
-  - nome: Título do aviso tip sobre o fundo do aviso
+  - nome: Título do aviso caution sobre a superfície
     frente: --context-gold-text
     fundos: [--context-surface]
     minimo: 4.5
-  - nome: Texto dos avisos note e tip e da citação sobre o fundo deles
+  - nome: Borda do aviso caution sobre a superfície
+    frente: --context-gold
+    fundos: [--context-surface]
+    minimo: 3
+  - nome: Título e borda do aviso danger sobre a superfície
+    frente: --context-danger
+    fundos: [--context-surface]
+    minimo: 4.5
+  - nome: Texto dos quatro avisos e da citação sobre a superfície
     frente: --context-ink
     fundos: [--context-surface]
     minimo: 4.5
@@ -39,43 +69,24 @@ pares:
     frente: --context-button-text
     fundos: [--context-button-bg, --context-button-bg-hover]
     minimo: 4.5
-  - nome: Cartão da home, rótulos do topo e do rodapé
-    frente: --context-card-label
-    fundos: [--context-card-bg]
+  - nome: Texto do botão secundário com o ponteiro em cima
+    frente: --sl-color-accent-high
+    fundos: [--context-bg, --context-surface]
     minimo: 4.5
-  - nome: Cartão da home, palavra DOCUMENTAR
-    frente: --context-card-bridge
-    fundos: [--context-card-bg]
+  - nome: Texto corrido do Starlight (corpo, menu lateral e sumário) sobre os fundos de página
+    frente: --sl-color-text
+    fundos: [--context-bg, --context-surface, --sl-color-bg-nav, --sl-color-bg-sidebar]
     minimo: 4.5
-  - nome: Cartão da home, número da instrução vaga
-    frente: --context-card-number
-    fundos: [--context-card-problem-bg]
+  - nome: Texto cinza do Starlight (gray-2) sobre a base e a barra lateral
+    frente: --sl-color-gray-2
+    fundos: [--context-bg, --sl-color-bg-sidebar]
     minimo: 4.5
-  - nome: Cartão da home, frase da instrução vaga
-    frente: --context-card-quote
-    fundos: [--context-card-problem-bg]
+  - nome: Texto cinza claro do Starlight (gray-3, rótulos e metadados) sobre a base e a barra lateral
+    frente: --sl-color-gray-3
+    fundos: [--context-bg, --sl-color-bg-sidebar]
     minimo: 4.5
-  - nome: Cartão da home, perguntas em etiqueta
-    frente: --context-card-chip-text
-    fundos: [--context-card-chip-bg]
+  - nome: Títulos do Starlight no tema claro (no escuro ficam no branco do Starlight)
+    frente: --sl-color-white
+    fundos: [--context-bg, --context-surface]
     minimo: 4.5
-  - nome: Cartão da home, texto do bloco documentado
-    frente: --context-card-solution-text
-    fundos: [--context-card-solution-bg]
-    minimo: 4.5
-  - nome: Cartão da home, número do bloco documentado
-    frente: --context-card-solution-number
-    fundos: [--context-card-solution-bg]
-    minimo: 4.5
-  - nome: Cartão da home, nomes dos campos
-    frente: --context-card-solution-muted
-    fundos: [--context-card-solution-bg]
-    minimo: 4.5
-  - nome: Cartão da home, estado em destaque
-    frente: --context-card-solution-strong
-    fundos: [--context-card-solution-bg]
-    minimo: 4.5
-  - nome: Cartão da home, frase final do bloco documentado
-    frente: --context-card-solution-result
-    fundos: [--context-card-solution-bg]
-    minimo: 7
+    temas: [claro]

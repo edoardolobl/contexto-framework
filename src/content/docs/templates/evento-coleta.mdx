@@ -3,9 +3,13 @@ title: Evento de coleta
 description: Registre onde um evento dispara, com que frequência em cada operação e quando zero é normal, antes de chamar o silêncio de quebra.
 ---
 
+import { Steps } from '@astrojs/starlight/components';
 import TemplateDownloads from '../../../components/TemplateDownloads.astro';
 import ExampleDoc from '../../../components/ExampleDoc.astro';
 import TemplateStart from '../../../components/TemplateStart.astro';
+import ParContrastante from '../../../components/ParContrastante.astro';
+import EtapaDeEstudo from '../../../components/EtapaDeEstudo.astro';
+import Exercicio from '../../../components/Exercicio.astro';
 
 <p class="editorial-lead">Dois dias em zero e uma operação sem linhas: nenhum dos dois é quebra</p>
 
@@ -13,38 +17,129 @@ import TemplateStart from '../../../components/TemplateStart.astro';
 
 ## O problema
 
-Em 17/11/2026, um agente de IA recebe a contagem diária de eventos da Aurora e lista `generate_lead` como quebrado nas duas operações. No Brasil, o evento está há 2 dias completos em zero. No México, não há nenhuma linha, e a consulta, com `LEFT JOIN`, leu a falta de linha como zero.
+Em 17/11/2026, um agente de IA recebe a contagem diária de eventos da Aurora e lista `generate_lead` como quebrado nas duas operações. No México, não há nenhuma linha, e a consulta, com `LEFT JOIN`, leu a falta de linha como zero; mas o evento não existe lá, porque o site do México não tem formulário de atacado. No Brasil, a leitura muda conforme o que o agente sabe:
 
-As duas leituras estão erradas. No Brasil, o evento ficou **zero em 9 de 27 dias completos** da janela de referência, e já passou 3 dias seguidos em zero sem defeito nenhum. No México, o evento não existe: o site de lá não tem formulário de atacado. O que faltava ao agente era um documento dizendo o que é normal para esse evento, em cada operação.
+<ParContrastante
+  pergunta="Em 17/11/2026, generate_lead está quebrado no Brasil?"
+  a={{ rotulo: 'Sem linha de base', definicao: 'O agente vê 2 dias completos seguidos em zero (14 e 15/11) e chama o silêncio de quebra.', resultado: 'Quebrado' }}
+  b={{ rotulo: 'Com o documento do evento', definicao: 'Na janela de referência, o evento ficou zero em 9 de 27 dias completos, e já passou 3 dias seguidos em zero sem defeito nenhum.', resultado: 'Dentro do esperado' }}
+  nota="O que faltava ao agente era um documento dizendo o que é normal para esse evento, em cada operação."
+/>
 
-## O que perguntar
+## Aprenda com a Aurora
 
-| Pergunta | Na Aurora | O que registrar |
-|---|---|---|
-| Onde o evento dispara? | Só no site do Brasil; o México não tem o formulário | Escopo por operação, com o motivo |
-| Com que frequência, em cada operação? | Média de 1,1 por dia no Brasil, com dias em zero | Linha de base por operação, em dias completos |
-| Quando zero é normal? | Até 3 dias seguidos no Brasil; sempre no México | Condições de zero esperado e tolerância ao silêncio |
-| Quando o dia fica completo? | D+2 às 06h no fuso da operação | Prazo para os dados chegarem |
-| O que significa falta de linha? | A tabela diária só grava dia com disparo | Regra para dia sem linha |
-| Quem decide o limiar? | A Gerência de Analytics escolheu 4 dias | Quem aprova, e que o número é escolha do time |
+<Steps>
 
-As respostas costumam estar espalhadas entre o plano de mensuração (tag plan), o contêiner de tags e a memória de quem implementou o evento.
+1. Leia o documento aprovado do evento e tente responder a cada pergunta antes de abrir a resposta.
 
-## Antes e depois da decisão
+   <EtapaDeEstudo tipo="comentado" resumo="O documento aprovado, com três perguntas para explicar a você mesmo">
 
-No rascunho, o documento já diz o que dispara o evento, mas não quanto silêncio é normal nem se o México tem o evento:
+   <ExampleDoc file="exemplo-evento-coleta-completo.yaml" />
 
-<ExampleDoc file="exemplo-evento-coleta-lacunas.yaml" />
+   <details><summary>Por que o México aparece no documento, se o evento não existe lá?</summary>Porque uma consulta que junta as duas operações lê a falta de linha do México como zero. O escopo marcado como inativo, com o motivo, diz ao agente que zero ou falta de linha lá é o esperado.</details>
 
-Na versão aprovada, cada operação tem escopo, linha de base e tolerância, e as duas regras ao agente ficam no próprio documento:
+   <details><summary>Por que a linha de base vai só até 15/11, se a consulta é de 17/11?</summary>Pela regra D+2, o dia 15/11 só fica completo em 17/11 às 06h, e o dia 16/11 ainda está incompleto. Dia incompleto não entra na linha de base.</details>
 
-<ExampleDoc file="exemplo-evento-coleta-completo.yaml" />
+   <details><summary>O que o histórico de versões ensina?</summary>A 1.0, de 13/10, tirou o México do escopo e fixou a tolerância de 4 dias no Brasil. A 1.1, de 17/11, recalculou a linha de base com os 27 dias completos mais recentes, de 20/10 a 15/11. Ela não podia sair antes, pela regra D+2. É versão menor: os números de referência mudaram, mas nenhum caso muda de resultado, porque a tolerância continua a mesma.</details>
 
-### O que o histórico de versões ensina
+   </EtapaDeEstudo>
 
-A 1.0, de 13/10, tirou o México do escopo e fixou a tolerância de 4 dias no Brasil. A 1.1, de 17/11, recalculou a linha de base com os 27 dias completos mais recentes, de 20/10 a 15/11. Ela não podia sair antes: pela regra D+2, o dia 15/11 só fica completo em 17/11. É versão menor: os números de referência mudaram, mas nenhum caso muda de resultado, porque a tolerância continua a mesma.
+2. O rascunho já diz o que dispara o evento, mas não quanto silêncio é normal. Encontre a lacuna por trás do alarme do México.
+
+   <EtapaDeEstudo tipo="diagnostico" resumo="O rascunho, com três perguntas em aberto">
+
+   <ExampleDoc file="exemplo-evento-coleta-lacunas.yaml" />
+
+   <Exercicio
+     pergunta="Qual pergunta em aberto do rascunho explica o alarme falso no México?"
+     opcoes={[
+       { texto: 'Se zero no México é falha ou se o evento não existe lá', correta: true, explicacao: 'Sem essa resposta, qualquer relatório que junte as duas operações lê a falta de dados do México como zero e acusa quebra.' },
+       { texto: 'A partir de quantos dias em zero vale desconfiar no Brasil', explicacao: 'Ela explica o alarme do Brasil, não o do México, onde não há linha em dia nenhum.' },
+       { texto: 'Em que dia um dia fica completo na tabela diária', explicacao: 'Ela evita contar um dia incompleto como zero, mas o México não tem linha nem nos dias completos.' },
+     ]}
+   />
+
+   </EtapaDeEstudo>
+
+3. No trecho abaixo, a tolerância do Brasil foi apagada. Escreva-a como a Gerência de Analytics aprovou.
+
+   <EtapaDeEstudo tipo="complete" resumo="A tolerância ao silêncio para escrever">
+
+   ```yaml
+   silence_tolerance:
+     - operation: BR
+       rule: "____"
+     - operation: MX
+       rule: "Não se aplica: o evento não está ativo no México"
+   ```
+
+   <Exercicio
+     pergunta="Qual é a tolerância ao silêncio do evento no Brasil?"
+     rotulo="Sua resposta para a regra do Brasil"
+     gabarito="Suspeitar a partir de 4 dias completos seguidos em zero. Escolha da Gerência de Analytics, não regra universal"
+     explicacao="A regra diz o número, a unidade (dias completos, seguidos, em zero) e de quem é a escolha. Sem a última parte, o 4 parece recomendação de mercado."
+   />
+
+   </EtapaDeEstudo>
+
+4. Agora com o modelo em branco, para outro evento do mesmo laboratório.
+
+   <EtapaDeEstudo tipo="caso-novo" resumo="O evento purchase no Brasil">
+
+   Faça o documento do evento `purchase` no Brasil, que também aparece no [Laboratório de eventos](../../exemplos/laboratorio-eventos/). Use as perguntas abaixo; a coluna “Na Aurora” mostra as respostas dadas para `generate_lead`:
+
+   | Pergunta | Na Aurora | O que registrar |
+   |---|---|---|
+   | Onde o evento dispara? | Só no site do Brasil; o México não tem o formulário | Escopo por operação, com o motivo |
+   | Com que frequência, em cada operação? | Média de 1,1 por dia no Brasil, com dias em zero | Linha de base por operação, em dias completos |
+   | Quando zero é normal? | Até 3 dias seguidos no Brasil; sempre no México | Condições de zero esperado e tolerância ao silêncio |
+   | Quando o dia fica completo? | D+2 às 06h no fuso da operação | Prazo para os dados chegarem |
+   | O que significa falta de linha? | A tabela diária só grava dia com disparo | Regra para dia sem linha |
+   | Quem decide o limiar? | A Gerência de Analytics escolheu 4 dias | Quem aprova, e que o número é escolha do time |
+
+   As respostas costumam estar espalhadas entre o plano de mensuração (tag plan), o contêiner de tags e a memória de quem implementou o evento.
+
+   </EtapaDeEstudo>
+
+5. Responda antes de conferir. Cada alternativa errada traz a explicação do erro.
+
+   <EtapaDeEstudo tipo="teste" resumo="Três casos, um atravessando a versão 1.1">
+
+   <Exercicio
+     pergunta="Em 17/11, o Brasil soma dois dias completos seguidos em zero, 14 e 15/11. Abrir investigação?"
+     opcoes={[
+       { texto: 'Não', correta: true, explicacao: 'A tolerância é de 4 dias completos seguidos, e a linha de base já teve uma sequência de 3. Dois dias estão dentro do esperado.' },
+       { texto: 'Sim', explicacao: 'Dois dias ficam abaixo da tolerância de 4, escolhida pela Gerência de Analytics.' },
+     ]}
+   />
+
+   <Exercicio
+     pergunta="Ainda em 17/11, alguém vê zero no dia 16/11 do Brasil. É o terceiro dia em zero?"
+     opcoes={[
+       { texto: 'Ainda não se sabe', correta: true, explicacao: 'O dia 16/11 só fica completo em 18/11 às 06h (regra D+2), e dia incompleto não entra na conta.' },
+       { texto: 'Sim', explicacao: 'Essa leitura conta um dia incompleto como zero, e os disparos atrasados ainda podem chegar.' },
+     ]}
+   />
+
+   <Exercicio
+     pergunta="De 27 a 29/10, com a 1.0 em vigor, o Brasil teve 3 dias completos seguidos em zero. Era candidato a falha? E com a 1.1?"
+     opcoes={[
+       { texto: 'Não, nas duas versões', correta: true, explicacao: 'A 1.1 só recalculou a linha de base; a tolerância continua em 4 dias, então 3 dias seguidos em zero seguem dentro do esperado.' },
+       { texto: 'Não com a 1.0; sim com a 1.1', explicacao: 'A 1.1 é versão menor: mudou os números de referência, não a tolerância, e nenhum caso muda de resultado.' },
+       { texto: 'Sim, nas duas versões', explicacao: 'Três dias ficam abaixo da tolerância de 4 dias nas duas versões.' },
+     ]}
+   />
+
+   </EtapaDeEstudo>
+
+</Steps>
 
 ## Antes de chamar de quebra: triagem em cinco passos
+
+Quando o silêncio passa da tolerância, a triagem separa o que é quebra do que é esperado.
+
+<details>
+<summary>Ver os cinco passos, com o caso da Aurora</summary>
 
 | Passo | O que fazer | No caso da Aurora |
 |---|---|---|
@@ -54,20 +149,15 @@ A 1.0, de 13/10, tirou o México do escopo e fixou a tolerância de 4 dias no Br
 | 4. Cruzar com fonte externa | Conferir pedidos ou cadastros no BigQuery ou no ERP | O sistema de vendas também não recebeu cadastro nesses dias |
 | 5. Testar o fluxo à mão | Enviar o formulário no modo de visualização do GTM ou no DebugView | O disparo aparece com os parâmetros certos |
 
+</details>
+
 A regra que decide quando um silêncio vira candidato a falha é um documento de [regra e decisão](../decisao/), e o exercício completo, com a consulta e as duas operações, está no [Laboratório de eventos](../../exemplos/laboratorio-eventos/).
-
-## Teste você
-
-1. Em 17/11, o Brasil soma 2 dias completos seguidos em zero (14 e 15/11). Abrir investigação?
-   <details><summary>Ver resposta</summary>Não. A tolerância é de 4 dias completos seguidos, e a linha de base já teve uma sequência de 3. Dois dias estão dentro do esperado.</details>
-2. Ainda em 17/11, alguém vê zero no dia 16/11 do Brasil. É o terceiro dia em zero?
-   <details><summary>Ver resposta</summary>Ainda não se sabe. O dia 16/11 só fica completo em 18/11 às 06h (regra D+2), e dia incompleto não entra na conta.</details>
-3. De 27 a 29/10, com a 1.0 em vigor, o Brasil teve 3 dias completos seguidos em zero. Era candidato a falha? E se a mesma pergunta fosse feita com a 1.1?
-   <details><summary>Ver resposta</summary>Não, nas duas versões. A 1.1 só recalculou a linha de base; a tolerância continua em 4 dias, então 3 dias seguidos em zero seguem dentro do esperado.</details>
 
 ## Baixe o modelo
 
 <TemplateDownloads kind="evento-coleta" />
+
+O que cada campo significa e aceita está na [Referência de campos de Evento de coleta](../../referencias/campos/evento-coleta/).
 
 O modelo não diz quantos dias de silêncio são demais: esse número é escolha do time, por evento e por operação. O que ele exige é que a escolha fique escrita, com quem a aprovou.
 

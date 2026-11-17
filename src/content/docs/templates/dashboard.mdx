@@ -3,9 +3,13 @@ title: Dashboard
 description: Documente qual definição cada cartão segue, com quais filtros e período, e o que fazer quando dois dashboards discordam.
 ---
 
+import { Steps } from '@astrojs/starlight/components';
 import TemplateDownloads from '../../../components/TemplateDownloads.astro';
 import ExampleDoc from '../../../components/ExampleDoc.astro';
 import TemplateStart from '../../../components/TemplateStart.astro';
+import ParContrastante from '../../../components/ParContrastante.astro';
+import EtapaDeEstudo from '../../../components/EtapaDeEstudo.astro';
+import Exercicio from '../../../components/Exercicio.astro';
 
 <p class="editorial-lead">Dois dashboards, o mesmo dia, 25% e 50%</p>
 
@@ -13,48 +17,129 @@ import TemplateStart from '../../../components/TemplateStart.astro';
 
 ## O problema
 
-Na sexta, 02/10, a Diretoria da Aurora recebe o Resumo semanal: **“Conversão web em 01/10: 50%”**. No dashboard Conversão Web, o mesmo dia aparece com **25%**. Os dados são as mesmas seis sessões e seis pedidos do [Laboratório Aurora](../../exemplos/analytics-integrado/). A diferença está na fórmula: o resumo ainda usa a versão 1.0 do [indicador](../kpi/), que contava pedidos por sessão; desde 15/09 vale a 2.0, que conta sessões convertidas.
+Na sexta, 02/10, a Diretoria da Aurora recebe o Resumo semanal com a conversão web de 01/10. No dashboard Conversão Web, o mesmo dia aparece com outro número. Os dados são as mesmas seis sessões e seis pedidos do [Laboratório Aurora](../../exemplos/analytics-integrado/); a diferença está na fórmula do [indicador](../kpi/) que cada cartão segue:
 
-Uma captura de tela dos dois cartões não mostra isso. Quem encontrou a divergência foi quem leu o documento do dashboard, que diz qual versão do indicador o cartão segue.
+<ParContrastante
+  pergunta="Qual foi a conversão web em 01/10/2026?"
+  a={{ rotulo: 'Resumo semanal da Diretoria', definicao: 'Ainda usa a versão 1.0 do indicador, que conta pedidos confirmados por sessão.', resultado: '50%' }}
+  b={{ rotulo: 'Dashboard Conversão Web', definicao: 'Segue a versão 2.0, que vale desde 15/09 e conta sessões convertidas.', resultado: '25%' }}
+  nota="Uma captura de tela dos dois cartões não mostra isso. Quem encontrou a divergência foi quem leu o documento do dashboard, que diz qual versão do indicador o cartão segue."
+/>
 
-## O que perguntar
+## Aprenda com a Aurora
 
-| Pergunta | Na Aurora | O que registrar |
-|---|---|---|
-| Que decisão o dashboard apoia, e para quem? | Distinguir sessões convertidas de pedidos por sessão, para a operação de marketing | Finalidade e público |
-| Que definição cada cartão segue, em qual versão? | O cartão de conversão segue o KPI-AURORA-001, versão 2.0 | Indicador e versão |
-| Que filtros estão ativos quando o dashboard abre? | Canal web, sem sessões internas | Filtros padrão |
-| Qual período, e em que fuso? | 01/10/2026, data local da loja | Referência de tempo |
-| Com o que um número pode ser comparado? | Só com datas a partir de 15/09 | Base de comparação e limites |
-| Ele é oficial ou exploratório? | Oficial para a taxa de sessões convertidas | Autoridade |
-| E se outro dashboard mostrar outro número? | O Resumo semanal mostra 50% | Conflito e qual prevalece |
+<Steps>
 
-## Antes e depois da decisão
+1. Leia o documento aprovado do dashboard e tente responder a cada pergunta antes de abrir a resposta.
 
-No rascunho, ninguém tinha dito qual versão do indicador o cartão segue, nem o que fazer se outro dashboard discordar:
+   <EtapaDeEstudo tipo="comentado" resumo="O documento aprovado, com três perguntas para explicar a você mesmo">
 
-<ExampleDoc file="exemplo-dashboard-lacunas.yaml" />
+   <ExampleDoc file="exemplo-dashboard-completo.yaml" />
 
-Na versão aprovada, o documento registra o conflito com o Resumo semanal e diz qual número vale:
+   <details><summary>Por que o documento registra o Resumo semanal, que é outro dashboard?</summary>Porque a Diretoria vê os dois números. O registro diz a causa (a fórmula da versão 1.0), qual prevalece (este dashboard, oficial para a taxa de sessões convertidas) e que o resumo foi marcado para correção pela Engenharia de Dados.</details>
 
-<ExampleDoc file="exemplo-dashboard-completo.yaml" />
+   <details><summary>Por que a base de comparação só vale a partir de 15/09?</summary>Valores anteriores usam a definição antiga, que conta pedidos por sessão. Comparar com eles mediria a mudança de fórmula, não a de conversão.</details>
 
-### O que o histórico de versões ensina
+   <details><summary>O que o histórico de versões ensina?</summary>A versão 1.0, de 21/08, tinha os filtros padrão. A 2.0, de 15/09, passou a seguir o indicador 2.0 e avisa que valores anteriores não são comparáveis; é maior porque o número do cartão muda. A 2.1, de 02/10, ligou o período do laboratório e o gabarito e registrou o conflito com o Resumo semanal, sem mudar nenhum número deste dashboard.</details>
 
-A versão 1.0, de 21/08, tinha os filtros padrão. A 2.0, de 15/09, passou a seguir o indicador 2.0 e avisa que valores anteriores não são comparáveis; é maior porque o número do cartão muda. A 2.1, de 02/10, ligou o período do laboratório e o gabarito e registrou o conflito com o Resumo semanal, sem mudar nenhum número deste dashboard.
+   </EtapaDeEstudo>
 
-## Teste você
+2. No rascunho, ninguém tinha dito qual versão do indicador o cartão segue. Encontre a lacuna que esconde a fórmula.
 
-1. A Diretoria pergunta qual número vale para 01/10, 25% ou 50%. O que o documento responde?
-   <details><summary>Ver resposta</summary>25%. Este dashboard é o oficial para a taxa de sessões convertidas; o Resumo semanal segue a fórmula antiga e foi marcado para correção.</details>
-2. Um relatório de setembro, feito com a regra da época, deu 50% para 10/09. O cartão dá 25% para 01/10. A conversão caiu à metade?
-   <details><summary>Ver resposta</summary>Não se pode dizer isso. Em 10/09 valia a definição antiga, que contava pedidos. Os dois números medem coisas diferentes, e o documento do dashboard avisa que valores anteriores a 15/09 não são comparáveis.</details>
-3. A base de comparação é o mesmo dia da semana anterior. Com que dia 01/10 seria comparado, e o dashboard mostra esse dia?
-   <details><summary>Ver resposta</summary>Com quinta, 24/09, que já está na definição 2.0. Mas o período do dashboard no laboratório é só 01/10, então ele não mostra 24/09: a comparação fica sem o segundo número, e o documento diz isso em “Não cobre períodos fora da amostra”.</details>
+   <EtapaDeEstudo tipo="diagnostico" resumo="O rascunho, com três perguntas em aberto">
+
+   <ExampleDoc file="exemplo-dashboard-lacunas.yaml" />
+
+   <Exercicio
+     pergunta="Qual pergunta em aberto do rascunho deixa a Diretoria sem saber se o cartão conta pedidos ou sessões?"
+     opcoes={[
+       { texto: 'Qual versão do KPI-AURORA-001 o cartão segue', correta: true, explicacao: 'O rascunho diz o impacto: sem a versão, ninguém sabe se o número conta pedidos ou sessões.' },
+       { texto: 'Quem aprova os filtros padrão', explicacao: 'Um filtro mudado sem aprovação muda o número sem aviso, mas não troca a fórmula.' },
+       { texto: 'Qual dashboard prevalece se outro mostrar outro número', explicacao: 'Ela decide qual número vale num conflito; antes disso, é preciso saber o que cada cartão conta.' },
+     ]}
+   />
+
+   </EtapaDeEstudo>
+
+3. No trecho abaixo, a versão do indicador foi apagada. Escreva a que o cartão segue desde 15/09.
+
+   <EtapaDeEstudo tipo="complete" resumo="A versão do indicador para escrever">
+
+   ```yaml
+   metrics: [KPI-AURORA-001]
+   metric_versions:
+     KPI-AURORA-001: "____"
+   default_filters:
+     channel: web
+     is_internal: 0
+   ```
+
+   <Exercicio
+     pergunta="Qual versão do KPI-AURORA-001 o cartão segue?"
+     rotulo="Sua resposta para a versão do indicador"
+     gabarito="2.0"
+     explicacao="Desde 15/09, o cartão segue a versão 2.0, a que conta sessões convertidas. Sem a versão, o mesmo identificador pode esconder qualquer uma das duas fórmulas."
+   />
+
+   </EtapaDeEstudo>
+
+4. Agora com o modelo em branco, para o outro dashboard desta história.
+
+   <EtapaDeEstudo tipo="caso-novo" resumo="O Resumo semanal da Diretoria">
+
+   Escreva com o modelo em branco o documento do Resumo semanal da Diretoria. Use as perguntas abaixo; a coluna “Na Aurora” mostra as respostas do dashboard Conversão Web:
+
+   | Pergunta | Na Aurora | O que registrar |
+   |---|---|---|
+   | Que decisão o dashboard apoia, e para quem? | Distinguir sessões convertidas de pedidos por sessão, para a operação de marketing | Finalidade e público |
+   | Que definição cada cartão segue, em qual versão? | O cartão de conversão segue o KPI-AURORA-001, versão 2.0 | Indicador e versão |
+   | Que filtros estão ativos quando o dashboard abre? | Canal web, sem sessões internas | Filtros padrão |
+   | Qual período, e em que fuso? | 01/10/2026, data local da loja | Referência de tempo |
+   | Com o que um número pode ser comparado? | Só com datas a partir de 15/09 | Base de comparação e limites |
+   | Ele é oficial ou exploratório? | Oficial para a taxa de sessões convertidas | Autoridade |
+   | E se outro dashboard mostrar outro número? | O Resumo semanal mostra 50% | Conflito e qual prevalece |
+
+   </EtapaDeEstudo>
+
+5. Responda antes de conferir. Cada alternativa errada traz a explicação do erro.
+
+   <EtapaDeEstudo tipo="teste" resumo="Três casos, um atravessando a mudança de 15/09">
+
+   <Exercicio
+     pergunta="A Diretoria pergunta qual número vale para 01/10, 25% ou 50%. O que o documento responde?"
+     opcoes={[
+       { texto: '25%', correta: true, explicacao: 'Este dashboard é o oficial para a taxa de sessões convertidas; o Resumo semanal segue a fórmula antiga e foi marcado para correção.' },
+       { texto: '50%', explicacao: '50% é o número do Resumo semanal, que ainda segue a versão 1.0 do indicador.' },
+       { texto: 'Os dois valem', explicacao: 'Os dois medem coisas diferentes, e o documento diz qual é o oficial para a taxa de sessões convertidas.' },
+     ]}
+   />
+
+   <Exercicio
+     pergunta="Um relatório de setembro, feito com a regra da época, deu 50% para 10/09. O cartão dá 25% para 01/10. A conversão caiu à metade?"
+     opcoes={[
+       { texto: 'Não se pode dizer isso', correta: true, explicacao: 'Em 10/09 valia a definição antiga, que contava pedidos. Os dois números medem coisas diferentes, e o documento avisa que valores anteriores a 15/09 não são comparáveis.' },
+       { texto: 'Sim', explicacao: 'A queda viria da troca de fórmula, não do comportamento dos clientes.' },
+     ]}
+   />
+
+   <Exercicio
+     pergunta="A base de comparação é o mesmo dia da semana anterior. Com que dia 01/10 seria comparado, e o dashboard mostra esse dia?"
+     opcoes={[
+       { texto: 'Com quinta, 24/09, que o dashboard não mostra', correta: true, explicacao: '24/09 já está na definição 2.0, mas o período do dashboard no laboratório é só 01/10. A comparação fica sem o segundo número, e o documento diz isso em “Não cobre períodos fora da amostra”.' },
+       { texto: 'Com quinta, 24/09, que o dashboard mostra', explicacao: 'O dia está certo, mas o período do laboratório é só 01/10.' },
+       { texto: 'Com 17/09, duas semanas antes', explicacao: 'A base é o mesmo dia da semana anterior, não de duas semanas antes.' },
+     ]}
+   />
+
+   </EtapaDeEstudo>
+
+</Steps>
 
 ## Baixe o modelo
 
 <TemplateDownloads kind="dashboard" />
+
+O que cada campo significa e aceita está na [Referência de campos de Dashboard](../../referencias/campos/dashboard/).
 
 ### Fundamentação
 

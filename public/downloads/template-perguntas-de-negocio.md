@@ -108,8 +108,16 @@ Preencha estes campos no topo do arquivo antes de escrever o resto.
 ## Para que serve
 Em `intent`, escreva a pergunta de negócio que o documento responde (`question`), como alguém da área faria. Diga quem usa (`audience`), para quê (`purpose`) e quais decisões mudam conforme a resposta (`decisions`). Em `plain_summary`, explique em uma ou duas frases, sem termos técnicos, o que o documento diz.
 
+Exemplo Aurora: `intent.question`: Que perguntas sobre a conversão web da Aurora a IA deve responder, esclarecer ou recusar?
+
+Exemplo Aurora: `plain_summary`: Sete perguntas conferidas contra a amostra: três com resposta, uma que pede esclarecimento e três em que a IA não deve responder.
+
 ## Domínio e documentos cobertos
 Em `domain`, diga o assunto. Em `covered_documents`, liste os documentos que as respostas usam. Em `depends_on_versions`, diga a versão de cada um deles: quando um documento muda, as respostas que dependem dele precisam ser conferidas de novo.
+
+Exemplo Aurora: `domain`: Analytics: Laboratório Aurora
+
+Exemplo Aurora: `covered_documents`: KPI-AURORA-001; DATASET-AURORA-SESSIONS; DATASET-AURORA-ORDERS; REL-AURORA-SESSIONS-ORDERS; DASH-AURORA-WEB
 
 ## Para cada pergunta
 Em `questions`, repita um item para cada pergunta: identificador, a pergunta como alguém faria, o que a pessoa quer saber (`goal`) e o que a pergunta supõe (`assumptions`). Em `expected_behavior`, use `answer` (responder), `clarify` (pedir esclarecimento) ou `abstain` (não responder). Registre a resposta esperada, as fontes, a evidência, a ambiguidade quando houver, o motivo para não responder e quem conferiu a resposta e quando. `phrasings` (outras formas de fazer a mesma pergunta), `onboarding` (pergunta que todo agente novo precisa acertar) e `reference_sql` (consulta que calcula a resposta) são opcionais.
@@ -119,6 +127,8 @@ Inclua os três tipos de pergunta: com resposta sustentada e fonte explícita; q
 
 ## Revalidação
 Em `revalidation_triggers`, liste as mudanças que obrigam a conferir as respostas de novo, como nova versão de um indicador ou nova carga de dados.
+
+Exemplo Aurora: `revalidation_triggers`: Mudança de definição ou de versão do KPI; Atualização da carga do laboratório; Mudança de granularidade ou de relacionamento
 
 ## Para quem é técnico (opcional)
 `authoritativeDefinitions` aponta onde mora a regra executável, como a consulta que calcula a resposta esperada, sem copiar o código para o documento. Cada item tem `type` (`sql`, `metricView`, `filter`, `dashboard`, `document` ou `other`), `url` e `description`.

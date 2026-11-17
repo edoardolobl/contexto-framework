@@ -1,5 +1,7 @@
 """Testes do módulo comum dos validadores."""
 from pathlib import Path
+import shutil
+import subprocess
 
 import pytest
 
@@ -280,3 +282,11 @@ def test_markdown_de_download_modelo_exige_frontmatter():
 def test_markdown_de_download_roteiro_nao_exige_frontmatter_mas_exige_secoes():
     erros = comum.erros_do_markdown_de_download("roteiro-revisao-documental.md", "texto\n")
     assert erros == ["template Markdown sem a seção ## Identificação", "template Markdown sem a seção ## Histórico de versões"]
+
+
+@pytest.mark.skipif(shutil.which("node") is None, reason="node não está instalado")
+def test_regras_do_checklist_visual_passam_no_node_test():
+    """Leva visual.test.mjs (node --test) para dentro de `npm run test:scripts`, que só roda pytest."""
+    resultado = subprocess.run(["node", "--test", str(comum.ROOT / "scripts" / "tests" / "visual.test.mjs")],
+                               capture_output=True, text=True, timeout=120)
+    assert resultado.returncode == 0, resultado.stdout[-2000:] + resultado.stderr[-1000:]

@@ -80,14 +80,28 @@ related_documents: []        # identificadores de outros documentos
 ## Para que serve
 Em `intent`, escreva a pergunta de negócio que o documento responde (`question`), como alguém da área faria. Diga quem usa (`audience`), para quê (`purpose`) e quais decisões mudam conforme a resposta (`decisions`). Em `plain_summary`, explique em uma ou duas frases, sem termos técnicos, o que o documento diz.
 
+<!-- contexto:exemplo intent.question -->
+
+<!-- contexto:exemplo plain_summary -->
+
 ## Tabelas e granularidade
 Em `left` e `right`, diga as duas tabelas e o que uma linha de cada uma representa. Em `join_keys`, as colunas que ligam uma à outra.
+
+<!-- contexto:exemplo left.dataset -->
+
+<!-- contexto:exemplo right.dataset -->
 
 ## Cardinalidade e cobertura
 Em `cardinality`, use `one_to_one`, `one_to_many` ou `many_to_many`. Em `coverage`, diga se linhas sem par e chaves vazias são esperadas e se a junção depende de data ou versão.
 
+<!-- contexto:exemplo cardinality -->
+
+<!-- contexto:exemplo coverage.temporal_join_rule -->
+
 ## Regras de uso
 Em `usage_rules`, liste as perguntas que a junção responde e as que não deve responder, a estratégia de junção para cada pergunta, os riscos de duplicar linhas e o cuidado antes de agregar.
+
+<!-- contexto:exemplo usage_rules.duplication_risks -->
 
 ## Conferência
 Em `validation`, registre os casos conferidos, a consulta verificada e quem revisou.

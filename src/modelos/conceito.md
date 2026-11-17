@@ -79,14 +79,24 @@ related_documents: []        # identificadores de outros documentos
 ## Para que serve
 Em `intent`, escreva a pergunta de negócio que o documento responde (`question`), como alguém da área faria. Diga quem usa (`audience`), para quê (`purpose`) e quais decisões mudam conforme a resposta (`decisions`). Em `plain_summary`, explique em uma ou duas frases, sem termos técnicos, o que o documento diz.
 
+<!-- contexto:exemplo intent.question -->
+
+<!-- contexto:exemplo plain_summary -->
+
 ## Domínio e aplicabilidade
 Em `domain`, diga em que área o termo é usado. Em `scope.applies_when`, diga quando a definição vale; em `scope.does_not_apply_when`, quando ela não deve ser usada.
 
 ## Significado
 Em `definition`, escreva a definição completa, com o período e as condições. O bloco `vocabulary` segue o SKOS: `prefLabel` é o termo preferido, `altLabel` lista sinônimos de fato equivalentes, `broader` traz o termo mais amplo, `related` lista termos ligados que não são equivalentes, e `not_synonyms` diz com o que não confundir. Em `other_domain_meanings`, registre o que a mesma palavra quer dizer em outra área.
 
+<!-- contexto:exemplo definition -->
+
+<!-- contexto:exemplo vocabulary.prefLabel -->
+
 ## Critérios e exemplos
 Em `inclusion_criteria` e `exclusion_criteria`, liste o que faz alguém ou algo pertencer ou não ao conceito. Em `examples`, dê um caso que pertence; em `counterexamples`, um que não pertence; em `boundary_cases`, os casos no limite da definição e como classificá-los.
+
+<!-- contexto:exemplo inclusion_criteria -->
 
 ## Confirmação
 Em `validation`, diga quem confirmou as decisões, a evidência da confirmação (uma ata, por exemplo) e o histórico de revisões do significado.

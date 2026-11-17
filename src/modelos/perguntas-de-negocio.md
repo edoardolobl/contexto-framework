@@ -78,8 +78,16 @@ related_documents: []        # identificadores de outros documentos
 ## Para que serve
 Em `intent`, escreva a pergunta de negócio que o documento responde (`question`), como alguém da área faria. Diga quem usa (`audience`), para quê (`purpose`) e quais decisões mudam conforme a resposta (`decisions`). Em `plain_summary`, explique em uma ou duas frases, sem termos técnicos, o que o documento diz.
 
+<!-- contexto:exemplo intent.question -->
+
+<!-- contexto:exemplo plain_summary -->
+
 ## Domínio e documentos cobertos
 Em `domain`, diga o assunto. Em `covered_documents`, liste os documentos que as respostas usam. Em `depends_on_versions`, diga a versão de cada um deles: quando um documento muda, as respostas que dependem dele precisam ser conferidas de novo.
+
+<!-- contexto:exemplo domain -->
+
+<!-- contexto:exemplo covered_documents -->
 
 ## Para cada pergunta
 Em `questions`, repita um item para cada pergunta: identificador, a pergunta como alguém faria, o que a pessoa quer saber (`goal`) e o que a pergunta supõe (`assumptions`). Em `expected_behavior`, use `answer` (responder), `clarify` (pedir esclarecimento) ou `abstain` (não responder). Registre a resposta esperada, as fontes, a evidência, a ambiguidade quando houver, o motivo para não responder e quem conferiu a resposta e quando. `phrasings` (outras formas de fazer a mesma pergunta), `onboarding` (pergunta que todo agente novo precisa acertar) e `reference_sql` (consulta que calcula a resposta) são opcionais.
@@ -89,6 +97,8 @@ Inclua os três tipos de pergunta: com resposta sustentada e fonte explícita; q
 
 ## Revalidação
 Em `revalidation_triggers`, liste as mudanças que obrigam a conferir as respostas de novo, como nova versão de um indicador ou nova carga de dados.
+
+<!-- contexto:exemplo revalidation_triggers -->
 
 ## Para quem é técnico (opcional)
 `authoritativeDefinitions` aponta onde mora a regra executável, como a consulta que calcula a resposta esperada, sem copiar o código para o documento. Cada item tem `type` (`sql`, `metricView`, `filter`, `dashboard`, `document` ou `other`), `url` e `description`.

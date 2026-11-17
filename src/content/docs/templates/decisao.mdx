@@ -3,9 +3,13 @@ title: Regra e decisão
 description: Documente como uma decisão é tomada, com entradas definidas, um resultado por combinação e quem aprova exceções.
 ---
 
+import { Steps } from '@astrojs/starlight/components';
 import TemplateDownloads from '../../../components/TemplateDownloads.astro';
 import ExampleDoc from '../../../components/ExampleDoc.astro';
 import TemplateStart from '../../../components/TemplateStart.astro';
+import ParContrastante from '../../../components/ParContrastante.astro';
+import EtapaDeEstudo from '../../../components/EtapaDeEstudo.astro';
+import Exercicio from '../../../components/Exercicio.astro';
 
 <p class="editorial-lead">Duas instruções verdadeiras ao mesmo tempo, e dois leitores com respostas diferentes</p>
 
@@ -13,71 +17,152 @@ import TemplateStart from '../../../components/TemplateStart.astro';
 
 ## O problema
 
-Ao completar a [solicitação de campanha](../processo/), a equipe de marketing da Aurora precisa saber qual caminho seguir. O documento original diz:
+Ao completar a [solicitação de campanha](../processo/), a equipe de marketing da Aurora precisa saber qual caminho seguir. O documento original diz: “Pedidos completos seguem para aprovação. Materiais sem evidência precisam de revisão.” E se o pedido estiver completo e o material fizer uma alegação sem fonte? **As duas condições são verdadeiras.** Em julho, antes de existir a regra, isso aconteceu duas vezes:
 
-> “Pedidos completos seguem para aprovação. Materiais sem evidência precisam de revisão.”
+<ParContrastante
+  pergunta="Pedido completo, com alegação sem estudo anexado: qual é o encaminhamento?"
+  a={{ rotulo: 'Lendo primeiro a frase sobre pedidos completos', definicao: 'Foi o caminho da publicação do CAMP-0702, “reduz rugas em 30%”: entrou no ar e saiu dois dias depois.', resultado: 'Aprovação' }}
+  b={{ rotulo: 'Lendo primeiro a frase sobre evidência', definicao: 'Foi o caminho do e-mail do CAMP-0709, “hidratação por 48 horas”, também sem estudo.', resultado: 'Revisão' }}
+  nota="Mesma situação, destinos opostos. Escrever “aplicar as regras internas” não resolve: o documento precisa dizer o que cada palavra significa e qual resultado sai de cada combinação."
+/>
 
-E se o pedido estiver completo e o material fizer uma alegação sem fonte? **As duas condições são verdadeiras.** Em julho, antes de existir a regra, isso aconteceu duas vezes. A publicação do pedido CAMP-0702, “reduz rugas em 30%”, sem estudo anexado, foi direto para aprovação, entrou no ar e saiu dois dias depois. O e-mail do CAMP-0709, “hidratação por 48 horas”, também sem estudo, foi para revisão. Mesma situação, destinos opostos: cada revisor leu primeiro uma das duas frases. Escrever “aplicar as regras internas” não resolve: o documento precisa dizer o que cada palavra significa e qual resultado sai de cada combinação.
+## Aprenda com a Aurora
 
-## O que perguntar
+<Steps>
 
-| Pergunta | Na Aurora | O que registrar |
-|---|---|---|
-| Qual pergunta a decisão responde? | Que encaminhamento um pedido de campanha recebe? | A decisão, numa frase |
-| O que significa cada entrada? | O que torna um brief *completo*? O que é evidência *suficiente*? | Definição de cada valor, e quem classifica |
-| Quais resultados são possíveis? | Devolver, revisar, pedir aprovação, pedir esclarecimento | Lista fechada de saídas |
-| Que combinação leva a cada resultado? | Completo e sem evidência vai para onde? | Tabela de decisão |
-| Se duas regras valerem ao mesmo tempo, qual prevalece? | “Completo” e “sem evidência” juntos | Precedência ou linhas que não se sobrepõem |
-| E se faltar um dado? | Ninguém classificou a evidência ainda | Comportamento para entrada desconhecida |
-| Quem autoriza exceções? | Campanha de utilidade pública com prazo legal | Exceção, quem aprova e evidência exigida |
-| Uma revisão concluída é uma aprovação? | “Revisado” e “aprovado” são o mesmo estado? | Distinção entre etapa e aprovação |
+1. Veja a tabela de decisão, leia a regra aprovada e tente responder a cada pergunta antes de abrir a resposta.
 
-## Antes e depois da decisão
+   <EtapaDeEstudo tipo="comentado" resumo="A tabela e o documento aprovado, com três perguntas">
 
-Respondidas as perguntas, a regra vira uma tabela em que **cada combinação de respostas leva a um único resultado**:
+   Respondidas as perguntas, a regra vira uma tabela em que **cada combinação de respostas leva a um único resultado**:
 
-| Brief completo? | Evidência suficiente? | Encaminhamento |
-|---|---|---|
-| Não | Sim, não ou desconhecida | Devolver para complementação |
-| Sim | Não | Revisão responsável |
-| Sim | Sim | Solicitar aprovação formal (não publicar ainda) |
-| Sim | Desconhecida | Solicitar esclarecimento |
-| Desconhecido | Qualquer valor | Solicitar esclarecimento |
+   | Brief completo? | Evidência suficiente? | Encaminhamento |
+   |---|---|---|
+   | Não | Sim, não ou desconhecida | Devolver para complementação |
+   | Sim | Não | Revisão responsável |
+   | Sim | Sim | Solicitar aprovação formal (não publicar ainda) |
+   | Sim | Desconhecida | Solicitar esclarecimento |
+   | Desconhecido | Qualquer valor | Solicitar esclarecimento |
 
-**Como o conflito foi resolvido:** o caso que gerava dúvida, pedido completo com alegação sem evidência, ganhou uma linha própria. Como cada combinação casa com uma única linha, não é preciso regra de precedência. Em tabelas de decisão (DMN), isso se chama política de acerto **única**. A alternativa é a política **primeira**: as linhas podem se sobrepor e vale a primeira que bater, e então a ordem das linhas faz parte da regra e precisa ser aprovada junto.
+   <ExampleDoc file="exemplo-decisao-completo.yaml" />
 
-Enquanto “brief completo” e “evidência suficiente” ainda são só palavras, o documento diz isso:
+   <details><summary>Por que a tabela não precisa de regra de precedência?</summary>Porque cada combinação casa com uma única linha: o caso que gerava dúvida, pedido completo com alegação sem evidência, ganhou uma linha própria. Em tabelas de decisão (DMN), isso se chama política de acerto **única**. Na política **primeira**, as linhas podem se sobrepor e vale a primeira que bater; então a ordem das linhas faz parte da regra e precisa ser aprovada junto.</details>
 
-<ExampleDoc file="exemplo-decisao-lacunas.yaml" />
+   <details><summary>Por que o melhor resultado possível é “solicitar aprovação formal”, e não “publicar”?</summary>Uma revisão concluída não é uma aprovação. A regra diz o caminho; quem aprova é a Liderança de Marca, numa etapa própria do [processo](../processo/).</details>
 
-Na versão aprovada, a estrutura da tabela é a mesma. O que muda é que as duas entradas passam a ter definição, quem classifica e uma exceção:
+   <details><summary>O que o histórico de versões ensina?</summary>O rascunho 0.1 propunha pedir esclarecimento quando a evidência fosse desconhecida. Ao aprovar a 1.0, em 12/08, a área preferiu mandar esses casos para revisão. Na 2.0, em 10/09, depois de um mês de uso, voltou a pedir esclarecimento ao solicitante. É versão maior porque o mesmo pedido passa a ter outro encaminhamento. Um rascunho não é a regra: quem auditar um pedido de agosto precisa aplicar a 1.0.</details>
 
-<ExampleDoc file="exemplo-decisao-completo.yaml" />
+   </EtapaDeEstudo>
 
-### O que o histórico de versões ensina
+2. No rascunho, “brief completo” e “evidência suficiente” ainda são só palavras. Encontre o que impede dois revisores de concordar.
 
-O rascunho 0.1 propunha pedir esclarecimento quando a evidência fosse desconhecida. Ao aprovar a 1.0, em 12/08, a área preferiu mandar esses casos para revisão. Na 2.0, em 10/09, depois de um mês de uso, voltou a pedir esclarecimento ao solicitante. É versão maior porque o mesmo pedido passa a ter outro encaminhamento. Um rascunho não é a regra: quem auditar um pedido de agosto precisa aplicar a 1.0, e o histórico diz qual era.
+   <EtapaDeEstudo tipo="diagnostico" resumo="O rascunho, com três perguntas em aberto">
 
-## Teste você
+   <ExampleDoc file="exemplo-decisao-lacunas.yaml" />
 
-Use a definição aprovada: brief completo tem os cinco campos (objetivo, canal, público, período e material); evidência suficiente é, para cada alegação verificável, uma fonte anexada e datada que diz o mesmo que o material. Quem classifica é a Revisão de Conteúdo, com a [rubrica de avaliação](../rubrica/).
+   <Exercicio
+     pergunta="A tabela do rascunho já tem a mesma estrutura da versão aprovada. O que ainda faz dois revisores darem encaminhamentos diferentes ao mesmo pedido?"
+     opcoes={[
+       { texto: 'As entradas “brief completo” e “evidência suficiente” não têm definição nem quem classifica', correta: true, explicacao: 'O rascunho pergunta quais campos tornam um brief completo e quem decide se a evidência é suficiente. Sem isso, a mesma tabela dá respostas diferentes.' },
+       { texto: 'Falta uma linha para pedido completo sem evidência', explicacao: 'Essa linha já está no rascunho. O que falta é dizer o que as palavras das entradas significam.' },
+       { texto: 'A tabela ainda não foi aprovada pela área', explicacao: 'Sem aprovação, a tabela não pode encaminhar pedidos; mas aprovar palavras sem definição não faria dois revisores concordarem.' },
+     ]}
+   />
 
-1. Pedido de 15/09, com os cinco campos. O material afirma “reduz 30% do consumo” e traz uma planilha anexada, sem data. Qual encaminhamento?
-   <details><summary>Ver resposta</summary>Revisão responsável. O brief está completo, mas a fonte não tem data, então a evidência não é suficiente.</details>
-2. Pedido de 20/08, brief completo, e a Revisão de Conteúdo ainda não classificou a evidência. Qual encaminhamento?
-   <details><summary>Ver resposta</summary>Revisão responsável. Em 20/08 valia a versão 1.0, que mandava evidência desconhecida para revisão.</details>
-3. O mesmo pedido, chegando em 15/09. Qual encaminhamento?
-   <details><summary>Ver resposta</summary>Solicitar esclarecimento ao solicitante. Desde 10/09 vale a versão 2.0, que mudou esse caso.</details>
-4. Pedido sem o campo “período”, com todas as alegações bem documentadas. Qual encaminhamento?
-   <details><summary>Ver resposta</summary>Devolver para complementação. Brief incompleto volta, qualquer que seja o estado da evidência.</details>
+   </EtapaDeEstudo>
+
+3. No trecho abaixo, a definição de evidência suficiente foi apagada. Escreva-a de modo que dois revisores classifiquem igual.
+
+   <EtapaDeEstudo tipo="complete" resumo="A definição de uma entrada para escrever">
+
+   ```yaml
+   required_inputs:
+     - name: brief_complete
+       allowed_values: [true, false, unknown]
+       definition: "Os cinco campos obrigatórios estão preenchidos: objetivo, canal, público, período e material"
+     - name: evidence_sufficient
+       allowed_values: [true, false, unknown]
+       definition: "____"
+   ```
+
+   <Exercicio
+     pergunta="Como fica a definição de evidência suficiente?"
+     rotulo="Sua resposta para a definição"
+     gabarito="Cada alegação verificável do material tem uma fonte anexada e datada que diz o mesmo que o material. Quem classifica é a Revisão de Conteúdo, pela RUBRIC-CAMPAIGN-001: alegações com prova em nível 3 ou 4"
+     explicacao="A definição diz o que conferir (fonte anexada, datada e igual ao material), quem classifica e qual nível da rubrica conta como suficiente."
+   />
+
+   </EtapaDeEstudo>
+
+4. Agora com o modelo em branco, para uma decisão que a Aurora ainda não escreveu.
+
+   <EtapaDeEstudo tipo="caso-novo" resumo="Quando uma campanha passa pela revisão jurídica">
+
+   Escreva a regra que diria quando uma campanha precisa passar também pela revisão jurídica antes da aprovação formal. Use as perguntas abaixo; a coluna “Na Aurora” mostra como elas apareceram na triagem de campanhas:
+
+   | Pergunta | Na Aurora | O que registrar |
+   |---|---|---|
+   | Qual pergunta a decisão responde? | Que encaminhamento um pedido de campanha recebe? | A decisão, numa frase |
+   | O que significa cada entrada? | O que torna um brief *completo*? O que é evidência *suficiente*? | Definição de cada valor, e quem classifica |
+   | Quais resultados são possíveis? | Devolver, revisar, pedir aprovação, pedir esclarecimento | Lista fechada de saídas |
+   | Que combinação leva a cada resultado? | Completo e sem evidência vai para onde? | Tabela de decisão |
+   | Se duas regras valerem ao mesmo tempo, qual prevalece? | “Completo” e “sem evidência” juntos | Precedência ou linhas que não se sobrepõem |
+   | E se faltar um dado? | Ninguém classificou a evidência ainda | Comportamento para entrada desconhecida |
+   | Quem autoriza exceções? | Campanha de utilidade pública com prazo legal | Exceção, quem aprova e evidência exigida |
+   | Uma revisão concluída é uma aprovação? | “Revisado” e “aprovado” são o mesmo estado? | Distinção entre etapa e aprovação |
+
+   </EtapaDeEstudo>
+
+5. Use a definição aprovada e responda antes de conferir. Cada alternativa errada traz a explicação do erro.
+
+   <EtapaDeEstudo tipo="teste" resumo="Quatro pedidos, dois atravessando a mudança de 10/09">
+
+   Brief completo tem os cinco campos (objetivo, canal, público, período e material); evidência suficiente é, para cada alegação verificável, uma fonte anexada e datada que diz o mesmo que o material. Quem classifica é a Revisão de Conteúdo, com a [rubrica de avaliação](../rubrica/).
+
+   <Exercicio
+     pergunta="Pedido de 15/09, com os cinco campos. O material afirma “reduz 30% do consumo” e traz uma planilha anexada, sem data. Qual encaminhamento?"
+     opcoes={[
+       { texto: 'Revisão responsável', correta: true, explicacao: 'O brief está completo, mas a fonte não tem data, então a evidência não é suficiente.' },
+       { texto: 'Solicitar aprovação formal', explicacao: 'Fonte sem data não conta como evidência suficiente, mesmo dizendo o mesmo que o material.' },
+       { texto: 'Solicitar esclarecimento', explicacao: 'Esclarecimento é para evidência desconhecida. Aqui a evidência já foi olhada e é insuficiente.' },
+     ]}
+   />
+
+   <Exercicio
+     pergunta="Pedido de 20/08, brief completo, e a Revisão de Conteúdo ainda não classificou a evidência. Qual encaminhamento?"
+     opcoes={[
+       { texto: 'Revisão responsável', correta: true, explicacao: 'Em 20/08 valia a versão 1.0, que mandava evidência desconhecida para revisão.' },
+       { texto: 'Solicitar esclarecimento', explicacao: 'Esse é o resultado da versão 2.0, que só vale desde 10/09.' },
+     ]}
+   />
+
+   <Exercicio
+     pergunta="O mesmo pedido, com a evidência ainda sem classificação, chega em 15/09. Qual encaminhamento?"
+     opcoes={[
+       { texto: 'Solicitar esclarecimento ao solicitante', correta: true, explicacao: 'Desde 10/09 vale a versão 2.0, que mudou esse caso.' },
+       { texto: 'Revisão responsável', explicacao: 'Era o resultado da versão 1.0, que deixou de valer em 10/09.' },
+     ]}
+   />
+
+   <Exercicio
+     pergunta="Pedido sem o campo “período”, com todas as alegações bem documentadas. Qual encaminhamento?"
+     opcoes={[
+       { texto: 'Devolver para complementação', correta: true, explicacao: 'Brief incompleto volta, qualquer que seja o estado da evidência.' },
+       { texto: 'Solicitar aprovação formal', explicacao: 'As alegações estão documentadas, mas a tabela olha primeiro o brief: incompleto, ele volta.' },
+     ]}
+   />
+
+   </EtapaDeEstudo>
+
+</Steps>
 
 ## Baixe o modelo
 
 <TemplateDownloads kind="decisao" />
 
-O documento é um **contrato de significado**, não um mecanismo de regras executável. Ligar a regra a um agente exigirá testes técnicos à parte.
+O que cada campo significa e aceita está na [Referência de campos de Regra e decisão](../../referencias/campos/decisao/).
 
-O mesmo tipo serve para detectar anomalia: a regra de evento quebrado, que diz quando o silêncio de um evento vira candidato a falha, está no [Laboratório de eventos](../../exemplos/laboratorio-eventos/) (ADR 0013).
+O documento é um **contrato de significado**, não um mecanismo de regras executável. Ligar a regra a um agente exigirá testes técnicos à parte. O mesmo tipo serve para detectar anomalia: a regra de evento quebrado, que diz quando o silêncio de um evento vira candidato a falha, está no [Laboratório de eventos](../../exemplos/laboratorio-eventos/) (ADR 0013).
 
 ### Fundamentação
 

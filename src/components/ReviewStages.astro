@@ -30,7 +30,7 @@ const stages = [
 ];
 ---
 <ol class="review-stages" aria-label="Três etapas independentes de revisão documental">
-  {stages.map((stage) => <li class="review-stages__card">
+  {stages.map((stage) => <li class="review-stages__card ctx-card">
     <span class="review-stages__number" aria-hidden="true">{stage.number}</span>
     <p class="review-stages__title"><strong>{stage.title}</strong></p>
     <p class="review-stages__question">{stage.question}</p>

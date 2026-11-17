@@ -2,7 +2,9 @@
 /**
  * Os quatro arquivos de um modelo, montados a partir do slug de src/data/modelos.yaml.
  * kind: o slug do tipo, igual ao type do documento e ao nome dos arquivos.
+ * O modelo em texto (.md) é o botão principal; os outros três são secundários (UX-06).
  */
+import { LinkButton } from '@astrojs/starlight/components';
 import { baseUrl, modeloPorSlug } from '../lib/dados';
 
 interface Props { kind: string }
@@ -17,8 +19,12 @@ const arquivos = [
 const base = baseUrl();
 ---
 <div class="template-downloads" role="group" aria-label="Arquivos de exemplo e modelo para reutilizar">
-  {arquivos.map((arquivo) => <a href={`${base}downloads/${arquivo.href}`} download>
-    <span class="download-icon" aria-hidden="true">↓</span>
-    <span class="download-name">{arquivo.name}<small>{arquivo.format}</small></span>
-  </a>)}
+  {arquivos.map((arquivo, indice) => (
+    <div class="template-downloads__item">
+      <LinkButton href={`${base}downloads/${arquivo.href}`} variant={indice === 0 ? 'primary' : 'secondary'} download>
+        {arquivo.name} <span aria-hidden="true">↓</span>
+      </LinkButton>
+      <p class="template-downloads__formato">{arquivo.format}</p>
+    </div>
+  ))}
 </div>

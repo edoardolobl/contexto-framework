@@ -109,14 +109,24 @@ Preencha estes campos no topo do arquivo antes de escrever o resto.
 ## Para que serve
 Em `intent`, escreva a pergunta de negócio que o documento responde (`question`), como alguém da área faria. Diga quem usa (`audience`), para quê (`purpose`) e quais decisões mudam conforme a resposta (`decisions`). Em `plain_summary`, explique em uma ou duas frases, sem termos técnicos, o que o documento diz.
 
+Exemplo Aurora: `intent.question`: Quem conta como participante ativo no programa de integração da Aurora?
+
+Exemplo Aurora: `plain_summary`: Ativo é quem se inscreveu, não está em pausa, não concluiu e foi a pelo menos uma atividade nos últimos 30 dias.
+
 ## Domínio e aplicabilidade
 Em `domain`, diga em que área o termo é usado. Em `scope.applies_when`, diga quando a definição vale; em `scope.does_not_apply_when`, quando ela não deve ser usada.
 
 ## Significado
 Em `definition`, escreva a definição completa, com o período e as condições. O bloco `vocabulary` segue o SKOS: `prefLabel` é o termo preferido, `altLabel` lista sinônimos de fato equivalentes, `broader` traz o termo mais amplo, `related` lista termos ligados que não são equivalentes, e `not_synonyms` diz com o que não confundir. Em `other_domain_meanings`, registre o que a mesma palavra quer dizer em outra área.
 
+Exemplo Aurora: `definition`: Pessoa inscrita no programa, que não está em pausa nem concluiu todas as atividades, e que registrou presença em pelo menos uma atividade entre 30 dias antes da data de referência do relatório e a própria data de referência, ambas incluídas.
+
+Exemplo Aurora: `vocabulary.prefLabel`: Participante ativo
+
 ## Critérios e exemplos
 Em `inclusion_criteria` e `exclusion_criteria`, liste o que faz alguém ou algo pertencer ou não ao conceito. Em `examples`, dê um caso que pertence; em `counterexamples`, um que não pertence; em `boundary_cases`, os casos no limite da definição e como classificá-los.
+
+Exemplo Aurora: `inclusion_criteria`: Inscrição confirmada no programa; Pelo menos uma presença registrada entre 30 dias antes da data de referência e a própria data; Sem afastamento registrado na data de referência e com atividades ainda por concluir
 
 ## Confirmação
 Em `validation`, diga quem confirmou as decisões, a evidência da confirmação (uma ata, por exemplo) e o histórico de revisões do significado.

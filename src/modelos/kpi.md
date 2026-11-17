@@ -97,20 +97,34 @@ related_documents: []        # identificadores de outros documentos
 ## Para que serve
 Em `intent`, escreva a pergunta de negócio que o documento responde (`question`), como alguém da área faria. Diga quem usa (`audience`), para quê (`purpose`) e quais decisões mudam conforme a resposta (`decisions`). Em `plain_summary`, explique em uma ou duas frases, sem termos técnicos, o que o documento diz, por exemplo "conta só pedidos pagos até sete dias depois do contato".
 
+<!-- contexto:exemplo intent.question -->
+
+<!-- contexto:exemplo plain_summary -->
+
 ## Definição de negócio
 Em `domain`, diga a área do negócio. Em `business_definition.concept`, diga o que o indicador mede. Em `synonyms`, liste nomes que querem dizer exatamente a mesma coisa; em `business_definition.different_meanings_in_other_domains`, os nomes parecidos que medem outra coisa em outra área.
+
+<!-- contexto:exemplo business_definition.concept -->
 
 ## Escopo e aplicabilidade
 Em `scope`, liste os canais incluídos e excluídos, a população a que o indicador se aplica e as exclusões, como tráfego interno ou pedidos de teste. Se há situação em que a definição não deve ser usada, escreva em `exclusions`.
 
+<!-- contexto:exemplo scope.exclusions -->
+
 ## Cálculo
 Em `calculation`, descreva o numerador e o denominador com os critérios de cada um, a fórmula em palavras, a unidade, a granularidade e a regra para juntar períodos. Diga também como tratar ausência de dados e o que mostrar quando o denominador é zero. Diga a unidade antes da fórmula: pedidos, sessões, clientes ou itens.
+
+<!-- contexto:exemplo calculation.numerator -->
+
+<!-- contexto:exemplo calculation.denominator -->
 
 ## Recálculo do histórico
 Quando a versão maior muda (2.0, 3.0), `history_recalculation.policy` é obrigatório: `recalculate` se a série antiga for recalculada pela regra nova, `method_break` se a série antiga fica como estava e passa a ser marcada como quebra de método. Em `description`, explique em uma frase o que isso muda para quem compara períodos.
 
 ## Convenções temporais
 Em `time`, diga qual campo de data decide o dia de cada registro, o fuso horário, a janela de cálculo e de quanto em quanto tempo os dados são atualizados.
+
+<!-- contexto:exemplo time.timezone -->
 
 ## Fontes e semântica dos dados
 Em `data_sources`, diga qual dataset manda quando há divergência, as colunas usadas, as junções autorizadas (pelo identificador do documento de relacionamento) e a regra de precedência entre fontes.

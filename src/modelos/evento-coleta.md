@@ -81,14 +81,24 @@ related_documents: []        # identificadores de outros documentos
 ## Para que serve
 Em `intent`, escreva a pergunta de negócio que o documento responde (`question`), como alguém da área faria. Diga quem usa (`audience`), para quê (`purpose`) e quais decisões mudam conforme a resposta (`decisions`). Em `plain_summary`, explique em uma ou duas frases o que o evento conta e quando o silêncio dele é normal.
 
+<!-- contexto:exemplo intent.question -->
+
+<!-- contexto:exemplo plain_summary -->
+
 ## Onde e quando dispara
 Em `trigger`, descreva a ação que faz o evento disparar. Em `parameters`, as informações que seguem com cada disparo. Em `destination`, cada lugar onde os disparos ficam, com o fuso de cada um. Em `active_scopes`, uma linha por operação, país e marca, dizendo se o evento está ativo ali, desde quando e por quê. As três chaves `trigger`, `destination` e `active_scopes` precisam existir, mesmo vazias no rascunho. Registre também `launch_date`, `retirement_date` e, se o evento mudou de nome, `renamed_from`.
+
+<!-- contexto:exemplo trigger -->
+
+<!-- contexto:exemplo deduplication_key -->
 
 ## Comportamento esperado
 Em `expected_behavior`, diga o ritmo normal do evento (`expected_frequency`) e, para cada operação, a linha de base calculada sobre dias completos (`baseline_by_scope`): a janela, o volume típico por dia, quantos dias ficaram em zero e a maior sequência em zero. Em `silence_tolerance`, escreva a partir de quantos dias seguidos em zero o time passa a suspeitar. Esse número é escolha do time, não regra universal. Em `seasonality`, o que muda o volume de forma conhecida.
 
 ## Quando zero é normal
 Em `expected_zero_conditions`, liste as situações em que um dia sem disparo não indica problema. Em `missing_days_policy`, diga o que significa um dia sem linha na tabela. Em `grain_note`, o que uma linha representa. Em `late_arrival_window`, até quando um dia ainda recebe dados atrasados; antes disso, o dia não está completo e não entra na conta. Em `known_exceptions`, os períodos já explicados, com a evidência, e em `data_incidents`, os problemas já investigados e o efeito deles na linha de base.
+
+<!-- contexto:exemplo expected_behavior.expected_zero_conditions -->
 
 ## Para quem é técnico (opcional)
 `validation_query` guarda a consulta que recalcula a contagem diária por operação na fonte oficial. `deduplication_key` diz como reconhecer o mesmo disparo repetido, e `consent_requirements`, que autorização da pessoa o disparo exige. Em `downstream_kpis`, liste os indicadores que dependem do evento, e em `disambiguation`, os nomes parecidos que contam outra coisa.

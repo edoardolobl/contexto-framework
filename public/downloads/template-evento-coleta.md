@@ -111,14 +111,24 @@ Preencha estes campos no topo do arquivo antes de escrever o resto.
 ## Para que serve
 Em `intent`, escreva a pergunta de negócio que o documento responde (`question`), como alguém da área faria. Diga quem usa (`audience`), para quê (`purpose`) e quais decisões mudam conforme a resposta (`decisions`). Em `plain_summary`, explique em uma ou duas frases o que o evento conta e quando o silêncio dele é normal.
 
+Exemplo Aurora: `intent.question`: Quando um dia sem generate_lead deve ser tratado como falha de coleta?
+
+Exemplo Aurora: `plain_summary`: O evento conta os cadastros de atacado enviados no site do Brasil, cerca de um por dia, com muitos dias em zero. No México ele não existe, então zero lá é o esperado; no Brasil, só 4 dias completos seguidos em zero levantam suspeita.
+
 ## Onde e quando dispara
 Em `trigger`, descreva a ação que faz o evento disparar. Em `parameters`, as informações que seguem com cada disparo. Em `destination`, cada lugar onde os disparos ficam, com o fuso de cada um. Em `active_scopes`, uma linha por operação, país e marca, dizendo se o evento está ativo ali, desde quando e por quê. As três chaves `trigger`, `destination` e `active_scopes` precisam existir, mesmo vazias no rascunho. Registre também `launch_date`, `retirement_date` e, se o evento mudou de nome, `renamed_from`.
+
+Exemplo Aurora: `trigger`: Envio com sucesso do formulário de cadastro de atacado no site da Aurora, depois da confirmação do servidor
+
+Exemplo Aurora: `deduplication_key`: submission_id: dois disparos com o mesmo valor contam como um
 
 ## Comportamento esperado
 Em `expected_behavior`, diga o ritmo normal do evento (`expected_frequency`) e, para cada operação, a linha de base calculada sobre dias completos (`baseline_by_scope`): a janela, o volume típico por dia, quantos dias ficaram em zero e a maior sequência em zero. Em `silence_tolerance`, escreva a partir de quantos dias seguidos em zero o time passa a suspeitar. Esse número é escolha do time, não regra universal. Em `seasonality`, o que muda o volume de forma conhecida.
 
 ## Quando zero é normal
 Em `expected_zero_conditions`, liste as situações em que um dia sem disparo não indica problema. Em `missing_days_policy`, diga o que significa um dia sem linha na tabela. Em `grain_note`, o que uma linha representa. Em `late_arrival_window`, até quando um dia ainda recebe dados atrasados; antes disso, o dia não está completo e não entra na conta. Em `known_exceptions`, os períodos já explicados, com a evidência, e em `data_incidents`, os problemas já investigados e o efeito deles na linha de base.
+
+Exemplo Aurora: `expected_behavior.expected_zero_conditions`: Até 3 dias completos seguidos em zero no Brasil, como de 27 a 29/10/2026; Qualquer dia no México, onde o evento não existe; Qualquer dia antes de 03/08/2026, data de lançamento; Dias da manutenção programada registrada em known_exceptions
 
 ## Para quem é técnico (opcional)
 `validation_query` guarda a consulta que recalcula a contagem diária por operação na fonte oficial. `deduplication_key` diz como reconhecer o mesmo disparo repetido, e `consent_requirements`, que autorização da pessoa o disparo exige. Em `downstream_kpis`, liste os indicadores que dependem do evento, e em `disambiguation`, os nomes parecidos que contam outra coisa.

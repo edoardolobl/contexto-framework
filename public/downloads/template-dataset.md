@@ -122,14 +122,26 @@ Preencha estes campos no topo do arquivo antes de escrever o resto.
 ## Para que serve
 Em `intent`, escreva a pergunta de negócio que o documento responde (`question`), como alguém da área faria. Diga quem usa (`audience`), para quê (`purpose`) e quais decisões mudam conforme a resposta (`decisions`). Em `plain_summary`, explique em uma ou duas frases, sem termos técnicos, o que o documento diz.
 
+Exemplo Aurora: `intent.question`: O que significa cada coluna da tabela de sessões da Aurora?
+
+Exemplo Aurora: `plain_summary`: Uma linha por sessão. Sessões abertas na rede do escritório ficam fora da taxa de conversão; sem esse filtro, a taxa da amostra sobe de 25% para 40%.
+
 ## Estrutura
 Em `dataset`, informe o nome físico da tabela e a plataforma, o que uma linha representa (`grain`), a chave primária, chaves alternativas e o critério de unicidade.
+
+Exemplo Aurora: `dataset.grain`: Uma linha por sessão
+
+Exemplo Aurora: `dataset.primary_key`: session_id
 
 ## Dicionário de campos
 Em `columns`, repita um item para cada coluna: nome físico, tipo técnico, nome de negócio, significado, unidade, valores permitidos, códigos especiais, o que significa o vazio, exemplos e para que a coluna não deve ser usada.
 
 ## Regras de atualização e consulta
 Em `time_semantics`, diga o campo de data de referência, o fuso, a frequência e o atraso de atualização, e se a tabela guarda uma fotografia por data ou o registro de cada evento. Em `usage`, liste as perguntas que o dataset responde com autoridade, as agregações proibidas, os datasets relacionados, as armadilhas conhecidas e consultas de exemplo.
+
+Exemplo Aurora: `time_semantics.timezone`: Data local da loja, sem hora
+
+Exemplo Aurora: `usage.known_caveats`: Não extrapolar a amostra para outros períodos ou canais; Caso-limite: S3 é interna e tem o pedido O4 confirmado, uma compra real de funcionário. Mesmo assim fica fora do KPI-AURORA-001, que exclui toda sessão interna. Sem esse filtro, a taxa de 01/10 passa de 25% para 40%
 
 ## Conferência
 Em `validation`, diga quem conferiu os registros de exemplo, quando e com que evidência.

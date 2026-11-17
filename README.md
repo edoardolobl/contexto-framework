@@ -50,7 +50,7 @@ npm run check
 npm run dev
 ```
 
-`npm run check` roda, nesta ordem, os testes dos validadores, as checagens de conteúdo (páginas, downloads, higiene, decisão, amostra SQLite e versões), o build e a conferência de links no HTML gerado. O GitHub Actions roda a mesma sequência em todo PR, e a publicação no GitHub Pages só acontece depois que ela passa num merge na `main`.
+`npm run check` roda, nesta ordem, os testes dos validadores em Python e Node, o Stylelint, as checagens de conteúdo (páginas, downloads, higiene, decisão, amostra SQLite e versões), o build, a conferência de links no HTML gerado e o checklist visual a 1440 e 390 px. O GitHub Actions roda a mesma sequência em todo PR, e a publicação no GitHub Pages só acontece depois que ela passa num merge na `main`.
 
 Decisões de projeto ficam registradas em [`docs/adr/`](docs/adr/) e as mudanças, em [`CHANGELOG.md`](CHANGELOG.md). O vocabulário que o validador aplica e a lista de tipos de documento ficam em [`src/data/`](src/data/).
 
@@ -72,7 +72,7 @@ docs/                 Contrato editorial e roadmap
 .github/workflows/    Testes e publicação
 ```
 
-Os modelos e exemplos são escritos em `src/modelos/` e `src/exemplos/`. Os arquivos de `public/downloads/` (`.yaml` e `.md`) são gerados a partir deles; para regenerar, rode `npm run gerar:downloads`. O CI falha se os gerados estiverem fora de sincronia. Os schemas de cada tipo ficam em `schemas/`, e a validação usa `jsonschema`.
+Os modelos e exemplos são escritos em `src/modelos/` e `src/exemplos/`. Os arquivos de `public/downloads/` (`.yaml` e `.md`) são gerados a partir deles; para regenerar, rode `npm run gerar:downloads`. Cada campo crítico do `.md` de um modelo traz uma linha `Exemplo Aurora:`, gerada do exemplo completo pelo mesmo comando. A referência de campos (`/referencias/campos/`) sai de `src/data/campos.yaml` e dos schemas com `npm run gerar:referencias`, sem edição à mão. O CI falha se os gerados estiverem fora de sincronia. Os schemas de cada tipo ficam em `schemas/`, e a validação usa `jsonschema`.
 
 ## Como editar com qualidade
 

@@ -1,0 +1,39 @@
+---
+/**
+ * Par contrastante (I-24, passo 1): a mesma pergunta, duas definições e dois resultados lado a lado.
+ * Abaixo de 640 px os cartões ficam um sobre o outro. O resultado é destaque, não título:
+ * o componente não tem h1 a h6, para não quebrar a hierarquia da página.
+ *
+ * pergunta: a pergunta que as duas leituras tentam responder.
+ * a, b: cada leitura, com rótulo, definição usada e resultado.
+ * nota: frase opcional depois dos cartões.
+ */
+interface Leitura { rotulo: string; definicao: string; resultado: string }
+interface Props { pergunta: string; a: Leitura; b: Leitura; nota?: string }
+
+const { pergunta, a, b, nota } = Astro.props;
+const leituras = [a, b];
+for (const [indice, leitura] of leituras.entries()) {
+  for (const campo of ['rotulo', 'definicao', 'resultado'] as const) {
+    if (typeof leitura?.[campo] !== 'string' || leitura[campo].trim() === '') {
+      throw new Error(`ParContrastante "${pergunta}": a leitura ${indice === 0 ? 'a' : 'b'} precisa de ${campo}`);
+    }
+  }
+}
+---
+<figure class="par-contrastante">
+  <figcaption class="par-contrastante__pergunta">
+    <span class="ctx-label">Mesma pergunta</span>
+    <span class="par-contrastante__texto">{pergunta}</span>
+  </figcaption>
+  <div class="par-contrastante__cartoes">
+    {leituras.map((leitura) => (
+      <div class="ctx-card par-contrastante__cartao">
+        <p class="ctx-label">{leitura.rotulo}</p>
+        <p class="par-contrastante__definicao">{leitura.definicao}</p>
+        <p class="par-contrastante__resultado">{leitura.resultado}</p>
+      </div>
+    ))}
+  </div>
+  {nota && <p class="par-contrastante__nota">{nota}</p>}
+</figure>

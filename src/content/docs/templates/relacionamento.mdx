@@ -3,10 +3,14 @@ title: Relacionamento entre tabelas
 description: Documente chave, cardinalidade e o que contar depois de juntar duas tabelas.
 ---
 
+import { Steps } from '@astrojs/starlight/components';
 import TemplateDownloads from '../../../components/TemplateDownloads.astro';
 import ExampleDoc from '../../../components/ExampleDoc.astro';
 import TemplateStart from '../../../components/TemplateStart.astro';
 import JoinDiagram from '../../../components/JoinDiagram.astro';
+import ParContrastante from '../../../components/ParContrastante.astro';
+import EtapaDeEstudo from '../../../components/EtapaDeEstudo.astro';
+import Exercicio from '../../../components/Exercicio.astro';
 
 <p class="editorial-lead">Uma sessão, dois pedidos: 25% ou 50%</p>
 
@@ -16,48 +20,125 @@ import JoinDiagram from '../../../components/JoinDiagram.astro';
 
 No [Laboratório Aurora](../../exemplos/analytics-integrado/), `demo_sessions` e `demo_orders` têm a coluna `session_id` em comum. O schema mostra a chave. Não mostra que **uma sessão pode ter vários pedidos**, nem o que contar depois de juntar as duas tabelas. Em 01/10, a sessão S1 tem dois pedidos confirmados:
 
-<JoinDiagram showCounts />
+<ParContrastante
+  pergunta="Que parte das sessões web elegíveis de 01/10/2026 converteu?"
+  a={{ rotulo: 'Conta cada pedido depois da junção', definicao: 'S1 aparece duas vezes, uma por pedido: 2 ÷ 4 sessões elegíveis.', resultado: '50%' }}
+  b={{ rotulo: 'Conta sessão distinta', definicao: 'S1 conta uma vez: 1 ÷ 4 sessões elegíveis.', resultado: '25%' }}
+  nota="As duas contas estão certas como aritmética. Só uma responde à pergunta do indicador, e o documento de relacionamento é onde fica escrito qual."
+/>
 
-As duas contas estão certas como aritmética. Só uma responde à pergunta do [indicador](../kpi/). O documento de relacionamento é onde fica escrito qual.
+## Aprenda com a Aurora
 
-## O que perguntar
+<Steps>
 
-| Pergunta | Na Aurora | O que registrar |
-|---|---|---|
-| O que uma linha representa de cada lado? | Uma sessão; um pedido | Granularidade dos dois lados |
-| Qual par de colunas liga as tabelas? | `demo_orders.session_id` → `demo_sessions.session_id` | Chave da junção |
-| A relação é 1:1, 1:N ou N:N? | Uma sessão, zero ou mais pedidos | Cardinalidade |
-| Depois de juntar, conta-se cada pedido ou cada sessão? | S1 conta uma ou duas vezes? | Regra de contagem |
-| Há linhas sem par? | S6 não tem pedido | Junção que preserva quem não tem par |
-| O filtro vem antes ou depois da junção? | Sessões internas e do app saem antes | Ordem dos filtros |
-| A relação depende de período? | Um pedido de outubro pode ligar a uma sessão de setembro? | Regra temporal |
+1. Veja a junção desenhada, leia o relacionamento aprovado e tente responder antes de abrir cada resposta.
 
-## Antes e depois da decisão
+   <EtapaDeEstudo tipo="comentado" resumo="O desenho da junção e o documento aprovado, com três perguntas">
 
-Enquanto ninguém decidiu o que contar depois da junção, o documento diz isso, com o tamanho do erro:
+   <JoinDiagram />
 
-<ExampleDoc file="exemplo-relacionamento-lacunas.yaml" />
+   <ExampleDoc file="exemplo-relacionamento-completo.yaml" />
 
-Depois da aprovação, a regra de contagem acompanha o indicador:
+   <details><summary>No desenho, por que S2, S5 e S6 continuam no denominador?</summary>São sessões elegíveis: S2 tem só um pedido cancelado, S5 um pedido de teste e S6 nenhum pedido. Elas entram no denominador e não no numerador, e por isso a junção precisa preservar quem não tem par.</details>
 
-<ExampleDoc file="exemplo-relacionamento-completo.yaml" />
+   <details><summary>Por que a cardinalidade um para muitos muda a contagem?</summary>Uma sessão pode ter zero ou mais pedidos. Depois da junção, S1 aparece duas vezes; por isso a regra manda contar `session_id` distinto dos pedidos confirmados elegíveis.</details>
 
-### O que o histórico de versões ensina
+   <details><summary>O que o histórico de versões ensina?</summary>A versão 1.0, de 20/08, já tinha a chave e a cardinalidade um para muitos. A 2.0, de 15/09, acrescentou a regra de contar sessão distinta, no mesmo dia em que o [indicador](../kpi/) passou a contar sessões. O relacionamento mudou porque a pergunta mudou, não porque as tabelas mudaram.</details>
 
-A versão 1.0, de 20/08, já tinha a chave e a cardinalidade um para muitos. A 2.0, de 15/09, acrescentou a regra de contar sessão distinta, no mesmo dia em que o indicador passou a contar sessões. O relacionamento mudou porque a pergunta mudou, não porque as tabelas mudaram.
+   </EtapaDeEstudo>
 
-## Teste você
+2. Enquanto ninguém decidiu o que contar depois da junção, o documento diz isso. Encontre a lacuna que muda o número.
 
-1. Para a taxa de 01/10, S1 conta uma ou duas vezes?
-   <details><summary>Ver resposta</summary>Uma. Desde 15/09, a regra é contar sessão distinta: 1 ÷ 4 = 25%.</details>
-2. Um relatório de 10/09 contou cada pedido confirmado sobre as sessões elegíveis. Errou?
-   <details><summary>Ver resposta</summary>Não. Em 10/09 valia o indicador 1.0, que contava pedidos confirmados por sessão; contar pedidos era o certo para aquela definição. A regra de sessão distinta só entrou em 15/09.</details>
-3. Alguém calcula o denominador depois de juntar sessões elegíveis com pedidos confirmados. Quanto dá a taxa, e por quê?
-   <details><summary>Ver resposta</summary>100%. A junção deixa só S1, porque S2, S5 e S6 não têm pedido confirmado, e o denominador vira 1. O denominador tem de vir das sessões elegíveis antes da junção: 4.</details>
+   <EtapaDeEstudo tipo="diagnostico" resumo="O rascunho, com duas perguntas em aberto">
+
+   <ExampleDoc file="exemplo-relacionamento-lacunas.yaml" />
+
+   <Exercicio
+     pergunta="Qual pergunta em aberto do rascunho decide entre as duas contas de 01/10?"
+     opcoes={[
+       { texto: 'Se a conta usa cada pedido confirmado ou cada sessão distinta', correta: true, explicacao: 'É ela que decide se S1 conta uma ou duas vezes. O rascunho diz o impacto: uma sessão com dois pedidos conta em dobro.' },
+       { texto: 'Se pode existir pedido sem sessão correspondente', explicacao: 'Ela decide o que fazer com pedidos sem par, mas não muda quantas vezes S1 conta.' },
+     ]}
+   />
+
+   </EtapaDeEstudo>
+
+3. No trecho abaixo, a estratégia de junção foi apagada. Escreva-a para a pergunta de sessões convertidas.
+
+   <EtapaDeEstudo tipo="complete" resumo="A regra de contagem para escrever">
+
+   ```yaml
+   usage_rules:
+     approved_question_classes: ["Sessões elegíveis com pelo menos um pedido confirmado"]
+     join_strategy_by_question: ["____"]
+     duplication_risks: ["Uma sessão com dois pedidos confirmados aparece duas vezes na junção"]
+   ```
+
+   <Exercicio
+     pergunta="Qual é a estratégia de junção para contar sessões convertidas?"
+     rotulo="Sua resposta para a estratégia de junção"
+     gabarito="Para sessões convertidas, contar session_id distinto dos pedidos confirmados elegíveis"
+     explicacao="A estratégia responde ao risco da linha de baixo: se a sessão aparece duas vezes depois da junção, a conta precisa ser de sessão distinta, e só dos pedidos confirmados."
+   />
+
+   </EtapaDeEstudo>
+
+4. Agora com o modelo em branco, numa junção que ainda não tem documento.
+
+   <EtapaDeEstudo tipo="caso-novo" resumo="Pedidos e itens do Laboratório de eventos">
+
+   No [Laboratório de eventos](../../exemplos/laboratorio-eventos/), a tabela de pedidos se junta à de itens, e cada pedido se repete uma vez por item. Essa relação ainda não tem documento. Escreva-o com o modelo em branco, a partir destas perguntas; a coluna “Na Aurora” mostra como elas apareceram entre sessões e pedidos:
+
+   | Pergunta | Na Aurora | O que registrar |
+   |---|---|---|
+   | O que uma linha representa de cada lado? | Uma sessão; um pedido | Granularidade dos dois lados |
+   | Qual par de colunas liga as tabelas? | `demo_orders.session_id` → `demo_sessions.session_id` | Chave da junção |
+   | A relação é 1:1, 1:N ou N:N? | Uma sessão, zero ou mais pedidos | Cardinalidade |
+   | Depois de juntar, conta-se cada pedido ou cada sessão? | S1 conta uma ou duas vezes? | Regra de contagem |
+   | Há linhas sem par? | S6 não tem pedido | Junção que preserva quem não tem par |
+   | O filtro vem antes ou depois da junção? | Sessões internas e do app saem antes | Ordem dos filtros |
+   | A relação depende de período? | Um pedido de outubro pode ligar a uma sessão de setembro? | Regra temporal |
+
+   </EtapaDeEstudo>
+
+5. Responda antes de conferir. Cada alternativa errada traz a explicação do erro.
+
+   <EtapaDeEstudo tipo="teste" resumo="Três casos, um atravessando a mudança de 15/09">
+
+   <Exercicio
+     pergunta="Para a taxa de 01/10, S1 conta uma ou duas vezes?"
+     opcoes={[
+       { texto: 'Uma', correta: true, explicacao: 'Desde 15/09, a regra é contar sessão distinta: 1 ÷ 4 = 25%.' },
+       { texto: 'Duas', explicacao: 'Contar os dois pedidos era a regra do indicador 1.0, que deixou de valer em 15/09.' },
+     ]}
+   />
+
+   <Exercicio
+     pergunta="Um relatório de 10/09 contou cada pedido confirmado sobre as sessões elegíveis. Errou?"
+     opcoes={[
+       { texto: 'Não', correta: true, explicacao: 'Em 10/09 valia o indicador 1.0, que contava pedidos confirmados por sessão; contar pedidos era o certo para aquela definição.' },
+       { texto: 'Sim, devia contar sessão distinta', explicacao: 'A regra de sessão distinta só entrou em 15/09. Antes dela, o relatório seguia a definição vigente.' },
+     ]}
+   />
+
+   <Exercicio
+     pergunta="Alguém calcula o denominador depois de juntar sessões elegíveis com pedidos confirmados. Quanto dá a taxa?"
+     opcoes={[
+       { texto: '100%', correta: true, explicacao: 'A junção deixa só S1, porque S2, S5 e S6 não têm pedido confirmado, e o denominador vira 1. O denominador tem de vir das sessões elegíveis antes da junção: 4.' },
+       { texto: '25%', explicacao: '25% exige o denominador calculado antes da junção, com as 4 sessões elegíveis.' },
+       { texto: '50%', explicacao: '50% é contar os dois pedidos de S1 sobre 4 sessões. Aqui o erro está no denominador, que encolhe para 1.' },
+     ]}
+   />
+
+   </EtapaDeEstudo>
+
+</Steps>
 
 ## Baixe o modelo
 
 <TemplateDownloads kind="relacionamento" />
+
+O que cada campo significa e aceita está na [Referência de campos de Relacionamento entre tabelas](../../referencias/campos/relacionamento/).
 
 O modelo não prescreve um tipo de junção para todo caso: preservar as sessões sem pedido, ficar só com os pares ou contar entidades distintas depende da pergunta. O que ele exige é que a escolha fique escrita.
 

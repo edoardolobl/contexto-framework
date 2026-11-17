@@ -3,9 +3,13 @@ title: Política
 description: Documente qual política vale, quem a emitiu, desde quando, e o que fazer quando duas fontes dizem coisas diferentes.
 ---
 
+import { Steps } from '@astrojs/starlight/components';
 import TemplateDownloads from '../../../components/TemplateDownloads.astro';
 import ExampleDoc from '../../../components/ExampleDoc.astro';
 import TemplateStart from '../../../components/TemplateStart.astro';
+import ParContrastante from '../../../components/ParContrastante.astro';
+import EtapaDeEstudo from '../../../components/EtapaDeEstudo.astro';
+import Exercicio from '../../../components/Exercicio.astro';
 
 <p class="editorial-lead">Três fontes sobre a mesma despesa, e a mais nova não é necessariamente a que vale</p>
 
@@ -13,84 +17,137 @@ import TemplateStart from '../../../components/TemplateStart.astro';
 
 ## O problema
 
-Uma pessoa da área Financeira da Aurora encontra um manual de reembolso, um e-mail posterior e uma página de intranet com instruções diferentes. A orientação que circula é:
+Uma pessoa da área Financeira da Aurora encontra um manual de reembolso, um e-mail posterior e uma página de intranet com instruções diferentes. A orientação que circula é “despesas de evento devem seguir a política mais recente”. Mas *recente* descreve a data, não a autoridade. Em 10/08, alguém da equipe de eventos gasta R$ 800 num coffee break, sem aprovação prévia, porque seguiu o e-mail:
 
-> “Despesas de evento devem seguir a política mais recente.”
+<ParContrastante
+  pergunta="Uma despesa de evento de R$ 800, em 10/08, precisava de aprovação prévia?"
+  a={{ rotulo: 'E-mail da equipe de eventos, 03/08', definicao: 'Aprovação prévia só acima de R$ 1.000. É a fonte mais nova.', resultado: 'Não precisava' }}
+  b={{ rotulo: 'Manual POL-FIN-014, versão 3', definicao: 'Aprovação prévia acima de R$ 500, com vigência desde 01/07/2026.', resultado: 'Precisava' }}
+  nota="Há uma terceira fonte, o resumo da intranet, com R$ 300. Escolher a fonte mais nova ou a mais repetida não é seguro sem conhecer o processo de aprovação da organização."
+/>
 
-*Recente* descreve a data, não a autoridade. Um e-mail novo pode só comunicar uma prática não aprovada; uma página antiga pode continuar vigente até ser revogada. Uma frase num chat, um procedimento antigo e uma política aprovada podem tratar do mesmo tema **sem ter a mesma autoridade**.
+## Aprenda com a Aurora
 
-As três fontes falam da mesma coisa, o limite acima do qual uma despesa de evento precisa de aprovação prévia, e dão três números:
+<Steps>
 
-| Fonte | Data | O que diz | O que ainda precisa ser verificado |
-|---|---|---|---|
-| Manual `POL-FIN-014`, versão 3 | Vigente desde 01/07/2026 | Aprovação prévia acima de **R$ 500** | Se continua vigente depois do e-mail |
-| E-mail da equipe de eventos | 03/08/2026 | Aprovação prévia só acima de **R$ 1.000** | Se o e-mail muda a política ou só comunica uma prática |
-| Resumo na intranet | Atualizado em 15/03/2026 | Aprovação prévia acima de **R$ 300** | De qual versão da política o resumo saiu |
+1. Leia o registro aprovado, veja o que cada fonte dizia e tente responder antes de abrir cada resposta.
 
-Em 10/08, alguém da equipe de eventos gasta R$ 800 num coffee break, sem aprovação prévia, porque seguiu o e-mail. Pelo manual, precisava. Pelo resumo da intranet, também. **Escolher a fonte mais nova ou a mais repetida não é seguro** sem conhecer o processo de aprovação da organização: a mais nova diz não, as outras duas dizem sim, e nenhuma das três respostas está garantida.
+   <EtapaDeEstudo tipo="comentado" resumo="O registro aprovado e as três fontes, com três perguntas">
 
-## O que perguntar
+   <ExampleDoc file="exemplo-politica-completo.yaml" />
 
-| Pergunta | Na Aurora | O que registrar |
-|---|---|---|
-| Qual fonte é oficial, e onde fica? | O manual, o e-mail ou a intranet? | Identificador e localização da fonte |
-| Quem emitiu e quem pode interpretar ou alterar? | A Controladoria ou a equipe de eventos? | Autoridade |
-| Desde quando vale? Houve revogação? | O e-mail revogou o manual? | Início de vigência e substituição |
-| O que é obrigatório, permitido e proibido? | Que despesa precisa de aprovação prévia? | Obrigações e permissões verificáveis |
-| A quem e a que atividades se aplica? | Só eventos, ou qualquer viagem? | Alcance |
-| Quem autoriza exceções, e com que evidência? | Despesa acima do limite em evento com cliente | Exceção e registro |
-| O documento distingue aprovado, comunicado e em revisão? | O e-mail é norma ou aviso? | Estado de cada fonte |
-| Quando revisar? | Mudança de limite, reorganização da área | Gatilho de revisão |
+   A resolução mostra que cada fonte tinha um motivo para dizer o que dizia:
 
-## Antes e depois da decisão
+   | Fonte | Por que dizia aquilo | Vale? |
+   |---|---|---|
+   | POL-FIN-014, versão 3: R$ 500 | É a política publicada, em vigor desde 01/07 | **Sim** |
+   | E-mail de 03/08: R$ 1.000 | Comunicado da equipe, sem força para mudar a política | Não |
+   | Intranet: R$ 300 | Resumo da versão 2, que valia até 30/06 e não foi atualizado | Não; corrigido em 14/08 |
 
-Enquanto ninguém com autoridade confirmou qual fonte vale, o documento registra o conflito como não resolvido (`unresolved`). O valor disso é que **a divergência não desaparece** só porque os três arquivos foram indexados num RAG:
+   <details><summary>Por que o conflito continua no documento, se já foi resolvido?</summary>Para que a divergência não desapareça só porque os três arquivos foram indexados num RAG. Marcado como resolvido, com a explicação, ele diz a quem encontrar o e-mail ou o resumo antigo por que eles não valem.</details>
 
-<ExampleDoc file="exemplo-politica-lacunas.yaml" />
+   <details><summary>O conflito só foi resolvido em 14/08. A despesa de 10/08 precisava de aprovação prévia?</summary>Precisava. A resolução não criou regra nova: confirmou a que já valia desde 01/07. A exceção da política, para evento contratado em emergência, não se aplica a um coffee break planejado.</details>
 
-Depois, a Controladoria confirmou qual documento vale e a Diretoria Financeira aprovou o registro. O conflito continua no documento, agora marcado como resolvido e com a explicação:
+   <details><summary>O que o histórico de versões ensina?</summary>O registro tem a própria versão e aponta para uma política que tem outra. A 1.0 do registro, de 18/08, saiu quando a Controladoria confirmou a POL-FIN-014 versão 3; a 1.1, de 01/10, só incluiu o gatilho de revisão anual. A política muda quando a regra muda; o registro muda quando o que sabemos sobre a política muda. Confundir as duas é uma fonte comum de erro.</details>
 
-<ExampleDoc file="exemplo-politica-completo.yaml" />
+   A política também é diferente do [processo](../processo/) que ensina **como solicitar** uma despesa e das [regras](../decisao/) que decidem **quando aprová-la**. Ligue os documentos pelo identificador em vez de copiar textos inteiros.
 
-### A pergunta de 10/08, respondida
+   </EtapaDeEstudo>
 
-A resolução mostra que cada fonte tinha um motivo para dizer o que dizia:
+2. Enquanto ninguém com autoridade confirmou qual fonte vale, o registro marca o conflito como não resolvido. Encontre a lacuna que decide o caso de 10/08.
 
-| Fonte | Por que dizia aquilo | Vale? |
-|---|---|---|
-| POL-FIN-014, versão 3: R$ 500 | É a política publicada, em vigor desde 01/07 | **Sim** |
-| E-mail de 03/08: R$ 1.000 | Comunicado da equipe, sem força para mudar a política | Não |
-| Intranet: R$ 300 | Resumo da versão 2, que valia até 30/06 e não foi atualizado | Não; corrigido em 14/08 |
+   <EtapaDeEstudo tipo="diagnostico" resumo="O rascunho, com quatro perguntas em aberto">
 
-Então a despesa de R$ 800 em 10/08 **precisava de aprovação prévia**. A exceção da política, para evento contratado em emergência, não se aplica a um coffee break planejado. O conflito foi resolvido em 14/08, depois da despesa, mas a resolução não criou regra nova: confirmou a que já valia desde 01/07.
+   <ExampleDoc file="exemplo-politica-lacunas.yaml" />
 
-### Duas versões diferentes no mesmo documento
+   <Exercicio
+     pergunta="Qual pergunta em aberto do rascunho decide se a despesa de R$ 800 de 10/08 precisava de aprovação prévia?"
+     opcoes={[
+       { texto: 'Qual das três fontes tem autoridade vigente', correta: true, explicacao: 'O rascunho diz o impacto: a mesma despesa precisa ou não de aprovação prévia, conforme a fonte.' },
+       { texto: 'Quem pode aprovar exceções', explicacao: 'Ela importa para despesas de emergência; um coffee break planejado não é exceção.' },
+       { texto: 'Qual das fontes é a mais recente', explicacao: 'A data já se sabe: o e-mail é de 03/08. O que falta é saber qual fonte tem autoridade, e a mais nova não é necessariamente ela.' },
+     ]}
+   />
 
-O registro tem a própria versão (1.1) e aponta para uma política que tem outra (versão 3). São coisas distintas: a política muda quando a regra muda; o registro muda quando o que sabemos sobre a política muda. Confundir as duas é uma fonte comum de erro.
+   </EtapaDeEstudo>
 
-A política também é diferente do [processo](../processo/) que ensina **como solicitar** uma despesa e das [regras](../decisao/) que decidem **quando aprová-la**. Ligue os documentos pelo identificador em vez de copiar textos inteiros.
+3. No trecho abaixo, a regra de precedência foi apagada. Escreva-a de modo que o próximo conflito se resolva sem depender de quem lembra deste.
 
-## Teste você
+   <EtapaDeEstudo tipo="complete" resumo="A regra de precedência para escrever">
 
-1. Despesa de evento de R$ 400 em 20/06/2026. Precisava de aprovação prévia?
-   <details><summary>Ver resposta</summary>Sim. Em 20/06 valia a versão 2 da POL-FIN-014, com limite de R$ 300. O resumo da intranet estava certo para aquela data.</details>
-2. A mesma despesa de R$ 400, em 10/08/2026?
-   <details><summary>Ver resposta</summary>Não. Desde 01/07 vale a versão 3, com limite de R$ 500.</details>
-3. Despesa de R$ 1.200 em 10/08, num evento contratado às pressas porque o fornecedor original cancelou na véspera. Sem aprovação prévia, pode ser reembolsada?
-   <details><summary>Ver resposta</summary>Pode, pela exceção de emergência, se a Diretoria Financeira aprovar e houver justificativa escrita em até 5 dias úteis depois do evento.</details>
+   ```yaml
+   source_precedence_rule: "____"
+   how_to_verify: "Conferir o número da versão e a data de vigência no cabeçalho da POL-FIN-014"
+   ```
 
-## Verifique o seu documento
+   <Exercicio
+     pergunta="Qual é a regra de precedência entre as fontes?"
+     rotulo="Sua resposta para a regra de precedência"
+     gabarito="A política publicada em Políticas > Finanças prevalece sobre e-mails, resumos e apresentações. Comunicados não alteram a política."
+     explicacao="A regra diz qual tipo de fonte vence, e não qual data. Assim um e-mail novo não muda o limite, por mais recente que seja."
+   />
 
-- É possível apontar diretamente a fonte oficial?
-- Há evidência de revogação ou substituição das versões anteriores?
-- Está claro quem interpreta e quem autoriza exceções?
-- Uma pessoa sabe reconhecer quando o documento não deve mais ser usado?
+   </EtapaDeEstudo>
 
-Se ninguém souber responder, o documento continua pendente de aprovação, e a área responsável pela resposta fica identificada.
+4. Agora com o modelo em branco, para a política que esta deixa de fora.
+
+   <EtapaDeEstudo tipo="caso-novo" resumo="O reembolso de viagens sem relação com eventos">
+
+   A POL-FIN-014 não cobre viagens sem relação com eventos: elas ficam com outra política. Escreva o registro dessa outra política com o modelo em branco. Use as perguntas abaixo; a coluna “Na Aurora” mostra como elas apareceram nas despesas de evento:
+
+   | Pergunta | Na Aurora | O que registrar |
+   |---|---|---|
+   | Qual fonte é oficial, e onde fica? | O manual, o e-mail ou a intranet? | Identificador e localização da fonte |
+   | Quem emitiu e quem pode interpretar ou alterar? | A Controladoria ou a equipe de eventos? | Autoridade |
+   | Desde quando vale? Houve revogação? | O e-mail revogou o manual? | Início de vigência e substituição |
+   | O que é obrigatório, permitido e proibido? | Que despesa precisa de aprovação prévia? | Obrigações e permissões verificáveis |
+   | A quem e a que atividades se aplica? | Só eventos, ou qualquer viagem? | Alcance |
+   | Quem autoriza exceções, e com que evidência? | Despesa acima do limite em evento com cliente | Exceção e registro |
+   | O documento distingue aprovado, comunicado e em revisão? | O e-mail é norma ou aviso? | Estado de cada fonte |
+   | Quando revisar? | Mudança de limite, reorganização da área | Gatilho de revisão |
+
+   Antes de pedir aprovação, confira: dá para apontar diretamente a fonte oficial? Há evidência de revogação ou substituição das versões anteriores? Está claro quem interpreta e quem autoriza exceções? Uma pessoa sabe reconhecer quando o documento não deve mais ser usado? Se ninguém souber responder, o documento continua pendente de aprovação, e a área responsável pela resposta fica identificada.
+
+   </EtapaDeEstudo>
+
+5. Responda antes de conferir. Cada alternativa errada traz a explicação do erro.
+
+   <EtapaDeEstudo tipo="teste" resumo="Três despesas, uma de antes da versão 3">
+
+   <Exercicio
+     pergunta="Despesa de evento de R$ 400 em 20/06/2026. Precisava de aprovação prévia?"
+     opcoes={[
+       { texto: 'Sim', correta: true, explicacao: 'Em 20/06 valia a versão 2 da POL-FIN-014, com limite de R$ 300. O resumo da intranet estava certo para aquela data.' },
+       { texto: 'Não', explicacao: 'Essa resposta usa o limite de R$ 500 da versão 3, que só vale desde 01/07.' },
+     ]}
+   />
+
+   <Exercicio
+     pergunta="A mesma despesa de R$ 400, em 10/08/2026. Precisava de aprovação prévia?"
+     opcoes={[
+       { texto: 'Não', correta: true, explicacao: 'Desde 01/07 vale a versão 3, com limite de R$ 500.' },
+       { texto: 'Sim', explicacao: 'Essa resposta segue o resumo da intranet, que repetia a versão 2 e não tinha sido atualizado.' },
+     ]}
+   />
+
+   <Exercicio
+     pergunta="Despesa de R$ 1.200 em 10/08, num evento contratado às pressas porque o fornecedor original cancelou na véspera. Sem aprovação prévia, pode ser reembolsada?"
+     opcoes={[
+       { texto: 'Pode, pela exceção de emergência, com condições', correta: true, explicacao: 'A Diretoria Financeira precisa aprovar, e a justificativa escrita tem de chegar em até 5 dias úteis depois do evento.' },
+       { texto: 'Não, porque passou do limite de R$ 1.000 do e-mail', explicacao: 'O e-mail não tem força de política. Vale a POL-FIN-014, que prevê a exceção de emergência.' },
+       { texto: 'Pode, sem nenhuma condição', explicacao: 'A exceção exige aprovação da Diretoria Financeira e justificativa escrita em até 5 dias úteis.' },
+     ]}
+   />
+
+   </EtapaDeEstudo>
+
+</Steps>
 
 ## Baixe o modelo
 
 <TemplateDownloads kind="politica" />
+
+O que cada campo significa e aceita está na [Referência de campos de Política](../../referencias/campos/politica/).
 
 ### Fundamentação
 

@@ -87,14 +87,24 @@ related_documents: []        # identificadores de outros documentos
 ## Para que serve
 Em `intent`, escreva a pergunta de negócio que o documento responde (`question`), como alguém da área faria. Diga quem usa (`audience`), para quê (`purpose`) e quais decisões mudam conforme a resposta (`decisions`). Em `plain_summary`, explique em uma ou duas frases, sem termos técnicos, o que o documento diz.
 
+<!-- contexto:exemplo intent.question -->
+
+<!-- contexto:exemplo plain_summary -->
+
 ## O que se avalia
 Em `evaluation_target`, diga o trabalho avaliado. Em `allowed_use` e `disallowed_use`, para que a nota pode e não pode servir.
+
+<!-- contexto:exemplo evaluation_target -->
 
 ## Critérios e níveis
 Em `criteria`, repita um item para cada critério: identificador, nome, definição, o que o critério não avalia (`not_in_scope`), peso, evidências aceitas e o que se vê no trabalho em cada nível de 0 a 4 (`anchors`).
 
 ## Nota
 Em `scoring`, diga a soma dos pesos, a escala, a fórmula da nota, o que fazer quando falta evidência ou um critério não pode ser avaliado, qual decisão a nota alimenta e a partir de qual nível. A nota nunca decide sozinha: `automatic_decision_allowed` fica `false` e `human_review_required` fica `true`.
+
+<!-- contexto:exemplo scoring.weight_sum -->
+
+<!-- contexto:exemplo scoring.formula -->
 
 ## Calibração e cuidados
 Em `calibration_examples`, registre trabalhos já avaliados, com o nível de cada critério, a justificativa, a nota e o encaminhamento. Em `disagreement_resolution`, como resolver quando dois revisores discordam. Em `privacy_and_fairness_considerations`, os cuidados com privacidade e justiça.

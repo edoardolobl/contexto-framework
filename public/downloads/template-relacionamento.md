@@ -110,14 +110,28 @@ Preencha estes campos no topo do arquivo antes de escrever o resto.
 ## Para que serve
 Em `intent`, escreva a pergunta de negócio que o documento responde (`question`), como alguém da área faria. Diga quem usa (`audience`), para quê (`purpose`) e quais decisões mudam conforme a resposta (`decisions`). Em `plain_summary`, explique em uma ou duas frases, sem termos técnicos, o que o documento diz.
 
+Exemplo Aurora: `intent.question`: Como ligar sessões e pedidos da Aurora sem contar a mesma sessão duas vezes?
+
+Exemplo Aurora: `plain_summary`: Uma sessão pode ter vários pedidos. Para contar sessões convertidas, conte cada sessão uma vez só.
+
 ## Tabelas e granularidade
 Em `left` e `right`, diga as duas tabelas e o que uma linha de cada uma representa. Em `join_keys`, as colunas que ligam uma à outra.
+
+Exemplo Aurora: `left.dataset`: demo_sessions
+
+Exemplo Aurora: `right.dataset`: demo_orders
 
 ## Cardinalidade e cobertura
 Em `cardinality`, use `one_to_one`, `one_to_many` ou `many_to_many`. Em `coverage`, diga se linhas sem par e chaves vazias são esperadas e se a junção depende de data ou versão.
 
+Exemplo Aurora: `cardinality`: one_to_many
+
+Exemplo Aurora: `coverage.temporal_join_rule`: O pedido conta na data da sessão em que foi criado (session_date)
+
 ## Regras de uso
 Em `usage_rules`, liste as perguntas que a junção responde e as que não deve responder, a estratégia de junção para cada pergunta, os riscos de duplicar linhas e o cuidado antes de agregar.
+
+Exemplo Aurora: `usage_rules.duplication_risks`: Uma sessão com dois pedidos confirmados aparece duas vezes na junção
 
 ## Conferência
 Em `validation`, registre os casos conferidos, a consulta verificada e quem revisou.

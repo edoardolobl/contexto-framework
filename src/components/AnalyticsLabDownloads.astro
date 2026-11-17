@@ -1,4 +1,9 @@
 ---
+/**
+ * Arquivos dos laboratórios Aurora, com o mesmo par de botões de TemplateDownloads:
+ * o primeiro arquivo é o botão principal, os outros são secundários (UX-06).
+ */
+import { LinkButton } from '@astrojs/starlight/components';
 const raw = import.meta.env.BASE_URL;
 const base = raw.endsWith('/') ? raw : raw + '/';
 interface Props { lab?: '1' | '2' }
@@ -18,8 +23,12 @@ const arquivos = {
 const files = arquivos[lab] ?? arquivos['1'];
 ---
 <div class="template-downloads" role="group" aria-label={lab === '2' ? 'Arquivos do laboratório Aurora de eventos' : 'Arquivos do laboratório Aurora'}>
-  {files.map(item => <a href={base + 'downloads/' + item.file} download>
-    <span class="download-icon" aria-hidden="true">↓</span>
-    <span class="download-name">{item.name}<small>{item.note}</small></span>
-  </a>)}
+  {files.map((item, indice) => (
+    <div class="template-downloads__item">
+      <LinkButton href={base + 'downloads/' + item.file} variant={indice === 0 ? 'primary' : 'secondary'} download>
+        {item.name} <span aria-hidden="true">↓</span>
+      </LinkButton>
+      <p class="template-downloads__formato">{item.note}</p>
+    </div>
+  ))}
 </div>

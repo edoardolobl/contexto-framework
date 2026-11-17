@@ -117,14 +117,24 @@ Preencha estes campos no topo do arquivo antes de escrever o resto.
 ## Para que serve
 Em `intent`, escreva a pergunta de negócio que o documento responde (`question`), como alguém da área faria. Diga quem usa (`audience`), para quê (`purpose`) e quais decisões mudam conforme a resposta (`decisions`). Em `plain_summary`, explique em uma ou duas frases, sem termos técnicos, o que o documento diz.
 
+Exemplo Aurora: `intent.question`: Como avaliar um material de campanha antes da aprovação formal?
+
+Exemplo Aurora: `plain_summary`: Quatro critérios com pesos 40, 25, 20 e 15 dão uma nota de 0 a 100; a nota orienta a triagem, mas uma pessoa sempre revisa.
+
 ## O que se avalia
 Em `evaluation_target`, diga o trabalho avaliado. Em `allowed_use` e `disallowed_use`, para que a nota pode e não pode servir.
+
+Exemplo Aurora: `evaluation_target`: Material de campanha externa (e-mail, página de oferta, peça para rede social) antes da aprovação formal
 
 ## Critérios e níveis
 Em `criteria`, repita um item para cada critério: identificador, nome, definição, o que o critério não avalia (`not_in_scope`), peso, evidências aceitas e o que se vê no trabalho em cada nível de 0 a 4 (`anchors`).
 
 ## Nota
 Em `scoring`, diga a soma dos pesos, a escala, a fórmula da nota, o que fazer quando falta evidência ou um critério não pode ser avaliado, qual decisão a nota alimenta e a partir de qual nível. A nota nunca decide sozinha: `automatic_decision_allowed` fica `false` e `human_review_required` fica `true`.
+
+Exemplo Aurora: `scoring.weight_sum`: 100
+
+Exemplo Aurora: `scoring.formula`: Soma de (nível ÷ 4 × peso) dos critérios avaliados, de 0 a 100
 
 ## Calibração e cuidados
 Em `calibration_examples`, registre trabalhos já avaliados, com o nível de cada critério, a justificativa, a nota e o encaminhamento. Em `disagreement_resolution`, como resolver quando dois revisores discordam. Em `privacy_and_fairness_considerations`, os cuidados com privacidade e justiça.

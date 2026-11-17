@@ -78,11 +78,21 @@ related_documents: []        # identificadores de outros documentos
 ## Para que serve
 Em `intent`, escreva a pergunta de negócio que o documento responde (`question`), como alguém da área faria. Diga quem usa (`audience`), para quê (`purpose`) e quais decisões mudam conforme a resposta (`decisions`). Em `plain_summary`, explique em uma ou duas frases, sem termos técnicos, o que o documento diz.
 
+<!-- contexto:exemplo intent.question -->
+
+<!-- contexto:exemplo plain_summary -->
+
 ## Escopo
 Em `scope`, diga quando a regra se aplica e quando não se aplica.
 
+<!-- contexto:exemplo scope.applies_when -->
+
 ## Entradas e saídas
 Em `required_inputs`, repita um item para cada entrada, com o nome, os valores possíveis e a definição verificável. Em `possible_outputs`, liste os resultados possíveis.
+
+<!-- contexto:exemplo default_behavior -->
+
+<!-- contexto:exemplo unknown_input_behavior -->
 
 ## Tabela de decisão
 Em `decision_table`, cada linha diz as condições (`when`) e o resultado (`then`); `any` vale para qualquer valor. Em `priority_rules`, diga o que fazer se duas linhas valerem ao mesmo tempo. Em `default_behavior` e `unknown_input_behavior`, o resultado quando nenhuma linha vale e quando falta uma entrada. Em `exceptions`, cada exceção com a condição, quem aprova e a evidência exigida. Em `conflicts`, conflitos com outras regras.

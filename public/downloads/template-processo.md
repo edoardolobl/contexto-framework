@@ -116,8 +116,14 @@ Preencha estes campos no topo do arquivo antes de escrever o resto.
 ## Para que serve
 Em `intent`, escreva a pergunta de negócio que o documento responde (`question`), como alguém da área faria. Diga quem usa (`audience`), para quê (`purpose`) e quais decisões mudam conforme a resposta (`decisions`). Em `plain_summary`, explique em uma ou duas frases, sem termos técnicos, o que o documento diz.
 
+Exemplo Aurora: `intent.question`: Que caminho um pedido de campanha percorre até ser publicado?
+
+Exemplo Aurora: `plain_summary`: Cinco etapas, do registro do pedido à publicação com evidência; sem decisão em 3 dias úteis, o pedido sobe à Diretoria de Marketing.
+
 ## Escopo e início
 Em `scope`, diga quando o processo se aplica e quando não. Em `trigger`, o que dá início a ele; em `preconditions` e `required_inputs`, o que precisa existir antes.
+
+Exemplo Aurora: `trigger`: Brief registrado no formulário de solicitação
 
 ## Papéis
 Em `roles`, diga o responsável pelo processo, quem executa e quem aprova, sempre por cargo ou área.
@@ -125,8 +131,12 @@ Em `roles`, diga o responsável pelo processo, quem executa e quem aprova, sempr
 ## Etapas
 Em `steps`, repita um item para cada etapa: identificador, nome, quem executa, ação, entradas, evidência que a etapa deixa, próxima etapa, prazo, o que acontece quando o prazo vence e como tratar exceções.
 
+Exemplo Aurora: `required_inputs`: objetivo; canal; público; período; material
+
 ## Decisões e encerramento
 Em `decision_rules`, cite as regras de decisão pelo identificador, sem copiar o conteúdo. Em `completion`, diga o critério de sucesso, os resultados de falha e onde a evidência fica registrada. Em `exceptions` e `escalation`, o que sai do fluxo normal e para quem sobe.
+
+Exemplo Aurora: `completion.success_criteria`: Publicação aprovada, publicada e com evidência anexada
 
 ## Para quem é técnico (opcional)
 `authoritativeDefinitions` aponta onde mora a regra executável, como o fluxo desenhado em BPMN ou o formulário do sistema de solicitações, sem copiar o código para o documento. Cada item tem `type` (`sql`, `metricView`, `filter`, `dashboard`, `document` ou `other`), `url` e `description`.

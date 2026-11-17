@@ -80,17 +80,27 @@ related_documents: []        # identificadores de outros documentos
 ## Para que serve
 Em `intent`, escreva a pergunta de negócio que o documento responde (`question`), como alguém da área faria. Diga quem usa (`audience`), para quê (`purpose`) e quais decisões mudam conforme a resposta (`decisions`). Em `plain_summary`, explique em uma ou duas frases, sem termos técnicos, o que o documento diz.
 
+<!-- contexto:exemplo intent.question -->
+
+<!-- contexto:exemplo plain_summary -->
+
 ## Indicadores
 Em `metrics`, liste os indicadores pelo identificador. Em `metric_versions`, diga a versão de cada indicador que o dashboard segue.
 
 ## Filtros e interpretação
 Em `default_filters` e `dimensions`, os filtros padrão com os valores e as dimensões disponíveis. Em `time_semantics`, o campo de data, o fuso, o período e a regra de comparação.
 
+<!-- contexto:exemplo default_filters.channel -->
+
+<!-- contexto:exemplo official_or_exploratory -->
+
 ## Atualização
 Em `freshness`, diga a frequência de atualização, a latência esperada e quando os números foram conferidos pela última vez.
 
 ## Limitações e outros dashboards
 Em `official_or_exploratory`, diga se este é a fonte oficial do indicador ou um dashboard exploratório. Em `known_limitations`, o que ele não cobre e quando o número não deve apoiar uma decisão. Em `conflicting_dashboards`, outro dashboard que mostra outro número para o mesmo dia: o que mostra, a causa e qual vale. Em `reference_questions`, os documentos de Perguntas de negócio ligados a este dashboard.
+
+<!-- contexto:exemplo known_limitations -->
 
 ## Para quem é técnico (opcional)
 `authoritativeDefinitions` aponta onde mora a regra executável, como o próprio dashboard na ferramenta de BI, sem copiar o código para o documento. Cada item tem `type` (`sql`, `metricView`, `filter`, `dashboard`, `document` ou `other`), `url` e `description`.

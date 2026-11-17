@@ -3,9 +3,13 @@ title: Processo
 description: Documente um processo que alguém novo consiga executar sem perguntar a quem já faz.
 ---
 
+import { Steps } from '@astrojs/starlight/components';
 import TemplateDownloads from '../../../components/TemplateDownloads.astro';
 import ExampleDoc from '../../../components/ExampleDoc.astro';
 import TemplateStart from '../../../components/TemplateStart.astro';
+import ParContrastante from '../../../components/ParContrastante.astro';
+import EtapaDeEstudo from '../../../components/EtapaDeEstudo.astro';
+import Exercicio from '../../../components/Exercicio.astro';
 
 <p class="editorial-lead">Um procedimento que só funciona para quem já sabe fazer</p>
 
@@ -13,111 +17,165 @@ import TemplateStart from '../../../components/TemplateStart.astro';
 
 ## O problema
 
-A operação de marketing da Aurora recebe briefs por canais diferentes e precisa decidir quem revisa o material antes da publicação. O procedimento escrito diz:
+A operação de marketing da Aurora recebe briefs por canais diferentes e precisa decidir quem revisa o material antes da publicação. O procedimento escrito diz: “Receber o brief, verificar se está tudo certo, pedir aprovação aos envolvidos e publicar. Se houver algum problema, falar com a pessoa responsável.” Parece um fluxo, mas omite entradas, aprovações, condições, exceções e evidências. Em 14/09, o brief do CAMP-0914 chegou sem o campo “período”:
 
-> “Receber o brief, verificar se está tudo certo, pedir aprovação aos envolvidos e publicar. Se houver algum problema, falar com a pessoa responsável.”
+<ParContrastante
+  pergunta="O brief do CAMP-0914 chegou incompleto. O que acontece, e até quando?"
+  a={{ rotulo: 'Procedimento escrito', definicao: '“Se houver algum problema, falar com a pessoa responsável.” Não diz quem é a pessoa nem em quanto tempo.', resultado: 'Depende de quem confere' }}
+  b={{ rotulo: 'Processo, versão 2.0', definicao: 'Brief incompleto volta ao solicitante, com 2 dias úteis para completar; sem resposta, o pedido é encerrado como devolvido.', resultado: 'Devolvido, prazo até 16/09' }}
+  nota="Um checklist de tarefas não basta quando cada etapa depende de condições ou decisões que só algumas pessoas conhecem."
+/>
 
-Parece um fluxo, mas omite entradas, aprovações, condições, exceções e evidências. Uma pessoa nova ainda depende de outra para fazer o trabalho. **Um checklist de tarefas não basta** quando cada etapa depende de condições ou decisões que só algumas pessoas conhecem.
+## Aprenda com a Aurora
 
-## O que perguntar
+<Steps>
 
-Cada expressão vaga da frase esconde uma pergunta:
+1. Veja o fluxo com os pontos de decisão, leia o processo aprovado e acompanhe um pedido do começo ao fim.
 
-| Elemento | Na frase da Aurora | Pergunta a fazer |
-|---|---|---|
-| Entrada | “Brief” | Quais campos mínimos e anexos tornam o pedido processável? |
-| Verificação | “Tudo certo” | Existe uma lista aprovada de verificações? |
-| Quem aprova | “Envolvidos” | Qual papel aprova cada tipo de conteúdo? |
-| Exceção | “Problema” | Quais casos levam a devolução, pausa ou escalonamento? |
-| Conclusão | “Publicar” | O que conta como conclusão e qual evidência fica guardada? |
-| Prazo | (ausente) | Quanto tempo cada etapa pode esperar, e o que acontece depois? |
-| Escalonamento | “Pessoa responsável” | Quem decide quando a regra não cobre o caso? |
+   <EtapaDeEstudo tipo="comentado" resumo="O fluxo, o documento aprovado e o CAMP-0914, com três perguntas">
 
-## Antes e depois da decisão
+   Com as perguntas feitas, o fluxo ganha pontos de decisão:
 
-Com as perguntas feitas, o fluxo ganha pontos de decisão:
+   1. **Receber e registrar a solicitação.**
+   2. **Conferir o brief.** Incompleto: devolver com a lista de lacunas e aguardar a complementação. Não dá para saber se está completo: pedir esclarecimento ao solicitante. Completo: seguir para o passo 3.
+   3. **Aplicar a [regra de encaminhamento](../decisao/)** às evidências do material. Evidência insuficiente: revisão responsável. Evidência desconhecida: pedir esclarecimento ao solicitante. Evidência suficiente: seguir para o passo 4.
+   4. **Solicitar aprovação formal.** Rejeitado: registrar o motivo e encerrar. Aprovado: seguir para o passo 5.
+   5. **Publicar e registrar a evidência** (endereço e data da publicação).
 
-1. **Receber e registrar a solicitação.**
-2. **Conferir o brief.**
-   - Incompleto: devolver com a lista de lacunas e aguardar a complementação.
-   - Não dá para saber se está completo: pedir esclarecimento ao solicitante.
-   - Completo: seguir para o passo 3.
-3. **Aplicar a [regra de encaminhamento](../decisao/)** às evidências do material.
-   - Evidência insuficiente: revisão responsável.
-   - Evidência desconhecida: pedir esclarecimento ao solicitante.
-   - Evidência suficiente: seguir para o passo 4.
-4. **Solicitar aprovação formal.**
-   - Rejeitado: registrar o motivo e encerrar.
-   - Aprovado: seguir para o passo 5.
-5. **Publicar e registrar a evidência** (endereço e data da publicação).
+   <ExampleDoc file="exemplo-processo-completo.yaml" />
 
-Os desvios dos passos 2 e 3 são os mesmos da tabela de decisão: **o processo diz quando decidir, e a regra diz o que decidir.** “Conferir o brief” é uma etapa; o que torna um brief completo é uma regra, documentada à parte.
+   | Pergunta em aberto no rascunho | Como ficou escrita |
+   |---|---|
+   | Quem aprova cada tipo de conteúdo? | A Liderança de Marca aprova todo material de campanha externa |
+   | Qual é o prazo de cada etapa? | Complementação do brief: 2 dias úteis, e sem resposta o pedido é encerrado como devolvido. Aprovação: 3 dias úteis, e depois disso escala à Diretoria de Marketing |
+   | Quem autoriza uma exceção de publicação? | A Diretoria de Marketing, para campanha de utilidade pública com prazo legal, conforme a [regra de triagem](../decisao/) |
 
-| Etapa | Responsável | Entrada necessária | Saída e evidência |
-|---|---|---|---|
-| Receber e registrar | Operação de marketing | Identificador do pedido | Registro da demanda |
-| Conferir o brief | Operação de marketing | Campos do brief | Perguntas em aberto ou brief conferido |
-| Aplicar regra de encaminhamento | Revisão de Conteúdo | Evidências e critérios | Caminho escolhido e motivo |
-| Solicitar aprovação formal | Liderança de Marca | Material revisado | Aprovação registrada |
-| Publicar e fechar | Operação de marketing | Aprovação válida | Endereço e data da publicação |
+   O pedido CAMP-0914, o e-mail da campanha Semana do Refil, passou pelas cinco etapas da versão 2.0:
 
-Enquanto ninguém decidiu quem aprova cada tipo de conteúdo, os prazos e quem autoriza exceções, o documento registra essas três perguntas em vez de preenchê-las com um prazo genérico:
+   | Data | Etapa | O que aconteceu | O que ficou registrado |
+   |---|---|---|---|
+   | Seg 14/09 | 1. Receber | Brief chega pelo formulário e recebe o identificador CAMP-0914 | Registro do pedido |
+   | Seg 14/09 | 2. Conferir | Falta o campo “período”: brief incompleto, devolvido ao solicitante. Prazo: 2 dias úteis, até 16/09 | Lista de conferência com o campo que falta |
+   | Ter 15/09 | 2. Conferir | Solicitante informa “22 a 28/09”: brief completo | Lista de conferência completa |
+   | Ter 15/09 | 3. Encaminhar | A Revisão de Conteúdo aplica a [rubrica](../rubrica/): o e-mail diz 30% e a planilha, 22%. Evidência insuficiente, e a [regra](../decisao/) manda para revisão responsável | Níveis por critério e motivo |
+   | Qua 16/09 | 3. Encaminhar | Segunda versão do e-mail, com 22% e as condições da oferta. Evidência suficiente: solicitar aprovação formal | Nova avaliação, nota 90 |
+   | Qua 16/09 | 4. Aprovar | Pedido enviado à Liderança de Marca. Prazo: 3 dias úteis, até 21/09; depois disso, escala à Diretoria de Marketing | Envio datado |
+   | Sex 18/09 | 4. Aprovar | Aprovado | Aprovação com nome do papel e data |
+   | Ter 22/09 | 5. Publicar | E-mail disparado; endereço da versão on-line e data anexados ao pedido | Comprovante da publicação |
 
-<ExampleDoc file="exemplo-processo-lacunas.yaml" />
+   <details><summary>Por que “conferir o brief” é uma etapa, e o que torna um brief completo fica em outro documento?</summary>Os desvios dos passos 2 e 3 são os mesmos da tabela de decisão: **o processo diz quando decidir, e a regra diz o que decidir.** “Conferir o brief” é uma etapa; o que torna um brief completo é uma regra, documentada à parte.</details>
 
-Depois que a Liderança de Marca decidiu o que estava em aberto, o documento ganhou prazos e quem escala. A versão atual, 2.0, tem cinco etapas:
+   <details><summary>Em qualquer dia daquela semana, como uma pessoa nova sabe onde está o CAMP-0914?</summary>Cada passagem deixa um registro datado, e cada etapa tem responsável e prazo. Uma pessoa nova sabe em que etapa o pedido está, quem está com ele e até quando.</details>
 
-<ExampleDoc file="exemplo-processo-completo.yaml" />
+   <details><summary>O que o histórico de versões ensina?</summary>A versão 1.0, de 12/08, tinha quatro etapas; a última aprovava e publicava. A 2.0, de 10/09, separou a publicação numa quinta etapa, que só termina com o endereço e a data anexados, depois que uma auditoria interna encontrou publicações sem comprovante. O histórico guarda o motivo da mudança, não só a mudança. A versão é maior porque uma publicação sem comprovante, que antes encerrava o processo, agora deixa o processo incompleto.</details>
 
-| Pergunta em aberto no rascunho | Como ficou escrita |
-|---|---|
-| Quem aprova cada tipo de conteúdo? | A Liderança de Marca aprova todo material de campanha externa |
-| Qual é o prazo de cada etapa? | Complementação do brief: 2 dias úteis, e sem resposta o pedido é encerrado como devolvido. Aprovação: 3 dias úteis, e depois disso escala à Diretoria de Marketing |
-| Quem autoriza uma exceção de publicação? | A Diretoria de Marketing, para campanha de utilidade pública com prazo legal, conforme a [regra de triagem](../decisao/) |
+   </EtapaDeEstudo>
 
-### Um pedido do começo ao fim
+2. No rascunho, faltam quem aprova, os prazos e as exceções, e o documento registra essas perguntas em vez de inventar um prazo genérico. Encontre a lacuna que deixa um pedido parado.
 
-O pedido CAMP-0914, o e-mail da campanha Semana do Refil, passou pelas cinco etapas da versão 2.0:
+   <EtapaDeEstudo tipo="diagnostico" resumo="O rascunho, com três perguntas em aberto">
 
-| Data | Etapa | O que aconteceu | O que ficou registrado |
-|---|---|---|---|
-| Seg 14/09 | 1. Receber | Brief chega pelo formulário e recebe o identificador CAMP-0914 | Registro do pedido |
-| Seg 14/09 | 2. Conferir | Falta o campo “período”: brief incompleto, devolvido ao solicitante. Prazo: 2 dias úteis, até 16/09 | Lista de conferência com o campo que falta |
-| Ter 15/09 | 2. Conferir | Solicitante informa “22 a 28/09”: brief completo | Lista de conferência completa |
-| Ter 15/09 | 3. Encaminhar | A Revisão de Conteúdo aplica a [rubrica](../rubrica/): o e-mail diz 30% e a planilha, 22%. Evidência insuficiente, e a [regra](../decisao/) manda para revisão responsável | Níveis por critério e motivo |
-| Qua 16/09 | 3. Encaminhar | Segunda versão do e-mail, com 22% e as condições da oferta. Evidência suficiente: solicitar aprovação formal | Nova avaliação, nota 90 |
-| Qua 16/09 | 4. Aprovar | Pedido enviado à Liderança de Marca. Prazo: 3 dias úteis, até 21/09; depois disso, escala à Diretoria de Marketing | Envio datado |
-| Sex 18/09 | 4. Aprovar | Aprovado | Aprovação com nome do papel e data |
-| Ter 22/09 | 5. Publicar | E-mail disparado; endereço da versão on-line e data anexados ao pedido | Comprovante da publicação |
+   <ExampleDoc file="exemplo-processo-lacunas.yaml" />
 
-Uma pessoa nova sabe, em qualquer dia dessa semana, em que etapa o pedido está, quem está com ele e até quando.
+   <Exercicio
+     pergunta="Qual pergunta em aberto do rascunho deixa um pedido parado sem que ninguém perceba?"
+     opcoes={[
+       { texto: 'O prazo de cada etapa, e o que acontece quando ele vence', correta: true, explicacao: 'Sem prazo, nenhuma etapa avisa que o pedido está esperando demais. É o impacto que o próprio rascunho registra.' },
+       { texto: 'Quem aprova cada tipo de conteúdo', explicacao: 'Sem ela, o pedido pode ir para quem não tem autoridade e voltar; mas é a falta de prazo que o deixa parado.' },
+       { texto: 'Quem pode autorizar uma exceção de publicação', explicacao: 'Ela trava campanhas com prazo legal, não os pedidos comuns.' },
+     ]}
+   />
 
-### O que o histórico de versões ensina
+   </EtapaDeEstudo>
 
-A versão 1.0, de 12/08, tinha quatro etapas; a última aprovava e publicava. A 2.0, de 10/09, separou a publicação numa quinta etapa, que só termina com o endereço e a data anexados, depois que uma auditoria interna encontrou publicações sem comprovante. O histórico guarda o motivo da mudança, não só a mudança. A versão é maior porque uma publicação sem comprovante, que antes encerrava o processo, agora deixa o processo incompleto.
+3. No trecho abaixo, o que fazer quando a aprovação atrasa foi apagado. Escreva-o como a Liderança de Marca decidiu.
 
-## Teste você
+   <EtapaDeEstudo tipo="complete" resumo="O tratamento de exceção de uma etapa para escrever">
 
-1. Um pedido foi publicado em 04/09 e ninguém anexou o comprovante. O processo terminou?
-   <details><summary>Ver resposta</summary>Sim. Em 04/09 valia a versão 1.0, em que a etapa de aprovação incluía publicar, e publicar encerrava o processo.</details>
-2. O CAMP-0914 foi publicado em 22/09. Se ninguém tivesse anexado o comprovante, o processo teria terminado?
-   <details><summary>Ver resposta</summary>Não. Desde 10/09 vale a 2.0: o pedido continua na etapa 5 até o endereço e a data da publicação estarem anexados.</details>
-3. Um brief incompleto é devolvido numa sexta-feira, 18/09, e o solicitante não responde. Quando o pedido é encerrado?
-   <details><summary>Ver resposta</summary>Ao fim de terça, 22/09: são 2 dias úteis, e o fim de semana não conta. Sem resposta, o pedido é encerrado como devolvido.</details>
-4. A Liderança de Marca recebe um material na quarta, 16/09, e não decide. A partir de quando o pedido escala, e para quem?
-   <details><summary>Ver resposta</summary>Depois de 3 dias úteis, ao fim de segunda, 21/09. Escala à Diretoria de Marketing.</details>
+   ```yaml
+   - id: S04
+     name: "Aprovação formal"
+     performer_role: "Liderança de Marca"
+     output_evidence: "Aprovação ou rejeição registrada, com motivo"
+     exception_handling: "____"
+   ```
 
-## Verifique o seu documento
+   <Exercicio
+     pergunta="O que acontece quando a aprovação formal não sai a tempo?"
+     rotulo="Sua resposta para o tratamento de exceção da etapa S04"
+     gabarito="Sem decisão em 3 dias úteis, escalar à Diretoria de Marketing"
+     explicacao="O campo diz o prazo, a unidade (dias úteis) e para quem o pedido vai. Com ele, um pedido parado na aprovação ganha destino quando o prazo vence."
+   />
 
-- É possível dizer exatamente em que etapa um pedido está?
-- Cada passagem de responsabilidade deixa evidência?
-- O fluxo termina com resultado verificável, inclusive quando o pedido é rejeitado?
-- Uma pessoa nova distingue *pendente de aprovação* de *aprovado*?
-- Cada definição que falta tem alguém responsável pela resposta?
+   </EtapaDeEstudo>
+
+4. Agora com o modelo em branco, para outro processo da Aurora.
+
+   <EtapaDeEstudo tipo="caso-novo" resumo="O pedido de reembolso de uma despesa de evento">
+
+   Escreva o processo de pedido de reembolso de uma despesa de evento, a partir da [política](../politica/) que diz quando a despesa precisa de aprovação prévia. Cada expressão vaga de um procedimento esconde uma pergunta; a coluna do meio mostra como elas apareceram na frase das campanhas:
+
+   | Elemento | Na frase da Aurora | Pergunta a fazer |
+   |---|---|---|
+   | Entrada | “Brief” | Quais campos mínimos e anexos tornam o pedido processável? |
+   | Verificação | “Tudo certo” | Existe uma lista aprovada de verificações? |
+   | Quem aprova | “Envolvidos” | Qual papel aprova cada tipo de conteúdo? |
+   | Exceção | “Problema” | Quais casos levam a devolução, pausa ou escalonamento? |
+   | Conclusão | “Publicar” | O que conta como conclusão e qual evidência fica guardada? |
+   | Prazo | (ausente) | Quanto tempo cada etapa pode esperar, e o que acontece depois? |
+   | Escalonamento | “Pessoa responsável” | Quem decide quando a regra não cobre o caso? |
+
+   Antes de pedir aprovação, confira: dá para dizer exatamente em que etapa um pedido está? Cada passagem de responsabilidade deixa evidência? O fluxo termina com resultado verificável, inclusive quando o pedido é rejeitado? Uma pessoa nova distingue *pendente de aprovação* de *aprovado*? Cada definição que falta tem alguém responsável pela resposta?
+
+   </EtapaDeEstudo>
+
+5. Responda antes de conferir. Prazos em dias úteis: o fim de semana não conta, e o prazo vence no fim do último dia útil.
+
+   <EtapaDeEstudo tipo="teste" resumo="Quatro casos, dois atravessando a mudança de 10/09">
+
+   <Exercicio
+     pergunta="Um pedido foi publicado em 04/09 e ninguém anexou o comprovante. O processo terminou?"
+     opcoes={[
+       { texto: 'Sim', correta: true, explicacao: 'Em 04/09 valia a versão 1.0, em que a etapa de aprovação incluía publicar, e publicar encerrava o processo.' },
+       { texto: 'Não', explicacao: 'Essa resposta aplica a versão 2.0, que só vale desde 10/09.' },
+     ]}
+   />
+
+   <Exercicio
+     pergunta="O CAMP-0914 foi publicado em 22/09. Se ninguém tivesse anexado o comprovante, o processo teria terminado?"
+     opcoes={[
+       { texto: 'Não', correta: true, explicacao: 'Desde 10/09 vale a 2.0: o pedido continua na etapa 5 até o endereço e a data da publicação estarem anexados.' },
+       { texto: 'Sim', explicacao: 'Publicar encerrava o processo na versão 1.0. A 2.0 só termina com o comprovante.' },
+     ]}
+   />
+
+   <Exercicio
+     pergunta="Um brief incompleto é devolvido numa sexta-feira, 18/09, e o solicitante não responde. Quando o pedido é encerrado?"
+     opcoes={[
+       { texto: 'Ao fim de terça, 22/09', correta: true, explicacao: 'São 2 dias úteis, e o fim de semana não conta. Sem resposta, o pedido é encerrado como devolvido.' },
+       { texto: 'Ao fim de domingo, 20/09', explicacao: 'Essa conta inclui sábado e domingo; o prazo é em dias úteis.' },
+       { texto: 'Ao fim de segunda, 21/09', explicacao: 'Segunda é só o primeiro dia útil; o prazo tem dois.' },
+     ]}
+   />
+
+   <Exercicio
+     pergunta="A Liderança de Marca recebe um material na quarta, 16/09, e não decide. A partir de quando o pedido escala, e para quem?"
+     opcoes={[
+       { texto: 'Depois do fim de segunda, 21/09, para a Diretoria de Marketing', correta: true, explicacao: 'São 3 dias úteis: quinta, sexta e segunda.' },
+       { texto: 'Depois do fim de sábado, 19/09, para a Diretoria de Marketing', explicacao: 'Essa conta inclui o sábado; o prazo é em dias úteis.' },
+       { texto: 'Depois do fim de segunda, 21/09, para a Revisão de Conteúdo', explicacao: 'O prazo está certo, mas quem recebe o pedido escalado é a Diretoria de Marketing.' },
+     ]}
+   />
+
+   </EtapaDeEstudo>
+
+</Steps>
 
 ## Baixe o modelo
 
 <TemplateDownloads kind="processo" />
+
+O que cada campo significa e aceita está na [Referência de campos de Processo](../../referencias/campos/processo/).
 
 Um fluxo documentado não garante uma publicação segura: documentação e controle operacional são responsabilidades distintas.
 

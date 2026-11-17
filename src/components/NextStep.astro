@@ -20,7 +20,7 @@ const proximo = passos[indice + 1] ?? depois_do_ultimo;
 const rotulo = indice + 1 < passos.length ? `Passo ${atual.numero + 1}: ${proximo.titulo}` : proximo.titulo;
 const tituloId = 'proximo-passo';
 ---
-<section class="next-step" aria-labelledby={tituloId}>
+<section class="next-step ctx-card" aria-labelledby={tituloId}>
   <h2 id={tituloId}>Próximo passo</h2>
   <p class="next-step__position">Passo {atual.numero} de {passos.length}</p>
   {texto && <p class="next-step__text">{texto}</p>}

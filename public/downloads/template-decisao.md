@@ -108,11 +108,21 @@ Preencha estes campos no topo do arquivo antes de escrever o resto.
 ## Para que serve
 Em `intent`, escreva a pergunta de negócio que o documento responde (`question`), como alguém da área faria. Diga quem usa (`audience`), para quê (`purpose`) e quais decisões mudam conforme a resposta (`decisions`). Em `plain_summary`, explique em uma ou duas frases, sem termos técnicos, o que o documento diz.
 
+Exemplo Aurora: `intent.question`: Que encaminhamento deve receber um pedido de campanha?
+
+Exemplo Aurora: `plain_summary`: Brief incompleto volta para quem pediu; sem evidência, o pedido vai para revisão; com tudo certo, segue para quem aprova; na dúvida, pede esclarecimento.
+
 ## Escopo
 Em `scope`, diga quando a regra se aplica e quando não se aplica.
 
+Exemplo Aurora: `scope.applies_when`: Pedido de campanha externa na Aurora
+
 ## Entradas e saídas
 Em `required_inputs`, repita um item para cada entrada, com o nome, os valores possíveis e a definição verificável. Em `possible_outputs`, liste os resultados possíveis.
+
+Exemplo Aurora: `default_behavior`: request_clarification
+
+Exemplo Aurora: `unknown_input_behavior`: request_clarification
 
 ## Tabela de decisão
 Em `decision_table`, cada linha diz as condições (`when`) e o resultado (`then`); `any` vale para qualquer valor. Em `priority_rules`, diga o que fazer se duas linhas valerem ao mesmo tempo. Em `default_behavior` e `unknown_input_behavior`, o resultado quando nenhuma linha vale e quando falta uma entrada. Em `exceptions`, cada exceção com a condição, quem aprova e a evidência exigida. Em `conflicts`, conflitos com outras regras.

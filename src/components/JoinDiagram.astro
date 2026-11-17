@@ -3,6 +3,7 @@
  * Desenho da relação 1:N do Laboratório Aurora: sessões elegíveis de 01/10/2026 ligadas aos pedidos.
  * Os valores vêm da amostra aurora-fixture.sql; check_analytics_fixture.py confere as contas.
  * Pedidos fora da conta (cancelado e teste) e suas ligações são tracejados, não só mais finos e de outra cor.
+ * Os estilos ficam em src/styles/componentes.css (bloco JoinDiagram).
  */
 interface Props { showCounts?: boolean }
 const { showCounts = false } = Astro.props;
@@ -54,26 +55,3 @@ const sy = Object.fromEntries(sessions.map((s) => [s.id, s.y + 20]));
   </div>}
 </figure>
 
-<style>
-  .rel-diagram { margin: 1.5rem 0; }
-  .rel-diagram svg { width: 100%; height: auto; max-width: 600px; display: block; }
-  .jd-head { font: 600 12px var(--sl-font); fill: var(--context-muted); }
-  .jd-id { font: 700 14px var(--sl-font); fill: var(--context-ink); }
-  .jd-note { font: 12px var(--sl-font); fill: var(--context-muted); }
-  .jd-code { font-family: var(--sl-font-mono); }
-  .jd-box { fill: var(--context-surface); stroke: var(--context-border); stroke-width: 1.5; }
-  .jd-box--hit { fill: var(--sl-color-accent-low); stroke: var(--sl-color-accent); stroke-width: 2; }
-  .jd-link { stroke: var(--context-border); stroke-width: 1.5; }
-  .jd-box--out, .jd-link--out { stroke-dasharray: 5 4; }
-  .jd-link--hit { stroke: var(--sl-color-accent); stroke-width: 2.5; }
-  .rel-diagram figcaption { font-size: .85rem; color: var(--context-muted); margin-top: .5rem; }
-  .jd-counts { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: .75rem; margin-top: 1rem; }
-  .jd-count { margin: 0; border: 1px solid var(--context-border); border-radius: 8px; padding: .9rem 1rem; background: var(--context-surface); }
-  .jd-count--right { border-color: var(--sl-color-accent); }
-  .jd-count p { margin: 0; font-size: .87rem; line-height: 1.55; color: var(--context-ink); }
-  /* Dois níveis de classe vencem '.jd-count p' sem precisar forçar a regra. */
-  .jd-count .jd-kicker { font-size: .72rem; letter-spacing: .08em; font-weight: 700; color: var(--context-muted); }
-  .jd-count .jd-number { font-size: 1.35rem; font-weight: 750; margin: .35rem 0; }
-  .jd-count--wrong .jd-number { color: var(--context-gold-text); }
-  .jd-count--right .jd-number { color: var(--sl-color-accent); }
-</style>

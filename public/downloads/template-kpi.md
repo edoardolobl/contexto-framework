@@ -127,20 +127,34 @@ Preencha estes campos no topo do arquivo antes de escrever o resto.
 ## Para que serve
 Em `intent`, escreva a pergunta de negócio que o documento responde (`question`), como alguém da área faria. Diga quem usa (`audience`), para quê (`purpose`) e quais decisões mudam conforme a resposta (`decisions`). Em `plain_summary`, explique em uma ou duas frases, sem termos técnicos, o que o documento diz, por exemplo "conta só pedidos pagos até sete dias depois do contato".
 
+Exemplo Aurora: `intent.question`: Que parte das sessões da loja web da Aurora termina em pelo menos um pedido confirmado?
+
+Exemplo Aurora: `plain_summary`: Das sessões da loja web que não são da equipe interna, conta quantas tiveram pelo menos um pedido confirmado. Cada sessão conta uma vez, mesmo com dois pedidos.
+
 ## Definição de negócio
 Em `domain`, diga a área do negócio. Em `business_definition.concept`, diga o que o indicador mede. Em `synonyms`, liste nomes que querem dizer exatamente a mesma coisa; em `business_definition.different_meanings_in_other_domains`, os nomes parecidos que medem outra coisa em outra área.
+
+Exemplo Aurora: `business_definition.concept`: Proporção de sessões elegíveis que resultaram em pelo menos um pedido confirmado
 
 ## Escopo e aplicabilidade
 Em `scope`, liste os canais incluídos e excluídos, a população a que o indicador se aplica e as exclusões, como tráfego interno ou pedidos de teste. Se há situação em que a definição não deve ser usada, escreva em `exclusions`.
 
+Exemplo Aurora: `scope.exclusions`: tráfego interno; pedidos de teste; pedidos cancelados
+
 ## Cálculo
 Em `calculation`, descreva o numerador e o denominador com os critérios de cada um, a fórmula em palavras, a unidade, a granularidade e a regra para juntar períodos. Diga também como tratar ausência de dados e o que mostrar quando o denominador é zero. Diga a unidade antes da fórmula: pedidos, sessões, clientes ou itens.
+
+Exemplo Aurora: `calculation.numerator`: Quantidade de sessões elegíveis com pelo menos um pedido CONFIRMED. Uma sessão com dois pedidos confirmados conta uma vez
+
+Exemplo Aurora: `calculation.denominator`: Quantidade de sessões elegíveis: channel = web e is_internal = 0
 
 ## Recálculo do histórico
 Quando a versão maior muda (2.0, 3.0), `history_recalculation.policy` é obrigatório: `recalculate` se a série antiga for recalculada pela regra nova, `method_break` se a série antiga fica como estava e passa a ser marcada como quebra de método. Em `description`, explique em uma frase o que isso muda para quem compara períodos.
 
 ## Convenções temporais
 Em `time`, diga qual campo de data decide o dia de cada registro, o fuso horário, a janela de cálculo e de quanto em quanto tempo os dados são atualizados.
+
+Exemplo Aurora: `time.timezone`: Data local da loja, já gravada em session_date
 
 ## Fontes e semântica dos dados
 Em `data_sources`, diga qual dataset manda quando há divergência, as colunas usadas, as junções autorizadas (pelo identificador do documento de relacionamento) e a regra de precedência entre fontes.
