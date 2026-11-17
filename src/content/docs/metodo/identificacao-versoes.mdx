@@ -1,39 +1,39 @@
 ---
 title: Identificação, versões e vigência
-description: Como distinguir o assunto, a revisão e a data de validade sem misturar definições históricas.
+description: Como distinguir o assunto, a versão e a vigência sem misturar definições históricas.
 ---
 
 import RevisionComparison from '../../../components/RevisionComparison.astro';
 
 Uma regra pode mudar sem mudar de nome. Se alguém pergunta “quantos participantes estavam ativos em agosto?”, aplicar a definição vigente hoje pode produzir uma resposta **historicamente errada**.
 
-A solução documental não é escolher automaticamente o arquivo com a data mais recente. Precisamos distinguir **o assunto**, **a revisão registrada**, **o período em que ela vale** e **a aprovação**.
+A solução documental não é escolher automaticamente o arquivo com a data mais recente. Precisamos distinguir **o assunto**, **a versão registrada**, **o período em que ela vale** e **a aprovação**.
 
 ## Os cinco campos que resolvem grande parte do problema
 
 | Informação | No modelo estruturado | O que significa |
 |---|---|---|
 | **ID do assunto** | `id` | Nome estável usado para localizar um conceito ou indicador |
-| **ID da revisão** | `revision_id` | Identifica uma versão específica do conteúdo, como `CONCEPT-ONBOARDING-001@2.0` |
-| **Data do registro** | `version_date` | Quando esta revisão foi emitida ou confirmada; não é necessariamente a data de aplicação |
-| **Vigência** | `valid_from` e `valid_to` | Intervalo em que **esta revisão** pode ser utilizada |
+| **ID da versão** | `revision_id` | Identifica uma versão específica do conteúdo, como `CONCEPT-ONBOARDING-001@2.0` |
+| **Data do registro** | `version_date` | Quando esta versão foi emitida ou confirmada; não é necessariamente a data de aplicação |
+| **Vigência** | `valid_from` e `valid_to` | Intervalo em que **esta versão** pode ser utilizada |
 | **Aprovação** | `status` e `approver` | Indica se há autoridade e confirmação, ou apenas proposta |
 
-`supersedes_revision` aponta para a revisão anterior. O `version_history` resume o que mudou, mas **não substitui o conteúdo arquivado** da versão anterior.
+`supersedes_revision` aponta para a versão anterior. O `version_history` resume o que mudou, mas **não substitui o conteúdo arquivado** da versão anterior.
 
 ## Exemplo 1. O mesmo termo muda de significado
 
-No programa fictício Aurora, “participante ativo” passou de uma janela de **60 dias** para **30 dias**. Compare as duas revisões completas do mesmo conceito.
+No programa fictício Aurora, “participante ativo” passou de uma janela de **60 dias** para **30 dias**. Compare as duas versões completas do mesmo conceito.
 
 <RevisionComparison kind="conceito" />
 
-**Qual documento escolher?** Para consultar uma classificação em **20 de agosto de 2026**, utilize a revisão `1.0`, válida de 03/08 a 31/08. Para consultar uma classificação em **20 de setembro de 2026**, utilize a revisão `2.0`, válida desde 01/09.
+**Qual documento escolher?** Para consultar uma classificação em **20 de agosto de 2026**, utilize a versão `1.0`, válida de 03/08 a 31/08. Para consultar uma classificação em **20 de setembro de 2026**, utilize a versão `2.0`, válida desde 01/09.
 
 Se a pergunta não trouxer o período e isso afetar o resultado, esclareça antes de responder.
 
 ## Exemplo 2. Mudou a fórmula, mas o rótulo permaneceu
 
-Aqui a intenção não mudou: a área sempre quis saber **qual parte das sessões terminou em compra**. O que estava errado era a fórmula da 1.0, que contava **pedidos confirmados por sessão** e por isso inflava a taxa quando uma sessão tinha mais de um pedido. A 2.0 corrige a fórmula e passa a contar **sessões únicas com pedido confirmado**. Como a correção muda o resultado, a versão é maior, e os números das duas revisões não são comparáveis.
+Aqui a intenção não mudou: a área sempre quis saber **qual parte das sessões terminou em compra**. O que estava errado era a fórmula da 1.0, que contava **pedidos confirmados por sessão** e por isso inflava a taxa quando uma sessão tinha mais de um pedido. A 2.0 corrige a fórmula e passa a contar **sessões únicas com pedido confirmado**. Como a correção muda o resultado, a versão é maior, e os números das duas versões não são comparáveis.
 
 <RevisionComparison kind="kpi" />
 
@@ -47,7 +47,7 @@ Se a área quer medir **a mesma coisa** e a fórmula antiga estava errada, é um
 
 ## Como interpretar o último dia de vigência
 
-Neste framework, `valid_from` inclui o dia inicial e `valid_to` **exclui** o dia informado: ele guarda o primeiro dia em que a revisão já não vale. Nos modelos em Markdown, a pessoa escreve o **último dia de vigência** (31/08), e quem passa para YAML registra o dia seguinte (`2026-09-01`). Assim:
+Neste framework, `valid_from` inclui o dia inicial e `valid_to` **exclui** o dia informado: ele guarda o primeiro dia em que a versão já não vale. Nos modelos em Markdown, a pessoa escreve o **último dia de vigência** (31/08), e quem passa para YAML registra o dia seguinte (`2026-09-01`). Assim:
 
 ```yaml
 id: CONCEPT-ONBOARDING-001
@@ -60,18 +60,18 @@ valid_to: "2026-09-01"  # último dia de vigência: 31/08
 supersedes_revision: "CONCEPT-ONBOARDING-001@0.1"
 ```
 
-A próxima revisão começa em `2026-09-01`, sem dois intervalos aprovados sobrepostos. `valid_to: null` significa **sem data final registrada**, não que a regra vale eternamente.
+A próxima versão começa em `2026-09-01`, sem dois intervalos aprovados sobrepostos. `valid_to: null` significa **sem data final registrada**, não que a regra vale eternamente.
 
 A organização pode adotar outras convenções de data e fuso, mas deve documentá-las. Para registros com hora, declarar o fuso e tratar limites temporais explicitamente.
 
-## Como escolher uma revisão para responder uma pergunta
+## Como escolher uma versão para responder uma pergunta
 
 1. **Localize o ID certo para o domínio e a pergunta.** Ter a palavra “ativo” no título não é suficiente.
 2. **Identifique a data de referência da regra**, não apenas a data em que a resposta será gerada ou a data dos dados.
-3. **Considere somente revisões aprovadas** para a finalidade solicitada.
-4. **Compare a data com o intervalo de vigência** de cada revisão e verifique substituições.
-5. **Confirme a fonte e a revisão das dependências**, especialmente em métricas que usam datasets e relacionamentos.
-6. **Se não houver revisão apropriada, houver conflito ou faltar a cópia histórica**, não invente a regra. Peça esclarecimento ou encaminhe a pendência.
+3. **Considere somente versões aprovadas** para a finalidade solicitada.
+4. **Compare a data com o intervalo de vigência** de cada versão e verifique substituições.
+5. **Confirme a fonte e a versão das dependências**, especialmente em indicadores que usam datasets e relacionamentos.
+6. **Se não houver versão apropriada, houver conflito ou faltar a cópia histórica**, não invente a regra. Peça esclarecimento ou encaminhe a pergunta em aberto.
 
 Esse roteiro é um **critério para documentar e revisar**; não implementa nem garante a recuperação correta de um RAG ou agente.
 
@@ -79,16 +79,16 @@ Esse roteiro é um **critério para documentar e revisar**; não implementa nem 
 
 | Situação | O que fazer |
 |---|---|
-| Pergunta sobre o presente, documento vigente aprovado e sem conflito | Usar essa revisão, com fonte e período |
-| Pergunta sobre agosto, regra atual começou em setembro | Consultar a revisão histórica integral válida em agosto |
+| Pergunta sobre o presente, documento vigente aprovado e sem conflito | Usar essa versão, com fonte e período |
+| Pergunta sobre agosto, regra atual começou em setembro | Consultar a versão histórica integral válida em agosto |
 | Existe registro de “v1.0”, mas seu conteúdo integral não foi preservado | **Não reconstruir a versão antiga a partir do resumo das mudanças** |
 | A data está em branco, duas fontes aprovadas entram em conflito ou a versão ainda não vale | Solicitar contexto ou decisão do responsável |
 
-No portal há **duas famílias com cópias históricas integrais** (conceito e KPI). Os demais exemplos trazem histórico de mudanças, mas não necessariamente guardam todo o conteúdo de cada revisão. Isso é uma **limitação explícita da demonstração**, e não prova de recuperabilidade histórica de todo o acervo.
+No portal há **duas famílias com cópias históricas integrais** (conceito e KPI). Os demais exemplos trazem histórico de mudanças, mas não necessariamente guardam todo o conteúdo de cada versão. Isso é uma **limitação explícita da demonstração**, e não prova de recuperabilidade histórica de todo o acervo.
 
 ## E se a política tem vigência diferente do documento?
 
-O exemplo de política de despesas contém a data da **política de origem** em `authority.effective_date` (01/07/2026), enquanto sua revisão documental `1.1` começa em 01/10/2026. A data de origem não autoriza concluir que a revisão 1.1 já estava aprovada ou documentada em julho.
+O exemplo de política de despesas contém a data da **política de origem** em `authority.effective_date` (01/07/2026), enquanto sua versão documental `1.1` começa em 01/10/2026. A data de origem não autoriza concluir que a versão 1.1 já estava aprovada ou documentada em julho.
 
 Diferencie sempre **a vigência da regra de origem** da **vigência do registro que descreve e valida essa regra**. Em caso de efeito retroativo, isso precisa ser declarado e confirmado explicitamente.
 

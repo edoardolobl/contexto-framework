@@ -3,7 +3,7 @@
 # só para mostrar como fica uma rubrica depois que a área responsável decide.
 # Não usar para avaliar pessoas reais.
 id: RUBRIC-ANALYTICS-001
-revision_id: "RUBRIC-ANALYTICS-001@2.0"  # revisão específica; id = assunto estável
+revision_id: "RUBRIC-ANALYTICS-001@2.0"  # versão específica; id = assunto estável
 title: "Rubrica de entregável de análise de dados: Aurora"
 type: evaluation_rubric
 status: approved

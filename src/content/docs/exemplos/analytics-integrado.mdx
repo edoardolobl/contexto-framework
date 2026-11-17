@@ -50,9 +50,9 @@ Para esta **definição demonstrativa**, estabelecemos:
 
 Isso é uma definição de **taxa de sessões convertidas**, não uma taxa genérica universal de e-commerce.
 
-## 3. A armadilha do join
+## 3. A armadilha da junção
 
-S1 possui dois pedidos confirmados. Se uma consulta conta **pedidos confirmados por sessão elegível**, encontra **2 ÷ 4 = 50%**. Esse cálculo pode estar matematicamente correto para uma **métrica diferente**, mas não corresponde à nossa pergunta, que mede sessões únicas convertidas.
+S1 possui dois pedidos confirmados. Se uma consulta conta **pedidos confirmados por sessão elegível**, encontra **2 ÷ 4 = 50%**. Esse cálculo pode estar matematicamente correto para um **indicador diferente**, mas não corresponde à nossa pergunta, que mede sessões únicas convertidas.
 
 A relação documentada entre `demo_sessions` e `demo_orders` é **um-para-muitos**. Essa informação, e não somente o nome da chave, explica o risco de duplicidade.
 
@@ -81,7 +81,7 @@ A consulta está associada **somente à amostra SQL fictícia**. Não a copie pa
 
 ## 5. O dashboard precisa repetir o mesmo significado
 
-Um painel hipotético com o cartão “Conversão web” deve apontar ao documento da métrica e registrar seus filtros, a data e a regra de contagem. Se não o fizer, dois dashboards podem mostrar 25% e 50% sem que o leitor perceba que estão respondendo a perguntas diferentes.
+Um dashboard com o cartão “Conversão web” deve apontar ao documento do indicador e registrar seus filtros, a data e a regra de contagem. Se não o fizer, dois dashboards podem mostrar 25% e 50% sem que o leitor perceba que estão respondendo a perguntas diferentes.
 
 Isso é precisamente o problema que a [documentação semântica de datasets](../../templates/dataset/), [relacionamentos](../../templates/relacionamento/) e [dashboards](../../templates/dashboard/) ajuda a prevenir.
 
@@ -94,7 +94,7 @@ Isso é precisamente o problema que a [documentação semântica de datasets](..
 | “Qual foi a conversão em 01/10/2026?” | Pedir esclarecimento: falta o canal e qual conversão |
 | “E a taxa no app em 01/10/2026?” | Informar que **o indicador foi definido apenas para web** |
 | “E em setembro de 2026?” | Informar que **não há dados desse período na amostra** |
-| “Qual foi a receita líquida?” | Indicar que a documentação não define essa métrica |
+| “Qual foi a receita líquida?” | Indicar que a documentação não define esse indicador |
 
 ## 7. Os documentos do laboratório
 
@@ -106,7 +106,7 @@ O cálculo acima só é confiável porque seis documentos dizem a mesma coisa. C
 | Tabela de sessões | `DATASET-AURORA-SESSIONS` | [Dataset](../../templates/dataset/) |
 | Tabela de pedidos | `DATASET-AURORA-ORDERS` | [Dataset](../../templates/dataset/) |
 | Ligação entre as duas | `REL-AURORA-SESSIONS-ORDERS` | [Relacionamento](../../templates/relacionamento/) |
-| Painel | `DASH-AURORA-WEB` | [Dashboard](../../templates/dashboard/) |
+| Dashboard | `DASH-AURORA-WEB` | [Dashboard](../../templates/dashboard/) |
 | Gabarito | `QA-AURORA-001` | [Perguntas de referência](../../templates/casos-teste/) |
 
 O indicador, na versão aprovada dentro da ficção:
@@ -117,13 +117,13 @@ A tabela de pedidos é onde mora o significado de "confirmado". Sem este dicion�
 
 <ExampleDoc file="exemplo-dataset-pedidos-completo.yaml" />
 
-A versão 1.0 do indicador contava pedidos; a 2.0 corrige a fórmula e conta sessões. É a mesma diferença entre 50% e 25% desta página, agora registrada com data e aprovação. O painel e o gabarito mudaram de versão no mesmo dia ou no seguinte, e dizem isso no próprio histórico.
+A versão 1.0 do indicador contava pedidos; a 2.0 corrige a fórmula e conta sessões. É a mesma diferença entre 50% e 25% desta página, agora registrada com data e aprovação. O dashboard e o gabarito mudaram de versão no mesmo dia ou no seguinte, e dizem isso no próprio histórico.
 
 ## 8. Reproduza e reutilize
 
 <AnalyticsLabDownloads />
 
-Consulte as [perguntas e respostas de referência](../../exemplos/testes-analytics/).
+Consulte as [perguntas de referência](../../exemplos/testes-analytics/).
 
 O portal não executa consultas nem acessa bancos. Os arquivos são um **laboratório pedagógico**, não uma conexão com dados de clientes.
 

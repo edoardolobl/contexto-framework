@@ -5,7 +5,7 @@ description: Como equipes de negócio e dados alinham fontes e critérios antes 
 
 <p class="editorial-lead">Um contrato entre quem conhece os dados e quem constrói a IA</p>
 
-O Contexto não exige que um especialista de negócio desenvolva SQL nem que o engenheiro de IA decida o que uma métrica significa.
+O Contexto não exige que um especialista de negócio desenvolva SQL nem que o engenheiro de IA decida o que um indicador significa.
 
 Nos projetos analíticos, a formalização costuma exigir **duas perspectivas coordenadas**: a área de negócio define e aprova o significado; as equipes de dados verificam como esse significado aparece nas estruturas e nos cálculos.
 
@@ -13,13 +13,13 @@ Nos projetos analíticos, a formalização costuma exigir **duas perspectivas co
 
 | Pergunta | Quem precisa respondê-la |
 |---|---|
-| “O que significa uma venda confirmada para este processo?” | Proprietário do indicador e especialistas do domínio |
+| “O que significa uma venda confirmada para este processo?” | Quem aprova o indicador e especialistas do domínio |
 | “Qual tabela e qual campo implementam esse conceito hoje?” | Responsável pelo dado com validação do negócio |
 | “Qual cardinalidade, timezone e regra temporal foram verificados?” | Engenharia/analytics responsável pelo modelo de dados |
 | “A consulta de referência reproduz o indicador homologado?” | Dados e negócio em conjunto |
 | “A IA recupera a fonte, respeita escopo e abstém-se quando necessário?” | Engenharia de IA com critérios documentais fornecidos pelo domínio |
 
-O proprietário do conhecimento **não precisa saber YAML** para aprovar uma definição. O engenheiro pode ajudar a estruturar a representação, mas não deve inventar o conteúdo.
+Quem aprova a definição **não precisa saber YAML**. O engenheiro pode ajudar a estruturar a representação, mas não deve inventar o conteúdo.
 
 ## O pacote mínimo de entrega
 
@@ -28,7 +28,7 @@ O proprietário do conhecimento **não precisa saber YAML** para aprovar uma def
 3. [Relacionamento](../../templates/relacionamento/) com chaves e cardinalidade, quando houver mais de uma fonte;
 4. [Dashboard](../../templates/dashboard/) com filtros e modo de interpretação, se aplicável;
 5. [Perguntas de referência](../../templates/casos-teste/) com casos respondíveis, ambíguos e não respondíveis;
-6. **Pendências explícitas**, responsáveis e autoridade de aprovação.
+6. **Perguntas em aberto**, com responsável e quem aprova.
 
 Não é obrigatório criar seis arquivos separados: um documento pode reunir aspectos relacionados, desde que não misture autoridade e não esconda lacunas.
 
@@ -36,7 +36,7 @@ Não é obrigatório criar seis arquivos separados: um documento pode reunir asp
 
 Não cabe ao framework escolher banco, gerar embeddings, executar consultas de produção, fazer controle de acesso ou testar modelos. Cabe a ele **ensinar a produzir o conhecimento que essas etapas precisam receber**.
 
-Quando uma pergunta exigir uma decisão de negócio ainda não tomada, marque a pendência. A resposta correta não deve ser inventada para “destravar” a integração.
+Quando uma pergunta exigir uma decisão de negócio ainda não tomada, registre a pergunta em aberto. A resposta correta não deve ser inventada para “destravar” a integração.
 
 ### Referências
 

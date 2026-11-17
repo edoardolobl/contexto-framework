@@ -1,6 +1,6 @@
 ---
 title: "Modelo: Dashboard e interpretação"
-description: Documente o propósito, métricas, filtros, atualização, contexto e limites de um dashboard.
+description: Documente o propósito, indicadores, filtros, atualização, contexto e limites de um dashboard.
 ---
 
 import TemplateDownloads from '../../../components/TemplateDownloads.astro';
@@ -13,15 +13,15 @@ import TemplateStart from '../../../components/TemplateStart.astro';
 
 Um print de gráfico não explica o que cada KPI mede, quais filtros estão ativos, qual período é válido nem como diferentes áreas devem interpretar mudanças.
 
-## Perguntas de elicitação
+## Perguntas a fazer
 
 | Campo | O que esclarecer |
 |---|---|
 | Pergunta de negócio | Qual decisão o dashboard apoia? |
 | Público | Quem usa e qual conhecimento prévio é esperado? |
-| Métricas | Quais definições aprovadas cada cartão utiliza? |
+| Indicadores | Quais definições aprovadas cada cartão utiliza? |
 | Escopo | Quais canais, produtos, regiões ou populações estão incluídos? |
-| Filtros padrão | Quais filtros aparecem ativos quando o painel abre? |
+| Filtros padrão | Quais filtros aparecem ativos quando o dashboard abre? |
 | Tempo | Qual fuso, janela, corte e horário de atualização? |
 | Comparações | Quais séries podem ser comparadas? Qual baseline é apropriada? |
 | Limitações | Atrasos, dados ausentes, reprocessamentos, mudança de definição |
@@ -35,9 +35,9 @@ O primeiro quadro mostra o documento no começo do trabalho: muita coisa ainda s
 
 <ExampleDoc file="exemplo-dashboard-completo.yaml" />
 
-O **histórico de versões** indica o que mudou, mas não substitui uma cópia da regra anterior. Para interpretar o passado, é preciso identificar a revisão certa e sua vigência; veja o [guia de identificação e versões](../../metodo/identificacao-versoes/).
+O **histórico de versões** indica o que mudou, mas não substitui uma cópia da regra anterior. Para interpretar o passado, é preciso identificar a versão certa e sua vigência; veja o [guia de identificação e versões](../../metodo/identificacao-versoes/).
 
-O dashboard deve apontar para a **definição do KPI**, não copiar uma fórmula diferente. Se dois painéis usam conceitos divergentes, documente o conflito e a decisão de precedência.
+O dashboard deve apontar para a **definição do KPI**, não copiar uma fórmula diferente. Se dois dashboards usam conceitos divergentes, documente o conflito e a decisão de precedência.
 
 ## Que perguntas ele deve ajudar a responder?
 

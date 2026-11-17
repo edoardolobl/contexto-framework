@@ -1,23 +1,23 @@
 # [Nome do indicador e contexto]
 
-> **Como usar este modelo.** Responda só o que você sabe e consegue comprovar. O que não souber, deixe em branco e anote em "Lacunas" ou "Perguntas em aberto", com quem pode responder. Um campo em branco é melhor do que um palpite.
+> **Como usar este modelo.** Responda só o que você sabe e consegue comprovar. O que não souber, deixe em branco e anote em "Perguntas em aberto", com quem pode responder. Um campo em branco é melhor do que um palpite.
 
 ## Identificação
 
-Os campos marcados com **(obrigatório)** são o mínimo para começar. Os demais você completa quando a revisão for aprovada.
+Os campos marcados com **(obrigatório)** são o mínimo para começar. Os demais você completa quando a versão for aprovada.
 
 | Campo | Preenchimento |
 |---|---|
 | Identificador do assunto (estável) **(obrigatório)** | |
-| Tipo de documento | Indicador (KPI ou métrica) |
+| Tipo de documento | Indicador (KPI) |
 | Estado **(obrigatório)** | Rascunho |
 | Responsável (cargo ou área) **(obrigatório)** | |
 | Quem aprova (cargo ou área) **(obrigatório)** | |
 | Versão atual **(obrigatório)** | 0.1 |
 | Data desta versão **(obrigatório)** | |
 | Fonte oficial | |
-| Identificador desta revisão | |
-| Substitui qual revisão? | |
+| Identificador desta versão | |
+| Substitui qual versão? | |
 | Vale a partir de | |
 | Último dia de vigência (em branco se não houver fim) | |
 
@@ -61,11 +61,11 @@ Estados possíveis: **Rascunho**, **Pendente de aprovação**, **Aprovado**, **O
 - Quando este indicador deve ser revisto:
 
 ## 8. Perguntas ainda em aberto
-- [ ] Pendência, responsável e impacto se não resolvida:
+- [ ] Pergunta em aberto, responsável e impacto se não resolvida:
 
 ## Histórico de versões
 
-Acrescente uma linha a cada mudança, a mais recente primeiro. Registre o que mudou na regra, não só que o texto foi editado. **Guarde o documento completo de cada revisão aprovada:** o resumo abaixo não permite reconstruir a definição anterior.
+Acrescente uma linha a cada mudança, a mais recente primeiro. Registre o que mudou na regra, não só que o texto foi editado. **Guarde o documento completo de cada versão aprovada:** o resumo abaixo não permite reconstruir a definição anterior.
 
 | Versão | Data | O que mudou e por quê | Aprovado por (cargo ou área) |
 |---|---|---|---|

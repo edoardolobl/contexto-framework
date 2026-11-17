@@ -1,6 +1,6 @@
 ---
-title: "Modelo: KPI e métricas"
-description: Estruture a definição do indicador, o significado de negócio, suas fontes, exceções e pendências.
+title: "Modelo: Indicador (KPI)"
+description: Estruture a definição do indicador, o significado de negócio, suas fontes, exceções e perguntas em aberto.
 ---
 
 import TemplateDownloads from '../../../components/TemplateDownloads.astro';
@@ -13,7 +13,7 @@ Um modelo pode calcular uma fórmula corretamente e errar a pergunta de negócio
 
 ## O que este modelo cobre
 
-Use este modelo para métricas e KPIs que fundamentam relatórios, dashboards, análises, alertas ou decisões. Não use este modelo para documentar sozinho todo um banco de dados; tabelas, relacionamentos e contratos semânticos exigem material complementar. No [Laboratório Aurora](../../exemplos/analytics-integrado/), uma sessão com dois pedidos confirmados deve ser contada **uma vez** numa métrica de sessões convertidas.
+Use este modelo para indicadores que fundamentam relatórios, dashboards, análises, alertas ou decisões. Não use este modelo para documentar sozinho todo um banco de dados; tabelas, relacionamentos e contratos semânticos exigem material complementar. No [Laboratório Aurora](../../exemplos/analytics-integrado/), uma sessão com dois pedidos confirmados deve ser contada **uma vez** num indicador de sessões convertidas.
 
 ## Preenchimento guiado
 
@@ -36,9 +36,9 @@ O primeiro quadro mostra o documento no começo do trabalho: muita coisa ainda s
 
 <ExampleDoc file="exemplo-kpi-completo.yaml" />
 
-O **histórico de versões** indica o que mudou, mas não substitui uma cópia da regra anterior. Para interpretar o passado, é preciso identificar a revisão certa e sua vigência; veja o [guia de identificação e versões](../../metodo/identificacao-versoes/).
+O **histórico de versões** indica o que mudou, mas não substitui uma cópia da regra anterior. Para interpretar o passado, é preciso identificar a versão certa e sua vigência; veja o [guia de identificação e versões](../../metodo/identificacao-versoes/).
 
-No primeiro quadro nada foi aprovado: o objetivo é mostrar que uma pendência deve permanecer visível. No segundo, a versão 2.0 corrige a 1.0, que contava pedidos em vez de sessões. É uma versão maior porque a correção muda o resultado.
+No primeiro quadro nada foi aprovado: o objetivo é mostrar que uma pergunta em aberto deve permanecer visível. No segundo, a versão 2.0 corrige a 1.0, que contava pedidos em vez de sessões. É uma versão maior porque a correção muda o resultado.
 
 ## Arquivos para reutilização
 

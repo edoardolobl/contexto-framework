@@ -4,7 +4,7 @@
 # Não preencha informações desconhecidas com suposições. Use null + open_questions.
 ---
 id: null
-revision_id: null  # revisão específica; id = assunto estável
+revision_id: null  # versão específica; id = assunto estável
 title: null
 type: metric_definition
 domain: null

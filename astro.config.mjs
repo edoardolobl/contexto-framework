@@ -43,7 +43,7 @@ export default defineConfig({
           { slug: 'templates/processo', label: 'Processo e procedimento' },
           { slug: 'templates/decisao', label: 'Regras e decisões' },
           { slug: 'templates/politica', label: 'Política e referência' },
-          { slug: 'templates/kpi', label: 'KPI e métricas' },
+          { slug: 'templates/kpi', label: 'Indicador (KPI)' },
           { slug: 'templates/rubrica', label: 'Rubrica de avaliação' }
         ] },
         { label: 'Exemplos comentados', collapsed: true, items: [
@@ -59,7 +59,7 @@ export default defineConfig({
           { slug: 'dados/semantica', label: 'Além do schema' },
           { slug: 'dados/contrato-de-conhecimento', label: 'Contrato de conhecimento' },
           { slug: 'templates/dataset', label: 'Dataset e dicionário' },
-          { slug: 'templates/relacionamento', label: 'Relacionamentos e joins' },
+          { slug: 'templates/relacionamento', label: 'Relacionamento entre tabelas' },
           { slug: 'templates/dashboard', label: 'Dashboard e interpretação' },
           { slug: 'templates/casos-teste', label: 'Perguntas de referência' },
           { slug: 'exemplos/analytics-integrado', label: 'Laboratório Aurora' },

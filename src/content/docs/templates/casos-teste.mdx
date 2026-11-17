@@ -1,5 +1,5 @@
 ---
-title: "Modelo: Perguntas e respostas de referência"
+title: "Modelo: Perguntas de referência"
 description: Documente o que uma fonte permite responder, quando pedir esclarecimento e quando não responder.
 ---
 
@@ -13,7 +13,7 @@ import TemplateStart from '../../../components/TemplateStart.astro';
 
 Antes de uma equipe técnica avaliar um RAG ou agente, os responsáveis pelo conhecimento precisam definir **o que a documentação autoriza afirmar**, qual evidência sustenta a resposta e em quais situações não há informação suficiente.
 
-Isso é diferente de criar testes automatizados de modelos. O primeiro resultado é um conjunto de **perguntas e respostas de referência validado pelo domínio**.
+Isso é diferente de criar testes automatizados de modelos. O primeiro resultado é um conjunto de **perguntas de referência com gabarito validado pelo domínio**.
 
 ## Três categorias indispensáveis
 
@@ -29,7 +29,7 @@ Isso é diferente de criar testes automatizados de modelos. O primeiro resultado
 - Intenção e contexto esperado;
 - Identificador da fonte vigente e o trecho ou regra que sustenta a resposta;
 - Resultado ou interpretação de referência;
-- Nível de confiança e revisão **humana** da resposta de referência;
+- Nível de confiança e revisão **humana** da resposta esperada;
 - Condição de abstenção ou necessidade de esclarecimento;
 - Casos-limite que diferenciam respostas parecidas;
 - Data de referência dos dados, quando a resposta depende dela.
@@ -42,7 +42,7 @@ O primeiro quadro mostra o documento no começo do trabalho: muita coisa ainda s
 
 <ExampleDoc file="exemplo-casos-teste-completo.yaml" />
 
-O **histórico de versões** indica o que mudou, mas não substitui uma cópia da regra anterior. Para interpretar o passado, é preciso identificar a revisão certa e sua vigência; veja o [guia de identificação e versões](../../metodo/identificacao-versoes/).
+O **histórico de versões** indica o que mudou, mas não substitui uma cópia da regra anterior. Para interpretar o passado, é preciso identificar a versão certa e sua vigência; veja o [guia de identificação e versões](../../metodo/identificacao-versoes/).
 
 **O número 25% depende da amostra fictícia do nosso tutorial**, não de dados de uma organização real.
 

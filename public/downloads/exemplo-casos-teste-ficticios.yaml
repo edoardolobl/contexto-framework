@@ -1,6 +1,6 @@
 # Perguntas sobre o laboratório Aurora, com lacunas: respostas ainda não aprovadas.
 id: QA-AURORA-001
-revision_id: "QA-AURORA-001@0.1"  # revisão específica; id = assunto estável
+revision_id: "QA-AURORA-001@0.1"  # versão específica; id = assunto estável
 title: "Gabarito documental: sessões convertidas Aurora"
 type: reference_question_set
 status: pending_approval
@@ -89,14 +89,14 @@ questions:
     reviewed_at: null
   - id: Q06
     question: "Qual foi a receita líquida em 2026-10-01?"
-    intent: "Consultar métrica sem definição"
+    intent: "Consultar indicador sem definição"
     context: "Nenhum documento define receita líquida"
     expected_behavior: abstain
     reference_answer: null
     required_sources: []
     evidence_description: "Não há fórmula nem fonte aprovada"
     ambiguity: null
-    reason_if_abstain: "Métrica não definida na documentação"
+    reason_if_abstain: "Indicador não definido na documentação"
     reviewed_by: null
     reviewed_at: null
 

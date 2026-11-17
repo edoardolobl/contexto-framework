@@ -2,7 +2,7 @@
 # A aprovação, o responsável, as datas e a fonte abaixo são fictícios e existem
 # só para mostrar como fica um documento depois que a área responsável decide.
 id: CONCEPT-ONBOARDING-001
-revision_id: "CONCEPT-ONBOARDING-001@2.0"  # revisão específica; id = assunto estável
+revision_id: "CONCEPT-ONBOARDING-001@2.0"  # versão específica; id = assunto estável
 title: "Participante ativo: programa de integração Aurora"
 type: concept_definition
 status: approved

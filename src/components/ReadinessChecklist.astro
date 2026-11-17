@@ -9,7 +9,7 @@ const criteria = [
   ['Exceções', 'Casos não previstos e o que fazer com eles estão identificados?'],
   ['Responsabilidade', 'É claro quem decide, aprova, mantém e responde dúvidas?'],
   ['Evidência', 'Há fonte autorizada e modo de verificar a informação?'],
-  ['Validade', 'Status, vigência e revisão são conhecidos ou marcados como pendentes?'],
+  ['Vigência', 'Estado, versão e vigência são conhecidos ou marcados como em aberto?'],
 ];
 ---
 <section class="readiness" data-readiness>
@@ -50,7 +50,7 @@ const criteria = [
         ? 'Marque o que o documento já responde. O que ficar sem marca vira a sua lista de lacunas.'
         : open.length === 0
         ? 'Nenhuma lacuna nas oito dimensões. Agora confronte as afirmações com as fontes e peça a confirmação de quem responde pelo conteúdo.'
-        : 'Sem marca, a dimensão vira pendência. Leve a lista abaixo para quem responde pelo conteúdo.';
+        : 'Sem marca, a dimensão vira lacuna. Leve a lista abaixo para quem responde pelo conteúdo.';
       if (gaps && gapList) {
         gaps.hidden = !touched || open.length === 0;
         gapList.replaceChildren(...open.map((c) => {

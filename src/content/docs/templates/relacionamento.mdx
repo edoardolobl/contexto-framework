@@ -1,5 +1,5 @@
 ---
-title: "Modelo: Relacionamentos e joins"
+title: "Modelo: Relacionamento entre tabelas"
 description: Registre chaves, cardinalidade, tipos de junção, regras temporais e riscos de multiplicação de linhas.
 ---
 
@@ -18,7 +18,7 @@ Saber o nome de duas tabelas não garante que a junção entre elas represente o
 | Pergunta | Por que importa |
 |---|---|
 | O que cada linha representa em cada lado? | Define a granularidade de origem e destino |
-| Qual par de chaves deve ser usado? | Evita joins por campos parecidos, mas não equivalentes |
+| Qual par de chaves deve ser usado? | Evita junções por campos parecidos, mas não equivalentes |
 | A relação é 1:1, 1:N ou N:N? | Permite antecipar multiplicação de linhas |
 | Existem chaves sem correspondência? | Define se um `INNER JOIN` é apropriado |
 | Qual é a regra de período? | Evita associar status atual a períodos históricos |
@@ -34,13 +34,13 @@ O primeiro quadro mostra o documento no começo do trabalho: muita coisa ainda s
 
 <ExampleDoc file="exemplo-relacionamento-completo.yaml" />
 
-O **histórico de versões** indica o que mudou, mas não substitui uma cópia da regra anterior. Para interpretar o passado, é preciso identificar a revisão certa e sua vigência; veja o [guia de identificação e versões](../../metodo/identificacao-versoes/).
+O **histórico de versões** indica o que mudou, mas não substitui uma cópia da regra anterior. Para interpretar o passado, é preciso identificar a versão certa e sua vigência; veja o [guia de identificação e versões](../../metodo/identificacao-versoes/).
 
 Para contar **sessões convertidas**, um `COUNT(*)` após essa junção pode gerar resultado errado. Um exemplo documental pode registrar a intenção de contar sessões únicas, mas a implementação SQL precisa ser testada separadamente.
 
 ### Não transforme convenções em regras universais
 
-A decisão por `LEFT JOIN`, `INNER JOIN`, janelas temporais ou contagens distintas depende da pergunta e do domínio. O modelo **não prescreve** um join correto para todo caso.
+A decisão por `LEFT JOIN`, `INNER JOIN`, janelas temporais ou contagens distintas depende da pergunta e do domínio. O modelo **não prescreve** uma junção correta para todo caso.
 
 <TemplateDownloads kind="relacionamento" />
 
@@ -48,4 +48,4 @@ Consulte o [Laboratório Aurora](../../exemplos/analytics-integrado/).
 
 ### Referências
 
-[dbt MetricFlow](https://docs.getdbt.com/docs/build/about-metricflow), [Snowflake Semantic Views](https://docs.snowflake.com/en/user-guide/views-semantic/semantic-view-yaml-spec) e [Databricks: definições de joins](https://docs.databricks.com/gcp/en/genie/add-instructions). O YAML é original e não executável.
+[dbt MetricFlow](https://docs.getdbt.com/docs/build/about-metricflow), [Snowflake Semantic Views](https://docs.snowflake.com/en/user-guide/views-semantic/semantic-view-yaml-spec) e [Databricks: definições de junções](https://docs.databricks.com/gcp/en/genie/add-instructions). O YAML é original e não executável.

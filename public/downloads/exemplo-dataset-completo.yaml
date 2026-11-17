@@ -2,7 +2,7 @@
 # A aprovação, o responsável, as datas e a fonte abaixo são fictícios e existem
 # só para mostrar como fica um documento depois que a área responsável decide.
 id: DATASET-AURORA-SESSIONS
-revision_id: "DATASET-AURORA-SESSIONS@1.1"  # revisão específica; id = assunto estável
+revision_id: "DATASET-AURORA-SESSIONS@1.1"  # versão específica; id = assunto estável
 title: "Sessões web e app: Aurora"
 type: dataset_semantics
 status: approved
@@ -89,7 +89,7 @@ time_semantics:
 
 usage:
   authoritative_questions: ["Taxa de sessões web convertidas na amostra fictícia"]
-  invalid_aggregations: ["Contar sessões com COUNT(*) após join 1:N sem avaliar duplicidade"]
+  invalid_aggregations: ["Contar sessões com COUNT(*) após junção 1:N sem avaliar duplicidade"]
   related_datasets: ["DATASET-AURORA-ORDERS"]
   known_caveats: ["Não extrapolar a amostra para outros períodos ou canais"]
   sample_queries: ["aurora-reference-query.sql"]

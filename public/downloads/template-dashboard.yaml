@@ -1,7 +1,7 @@
 # Documentação do dashboard, não arquivo de configuração de uma ferramenta BI.
 # null significa "ainda não sei" ou "ainda não decidido". Não troque null por um palpite: registre a dúvida em open_questions.
 id: null
-revision_id: null  # revisão específica; id = assunto estável
+revision_id: null  # versão específica; id = assunto estável
 title: null
 type: dashboard_definition
 status: draft                # draft | pending_approval | approved | deprecated
@@ -34,7 +34,7 @@ freshness:
   refresh_frequency: null
   latency: null
   verified_at: null
-official_or_exploratory: null   # é a fonte oficial do indicador ou um painel exploratório?
+official_or_exploratory: null   # é a fonte oficial do indicador ou um dashboard exploratório?
 known_limitations: []
 conflicting_dashboards: []
 reference_questions: []

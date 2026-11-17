@@ -1,6 +1,6 @@
 # Dataset de sessões fictício, derivado da amostra SQLite do Contexto.
 id: DATASET-AURORA-SESSIONS
-revision_id: "DATASET-AURORA-SESSIONS@0.1"  # revisão específica; id = assunto estável
+revision_id: "DATASET-AURORA-SESSIONS@0.1"  # versão específica; id = assunto estável
 title: "Sessões web e app: Aurora (fictício)"
 type: dataset_semantics
 status: pending_approval
@@ -78,7 +78,7 @@ time_semantics:
 
 usage:
   authoritative_questions: ["Taxa de sessões web convertidas na amostra fictícia"]
-  invalid_aggregations: ["Contar sessões com COUNT(*) após join 1:N sem avaliar duplicidade"]
+  invalid_aggregations: ["Contar sessões com COUNT(*) após junção 1:N sem avaliar duplicidade"]
   related_datasets: ["demo_orders"]
   known_caveats: ["Não extrapolar a amostra para outros períodos ou canais"]
   sample_queries: ["aurora-reference-query.sql"]
