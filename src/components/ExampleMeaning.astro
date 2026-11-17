@@ -7,7 +7,7 @@
 interface Props { doc: Record<string, any> }
 const { doc } = Astro.props;
 type Pair = { label: string; value: string; items?: string[] };
-type Entry = { heading: string; body?: string; note?: string; detail?: string; levels?: Record<string, string> };
+type Entry = { heading: string; body?: string; items?: string[]; note?: string; detail?: string; levels?: Record<string, string> };
 type Group = { heading: string; pairs?: Pair[]; bullets?: string[]; entries?: Entry[] };
 
 const present = (v: any): boolean =>
@@ -157,6 +157,8 @@ switch (doc.type) {
       ...(doc.conflicting_sources ?? []).map((v: any) => ({
         heading: `Conflito: ${display(v.description)}`,
         body: `Estado: ${v.state === 'resolved' ? 'Resolvido' : 'Em aberto'}`,
+        items: (v.positions ?? []).map((x: any) => `${display(x.source)}: ${display(x.says)}`),
+        detail: present(v.impact) ? `Impacto: ${display(v.impact)}` : undefined,
         note: present(v.resolution) ? `Decisão registrada: ${display(v.resolution)}` : 'Sem resolução aprovada',
       })),
     ]);
@@ -240,7 +242,7 @@ switch (doc.type) {
       ...pair('Objetivo', doc.business_goal),
       ...pair('Uso permitido', doc.allowed_use),
       ...pair('Uso proibido', doc.disallowed_use),
-      ...pair('Quando falta evidência', doc.scoring?.not_evaluable_rule ?? doc.scoring?.missing_evidence_behavior),
+      ...pair('Quando falta evidência', doc.scoring?.not_evaluable_rule ?? (doc.scoring?.missing_evidence_behavior === 'not_evaluable' ? 'Critério fica como não avaliável, em vez de zero; como calcular a nota nesse caso ainda está em aberto' : doc.scoring?.missing_evidence_behavior)),
       ...pair('Revisão humana', doc.human_review_required === true ? 'Obrigatória' : null),
     ]);
     add('Critérios e níveis observáveis', [], [], (doc.criteria ?? []).map((v: any) => ({
@@ -252,7 +254,14 @@ switch (doc.type) {
     add('Calibração e divergências', [
       ...pair('Resolução de discordâncias', doc.disagreement_resolution),
     ], [], (doc.calibration_examples ?? []).filter((v: any) => typeof v === 'object').map((v: any) => ({
-      heading: display(v.case), body: display(v.expected),
+      heading: display(v.case),
+      body: present(v.expected) ? display(v.expected) : undefined,
+      items: v.levels ? Object.entries(v.levels).map(([id, level]) => {
+        const name = (doc.criteria ?? []).find((c: any) => c.id === id)?.name ?? id;
+        const why = v.justification?.[id];
+        return `${name}: nível ${level}${why ? `. ${why}` : ''}`;
+      }) : undefined,
+      note: v.score !== undefined ? `Nota ${String(v.score).replace('.', ',')} de 100 · evidência ${v.evidence_sufficient ? 'suficiente' : 'insuficiente'} · ${decisionValue(v.routing)}` : undefined,
     })));
     break;
   case 'reference_question_set':
@@ -289,6 +298,7 @@ switch (doc.type) {
       {group.entries.map((entry) => <li>
         <strong>{entry.heading}</strong>
         {entry.body && <p>{entry.body}</p>}
+        {entry.items && entry.items.length > 0 && <ul class="example-meaning__list">{entry.items.map((item) => <li>{item}</li>)}</ul>}
         {entry.note && <p class="example-meaning__note">{entry.note}</p>}
         {entry.detail && <p class="example-meaning__note">{entry.detail}</p>}
         {entry.levels && Object.keys(entry.levels).length > 0 &&

@@ -626,6 +626,12 @@ main:has(.context-hero) > .content-panel:first-child {
   color:var(--context-muted);
   font-size:.81rem;
 }
+.example-meaning__entries .example-meaning__list {
+  font-size:.87rem;
+  line-height:1.6;
+  margin:.4rem 0 0 !important;
+  color:var(--context-ink);
+}
 .example-meaning__table-scroll {
   overflow-x:auto;
   max-width:100%;

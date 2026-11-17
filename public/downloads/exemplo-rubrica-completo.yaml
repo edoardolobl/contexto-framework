@@ -1,106 +1,120 @@
 # Exemplo do Contexto. A Aurora é uma organização inventada; nomes, datas e aprovações fazem parte do caso.
-id: RUBRIC-ANALYTICS-001
-revision_id: "RUBRIC-ANALYTICS-001@2.0"  # versão específica; id = assunto estável
-title: "Rubrica de entregável de análise de dados: Aurora"
+id: RUBRIC-CAMPAIGN-001
+revision_id: "RUBRIC-CAMPAIGN-001@2.0"  # versão específica; id = assunto estável
+title: "Rubrica de revisão de material de campanha: Aurora"
 type: evaluation_rubric
 status: approved
 version: "2.0"
-version_date: "2026-09-22"
-owner: "Guilda de Analytics (Aurora)"
-approver: "Liderança de Dados (Aurora)"
-valid_from: "2026-09-22"
+version_date: "2026-09-10"
+owner: "Revisão de Conteúdo (Aurora)"
+approver: "Liderança de Marca (Aurora)"
+valid_from: "2026-09-10"
 valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
-supersedes_revision: "RUBRIC-ANALYTICS-001@1.0"
-source_of_truth: "Guia de revisão de análises da Aurora, anexo A"
+supersedes_revision: "RUBRIC-CAMPAIGN-001@1.0"
+source_of_truth: "Guia de revisão de conteúdo da Aurora, anexo B"
 version_history:
   - version: "2.0"
-    date: "2026-09-22"
-    change: "Duplicidade e granularidade passam a contar só em interpretação de negócio. Antes o mesmo erro era punido em dois critérios. Âncoras 0 e 1 reescritas com comportamento observável"
-    approved_by: "Liderança de Dados (Aurora)"
+    date: "2026-09-10"
+    change: "Condições da oferta: restrição que aparece só no regulamento cai de nível 3 para 2. Motivo: 41 reclamações no SAC em agosto sobre frete grátis negado na região Norte, exclusão que estava só no regulamento"
+    approved_by: "Liderança de Marca (Aurora)"
   - version: "1.0"
-    date: "2026-08-25"
-    change: "Primeira versão aprovada, com quatro critérios e pesos 35, 30, 20 e 15"
-    approved_by: "Liderança de Dados (Aurora)"
+    date: "2026-08-12"
+    change: "Primeira versão aprovada, com quatro critérios, pesos 40, 25, 20 e 15, e ligação com a entrada evidence_sufficient da triagem"
+    approved_by: "Liderança de Marca (Aurora)"
   - version: "0.1"
     date: "2026-07-20"
     change: "Primeiro rascunho, com lacunas registradas"
     approved_by: null
 
-evaluation_target: "Entregável escrito de análise sobre os dados do Laboratório Aurora"
-business_goal: "Dar a revisores diferentes o mesmo critério para discutir a qualidade de uma análise"
-allowed_use: ["Revisão entre pares de análises", "Calibração entre revisores"]
-disallowed_use: ["Tomar qualquer decisão automática sobre uma pessoa", "Inferir características pessoais", "Usar a nota sem a justificativa escrita"]
+evaluation_target: "Material de campanha externa (e-mail, página de oferta, peça para rede social) antes da aprovação formal"
+business_goal: "Dar a todo revisor o mesmo critério para o mesmo material, e decidir a entrada evidence_sufficient da triagem de campanha"
+allowed_use: ["Revisão de material na etapa 3 do processo de campanha", "Calibração entre revisores"]
+disallowed_use: ["Avaliar a pessoa que produziu o material", "Usar a nota sem a justificativa por critério", "Aprovar ou publicar automaticamente"]
 criteria:
-  - id: technical_accuracy
-    name: "Precisão técnica"
-    definition: "As contas estão certas para a pergunta que o próprio entregável declarou responder, e podem ser refeitas"
-    not_in_scope: "Se a pergunta escolhida é a pergunta de negócio certa. Isso pertence a interpretação de negócio"
-    weight: 35
-    expected_evidence: ["Consultas ou fórmulas", "Resultado conferido contra a amostra", "Verificações feitas"]
+  - id: claims_with_proof
+    name: "Alegações com prova"
+    definition: "Cada alegação verificável do material (número, comparação, benefício) tem uma fonte anexada e datada que diz o mesmo que o material"
+    not_in_scope: "Se a alegação convence ou está bem escrita. Isso pertence a adequação ao público"
+    weight: 40
+    expected_evidence: ["Fonte anexada ao pedido para cada alegação", "Data da fonte", "Trecho da fonte que sustenta o texto"]
     anchors:
-      "0": "O resultado principal não pode ser refeito a partir do que foi entregue, ou refeito dá outro número"
-      "1": "O resultado principal pode ser refeito, mas tem erro de conta que muda a conclusão"
-      "2": "Resultado principal correto; não há verificação nem tratamento de casos como denominador zero"
-      "3": "Resultado correto, refeito sem ajuda, com pelo menos uma verificação descrita"
-      "4": "Além do nível 3, testa casos-limite e mostra o que aconteceria com os dados fora do padrão"
-  - id: business_semantics
-    name: "Interpretação de negócio"
-    definition: "O entregável mede o conceito pedido, com a unidade, o escopo e as exclusões da definição aprovada"
-    not_in_scope: "Erros de aritmética ou de sintaxe. Isso pertence a precisão técnica"
-    weight: 30
-    expected_evidence: ["Definição do indicador usada", "Unidade contada (sessão, pedido, cliente)", "Escopo e exclusões", "Tratamento de duplicidade"]
+      "0": "Há alegação verificável sem nenhuma fonte anexada"
+      "1": "Todas as alegações têm fonte, mas pelo menos uma fonte não diz o que o material diz (a planilha mostra 22%, o e-mail diz 30%)"
+      "2": "As fontes dizem o que o material diz, mas pelo menos uma não tem data"
+      "3": "Cada alegação verificável tem fonte anexada e datada que diz exatamente o que o material diz. Material sem alegação verificável também fica em 3"
+      "4": "Além do nível 3, o material repete a condição que a fonte impõe (\"22% menos plástico que o frasco de 2024\")"
+  - id: offer_terms
+    name: "Condições da oferta"
+    definition: "Valor, período e restrições da oferta aparecem no próprio material, iguais ao regulamento"
+    not_in_scope: "A prova de números sobre o produto. Isso pertence a alegações com prova"
+    weight: 25
+    expected_evidence: ["Regulamento anexado", "Valor mínimo ou preço", "Período com datas", "Restrições (região, estoque, canal)"]
     anchors:
-      "0": "Não diz qual indicador mede nem qual unidade conta"
-      "1": "Mede outra coisa que não o indicador pedido, sem perceber. Exemplo: conta pedidos quando a definição conta sessões"
-      "2": "Mede o indicador pedido, mas ignora uma exclusão ou um limite de escopo da definição"
-      "3": "Mede o indicador pedido, com unidade, escopo e exclusões corretos, e reconhece os limites"
-      "4": "Além do nível 3, mostra como o número mudaria sob outra definição e explica por que não a usou"
-  - id: method_and_traceability
-    name: "Método e rastreabilidade"
-    definition: "Premissas, fontes e passos estão escritos de modo que outra pessoa chegue ao mesmo lugar"
-    not_in_scope: "A qualidade da escrita. Isso pertence a comunicação"
+      "0": "A oferta não diz valor nem período"
+      "1": "Falta o período ou o valor mínimo (\"frete grátis nesta semana\", sem dizer acima de quanto)"
+      "2": "Valor e período estão no material, mas uma restrição relevante aparece só no regulamento (a exclusão de uma região)"
+      "3": "Valor, período e restrições estão no próprio material, com o mesmo texto do regulamento"
+      "4": "Além do nível 3, diz o que acontece quando a condição não é atendida (\"abaixo de R$ 99, o frete é calculado no carrinho\")"
+  - id: audience_fit
+    name: "Adequação ao público"
+    definition: "O material fala com o público definido no brief, sem supor o que esse público não sabe, no formato do canal pedido"
+    not_in_scope: "Logotipo, cores e tom. Isso pertence a conformidade com a marca"
     weight: 20
-    expected_evidence: ["Passos de reprodução", "Fontes citadas por identificador", "Suposições declaradas"]
+    expected_evidence: ["Campo público do brief", "Canal do brief", "Chamada para ação"]
     anchors:
-      "0": "Não há passos nem fontes"
-      "1": "Há passos, mas falta uma fonte ou suposição sem a qual não se reproduz o resultado"
-      "2": "O resultado principal é reproduzível; partes secundárias dependem de perguntar ao autor"
-      "3": "Tudo é reproduzível, com fontes identificadas e suposições declaradas"
-      "4": "Além do nível 3, registra alternativas testadas e por que foram descartadas"
-  - id: communication
-    name: "Comunicação"
-    definition: "Um leitor da área entende a pergunta, a resposta, a incerteza e o que fazer com isso"
-    not_in_scope: "Se a resposta está certa. Um texto claro com número errado pontua aqui e perde nos outros critérios"
+      "0": "Fala com outro público (o brief pede quem não compra há 90 dias; o texto agradece a compra recente)"
+      "1": "Público certo, mas supõe algo que esse público não sabe ou não tem (\"use seu crédito de refil\" para quem nunca comprou refil)"
+      "2": "Público e suposições corretos, mas o formato não serve ao canal (texto de 300 caracteres para SMS de 160)"
+      "3": "Público, suposições e formato coerentes com o brief"
+      "4": "Além do nível 3, há uma única chamada para ação e ela leva ao passo seguinte desse público (link direto para o refil, não para a página inicial)"
+  - id: brand_compliance
+    name: "Conformidade com a marca"
+    definition: "Nome de produto, logotipo e tom seguem o Guia de Marca da Aurora, versão 4"
+    not_in_scope: "Se o texto fala com o público certo. Isso pertence a adequação ao público"
     weight: 15
-    expected_evidence: ["Pergunta e resposta no início", "Gráfico ou tabela adequados", "Limitações escritas"]
+    expected_evidence: ["Nomes de produto", "Logotipo e cores", "Regras de tom do guia"]
     anchors:
-      "0": "Não é possível localizar qual é a conclusão"
-      "1": "A conclusão existe, mas o leitor precisa refazer a análise para entendê-la"
-      "2": "A conclusão é clara; limitações ou incertezas importantes não aparecem"
-      "3": "Conclusão, evidência e limitações claras"
-      "4": "Além do nível 3, orienta a decisão sem exagerar a certeza"
+      "0": "Nome de produto errado ou logotipo fora do guia"
+      "1": "Nome e logotipo certos, mas contraria uma regra de tom do guia (frase inteira em caixa alta, \"IMPERDÍVEL\")"
+      "2": "Segue o guia, com um ou dois desvios de detalhe (cor secundária, espaçamento)"
+      "3": "Segue o guia sem desvios"
+      "4": "Além do nível 3, usa um bloco já aprovado da biblioteca de marca em vez de criar um novo"
 
 scoring:
   weight_sum: 100
   scale: [0, 1, 2, 3, 4]
+  formula: "Soma de (nível ÷ 4 × peso) dos critérios avaliados, de 0 a 100"
   missing_evidence_behavior: not_evaluable
-  not_evaluable_rule: "O critério sem evidência sai da conta e os pesos restantes são reescalados para somar 100. A nota final é publicada com o aviso 'parcial: N de 4 critérios avaliados'. Com dois ou mais critérios não avaliáveis, não se publica nota"
+  not_evaluable_rule: "Critério sem o que avaliar sai da conta: peça institucional sem oferta não tem condições da oferta; regulamento não anexado deixa o critério não avaliável. Os pesos restantes são reescalados para somar 100 e a nota sai como 'parcial: N de 4 critérios'. Com dois ou mais critérios não avaliáveis, não se publica nota"
+  feeds_decision: "DECISION-CAMPAIGN-001, entrada evidence_sufficient: true com alegações com prova em nível 3 ou 4; false em 0, 1 ou 2; unknown enquanto o critério não foi avaliado"
   decision_threshold: null
   automatic_decision_allowed: false
 
 human_review_required: true
 calibration_examples:
-  - case: "Entrega afirma conversão de 50% porque há dois pedidos confirmados em quatro sessões"
-    expected: "Interpretação de negócio nível 1: mede pedidos, não sessões. Precisão técnica pode ser 2 ou 3: a conta declarada está certa"
-  - case: "Entrega afirma 25% e explica que duas compras na mesma sessão contam uma vez"
-    expected: "Interpretação de negócio nível 3. Os outros critérios são avaliados separadamente"
-  - case: "Entrega afirma 25%, mas não inclui a consulta nem os passos"
-    expected: "Precisão técnica não avaliável ou nível 0, conforme haja ou não como refazer. Método e rastreabilidade nível 0"
-disagreement_resolution: "Dois revisores pontuam separadamente. Diferença de dois níveis ou mais em um critério exige conversa e justificativa escrita; persistindo, decide a Liderança de Dados"
+  - case: "E-mail Semana do Refil, primeira versão (pedido CAMP-0914, avaliado em 15/09/2026). Assunto: 'Refil Aurora: 30% menos plástico e frete grátis'. Corpo: 'O refil usa 30% menos plástico. Frete grátis nesta semana. Use seu crédito de refil.' Anexos: planilha de 12/03/2026 que mostra 22% em comparação com o frasco de 2024; regulamento com frete grátis acima de R$ 99, de 22 a 28/09, exceto região Norte. Público do brief: clientes sem compra há mais de 90 dias que nunca compraram refil"
+    levels: {claims_with_proof: 1, offer_terms: 1, audience_fit: 1, brand_compliance: 3}
+    justification:
+      claims_with_proof: "Há fonte, mas ela diz 22%, não 30%"
+      offer_terms: "Falta o valor mínimo de R$ 99 e o período é 'nesta semana', sem datas"
+      audience_fit: "O público do brief nunca comprou refil, então não tem crédito de refil"
+      brand_compliance: "Nome do produto, logotipo e tom dentro do guia"
+    score: 32.5
+    evidence_sufficient: false
+    routing: responsible_review
+  - case: "Mesmo e-mail, segunda versão (avaliado em 16/09/2026). Corpo: 'O refil usa 22% menos plástico que o frasco de 2024. Frete grátis acima de R$ 99, de 22 a 28/09, exceto região Norte. Experimente o refil.' Link leva direto à página do refil"
+    levels: {claims_with_proof: 4, offer_terms: 3, audience_fit: 4, brand_compliance: 3}
+    justification:
+      claims_with_proof: "A fonte diz 22% e o material repete a comparação com o frasco de 2024"
+      offer_terms: "Valor, datas e exclusão da região Norte estão no próprio e-mail, iguais ao regulamento"
+      audience_fit: "Convida a experimentar, sem supor compra anterior; uma chamada, que leva à página do refil"
+      brand_compliance: "Dentro do guia"
+    score: 90
+    evidence_sufficient: true
+    routing: request_formal_approval
+disagreement_resolution: "Dois revisores pontuam separadamente. Diferença de dois níveis ou mais em um critério exige conversa e justificativa escrita; persistindo, decide a Liderança de Marca"
 privacy_and_fairness_considerations:
-  - "Avaliar o entregável, não a pessoa"
-  - "Não utilizar atributos pessoais"
-  - "Aceitar abordagem diferente da consulta de referência quando chega ao indicador definido"
-  - "Não emitir decisão automatizada sobre pessoas"
+  - "Avaliar o material, nunca a pessoa que o produziu"
+  - "A nota não entra em avaliação de desempenho"
 open_questions: []
-related_documents: ["KPI-AURORA-001", "QA-AURORA-001"]
+related_documents: ["PROCESS-CAMPAIGN-001", "DECISION-CAMPAIGN-001"]
