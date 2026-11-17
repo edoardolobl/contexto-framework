@@ -3,7 +3,7 @@ id: DATASET-AURORA-SESSIONS
 revision_id: "DATASET-AURORA-SESSIONS@0.1"  # versão específica; id = assunto estável
 title: "Sessões web e app: Aurora"
 type: dataset_semantics
-status: pending_approval
+status: draft
 version: "0.1"
 version_date: "2026-07-20"
 owner: null
@@ -36,7 +36,7 @@ columns:
     allowed_values: []
     sentinel_values: []
     null_meaning: "Não permitido no laboratório"
-    examples: ["S1", "S2"]
+    examples: ["SES-101", "SES-102"]
     do_not_use_for: ["Identificar pessoas"]
   - physical_name: channel
     technical_type: TEXT
@@ -81,12 +81,12 @@ usage:
   invalid_aggregations: ["Contar sessões com COUNT(*) após junção 1:N sem avaliar duplicidade"]
   related_datasets: ["demo_orders"]
   known_caveats: ["Não extrapolar a amostra para outros períodos ou canais"]
-  sample_queries: ["aurora-reference-query.sql"]
+  sample_queries: []
 
 validation:
   checked_by: null
   checked_at: null
-  evidence: ["aurora-fixture.sql"]
+  evidence: []
 open_questions:
   - question: "'is_internal = 1 marca o quê: testes da equipe, a rede do escritório, compras de funcionários?'"
     impact: "Sem o significado, ninguém sabe se o filtro tira só testes ou também compras reais"

@@ -11,8 +11,10 @@ const criteria = [
   ['Evidência', 'Há fonte autorizada e modo de verificar a informação?'],
   ['Vigência', 'Estado, versão e vigência são conhecidos ou marcados como em aberto?'],
 ];
+// Ids estáveis entre builds, derivados do título; cada instância da página tem título próprio.
+const uid = 'readiness-' + title.normalize('NFD').replace(/[^\w]+/g, '-').replace(/^-|-$/g, '').toLowerCase();
 ---
-<section class="readiness" data-readiness>
+<section class="readiness" data-readiness data-total={criteria.length}>
   <div class="readiness-heading"><div><p class="eyebrow">VERIFICAÇÃO</p><h3>{title}</h3></div></div>
   <p>Marque o item quando o documento trouxer uma resposta explícita, não apenas um campo ou um título. <strong>Não é uma nota:</strong> a consistência das respostas e a aprovação da área são verificadas nas próximas etapas.</p>
   <fieldset>
@@ -21,36 +23,45 @@ const criteria = [
       <label class="check-row"><input type="checkbox" value={index} /><span class="check-row__body"><strong>{label}</strong><span>{description}</span></span></label>
     ))}
   </fieldset>
-  <p class="readiness-feedback" data-feedback aria-live="polite">Marque o que o documento já responde. O que ficar sem marca vira a sua lista de lacunas.</p>
+  <p class="readiness-feedback" id={`${uid}-retorno`} data-feedback aria-live="polite">Marque o que o documento já responde. O que ficar sem marca vira a sua lista de lacunas.</p>
   <div class="readiness-gaps" data-gaps hidden>
-    <p class="readiness-gaps__title">Lacunas para levar à revisão</p>
-    <ul data-gap-list></ul>
+    <p class="readiness-gaps__title" id={`${uid}-lacunas`}>Lacunas para levar à revisão</p>
+    <ul data-gap-list aria-labelledby={`${uid}-lacunas`} aria-describedby={`${uid}-retorno`}></ul>
     <button type="button" data-copy>Copiar lista de lacunas</button>
   </div>
+  <p class="readiness-copy-status" role="status" data-copy-status></p>
   <div class="readiness-footer"><button type="button" data-reset>Limpar seleção</button><span>Os dados não são enviados ou armazenados.</span></div>
 </section>
 <script>
+  const INITIAL = 'Marque o que o documento já responde. O que ficar sem marca vira a sua lista de lacunas.';
+  const NONE_OPEN = 'Nenhuma lacuna nas oito dimensões. Agora confronte as afirmações com as fontes e peça a confirmação de quem responde pelo conteúdo.';
+  const openMessage = (open: number, total: number) =>
+    (open === 1 ? `Falta 1 de ${total} dimensões.` : `Faltam ${open} de ${total} dimensões.`) +
+    ' Sem marca, a dimensão vira lacuna. Leve a lista abaixo para quem responde pelo conteúdo.';
+
   document.querySelectorAll<HTMLElement>('[data-readiness]').forEach((root) => {
     const checks = Array.from(root.querySelectorAll<HTMLInputElement>('input[type="checkbox"]'));
+    const total = Number(root.dataset.total) || checks.length;
     const feedback = root.querySelector<HTMLElement>('[data-feedback]');
     const gaps = root.querySelector<HTMLElement>('[data-gaps]');
     const gapList = root.querySelector<HTMLElement>('[data-gap-list]');
     const copy = root.querySelector<HTMLButtonElement>('[data-copy]');
+    const copyStatus = root.querySelector<HTMLElement>('[data-copy-status]');
+    const reset = root.querySelector<HTMLButtonElement>('[data-reset]');
     const label = (c: HTMLInputElement) => {
       const body = c.closest('label');
       const name = body?.querySelector('strong')?.textContent ?? '';
       const question = body?.querySelector('.check-row__body > span')?.textContent ?? '';
       return { name, question };
     };
+    // O resultado da cópia fica até a próxima ação; não há timer que apague a mensagem.
+    const clearCopyStatus = () => { if (copyStatus) copyStatus.textContent = ''; };
     let touched = false;
-    const reset = root.querySelector<HTMLButtonElement>('[data-reset]');
     function update() {
       const open = checks.filter(c => !c.checked);
       if (feedback) feedback.textContent = !touched
-        ? 'Marque o que o documento já responde. O que ficar sem marca vira a sua lista de lacunas.'
-        : open.length === 0
-        ? 'Nenhuma lacuna nas oito dimensões. Agora confronte as afirmações com as fontes e peça a confirmação de quem responde pelo conteúdo.'
-        : 'Sem marca, a dimensão vira lacuna. Leve a lista abaixo para quem responde pelo conteúdo.';
+        ? INITIAL
+        : open.length === 0 ? NONE_OPEN : openMessage(open.length, total);
       if (gaps && gapList) {
         gaps.hidden = !touched || open.length === 0;
         gapList.replaceChildren(...open.map((c) => {
@@ -63,21 +74,28 @@ const criteria = [
         }));
       }
     }
-    checks.forEach(c => c.addEventListener('change', () => { touched = true; update(); }));
-    reset?.addEventListener('click', () => { checks.forEach(c => {c.checked = false;}); touched = false; update(); });
+    checks.forEach(c => c.addEventListener('change', () => { touched = true; clearCopyStatus(); update(); }));
+    reset?.addEventListener('click', () => {
+      checks.forEach(c => { c.checked = false; });
+      touched = false;
+      clearCopyStatus();
+      update();
+    });
     copy?.addEventListener('click', async () => {
+      clearCopyStatus();
       const lines = checks.filter(c => !c.checked).map((c) => {
         const { name, question } = label(c);
         return '- ' + name + ': ' + question;
       });
       const textToCopy = 'Lacunas encontradas na verificação das oito dimensões:\n' + lines.join('\n');
+      let message: string;
       try {
         await navigator.clipboard.writeText(textToCopy);
-        copy.textContent = 'Lista copiada';
+        message = 'Lista copiada';
       } catch {
-        copy.textContent = 'Não foi possível copiar; selecione a lista e copie';
+        message = 'Não foi possível copiar; selecione a lista e copie';
       }
-      setTimeout(() => { copy.textContent = 'Copiar lista de lacunas'; }, 2500);
+      if (copyStatus) copyStatus.textContent = message;
     });
     update();
   });

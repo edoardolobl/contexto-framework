@@ -24,15 +24,17 @@ const base = raw.endsWith('/') ? raw : raw + '/';
   <p>Escolha o resultado que deseja produzir. Você pode ler as orientações ou baixar imediatamente o modelo em texto simples.</p>
   <fieldset>
     <legend>Selecione uma finalidade</legend>
-    {groups.map((group) => <>
-      <p class="finder-group">{group.label}</p>
-      {choices.filter((choice) => choice.group === group.id).map((choice) => (
-        <label>
-          <input type="radio" name="template-intent" value={choice.id}/>
-          <span>{choice.label}</span>
-        </label>
-      ))}
-    </>)}
+    {groups.map((group) => (
+      <div class="finder-subgroup" role="group" aria-labelledby={`finder-grupo-${group.id}`}>
+        <p class="finder-group" id={`finder-grupo-${group.id}`}>{group.label}</p>
+        {choices.filter((choice) => choice.group === group.id).map((choice) => (
+          <label>
+            <input type="radio" name="template-intent" value={choice.id}/>
+            <span>{choice.label}</span>
+          </label>
+        ))}
+      </div>
+    ))}
   </fieldset>
   <div class="finder-output">
     <p data-summary role="status" aria-live="polite">Escolha uma finalidade acima para ver o que o modelo cobre.</p>

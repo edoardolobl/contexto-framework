@@ -1,4 +1,4 @@
-# TEMPLATE DE DOCUMENTAÇÃO SEMÂNTICA DE KPI
+# MODELO DE DOCUMENTAÇÃO SEMÂNTICA DE KPI
 # null significa "ainda não sei" ou "ainda não decidido". Não troque null por um palpite: registre a dúvida em open_questions.
 # Exemplos e nomes de campos são convenções propostas, não um padrão universal.
 # Não preencha informações desconhecidas com suposições. Use null + open_questions.

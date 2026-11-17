@@ -80,3 +80,8 @@ regras:
     sugestao: dataset
     ignorar_maiusculas: true
     permitido_em: []
+  - termo: modelo
+    padrao: '\btemplates?\b(?![-_./])'
+    sugestao: modelo (template só em nome de arquivo, endereço e código)
+    ignorar_maiusculas: true
+    permitido_em: []

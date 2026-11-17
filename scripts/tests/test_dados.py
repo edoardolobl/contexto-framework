@@ -6,7 +6,8 @@ import pytest
 
 import comum
 
-# As 15 regras que estavam escritas em scripts/validate_content.py no commit d08c810.
+# As 15 regras que estavam escritas em scripts/validate_content.py no commit d08c810,
+# mais a regra 'modelo' (EDI-32, contrato 0.5).
 # Se o YAML mudar, este teste lembra de atualizar a tabela do contrato junto.
 REGRAS_ORIGINAIS = [
     (r"\bcasos? de fronteira\b|\bedge cases?\b|\bcasos? limites?\b", "caso-limite", re.I, ()),
@@ -24,6 +25,7 @@ REGRAS_ORIGINAIS = [
     (r"\bbriefing\b", "brief", re.I, ()),
     (r"\bm[eé]tricas?\b", "indicador", re.I, ("referencias/index.mdx",)),
     (r"\bconjuntos? de dados\b", "dataset", re.I, ()),
+    (r"\btemplates?\b(?![-_./])", "modelo (template só em nome de arquivo, endereço e código)", re.I, ()),
 ]
 
 REGRA_OK = "  - termo: dashboard\n    padrao: '\\bpainel\\b'\n    sugestao: dashboard\n    ignorar_maiusculas: true\n    permitido_em: []\n"

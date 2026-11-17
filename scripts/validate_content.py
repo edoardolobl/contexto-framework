@@ -5,7 +5,8 @@ import re
 
 import yaml
 
-from comum import DADOS, DOCS, DOWNLOADS, ROOT, Relatorio, carregar_tipos, carregar_vocabulario, carregar_yaml, exigir_minimo
+from comum import (DADOS, DOCS, DOWNLOADS, ROOT, Relatorio, carregar_tipos, carregar_vocabulario, carregar_yaml,
+                   exigir_minimo, links_do_repositorio_ausentes)
 
 TEMPLATE_COMPONENT = ROOT / "src" / "components" / "TemplateDownloads.astro"
 VALID_STATUSES = {"draft", "pending_approval", "approved", "deprecated"}
@@ -241,8 +242,14 @@ for path in EDITORIAL_FILES:
     if not path.is_file():
         continue
     for lineno, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
-        if "—" in line:
+        if "\u2014" in line:
             record(path, f"linha {lineno}: travessão (use dois-pontos, vírgula ou parênteses)")
+
+# Links para arquivos do repositório (blob/main, tree/main) precisam de arquivo local correspondente.
+for path in EDITORIAL_FILES:
+    if path.is_file():
+        for caminho in links_do_repositorio_ausentes(path.read_text(encoding="utf-8"), ROOT):
+            record(path, f"link para arquivo do repositório que não existe: {caminho}")
 
 # Terminology: one concept, one term. The rules live in src/data/vocabulario.yaml (pattern,
 # preferred term and the pages where the variant is allowed: references and their sources).

@@ -68,7 +68,7 @@ const files: Record<Props['kind'], { name: string; href: string; format: string 
 const raw = import.meta.env.BASE_URL;
 const base = raw.endsWith('/') ? raw : raw + '/';
 ---
-<div class="template-downloads" role="group" aria-label="Arquivos de exemplo e template para reutilizar">
+<div class="template-downloads" role="group" aria-label="Arquivos de exemplo e modelo para reutilizar">
   {files[kind].map((file) => <a href={base + 'downloads/' + file.href} download>
     <span class="download-icon" aria-hidden="true">↓</span>
     <span class="download-name">{file.name}<small>{file.format}</small></span>

@@ -52,3 +52,8 @@ Para mudar uma decisão aceita, escreva um ADR novo. Não edite o antigo: só ma
 | [0015](./0015-chaves-em-ingles-rotulos-em-portugues.md) | Chaves em inglês, rótulos em português | Aceito | 2026-11-17 |
 | [0016](./0016-sistema-visual.md) | Sistema visual | Aceito | 2026-11-17 |
 | [0017](./0017-tamanho-de-pagina-de-modelo.md) | Tamanho de página de modelo | Aceito | 2026-11-17 |
+| [0018](./0018-nao-resolver-politicas-conflitantes-por-data.md) | Não resolver políticas conflitantes pela data | Proposto | 2026-11-17 |
+| [0019](./0019-par-de-exemplos-com-lacunas-e-completo.md) | Par de exemplos com lacunas e completo | Proposto | 2026-11-17 |
+| [0020](./0020-dashboard-como-guia-de-leitura.md) | Dashboard como guia de leitura ligado ao indicador | Proposto | 2026-11-17 |
+| [0021](./0021-responder-esclarecer-ou-abster-se.md) | Responder, esclarecer ou abster-se | Proposto | 2026-11-17 |
+| [0022](./0022-laboratorio-pequeno-verificado-em-sqlite.md) | Laboratório pequeno verificado em SQLite, sem LLM | Proposto | 2026-11-17 |

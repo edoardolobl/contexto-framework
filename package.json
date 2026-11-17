@@ -9,8 +9,8 @@
     "preview": "astro preview",
     "validate:content": "python3 scripts/validate_content.py",
     "test:scripts": "python3 -m pytest scripts/tests -q",
-    "check:content": "python3 scripts/validate_content.py && python3 scripts/check_higiene.py && python3 scripts/check_decision_examples.py && python3 scripts/check_analytics_fixture.py && python3 scripts/check_revisions.py",
-    "check:links": "python3 scripts/check_built_links.py",
+    "check:content": "python3 scripts/validate_content.py && python3 scripts/check_higiene.py && python3 scripts/check_decision_examples.py && python3 scripts/check_analytics_fixture.py && python3 scripts/check_revisions.py && python3 scripts/check_contraste.py",
+    "check:links": "python3 scripts/check_built_links.py && python3 scripts/check_html_gerado.py",
     "check": "npm run test:scripts && npm run check:content && npm run build && npm run check:links"
   },
   "dependencies": {

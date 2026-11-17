@@ -2,9 +2,12 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 
 const base = process.env.BASE_PATH || '/contexto-framework';
+const site = process.env.SITE_URL || 'https://edoardolobl.github.io';
+// Imagem de compartilhamento (UX-10): URL absoluta, gerada de src/assets/og-contexto.svg.
+const ogImage = site.replace(/\/$/, '') + base.replace(/\/$/, '') + '/og-contexto.png';
 
 export default defineConfig({
-  site: process.env.SITE_URL || 'https://edoardolobl.github.io',
+  site,
   base,
   // Páginas fundidas em outras (rodada 3): o endereço antigo leva ao novo.
   redirects: {
@@ -32,10 +35,17 @@ export default defineConfig({
         { tag: 'link', attrs: { rel: 'icon', type: 'image/png', sizes: '32x32', href: base.replace(/\/$/, '') + '/favicon-32.png' } },
         { tag: 'link', attrs: { rel: 'alternate icon', href: base.replace(/\/$/, '') + '/favicon.ico' } },
         { tag: 'link', attrs: { rel: 'apple-touch-icon', sizes: '180x180', href: base.replace(/\/$/, '') + '/apple-touch-icon.png' } },
+        { tag: 'meta', attrs: { property: 'og:image', content: ogImage } },
+        { tag: 'meta', attrs: { property: 'og:image:width', content: '1200' } },
+        { tag: 'meta', attrs: { property: 'og:image:height', content: '630' } },
+        { tag: 'meta', attrs: { property: 'og:image:alt', content: 'Contexto: uma IA não deveria adivinhar como sua organização funciona.' } },
+        // Cor da barra do navegador no celular, igual ao fundo de cada tema (--context-bg).
+        { tag: 'meta', attrs: { name: 'theme-color', media: '(prefers-color-scheme: light)', content: '#faf9f6' } },
+        { tag: 'meta', attrs: { name: 'theme-color', media: '(prefers-color-scheme: dark)', content: '#17181c' } },
       ],
       locales: { root: { label: 'Português', lang: 'pt-BR' } },
       customCss: ['./src/styles/custom.css'],
-      components: { Footer: './src/components/SiteFooter.astro' },
+      components: { Footer: './src/components/SiteFooter.astro', Hero: './src/components/LandingHero.astro' },
       social: [
         { icon: 'github', label: 'Repositório no GitHub', href: 'https://github.com/edoardolobl/contexto-framework' },
         { icon: 'linkedin', label: 'Edoardo Lobl no LinkedIn', href: 'https://www.linkedin.com/in/edoardolobl/' }

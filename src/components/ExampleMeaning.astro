@@ -4,8 +4,10 @@
  * Os valores vêm diretamente do YAML já usado nos downloads: não são cópias
  * editoriais nem conteúdo gerado/inferido no momento da visualização.
  */
-interface Props { doc: Record<string, any> }
-const { doc } = Astro.props;
+// nivel: nível dos títulos dos grupos; ExampleDoc passa um abaixo do título do exemplo.
+interface Props { doc: Record<string, any>; nivel?: 3 | 4 | 5 | 6 }
+const { doc, nivel = 4 } = Astro.props;
+const Titulo = `h${nivel}` as 'h3' | 'h4' | 'h5' | 'h6';
 type Pair = { label: string; value: string; items?: string[] };
 type Entry = { heading: string; body?: string; items?: string[]; note?: string; detail?: string; levels?: Record<string, string> };
 type Group = { heading: string; pairs?: Pair[]; bullets?: string[]; entries?: Entry[] };
@@ -298,7 +300,7 @@ switch (doc.type) {
 ---
 <section class="example-meaning" aria-label="Conteúdo principal do documento em linguagem natural">
   {groups.map((group) => <section class="example-meaning__group">
-    <h4>{group.heading}</h4>
+    <Titulo class="example-meaning__heading">{group.heading}</Titulo>
     {group.pairs && group.pairs.length > 0 && <dl class="example-meaning__facts">
       {group.pairs.map((p) => <div><dt>{p.label}</dt><dd>{p.items
         ? <ul class="example-meaning__list">{p.items.map((item) => <li>{item}</li>)}</ul>
@@ -322,7 +324,7 @@ switch (doc.type) {
     </ol>}
   </section>)}
   {decisionTable && <section class="example-meaning__group">
-    <h4>Tabela de encaminhamento</h4>
+    <Titulo class="example-meaning__heading">Tabela de encaminhamento</Titulo>
     <div class="example-meaning__table-scroll" role="region" aria-label="Tabela de decisão com rolagem horizontal" tabindex="0">
       <table>
         <thead><tr>{decisionTable.labels.map(label => <th scope="col">{label}</th>)}</tr></thead>

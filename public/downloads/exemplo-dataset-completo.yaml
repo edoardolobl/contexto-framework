@@ -18,7 +18,7 @@ version_history:
     change: "Registrado o caso-limite de S3, sessão interna com pedido confirmado, e o efeito do filtro na amostra de 01/10. Nenhum resultado mudou"
     approved_by: "Analytics de E-commerce (Aurora)"
   - version: "1.1"
-    date: "2026-09-12"
+    date: "2026-09-11"
     change: "Documentado que session_date é data local sem hora, depois de dúvida sobre fuso no fechamento diário"
     approved_by: "Analytics de E-commerce (Aurora)"
   - version: "1.0"
@@ -99,7 +99,7 @@ usage:
 
 validation:
   checked_by: "Engenharia de Dados (Aurora)"
-  checked_at: "2026-09-12"
+  checked_at: "2026-10-02"
   evidence: ["aurora-fixture.sql"]
 open_questions: []
 related_documents: ["KPI-AURORA-001", "DATASET-AURORA-ORDERS", "REL-AURORA-SESSIONS-ORDERS"]

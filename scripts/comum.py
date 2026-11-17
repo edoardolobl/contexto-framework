@@ -22,6 +22,8 @@ ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "src" / "content" / "docs"
 DOWNLOADS = ROOT / "public" / "downloads"
 DADOS = ROOT / "src" / "data"
+REPOSITORIO = "github.com/edoardolobl/contexto-framework"
+_LINK_DO_REPOSITORIO = re.compile(re.escape(REPOSITORIO) + r"/(?:blob|tree)/main/([^\s)\"'#?<>]+)")
 
 
 @dataclass
@@ -29,6 +31,7 @@ class Relatorio:
     """Junta os erros de um validador e decide o código de saída."""
 
     erros: list[str] = field(default_factory=list)
+    avisos: list[str] = field(default_factory=list)
     arquivo_atual: Path | None = None
 
     def erro(self, caminho: Path | None, mensagem: str) -> None:
@@ -36,7 +39,15 @@ class Relatorio:
         if texto not in self.erros:
             self.erros.append(texto)
 
+    def aviso(self, caminho: Path | None, mensagem: str) -> None:
+        """Registra um aviso: aparece na saída, mas não muda o código de saída."""
+        texto = f"{relativo(caminho)}: {mensagem}" if caminho else mensagem
+        if texto not in self.avisos:
+            self.avisos.append(texto)
+
     def encerrar(self, mensagem_ok: str) -> None:
+        if self.avisos:
+            print("\n".join("AVISO: " + aviso for aviso in self.avisos))
         if self.erros:
             print("\n".join("ERRO: " + erro for erro in self.erros))
             sys.exit(1)
@@ -61,6 +72,17 @@ class Relatorio:
             sys.exit(1)
 
         sys.excepthook = gancho
+
+
+
+def links_do_repositorio_ausentes(texto: str, raiz: Path) -> list[str]:
+    """Caminhos citados em links blob/main ou tree/main do repositório que não existem em `raiz`.
+
+    O portal aponta para arquivos do repositório (ADRs, plano de validação). Se o arquivo não
+    existe na cópia local, o link publicado leva a uma página 404 no GitHub.
+    """
+    caminhos = dict.fromkeys(m.rstrip("/.,;") for m in _LINK_DO_REPOSITORIO.findall(texto))
+    return [c for c in caminhos if not (raiz / c).exists()]
 
 
 def relativo(caminho: Path | None) -> str:

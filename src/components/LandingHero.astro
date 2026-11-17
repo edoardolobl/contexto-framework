@@ -1,37 +1,33 @@
 ---
+/**
+ * Substitui o Hero do Starlight (astro.config.mjs, components.Hero).
+ * Na home, o título e o texto vêm do frontmatter 'hero' de index.mdx e viram o h1 real da página.
+ * Em qualquer outra página com hero (a 404 do Starlight, por exemplo), o Hero padrão continua.
+ */
+import Default from '@astrojs/starlight/components/Hero.astro';
+
+const route = Astro.locals.starlightRoute;
+const isHome = route.id === '' || route.id === 'index';
+const { title = route.entry.data.title, tagline } = route.entry.data.hero ?? {};
 const rawBase = import.meta.env.BASE_URL;
 const base = rawBase.endsWith('/') ? rawBase : `${rawBase}/`;
+// O link "Pular para o conteúdo" do Starlight aponta para #_top, o id do título da página.
+const PAGE_TITLE_ID = '_top';
 ---
-<section class="context-hero">
-  <div class="context-hero__copy">
-    <span class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span> CONTEXTO · DOCUMENTAÇÃO DO CONHECIMENTO</span>
-    <p class="hero-title">Uma IA não deveria <em>adivinhar</em> como sua organização funciona.</p>
-    <p>Aprenda a transformar o que sua equipe sabe em documentos com definições, regras, exceções e fontes claras. Sem precisar programar ou conhecer ferramentas de IA.</p>
-    <div class="hero-actions">
-      <a class="cta-primary" href={`${base}fundamentos/comece-em-5-minutos/`}>
-        Comece em 5 minutos <span aria-hidden="true">→</span>
-      </a>
-    </div>
-    <p class="hero-footnote">Um guia prático, aberto e independente de plataformas.</p>
-  </div>
-  <div class="context-hero__visual" role="group" aria-label="Exemplo de uma instrução vaga antes e depois de ser documentada">
-    <div class="visual-topline"><span>O PROBLEMA</span><span>CONHECIMENTO → CONTEXTO</span></div>
-    <div class="visual-card visual-card--problem">
-      <div class="visual-number">01 / INSTRUÇÃO VAGA</div>
-      <p>“Considere clientes ativos e calcule a conversão.”</p>
-      <div class="visual-chiprow"><span>Ativo em qual canal?</span><span>Qual período?</span><span>Qual definição?</span></div>
-    </div>
-    <div class="visual-bridge"><span class="bridge-line"></span><span class="bridge-label">DOCUMENTAR</span><span class="bridge-line"></span></div>
-    <div class="visual-card visual-card--solution">
-      <div class="visual-number">02 / LACUNAS EXPLÍCITAS</div>
-      <div class="pseudo-code">
-        <div><span class="code-muted">conceito:</span> cliente ativo</div>
-        <div><span class="code-muted">canal:</span> ainda não definido</div>
-        <div><span class="code-muted">período:</span> ainda não definido</div>
-        <div><span class="code-muted">estado:</span> <b>pendente de aprovação</b></div>
+{isHome ? (
+  <section class="context-hero">
+    <div class="context-hero__copy">
+      <span class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span> CONTEXTO · DOCUMENTAÇÃO DO CONHECIMENTO</span>
+      <h1 id={PAGE_TITLE_ID} class="hero-title" data-page-title set:html={title} />
+      {tagline && <p set:html={tagline} />}
+      <div class="hero-actions">
+        <a class="cta-primary" href={`${base}fundamentos/comece-em-5-minutos/`}>
+          Comece em 5 minutos <span aria-hidden="true">→</span>
+        </a>
       </div>
-      <div class="visual-result">O documento mostra o que falta decidir, em vez de apresentar suposições como fatos.</div>
+      <p class="hero-footnote">Um guia prático, aberto e independente de plataformas.</p>
     </div>
-    <div class="visual-bottomline"><span>INFORMAÇÃO HONESTA</span><span aria-hidden="true">✳</span></div>
-  </div>
-</section>
+  </section>
+) : (
+  <Default />
+)}

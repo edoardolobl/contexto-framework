@@ -2,6 +2,8 @@
 /**
  * Roteiro editorial estático: três verificações independentes.
  * Não calcula uma nota, não armazena dados e não atribui aprovação.
+ * Os nomes das etapas não são títulos: o componente vem logo depois do h1 da página,
+ * e cada etapa já tem a sua seção (h2) logo abaixo.
  */
 const stages = [
   {
@@ -30,7 +32,7 @@ const stages = [
 <ol class="review-stages" aria-label="Três etapas independentes de revisão documental">
   {stages.map((stage) => <li class="review-stages__card">
     <span class="review-stages__number" aria-hidden="true">{stage.number}</span>
-    <h3>{stage.title}</h3>
+    <p class="review-stages__title"><strong>{stage.title}</strong></p>
     <p class="review-stages__question">{stage.question}</p>
     <p>{stage.description}</p>
     <p class="review-stages__outcome">{stage.outcome}</p>

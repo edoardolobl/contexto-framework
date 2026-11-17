@@ -1,22 +1,22 @@
 # Versão histórica 1.0, arquivada e não vigente. A Aurora é uma organização inventada pelo Contexto.
 id: KPI-AURORA-001
 revision_id: "KPI-AURORA-001@1.0"  # versão específica; id = assunto estável
-title: "Pedidos confirmados por sessão elegível (definição antiga rotulada conversão web)"
+title: "Taxa de sessões convertidas: loja web Aurora"
 type: metric_definition
 status: approved
 version: "1.0"
-version_date: "2026-08-15"
+version_date: "2026-08-14"
 owner: "Analytics de E-commerce (Aurora)"
 approver: "Gerência de E-commerce (Aurora)"
 valid_from: "2026-08-15"
 valid_to: "2026-09-15"  # fim exclusivo da vigência; null = sem fim documentado
 supersedes_revision: "KPI-AURORA-001@0.1"
 domain: ecommerce
-last_reviewed: "2026-08-15"
+last_reviewed: "2026-08-14"
 source_of_truth: "Catálogo de indicadores da Aurora, versão 1.0 de KPI-AURORA-001"
 version_history:
   - version: "1.0"
-    date: "2026-08-15"
+    date: "2026-08-14"
     change: "Primeira definição aprovada: pedidos confirmados divididos por sessões elegíveis"
     approved_by: "Gerência de E-commerce (Aurora)"
   - version: "0.1"
@@ -27,10 +27,9 @@ version_history:
 business_definition:
   concept: "Relação entre número de pedidos confirmados e sessões elegíveis"
   purpose: "Acompanhar o resultado do funil web"
-  synonyms: ["conversão web (rótulo histórico impreciso)"]
+  synonyms: ["conversão web"]
   different_meanings_in_other_domains:
     - "Conversão de lead: outro indicador"
-    - "Sessões convertidas: definição revisada na versão 2.0"
 
 scope:
   included_channels: ["web"]
@@ -58,8 +57,7 @@ data_sources:
   authoritative_dataset: "DATASET-AURORA-SESSIONS"
   relevant_columns: ["demo_sessions.session_id", "demo_sessions.channel", "demo_sessions.is_internal", "demo_sessions.session_date", "demo_orders.session_id", "demo_orders.status_code"]
   valid_join_paths: ["REL-AURORA-SESSIONS-ORDERS"]
-  source_conflicts_and_precedence:
-    - "A consulta aurora-reference-query.sql implementa a versão 2.0, NÃO a 1.0. Não a utilizar para reconstruir esta fórmula histórica."
+  source_conflicts_and_precedence: []
 
 validation:
   approved_examples:
@@ -73,3 +71,7 @@ validation:
 
 open_questions: []
 related_documents: ["DATASET-AURORA-SESSIONS", "DATASET-AURORA-ORDERS", "REL-AURORA-SESSIONS-ORDERS"]
+
+archival_note:
+  date: "2026-09-15"
+  text: "Substituída por KPI-AURORA-001@2.0. A consulta aurora-reference-query.sql implementa a 2.0 e não deve ser usada para reconstruir a 1.0."

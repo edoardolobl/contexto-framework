@@ -69,3 +69,21 @@ def test_carregar_yaml_em_pasta_vira_erro(tmp_path: Path):
     relatorio = comum.Relatorio()
     assert comum.carregar_yaml(tmp_path, relatorio) is None
     assert relatorio.erros and "não foi possível ler" in relatorio.erros[0]
+
+
+def test_artefato_citado_antes_de_existir_e_acusado(copia: Path):
+    arquivo = copia / "public" / "downloads" / "exemplo-kpi-lacunas.yaml"
+    texto = arquivo.read_text(encoding="utf-8")
+    arquivo.write_text(texto.replace('concept: "', 'concept: "aurora-reference-query.sql ', 1), encoding="utf-8")
+    resultado = rodar(copia, "check_revisions.py")
+    assert resultado.returncode == 1
+    assert "versão de 2026-07-20 cita aurora-reference-query.sql, que só existe a partir de 2026-09-15" in resultado.stdout
+    assert "Traceback" not in resultado.stdout + resultado.stderr
+
+
+def test_link_para_adr_inexistente_e_acusado(copia: Path):
+    (copia / "docs" / "adr" / "0021-responder-esclarecer-ou-abster-se.md").unlink()
+    resultado = rodar(copia, "validate_content.py")
+    assert resultado.returncode == 1
+    assert "link para arquivo do repositório que não existe: docs/adr/0021-responder-esclarecer-ou-abster-se.md" in resultado.stdout
+    assert "Traceback" not in resultado.stderr

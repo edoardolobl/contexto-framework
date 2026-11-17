@@ -64,20 +64,21 @@ const base = rawBase.endsWith('/') ? rawBase : rawBase + '/';
 ---
 <section class="template-start" aria-label="Resumo prático deste modelo">
   <p class="template-start__eyebrow">ANTES DE PREENCHER</p>
-  <div class="template-start__grid">
+  {/* Lista de termos, não títulos: o bloco vem antes do primeiro h2 da página. */}
+  <dl class="template-start__grid">
     <div>
-      <h2>Quando usar</h2>
-      <p>{data.when}</p>
+      <dt>Quando usar</dt>
+      <dd>{data.when}</dd>
     </div>
     <div>
-      <h2>O que você vai produzir</h2>
-      <p>{data.result}</p>
+      <dt>O que você vai produzir</dt>
+      <dd>{data.result}</dd>
     </div>
     <div>
-      <h2>O que ter em mãos</h2>
-      <p>{data.prepare}</p>
+      <dt>O que ter em mãos</dt>
+      <dd>{data.prepare}</dd>
     </div>
-  </div>
+  </dl>
   <div class="template-start__next">
     <div>
       <strong>Próximo passo</strong>

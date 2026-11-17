@@ -16,6 +16,14 @@ Esta é a versão do **produto** (portal, método e ferramentas). Os modelos de 
 - `scripts/comum.py` e testes em `scripts/tests/` (pytest).
 - `npm run check`, que roda testes, validadores, build e conferência de links na mesma ordem do CI.
 - Atualização automática de dependências com Dependabot (GitHub Actions, npm e pip).
+- `scripts/check_contraste.py` e `src/data/contraste.yaml`: conferem o contraste dos tokens de cor de `custom.css` nos temas claro e escuro (4,5:1 para texto, 3:1 para bordas, 7:1 para o texto secundário).
+- `scripts/check_html_gerado.py`: confere no site gerado um h1 por página, títulos sem pular nível, og:image e theme-color.
+- `src/data/artefatos.yaml`: datas em que a consulta de referência e a amostra do laboratório Aurora passaram a existir.
+- `check_revisions.py` acusa exemplo que cita registro, versão, consulta ou amostra de data posterior à sua, confere `archival_note` pela própria data e avisa (sem falhar) aprovação em fim de semana. Os validadores ganham linhas `AVISO:`, que não mudam o código de saída.
+- ADRs 0018 a 0022, em estado Proposto, para as convenções do Contexto que ainda não tinham registro.
+- `validate_content.py` acusa link `blob/main` ou `tree/main` do repositório que aponta para arquivo inexistente na cópia local (por exemplo, um ADR citado nas referências).
+- Imagem de compartilhamento (`public/og-contexto.png`) e cor do tema do navegador para os dois temas.
+- Seção "Evidência empírica" e tipo de fonte em cada linha das referências.
 
 ### Mudado
 
@@ -26,8 +34,18 @@ Esta é a versão do **produto** (portal, método e ferramentas). Os modelos de 
 - Vocabulário e tipos de documento são validados: regra ou tipo malformado vira erro, em vez de passar em silêncio.
 - `carregar_yaml` também relata data impossível e arquivo que não é UTF-8, como erro com o arquivo indicado.
 - A varredura de caracteres invisíveis ficou mais ampla: formatação, controle, separadores de linha e parágrafo, seletores de variação e preenchedores que parecem vazios.
-- Consolidação da experiência, checkpoints A a E do ROADMAP (v0.5 em construção): entradas por tarefa, identificação e intervalos de vigência, exemplos de negócio visíveis, painel técnico único, revisão em três verificações e ajustes de leitura no celular.
+- Consolidação da experiência, etapas A a E do ROADMAP (v0.5 em construção): entradas por tarefa, identificação e intervalos de vigência, exemplos de negócio visíveis, painel técnico único, revisão em três verificações e ajustes de leitura no celular.
 - Rodada 3, de 17/11/2026: portal reorganizado de 38 para 26 páginas, um termo por ideia, exemplos concretos por tipo e aviso de que a Aurora é inventada só em três lugares.
+- Linha do tempo da Aurora: exemplos datados antes de 01/10/2026 não citam mais os registros da amostra, e os datados antes de 15/09/2026 não citam a consulta de referência; aprovações de sábado passam para a sexta anterior (KPI 1.0 em 14/08, dashboard 1.0 em 21/08, dataset de sessões 1.1 em 11/09), sem mudar o início da vigência.
+- A cópia histórica do KPI 1.0 volta a ser o texto aprovado; as notas posteriores ficam em `archival_note`, com data própria.
+- Os 10 exemplos com lacunas passam do estado `pending_approval` para `draft`.
+- Modelo de KPI em Markdown com uma só seção de perguntas em aberto e sem numeração de seções.
+- Página inicial com um h1 real e as entradas por tarefa antes do cartão ilustrativo, que passa a mostrar o estado "rascunho".
+- Tokens de cor com contraste conferido nos dois temas, avisos e citações recoloridos só com tokens, `!important` removido (fica só o de movimento reduzido) e seletores sem uso apagados.
+- Acessibilidade: retorno do checklist com a contagem de lacunas e região de status para o resultado da cópia; grupos do seletor de modelos com nome acessível; títulos dos componentes sem pular nível; diagrama de junção que não depende só da cor; alvos de toque de 44 px no celular.
+- Citações: o guia Knowledge-Centered Success substitui o KCS v6; Polanyi (1966) aparece como origem da distinção entre conhecimento tácito e explícito; "Decisão própria" vira "Convenção do Contexto", com link para o ADR.
+- Contrato editorial 0.5 (proposto): termo "modelo" no lugar de "template", cinco tipos de fonte, exemplo com lacunas em `draft`, aprovações em dia útil, datas de artefatos conferidas e notas de arquivamento em `archival_note`.
+- Vocabulário: regra "modelo" no validador; termos em inglês do ROADMAP trocados por português.
 
 ## [0.4.0] - 2026-11-16
 

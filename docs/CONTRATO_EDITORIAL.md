@@ -1,9 +1,10 @@
 # Contrato editorial: Contexto
 
-**Versão:** 0.4 · **Data desta versão:** 2026-11-17 · **Estado:** proposto (F0), aguarda aprovação do mantenedor · **Mantenedor:** Edoardo Lobl
+**Versão:** 0.5 · **Data desta versão:** 2026-11-17 · **Estado:** proposto (F1), aguarda aprovação do mantenedor · **Mantenedor:** Edoardo Lobl
 
 | Versão | Data | O que mudou | Aprovado por |
 |---|---|---|---|
+| 0.5 | 2026-11-17 | Termo "modelo" no lugar de "template" em rótulos e textos; cinco tipos de fonte e ADR para toda convenção do Contexto; exemplo com lacunas em `draft`; aprovações em dia útil e artefatos com data conferida; cópia histórica intacta, com notas em `archival_note` | Proposto (F1), aguarda aprovação do mantenedor |
 | 0.4 | 2026-11-17 | Vocabulário com fonte única em `src/data/vocabulario.yaml` | Proposto (F0), aguarda aprovação do mantenedor |
 | 0.3 | 2026-11-17 | Um termo por ideia; aviso de que a Aurora é inventada só em três lugares; uma página por tipo de documento, com estrutura fixa; menu igual ao título; regras para exemplos concretos; regra de versão | Mantenedor |
 | 0.2 | 2026-11-16 | Regra dos exemplos completos e aprovados; versionamento com data obrigatório; estados de perguntas em aberto; templates Markdown sem bloco YAML | Mantenedor |
@@ -26,7 +27,7 @@ Este projeto **não promete** que os modelos resolvem por si só problemas de SQ
 ## Regras editoriais
 
 1. **Ensinar como fazer:** toda regra editorial acompanha pergunta operacional e evidência esperada.
-2. **Explicar a origem:** diferenciar normas, estudos, práticas industriais e decisões autorais.
+2. **Explicar a origem:** diferenciar os cinco tipos de fonte: norma, pesquisa revisada por pares, prática de mercado, relato de fornecedor e convenção do Contexto. Toda convenção do Contexto aponta para um ADR em `docs/adr/`.
 3. **Exibir os dois lados:** cada modelo publicado tem um exemplo com lacunas e um exemplo completo. Ver "Exemplos".
 4. **Separar conhecimento e execução:** documentação não é enforcement de regras em runtime.
 5. **Marcar incertezas:** em documento real, nunca inventar responsável, aprovação, fórmula, vigência, fonte, regra ou valor para deixar um modelo “completo”.
@@ -53,6 +54,7 @@ Cada ideia tem um nome só, em páginas, componentes, modelos e textos dos YAML.
 | Medida acompanhada | indicador; KPI só no nome do modelo e nos identificadores | métrica, fora da bibliografia |
 | Conjunto de dados | dataset | conjunto de dados |
 | Pedido ao banco | consulta | query |
+| Arquivo para preencher | modelo | template, fora de nome de arquivo, endereço e código |
 
 A tríade para o que se sabe é **Confirmado / Relatado / Em aberto**. “Lacuna” é só o que o checklist encontra num documento.
 
@@ -79,7 +81,7 @@ O leitor precisa ver o destino, não só o ponto de partida. Por isso:
    - a organização é a Aurora;
    - responsável e quem aprova são um cargo ou área, nunca o nome de uma pessoa;
    - a primeira linha do arquivo diz que a Aurora é inventada e que nomes, datas e aprovações fazem parte do caso.
-3. Todo tipo de modelo tem **os dois exemplos**: `exemplo-<tipo>-lacunas.yaml` (nunca `approved`) e `exemplo-<tipo>-completo.yaml` (`approved`, sem perguntas em aberto).
+3. Todo tipo de modelo tem **os dois exemplos**: `exemplo-<tipo>-lacunas.yaml` (estado `draft`, nunca `approved`; MOD-11) e `exemplo-<tipo>-completo.yaml` (`approved`, sem perguntas em aberto).
 4. O exemplo completo traz um **histórico com pelo menos duas versões**, para ensinar o que muda quando a regra muda.
 5. Os dois exemplos compartilham o mesmo `id`: são o mesmo documento em momentos diferentes.
 
@@ -92,7 +94,7 @@ Risco aceito: alguém pode copiar um exemplo completo achando que é regra real.
 3. **O texto da página não repete o cartão:** comenta o que o cartão não diz.
 4. **Termina com “Teste você”:** casos com a resposta escondida, pelo menos um atravessando uma mudança de versão.
 5. **Números da amostra são calculados, não digitados:** o validador refaz a conta no SQLite e confere o texto.
-6. **Datas conferidas:** dia da semana, prazos em dias úteis (fim de semana não conta; o prazo vence no fim do último dia útil) e coerência com o histórico de versões.
+6. **Datas conferidas:** dia da semana, prazos em dias úteis (fim de semana não conta; o prazo vence no fim do último dia útil), aprovações em dia útil (o validador avisa) e coerência com o histórico de versões. Nenhum documento cita artefato, registro ou versão com data posterior à sua. As datas dos artefatos ficam em `src/data/artefatos.yaml`, e o validador acusa a referência com data posterior.
 
 O validador confere as condições de “Exemplos completos e aprovados”, as notas da rubrica, os encaminhamentos da tabela de decisão e os números da amostra.
 
@@ -113,6 +115,7 @@ version_history:            # a mais recente primeiro
 
 - `version_date` e `valid_from` são coisas diferentes: uma regra pode ser aprovada hoje para valer no mês que vem.
 - `change` descreve a mudança na regra, não a edição do texto.
+- A cópia histórica de uma versão fica como foi aprovada. Notas escritas depois, por exemplo que a versão foi substituída, vão para `archival_note`, com a data em que a nota foi escrita (MOD-12, AUR-04).
 - Um rascunho também tem versão e data; `approved_by` fica `null`.
 - Nos modelos Markdown, os mesmos dados aparecem nas seções "Identificação" e "Histórico de versões", em português.
 
