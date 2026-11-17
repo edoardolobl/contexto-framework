@@ -48,12 +48,20 @@ with sqlite3.connect(":memory:") as db:
     if orders != 2:
         fail(f"Expected two confirmed orders in eligible sessions, got {orders}")
 
+    # Sem o filtro de sessões internas, S3 (interna, com O4 confirmado) entra na conta.
+    with_internal = db.execute("""
+        SELECT 100.0 * COUNT(DISTINCT CASE WHEN o.status_code='CONFIRMED' THEN s.session_id END)
+               / COUNT(DISTINCT s.session_id)
+        FROM demo_sessions AS s LEFT JOIN demo_orders AS o ON o.session_id=s.session_id
+        WHERE s.channel='web' AND s.session_date='2026-10-01'
+    """).fetchone()[0]
+
 
 def load(name):
     return yaml.safe_load((DL / name).read_text(encoding="utf8"))
 
-expected = {"Q01": "answer", "Q02": "answer", "Q03": "clarify", "Q04": "abstain", "Q05": "abstain", "Q06": "abstain"}
-for name in ("exemplo-casos-teste-lacunas.yaml", "exemplo-casos-teste-completo.yaml"):
+base = {"Q01": "answer", "Q02": "answer", "Q03": "clarify", "Q04": "abstain", "Q05": "abstain", "Q06": "abstain"}
+for name, expected in (("exemplo-casos-teste-lacunas.yaml", base), ("exemplo-casos-teste-completo.yaml", {**base, "Q07": "answer"})):
     questions = load(name)["questions"]
     behaviors = {q["id"]: q["expected_behavior"] for q in questions}
     if behaviors != expected:
@@ -72,6 +80,23 @@ pending_qa = load("exemplo-casos-teste-lacunas.yaml")
 pending_q01 = next(q for q in pending_qa["questions"] if q["id"] == "Q01")
 if pending_qa["status"] != "approved" and "ainda não foi conferida" not in pending_q01["reference_answer"]:
     fail("Q01 do gabarito com lacunas responde sem a ressalva de que ninguém conferiu a resposta")
+
+# Os números citados no dicionário e nas páginas saem da amostra, não de digitação.
+rate_with_internal = f"{with_internal:.0f}%"
+if rate_with_internal != "40%":
+    fail(f"Sem o filtro de sessões internas, esperado 40%, observado {rate_with_internal}")
+caveats = " ".join(load("exemplo-dataset-completo.yaml")["usage"]["known_caveats"])
+if rate_with_internal not in caveats or "25%" not in caveats:
+    fail("O dicionário de sessões precisa citar a taxa com e sem sessões internas calculadas na amostra")
+pages = {
+    "templates/dataset.mdx": [rate_with_internal, "25%"],
+    "templates/relacionamento.mdx": ["50%", "25%"],
+}
+for page, numbers in pages.items():
+    text = (ROOT / "src/content/docs" / page).read_text(encoding="utf8")
+    for number in numbers:
+        if number not in text:
+            fail(f"{page}: falta o número {number} calculado na amostra")
 
 # A fórmula publicada tem linguagem natural, mas não pode trocar de numerador.
 # Este teste guarda os significados das revisões, enquanto o SQLite verifica o cálculo.
@@ -118,5 +143,5 @@ if errors:
     sys.exit(1)
 
 print("OK: SQLite retorna 25.0% (1 de 4 sessões); pedidos por sessão dá 50% (2 de 4); "
-      "seis perguntas de referência nos dois gabaritos; "
+      "taxa sem filtro de sessões internas dá 40%; sete perguntas de referência no gabarito aprovado; "
       "dicionário de pedidos confere com as colunas e os códigos da amostra.")

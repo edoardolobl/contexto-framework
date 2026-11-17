@@ -1,51 +1,66 @@
 ---
 title: Relacionamento entre tabelas
-description: Registre chaves, cardinalidade, tipos de junção, regras temporais e riscos de multiplicação de linhas.
+description: Documente chave, cardinalidade e o que contar depois de juntar duas tabelas.
 ---
 
 import TemplateDownloads from '../../../components/TemplateDownloads.astro';
 import ExampleDoc from '../../../components/ExampleDoc.astro';
 import TemplateStart from '../../../components/TemplateStart.astro';
+import JoinDiagram from '../../../components/JoinDiagram.astro';
+
+<p class="editorial-lead">Uma sessão, dois pedidos: 25% ou 50%</p>
 
 <TemplateStart kind="relacionamento" />
 
-<p class="editorial-lead">Documente como os dados se relacionam</p>
+## O problema
 
-Saber o nome de duas tabelas não garante que a junção entre elas represente o conceito de negócio. Uma chave compartilhada pode gerar duplicação, associar períodos incompatíveis ou misturar entidades diferentes.
+No [Laboratório Aurora](../../exemplos/analytics-integrado/), `demo_sessions` e `demo_orders` têm a coluna `session_id` em comum. O schema mostra a chave. Não mostra que **uma sessão pode ter vários pedidos**, nem o que contar depois de juntar as duas tabelas. Em 01/10, a sessão S1 tem dois pedidos confirmados:
 
-## Perguntas ao responsável pelo modelo
+<JoinDiagram showCounts />
 
-| Pergunta | Por que importa |
-|---|---|
-| O que cada linha representa em cada lado? | Define a granularidade de origem e destino |
-| Qual par de chaves deve ser usado? | Evita junções por campos parecidos, mas não equivalentes |
-| A relação é 1:1, 1:N ou N:N? | Permite antecipar multiplicação de linhas |
-| Existem chaves sem correspondência? | Define se um `INNER JOIN` é apropriado |
-| Qual é a regra de período? | Evita associar status atual a períodos históricos |
-| Há tabelas que guardam uma fotografia por data, ou que mudam devagar e guardam o histórico? | Ajuda a definir a referência temporal correta |
-| O dado contém valores sentinela ou nulos? | Evita interpretar ausências como entidades reais |
-| Quais combinações são proibidas ou ambíguas? | Registra armadilhas conhecidas |
+As duas contas estão certas como aritmética. Só uma responde à pergunta do [indicador](../kpi/). O documento de relacionamento é onde fica escrito qual.
 
-## Dois exemplos do mesmo documento
+## O que perguntar
 
-O primeiro quadro mostra o documento no começo do trabalho: muita coisa ainda sem resposta, e isso está escrito. O segundo mostra o mesmo documento depois que a área responsável decidiu.
+| Pergunta | Na Aurora | O que registrar |
+|---|---|---|
+| O que uma linha representa de cada lado? | Uma sessão; um pedido | Granularidade dos dois lados |
+| Qual par de colunas liga as tabelas? | `demo_orders.session_id` → `demo_sessions.session_id` | Chave da junção |
+| A relação é 1:1, 1:N ou N:N? | Uma sessão, zero ou mais pedidos | Cardinalidade |
+| Depois de juntar, conta-se cada pedido ou cada sessão? | S1 conta uma ou duas vezes? | Regra de contagem |
+| Há linhas sem par? | S6 não tem pedido | Junção que preserva quem não tem par |
+| O filtro vem antes ou depois da junção? | Sessões internas e do app saem antes | Ordem dos filtros |
+| A relação depende de período? | Um pedido de outubro pode ligar a uma sessão de setembro? | Regra temporal |
+
+## Antes e depois da decisão
+
+Enquanto ninguém decidiu o que contar depois da junção, o documento diz isso, com o tamanho do erro:
 
 <ExampleDoc file="exemplo-relacionamento-lacunas.yaml" />
 
+Depois da aprovação, a regra de contagem acompanha o indicador:
+
 <ExampleDoc file="exemplo-relacionamento-completo.yaml" />
 
-O **histórico de versões** indica o que mudou, mas não substitui uma cópia da regra anterior. Para interpretar o passado, é preciso identificar a versão certa e sua vigência; veja o [guia de identificação e versões](../../metodo/identificacao-versoes/).
+### O que o histórico de versões ensina
 
-Para contar **sessões convertidas**, um `COUNT(*)` após essa junção pode gerar resultado errado. Um exemplo documental pode registrar a intenção de contar sessões únicas, mas a implementação SQL precisa ser testada separadamente.
+A versão 1.0, de 20/08, já tinha a chave e a cardinalidade um para muitos. A 2.0, de 15/09, acrescentou a regra de contar sessão distinta, no mesmo dia em que o indicador passou a contar sessões. O relacionamento mudou porque a pergunta mudou, não porque as tabelas mudaram.
 
-### Não transforme convenções em regras universais
+## Teste você
 
-A decisão por `LEFT JOIN`, `INNER JOIN`, janelas temporais ou contagens distintas depende da pergunta e do domínio. O modelo **não prescreve** uma junção correta para todo caso.
+1. Para a taxa de 01/10, S1 conta uma ou duas vezes?
+   <details><summary>Ver resposta</summary>Uma. Desde 15/09, a regra é contar sessão distinta: 1 ÷ 4 = 25%.</details>
+2. Um relatório de 10/09 contou cada pedido confirmado sobre as sessões elegíveis. Errou?
+   <details><summary>Ver resposta</summary>Não. Em 10/09 valia o indicador 1.0, que contava pedidos confirmados por sessão; contar pedidos era o certo para aquela definição. A regra de sessão distinta só entrou em 15/09.</details>
+3. Alguém calcula o denominador depois de juntar sessões elegíveis com pedidos confirmados. Quanto dá a taxa, e por quê?
+   <details><summary>Ver resposta</summary>100%. A junção deixa só S1, porque S2, S5 e S6 não têm pedido confirmado, e o denominador vira 1. O denominador tem de vir das sessões elegíveis antes da junção: 4.</details>
+
+## Baixe o modelo
 
 <TemplateDownloads kind="relacionamento" />
 
-Consulte o [Laboratório Aurora](../../exemplos/analytics-integrado/).
+O modelo não prescreve um tipo de junção para todo caso: preservar as sessões sem pedido, ficar só com os pares ou contar entidades distintas depende da pergunta. O que ele exige é que a escolha fique escrita.
 
-### Referências
+### Fundamentação
 
 [dbt MetricFlow](https://docs.getdbt.com/docs/build/about-metricflow), [Snowflake Semantic Views](https://docs.snowflake.com/en/user-guide/views-semantic/semantic-view-yaml-spec) e [Databricks: definições de junções](https://docs.databricks.com/gcp/en/genie/add-instructions). O YAML é original e não executável.

@@ -42,5 +42,7 @@ known_limitations:
 conflicting_dashboards: []
 reference_questions: ["QA-AURORA-001"]
 open_questions:
-  - "Quem homologaria os filtros e as definições num projeto real?"
+  - "O cartão de conversão segue qual versão do KPI-AURORA-001?"
+  - "Quem aprova os filtros padrão do dashboard?"
+  - "Se outro dashboard mostrar outro número para o mesmo dia, qual prevalece?"
 related_documents: ["KPI-AURORA-001", "DATASET-AURORA-SESSIONS"]

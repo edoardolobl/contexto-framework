@@ -1,6 +1,6 @@
--- CONTEXTO: laboratório sintético, não representa dados de clientes.
+-- Laboratório Aurora: 6 sessões e 6 pedidos, para refazer as contas à mão.
 -- Dialeto: SQLite 3. Uma sessão pode produzir muitos pedidos.
--- O exemplo está restrito a 2026-10-01, no canal WEB, sem tráfego interno.
+-- O indicador usa só 01/10, canal web, sem sessões internas; S3 (interna) e S4 (app) estão na amostra para mostrar os filtros.
 PRAGMA foreign_keys = ON;
 
 CREATE TABLE demo_sessions (

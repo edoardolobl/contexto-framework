@@ -245,7 +245,7 @@ for path in EDITORIAL_FILES:
 # Terminology: one concept, one term. Each rule: variant pattern, preferred term,
 # and the pages where the variant is allowed (references and their sources).
 TERM_RULES = [
-    (r"\bcasos? de fronteira\b|\bedge cases?\b", "caso-limite", 0, ()),
+    (r"\bcasos? de fronteira\b|\bedge cases?\b|\bcasos? limites?\b", "caso-limite", re.I, ()),
     (r"\bvalidade\b", "vigência", re.I, ()),
     (r"\bID da revisão\b|\brevis(?:ão|ões) (?:`?\d|histórica|anterior|vigente|específica)", "versão (revisão é só o ato de revisar)", re.I, ()),
     (r"\bdonos?\b", "responsável ou quem aprova", re.I, ()),

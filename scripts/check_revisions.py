@@ -117,8 +117,10 @@ for stable, as_of, expected in expectations:
 
 
 # Uma resposta calculada sobre dados de 01/10 não deveria ter sido aprovada em setembro.
-qa = revisions.get("QA-AURORA-001@1.1")
-if qa:
+qa = next((r for k, r in revisions.items() if k.startswith("QA-AURORA-001@") and r["data"].get("status") == "approved"), None)
+if not qa:
+    errors.append("Gabarito QA-AURORA-001 aprovado não encontrado")
+else:
     path, data = qa["path"], qa["data"]
     sample_date = date(2026, 10, 1)
     for q in data.get("questions", []):

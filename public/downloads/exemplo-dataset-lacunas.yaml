@@ -51,7 +51,7 @@ columns:
   - physical_name: is_internal
     technical_type: INTEGER
     business_name: "Sessão interna"
-    meaning: "No laboratório, 1 significa interna; 0 significa não interna"
+    meaning: "1 = sessão interna. O que conta como interna ainda não foi confirmado"
     unit: null
     allowed_values: [0, 1]
     sentinel_values: []
@@ -88,5 +88,7 @@ validation:
   checked_at: null
   evidence: ["aurora-fixture.sql"]
 open_questions:
-  - "Quem aprovaria a semântica num contexto real?"
+  - "is_internal = 1 marca o quê: testes da equipe, a rede do escritório, compras de funcionários?"
+  - "Sessões internas entram na taxa de conversão? Na amostra de 01/10, a resposta muda a taxa de 25% para 40%."
+  - "Quem aprova a semântica do dicionário?"
 related_documents: ["KPI-AURORA-001", "REL-AURORA-SESSIONS-ORDERS"]

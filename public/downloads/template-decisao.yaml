@@ -31,11 +31,13 @@ priority_rules: []
 default_behavior: null
 unknown_input_behavior: null
 exceptions: []
-tests:
-  - inputs: {}
+tests:   # descreva cada teste como um pedido real, não só como combinação de entradas
+  - case: null
+    inputs: {}
     expected_outcome: null
     reasoning: null
-  - inputs: {}
+  - case: null
+    inputs: {}
     expected_outcome: null
     reasoning: null
 conflicts: []

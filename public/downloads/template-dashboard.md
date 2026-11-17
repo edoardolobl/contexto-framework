@@ -49,8 +49,8 @@ Estados possíveis: **Rascunho**, **Pendente de aprovação**, **Aprovado**, **O
 
 ## Limitações e exceções
 - Erros conhecidos:
-- Mudanças de tracking ou definição:
-- Diferenças entre dashboards:
+- Mudanças na coleta de dados ou na definição:
+- Outro dashboard que mostra outro número (nome, o que mostra, causa, qual vale):
 - Quando o resultado não deve fundamentar uma decisão:
 
 ## Rastreabilidade

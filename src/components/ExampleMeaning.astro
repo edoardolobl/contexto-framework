@@ -128,6 +128,11 @@ switch (doc.type) {
       body: `Quem autoriza: ${display(v.approval_role)}`,
       note: `Evidência necessária: ${display(v.evidence_needed)}`,
     })));
+    add('Pedidos usados para testar a tabela', [], [], (doc.tests ?? []).filter((v: any) => present(v.case)).map((v: any) => ({
+      heading: display(v.case),
+      body: `Encaminhamento: ${decisionValue(v.expected_outcome)}`,
+      note: present(v.reasoning) ? display(v.reasoning) : undefined,
+    })));
     break;
   }
   case 'policy_reference':
@@ -234,7 +239,11 @@ switch (doc.type) {
     add('O que este dashboard não permite concluir', [
       ...pair('Limitações', doc.known_limitations),
       ...pair('Decisões que apoia', doc.supported_decisions),
-    ]);
+    ], [], (doc.conflicting_dashboards ?? []).filter((v: any) => typeof v === 'object').map((v: any) => ({
+      heading: `Conflito: ${display(v.name)} mostra “${display(v.shows)}”`,
+      body: display(v.cause),
+      note: present(v.precedence) ? `Qual vale: ${display(v.precedence)}` : undefined,
+    })));
     break;
   case 'evaluation_rubric':
     add('Objeto e cuidados da avaliação', [

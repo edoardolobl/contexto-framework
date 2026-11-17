@@ -14,7 +14,7 @@ import BeforeAfter from '../../../components/BeforeAfter.astro';
 
 ## O problema
 
-A loja Aurora quer usar IA para responder perguntas sobre conversão de e-commerce. O acervo tem dashboards, um schema SQL e a frase “taxa de conversão = conversões ÷ visitas”. Os números estão disponíveis; o significado, não. Na mesma amostra do [Laboratório Aurora](../../exemplos/analytics-integrado/), uma leitura da frase dá **25%** e outra dá **50%**, porque uma sessão tem dois pedidos.
+A loja Aurora quer usar IA para responder perguntas sobre conversão de e-commerce. O acervo tem dashboards, um schema SQL e a frase “taxa de conversão = conversões ÷ visitas”. Os números estão disponíveis; o significado, não. Na mesma amostra do [Laboratório Aurora](../../exemplos/analytics-integrado/), uma leitura da frase dá **25%** e outra dá **50%**, porque uma sessão tem dois pedidos. E a pergunta “qual foi a conversão de setembro?” tem duas respostas, porque a definição mudou no meio do mês.
 
 <BeforeAfter />
 
@@ -57,6 +57,8 @@ A versão 1.0, vigente de 15/08 a 14/09, contava **pedidos** confirmados por ses
    <details><summary>Ver resposta</summary>Não se pode dizer isso. São duas fórmulas diferentes; a diferença vem da mudança de definição, não do comportamento dos clientes.</details>
 4. Alguém pergunta “qual a conversão mobile?”. O que a documentação permite responder?
    <details><summary>Ver resposta</summary>Pedir esclarecimento. O indicador vale só para web; “mobile” pode ser web no celular ou o app, que está fora do escopo.</details>
+5. Alguém pergunta “qual foi a conversão de setembro?”. Existe um número para o mês?
+   <details><summary>Ver resposta</summary>Não um só. De 01 a 14/09 vale a versão 1.0, que conta pedidos por sessão; de 15 a 30/09, a 2.0, que conta sessões convertidas. Um número único para o mês misturaria as duas. Num acervo com dados de setembro, a resposta é dar os dois períodos separados, cada um com a sua definição, ou perguntar qual deles a pessoa quer. No laboratório nem isso: a amostra só tem 01/10, e por isso a pergunta Q05 do gabarito não recebe número.</details>
 
 Essas perguntas verificam se o documento tem o que é preciso para responder. Não testam se um modelo de IA específico acertaria.
 

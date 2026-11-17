@@ -1,57 +1,61 @@
 ---
 title: Dashboard
-description: Documente o propósito, indicadores, filtros, atualização, contexto e limites de um dashboard.
+description: Documente qual definição cada cartão segue, com quais filtros e período, e o que fazer quando dois dashboards discordam.
 ---
 
 import TemplateDownloads from '../../../components/TemplateDownloads.astro';
 import ExampleDoc from '../../../components/ExampleDoc.astro';
 import TemplateStart from '../../../components/TemplateStart.astro';
 
+<p class="editorial-lead">Dois dashboards, o mesmo dia, 25% e 50%</p>
+
 <TemplateStart kind="dashboard" />
 
-<p class="editorial-lead">Documente o significado de um dashboard</p>
+## O problema
 
-Uma captura de tela de gráfico não explica o que cada KPI mede, quais filtros estão ativos, qual período é válido nem como diferentes áreas devem interpretar mudanças.
+Na sexta, 02/10, a Diretoria da Aurora recebe o Resumo semanal: **“Conversão web em 01/10: 50%”**. No dashboard Conversão Web, o mesmo dia aparece com **25%**. Os dados são as mesmas seis sessões e seis pedidos do [Laboratório Aurora](../../exemplos/analytics-integrado/). A diferença está na fórmula: o resumo ainda usa a versão 1.0 do [indicador](../kpi/), que contava pedidos por sessão; desde 15/09 vale a 2.0, que conta sessões convertidas.
 
-## Perguntas a fazer
+Uma captura de tela dos dois cartões não mostra isso. Quem encontrou a divergência foi quem leu o documento do dashboard, que diz qual versão do indicador o cartão segue.
 
-| Campo | O que esclarecer |
-|---|---|
-| Pergunta de negócio | Qual decisão o dashboard apoia? |
-| Público | Quem usa e qual conhecimento prévio é esperado? |
-| Indicadores | Quais definições aprovadas cada cartão utiliza? |
-| Escopo | Quais canais, produtos, regiões ou populações estão incluídos? |
-| Filtros padrão | Quais filtros aparecem ativos quando o dashboard abre? |
-| Tempo | Qual fuso, janela, corte e horário de atualização? |
-| Comparações | Quais séries podem ser comparadas? Qual período serve de base de comparação? |
-| Limitações | Atrasos, dados ausentes, reprocessamentos, mudança de definição |
-| Autoridade | Dashboard exploratório ou fonte oficial? Quem o mantém? |
+## O que perguntar
 
-## Dois exemplos do mesmo documento
+| Pergunta | Na Aurora | O que registrar |
+|---|---|---|
+| Que decisão o dashboard apoia, e para quem? | Distinguir sessões convertidas de pedidos por sessão, para a operação de marketing | Finalidade e público |
+| Que definição cada cartão segue, em qual versão? | O cartão de conversão segue o KPI-AURORA-001, versão 2.0 | Indicador e versão |
+| Que filtros estão ativos quando o dashboard abre? | Canal web, sem sessões internas | Filtros padrão |
+| Qual período, e em que fuso? | 01/10/2026, data local da loja | Referência de tempo |
+| Com o que um número pode ser comparado? | Só com datas a partir de 15/09 | Base de comparação e limites |
+| Ele é oficial ou exploratório? | Oficial para a taxa de sessões convertidas | Autoridade |
+| E se outro dashboard mostrar outro número? | O Resumo semanal mostra 50% | Conflito e qual prevalece |
 
-O primeiro quadro mostra o documento no começo do trabalho: muita coisa ainda sem resposta, e isso está escrito. O segundo mostra o mesmo documento depois que a área responsável decidiu.
+## Antes e depois da decisão
+
+No rascunho, ninguém tinha dito qual versão do indicador o cartão segue, nem o que fazer se outro dashboard discordar:
 
 <ExampleDoc file="exemplo-dashboard-lacunas.yaml" />
 
+Na versão aprovada, o documento registra o conflito com o Resumo semanal e diz qual número vale:
+
 <ExampleDoc file="exemplo-dashboard-completo.yaml" />
 
-O **histórico de versões** indica o que mudou, mas não substitui uma cópia da regra anterior. Para interpretar o passado, é preciso identificar a versão certa e sua vigência; veja o [guia de identificação e versões](../../metodo/identificacao-versoes/).
+### O que o histórico de versões ensina
 
-O dashboard deve apontar para a **definição do KPI**, não copiar uma fórmula diferente. Se dois dashboards usam conceitos divergentes, documente o conflito e a decisão de precedência.
+A versão 1.0, de 22/08, tinha os filtros padrão. A 2.0, de 15/09, passou a seguir o indicador 2.0 e avisa que valores anteriores não são comparáveis; é maior porque o número do cartão muda. A 2.1, de 02/10, ligou o período do laboratório e o gabarito e registrou o conflito com o Resumo semanal, sem mudar nenhum número deste dashboard.
 
-## Que perguntas ele deve ajudar a responder?
+## Teste você
 
-- O número é definitivo ou sujeito a atraso?
-- Por que ele difere de outro dashboard?
-- A queda é comparável a períodos com alterações na coleta de dados?
-- O dashboard mede pedidos, sessões ou clientes?
+1. A Diretoria pergunta qual número vale para 01/10, 25% ou 50%. O que o documento responde?
+   <details><summary>Ver resposta</summary>25%. Este dashboard é o oficial para a taxa de sessões convertidas; o Resumo semanal segue a fórmula antiga e foi marcado para correção.</details>
+2. Um relatório de setembro, feito com a regra da época, deu 50% para 10/09. O cartão dá 25% para 01/10. A conversão caiu à metade?
+   <details><summary>Ver resposta</summary>Não se pode dizer isso. Em 10/09 valia a definição antiga, que contava pedidos. Os dois números medem coisas diferentes, e o documento do dashboard avisa que valores anteriores a 15/09 não são comparáveis.</details>
+3. A base de comparação é o mesmo dia da semana anterior. Com que dia 01/10 seria comparado, e o dashboard mostra esse dia?
+   <details><summary>Ver resposta</summary>Com quinta, 24/09, que já está na definição 2.0. Mas o período do dashboard no laboratório é só 01/10, então ele não mostra 24/09: a comparação fica sem o segundo número, e o documento diz isso em “Não cobre períodos fora da amostra”.</details>
 
-Se a documentação não responde, marque a limitação. Não presuma que um gráfico mostra toda a verdade do negócio.
+## Baixe o modelo
 
 <TemplateDownloads kind="dashboard" />
 
-Para a aplicação prática, veja o [Laboratório Aurora](../../exemplos/analytics-integrado/).
-
-### Referências
+### Fundamentação
 
 [Microsoft: preparação de soluções RAG](https://learn.microsoft.com/pt-br/azure/architecture/ai-ml/guide/rag/rag-preparation-phase) e [Snowflake Semantic Views](https://docs.snowflake.com/en/user-guide/views-semantic/semantic-view-yaml-spec). Esta proposta é uma adaptação.

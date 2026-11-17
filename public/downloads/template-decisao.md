@@ -49,8 +49,8 @@ Estados possíveis: **Rascunho**, **Pendente de aprovação**, **Aprovado**, **O
 - Critério de abstenção ou escalonamento:
 
 ## Exemplos de decisão
-- Entradas → resultado esperado → justificativa:
-- Casos limites e exceções:
+- Pedido descrito → entradas → resultado esperado → justificativa:
+- Casos-limite e exceções:
 - Conflito com outras regras:
 
 ## Revisão e perguntas em aberto

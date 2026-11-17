@@ -46,7 +46,7 @@ calculation:
 time:
   reference_date_field: null
   timezone: null
-  reporting_window: "2026-10-01 na amostra; janela real ainda não homologada"
+  reporting_window: "2026-10-01 na amostra; janela mensal ainda não aprovada"
   data_freshness: null
 
 data_sources:
