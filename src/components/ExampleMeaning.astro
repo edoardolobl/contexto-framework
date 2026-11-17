@@ -68,7 +68,7 @@ switch (doc.type) {
     add('Exemplos que ajudam a decidir', [
       ...pair('Exemplo', doc.examples),
       ...pair('Contraexemplo', doc.counterexamples),
-      ...pair('Caso de fronteira', doc.boundary_cases),
+      ...pair('Caso-limite', doc.boundary_cases),
     ]);
     break;
   case 'process_definition':
@@ -156,7 +156,7 @@ switch (doc.type) {
       })),
       ...(doc.conflicting_sources ?? []).map((v: any) => ({
         heading: `Conflito: ${display(v.description)}`,
-        body: `Estado: ${v.state === 'resolved' ? 'Resolvido' : 'Pendente'}`,
+        body: `Estado: ${v.state === 'resolved' ? 'Resolvido' : 'Em aberto'}`,
         note: present(v.resolution) ? `Decisão registrada: ${display(v.resolution)}` : 'Sem resolução aprovada',
       })),
     ]);
@@ -219,7 +219,7 @@ switch (doc.type) {
     ]);
     break;
   case 'dashboard_definition':
-    add('Como interpretar o painel', [
+    add('Como interpretar o dashboard', [
       ...pair('Finalidade', doc.purpose),
       ...pair('Público', doc.audiences),
       ...pair('Indicadores', doc.metrics),
@@ -229,7 +229,7 @@ switch (doc.type) {
       ...pair('Atualização', doc.freshness?.refresh_frequency),
       ...pair('Status como fonte', doc.official_or_exploratory),
     ]);
-    add('O que este painel não permite concluir', [
+    add('O que este dashboard não permite concluir', [
       ...pair('Limitações', doc.known_limitations),
       ...pair('Decisões que apoia', doc.supported_decisions),
     ]);

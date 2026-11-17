@@ -1,6 +1,6 @@
 # Política totalmente fictícia. Não há regras de reembolso aprovadas.
 id: POLICY-EVENTS-001
-revision_id: "POLICY-EVENTS-001@0.1"  # revisão específica; id = assunto estável
+revision_id: "POLICY-EVENTS-001@0.1"  # versão específica; id = assunto estável
 title: "Despesas em eventos: Aurora"
 type: policy_reference
 status: pending_approval
@@ -46,7 +46,7 @@ conflicting_sources:
     resolution_owner: null
 
 source_precedence_rule: null
-how_to_verify: "Solicitar confirmação da área proprietária"
+how_to_verify: "Solicitar confirmação da área responsável"
 review_trigger: "Resolução do conflito de versões"
 open_questions:
   - "Qual fonte tem autoridade vigente?"

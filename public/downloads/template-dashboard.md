@@ -1,10 +1,10 @@
 # [Nome do dashboard]
 
-> **Como usar este modelo.** Responda só o que você sabe e consegue comprovar. O que não souber, deixe em branco e anote em "Lacunas" ou "Perguntas em aberto", com quem pode responder. Um campo em branco é melhor do que um palpite.
+> **Como usar este modelo.** Responda só o que você sabe e consegue comprovar. O que não souber, deixe em branco e anote em "Perguntas em aberto", com quem pode responder. Um campo em branco é melhor do que um palpite.
 
 ## Identificação
 
-Os campos marcados com **(obrigatório)** são o mínimo para começar. Os demais você completa quando a revisão for aprovada.
+Os campos marcados com **(obrigatório)** são o mínimo para começar. Os demais você completa quando a versão for aprovada.
 
 | Campo | Preenchimento |
 |---|---|
@@ -16,8 +16,8 @@ Os campos marcados com **(obrigatório)** são o mínimo para começar. Os demai
 | Versão atual **(obrigatório)** | 0.1 |
 | Data desta versão **(obrigatório)** | |
 | Fonte oficial | |
-| Identificador desta revisão | |
-| Substitui qual revisão? | |
+| Identificador desta versão | |
+| Substitui qual versão? | |
 | Vale a partir de | |
 | Último dia de vigência (em branco se não houver fim) | |
 
@@ -28,10 +28,10 @@ Estados possíveis: **Rascunho**, **Pendente de aprovação**, **Aprovado**, **O
 - Quem o utiliza?
 - Qual dashboard ou relatório é a fonte oficial?
 
-## Métricas
+## Indicadores
 - KPI referenciado:
 - Definição, fonte e responsável:
-- O que a métrica não mede:
+- O que o indicador não mede:
 
 ## Filtros e interpretação
 - Filtros padrão e valores:
@@ -54,13 +54,13 @@ Estados possíveis: **Rascunho**, **Pendente de aprovação**, **Aprovado**, **O
 - Quando o resultado não deve fundamentar uma decisão:
 
 ## Rastreabilidade
-- Links para a definição de cada métrica:
+- Links para a definição de cada indicador:
 - Exemplos de perguntas e respostas:
-- Pendências abertas:
+- Perguntas em aberto:
 
 ## Histórico de versões
 
-Acrescente uma linha a cada mudança, a mais recente primeiro. Registre o que mudou na regra, não só que o texto foi editado. **Guarde o documento completo de cada revisão aprovada:** o resumo abaixo não permite reconstruir a definição anterior.
+Acrescente uma linha a cada mudança, a mais recente primeiro. Registre o que mudou na regra, não só que o texto foi editado. **Guarde o documento completo de cada versão aprovada:** o resumo abaixo não permite reconstruir a definição anterior.
 
 | Versão | Data | O que mudou e por quê | Aprovado por (cargo ou área) |
 |---|---|---|---|

@@ -2,7 +2,7 @@
 # A aprovação, o responsável, as datas e a fonte abaixo são fictícios e existem
 # só para mostrar como fica um documento depois que a área responsável decide.
 id: KPI-AURORA-001
-revision_id: "KPI-AURORA-001@2.0"  # revisão específica; id = assunto estável
+revision_id: "KPI-AURORA-001@2.0"  # versão específica; id = assunto estável
 title: "Taxa de sessões convertidas: loja web Aurora"
 type: metric_definition
 status: approved
@@ -16,7 +16,7 @@ valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
 supersedes_revision: "KPI-AURORA-001@1.0"
 domain: ecommerce
 last_reviewed: "2026-09-15"
-source_of_truth: "Catálogo de métricas da Aurora, entrada KPI-AURORA-001 (documento fictício)"
+source_of_truth: "Catálogo de indicadores da Aurora, entrada KPI-AURORA-001 (documento fictício)"
 version_history:
   - version: "2.0"
     date: "2026-09-15"
@@ -36,7 +36,7 @@ business_definition:
   purpose: "Acompanhar o resultado do funil web"
   synonyms: ["conversão web"]
   different_meanings_in_other_domains:
-    - "Conversão de lead: outra métrica, não usar como sinônimo"
+    - "Conversão de lead: outro indicador, não usar como sinônimo"
     - "Pedidos por sessão: era a definição da versão 1.0; hoje é outra medida, sem documento próprio"
 
 scope:
@@ -66,17 +66,17 @@ data_sources:
   relevant_columns: ["demo_sessions.session_id", "demo_sessions.channel", "demo_sessions.is_internal", "demo_sessions.session_date", "demo_orders.session_id", "demo_orders.status_code"]
   valid_join_paths: ["REL-AURORA-SESSIONS-ORDERS"]
   source_conflicts_and_precedence:
-    - "Se um painel mostrar valor diferente, vale o cálculo de aurora-reference-query.sql"
+    - "Se um dashboard mostrar valor diferente, vale o cálculo de aurora-reference-query.sql"
 
 validation:
   approved_examples:
     - "Exemplo hipotético para explicar a regra: quatro sessões elegíveis, uma convertida, resultado de 25%"
-  expected_questions_and_answers: []  # gabarito de outubro foi criado depois desta revisão
+  expected_questions_and_answers: []  # gabarito de outubro foi criado depois desta versão
   known_edge_cases:
     - "Uma sessão com dois pedidos confirmados conta uma única vez"
     - "Uma sessão com somente pedido cancelado não conta como convertida"
     - "Uma sessão com somente pedido de teste não conta como convertida"
-  tests: []  # demonstração executável de outubro está no laboratório, posterior a esta revisão
+  tests: []  # demonstração executável de outubro está no laboratório, posterior a esta versão
 
 open_questions: []
 related_documents: ["DATASET-AURORA-SESSIONS", "DATASET-AURORA-ORDERS", "REL-AURORA-SESSIONS-ORDERS", "DASH-AURORA-WEB"]

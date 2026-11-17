@@ -2,7 +2,7 @@
 # A aprovação, o responsável, as datas e a fonte abaixo são fictícios e existem
 # só para mostrar como fica um documento depois que a área responsável decide.
 id: POLICY-EVENTS-001
-revision_id: "POLICY-EVENTS-001@1.1"  # revisão específica; id = assunto estável
+revision_id: "POLICY-EVENTS-001@1.1"  # versão específica; id = assunto estável
 title: "Despesas em eventos: Aurora"
 type: policy_reference
 status: approved
@@ -30,13 +30,13 @@ version_history:
     change: "Primeiro rascunho, com três fontes em conflito e nenhuma autoridade confirmada"
     approved_by: null
 
-# A política subjacente tem effective_date 01/07. A revisão documental 1.1
+# A política subjacente tem effective_date 01/07. A versão documental 1.1
 # foi emitida e passou a vigorar em 01/10: são duas datas diferentes.
 # Atenção: "version" acima é a versão DESTE REGISTRO. A versão da política em si
 # está em authority.version. São coisas diferentes e mudam em momentos diferentes.
 purpose: "Dizer qual regra de despesas de evento está valendo e onde ela está escrita"
 scope:
-  audiences: ["Equipe de eventos da Aurora", "Aprovadores de despesas"]
+  audiences: ["Equipe de eventos da Aurora", "Quem aprova despesas"]
   activities: ["Registro e reembolso de despesas de evento"]
   localities: ["Todas as unidades da Aurora"]
   exclusions: ["Viagens sem relação com eventos, cobertas por outra política"]

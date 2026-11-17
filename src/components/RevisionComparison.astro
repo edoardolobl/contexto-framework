@@ -27,25 +27,25 @@ const details = (doc: any) => kind === 'conceito'
   ? doc.inclusion_criteria?.[1] ?? doc.inclusion_criteria?.[0]
   : doc.calculation?.numerator;
 ---
-<section class="revision-comparison" aria-label="Duas revisões do mesmo documento fictício">
+<section class="revision-comparison" aria-label="Duas versões do mesmo documento fictício">
   {entries.map((doc, i) => <article class:list={['revision-comparison__card', i === 1 && 'revision-comparison__card--current']}>
-    <p class="panel-kicker">{i === 0 ? 'REVISÃO HISTÓRICA · NÃO VIGENTE' : 'REVISÃO ATUAL NO EXEMPLO FICTÍCIO'}</p>
-    <h3>Revisão {doc.version}</h3>
+    <p class="panel-kicker">{i === 0 ? 'VERSÃO HISTÓRICA · NÃO VIGENTE' : 'VERSÃO ATUAL NO EXEMPLO FICTÍCIO'}</p>
+    <h3>Versão {doc.version}</h3>
     <dl class="revision-comparison__metadata">
       <div class="revision-comparison__metadata-id"><dt>ID do assunto</dt><dd><code>{doc.id}</code></dd></div>
-      <div class="revision-comparison__metadata-id"><dt>ID da revisão</dt><dd><code>{doc.revision_id}</code></dd></div>
+      <div class="revision-comparison__metadata-id"><dt>ID da versão</dt><dd><code>{doc.revision_id}</code></dd></div>
       <div><dt>Data do registro</dt><dd>{prettyDate(doc.version_date)}</dd></div>
       <div><dt>Regra válida desde</dt><dd>{prettyDate(doc.valid_from)}</dd></div>
       <div><dt>Último dia de vigência</dt><dd>{lastDay(doc.valid_to)}</dd></div>
     </dl>
     <div class="revision-comparison__rule">
-      <strong>{kind === 'conceito' ? 'Definição nesta revisão' : 'Fórmula nesta revisão'}</strong>
+      <strong>{kind === 'conceito' ? 'Definição nesta versão' : 'Fórmula nesta versão'}</strong>
       <p>{rule(doc)}</p>
       {details(doc) && <small>{details(doc)}</small>}
     </div>
     <a class="revision-comparison__download" href={base + 'downloads/' + doc.file} download>
-      Baixar revisão {doc.version} <span aria-hidden="true">↓</span>
+      Baixar versão {doc.version} <span aria-hidden="true">↓</span>
     </a>
   </article>)}
 </section>
-<p class="revision-comparison__notice">Exemplos inteiramente fictícios. A aprovação representa somente a narrativa da Aurora. As duas revisões nunca têm vigência simultânea.</p>
+<p class="revision-comparison__notice">Exemplos inteiramente fictícios. A aprovação representa somente a narrativa da Aurora. As duas versões nunca têm vigência simultânea.</p>

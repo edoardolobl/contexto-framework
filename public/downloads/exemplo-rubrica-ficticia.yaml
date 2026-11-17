@@ -1,6 +1,6 @@
 # Case analítico fictício, com lacunas. Não usar para avaliar pessoas reais.
 id: RUBRIC-ANALYTICS-001
-revision_id: "RUBRIC-ANALYTICS-001@0.1"  # revisão específica; id = assunto estável
+revision_id: "RUBRIC-ANALYTICS-001@0.1"  # versão específica; id = assunto estável
 title: "Rubrica de case Data Analytics: exemplo"
 type: evaluation_rubric
 status: pending_approval
@@ -34,7 +34,7 @@ criteria:
       "1": "Erros materiais comprometem os cálculos"
       "2": "Cálculo principal correto, validação limitada"
       "3": "Cálculo correto, reproduzível e verificado"
-      "4": "Além de 3, antecipa edge cases e armadilhas de granularidade"
+      "4": "Além de 3, antecipa casos-limite e armadilhas de granularidade"
   - id: business_semantics
     name: "Interpretação de negócio"
     definition: "Mede o conceito solicitado, não apenas uma fórmula plausível"

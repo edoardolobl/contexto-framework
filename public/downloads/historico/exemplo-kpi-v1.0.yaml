@@ -1,12 +1,12 @@
-# REVISÃO HISTÓRICA FICTÍCIA 1.0: arquivada e não vigente.
+# VERSÃO HISTÓRICA FICTÍCIA 1.0: arquivada e não vigente.
 # Preservada para permitir interpretar perguntas sobre o período em que valia.
 # A aprovação e a organização Aurora são inteiramente fictícias.
 id: KPI-AURORA-001
-revision_id: "KPI-AURORA-001@1.0"  # revisão específica; id = assunto estável
+revision_id: "KPI-AURORA-001@1.0"  # versão específica; id = assunto estável
 title: "Pedidos confirmados por sessão elegível (definição antiga rotulada conversão web)"
 type: metric_definition
 status: approved
-example_notice: "Revisão histórica aprovada apenas na narrativa fictícia Aurora. Não vigente."
+example_notice: "Versão histórica aprovada apenas na narrativa fictícia Aurora. Não vigente."
 version: "1.0"
 version_date: "2026-08-15"
 owner: "Analytics de E-commerce (Aurora)"
@@ -16,7 +16,7 @@ valid_to: "2026-09-15"  # fim exclusivo da vigência; null = sem fim documentado
 supersedes_revision: "KPI-AURORA-001@0.1"
 domain: ecommerce
 last_reviewed: "2026-08-15"
-source_of_truth: "Catálogo de métricas Aurora, revisão 1.0 de KPI-AURORA-001 (documento fictício)"
+source_of_truth: "Catálogo de indicadores da Aurora, versão 1.0 de KPI-AURORA-001 (documento fictício)"
 version_history:
   - version: "1.0"
     date: "2026-08-15"
@@ -32,7 +32,7 @@ business_definition:
   purpose: "Acompanhar o resultado do funil web"
   synonyms: ["conversão web (rótulo histórico impreciso)"]
   different_meanings_in_other_domains:
-    - "Conversão de lead: outra métrica"
+    - "Conversão de lead: outro indicador"
     - "Sessões convertidas: definição revisada na versão 2.0"
 
 scope:
@@ -62,7 +62,7 @@ data_sources:
   relevant_columns: ["demo_sessions.session_id", "demo_sessions.channel", "demo_sessions.is_internal", "demo_sessions.session_date", "demo_orders.session_id", "demo_orders.status_code"]
   valid_join_paths: ["REL-AURORA-SESSIONS-ORDERS"]
   source_conflicts_and_precedence:
-    - "A consulta aurora-reference-query.sql implementa a revisão 2.0, NÃO a 1.0. Não a utilizar para reconstruir esta fórmula histórica."
+    - "A consulta aurora-reference-query.sql implementa a versão 2.0, NÃO a 1.0. Não a utilizar para reconstruir esta fórmula histórica."
 
 validation:
   approved_examples:

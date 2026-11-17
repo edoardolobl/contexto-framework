@@ -1,23 +1,23 @@
-# [Conjunto de perguntas e respostas de referência]
+# [Perguntas de referência e gabarito]
 
-> **Como usar este modelo.** Responda só o que você sabe e consegue comprovar. O que não souber, deixe em branco e anote em "Lacunas" ou "Perguntas em aberto", com quem pode responder. Um campo em branco é melhor do que um palpite.
+> **Como usar este modelo.** Responda só o que você sabe e consegue comprovar. O que não souber, deixe em branco e anote em "Perguntas em aberto", com quem pode responder. Um campo em branco é melhor do que um palpite.
 
 ## Identificação
 
-Os campos marcados com **(obrigatório)** são o mínimo para começar. Os demais você completa quando a revisão for aprovada.
+Os campos marcados com **(obrigatório)** são o mínimo para começar. Os demais você completa quando a versão for aprovada.
 
 | Campo | Preenchimento |
 |---|---|
 | Identificador do assunto (estável) **(obrigatório)** | |
-| Tipo de documento | Perguntas e respostas de referência |
+| Tipo de documento | Perguntas de referência e gabarito |
 | Estado **(obrigatório)** | Rascunho |
 | Responsável (cargo ou área) **(obrigatório)** | |
 | Quem aprova (cargo ou área) **(obrigatório)** | |
 | Versão atual **(obrigatório)** | 0.1 |
 | Data desta versão **(obrigatório)** | |
 | Fonte oficial | |
-| Identificador desta revisão | |
-| Substitui qual revisão? | |
+| Identificador desta versão | |
+| Substitui qual versão? | |
 | Vale a partir de | |
 | Último dia de vigência (em branco se não houver fim) | |
 
@@ -34,7 +34,7 @@ Estados possíveis: **Rascunho**, **Pendente de aprovação**, **Aprovado**, **O
 - Contexto do usuário e período:
 - Comportamento esperado (responder, pedir esclarecimento ou não responder):
 - Fonte e identificador da evidência:
-- Resposta de referência:
+- Resposta esperada:
 - Quando não responder:
 - Limites da cobertura:
 - Quem homologou e quando:
@@ -50,12 +50,12 @@ Estados possíveis: **Rascunho**, **Pendente de aprovação**, **Aprovado**, **O
 
 ## Atualização
 - Mudanças de KPI, fontes e políticas que exigem revalidar respostas:
-- Proprietário, data e status de revisão:
-- Pendências:
+- Responsável, data e estado da versão:
+- Perguntas em aberto:
 
 ## Histórico de versões
 
-Acrescente uma linha a cada mudança, a mais recente primeiro. Registre o que mudou na regra, não só que o texto foi editado. **Guarde o documento completo de cada revisão aprovada:** o resumo abaixo não permite reconstruir a definição anterior.
+Acrescente uma linha a cada mudança, a mais recente primeiro. Registre o que mudou na regra, não só que o texto foi editado. **Guarde o documento completo de cada versão aprovada:** o resumo abaixo não permite reconstruir a definição anterior.
 
 | Versão | Data | O que mudou e por quê | Aprovado por (cargo ou área) |
 |---|---|---|---|

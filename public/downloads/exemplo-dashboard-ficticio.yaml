@@ -1,6 +1,6 @@
 # Demonstração sintética, nenhum dashboard de cliente é descrito.
 id: DASH-AURORA-WEB
-revision_id: "DASH-AURORA-WEB@0.1"  # revisão específica; id = assunto estável
+revision_id: "DASH-AURORA-WEB@0.1"  # versão específica; id = assunto estável
 title: "Acompanhamento de sessões convertidas: Aurora"
 type: dashboard_definition
 status: pending_approval
@@ -38,8 +38,8 @@ freshness:
 official_or_exploratory: null
 known_limitations:
   - "Não cobre períodos fora da amostra"
-  - "Não contém receita líquida nem métricas de app"
-  - "Não equivale a painéis reais de qualquer organização"
+  - "Não contém receita líquida nem indicadores de app"
+  - "Não equivale a dashboards reais de qualquer organização"
 conflicting_dashboards: []
 reference_questions: ["QA-AURORA-001"]
 open_questions:

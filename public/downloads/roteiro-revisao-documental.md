@@ -1,17 +1,17 @@
 # Roteiro de revisão documental: Contexto
 
-Use este arquivo no Word, Google Docs ou outro editor. **Não é um certificado**, nem substitui a aprovação do proprietário da informação. Marque “não verificado” quando a resposta não existir. Não inclua dados pessoais ou informações confidenciais em exemplos públicos.
+Use este arquivo no Word, Google Docs ou outro editor. **Não é um certificado**, nem substitui a aprovação de quem responde pelo conteúdo. Marque “não verificado” quando a resposta não existir. Não inclua dados pessoais ou informações confidenciais em exemplos públicos.
 
 ## Identificação
 
 - Nome do assunto:
 - Identificador do assunto:
-- Revisão avaliada (versão e identificador, se houver):
+- Versão avaliada (número e identificador, se houver):
 - Data desta conferência:
 - Vale a partir de / último dia de vigência (quando houver):
 - Cargo ou área responsável pela definição:
 - Documento de referência:
-- Estado inicial: rascunho / pendente / aprovado / obsoleto
+- Estado inicial: rascunho / pendente de aprovação / aprovado / obsoleto
 
 ## 1. Cobertura: o que o documento explica?
 
@@ -26,7 +26,7 @@ Para cada dimensão, registre **o local em que a informação aparece**, a lacun
 | Exceções | |
 | Responsabilidade | |
 | Evidência | |
-| Validade | |
+| Vigência | |
 
 **Principal lacuna encontrada:**
 
@@ -36,16 +36,16 @@ Para cada dimensão, registre **o local em que a informação aparece**, a lacun
 
 Registre separadamente as **afirmações relevantes** do documento, não apenas uma fonte genérica para todo o arquivo.
 
-| Afirmação ou decisão | Fonte exata e trecho | Data/versão da fonte | Verificação e conclusão | Pendência / responsável |
+| Afirmação ou decisão | Fonte exata e trecho | Data/versão da fonte | Verificação e conclusão | Pergunta em aberto / responsável |
 |---|---|---|---|---|
-| Ex.: “participante ativo = presença nos últimos 30 dias” | Ex.: manual fictício Aurora, revisão 2.0, item 2.1 | Desde 01/09/2026 | Válido para perguntas a partir de 01/09; não aplicar à regra de agosto | Nenhuma neste exemplo fictício |
+| Ex.: “participante ativo = presença nos últimos 30 dias” | Ex.: manual fictício Aurora, versão 2.0, item 2.1 | Desde 01/09/2026 | Válido para perguntas a partir de 01/09; não aplicar à regra de agosto | Nenhuma neste exemplo fictício |
 | | | | | |
 | | | | | |
 
 Verificações úteis:
 - [ ] Os exemplos concordam com a definição e com os casos-limite?
 - [ ] Não há duas regras vigentes e contraditórias para o mesmo escopo?
-- [ ] Uma regra histórica é consultada pelo seu período de validade, não pela data mais recente do arquivo?
+- [ ] Uma regra histórica é consultada pelo seu período de vigência, não pela data mais recente do arquivo?
 - [ ] Alguma afirmação importante está sem fonte verificável?
 - [ ] O documento informa como agir quando a resposta não existe?
 
@@ -56,11 +56,11 @@ Verificações úteis:
 ## 3. Confirmação por quem tem autoridade
 
 - Cargo ou área autorizada a confirmar:
-- Revisão específica avaliada:
+- Versão avaliada:
 - Data e modo da confirmação:
 - Fontes ou evidências consideradas:
 - Ressalvas registradas:
-- Resultado: **aprovado pela autoridade / pendente de esclarecimento / devolvido para correção**
+- Resultado: **aprovado / em aberto, à espera de esclarecimento / devolvido para correção**
 - Documento que registra a decisão (link ou localização):
 
 **Não marque “aprovado” somente porque todas as dimensões foram preenchidas.** Uma pessoa que pode descrever a prática não necessariamente pode aprovar uma política.
@@ -69,20 +69,20 @@ Verificações úteis:
 
 - [ ] Documento compreensível e lacunas identificadas (cobertura)
 - [ ] Regras essenciais confrontadas com fontes, sem conflitos ocultos (consistência)
-- [ ] Aprovação registrada por autoridade identificada, para esta revisão (confirmação)
-- [ ] Pendências preservadas e encaminhadas, quando existentes
+- [ ] Aprovação registrada por autoridade identificada, para esta versão (confirmação)
+- [ ] Perguntas em aberto preservadas e encaminhadas, quando existentes
 
-**Status do documento após a revisão:**
+**Estado do documento após a revisão:**
 
 **Próxima ação, responsável e data:**
 
 ## Histórico de versões
 
-| Revisão | Data | O que mudou e por quê | Quem confirmou | Arquivo integral da revisão anterior |
+| Versão | Data | O que mudou e por quê | Quem confirmou | Arquivo integral da versão anterior |
 |---|---|---|---|---|
 | | | | | |
 
-**Regra de arquivamento:** o resumo das alterações não reproduz o texto antigo. Preserve revisões integrais quando forem necessárias para consultas históricas.
+**Regra de arquivamento:** o resumo das alterações não reproduz o texto antigo. Preserve versões integrais quando forem necessárias para consultas históricas.
 
 ---
 

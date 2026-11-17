@@ -1,6 +1,6 @@
 # Exemplo didático e fictício, com lacunas: nenhuma definição aqui foi aprovada.
 id: KPI-AURORA-001
-revision_id: "KPI-AURORA-001@0.1"  # revisão específica; id = assunto estável
+revision_id: "KPI-AURORA-001@0.1"  # versão específica; id = assunto estável
 title: "Taxa de sessões convertidas: loja web Aurora"
 type: metric_definition
 domain: ecommerce
@@ -25,7 +25,7 @@ business_definition:
   purpose: "Acompanhar o resultado do funil web"
   synonyms: ["conversão web"]
   different_meanings_in_other_domains:
-    - "Conversão de lead: outra métrica, não usar como sinônimo"
+    - "Conversão de lead: outro indicador, não usar como sinônimo"
 
 scope:
   included_channels: ["web"]

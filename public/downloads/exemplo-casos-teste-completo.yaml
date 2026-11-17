@@ -2,7 +2,7 @@
 # A aprovação, o responsável, as datas e a fonte abaixo são fictícios e existem
 # só para mostrar como fica um gabarito depois que a área responsável decide.
 id: QA-AURORA-001
-revision_id: "QA-AURORA-001@1.1"  # revisão específica; id = assunto estável
+revision_id: "QA-AURORA-001@1.1"  # versão específica; id = assunto estável
 title: "Gabarito documental: sessões convertidas Aurora"
 type: reference_question_set
 status: approved
@@ -14,7 +14,7 @@ approver: "Gerência de E-commerce (Aurora)"
 valid_from: "2026-10-02"
 valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
 supersedes_revision: "QA-AURORA-001@1.0"
-source_of_truth: "Catálogo de métricas da Aurora, gabarito do KPI-AURORA-001 (documento fictício)"
+source_of_truth: "Catálogo de indicadores da Aurora, gabarito do KPI-AURORA-001 (documento fictício)"
 version_history:
   - version: "1.1"
     date: "2026-10-02"
@@ -22,7 +22,7 @@ version_history:
     approved_by: "Gerência de E-commerce (Aurora)"
   - version: "1.0"
     date: "2026-10-01"
-    change: "Primeira revisão aprovada do gabarito, após disponibilização da amostra em 01/10"
+    change: "Primeira versão aprovada do gabarito, após disponibilização da amostra em 01/10"
     approved_by: "Gerência de E-commerce (Aurora)"
   - version: "0.1"
     date: "2026-10-01"
@@ -102,14 +102,14 @@ questions:
     reviewed_at: "2026-10-02"
   - id: Q06
     question: "Qual foi a receita líquida em 2026-10-01?"
-    intent: "Consultar métrica sem definição"
+    intent: "Consultar indicador sem definição"
     context: "Nenhum documento define receita líquida"
     expected_behavior: abstain
     reference_answer: null
     required_sources: []
     evidence_description: "Não há fórmula nem fonte aprovada"
     ambiguity: null
-    reason_if_abstain: "Métrica não definida na documentação"
+    reason_if_abstain: "Indicador não definido na documentação"
     reviewed_by: "Analytics de E-commerce (Aurora)"
     reviewed_at: "2026-10-02"
 

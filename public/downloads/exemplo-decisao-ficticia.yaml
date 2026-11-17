@@ -1,6 +1,6 @@
 # Exemplo didático: não constitui regra aprovada.
 id: DECISION-CAMPAIGN-001
-revision_id: "DECISION-CAMPAIGN-001@0.1"  # revisão específica; id = assunto estável
+revision_id: "DECISION-CAMPAIGN-001@0.1"  # versão específica; id = assunto estável
 title: "Triagem de campanha: Aurora"
 type: decision_rule
 status: pending_approval
@@ -58,7 +58,7 @@ tests:
     reasoning: "Falta evidência para seguir a solicitação"
   - inputs: {brief_complete: true, evidence_sufficient: true}
     expected_outcome: request_formal_approval
-    reasoning: "Encaminhar à autoridade; não publicar"
+    reasoning: "Encaminhar a quem aprova; não publicar"
   - inputs: {brief_complete: false, evidence_sufficient: unknown}
     expected_outcome: complement_information
     reasoning: "Brief incompleto é devolvido, qualquer que seja o estado das evidências"

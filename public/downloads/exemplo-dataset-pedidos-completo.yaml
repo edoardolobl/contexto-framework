@@ -2,7 +2,7 @@
 # A aprovação, o responsável, as datas e a fonte abaixo são fictícios e existem
 # só para mostrar como fica um documento depois que a área responsável decide.
 id: DATASET-AURORA-ORDERS
-revision_id: "DATASET-AURORA-ORDERS@1.0"  # revisão específica; id = assunto estável
+revision_id: "DATASET-AURORA-ORDERS@1.0"  # versão específica; id = assunto estável
 title: "Pedidos: Aurora"
 type: dataset_semantics
 status: approved

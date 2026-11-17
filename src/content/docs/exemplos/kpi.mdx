@@ -17,7 +17,7 @@ No segundo quadro, uma definição operacional **hipotética** é apresentada pa
 
 ## 2. O que perguntar ao especialista?
 
-| Pergunta de elicitação | Lacuna descoberta |
+| Pergunta a fazer | Lacuna descoberta |
 |---|---|
 | “Conversão” significa pedido criado, pago, confirmado ou entregue? | Evento que conta como numerador |
 | “Visita” representa sessão, usuário ou acesso à página? | Unidade do denominador |
@@ -41,7 +41,7 @@ A Gerência de E-commerce aprovou a definição. As perguntas em aberto viraram 
 
 <ExampleDoc file="exemplo-kpi-completo.yaml" />
 
-O histórico mostra o ponto central deste portal. A versão 1.0 contava **pedidos** confirmados por sessão, o que inflava a taxa. A 2.0 corrigiu a fórmula e passou a contar **sessões** com pedido confirmado; é versão maior porque o resultado muda. Aplicadas **hipoteticamente à mesma amostra**, as fórmulas dariam 50% e 25%. A primeira revisão, porém, já não estava vigente no período da amostra: **não é válido apresentá-la como a taxa de outubro nem comparar esses valores como uma queda real.** Veja as [revisões históricas completas e seus intervalos](../../metodo/identificacao-versoes/).
+O histórico mostra o ponto central deste portal. A versão 1.0 contava **pedidos** confirmados por sessão, o que inflava a taxa. A 2.0 corrigiu a fórmula e passou a contar **sessões** com pedido confirmado; é versão maior porque o resultado muda. Aplicadas **hipoteticamente à mesma amostra**, as fórmulas dariam 50% e 25%. A primeira versão, porém, já não estava vigente no período da amostra: **não é válido apresentá-la como a taxa de outubro nem comparar esses valores como uma queda real.** Veja as [versões históricas completas e seus intervalos](../../metodo/identificacao-versoes/).
 
 :::caution[Aprovação fictícia]
 A Aurora não existe. Em um documento real, nunca invente responsável, data, fonte ou aprovação para o documento parecer pronto.
@@ -64,11 +64,11 @@ Essas informações exigem **documentação semântica adicional**, associada à
 
 | Pergunta ao sistema | Comportamento desejado se a documentação estiver completa |
 |---|---|
-| “Qual a conversão no mês?” | Aplicar a métrica oficial do canal, período e população solicitados |
+| “Qual a conversão no mês?” | Aplicar o indicador oficial do canal, período e população solicitados |
 | “A conversão mobile está subindo?” | Distinguir mobile web de app ou solicitar contexto |
 | “Posso incluir pedidos cancelados?” | Responder segundo uma regra aprovada, com sua fonte |
 | “Qual dashboard está certo?” | Consultar a hierarquia de fontes definida pela organização |
-| “Qual é a métrica oficial deste documento ainda pendente?” | **Não apresentá-la como aprovada** |
+| “Qual é o indicador oficial deste documento ainda pendente de aprovação?” | **Não apresentá-la como aprovada** |
 
 No [laboratório Aurora](../../exemplos/analytics-integrado/), os mesmos dados produzem 25% de sessões convertidas, mas 50% de pedidos confirmados por sessão elegível. A distinção precisa ser explícita.
 

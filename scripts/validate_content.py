@@ -241,6 +241,82 @@ for path in EDITORIAL_FILES:
         if "—" in line:
             record(path, f"linha {lineno}: travessão (use dois-pontos, vírgula ou parênteses)")
 
+# Terminology: one concept, one term. Each rule: variant pattern, preferred term,
+# and the pages where the variant is allowed (references and their sources).
+TERM_RULES = [
+    (r"\bcasos? de fronteira\b|\bedge cases?\b", "caso-limite", 0, ()),
+    (r"\bvalidade\b", "vigência", re.I, ()),
+    (r"\bID da revisão\b|\brevis(?:ão|ões) (?:`?\d|histórica|anterior|vigente|específica)", "versão (revisão é só o ato de revisar)", re.I, ()),
+    (r"\bdonos?\b", "responsável ou quem aprova", re.I, ()),
+    (r"\baprovador(?:a|es)?\b", "quem aprova", re.I, ()),
+    (r"\bpropriet[aá]ri[oa]s?\b", "responsável ou quem aprova", re.I, ()),
+    (r"\bpend[eê]ncias?\b", "pergunta em aberto", re.I, ()),
+    (r"\bpendentes?\b(?! de aprovação)", "em aberto (o estado do documento é 'pendente de aprovação')", re.I, ()),
+    (r"\bpain[eé]is\b|\bpainel\b", "dashboard", re.I, ()),
+    (r"\brespostas? de refer[eê]ncia\b", "gabarito ou resposta esperada", re.I, ()),
+    (r"\bjoins?\b", "junção (JOIN só no SQL)", 0, ()),
+    (r"\belicita\w*", "descobrir ou perguntar", re.I, ("referencias/index.mdx",)),
+    (r"\bbriefing\b", "brief", re.I, ()),
+    (r"\bm[eé]tricas?\b", "indicador", re.I, ("referencias/index.mdx",)),
+    (r"\bconjuntos? de dados\b", "dataset", re.I, ()),
+]
+SOURCE_SECTION = re.compile(r"^#{2,4} (Fundamentação|Referências|Fontes)", re.I)
+
+
+def visible_lines(path: Path):
+    """Yield (lineno, text) for prose a reader sees; code, URLs and YAML keys are skipped."""
+    text = path.read_text(encoding="utf-8")
+    in_code = in_front = in_sources = False
+    for lineno, line in enumerate(text.splitlines(), start=1):
+        if path.suffix in (".md", ".mdx"):
+            if lineno == 1 and line == "---":
+                in_front = True
+                continue
+            if in_front:
+                if line == "---":
+                    in_front = False
+                elif re.match(r"(title|description):", line):
+                    yield lineno, line.split(":", 1)[1]
+                continue
+            if line.lstrip().startswith("```"):
+                in_code = not in_code
+                continue
+            if in_code or line.startswith("import "):
+                continue
+            if re.match(r"^#{2,4} ", line):
+                in_sources = bool(SOURCE_SECTION.match(line))
+            if in_sources:
+                continue
+            line = re.sub(r"`[^`]*`", " ", line)
+            line = re.sub(r"\]\([^)]*\)", "]", line)
+            line = re.sub(r"https?://\S+", " ", line)
+            if "IIBA" in line:
+                continue
+            yield lineno, line
+        elif path.suffix == ".astro":
+            parts = re.findall(r"'((?:[^'\\]|\\.)*)'|\"((?:[^\"\\]|\\.)*)\"|>([^<>{}]+)<", line)
+            yield lineno, " ".join("".join(p) for p in parts)
+        elif path.suffix == ".yaml":
+            line = re.sub(r"^\s*-?\s*[a-z_0-9]+:\s*", "", line)
+            yield lineno, re.sub(r"[\w.-]+\.(sql|yaml|csv|md)\b", " ", line)
+
+
+TERM_FILES = [
+    *PAGES,
+    *sorted((ROOT / "src" / "components").glob("*.astro")),
+    *sorted(DOWNLOADS.rglob("*.md")),
+    *sorted(DOWNLOADS.rglob("*.yaml")),
+]
+for path in TERM_FILES:
+    rel = str(path.relative_to(DOCS)) if DOCS in path.parents else ""
+    for lineno, line in visible_lines(path):
+        for pattern, preferred, flags, allowed in TERM_RULES:
+            if rel in allowed:
+                continue
+            m = re.search(pattern, line, flags)
+            if m:
+                record(path, f"linha {lineno}: \"{m.group(0)}\" fora do vocabulário; use {preferred}")
+
 # One H1 per page: Starlight renders the frontmatter title as the page H1.
 for path in PAGES:
     in_code = False

@@ -26,16 +26,16 @@ Quando o núcleo estiver claro, complete a identificação. Todo modelo tem este
 | No modelo Markdown | No YAML | O que escrever |
 |---|---|---|
 | Identificador do assunto | `id` | Um código estável para a definição, como `KPI-VENDAS-001` |
-| Identificador da revisão | `revision_id` | O código do assunto mais a revisão, como `KPI-VENDAS-001@1.1`; duas revisões nunca compartilham o mesmo ID |
+| Identificador da versão | `revision_id` | O código do assunto mais a versão, como `KPI-VENDAS-001@1.1`; duas versões nunca compartilham o mesmo ID |
 | Tipo de documento | `type` | Já vem preenchido no modelo |
 | Estado | `status` | Em que ponto o documento está. Veja a tabela abaixo |
 | Responsável | `owner` | O cargo ou a área que responde pelo conteúdo. Não o nome de uma pessoa, que muda |
 | Quem aprova | `approver` | O cargo ou a área com autoridade para dizer "esta é a regra" |
 | Versão atual | `version` | 0.1 para o primeiro rascunho; 1.0 para a primeira versão aprovada. Para as seguintes, veja [como numerar](#como-numerar-as-versões) |
 | Data desta versão | `version_date` | O dia em que esta versão foi escrita ou aprovada |
-| Vale a partir de | `valid_from` | Dia em que **esta revisão** começa a valer |
-| Último dia de vigência | `valid_to` | No Markdown, escreva o último dia em que esta revisão vale. No YAML, `valid_to` guarda **o dia seguinte**, o primeiro em que ela já não vale: último dia 31/08 vira `valid_to: "2026-09-01"`. `null` significa sem fim registrado |
-| Substitui qual revisão? | `supersedes_revision` | Identificador da revisão anterior, quando houver |
+| Vale a partir de | `valid_from` | Dia em que **esta versão** começa a valer |
+| Último dia de vigência | `valid_to` | No Markdown, escreva o último dia em que esta versão vale. No YAML, `valid_to` guarda **o dia seguinte**, o primeiro em que ela já não vale: último dia 31/08 vira `valid_to: "2026-09-01"`. `null` significa sem fim registrado |
+| Substitui qual versão? | `supersedes_revision` | Identificador da versão anterior, quando houver |
 | Fonte oficial | `source_of_truth` | Onde está o documento ou sistema que manda quando há divergência |
 
 ## O que significa `null`
@@ -43,7 +43,7 @@ Quando o núcleo estiver claro, complete a identificação. Todo modelo tem este
 `null` quer dizer **"ainda não sei"** ou **"ainda não foi decidido"**. Não é erro e não é zero.
 
 - No YAML, deixe `null` e anote a dúvida em `open_questions`.
-- No Markdown, deixe em branco e anote em "Lacunas" ou "Perguntas em aberto".
+- No Markdown, deixe em branco e anote em "Perguntas em aberto".
 
 Nunca troque um `null` por um palpite para o documento parecer completo.
 
@@ -79,7 +79,7 @@ Três cuidados:
 
 1. Descreva a mudança **na regra**, não a edição do texto. "Corrigi a redação" não ajuda ninguém; "o limite passou de 60 para 30 dias" ajuda.
 2. Um rascunho também tem versão e data.
-3. **Preserve a cópia integral das versões aprovadas.** A tabela de mudanças não permite saber exatamente qual regra valia em agosto. Declare a vigência de cada revisão e verifique se os intervalos não se sobrepõem.
+3. **Preserve a cópia integral das versões aprovadas.** A tabela de mudanças não permite saber exatamente qual regra valia em agosto. Declare a vigência de cada versão e verifique se os intervalos não se sobrepõem.
 
 ### Como numerar as versões
 
@@ -96,7 +96,7 @@ Na dúvida entre menor e maior, escolha maior: avisa quem compara números antig
 
 Consulte o [guia prático de identificação e vigência](../../metodo/identificacao-versoes/) para comparar duas versões históricas completas.
 
-## Confirmado, relatado e pendente
+## Confirmado, relatado e em aberto
 
 Dentro de um mesmo documento convivem três tipos de afirmação. Mantenha-os separados. Esses três nomes aparecem em todo o portal com o mesmo sentido:
 
@@ -104,7 +104,7 @@ Dentro de um mesmo documento convivem três tipos de afirmação. Mantenha-os se
 |---|---|---|
 | **Confirmado** | Existe fonte oficial e alguém com autoridade confirmou | Nos campos do documento |
 | **Relatado** | "A gente costuma fazer assim", sem fonte ou confirmação | Em perguntas em aberto, como prática a confirmar |
-| **Pendente** | Ninguém decidiu, ou duas fontes estão em conflito | Em perguntas em aberto, com quem pode decidir |
+| **Em aberto** | Ninguém decidiu, ou duas fontes estão em conflito | Em perguntas em aberto, com quem pode decidir |
 
 Enquanto o estado do documento for "Rascunho" ou "Pendente de aprovação", quem lê deve tratar tudo como ainda não confirmado.
 

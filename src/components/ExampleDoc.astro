@@ -2,7 +2,7 @@
 /**
  * Exemplo didático extraído do mesmo YAML entregue no download.
  * Três formas de ver o mesmo documento, em abas: o que ele diz, a identificação
- * com o histórico e o arquivo YAML. A linha de revisão fica fora das abas,
+ * com o histórico e o arquivo YAML. A linha de versão fica fora das abas,
  * sempre visível, porque é a lição principal sobre versões.
  */
 import fs from 'node:fs';
@@ -31,7 +31,7 @@ const draftByline = !hasOwner && !hasSource
 const text = (v: unknown) => (v === null || v === undefined || v === '' ? 'Ainda não definido' : String(v));
 const isDay = (v: unknown): v is string => typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v);
 const date = (v: unknown) => (isDay(v) ? v.split('-').reverse().join('/') : text(v));
-/** valid_to é exclusivo; para quem lê, mostramos o último dia em que a revisão vale. */
+/** valid_to é exclusivo; para quem lê, mostramos o último dia em que a versão vale. */
 const dayBefore = (v: string) => {
   const d = new Date(v + 'T00:00:00Z');
   d.setUTCDate(d.getUTCDate() - 1);
@@ -57,15 +57,15 @@ const base = rawBase.endsWith('/') ? rawBase : rawBase + '/';
       : draftByline}
   </p>
 
-  <div class="example-doc__revision" role="group" aria-label="Revisão deste documento">
+  <div class="example-doc__revision" role="group" aria-label="Versão deste documento">
     {previous && isDay(doc.valid_from) && <>
       <span class="example-doc__revision-old">
-        Revisão {previous.version} · até {date(dayBefore(doc.valid_from))}
+        Versão {previous.version} · até {date(dayBefore(doc.valid_from))}
       </span>
       <span class="example-doc__revision-arrow" aria-hidden="true">→</span>
     </>}
     {complete
-      ? <span class="example-doc__revision-current">Revisão {doc.version} · vigente desde {date(doc.valid_from)}</span>
+      ? <span class="example-doc__revision-current">Versão {doc.version} · vigente desde {date(doc.valid_from)}</span>
       : <span class="example-doc__revision-draft">{STATUS[doc.status] ?? doc.status} {doc.version} · nada aprovado ainda</span>}
   </div>
   {complete && current && <p class="example-doc__change">
@@ -84,14 +84,14 @@ const base = rawBase.endsWith('/') ? rawBase : rawBase + '/';
       <TabItem label="Identificação e histórico">
         <dl class="example-doc__ids">
           <div><dt>ID do assunto</dt><dd><code>{doc.id}</code></dd></div>
-          <div><dt>ID da revisão</dt><dd><code>{text(doc.revision_id)}</code></dd></div>
+          <div><dt>ID da versão</dt><dd><code>{text(doc.revision_id)}</code></dd></div>
           <div><dt>Estado</dt><dd>{STATUS[doc.status] ?? doc.status}{complete ? ' (aprovação fictícia)' : ''}</dd></div>
           <div><dt>Responsável</dt><dd>{text(doc.owner)}</dd></div>
           <div><dt>Quem aprova</dt><dd>{text(doc.approver)}</dd></div>
           <div><dt>Versão e data</dt><dd>{doc.version} · {date(doc.version_date)}</dd></div>
           <div><dt>Vale a partir de</dt><dd>{date(doc.valid_from)}</dd></div>
           <div><dt>Último dia de vigência</dt><dd>{lastDay}</dd></div>
-          <div><dt>Substitui a revisão</dt><dd>{doc.supersedes_revision ? <code>{doc.supersedes_revision}</code> : 'Nenhuma'}</dd></div>
+          <div><dt>Substitui a versão</dt><dd>{doc.supersedes_revision ? <code>{doc.supersedes_revision}</code> : 'Nenhuma'}</dd></div>
         </dl>
         <div class="example-doc__history-scroll" role="region" aria-label="Histórico de mudanças do documento" tabindex="0">
           <table>

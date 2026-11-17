@@ -1,7 +1,7 @@
 # Processo descritivo, não especificação BPMN executável.
 # null significa "ainda não sei" ou "ainda não decidido". Não troque null por um palpite: registre a dúvida em open_questions.
 id: null
-revision_id: null  # revisão específica; id = assunto estável
+revision_id: null  # versão específica; id = assunto estável
 title: null
 type: process_definition
 status: draft                # draft | pending_approval | approved | deprecated
