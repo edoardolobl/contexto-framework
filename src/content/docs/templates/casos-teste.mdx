@@ -25,19 +25,20 @@ Toda pergunta cai numa de três categorias:
 
 ## O que perguntar
 
-Para cada pergunta do gabarito, registre:
-
-- o texto da pergunta, tal como uma pessoa a faria;
-- o identificador da fonte vigente e o trecho ou regra que sustenta a resposta;
-- a resposta esperada, ou a condição para pedir esclarecimento ou não responder;
-- a data de referência dos dados, quando a resposta depende dela;
-- quem revisou a resposta esperada, e quando.
+| O que registrar em cada pergunta | Na Aurora, para Q01 |
+|---|---|
+| A pergunta, como uma pessoa a faria | “Qual foi a taxa de sessões web convertidas em 01/10/2026?” |
+| A fonte vigente e o trecho que sustenta a resposta | KPI-AURORA-001, versão 2.0, e a consulta de referência |
+| A resposta esperada, ou quando pedir esclarecimento ou não responder | 25% na amostra |
+| A data de referência dos dados | 01/10/2026 |
+| A versão das definições usadas | KPI 2.0, vigente desde 15/09 |
+| Quem revisou, e quando | Analytics de E-commerce, 02/10/2026 |
 
 **Cada pergunta se lê sozinha.** Um gabarito não deve ter pergunta que dependa da anterior, como “e no mês passado?”.
 
 ## Antes e depois da decisão
 
-O gabarito do [Laboratório Aurora](../../exemplos/analytics-integrado/) tem seis perguntas:
+O gabarito do [Laboratório Aurora](../../exemplos/analytics-integrado/) tem sete perguntas:
 
 | ID | Pergunta | Resposta esperada | Evidência necessária |
 |---|---|---|---|
@@ -47,6 +48,7 @@ O gabarito do [Laboratório Aurora](../../exemplos/analytics-integrado/) tem sei
 | Q04 | Qual foi a taxa de sessões convertidas no app em 01/10/2026? | **Não responder com número:** o canal app está fora do escopo declarado | Canais excluídos no KPI |
 | Q05 | Qual foi a taxa de sessões web convertidas em setembro de 2026? | **Não responder com número:** a amostra não contém esse período | Limite temporal documentado |
 | Q06 | Qual foi a receita líquida em 01/10/2026? | **Não responder com número:** o indicador não foi definido | Ausência de fórmula e fontes |
+| Q07 | A taxa de 01/10/2026 pode ser comparada com a de 10/09/2026? | **Explicar:** não; em 10/09 valia a definição que contava pedidos, em 01/10 a que conta sessões | Histórico de versões do KPI |
 
 Q04 a Q06 não dizem que um banco maior seria incapaz de respondê-las; dizem que **esta documentação e esta definição não as sustentam**.
 
@@ -58,7 +60,7 @@ Depois da revisão, a ressalva sai e cada pergunta ganha revisor e data:
 
 <ExampleDoc file="exemplo-casos-teste-completo.yaml" />
 
-Quando um indicador muda de versão, as respostas do gabarito que dependem dele **também precisam ser revisadas**.
+Quando um indicador muda de versão, as respostas do gabarito que dependem dele **também precisam ser revisadas**. A versão 1.2, de 05/10, acrescentou Q07 sem mudar as respostas de Q01 a Q06: é uma versão menor.
 
 ## Teste você
 
@@ -66,6 +68,8 @@ Quando um indicador muda de versão, as respostas do gabarito que dependem dele 
    <details><summary>Ver resposta</summary>Q03 é ambígua: falta uma escolha que só quem pergunta pode fazer, então a resposta é pedir esclarecimento. Q04 não é ambígua: a pessoa disse o canal, e o documento diz que o indicador não vale para ele. É abstenção, com encaminhamento a quem responde pelo indicador.</details>
 2. Alguém propõe acrescentar “E no app?” logo depois de Q01. O que está errado?
    <details><summary>Ver resposta</summary>A pergunta depende da anterior para ter sentido. Reescreva com tudo explícito, como em Q04.</details>
+3. Q07 compara 01/10 com 10/09. Os dois dias têm número. Por que a resposta esperada não é a diferença entre eles?
+   <details><summary>Ver resposta</summary>Porque a definição mudou em 15/09. O número de 10/09 conta pedidos por sessão; o de 01/10, sessões convertidas. Subtrair um do outro mediria a mudança de fórmula, não a de conversão.</details>
 
 ## Baixe o modelo
 

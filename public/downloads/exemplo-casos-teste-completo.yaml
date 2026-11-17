@@ -1,18 +1,22 @@
 # Exemplo do Contexto. A Aurora é uma organização inventada; nomes, datas e aprovações fazem parte do caso.
 id: QA-AURORA-001
-revision_id: "QA-AURORA-001@1.1"  # versão específica; id = assunto estável
+revision_id: "QA-AURORA-001@1.2"  # versão específica; id = assunto estável
 title: "Gabarito documental: sessões convertidas Aurora"
 type: reference_question_set
 status: approved
-version: "1.1"
-version_date: "2026-10-02"
+version: "1.2"
+version_date: "2026-10-05"
 owner: "Analytics de E-commerce (Aurora)"
 approver: "Gerência de E-commerce (Aurora)"
-valid_from: "2026-10-02"
+valid_from: "2026-10-05"
 valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
-supersedes_revision: "QA-AURORA-001@1.0"
+supersedes_revision: "QA-AURORA-001@1.1"
 source_of_truth: "Catálogo de indicadores da Aurora, gabarito do KPI-AURORA-001"
 version_history:
+  - version: "1.2"
+    date: "2026-10-05"
+    change: "Incluída Q07, sobre comparar 01/10 com um relatório de 10/09. As respostas de Q01 a Q06 não mudaram"
+    approved_by: "Gerência de E-commerce (Aurora)"
   - version: "1.1"
     date: "2026-10-02"
     change: "Após obter a amostra de 01/10, foram conferidos os valores e os casos Q01–Q06 segundo o KPI 2.0"
@@ -109,6 +113,18 @@ questions:
     reason_if_abstain: "Indicador não definido na documentação"
     reviewed_by: "Analytics de E-commerce (Aurora)"
     reviewed_at: "2026-10-02"
+  - id: Q07
+    question: "A taxa de sessões web convertidas de 01/10/2026 pode ser comparada com a taxa de 10/09/2026 do relatório de setembro?"
+    intent: "Comparar dois períodos"
+    context: "O KPI mudou de definição em 15/09"
+    expected_behavior: answer
+    reference_answer: "Não. Em 10/09 valia a versão 1.0, que contava pedidos confirmados por sessão; em 01/10 vale a 2.0, que conta sessões convertidas. Os dois números medem coisas diferentes, e a diferença entre eles não é variação de conversão"
+    required_sources: ["KPI-AURORA-001"]
+    evidence_description: "Histórico de versões do KPI: 1.0 até 14/09, 2.0 desde 15/09"
+    ambiguity: null
+    reason_if_abstain: null
+    reviewed_by: "Analytics de E-commerce (Aurora)"
+    reviewed_at: "2026-10-05"
 
 revalidation_triggers:
   - "Mudança de definição ou de versão do KPI"

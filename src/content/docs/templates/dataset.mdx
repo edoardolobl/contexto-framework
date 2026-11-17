@@ -1,54 +1,68 @@
 ---
 title: Dataset
-description: Documente o significado de tabelas e campos, granularidade, códigos, valores especiais, fonte e vigência.
+description: Documente o que cada linha e cada valor de uma tabela significam, para que ninguém tenha de adivinhar pelo nome da coluna.
 ---
 
 import TemplateDownloads from '../../../components/TemplateDownloads.astro';
 import ExampleDoc from '../../../components/ExampleDoc.astro';
 import TemplateStart from '../../../components/TemplateStart.astro';
 
+<p class="editorial-lead">Uma coluna de 0 e 1 muda a taxa de 25% para 40%</p>
+
 <TemplateStart kind="dataset" />
 
-<p class="editorial-lead">Mais que descrever colunas: documente o dataset</p>
+## O problema
 
-O DDL mostra quais colunas existem. Um dicionário semântico esclarece **por que elas existem, o que seus valores significam e quais decisões de negócio podem ser feitas usando esses dados**.
+A tabela `demo_sessions` do [Laboratório Aurora](../../exemplos/analytics-integrado/) tem uma coluna `is_internal`. O schema só diz que ela vale 0 ou 1:
 
-## Perguntas ao especialista
+```sql
+is_internal INTEGER NOT NULL CHECK (is_internal IN (0, 1))
+```
 
-| Campo | Descubra e registre |
-|---|---|
-| Propósito | Que processo ou pergunta o dataset representa? |
-| Granularidade | O que **uma linha** significa? Há várias linhas para o mesmo negócio? |
-| Chaves | O que identifica a entidade? Campos podem ser nulos ou reutilizados? |
-| Colunas | O que o campo significa, incluindo unidade e exemplos de valores? |
-| Valores especiais | O que significam `UNKNOWN`, `0`, `-1`, códigos ou `null`? |
-| Tempo | Qual timestamp representa criação, efetivação, snapshot ou atualização? |
-| Autoridade | Esse é o dataset oficial para a pergunta? Quem aprova sua semântica? |
-| Atualização | Como e quando ele atualiza? Existe atraso habitual? |
-| Restrições | Pode ser somado? Pode ser unido a outra tabela? Em que limites? |
+Quem calcula a conversão web de 01/10 sem saber o que essa coluna significa conta **5 sessões, 2 com pedido confirmado: 40%**. O dicionário diz que 1 marca a sessão aberta na rede do escritório da Aurora: testes da equipe, demonstrações e compras de funcionários. A sessão S3 é uma dessas, com o pedido O4 confirmado. O indicador exclui toda sessão interna, então a conta certa é **4 sessões, 1 convertida: 25%**. Nada no nome da coluna avisa que uma compra confirmada fica de fora.
 
-## Dois exemplos do mesmo documento
+## O que perguntar
 
-O primeiro quadro mostra o documento no começo do trabalho: muita coisa ainda sem resposta, e isso está escrito. O segundo mostra o mesmo documento depois que a área responsável decidiu.
+| Pergunta | Na Aurora | O que registrar |
+|---|---|---|
+| O que uma linha representa? | Uma sessão; os pedidos estão em outra tabela | Granularidade |
+| O que identifica a linha? | `session_id`, único | Chave |
+| O que cada valor de código quer dizer? | `is_internal = 1` é teste, rede do escritório ou compra de funcionário? | Significado de cada valor |
+| O que significam nulo, 0, -1 ou `UNKNOWN`? | Pode faltar `session_date`? | Valores especiais |
+| Que data a linha carrega, e em que fuso? | `session_date` é data local, sem hora? | Referência de tempo |
+| Com que frequência atualiza, e com que atraso? | Carga diária ou estática? | Atualização |
+| O que não se pode fazer com a tabela? | Contar linhas depois de juntar com pedidos | Usos proibidos |
+| É a fonte oficial, e quem aprova o significado? | Engenharia de Dados mantém; Analytics de E-commerce aprova | Autoridade |
+
+`is_active='Y'`, `is_active=true` e `is_active=1` não são equivalentes sem confirmação no catálogo: registre a codificação que a tabela usa de fato.
+
+## Antes e depois da decisão
+
+No rascunho, o significado de `is_internal` ainda está em aberto, e o documento diz quanto isso pesa:
 
 <ExampleDoc file="exemplo-dataset-lacunas.yaml" />
 
+Na versão aprovada, a coluna tem significado, e o caso-limite de S3 está escrito:
+
 <ExampleDoc file="exemplo-dataset-completo.yaml" />
 
-O **histórico de versões** indica o que mudou, mas não substitui uma cópia da regra anterior. Para interpretar o passado, é preciso identificar a versão certa e sua vigência; veja o [guia de identificação e versões](../../metodo/identificacao-versoes/).
+### O que o histórico de versões ensina
 
-O fato de a tabela possuir um campo chamado `total_amount` **não demonstra** se inclui taxas, descontos, impostos ou devoluções. Essa decisão precisa ser documentada e aprovada separadamente.
+A versão 1.0, de 20/08, documentava as quatro colunas. A 1.1, de 12/09, acrescentou que `session_date` é a data local da loja, sem hora, depois de uma dúvida sobre fuso no fechamento diário. É uma versão menor: esclareceu sem mudar nenhum resultado.
 
-## Cuidados com valores de exemplo
+## Teste você
 
-Exemplos precisam representar a codificação real sem divulgar informações sensíveis. `is_active='Y'`, `is_active=true` e `is_active=1` **não são equivalentes** sem confirmação no catálogo.
+1. A sessão S3 tem o pedido O4 confirmado. Ela conta como sessão convertida?
+   <details><summary>Ver resposta</summary>Não. S3 é interna, e o indicador exclui toda sessão interna, inclusive compras reais de funcionários.</details>
+2. Alguém esquece o filtro `is_internal = 0`. Quanto dá a taxa de 01/10?
+   <details><summary>Ver resposta</summary>40%: 5 sessões web, 2 com pedido confirmado (S1 e S3).</details>
+3. O fechamento diário de 31/08 tratou `session_date` como data em UTC. Ele contrariou o dicionário?
+   <details><summary>Ver resposta</summary>Não. Em 31/08 valia a versão 1.0, que não dizia o fuso. Foi essa dúvida que levou à 1.1, em 12/09: desde então, `session_date` é a data local da loja.</details>
 
-Quando houver discrepância entre o schema técnico e a descrição de negócio, mantenha a lacuna visível. Não troque a definição por aquela que parece mais provável.
+## Baixe o modelo
 
 <TemplateDownloads kind="dataset" />
 
-Veja o [Laboratório Aurora](../../exemplos/analytics-integrado/) e o modelo de [Relacionamento entre tabelas](../relacionamento/).
-
-### Referências
+### Fundamentação
 
 [Snowflake Semantic Views: YAML](https://docs.snowflake.com/en/user-guide/views-semantic/semantic-view-yaml-spec) e [Databricks: instruções e contexto de dados](https://docs.databricks.com/gcp/en/genie/add-instructions). Os nossos campos são **uma proposta**, não schemas dessas plataformas.

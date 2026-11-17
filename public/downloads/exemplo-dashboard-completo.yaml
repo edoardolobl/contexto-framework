@@ -1,18 +1,22 @@
 # Exemplo do Contexto. A Aurora é uma organização inventada; nomes, datas e aprovações fazem parte do caso.
 id: DASH-AURORA-WEB
-revision_id: "DASH-AURORA-WEB@2.0"  # versão específica; id = assunto estável
+revision_id: "DASH-AURORA-WEB@2.1"  # versão específica; id = assunto estável
 title: "Acompanhamento de sessões convertidas: Aurora"
 type: dashboard_definition
 status: approved
-version: "2.0"
-version_date: "2026-09-15"
+version: "2.1"
+version_date: "2026-10-02"
 owner: "Analytics de E-commerce (Aurora)"
 approver: "Gerência de E-commerce (Aurora)"
-valid_from: "2026-09-15"
+valid_from: "2026-10-02"
 valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
-supersedes_revision: "DASH-AURORA-WEB@1.0"
+supersedes_revision: "DASH-AURORA-WEB@2.0"
 source_of_truth: "Dashboard Conversão Web no portal de BI da Aurora"
 version_history:
+  - version: "2.1"
+    date: "2026-10-02"
+    change: "Ligados o período do laboratório (01/10) e o gabarito QA-AURORA-001. Registrado o conflito com o Resumo semanal da Diretoria, que mostrava 50% para 01/10. Nenhum número deste dashboard mudou"
+    approved_by: "Gerência de E-commerce (Aurora)"
   - version: "2.0"
     date: "2026-09-15"
     change: "Cartão passa a seguir a versão 2.0 do KPI-AURORA-001. Incluído aviso de que valores anteriores não são comparáveis"
@@ -48,7 +52,12 @@ known_limitations:
   - "Valores anteriores a 2026-09-15 usam a definição antiga (pedidos por sessão) e não são comparáveis"
   - "Não cobre períodos fora da amostra"
   - "Não contém receita líquida nem indicadores de app"
-conflicting_dashboards: []
+conflicting_dashboards:
+  - name: "Resumo semanal da Diretoria"
+    shows: "Conversão web em 01/10/2026: 50%"
+    cause: "Continua com a fórmula da versão 1.0 do KPI-AURORA-001: conta pedidos confirmados por sessão, não sessões convertidas"
+    precedence: "Este dashboard é o oficial para a taxa de sessões convertidas. O resumo da Diretoria foi marcado para correção pela Engenharia de Dados"
+    found_at: "2026-10-02"
 reference_questions: ["QA-AURORA-001"]
 open_questions: []
 related_documents: ["KPI-AURORA-001", "DATASET-AURORA-SESSIONS", "DATASET-AURORA-ORDERS"]

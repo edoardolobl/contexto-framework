@@ -59,7 +59,7 @@ columns:
   - physical_name: is_internal
     technical_type: INTEGER
     business_name: "Sessão interna"
-    meaning: "No laboratório, 1 significa interna; 0 significa não interna"
+    meaning: "1 = sessão aberta na rede do escritório da Aurora: testes da equipe, demonstrações e compras de funcionários. 0 = qualquer outra sessão"
     unit: null
     allowed_values: [0, 1]
     sentinel_values: []
@@ -88,7 +88,9 @@ usage:
   authoritative_questions: ["Taxa de sessões web convertidas na amostra do laboratório"]
   invalid_aggregations: ["Contar sessões com COUNT(*) após junção 1:N sem avaliar duplicidade"]
   related_datasets: ["DATASET-AURORA-ORDERS"]
-  known_caveats: ["Não extrapolar a amostra para outros períodos ou canais"]
+  known_caveats:
+    - "Não extrapolar a amostra para outros períodos ou canais"
+    - "Caso-limite: S3 é interna e tem o pedido O4 confirmado, uma compra real de funcionário. Mesmo assim fica fora do KPI-AURORA-001, que exclui toda sessão interna. Sem esse filtro, a taxa de 01/10 passa de 25% para 40%"
   sample_queries: ["aurora-reference-query.sql"]
 
 validation:
