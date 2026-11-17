@@ -67,10 +67,11 @@ for name in ("exemplo-casos-teste-lacunas.yaml", "exemplo-casos-teste-completo.y
         if q["expected_behavior"] == "clarify" and not q["ambiguity"]:
             fail(f"{name}: {q['id']} pede esclarecimento e precisa dizer o que falta")
 # Uma resposta apoiada em definição ainda não aprovada precisa dizer isso.
-pending_kpi = load("exemplo-kpi-lacunas.yaml")
-pending_q01 = next(q for q in load("exemplo-casos-teste-lacunas.yaml")["questions"] if q["id"] == "Q01")
-if pending_kpi["status"] != "approved" and "não foi aprovada" not in pending_q01["reference_answer"]:
-    fail("Q01 do exemplo com lacunas responde a partir de KPI pendente sem ressalva")
+# Em 01/10 o KPI 2.0 já valia; o que faltava no gabarito com lacunas era a conferência da resposta.
+pending_qa = load("exemplo-casos-teste-lacunas.yaml")
+pending_q01 = next(q for q in pending_qa["questions"] if q["id"] == "Q01")
+if pending_qa["status"] != "approved" and "ainda não foi conferida" not in pending_q01["reference_answer"]:
+    fail("Q01 do gabarito com lacunas responde sem a ressalva de que ninguém conferiu a resposta")
 
 # A fórmula publicada tem linguagem natural, mas não pode trocar de numerador.
 # Este teste guarda os significados das revisões, enquanto o SQLite verifica o cálculo.

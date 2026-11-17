@@ -19,7 +19,7 @@ version_history:
     approved_by: "Liderança de Marca (Aurora)"
   - version: "1.0"
     date: "2026-08-12"
-    change: "Primeira versão aprovada, com quatro critérios, pesos 40, 25, 20 e 15, e ligação com a entrada evidence_sufficient da triagem"
+    change: "Primeira versão aprovada, com quatro critérios, pesos 40, 25, 20 e 15, e ligação com a entrada “evidência suficiente” da triagem"
     approved_by: "Liderança de Marca (Aurora)"
   - version: "0.1"
     date: "2026-07-20"
@@ -27,7 +27,7 @@ version_history:
     approved_by: null
 
 evaluation_target: "Material de campanha externa (e-mail, página de oferta, peça para rede social) antes da aprovação formal"
-business_goal: "Dar a todo revisor o mesmo critério para o mesmo material, e decidir a entrada evidence_sufficient da triagem de campanha"
+business_goal: "Dar a todo revisor o mesmo critério para o mesmo material, e decidir a entrada “evidência suficiente” da triagem de campanha"
 allowed_use: ["Revisão de material na etapa 3 do processo de campanha", "Calibração entre revisores"]
 disallowed_use: ["Avaliar a pessoa que produziu o material", "Usar a nota sem a justificativa por critério", "Aprovar ou publicar automaticamente"]
 criteria:
@@ -86,7 +86,7 @@ scoring:
   formula: "Soma de (nível ÷ 4 × peso) dos critérios avaliados, de 0 a 100"
   missing_evidence_behavior: not_evaluable
   not_evaluable_rule: "Critério sem o que avaliar sai da conta: peça institucional sem oferta não tem condições da oferta; regulamento não anexado deixa o critério não avaliável. Os pesos restantes são reescalados para somar 100 e a nota sai como 'parcial: N de 4 critérios'. Com dois ou mais critérios não avaliáveis, não se publica nota"
-  feeds_decision: "DECISION-CAMPAIGN-001, entrada evidence_sufficient: true com alegações com prova em nível 3 ou 4; false em 0, 1 ou 2; unknown enquanto o critério não foi avaliado"
+  feeds_decision: "DECISION-CAMPAIGN-001, entrada “evidência suficiente”: sim com alegações com prova em nível 3 ou 4; não em 0, 1 ou 2; desconhecida enquanto o critério não foi avaliado"
   decision_threshold: null
   automatic_decision_allowed: false
 

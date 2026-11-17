@@ -32,7 +32,7 @@ questions:
     intent: "Calcular a taxa de sessões únicas com pedido confirmado"
     context: "Canal web, sem tráfego interno"
     expected_behavior: answer
-    reference_answer: "25% na amostra, com a ressalva de que a definição do KPI ainda não foi aprovada"
+    reference_answer: "25% na amostra, com a ressalva de que esta resposta ainda não foi conferida por quem responde pelo indicador"
     required_sources: ["KPI-AURORA-001", "aurora-reference-query.sql"]
     evidence_description: "1 sessão convertida entre 4 elegíveis"
     ambiguity: null
@@ -70,7 +70,7 @@ questions:
     expected_behavior: abstain
     reference_answer: null
     required_sources: ["KPI-AURORA-001"]
-    evidence_description: "excluded_channels inclui app"
+    evidence_description: "O KPI exclui o canal app"
     ambiguity: null
     reason_if_abstain: "Fora do escopo declarado: o indicador não foi definido para app. Encaminhar a quem responde pelo KPI"
     reviewed_by: null

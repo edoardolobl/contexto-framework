@@ -44,10 +44,10 @@ const decisionValue = (v: any) => ({
   false: 'Não',
   unknown: 'Desconhecido',
   any: 'Qualquer',
-  complement_information: 'Solicitar complementação',
-  responsible_review: 'Encaminhar para revisão',
+  complement_information: 'Devolver para complementação',
+  responsible_review: 'Revisão responsável',
   request_formal_approval: 'Solicitar aprovação formal',
-  request_clarification: 'Pedir esclarecimento',
+  request_clarification: 'Solicitar esclarecimento',
 } as Record<string, string>)[String(v)] || display(v).replaceAll('_', ' ');
 
 switch (doc.type) {
@@ -242,6 +242,8 @@ switch (doc.type) {
       ...pair('Objetivo', doc.business_goal),
       ...pair('Uso permitido', doc.allowed_use),
       ...pair('Uso proibido', doc.disallowed_use),
+      ...pair('Como calcular a nota', doc.scoring?.formula),
+      ...pair('Ligação com outra decisão', doc.scoring?.feeds_decision),
       ...pair('Quando falta evidência', doc.scoring?.not_evaluable_rule ?? (doc.scoring?.missing_evidence_behavior === 'not_evaluable' ? 'Critério fica como não avaliável, em vez de zero; como calcular a nota nesse caso ainda está em aberto' : doc.scoring?.missing_evidence_behavior)),
       ...pair('Revisão humana', doc.human_review_required === true ? 'Obrigatória' : null),
     ]);

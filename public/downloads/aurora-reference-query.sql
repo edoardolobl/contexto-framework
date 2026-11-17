@@ -1,5 +1,5 @@
 -- CONTEXTO: taxa de sessões web convertidas na amostra Aurora.
--- Definição fictícia, não equivale automaticamente à métrica de qualquer empresa.
+-- Definição da Aurora (KPI-AURORA-001, versão 2.0); não equivale ao indicador de outra empresa.
 -- Denominador: sessões web não internas em 2026-10-01.
 -- Numerador: sessões elegíveis com pelo menos um pedido confirmado.
 -- Resultado esperado: 25.0.
