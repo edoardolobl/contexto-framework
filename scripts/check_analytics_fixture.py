@@ -90,10 +90,29 @@ pending_q01 = next(q for q in load("exemplo-casos-teste-ficticios.yaml")["questi
 if pending_kpi["status"] != "approved" and "não foi aprovada" not in pending_q01["reference_answer"]:
     fail("Q01 do exemplo com lacunas responde a partir de KPI pendente sem ressalva")
 
-for name in ("exemplo-kpi-ficticio.yaml", "exemplo-kpi-completo.yaml"):
-    formula = load(name)["calculation"]["formula_description"]
-    if "sessoes_unicas" not in formula or "pedidos_confirmados /" in formula:
-        fail(f"{name}: o numerador deve ser sessões distintas convertidas, não contagem de pedidos")
+# A fórmula publicada tem linguagem natural, mas não pode trocar de numerador.
+# Este teste guarda os significados das revisões, enquanto o SQLite verifica o cálculo.
+formulas_de_referencia = {
+    "historico/exemplo-kpi-v1.0.yaml":
+        "(Pedidos confirmados elegíveis / Sessões elegíveis) × 100",
+    "exemplo-kpi-ficticio.yaml":
+        "(Sessões únicas com pelo menos um pedido confirmado / Sessões elegíveis) × 100",
+    "exemplo-kpi-completo.yaml":
+        "(Sessões únicas com pelo menos um pedido confirmado / Sessões elegíveis) × 100",
+}
+for name, formula_esperada in formulas_de_referencia.items():
+    doc = load(name)
+    atual = doc["calculation"]["formula_description"]
+    if atual != formula_esperada:
+        fail(f"{name}: fórmula descritiva divergente da definição: {atual!r}")
+    if "_" in atual:
+        fail(f"{name}: fórmula da aba de leitura contém identificadores técnicos")
+    numerador = doc["calculation"]["numerator"].lower()
+    if name.startswith("historico/"):
+        if "quantidade de pedidos" not in numerador:
+            fail(f"{name}: fórmula histórica não pode contar sessões únicas")
+    elif "quantidade de sessões" not in numerador:
+        fail(f"{name}: a fórmula atual precisa contar sessões únicas convertidas")
 
 for name in ("exemplo-relacionamento-ficticio.yaml", "exemplo-relacionamento-completo.yaml"):
     if load(name)["cardinality"] != "one_to_many":
