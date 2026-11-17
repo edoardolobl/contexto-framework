@@ -36,7 +36,12 @@ freshness:
   verified_at: null
 official_or_exploratory: null   # é a fonte oficial do indicador ou um dashboard exploratório?
 known_limitations: []
-conflicting_dashboards: []
+conflicting_dashboards:   # outro dashboard que mostra outro número para o mesmo dia
+  - name: null
+    shows: null
+    cause: null
+    precedence: null
+    found_at: null
 reference_questions: []
 open_questions: []
 related_documents: []

@@ -51,6 +51,6 @@ validation:
   verified_query: "aurora-reference-query.sql"
   reviewer: null
 open_questions:
-  - "Para contar sessões convertidas, conta-se cada linha da junção ou cada sessão distinta? Na amostra, a resposta muda o resultado de 25% para 50%."
+  - "Para contar sessões convertidas, conta-se cada pedido confirmado ou cada sessão distinta? Na amostra, a resposta muda o resultado de 25% para 50%."
   - "Um pedido sem sessão correspondente pode existir? O que fazer com ele?"
 related_documents: ["DATASET-AURORA-SESSIONS", "KPI-AURORA-001"]

@@ -57,7 +57,7 @@ Isso é uma definição de **taxa de sessões convertidas**, não uma taxa gené
 
 S1 possui dois pedidos confirmados. Se uma consulta conta **pedidos confirmados por sessão elegível**, encontra **2 ÷ 4 = 50%**. Esse cálculo pode estar matematicamente correto para um **indicador diferente**, mas não corresponde à nossa pergunta, que mede sessões únicas convertidas.
 
-A relação documentada entre `demo_sessions` e `demo_orders` é **um-para-muitos**. Essa informação, e não somente o nome da chave, explica o risco de duplicidade. O nome do erro é não declarar o **grão**, o que uma linha representa: antes da junção, uma linha é uma sessão; depois, é um pedido. Contar linhas depois da junção conta pedidos, mesmo que a pergunta fale de sessões. O documento de [relacionamento entre tabelas](../../templates/relacionamento/) é onde isso fica escrito.
+A relação documentada entre `demo_sessions` e `demo_orders` é **um-para-muitos**. Essa informação, e não somente o nome da chave, explica o risco de duplicidade. O erro está em não declarar a **granularidade**, o que uma linha representa. Antes da junção, uma linha é uma sessão; depois, é um pedido. Contar linhas depois da junção conta pedidos, mesmo que a pergunta fale de sessões. O documento de [relacionamento entre tabelas](../../templates/relacionamento/) é onde isso fica escrito.
 
 ## 4. SQL de referência para esta amostra
 

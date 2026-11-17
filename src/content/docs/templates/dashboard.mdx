@@ -13,7 +13,7 @@ import TemplateStart from '../../../components/TemplateStart.astro';
 
 ## O problema
 
-Na sexta, 02/10, a Diretoria da Aurora recebe o Resumo semanal: **“Conversão web em 01/10: 50%”**. No dashboard Conversão Web, o mesmo dia aparece com **25%**. Os dados são os mesmos seis registros do [Laboratório Aurora](../../exemplos/analytics-integrado/). A diferença está na fórmula: o resumo ainda usa a versão 1.0 do [indicador](../kpi/), que contava pedidos por sessão; desde 15/09 vale a 2.0, que conta sessões convertidas.
+Na sexta, 02/10, a Diretoria da Aurora recebe o Resumo semanal: **“Conversão web em 01/10: 50%”**. No dashboard Conversão Web, o mesmo dia aparece com **25%**. Os dados são as mesmas seis sessões e seis pedidos do [Laboratório Aurora](../../exemplos/analytics-integrado/). A diferença está na fórmula: o resumo ainda usa a versão 1.0 do [indicador](../kpi/), que contava pedidos por sessão; desde 15/09 vale a 2.0, que conta sessões convertidas.
 
 Uma captura de tela dos dois cartões não mostra isso. Quem encontrou a divergência foi quem leu o documento do dashboard, que diz qual versão do indicador o cartão segue.
 
@@ -21,10 +21,10 @@ Uma captura de tela dos dois cartões não mostra isso. Quem encontrou a diverg�
 
 | Pergunta | Na Aurora | O que registrar |
 |---|---|---|
-| Que decisão o dashboard apoia, e para quem? | Acompanhamento diário da operação de marketing | Finalidade e público |
+| Que decisão o dashboard apoia, e para quem? | Distinguir sessões convertidas de pedidos por sessão, para a operação de marketing | Finalidade e público |
 | Que definição cada cartão segue, em qual versão? | O cartão de conversão segue o KPI-AURORA-001, versão 2.0 | Indicador e versão |
 | Que filtros estão ativos quando o dashboard abre? | Canal web, sem sessões internas | Filtros padrão |
-| Qual período, e em que fuso? | Data local da loja | Referência de tempo |
+| Qual período, e em que fuso? | 01/10/2026, data local da loja | Referência de tempo |
 | Com o que um número pode ser comparado? | Só com datas a partir de 15/09 | Base de comparação e limites |
 | Ele é oficial ou exploratório? | Oficial para a taxa de sessões convertidas | Autoridade |
 | E se outro dashboard mostrar outro número? | O Resumo semanal mostra 50% | Conflito e qual prevalece |
@@ -47,10 +47,10 @@ A versão 1.0, de 22/08, tinha os filtros padrão. A 2.0, de 15/09, passou a seg
 
 1. A Diretoria pergunta qual número vale para 01/10, 25% ou 50%. O que o documento responde?
    <details><summary>Ver resposta</summary>25%. Este dashboard é o oficial para a taxa de sessões convertidas; o Resumo semanal segue a fórmula antiga e foi marcado para correção.</details>
-2. O cartão mostra 50% em 10/09 e 25% em 01/10. A conversão caiu à metade?
-   <details><summary>Ver resposta</summary>Não se pode dizer isso. Antes de 15/09 o cartão seguia a definição antiga, que contava pedidos. Os dois números medem coisas diferentes.</details>
-3. A base de comparação é o mesmo dia da semana anterior. Com que dia 01/10 pode ser comparado?
-   <details><summary>Ver resposta</summary>Com quinta, 24/09. Já está na definição 2.0, então a comparação vale.</details>
+2. Um relatório de setembro, feito com a regra da época, deu 50% para 10/09. O cartão dá 25% para 01/10. A conversão caiu à metade?
+   <details><summary>Ver resposta</summary>Não se pode dizer isso. Em 10/09 valia a definição antiga, que contava pedidos. Os dois números medem coisas diferentes, e o documento do dashboard avisa que valores anteriores a 15/09 não são comparáveis.</details>
+3. A base de comparação é o mesmo dia da semana anterior. Com que dia 01/10 seria comparado, e o dashboard mostra esse dia?
+   <details><summary>Ver resposta</summary>Com quinta, 24/09, que já está na definição 2.0. Mas o período do dashboard no laboratório é só 01/10, então ele não mostra 24/09: a comparação fica sem o segundo número, e o documento diz isso em “Não cobre períodos fora da amostra”.</details>
 
 ## Baixe o modelo
 

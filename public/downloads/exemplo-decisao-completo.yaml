@@ -64,15 +64,15 @@ exceptions:
     approval_role: "Diretoria de Marketing (Aurora)"
     evidence_needed: "Autorização escrita anexada ao pedido"
 tests:
-  - case: "Post de 15/09 que diz 'reduz rugas em 30%': brief com os cinco campos, nenhum estudo anexado"
+  - case: "Publicação que diz 'protege o cabelo do calor até 230 °C': brief com os cinco campos, nenhum ensaio anexado"
     inputs: {brief_complete: true, evidence_sufficient: false}
     expected_outcome: responsible_review
     reasoning: "Falta evidência para seguir a solicitação"
-  - case: "E-mail de 16/09 da Semana do Refil: brief completo; o e-mail diz 22% e a planilha datada anexada também"
+  - case: "E-mail que diz '22% menos plástico que o frasco de 2024': brief completo; a planilha anexada, com data, diz o mesmo"
     inputs: {brief_complete: true, evidence_sufficient: true}
     expected_outcome: request_formal_approval
     reasoning: "Encaminhar a quem aprova; não publicar"
-  - case: "Pedido de 14/09 sem o campo período; ninguém avaliou o material ainda"
+  - case: "Pedido sem o campo período; ninguém avaliou o material ainda"
     inputs: {brief_complete: false, evidence_sufficient: unknown}
     expected_outcome: complement_information
     reasoning: "Brief incompleto é devolvido, qualquer que seja o estado das evidências"

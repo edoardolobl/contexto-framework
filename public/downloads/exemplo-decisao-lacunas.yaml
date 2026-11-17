@@ -53,11 +53,11 @@ default_behavior: request_clarification
 unknown_input_behavior: request_clarification
 exceptions: []
 tests:
-  - case: "Post que diz 'reduz rugas em 30%': brief com os cinco campos, nenhum estudo anexado"
+  - case: "Publicação que diz 'protege o cabelo do calor até 230 °C': brief com os cinco campos, nenhum ensaio anexado"
     inputs: {brief_complete: true, evidence_sufficient: false}
     expected_outcome: responsible_review
     reasoning: "Falta evidência para seguir a solicitação"
-  - case: "E-mail da Semana do Refil: brief completo; o e-mail diz 22% e a planilha datada anexada também"
+  - case: "E-mail que diz '22% menos plástico que o frasco de 2024': brief completo; a planilha anexada, com data, diz o mesmo"
     inputs: {brief_complete: true, evidence_sufficient: true}
     expected_outcome: request_formal_approval
     reasoning: "Encaminhar a quem aprova; não publicar"

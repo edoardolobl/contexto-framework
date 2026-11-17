@@ -27,7 +27,7 @@ As duas contas estão certas como aritmética. Só uma responde à pergunta do [
 | O que uma linha representa de cada lado? | Uma sessão; um pedido | Granularidade dos dois lados |
 | Qual par de colunas liga as tabelas? | `demo_orders.session_id` → `demo_sessions.session_id` | Chave da junção |
 | A relação é 1:1, 1:N ou N:N? | Uma sessão, zero ou mais pedidos | Cardinalidade |
-| Depois de juntar, conta-se linha ou entidade? | S1 conta uma ou duas vezes? | Regra de contagem |
+| Depois de juntar, conta-se cada pedido ou cada sessão? | S1 conta uma ou duas vezes? | Regra de contagem |
 | Há linhas sem par? | S6 não tem pedido | Junção que preserva quem não tem par |
 | O filtro vem antes ou depois da junção? | Sessões internas e do app saem antes | Ordem dos filtros |
 | A relação depende de período? | Um pedido de outubro pode ligar a uma sessão de setembro? | Regra temporal |
@@ -50,8 +50,8 @@ A versão 1.0, de 20/08, já tinha a chave e a cardinalidade um para muitos. A 2
 
 1. Para a taxa de 01/10, S1 conta uma ou duas vezes?
    <details><summary>Ver resposta</summary>Uma. Desde 15/09, a regra é contar sessão distinta: 1 ÷ 4 = 25%.</details>
-2. Um relatório de 10/09 contou cada linha da junção. Errou?
-   <details><summary>Ver resposta</summary>Não. Em 10/09 valia o indicador 1.0, que contava pedidos confirmados por sessão; contar linhas era o certo para aquela definição. A regra de sessão distinta só entrou em 15/09.</details>
+2. Um relatório de 10/09 contou cada pedido confirmado sobre as sessões elegíveis. Errou?
+   <details><summary>Ver resposta</summary>Não. Em 10/09 valia o indicador 1.0, que contava pedidos confirmados por sessão; contar pedidos era o certo para aquela definição. A regra de sessão distinta só entrou em 15/09.</details>
 3. Alguém calcula o denominador depois de juntar sessões elegíveis com pedidos confirmados. Quanto dá a taxa, e por quê?
    <details><summary>Ver resposta</summary>100%. A junção deixa só S1, porque S2, S5 e S6 não têm pedido confirmado, e o denominador vira 1. O denominador tem de vir das sessões elegíveis antes da junção: 4.</details>
 
@@ -59,7 +59,7 @@ A versão 1.0, de 20/08, já tinha a chave e a cardinalidade um para muitos. A 2
 
 <TemplateDownloads kind="relacionamento" />
 
-O modelo não prescreve um tipo de junção para todo caso: `LEFT JOIN`, `INNER JOIN` ou contagem distinta dependem da pergunta. O que ele exige é que a escolha fique escrita.
+O modelo não prescreve um tipo de junção para todo caso: preservar as sessões sem pedido, ficar só com os pares ou contar entidades distintas depende da pergunta. O que ele exige é que a escolha fique escrita.
 
 ### Fundamentação
 

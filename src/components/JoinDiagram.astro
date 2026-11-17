@@ -23,8 +23,8 @@ const sy = Object.fromEntries(sessions.map((s) => [s.id, s.y + 20]));
   <svg viewBox="0 0 600 280" role="img" aria-labelledby="jd-title jd-desc">
     <title id="jd-title">Sessões web elegíveis ligadas aos pedidos</title>
     <desc id="jd-desc">A sessão S1 tem dois pedidos confirmados, O1 e O2. S2 tem um pedido cancelado, S5 um pedido de teste e S6 nenhum pedido.</desc>
-    <text class="jd-head" x="40" y="22">demo_sessions · uma linha por sessão</text>
-    <text class="jd-head" x="370" y="22">demo_orders · uma linha por pedido</text>
+    <text class="jd-head" x="40" y="22"><tspan class="jd-code">demo_sessions</tspan> · uma linha por sessão</text>
+    <text class="jd-head" x="370" y="22"><tspan class="jd-code">demo_orders</tspan> · uma linha por pedido</text>
     {orders.map((o) => <line class={o.hit ? 'jd-link jd-link--hit' : 'jd-link'} x1="210" y1={sy[o.from]} x2="370" y2={o.y + 18} />)}
     {sessions.map((s) => <g>
       <rect class={s.hit ? 'jd-box jd-box--hit' : 'jd-box'} x="40" y={s.y} width="170" height="40" rx="6" />
@@ -35,15 +35,15 @@ const sy = Object.fromEntries(sessions.map((s) => [s.id, s.y + 20]));
     {orders.map((o) => <g>
       <rect class={o.hit ? 'jd-box jd-box--hit' : 'jd-box'} x="370" y={o.y} width="190" height="36" rx="6" />
       <text class="jd-id" x="386" y={o.y + 23}>{o.id}</text>
-      <text class="jd-note" x="422" y={o.y + 23}>{o.status}</text>
+      <text class="jd-note jd-code" x="422" y={o.y + 23}>{o.status}</text>
     </g>)}
   </svg>
   <figcaption>As quatro sessões que entram na conta em 01/10/2026. S3 (interna) e S4 (app) ficam fora antes da junção, com os pedidos O4 e O5.</figcaption>
   {showCounts && <div class="jd-counts">
     <div class="jd-count jd-count--wrong">
-      <p class="jd-kicker">CONTAR LINHAS DEPOIS DA JUNÇÃO</p>
+      <p class="jd-kicker">CONTAR PEDIDOS CONFIRMADOS</p>
       <p class="jd-number">2 ÷ 4 = 50%</p>
-      <p>S1 vira duas linhas, uma por pedido. O resultado mede pedidos confirmados por sessão, que é outra pergunta.</p>
+      <p>Depois da junção há uma linha por pedido, e S1 aparece duas vezes. Dois pedidos confirmados sobre quatro sessões mede pedidos por sessão, que é outra pergunta.</p>
     </div>
     <div class="jd-count jd-count--right">
       <p class="jd-kicker">CONTAR SESSÕES DISTINTAS</p>
@@ -59,6 +59,7 @@ const sy = Object.fromEntries(sessions.map((s) => [s.id, s.y + 20]));
   .jd-head { font: 600 12px var(--sl-font); fill: var(--context-muted); }
   .jd-id { font: 700 14px var(--sl-font); fill: var(--context-ink); }
   .jd-note { font: 12px var(--sl-font); fill: var(--context-muted); }
+  .jd-code { font-family: var(--sl-font-mono); }
   .jd-box { fill: var(--context-surface); stroke: var(--context-line); stroke-width: 1.5; }
   .jd-box--hit { fill: var(--sl-color-accent-low); stroke: var(--sl-color-accent); stroke-width: 2; }
   .jd-link { stroke: var(--context-line); stroke-width: 1.5; }
