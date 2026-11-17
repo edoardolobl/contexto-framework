@@ -38,7 +38,7 @@ Registre separadamente as **afirmações relevantes** do documento, não apenas 
 
 | Afirmação ou decisão | Fonte exata e trecho | Data/versão da fonte | Verificação e conclusão | Pergunta em aberto / responsável |
 |---|---|---|---|---|
-| Ex.: “participante ativo = presença nos últimos 30 dias” | Ex.: manual fictício Aurora, versão 2.0, item 2.1 | Desde 01/09/2026 | Válido para perguntas a partir de 01/09; não aplicar à regra de agosto | Nenhuma neste exemplo fictício |
+| Ex.: “participante ativo = presença nos últimos 30 dias” | Ex.: manual do programa da Aurora, versão 2.0, item 2.1 | Desde 01/09/2026 | Válido para perguntas a partir de 01/09; não aplicar à regra de agosto | Nenhuma neste exemplo |
 | | | | | |
 | | | | | |
 

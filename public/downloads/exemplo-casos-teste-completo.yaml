@@ -1,12 +1,9 @@
-# EXEMPLO FICTÍCIO COMPLETO. Organização inventada (Aurora).
-# A aprovação, o responsável, as datas e a fonte abaixo são fictícios e existem
-# só para mostrar como fica um gabarito depois que a área responsável decide.
+# Exemplo do Contexto. A Aurora é uma organização inventada; nomes, datas e aprovações fazem parte do caso.
 id: QA-AURORA-001
 revision_id: "QA-AURORA-001@1.1"  # versão específica; id = assunto estável
 title: "Gabarito documental: sessões convertidas Aurora"
 type: reference_question_set
 status: approved
-example_notice: "Aprovação fictícia, válida só dentro deste exemplo. A Aurora não existe."
 version: "1.1"
 version_date: "2026-10-02"
 owner: "Analytics de E-commerce (Aurora)"
@@ -14,7 +11,7 @@ approver: "Gerência de E-commerce (Aurora)"
 valid_from: "2026-10-02"
 valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
 supersedes_revision: "QA-AURORA-001@1.0"
-source_of_truth: "Catálogo de indicadores da Aurora, gabarito do KPI-AURORA-001 (documento fictício)"
+source_of_truth: "Catálogo de indicadores da Aurora, gabarito do KPI-AURORA-001"
 version_history:
   - version: "1.1"
     date: "2026-10-02"
@@ -26,10 +23,10 @@ version_history:
     approved_by: "Gerência de E-commerce (Aurora)"
   - version: "0.1"
     date: "2026-10-01"
-    change: "Rascunho do gabarito após disponibilização da amostra sintética"
+    change: "Rascunho do gabarito após disponibilização da amostra"
     approved_by: null
 
-domain: "Analytics: laboratório sintético"
+domain: "Analytics: Laboratório Aurora"
 purpose: "Distinguir perguntas respondíveis, ambíguas e fora do escopo"
 covered_documents:
   - KPI-AURORA-001
@@ -115,6 +112,6 @@ questions:
 
 revalidation_triggers:
   - "Mudança de definição ou de versão do KPI"
-  - "Atualização da carga sintética"
+  - "Atualização da carga do laboratório"
   - "Mudança de granularidade ou de relacionamento"
 open_questions: []

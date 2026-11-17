@@ -27,9 +27,9 @@ const details = (doc: any) => kind === 'conceito'
   ? doc.inclusion_criteria?.[1] ?? doc.inclusion_criteria?.[0]
   : doc.calculation?.numerator;
 ---
-<section class="revision-comparison" aria-label="Duas versões do mesmo documento fictício">
+<section class="revision-comparison" aria-label="Duas versões do mesmo documento">
   {entries.map((doc, i) => <article class:list={['revision-comparison__card', i === 1 && 'revision-comparison__card--current']}>
-    <p class="panel-kicker">{i === 0 ? 'VERSÃO HISTÓRICA · NÃO VIGENTE' : 'VERSÃO ATUAL NO EXEMPLO FICTÍCIO'}</p>
+    <p class="panel-kicker">{i === 0 ? 'VERSÃO HISTÓRICA · NÃO VIGENTE' : 'VERSÃO ATUAL'}</p>
     <h3>Versão {doc.version}</h3>
     <dl class="revision-comparison__metadata">
       <div class="revision-comparison__metadata-id"><dt>ID do assunto</dt><dd><code>{doc.id}</code></dd></div>
@@ -48,4 +48,4 @@ const details = (doc: any) => kind === 'conceito'
     </a>
   </article>)}
 </section>
-<p class="revision-comparison__notice">Exemplos inteiramente fictícios. A aprovação representa somente a narrativa da Aurora. As duas versões nunca têm vigência simultânea.</p>
+<p class="revision-comparison__notice">As duas versões nunca têm vigência simultânea.</p>

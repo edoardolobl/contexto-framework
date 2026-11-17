@@ -1,4 +1,4 @@
-# Case analítico fictício, com lacunas. Não usar para avaliar pessoas reais.
+# Exemplo do Contexto, versão com lacunas: nada aqui foi aprovado. A Aurora é uma organização inventada.
 id: RUBRIC-ANALYTICS-001
 revision_id: "RUBRIC-ANALYTICS-001@0.1"  # versão específica; id = assunto estável
 title: "Rubrica de case Data Analytics: exemplo"
@@ -18,9 +18,9 @@ version_history:
     change: "Primeiro rascunho, com lacunas registradas"
     approved_by: null
 
-evaluation_target: "Entregável de análise sobre dados sintéticos"
+evaluation_target: "Entregável de análise sobre os dados do laboratório"
 business_goal: "Formalizar evidências de qualidade técnica e analítica"
-allowed_use: ["Discussão humana de critérios", "Calibração de exemplos fictícios"]
+allowed_use: ["Discussão humana de critérios", "Calibração entre revisores"]
 disallowed_use: ["Tomar qualquer decisão automática sobre uma pessoa", "Inferir características pessoais"]
 criteria:
   - id: technical_accuracy

@@ -1,7 +1,7 @@
-# Dataset de sessões fictício, derivado da amostra SQLite do Contexto.
+# Exemplo do Contexto, versão com lacunas: nada aqui foi aprovado. A Aurora é uma organização inventada.
 id: DATASET-AURORA-SESSIONS
 revision_id: "DATASET-AURORA-SESSIONS@0.1"  # versão específica; id = assunto estável
-title: "Sessões web e app: Aurora (fictício)"
+title: "Sessões web e app: Aurora"
 type: dataset_semantics
 status: pending_approval
 version: "0.1"
@@ -31,11 +31,11 @@ columns:
   - physical_name: session_id
     technical_type: TEXT
     business_name: "Identificador da sessão"
-    meaning: "Chave única da sessão fictícia"
+    meaning: "Chave única da sessão"
     unit: null
     allowed_values: []
     sentinel_values: []
-    null_meaning: "Não permitido pelo modelo demonstrativo"
+    null_meaning: "Não permitido no laboratório"
     examples: ["S1", "S2"]
     do_not_use_for: ["Identificar pessoas"]
   - physical_name: channel
@@ -72,12 +72,12 @@ columns:
 time_semantics:
   reference_field: session_date
   timezone: null
-  update_frequency: "Carga estática sintética"
+  update_frequency: "Carga estática do laboratório"
   known_latency: "Não aplicável ao laboratório"
   snapshot_or_events: "Registro de sessão; não snapshot de estoque"
 
 usage:
-  authoritative_questions: ["Taxa de sessões web convertidas na amostra fictícia"]
+  authoritative_questions: ["Taxa de sessões web convertidas na amostra do laboratório"]
   invalid_aggregations: ["Contar sessões com COUNT(*) após junção 1:N sem avaliar duplicidade"]
   related_datasets: ["demo_orders"]
   known_caveats: ["Não extrapolar a amostra para outros períodos ou canais"]

@@ -1,4 +1,4 @@
-# Política totalmente fictícia. Não há regras de reembolso aprovadas.
+# Exemplo do Contexto, versão com lacunas: nada aqui foi aprovado. A Aurora é uma organização inventada.
 id: POLICY-EVENTS-001
 revision_id: "POLICY-EVENTS-001@0.1"  # versão específica; id = assunto estável
 title: "Despesas em eventos: Aurora"
@@ -21,7 +21,7 @@ version_history:
 
 purpose: "Identificar a regra vigente antes de orientar solicitações de despesa"
 scope:
-  audiences: ["Equipe de eventos da organização fictícia Aurora"]
+  audiences: ["Equipe de eventos da Aurora"]
   activities: ["Registro de despesas de evento"]
   localities: []
   exclusions: []

@@ -1,4 +1,4 @@
-# Demonstração sintética, nenhum dashboard de cliente é descrito.
+# Exemplo do Contexto, versão com lacunas: nada aqui foi aprovado. A Aurora é uma organização inventada.
 id: DASH-AURORA-WEB
 revision_id: "DASH-AURORA-WEB@0.1"  # versão específica; id = assunto estável
 title: "Acompanhamento de sessões convertidas: Aurora"
@@ -19,7 +19,7 @@ version_history:
     approved_by: null
 
 purpose: "Distinguir sessões web convertidas de quantidade de pedidos por sessão"
-audiences: ["Operação de marketing (fictícia)"]
+audiences: ["Operação de marketing"]
 supported_decisions: ["Investigar diferenças entre definições de conversão"]
 metrics: ["KPI-AURORA-001"]
 default_filters:
@@ -32,14 +32,13 @@ time_semantics:
   reporting_period: "2026-10-01 (laboratório)"
   comparison_baseline: null
 freshness:
-  refresh_frequency: "Carga estática sintética"
+  refresh_frequency: "Carga estática do laboratório"
   latency: "Não aplicável"
   verified_at: null
 official_or_exploratory: null
 known_limitations:
   - "Não cobre períodos fora da amostra"
   - "Não contém receita líquida nem indicadores de app"
-  - "Não equivale a dashboards reais de qualquer organização"
 conflicting_dashboards: []
 reference_questions: ["QA-AURORA-001"]
 open_questions:

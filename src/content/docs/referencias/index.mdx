@@ -25,7 +25,7 @@ Para cada tema, distinguimos **o que a fonte realmente sustenta**, **qual adapta
 | Fonte | Utilização | Limite |
 |---|---|---|
 | [OMG BPMN 2.0.2](https://www.omg.org/spec/BPMN/2.0.2) | Participantes, atividades e fluxos | Diagramas ASCII e YAML do Contexto não são BPMN formal |
-| [OMG DMN 1.6](https://www.omg.org/spec/DMN/1.6) | Decisões, condições e tabelas de decisão | Tabelas didáticas não constituem DMN executável |
+| [OMG DMN 1.6](https://www.omg.org/spec/DMN/1.6) | Decisões, condições e tabelas de decisão | As tabelas do portal não são DMN executável |
 | [IIBA: tarefa Confirm Elicitation Results](https://www.iiba.org/knowledgehub/the-business-analysis-standard/5-applying-business-analysis-tasks/5-3-business-analysis-knowledge-areas/elicitation-and-collaboration/) | Confirmação de interpretações por especialistas | Não transforma prática relatada em regra automaticamente |
 | [KCS](https://library.serviceinnovation.org/KCS/KCS_v6/KCS_v6_Practices_Guide) | Revisão, versionamento e autoridade do conteúdo | Conformidade e governança dependem da organização |
 
@@ -51,20 +51,20 @@ A coluna do meio indica **de onde veio a ideia**, não uma exigência da fonte. 
 | Separar relato de regra aprovada | IIBA, KCS | `status`, perguntas em aberto, responsáveis e evidências |
 | Distinguir sinônimo e termo relacionado | W3C SKOS | Modelo de conceito com exemplos e contraexemplos |
 | Registrar gatilhos, atores e exceções | BPMN, IIBA | Modelo de processo independente de BPMN formal |
-| Declarar precedência e tratar desconhecidos | DMN, IIBA | Tabelas didáticas com 9 combinações verificadas |
+| Declarar precedência e tratar desconhecidos | DMN, IIBA | Tabelas com 9 combinações verificadas |
 | Não resolver políticas conflitantes por data | Decisão própria, coerente com a ênfase de KCS em autoridade do conteúdo | Registro de fontes divergentes e de quem aprova, quando em aberto |
 | Datar e versionar todo documento | Prática comum de controle de documentos; KCS sobre evolução do conteúdo | `version`, `version_date`, `valid_from` e histórico de versões em todos os modelos |
-| Mostrar exemplo completo com aprovação fictícia | Decisão própria | Par de exemplos por tipo: com lacunas e completo |
+| Mostrar o exemplo completo, já aprovado | Decisão própria | Par de exemplos por tipo: com lacunas e completo |
 | Documentar granularidade e códigos | Snowflake, Databricks | Modelo semântico de dataset portável |
 | Registrar caminhos de junção e cardinalidade | dbt, Snowflake | Modelo de relacionamento e caso 1:N |
 | Explicitar a interpretação de dashboards | Decisão própria; dbt inspira a ligação entre dashboard e definição do indicador | Modelo de dashboard que referencia KPI e fonte |
 | Usar âncoras e evidências em rubricas | NIST, IIBA | Rubrica original com revisão humana e exemplos |
 | Separar responder, esclarecer e abster-se | Microsoft RAG, princípios de evidência | Perguntas de referência e limites conhecidos |
-| Testar um caso sintético sem LLM | Verificabilidade analítica e literaturas semânticas | Fixture SQLite com resultado reproduzível de 25% |
+| Testar um caso pequeno sem LLM | Verificabilidade analítica e literaturas semânticas | Fixture SQLite com resultado reproduzível de 25% |
 
 ## O que o experimento de exemplo realmente demonstra
 
-Na amostra fictícia Aurora, o SQL de referência conta **uma sessão convertida entre quatro elegíveis**, retornando **25%**. Contar **dois pedidos confirmados entre as mesmas quatro sessões** retorna **50%** para uma medida diferente.
+Na amostra da Aurora, o SQL de referência conta **uma sessão convertida entre quatro elegíveis**, retornando **25%**. Contar **dois pedidos confirmados entre as mesmas quatro sessões** retorna **50%** para uma medida diferente.
 
 O teste automatizado valida o resultado **nesses registros e nessa consulta**, não a capacidade de um LLM interpretar corretamente uma pergunta de produção. Esta distinção é intencional e central para a promessa do framework.
 

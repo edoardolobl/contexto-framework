@@ -1,13 +1,9 @@
-# EXEMPLO FICTÍCIO COMPLETO. Organização inventada (Aurora).
-# A aprovação, o responsável, as datas e a fonte abaixo são fictícios e existem
-# só para mostrar como fica uma rubrica depois que a área responsável decide.
-# Não usar para avaliar pessoas reais.
+# Exemplo do Contexto. A Aurora é uma organização inventada; nomes, datas e aprovações fazem parte do caso.
 id: RUBRIC-ANALYTICS-001
 revision_id: "RUBRIC-ANALYTICS-001@2.0"  # versão específica; id = assunto estável
 title: "Rubrica de entregável de análise de dados: Aurora"
 type: evaluation_rubric
 status: approved
-example_notice: "Aprovação fictícia, válida só dentro deste exemplo. A Aurora não existe."
 version: "2.0"
 version_date: "2026-09-22"
 owner: "Guilda de Analytics (Aurora)"
@@ -15,7 +11,7 @@ approver: "Liderança de Dados (Aurora)"
 valid_from: "2026-09-22"
 valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
 supersedes_revision: "RUBRIC-ANALYTICS-001@1.0"
-source_of_truth: "Guia de revisão de análises da Aurora, anexo A (documento fictício)"
+source_of_truth: "Guia de revisão de análises da Aurora, anexo A"
 version_history:
   - version: "2.0"
     date: "2026-09-22"
@@ -30,9 +26,9 @@ version_history:
     change: "Primeiro rascunho, com lacunas registradas"
     approved_by: null
 
-evaluation_target: "Entregável escrito de análise sobre os dados sintéticos do laboratório Aurora"
+evaluation_target: "Entregável escrito de análise sobre os dados do Laboratório Aurora"
 business_goal: "Dar a revisores diferentes o mesmo critério para discutir a qualidade de uma análise"
-allowed_use: ["Revisão entre pares de análises", "Calibração entre revisores com exemplos fictícios"]
+allowed_use: ["Revisão entre pares de análises", "Calibração entre revisores"]
 disallowed_use: ["Tomar qualquer decisão automática sobre uma pessoa", "Inferir características pessoais", "Usar a nota sem a justificativa escrita"]
 criteria:
   - id: technical_accuracy

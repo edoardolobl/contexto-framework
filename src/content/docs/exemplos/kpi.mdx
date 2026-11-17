@@ -7,13 +7,13 @@ import BeforeAfter from '../../../components/BeforeAfter.astro';
 import ReadinessChecklist from '../../../components/ReadinessChecklist.astro';
 import ExampleDoc from '../../../components/ExampleDoc.astro';
 
-**Cenário fictício.** A loja demonstrativa Aurora deseja usar IA para responder perguntas sobre conversão de e-commerce. Seu acervo contém dashboards, um schema SQL e a frase “taxa de conversão = conversões ÷ visitas”. Os números estão disponíveis, mas o significado ainda não está formalizado.
+A loja Aurora deseja usar IA para responder perguntas sobre conversão de e-commerce. Seu acervo contém dashboards, um schema SQL e a frase “taxa de conversão = conversões ÷ visitas”. Os números estão disponíveis, mas o significado ainda não está formalizado.
 
 ## 1. Documento insuficiente versus documentado
 
 <BeforeAfter />
 
-No segundo quadro, uma definição operacional **hipotética** é apresentada para mostrar a diferença de nível de detalhamento. O estado permanece pendente de aprovação (`pending_approval`): este framework não tem autoridade para definir um KPI real.
+O segundo quadro mostra a diferença de nível de detalhe. O estado continua pendente de aprovação: quem define o indicador é a área responsável, não quem documenta.
 
 ## 2. O que perguntar ao especialista?
 
@@ -37,15 +37,11 @@ A estrutura **não substitui** a decisão de negócio. Ela torna a decisão vis�
 
 ### Depois da decisão: o indicador aprovado
 
-A Gerência de E-commerce aprovou a definição. As perguntas em aberto viraram campos preenchidos, com definição, exemplos hipotéticos e responsável fictício:
+A Gerência de E-commerce aprovou a definição. As perguntas em aberto viraram campos preenchidos, com definição, exemplos e responsável:
 
 <ExampleDoc file="exemplo-kpi-completo.yaml" />
 
-O histórico mostra o ponto central deste portal. A versão 1.0 contava **pedidos** confirmados por sessão, o que inflava a taxa. A 2.0 corrigiu a fórmula e passou a contar **sessões** com pedido confirmado; é versão maior porque o resultado muda. Aplicadas **hipoteticamente à mesma amostra**, as fórmulas dariam 50% e 25%. A primeira versão, porém, já não estava vigente no período da amostra: **não é válido apresentá-la como a taxa de outubro nem comparar esses valores como uma queda real.** Veja as [versões históricas completas e seus intervalos](../../metodo/identificacao-versoes/).
-
-:::caution[Aprovação fictícia]
-A Aurora não existe. Em um documento real, nunca invente responsável, data, fonte ou aprovação para o documento parecer pronto.
-:::
+O histórico mostra o ponto central deste portal. A versão 1.0 contava **pedidos** confirmados por sessão, o que inflava a taxa. A 2.0 corrigiu a fórmula e passou a contar **sessões** com pedido confirmado; é versão maior porque o resultado muda. Aplicadas **à mesma amostra**, as fórmulas dariam 50% e 25%. A primeira versão, porém, já não estava vigente no período da amostra: **não é válido apresentá-la como a taxa de outubro nem comparar esses valores como uma queda real.** Veja as [versões históricas completas e seus intervalos](../../metodo/identificacao-versoes/).
 
 ## 4. Como isso se conecta ao banco de dados?
 

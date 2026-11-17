@@ -1,4 +1,4 @@
-# Convenção documental didática, não é schema executável de fornecedor.
+# Convenção documental, não é schema executável de fornecedor.
 # null significa "ainda não sei" ou "ainda não decidido". Não troque null por um palpite: registre a dúvida em open_questions.
 id: null
 revision_id: null  # versão específica; id = assunto estável

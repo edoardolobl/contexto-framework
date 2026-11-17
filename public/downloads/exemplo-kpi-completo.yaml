@@ -1,12 +1,9 @@
-# EXEMPLO FICTÍCIO COMPLETO. Organização inventada (Aurora).
-# A aprovação, o responsável, as datas e a fonte abaixo são fictícios e existem
-# só para mostrar como fica um documento depois que a área responsável decide.
+# Exemplo do Contexto. A Aurora é uma organização inventada; nomes, datas e aprovações fazem parte do caso.
 id: KPI-AURORA-001
 revision_id: "KPI-AURORA-001@2.0"  # versão específica; id = assunto estável
 title: "Taxa de sessões convertidas: loja web Aurora"
 type: metric_definition
 status: approved
-example_notice: "Aprovação fictícia, válida só dentro deste exemplo. A Aurora não existe."
 version: "2.0"
 version_date: "2026-09-15"
 owner: "Analytics de E-commerce (Aurora)"
@@ -16,7 +13,7 @@ valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
 supersedes_revision: "KPI-AURORA-001@1.0"
 domain: ecommerce
 last_reviewed: "2026-09-15"
-source_of_truth: "Catálogo de indicadores da Aurora, entrada KPI-AURORA-001 (documento fictício)"
+source_of_truth: "Catálogo de indicadores da Aurora, entrada KPI-AURORA-001"
 version_history:
   - version: "2.0"
     date: "2026-09-15"
@@ -70,7 +67,7 @@ data_sources:
 
 validation:
   approved_examples:
-    - "Exemplo hipotético para explicar a regra: quatro sessões elegíveis, uma convertida, resultado de 25%"
+    - "Exemplo: quatro sessões elegíveis, uma convertida, resultado de 25%"
   expected_questions_and_answers: []  # gabarito de outubro foi criado depois desta versão
   known_edge_cases:
     - "Uma sessão com dois pedidos confirmados conta uma única vez"
