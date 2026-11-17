@@ -85,3 +85,8 @@ regras:
     sugestao: modelo (template só em nome de arquivo, endereço e código)
     ignorar_maiusculas: true
     permitido_em: []
+  - termo: Perguntas de negócio
+    padrao: '\bperguntas de refer[eê]ncia\b|\bcasos? de teste\b'
+    sugestao: 'Perguntas de negócio (o tipo) ou gabarito (as respostas)'
+    ignorar_maiusculas: true
+    permitido_em: [referencias/index.mdx]

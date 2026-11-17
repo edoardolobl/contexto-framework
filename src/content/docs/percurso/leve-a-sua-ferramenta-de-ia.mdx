@@ -1,0 +1,47 @@
+---
+title: Leve à sua ferramenta de IA
+description: Entregue à IA só documentos aprovados, numa conversa ou num repositório, com uma instrução curta sobre o que fazer quando falta definição.
+next: false
+---
+
+import NextStep from '../../../components/NextStep.astro';
+
+Os documentos aprovados só ajudam se a IA os recebe e sabe o que fazer quando eles não bastam. O jeito de entregar depende de como você usa a IA.
+
+## Assistente de conversa
+
+Num assistente em que você conversa e anexa arquivos:
+
+- **Anexe só documentos aprovados.** Rascunho e documento pendente de aprovação não devem entrar como definição.
+- **Deixe id e versão à vista** no nome do arquivo ou no começo do texto, como `KPI-AURORA-001`, versão 2.0. Assim você confere se a resposta citou o documento certo.
+- **Peça que a IA diga quando não houver base.** Uma frase no começo da conversa basta: “Use só estes documentos; se a pergunta for ambígua, pergunte; se não houver base, diga isso.”
+
+## Agente que trabalha num repositório
+
+Agentes de programação leem um arquivo de instruções na raiz do repositório, o `AGENTS.md`. Um trecho curto já orienta o agente a usar as definições aprovadas:
+
+```markdown
+## Onde fica cada coisa
+
+- Indicadores aprovados: docs/indicadores/
+- Datasets e relacionamentos: docs/dados/
+- Perguntas de negócio e gabarito: docs/perguntas/
+
+## Regras
+
+- Nunca calcule um indicador sem a definição aprovada. Se não houver, pergunte.
+- Use só documentos aprovados e cite o id e a versão.
+- Se a pergunta for ambígua, peça esclarecimento; se não houver base, diga isso.
+```
+
+Troque as pastas pelas do seu repositório. O arquivo completo, com os desfechos, está em [Modelo de AGENTS.md](../../usar-com-ia/agents-md/).
+
+## A instrução orienta, não garante
+
+Nenhuma instrução obriga a IA a segui-la. Ela aumenta a chance de a IA usar a definição certa, mas não substitui o teste. Depois de mudar a instrução ou os documentos, refaça as perguntas do passo 6 e confira os desfechos.
+
+### Fundamentação
+
+O arquivo `AGENTS.md` é um formato aberto descrito em [agents.md](https://agents.md/) (prática de mercado); cada ferramenta decide como o lê. O conteúdo da instrução mínima é uma [convenção do Contexto](https://github.com/edoardolobl/contexto-framework/blob/main/docs/adr/0025-instrucao-minima-ao-agente.md).
+
+<NextStep />

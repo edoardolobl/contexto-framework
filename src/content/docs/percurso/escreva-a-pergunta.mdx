@@ -1,0 +1,52 @@
+---
+title: Escreva a pergunta de negócio
+description: Comece pela pergunta de negócio que a IA vai receber e pela decisão que a resposta muda.
+---
+
+import NextStep from '../../../components/NextStep.astro';
+
+Antes de documentar qualquer coisa, escreva a pergunta que alguém vai fazer à IA. A pergunta diz o que precisa estar documentado, e a resposta esperada vira o gabarito do teste no passo 6.
+
+## O que torna uma pergunta boa
+
+- **Diz quem pergunta e que decisão muda.** Uma pergunta que não muda nenhuma decisão não precisa de documento.
+- **Período, canal e unidade estão explícitos.** “Em 01/10/2026”, “na loja web”, “em sessões, não em pedidos”.
+- **Se lê sozinha.** Não depende da pergunta anterior, como “e no mês passado?”.
+- **Tem resposta verificável.** Alguém consegue conferir a resposta numa fonte, com data e versão.
+
+## Uma pergunta fraca e uma boa
+
+| Fraca | Boa |
+|---|---|
+| Qual foi a conversão? | Qual foi a taxa de sessões web convertidas em 01/10/2026? |
+
+A fraca não diz o canal, o dia nem qual conversão: pedidos por sessão ou sessões convertidas. Na Aurora, as duas contas dão 50% e 25% para o mesmo dia. Diante da fraca, a IA deveria pedir esclarecimento; diante da boa, pode responder com a definição aprovada do indicador.
+
+## Banco de perguntas por tipo de documento
+
+Cada tipo de documento responde a um tipo de pergunta. Use a tabela como ponto de partida, não como questionário: escreva só as perguntas que mudam uma decisão no seu trabalho.
+
+| Tipo | Versão fraca | Versão boa | Que decisão muda |
+|---|---|---|---|
+| Indicador | A conversão caiu? | A taxa de sessões web convertidas de 01/10/2026 pode ser comparada com a de 10/09/2026, do relatório de setembro? | Se o relatório de setembro entra na comparação, já que a definição mudou em 15/09 |
+| Dataset | Quantas sessões tivemos? | Quantas sessões web de 01/10/2026 entram na conversão, sem as sessões abertas na rede do escritório? | Se testes da equipe e compras de funcionários entram no número da loja |
+| Relacionamento | Quantas conversões vieram dos pedidos? | Ao juntar sessões e pedidos de 01/10/2026, uma sessão com dois pedidos confirmados conta uma vez ou duas? | Se o dashboard mostra sessões convertidas ou pedidos por sessão |
+| Regra e decisão | Essa campanha pode ir para o ar? | Um pedido de campanha com brief completo e uma alegação sem estudo anexado vai para revisão ou para aprovação? | O encaminhamento do pedido, que em julho variou conforme o revisor |
+| Dashboard | Por que o número está diferente? | Por que o Resumo semanal mostra 50% e o dashboard Conversão Web mostra 25% para 01/10/2026? | Qual dos dois números a Diretoria usa |
+| Conceito | Quantos participantes ativos temos? | Quantos participantes do programa de integração tinham presença nos 30 dias anteriores a 30/09/2026, sem pausa e sem ter concluído? | Qual número vai para o relatório do programa: 214 inscritos ou 131 ativos |
+| Política | Preciso de aprovação para essa despesa? | Uma despesa de R$ 800 num coffee break planejado, em 10/08/2026, precisava de aprovação prévia? | Se a equipe pede aprovação antes de gastar |
+| Processo | Como publico uma campanha? | Que campos e anexos um brief precisa ter para o pedido de campanha seguir para revisão? | Se o pedido segue ou volta para quem o enviou |
+
+Todas as versões boas vêm dos exemplos da Aurora. Na sua organização, troque os fatos e mantenha a forma: quem pergunta, recorte explícito, decisão em jogo.
+
+## Onde registrar
+
+Registre as perguntas no documento [Perguntas de negócio](../../templates/perguntas-de-negocio/). O mesmo documento vira o gabarito no passo 6: ao lado de cada pergunta entram a resposta esperada e a evidência que a sustenta.
+
+Ainda não sabe a resposta esperada? Tudo bem. Nesta etapa basta a pergunta; a resposta vem depois que os documentos forem aprovados.
+
+### Fundamentação
+
+Começar o trabalho pela pergunta de negócio é uma [convenção do Contexto](https://github.com/edoardolobl/contexto-framework/blob/main/docs/adr/0023-percurso-em-sete-passos.md); juntar banco de perguntas e gabarito num tipo só também é uma [convenção do Contexto](https://github.com/edoardolobl/contexto-framework/blob/main/docs/adr/0007-tipo-perguntas-de-negocio.md). A [fase de preparação do RAG (Microsoft)](https://learn.microsoft.com/pt-br/azure/architecture/ai-ml/guide/rag/rag-preparation-phase) (prática de mercado) recomenda definir as perguntas junto com o conteúdo que as sustenta.
+
+<NextStep />

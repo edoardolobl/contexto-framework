@@ -1,47 +1,47 @@
 ---
-title: As oito dimensões
-description: Perguntas comuns para documentar qualquer domínio de conhecimento.
+title: Checklist das oito dimensões
+description: Lista para conferir um documento antes de aprovar; convenção do Contexto.
 ---
 
-Estas perguntas funcionam como um roteiro, não como burocracia. Faça-as ao especialista do assunto e documente respostas verificáveis.
+import DimensionTable from '../../../components/DimensionTable.astro';
 
-| Dimensão | Pergunta | Resposta fraca | Resposta útil |
-|---|---|---|---|
-| Significado | O que este termo significa nesta organização? | “Participante ativo é quem participa” | “Pelo menos uma presença nos 30 dias anteriores à data de referência, sem estar em pausa” |
-| Contexto | Quando se aplica e quando não se aplica? | “Vale para a empresa” | “Vale para o canal web; não vale para o app nem para a loja física” |
-| Objetivo | Para que este conhecimento é utilizado? | “Para acompanhar” | “Para decidir se um pedido de campanha vai para revisão ou para aprovação” |
-| Regras | Quais condições definem o comportamento correto? | “Seguir a política” | “Acima de R$ 500 por evento, pedir aprovação prévia” |
-| Exceções | O que acontece fora do fluxo esperado? | “Tratar caso a caso” | “Em emergência, justificar por escrito em até 5 dias úteis” |
-| Responsabilidade | Quem executa, decide, aprova e esclarece dúvidas? | “O time” | “Executa: Operação. Aprova: Liderança de Marca” |
-| Evidência | Qual é a fonte oficial e como se verifica? | “Está no sistema” | “Política POL-FIN-014, versão 3, na intranet” |
-| Vigência | Desde quando vale, qual versão é esta e quem revisa? | “É a regra atual” | “Versão 1.1, de 01/10/2026; revisão anual pela Controladoria” |
+É um checklist de revisão, convenção do Contexto, não uma norma. A decisão está registrada no [ADR 0014](https://github.com/edoardolobl/contexto-framework/blob/main/docs/adr/0014-oito-dimensoes-como-checklist.md). Use as oito perguntas para conferir um documento pronto e achar o que falta; não é preciso escrever o documento em oito seções.
 
-Os valores da coluna da direita vêm dos exemplos da Aurora: [conceito](../../templates/conceito/), [indicador](../../templates/kpi/), [regras e decisões](../../templates/decisao/), [processo](../../templates/processo/) e [política](../../templates/politica/).
+## Resposta fraca e resposta útil
+
+Cada dimensão é uma pergunta. A coluna da direita mostra uma resposta que outra pessoa conseguiria aplicar sem perguntar de novo.
+
+<DimensionTable modo="exemplos" />
+
+Os valores da coluna da direita vêm dos exemplos da Aurora: [conceito](../../templates/conceito/), [indicador](../../templates/kpi/), [regra e decisão](../../templates/decisao/), [processo](../../templates/processo/) e [política](../../templates/politica/).
 
 ## Onde cada dimensão aparece nos modelos
 
-| Dimensão | Campos nos modelos |
+<DimensionTable modo="onde" />
+
+Nenhuma norma define as dimensões desta forma; a [bibliografia](../../referencias/) mostra de onde vem a inspiração de cada uma. Duas fronteiras costumam gerar dúvida: **Contexto** diz onde a regra vale, **Regras** diz o que ela manda; **Exceções** são desvios previstos da regra, não casos em que ela não se aplica.
+
+## Quatro informações no cabeçalho de todo documento
+
+Quatro dimensões valem para qualquer tipo de documento e por isso ficam no topo dele, antes do conteúdo:
+
+| Informação | Pergunta que responde |
 |---|---|
-| Significado | Definição, termo preferido, sinônimos, o que não é sinônimo |
-| Contexto | Quando se aplica, quando não se aplica, escopo, exclusões |
-| Objetivo | Finalidade, pergunta de negócio, decisão apoiada |
-| Regras | Critérios, condições, fórmula, obrigações e proibições |
-| Exceções | Exceções, casos-limite, o que fazer quando falta informação |
-| Responsabilidade | Responsável, quem aprova, papéis, escalonamento |
-| Evidência | Fonte oficial, exemplos conferidos, como verificar |
-| Vigência | Estado, versão, data da versão, vale a partir de, histórico de versões |
+| Escopo | Onde a regra vale e onde não vale? |
+| Vigência | Desde quando vale, e até quando? |
+| Evidência | Qual é a fonte oficial e como se confere? |
+| Responsável | Quem mantém o documento e quem aprova? |
 
-As oito dimensões são um roteiro autoral. Nenhuma norma as define desta forma; a [bibliografia](../../referencias/) mostra de onde vem a inspiração de cada uma. Duas fronteiras costumam gerar dúvida: **Contexto** diz onde a regra vale, **Regras** diz o que ela manda; **Exceções** são desvios previstos da regra, não casos em que ela não se aplica.
+Os campos com esses nomes chegam aos modelos na próxima versão dos modelos. Até lá, cada modelo já traz essas informações com os nomes atuais.
 
-## Como aplicar
+## Como aplicar na revisão
 
-1. Escolha uma definição, processo ou decisão que sua equipe domina.
-2. Responda às dimensões relevantes; não invente respostas para preencher campos.
-3. Identifique as lacunas e registre quem pode resolvê-las.
-4. Traga casos reais, contraexemplos e exceções.
-5. Submeta o registro a quem aprova.
-6. Marque como aprovado apenas o que foi efetivamente validado.
+1. Escolha um documento que a sua equipe já usa ou acabou de escrever.
+2. Marque só as dimensões que o documento responde de fato; um título sem conteúdo não conta.
+3. O que ficar sem marca vira pergunta para quem conhece o trabalho. O passo [Descubra o que falta](../../percurso/descubra-o-que-falta/) mostra como perguntar a partir de um caso real.
+4. Não invente respostas para fechar o checklist: registre a pergunta em aberto e quem pode resolvê-la.
+5. Leve o documento a quem aprova, seguindo o passo [Revise e aprove](../../percurso/revise-e-aprove/).
 
-Um modelo pode ajudar, mas a qualidade depende do entendimento e da validação do conteúdo.
+Todas as dimensões marcadas não significam que as respostas estejam certas: o checklist mostra cobertura, não correção nem aprovação.
 
 Se alguma dimensão não puder ser respondida, veja [Quando o método não basta](../limites/).

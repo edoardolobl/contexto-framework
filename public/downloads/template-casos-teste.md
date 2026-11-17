@@ -1,4 +1,4 @@
-# [Perguntas de referência e gabarito]
+# [Perguntas de negócio e gabarito]
 
 > **Como usar este modelo.** Responda só o que você sabe e consegue comprovar. O que não souber, deixe em branco e anote em "Perguntas em aberto", com quem pode responder. Um campo em branco é melhor do que um palpite.
 
@@ -9,7 +9,7 @@ Os campos marcados com **(obrigatório)** são o mínimo para começar. Os demai
 | Campo | Preenchimento |
 |---|---|
 | Identificador do assunto (estável) **(obrigatório)** | |
-| Tipo de documento | Perguntas de referência e gabarito |
+| Tipo de documento | Perguntas de negócio e gabarito |
 | Estado **(obrigatório)** | Rascunho |
 | Responsável (cargo ou área) **(obrigatório)** | |
 | Quem aprova (cargo ou área) **(obrigatório)** | |

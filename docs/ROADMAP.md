@@ -18,10 +18,10 @@
 
 ## v0.3: Dados e Analytics
 - [x] Dataset e dicionário semântico + exemplo SQLite
-- [x] Relacionamentos, cardinalidade e joins + exemplo 1:N
+- [x] Relacionamentos, cardinalidade e junções + exemplo 1:N
 - [x] Dashboard e interpretação com filtros e escopo
 - [x] Rubricas para entregáveis analíticos, com âncoras e revisão humana
-- [x] Perguntas de referência respondíveis, ambíguas e não respondíveis
+- [x] Perguntas de negócio respondíveis, ambíguas e não respondíveis
 - [x] Estudo de caso integrado de KPI, dataset, dashboard e rubrica
 - [x] SQL sintético reproduzível + teste automatizado independente de LLM
 - [x] Validação de todas as famílias de modelos e arquivos
@@ -67,7 +67,13 @@ O plano completo está em [auditoria/10-direcao-proposta.md](../auditoria/10-dir
   - Fontes: cinco tipos de fonte, seção de evidência empírica, guia Knowledge-Centered Success no lugar do KCS v6, Polanyi (1966) como origem da distinção tácito e explícito; nenhuma "Decisão própria" sem ADR (ADRs 0018 a 0022, propostos).
   - Contrato editorial 0.5 (proposto) e regra de vocabulário "modelo" no lugar de "template".
   - Pendente com o mantenedor: aceitar os ADRs 0018 a 0022 e o contrato 0.5; conferir os links para os ADRs novos depois do merge; aprovar a imagem de compartilhamento; medir de novo no navegador (UX-02, UX-05, UX-07, UX-08, UX-09) e testar o checklist e o seletor com leitor de tela; conferir na fonte primária os números de Painter et al., os papéis do guia Knowledge-Centered Success e a classificação de Polanyi; confirmar o título recuperado do KPI 1.0.
-- [ ] **F2. Porta de entrada.** Tipo Perguntas de negócio, menu em percurso, núcleo de entrada (ADR 0013) e checklist das oito dimensões (ADR 0014).
+- [ ] **F2. Porta de entrada e percurso: concluída no branch, aguardando merge.** Entregue no branch `f2-porta-de-entrada`, empilhado sobre o da F1:
+  - Menu em grupos (Comece aqui, Percurso, Modelos, Laboratórios, Entender, Consultar, Usar com IA) e percurso em sete passos, cada página com o bloco Próximo passo; página de modelos como passo 4; Laboratório Aurora depois do último passo; redirecionamento para cada endereço movido.
+  - Tipo Perguntas de negócio no título, no menu e nos textos (ADR 0007), com banco de perguntas por tipo no passo 1; Regra e decisão (ADR 0013); checklist das oito dimensões como convenção do Contexto e fonte única em `src/data/dimensoes.yaml` (ADR 0014).
+  - Descoberta por entrevista de um incidente real, instrução mínima ao agente (trecho e modelo de AGENTS.md) e home com h1 de categoria e público, promessa única e cinco entradas por sintoma.
+  - Fontes únicas em `src/data/` (`modelos.yaml`, `percurso.yaml`, `entradas.yaml`, `dimensoes.yaml`) e `scripts/check_navegacao.py` (sem página órfã, sem beco sem saída no percurso, sem YAML no percurso).
+  - Contrato editorial 0.7 e ADRs 0023 a 0025, propostos; protocolo de card sorting e tree test em `docs/PLANO_VALIDACAO.md`.
+  - Pendente com o mantenedor: executar o card sorting (15 pessoas ou mais) e o tree test (sucesso de pelo menos 80% nas tarefas do percurso), que são o critério de saída da fase; aprovar o h1 da home, o contrato 0.7 e os ADRs 0023 a 0025; decidir o tutorial de dados de Comece aqui (página nova ou atalho para o Laboratório Aurora), que ainda não existe; confirmar os rótulos dos subgrupos de Modelos e o lugar da Rubrica; confirmar o destino provisório do sintoma do evento que parou de coletar até a F4; decidir se a F2 sobe a versão do produto (continua 0.4); conferir os links `blob/main` para os ADRs novos depois do merge.
 - [ ] **F3. Schema 1.0.** Migração para Markdown com frontmatter (ADR 0006), versão de schema (ADR 0009) e marcação Breaking.
 - [ ] **F4. Mensuração.** Tipo Evento de coleta e laboratório Aurora com limite fixo.
 - [ ] **F5. Moldes e visual.** Sistema visual (ADR 0016), tamanho de página de modelo (ADR 0017) e moldes com nomes de produção (ADR 0012).

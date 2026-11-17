@@ -1,0 +1,38 @@
+---
+/**
+ * Tabela das oito dimensões (convenção do Contexto, ADR 0014), lida de src/data/dimensoes.yaml.
+ * modo 'exemplos': Dimensão, Pergunta, Resposta fraca e Resposta útil.
+ * modo 'onde': Dimensão e Onde procurar no documento.
+ */
+import { lerDimensoes } from '../lib/dados';
+
+interface Props { modo: 'exemplos' | 'onde' }
+const { modo } = Astro.props;
+if (modo !== 'exemplos' && modo !== 'onde') {
+  throw new Error(`DimensionTable: modo '${modo}' inválido; use 'exemplos' ou 'onde'.`);
+}
+const dimensoes = lerDimensoes();
+---
+{modo === 'exemplos' ? (
+  <table class="dimension-table">
+    <thead>
+      <tr><th scope="col">Dimensão</th><th scope="col">Pergunta</th><th scope="col">Resposta fraca</th><th scope="col">Resposta útil</th></tr>
+    </thead>
+    <tbody>
+      {dimensoes.map((d) => (
+        <tr><th scope="row">{d.nome}</th><td>{d.pergunta}</td><td>“{d.resposta_fraca}”</td><td>“{d.resposta_util}”</td></tr>
+      ))}
+    </tbody>
+  </table>
+) : (
+  <table class="dimension-table">
+    <thead>
+      <tr><th scope="col">Dimensão</th><th scope="col">Onde procurar no documento</th></tr>
+    </thead>
+    <tbody>
+      {dimensoes.map((d) => (
+        <tr><th scope="row">{d.nome}</th><td>{d.onde_procurar}</td></tr>
+      ))}
+    </tbody>
+  </table>
+)}

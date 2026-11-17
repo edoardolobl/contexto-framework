@@ -1,0 +1,33 @@
+---
+title: Teste com as perguntas
+description: Faça as Perguntas de negócio à IA, sem e com os documentos aprovados, e compare com a resposta esperada.
+---
+
+import NextStep from '../../../components/NextStep.astro';
+
+Pegue o documento [Perguntas de negócio](../../templates/perguntas-de-negocio/) que você começou no passo 1. Agora cada pergunta já tem uma resposta esperada, sustentada pelos documentos aprovados no passo 5.
+
+## Como testar
+
+1. **Faça cada pergunta à IA sem os documentos aprovados.** Anote a resposta. Ela mostra o que a IA faz quando adivinha.
+2. **Faça a mesma pergunta com os documentos aprovados.** Anexe ou aponte só os documentos aprovados, com id e versão.
+3. **Compare com a resposta esperada e com o desfecho.** Cada pergunta tem um desfecho certo: responder, pedir esclarecimento ou abster-se. Uma IA que dá número para uma pergunta ambígua errou, mesmo que o número pareça certo.
+4. **Registre ferramenta, data e resultado.** A mesma pergunta pode ter outra resposta em outra ferramenta ou em outro mês.
+
+## Se a IA errar
+
+Veja primeiro se o documento responde à pergunta. Se não responde, abra uma pergunta em aberto no documento ligado a ela, com o impacto e quem pode resolver. Se o documento responde e a IA errou mesmo assim, registre o caso e confira, no passo 7, como a ferramenta recebe os documentos.
+
+## Um exemplo para treinar
+
+O [Laboratório Aurora](../../exemplos/analytics-integrado/) tem sete perguntas, Q01 a Q07, com a resposta esperada de cada uma: uma para responder com número, duas para responder explicando, uma para pedir esclarecimento e três para não responder com número. Teste a sua ferramenta com elas antes de usar as suas.
+
+## O que o teste não faz
+
+O teste não certifica o sistema. Ele mostra como uma ferramenta respondeu a estas perguntas, nesta data, com estes documentos. Perguntas novas, documentos novos ou outra versão da ferramenta pedem um teste novo.
+
+### Fundamentação
+
+As três saídas (responder, esclarecer ou abster-se) estão no [ADR 0021](https://github.com/edoardolobl/contexto-framework/blob/main/docs/adr/0021-responder-esclarecer-ou-abster-se.md): a abstenção tem apoio na [avaliação de recuperação (Microsoft)](https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/rag/rag-information-retrieval) e na [fase de preparação do RAG (Microsoft)](https://learn.microsoft.com/pt-br/azure/architecture/ai-ml/guide/rag/rag-preparation-phase) (prática de mercado); pedir esclarecimento é convenção do Contexto. Testar sem e com os documentos, e registrar ferramenta e data, é uma [convenção do Contexto](https://github.com/edoardolobl/contexto-framework/blob/main/docs/adr/0023-percurso-em-sete-passos.md).
+
+<NextStep />

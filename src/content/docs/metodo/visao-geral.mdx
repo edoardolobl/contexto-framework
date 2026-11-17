@@ -1,36 +1,40 @@
 ---
-title: Visão geral
-description: O problema que o Contexto resolve, os cinco movimentos do método e onde cada peça do portal entra.
+title: Como o método funciona
+description: O problema que o Contexto resolve, os sete passos do percurso e onde cada peça do portal entra.
 ---
 
-O Contexto ensina a **explicitar e documentar o conhecimento organizacional** para que quem constrói sistemas de IA não precise adivinhar regras a partir de documentos ambíguos, dispersos ou incompletos.
+import PathMap from '../../../components/PathMap.astro';
+
+O Contexto ensina a **explicitar e documentar o conhecimento organizacional** para que a IA, e quem trabalha com ela, não precise adivinhar regras a partir de documentos ambíguos, dispersos ou incompletos.
 
 ## O problema
 
-“Cliente ativo” pode significar uma coisa no e-commerce, outra no CRM e outra no Financeiro. Uma IA que executa SQL válido não sabe qual delas a organização adotou. O engenheiro de IA não deveria inventar essa definição. E também não basta pedir a um especialista “produza documentação” sem dizer o que registrar e como saber se ficou completo.
+“Cliente ativo” pode significar uma coisa no e-commerce, outra no CRM e outra no Financeiro. Uma IA que executa SQL válido não sabe qual delas a organização adotou. Nem quem usa a IA direto, numa conversa ou num agente, nem quem monta um sistema para outras pessoas deveria inventar essa definição. E também não basta pedir a um especialista “produza documentação” sem dizer o que registrar e como saber se ficou completo.
 
-## Os cinco movimentos
+## Os sete passos
 
-| Etapa | O que fazer | Saída esperada |
-|---|---|---|
-| **1. Delimitar** | Identificar o assunto, quem o usa e quando vale | Objetivo e escopo |
-| **2. Descobrir** | Investigar pressupostos, decisões, exceções e divergências | Conhecimento que estava implícito |
-| **3. Estruturar** | Aplicar as oito dimensões e o modelo adequado | Documento contextualizado |
-| **4. Validar** | Confirmar com a fonte autorizada; identificar o que está em aberto | Documento aprovado ou perguntas em aberto registradas |
-| **5. Manter** | Definir revisão, vigência e tratamento de alterações | Fonte rastreável e atualizável |
+<PathMap />
 
-Os movimentos não substituem o processo de governança de cada organização; organizam o trabalho editorial para que especialistas produzam evidência suficiente.
+1. **Escreva a pergunta de negócio:** comece pela pergunta de negócio que a IA vai receber e pela decisão que ela muda.
+2. **Delimite o acervo:** liste os indicadores, tabelas e dashboards de que essas perguntas dependem, e quem responde por cada um.
+3. **Descubra o que falta:** pergunte a quem conhece o trabalho a partir de um caso real.
+4. **Escreva com o modelo:** registre cada peça no modelo do tipo certo.
+5. **Revise e aprove:** confira cobertura e evidências, e leve a versão a quem aprova.
+6. **Teste com as perguntas:** compare as respostas da IA com a resposta esperada.
+7. **Leve à sua ferramenta de IA:** entregue só documentos aprovados, com id e versão.
+
+Os passos não substituem o processo de governança de cada organização; organizam o trabalho editorial para que especialistas produzam evidência suficiente.
 
 ## Onde cada peça entra
 
 | Se você precisa… | Use |
 |---|---|
-| Descobrir o que ainda não está escrito | [Descobrir o que falta](../elicitar/) |
-| Saber se um texto cobre o necessário | [As oito dimensões](../oito-dimensoes/) |
-| Escolher o tipo de documento | [Encontrar um modelo](../../templates/) |
-| Preencher um documento de negócio | [Conceito](../../templates/conceito/), [Processo](../../templates/processo/), [Regras e decisões](../../templates/decisao/), [Política](../../templates/politica/) ou [Rubrica de avaliação](../../templates/rubrica/) |
+| Descobrir o que ainda não está escrito | [Descubra o que falta](../../percurso/descubra-o-que-falta/) |
+| Saber se um texto cobre o necessário | [Checklist das oito dimensões](../oito-dimensoes/) |
+| Escolher o tipo de documento | [Escreva com o modelo](../../templates/) |
+| Preencher um documento de negócio | [Conceito](../../templates/conceito/), [Processo](../../templates/processo/), [Regra e decisão](../../templates/decisao/), [Política](../../templates/politica/) ou [Rubrica de avaliação](../../templates/rubrica/) |
 | Documentar dados e indicadores | [Por que dados precisam de contexto](../../dados/visao-geral/) |
-| Revisar e entregar | [Revisar e entregar](../../validacao/checklist/) |
+| Revisar e aprovar | [Revise e aprove](../../percurso/revise-e-aprove/) |
 | Lidar com mudança de regra no tempo | [Versões e vigência](../identificacao-versoes/) |
 
 ## Quando parar e pedir decisão
@@ -39,4 +43,4 @@ Se duas fontes autorizadas se contradizem ou ninguém consegue confirmar a regra
 
 ### Fundamentação
 
-Estrutura própria do Contexto, que combina quatro fontes: o [Diátaxis](https://diataxis.fr/) (prática de mercado), para organizar a documentação pelo que o leitor precisa fazer; o [Knowledge-Centered Success: Practices Guide](https://library.serviceinnovation.org/KCS/Knowledge-Centered_Success_Practices_Guide) (prática de mercado) e o [IIBA](https://www.iiba.org/knowledgehub/the-business-analysis-standard/5-applying-business-analysis-tasks/5-3-business-analysis-knowledge-areas/elicitation-and-collaboration/) (prática de mercado), para capturar e confirmar conhecimento; a [ISO 30401](https://www.iso.org/standard/68683.html) (norma), para tratar conhecimento como algo que se gere; e a literatura de semântica de dados (pesquisa revisada por pares e relatos de fornecedor), para ligar definições de negócio a tabelas.
+Estrutura própria do Contexto, que combina quatro fontes: o [Diátaxis](https://diataxis.fr/) (prática de mercado), para organizar a documentação pelo que o leitor precisa fazer; o [Knowledge-Centered Success: Practices Guide](https://library.serviceinnovation.org/KCS/Knowledge-Centered_Success_Practices_Guide) (prática de mercado) e o [IIBA](https://www.iiba.org/knowledgehub/the-business-analysis-standard/5-applying-business-analysis-tasks/5-3-business-analysis-knowledge-areas/elicitation-and-collaboration/) (prática de mercado), para capturar e confirmar conhecimento; a [ISO 30401](https://www.iso.org/standard/68683.html) (norma), para tratar conhecimento como algo que se gere; e a literatura de semântica de dados (pesquisa revisada por pares e relatos de fornecedor), para ligar definições de negócio a tabelas. A ordem em sete passos é uma [convenção do Contexto](https://github.com/edoardolobl/contexto-framework/blob/main/docs/adr/0023-percurso-em-sete-passos.md).

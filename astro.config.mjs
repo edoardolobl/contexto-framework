@@ -17,17 +17,21 @@ export default defineConfig({
     '/exemplos/politica-despesas/': `${base}/templates/politica/`,
     '/exemplos/kpi/': `${base}/templates/kpi/`,
     '/exemplos/rubrica-case/': `${base}/templates/rubrica/`,
-    '/exemplos/testes-analytics/': `${base}/templates/casos-teste/`,
     '/dados/semantica/': `${base}/dados/visao-geral/`,
     '/dados/contrato-de-conhecimento/': `${base}/dados/visao-geral/`,
     '/fundamentos/promessa/': `${base}/metodo/visao-geral/`,
-    '/metodo/revisao-e-entrega/': `${base}/validacao/checklist/`,
-    '/fundamentos/escolher-documento/': `${base}/templates/`
+    '/fundamentos/escolher-documento/': `${base}/templates/`,
+    // Percurso em sete passos (F2): cada endereço antigo leva direto ao destino final, sem cadeia.
+    '/templates/casos-teste/': `${base}/templates/perguntas-de-negocio/`,
+    '/exemplos/testes-analytics/': `${base}/templates/perguntas-de-negocio/`,
+    '/metodo/elicitar/': `${base}/percurso/descubra-o-que-falta/`,
+    '/validacao/checklist/': `${base}/percurso/revise-e-aprove/`,
+    '/metodo/revisao-e-entrega/': `${base}/percurso/revise-e-aprove/`
   },
   integrations: [
     starlight({
       title: 'Contexto',
-      description: 'Método para documentar conhecimento organizacional de modo explícito, contextualizado e verificável.',
+      description: 'Transforme perguntas de negócio em documentos aprovados e versionados que uma IA consegue consultar sem inventar definições, seja a ferramenta que você usa direto, seja o sistema que a engenharia monta.',
       logo: { src: './src/assets/brand.svg', alt: 'Contexto' },
       favicon: '/favicon.svg', // Starlight já acrescenta o base
       // SVG não aparece em todos os navegadores (Safari, por exemplo): PNG e ICO como alternativa.
@@ -50,24 +54,34 @@ export default defineConfig({
         { icon: 'github', label: 'Repositório no GitHub', href: 'https://github.com/edoardolobl/contexto-framework' },
         { icon: 'linkedin', label: 'Edoardo Lobl no LinkedIn', href: 'https://www.linkedin.com/in/edoardolobl/' }
       ],
-      // Sem rótulos próprios: o menu mostra o título da página, então os dois nunca divergem.
+      // Sem rótulos próprios nas páginas: o menu mostra o título da página, então os dois nunca divergem.
+      // O grupo Percurso segue src/data/percurso.yaml, na mesma ordem (scripts/check_navegacao.py confere).
+      // Em Modelos, os cinco tipos do núcleo (ADR 0013) vêm antes dos demais.
       sidebar: [
         { label: 'Início', link: '/' },
-        { label: 'Comece por uma tarefa', items: ['fundamentos/comece-em-5-minutos', 'validacao/checklist', 'templates'] },
-        { label: 'Guias', items: ['metodo/elicitar', 'metodo/identificacao-versoes'] },
-        { label: 'Documentos do negócio', collapsed: true, items: [
-          'templates/conceito', 'templates/processo', 'templates/decisao', 'templates/politica', 'templates/rubrica'
+        { label: 'Comece aqui', items: ['fundamentos/comece-em-5-minutos', 'metodo/visao-geral'] },
+        { label: 'Percurso', items: [
+          'percurso/escreva-a-pergunta', 'percurso/delimite-o-acervo', 'percurso/descubra-o-que-falta', 'templates',
+          'percurso/revise-e-aprove', 'percurso/teste-com-as-perguntas', 'percurso/leve-a-sua-ferramenta-de-ia'
         ] },
-        { label: 'Dados e Analytics', collapsed: true, items: [
-          'dados/visao-geral', 'exemplos/analytics-integrado', 'templates/kpi', 'templates/dataset',
-          'templates/relacionamento', 'templates/dashboard', 'templates/casos-teste'
+        { label: 'Modelos', items: [
+          { label: 'Comece por estes', items: [
+            'templates/kpi', 'templates/dataset', 'templates/relacionamento', 'templates/decisao', 'templates/perguntas-de-negocio'
+          ] },
+          { label: 'Mais modelos', collapsed: true, items: [
+            'templates/conceito', 'templates/politica', 'templates/processo', 'templates/dashboard'
+          ] },
+          { label: 'Trilha complementar', collapsed: true, items: ['templates/rubrica'] }
         ] },
-        { label: 'Entenda o método', collapsed: true, items: [
-          'metodo/visao-geral', 'metodo/oito-dimensoes', 'fundamentos/conhecimento-tacito', 'metodo/limites'
+        { label: 'Laboratórios', items: ['exemplos/analytics-integrado'] },
+        { label: 'Entender', collapsed: true, items: [
+          'dados/visao-geral', 'fundamentos/conhecimento-tacito', 'metodo/limites'
         ] },
-        { label: 'Consulta', collapsed: true, items: [
-          'fundamentos/como-ler-os-campos', 'governanca/papeis', 'referencias', 'sobre/creditos'
-        ] }
+        { label: 'Consultar', collapsed: true, items: [
+          'metodo/oito-dimensoes', 'fundamentos/como-ler-os-campos', 'metodo/identificacao-versoes',
+          'governanca/papeis', 'referencias', 'sobre/creditos'
+        ] },
+        { label: 'Usar com IA', items: ['usar-com-ia/agents-md'] }
       ]
     })
   ]

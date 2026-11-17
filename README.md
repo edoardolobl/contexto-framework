@@ -1,10 +1,10 @@
 # Contexto: Framework de Conhecimento para IA
 
-> **Uma IA não deveria adivinhar como sua organização funciona.**
+> Transforme perguntas de negócio em documentos aprovados e versionados que uma IA consegue consultar sem inventar definições, seja a ferramenta que você usa direto, seja o sistema que a engenharia monta.
 
-O Contexto é um framework pedagógico, independente de fornecedores e clientes, para orientar especialistas de qualquer domínio a **explicitar conceitos, processos, regras, exceções e fontes**, de forma que engenheiros de IA não precisem inventar semântica de negócio a partir de acervos vagos e dispersos.
+Apoio: *Uma IA não deveria adivinhar como sua organização funciona.*
 
-**Promessa única:** ensinar **como documentar o conhecimento organizacional**. Preencher os modelos **não garante** o acerto de SQL, RAG, agentes ou avaliações automatizadas.
+O Contexto **não garante** o acerto de SQL, RAG, agentes ou avaliações automatizadas. Os documentos são insumos; os sistemas precisam ser projetados e testados.
 
 ## Portal
 
@@ -13,18 +13,19 @@ https://edoardolobl.github.io/contexto-framework/
 ## O que existe na v0.4
 
 ### Núcleo transversal
+- Percurso em **sete passos**, da pergunta de negócio ao teste com a ferramenta de IA ([ADR 0023](docs/adr/0023-percurso-em-sete-passos.md));
+- Descoberta por **entrevista de um incidente real**, em vez de questionário ([ADR 0024](docs/adr/0024-descoberta-por-incidente.md));
 - Revisão de documentos em **três verificações independentes**: cobertura, consistência/evidências e confirmação por quem tem autoridade; [ficha em texto](public/downloads/roteiro-revisao-documental.md) para preencher sem YAML;
-- Princípios e método das oito dimensões;
-- Roteiro de elicitação e passagem do conhecimento;
-- Modelos de conceitos, processos, regras, políticas e KPIs;
+- **Checklist de revisão** com as oito dimensões, uma convenção do Contexto ([ADR 0014](docs/adr/0014-oito-dimensoes-como-checklist.md));
+- Modelos de conceitos, processos, regras, políticas e indicadores (modelo KPI);
 - Exemplos comentados em RH, Marketing, Financeiro e Analytics.
 
 ### Trilha de Dados e Analytics
 - Definições semânticas de **datasets**, campos, granularidade e códigos;
 - **Relacionamentos** entre tabelas, cardinalidade e riscos de junção;
-- **Dashboards**, filtros, métricas, vigência e limites;
-- **Rubricas** com critérios explícitos, evidências, níveis e revisão humana;
-- **Perguntas e respostas de referência**, incluindo ambiguidade e abstenção;
+- **Dashboards**, filtros, **indicadores**, vigência e limites;
+- **Rubrica** com critérios explícitos, evidências, níveis e revisão humana, como trilha complementar ([ADR 0003](docs/adr/0003-rubrica-em-trilha-complementar.md));
+- **Perguntas de negócio**, com o gabarito (as respostas esperadas), incluindo ambiguidade e abstenção;
 - **Laboratório Aurora** com dados sintéticos SQLite, SQL verificável e cálculo de taxa de sessões convertidas.
 
 Cada tipo de documento oferece quatro arquivos: modelo em Markdown (sem YAML, para preencher em texto), modelo em YAML, **exemplo com lacunas** e **exemplo completo com aprovação fictícia**. Todos trazem versão, data da versão e histórico de versões. Os formatos são **convenções pedagógicas**, não schemas de fornecedores.
@@ -36,7 +37,7 @@ python3 -m pip install PyYAML
 python3 scripts/check_analytics_fixture.py
 ```
 
-A consulta em `public/downloads/aurora-reference-query.sql` deve retornar **25%** na amostra fictícia `aurora-fixture.sql`. Ela calcula **sessões únicas convertidas**, não quantidade de pedidos. Isso é um exemplo de como a documentação ajuda a explicitar a unidade da métrica, não uma prova de acurácia de modelos de IA.
+A consulta em `public/downloads/aurora-reference-query.sql` deve retornar **25%** na amostra fictícia `aurora-fixture.sql`. Ela calcula **sessões únicas convertidas**, não quantidade de pedidos. Isso é um exemplo de como a documentação ajuda a explicitar a unidade do indicador, não uma prova de acurácia de modelos de IA.
 
 ## Desenvolvimento
 
@@ -70,7 +71,7 @@ docs/                 Contrato editorial e roadmap
 
 ## Como editar com qualidade
 
-Leia `docs/CONTRATO_EDITORIAL.md`. Cada nova página deve ensinar o leitor a compreender, observar e aplicar o conceito. Todo modelo publicado deve incluir instrução de uso, os dois exemplos (com lacunas e completo), histórico de versões, perguntas de elicitação, registro de lacunas, responsáveis e fontes.
+Leia `docs/CONTRATO_EDITORIAL.md`. Cada nova página deve ensinar o leitor a compreender, observar e aplicar o conceito. Todo modelo publicado deve incluir instrução de uso, os dois exemplos (com lacunas e completo), histórico de versões, perguntas de descoberta, registro de lacunas, responsáveis e fontes.
 
 Os documentos são destinados a pessoas de negócio e tecnologia. **Não presumir que todo colaborador sabe Markdown, YAML, SQL ou arquitetura de IA**.
 

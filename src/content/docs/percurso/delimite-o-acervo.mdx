@@ -1,0 +1,61 @@
+---
+title: Delimite o acervo
+description: Parta das perguntas do passo 1 e escolha o menor conjunto de documentos que as sustenta, em ordem.
+---
+
+import NextStep from '../../../components/NextStep.astro';
+
+Acervo é o conjunto de documentos de que a IA vai precisar. Não comece documentando tudo: parta das perguntas que você escreveu no passo 1 e documente só o que elas pedem.
+
+## Para cada pergunta, liste o que ela usa
+
+Pegue uma pergunta de cada vez e anote:
+
+- **Indicadores:** que número a resposta usa, e qual definição dele?
+- **Tabelas:** de que datasets o número sai, e como eles se ligam?
+- **Dashboards:** onde as pessoas já veem esse número hoje?
+- **Eventos:** que dado de coleta alimenta a tabela, quando isso importa?
+- **Quem responde:** para cada item, quem mantém e quem aprova o significado.
+
+Se ninguém sabe quem responde por um item, anote isso como pergunta em aberto. Não escolha um responsável para preencher a lista.
+
+## Escolha o acervo mínimo e a ordem
+
+Documente na ordem em que uma peça depende da outra:
+
+1. **Indicador primeiro.** É ele que diz o que conta e o que não conta.
+2. **Depois os datasets e o relacionamento** entre eles. Eles dizem de onde o número sai e como juntar as tabelas sem contar duas vezes.
+3. **Depois o dashboard.** Ele só pode repetir o significado que o indicador já definiu.
+4. **Por fim, as Perguntas de negócio** com a resposta esperada, que viram o gabarito.
+
+## Exemplo: o acervo do Laboratório Aurora
+
+A pergunta “Qual foi a taxa de sessões web convertidas em 01/10/2026?” pede seis documentos:
+
+| Ordem | Documento | Identificador | Responsável | Quem aprova |
+|---|---|---|---|---|
+| 1 | Indicador | `KPI-AURORA-001` | Analytics de E-commerce | Gerência de E-commerce |
+| 2 | Tabela de sessões | `DATASET-AURORA-SESSIONS` | Engenharia de Dados | Analytics de E-commerce |
+| 2 | Tabela de pedidos | `DATASET-AURORA-ORDERS` | Engenharia de Dados | Analytics de E-commerce |
+| 2 | Ligação entre as duas | `REL-AURORA-SESSIONS-ORDERS` | Engenharia de Dados | Analytics de E-commerce |
+| 3 | Dashboard | `DASH-AURORA-WEB` | Analytics de E-commerce | Gerência de E-commerce |
+| 4 | Perguntas de negócio (gabarito) | `QA-AURORA-001` | Analytics de E-commerce | Gerência de E-commerce |
+
+Os seis documentos estão ligados no [Laboratório Aurora](../../exemplos/analytics-integrado/). Conceito, política e processo ficaram de fora porque nenhuma pergunta deste acervo depende deles.
+
+## Quatro informações que todo documento traz
+
+Seja qual for o tipo, cada documento do acervo diz no cabeçalho:
+
+- **Escopo:** onde vale e onde não vale.
+- **Vigência:** desde quando vale.
+- **Evidência:** qual é a fonte oficial e como se confere.
+- **Responsável:** quem mantém e quem aprova.
+
+São as quatro informações que a IA precisa conferir antes de usar um documento. Veja o [checklist das oito dimensões](../../metodo/oito-dimensoes/) para as outras quatro.
+
+### Fundamentação
+
+Delimitar o acervo a partir das perguntas é uma [convenção do Contexto](https://github.com/edoardolobl/contexto-framework/blob/main/docs/adr/0023-percurso-em-sete-passos.md). Os quatro metadados comuns a todo documento também são uma [convenção do Contexto](https://github.com/edoardolobl/contexto-framework/blob/main/docs/adr/0014-oito-dimensoes-como-checklist.md). A [fase de preparação do RAG (Microsoft)](https://learn.microsoft.com/pt-br/azure/architecture/ai-ml/guide/rag/rag-preparation-phase) (prática de mercado) também recomenda delimitar o domínio e selecionar o conteúdo antes de montar o sistema.
+
+<NextStep />

@@ -1,6 +1,7 @@
 """Integração com mutações: copia o repositório para uma pasta temporária, estraga um arquivo e
 confere que o validador acusa o problema com uma linha ERRO, sem traceback."""
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import sys
@@ -86,4 +87,27 @@ def test_link_para_adr_inexistente_e_acusado(copia: Path):
     resultado = rodar(copia, "validate_content.py")
     assert resultado.returncode == 1
     assert "link para arquivo do repositório que não existe: docs/adr/0021-responder-esclarecer-ou-abster-se.md" in resultado.stdout
+    assert "Traceback" not in resultado.stderr
+
+
+def test_percurso_sem_nextstep_e_acusado(copia: Path):
+    pagina = copia / "src" / "content" / "docs" / "percurso" / "delimite-o-acervo.mdx"
+    pagina.write_text(pagina.read_text(encoding="utf-8").replace("<NextStep", "<Removido"), encoding="utf-8")
+    resultado = rodar(copia, "check_navegacao.py")
+    assert resultado.returncode == 1
+    assert "próximo passo ausente: percurso/delimite-o-acervo" in resultado.stdout
+    assert "Traceback" not in resultado.stderr
+
+
+def test_pagina_fora_do_menu_e_sem_link_e_orfa(copia: Path):
+    config = copia / "astro.config.mjs"
+    texto = config.read_text(encoding="utf-8")
+    assert "'metodo/limites'" in texto
+    config.write_text(re.sub(r"'metodo/limites',?\s*", "", texto), encoding="utf-8")
+    for pagina in (copia / "src" / "content" / "docs").rglob("*.mdx"):
+        conteudo = pagina.read_text(encoding="utf-8")
+        pagina.write_text(re.sub(r"\]\([^)]*metodo/limites[^)]*\)|\]\([^)]*/limites/?[^)]*\)", "](#)", conteudo), encoding="utf-8")
+    resultado = rodar(copia, "check_navegacao.py")
+    assert resultado.returncode == 1
+    assert "página órfã: metodo/limites" in resultado.stdout
     assert "Traceback" not in resultado.stderr

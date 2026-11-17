@@ -1,0 +1,59 @@
+# As oito dimensões: convenção do Contexto, ADR 0014. Um arquivo só para a tabela de metodo/oito-dimensoes
+# (DimensionTable), o checklist de revisão (ReadinessChecklist) e os validadores.
+# nome: a dimensão. pergunta: o que perguntar a quem conhece o assunto.
+# resposta_fraca e resposta_util: o contraste da tabela, com valores dos exemplos da Aurora.
+# revisao: a pergunta do checklist de revisão. onde_procurar: os campos dos modelos em que a dimensão aparece.
+# metadado_comum: só nas quatro dimensões que viram metadado do cabeçalho de todo documento (os campos chegam na F3).
+dimensoes:
+  - nome: Significado
+    pergunta: O que este termo significa nesta organização?
+    resposta_fraca: Participante ativo é quem participa
+    resposta_util: Pelo menos uma presença nos 30 dias anteriores à data de referência, sem estar em pausa
+    revisao: Definições, sinônimos e variações entre áreas estão explícitos?
+    onde_procurar: Definição, termo preferido, sinônimos, o que não é sinônimo
+  - nome: Contexto
+    pergunta: Quando se aplica e quando não se aplica?
+    resposta_fraca: Vale para a empresa
+    resposta_util: Vale para o canal web; não vale para o app nem para a loja física
+    revisao: Aplicabilidade, limites e exclusões estão descritos?
+    onde_procurar: Quando se aplica, quando não se aplica, escopo, exclusões
+    metadado_comum: escopo
+  - nome: Objetivo
+    pergunta: Para que este conhecimento é utilizado?
+    resposta_fraca: Para acompanhar
+    resposta_util: Para decidir se um pedido de campanha vai para revisão ou para aprovação
+    revisao: O documento explica qual necessidade atende?
+    onde_procurar: Finalidade, pergunta de negócio, decisão apoiada
+  - nome: Regras
+    pergunta: Quais condições definem o comportamento correto?
+    resposta_fraca: Seguir a política
+    resposta_util: Acima de R$ 500 por evento, pedir aprovação prévia
+    revisao: Critérios, condições e prioridades estão especificados?
+    onde_procurar: Critérios, condições, fórmula, obrigações e proibições
+  - nome: Exceções
+    pergunta: O que acontece fora do fluxo esperado?
+    resposta_fraca: Tratar caso a caso
+    resposta_util: Em emergência, justificar por escrito em até 5 dias úteis
+    revisao: Casos não previstos e o que fazer com eles estão identificados?
+    onde_procurar: Exceções, casos-limite, o que fazer quando falta informação
+  - nome: Responsabilidade
+    pergunta: Quem executa, decide, aprova e esclarece dúvidas?
+    resposta_fraca: O time
+    resposta_util: 'Executa: Operação. Aprova: Liderança de Marca'
+    revisao: É claro quem decide, aprova, mantém e responde dúvidas?
+    onde_procurar: Responsável, quem aprova, papéis, escalonamento
+    metadado_comum: responsável
+  - nome: Evidência
+    pergunta: Qual é a fonte oficial e como se verifica?
+    resposta_fraca: Está no sistema
+    resposta_util: Política POL-FIN-014, versão 3, na intranet
+    revisao: Há fonte autorizada e modo de verificar a informação?
+    onde_procurar: Fonte oficial, exemplos conferidos, como verificar
+    metadado_comum: evidência
+  - nome: Vigência
+    pergunta: Desde quando vale, qual versão é esta e quem revisa?
+    resposta_fraca: É a regra atual
+    resposta_util: Versão 1.1, de 01/10/2026; revisão anual pela Controladoria
+    revisao: Estado, versão e vigência são conhecidos ou marcados como em aberto?
+    onde_procurar: Estado, versão, data da versão, vale a partir de, histórico de versões
+    metadado_comum: vigência

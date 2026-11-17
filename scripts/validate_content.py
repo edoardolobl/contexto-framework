@@ -5,33 +5,28 @@ import re
 
 import yaml
 
-from comum import (DADOS, DOCS, DOWNLOADS, ROOT, Relatorio, carregar_tipos, carregar_vocabulario, carregar_yaml,
-                   exigir_minimo, links_do_repositorio_ausentes)
+from comum import (DADOS, DOCS, DOWNLOADS, ROOT, Relatorio, arquivo_de_download, carregar_dimensoes, carregar_modelos,
+                   carregar_vocabulario, carregar_yaml, exigir_minimo, links_do_repositorio_ausentes, resolver_link,
+                   rota_da_pagina)
 
-TEMPLATE_COMPONENT = ROOT / "src" / "components" / "TemplateDownloads.astro"
 VALID_STATUSES = {"draft", "pending_approval", "approved", "deprecated"}
 relatorio = Relatorio()
 relatorio.instalar()
 
 PAGES = exigir_minimo([*DOCS.rglob("*.md"), *DOCS.rglob("*.mdx")], 20, "páginas em src/content/docs", relatorio)
 # Tipos de documento: fonte única em src/data/modelos.yaml (níveis no ADR 0013).
-REQUIRED_TYPES = tuple(carregar_tipos(DADOS / "modelos.yaml", relatorio))
+MODELOS = carregar_modelos(DADOS / "modelos.yaml", relatorio)
+REQUIRED_TYPES = tuple(m.slug for m in MODELOS)
+# As oito dimensões do método: fonte única em src/data/dimensoes.yaml (ADR 0014).
+carregar_dimensoes(DADOS / "dimensoes.yaml", relatorio)
 
 
 def record(path: Path, msg: str) -> None:
     relatorio.erro(path, msg)
 
 
-def route(path: Path):
-    rel = path.relative_to(DOCS)
-    parts = list(rel.parts)
-    parts[-1] = path.stem
-    if parts[-1] == "index":
-        parts.pop()
-    return "/" + "/".join(parts) + ("/" if parts else "")
-
-
-routes = {route(p): p for p in PAGES}
+routes = {rota_da_pagina(p, DOCS): p for p in PAGES}
+titles: dict[str, str] = {}
 
 for path in PAGES:
     relatorio.arquivo_atual = path
@@ -51,38 +46,21 @@ for path in PAGES:
     for required in ("title", "description"):
         if not isinstance(front.get(required), str) or not front[required].strip():
             record(path, f"campo obrigatório {required} ausente/vazio")
+    if isinstance(front.get("title"), str):
+        titles[rota_da_pagina(path, DOCS)] = front["title"].strip()
 
     # Simple Markdown link check: verify routes, not remote URLs.
     for url in re.findall(r"\]\(([^)]+)\)", content):
-        if re.match(r"^(https?:|mailto:|#|/)", url):
-            continue
-        rel_url = url.split("#")[0].split("?")[0]
-        if not rel_url or "{" in rel_url or "}" in rel_url:
-            continue
-        if "downloads" in rel_url and rel_url.endswith((".yaml", ".md", ".pdf")):
-            file = DOWNLOADS / Path(rel_url).name
-            if not file.exists():
+        download = arquivo_de_download(url)
+        if download:
+            if not (DOWNLOADS / download).exists():
                 record(path, f"download inexistente: {url}")
             continue
-        # Resolve o link como o navegador faria. Subir além da raiz do site é erro:
-        # no GitHub Pages isso sai do subcaminho do projeto e resulta em 404.
-        segments = [seg for seg in route(path).strip("/").split("/") if seg]
-        escaped = False
-        for seg in rel_url.split("/"):
-            if seg in ("", "."):
-                continue
-            if seg == "..":
-                if not segments:
-                    escaped = True
-                    break
-                segments.pop()
-            else:
-                segments.append(seg)
+        # Subir além da raiz do site sai do subcaminho do projeto no GitHub Pages e resulta em 404.
+        target, escaped = resolver_link(rota_da_pagina(path, DOCS), url)
         if escaped:
             record(path, f"link interno sobe além da raiz do site: {url}")
-            continue
-        target = "/" + "/".join(segments) + "/" if segments else "/"
-        if target not in routes:
+        elif target is not None and target not in routes:
             record(path, f"link interno não encontrado: {url} => {target}")
 
 ID_PREFIXES = ("KPI-", "DATASET-", "REL-", "DASH-", "QA-", "RUBRIC-", "CONCEPT-", "PROCESS-", "DECISION-", "POLICY-")
@@ -205,12 +183,6 @@ for path in markdown_files:
         if heading not in content:
             record(path, f"template Markdown sem a seção {heading}")
 
-# Every download card must lead to an existing file.
-component = TEMPLATE_COMPONENT.read_text(encoding="utf-8")
-for filename in re.findall(r"href:\s*'([^']+)'", component):
-    if not (DOWNLOADS / filename).is_file():
-        record(TEMPLATE_COMPONENT, f"arquivo de download ausente: {filename}")
-
 # Check the SQLite example links separately; they are not included in template cards.
 analytics = ROOT / "src" / "components" / "AnalyticsLabDownloads.astro"
 if analytics.exists():
@@ -218,15 +190,23 @@ if analytics.exists():
         if not (DOWNLOADS / filename).is_file():
             record(analytics, f"arquivo SQL não encontrado: {filename}")
 
-for kind in REQUIRED_TYPES:
-    for suffix in (".md", ".yaml"):
-        expected = DOWNLOADS / f"template-{kind}{suffix}"
-        if not expected.exists():
-            record(TEMPLATE_COMPONENT, f"template anunciado não existe: {expected.name}")
-    if not (DOWNLOADS / f"exemplo-{kind}-completo.yaml").exists():
-        record(TEMPLATE_COMPONENT, f"falta o exemplo completo de {kind}")
-    if not (DOCS / "templates" / f"{kind}.mdx").exists():
-        record(DADOS / "modelos.yaml", f"tipo {kind} sem a página templates/{kind}.mdx")
+# Cada modelo precisa de página, de título igual ao nome (rótulo canônico) e dos quatro arquivos de download.
+MODELOS_YAML = DADOS / "modelos.yaml"
+for modelo in MODELOS:
+    pagina = DOCS / "templates" / f"{modelo.pagina}.mdx"
+    if not pagina.exists():
+        record(MODELOS_YAML, f"tipo {modelo.slug} sem a página templates/{modelo.pagina}.mdx")
+    elif titles.get(rota_da_pagina(pagina, DOCS)) not in (None, modelo.nome):
+        record(MODELOS_YAML, f"nome de {modelo.slug} ({modelo.nome!r}) difere do title de templates/{modelo.pagina}.mdx "
+                             f"({titles[rota_da_pagina(pagina, DOCS)]!r})")
+    for arquivo in (f"template-{modelo.slug}.md", f"template-{modelo.slug}.yaml",
+                    f"exemplo-{modelo.slug}-lacunas.yaml", f"exemplo-{modelo.slug}-completo.yaml"):
+        if not (DOWNLOADS / arquivo).is_file():
+            record(MODELOS_YAML, f"arquivo de download ausente para {modelo.slug}: {arquivo}")
+
+# Dados editoriais que alimentam o portal. vocabulario.yaml, contraste.yaml e artefatos.yaml ficam de fora
+# de propósito: trazem os padrões proibidos.
+NOVOS_DADOS = [DADOS / nome for nome in ("modelos.yaml", "percurso.yaml", "entradas.yaml", "dimensoes.yaml")]
 
 # Editorial rule: no em dashes in published text, components, downloads or docs.
 EDITORIAL_FILES = [
@@ -237,6 +217,7 @@ EDITORIAL_FILES = [
     *sorted((ROOT / "docs").rglob("*.md")),
     ROOT / "README.md",
     ROOT / "astro.config.mjs",
+    *NOVOS_DADOS,
 ]
 for path in EDITORIAL_FILES:
     if not path.is_file():
@@ -291,6 +272,8 @@ def visible_lines(path: Path):
             parts = re.findall(r"'((?:[^'\\]|\\.)*)'|\"((?:[^\"\\]|\\.)*)\"|>([^<>{}]+)<", line)
             yield lineno, " ".join("".join(p) for p in parts)
         elif path.suffix == ".yaml":
+            if re.match(r"^\s*-?\s*(pagina|slug)\s*:", line):
+                continue  # endereço de página, não texto lido
             line = re.sub(r"^\s*-?\s*[a-z_0-9]+:\s*", "", line)
             yield lineno, re.sub(r"[\w.-]+\.(sql|yaml|csv|md)\b", " ", line)
 
@@ -300,6 +283,7 @@ TERM_FILES = [
     *sorted((ROOT / "src" / "components").glob("*.astro")),
     *sorted(DOWNLOADS.rglob("*.md")),
     *sorted(DOWNLOADS.rglob("*.yaml")),
+    *NOVOS_DADOS,
 ]
 for path in TERM_FILES:
     rel = str(path.relative_to(DOCS)) if DOCS in path.parents else ""
@@ -337,9 +321,9 @@ if "sidebar: [" not in CONFIG:
 sidebar = CONFIG.split("sidebar: [", 1)[1] if "sidebar: [" in CONFIG else ""
 if re.search(r"\bslug\s*:", sidebar):
     record(CONFIG_PATH, "item do menu com slug e rótulo próprio; use só o slug para o menu mostrar o título da página")
-for kind in REQUIRED_TYPES:
-    if not re.search(rf"""['"]templates/{re.escape(kind)}['"]""", sidebar):
-        record(CONFIG_PATH, f"o menu não lista templates/{kind}, que está em src/data/modelos.yaml")
+for modelo in MODELOS:
+    if not re.search(rf"""['"]templates/{re.escape(modelo.pagina)}['"]""", sidebar):
+        record(CONFIG_PATH, f"o menu não lista templates/{modelo.pagina}, que está em src/data/modelos.yaml")
 for path in sorted(DOCS.rglob("*.mdx")):
     front = re.match(r"\A---\r?\n(.*?)\r?\n---", path.read_text(encoding="utf8"), re.S)
     if not front:
@@ -349,7 +333,9 @@ for path in sorted(DOCS.rglob("*.mdx")):
         record(path, "frontmatter 'sidebar' muda o rótulo do menu; o menu deve mostrar o título")
 # Endereços que viraram redirecionamento não devem ser usados em links do portal.
 moved = re.findall(r"'/([\w/-]+)/'\s*:\s*`", CONFIG)
-for path in [*DOCS.rglob("*.mdx"), *(DOCS.parents[1] / "components").glob("*.astro")]:
+for path in [*DOCS.rglob("*.mdx"), *(DOCS.parents[1] / "components").glob("*.astro"), *NOVOS_DADOS]:
+    if not path.is_file():
+        continue
     text = path.read_text(encoding="utf8")
     for old in moved:
         if re.search(r"[(/'\"]" + re.escape(old) + r"/", text):

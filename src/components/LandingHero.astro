@@ -1,31 +1,45 @@
 ---
 /**
  * Substitui o Hero do Starlight (astro.config.mjs, components.Hero).
- * Na home, o título e o texto vêm do frontmatter 'hero' de index.mdx e viram o h1 real da página.
+ * Na home (UX-04, ADR 0008, EDI-01): o h1 vem de hero.title em index.mdx (categoria e público),
+ * o slogan entra como linha de apoio, a tagline traz a promessa da seção 1.2 e a linha de fato
+ * é contada nos dados (núcleo em modelos.yaml, passos em percurso.yaml).
  * Em qualquer outra página com hero (a 404 do Starlight, por exemplo), o Hero padrão continua.
  */
 import Default from '@astrojs/starlight/components/Hero.astro';
+import { baseUrl, lerModelos, lerPercurso, urlDaPagina } from '../lib/dados';
 
 const route = Astro.locals.starlightRoute;
 const isHome = route.id === '' || route.id === 'index';
 const { title = route.entry.data.title, tagline } = route.entry.data.hero ?? {};
-const rawBase = import.meta.env.BASE_URL;
-const base = rawBase.endsWith('/') ? rawBase : `${rawBase}/`;
+const base = baseUrl();
 // O link "Pular para o conteúdo" do Starlight aponta para #_top, o id do título da página.
 const PAGE_TITLE_ID = '_top';
+const SLOGAN = 'Uma IA não deveria adivinhar como sua organização funciona.';
+const nucleo = isHome ? lerModelos().filter((modelo) => modelo.nivel === 'nucleo').length : 0;
+const percurso = isHome ? lerPercurso() : undefined;
+const fato = percurso
+  ? [
+      `${nucleo} modelos para começar, cada um com exemplo completo`,
+      `${percurso.passos.length} passos da pergunta ao documento aprovado`,
+      'sem programar',
+    ]
+  : [];
 ---
 {isHome ? (
   <section class="context-hero">
     <div class="context-hero__copy">
-      <span class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span> CONTEXTO · DOCUMENTAÇÃO DO CONHECIMENTO</span>
+      <span class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span> CONTEXTO · FRAMEWORK</span>
       <h1 id={PAGE_TITLE_ID} class="hero-title" data-page-title set:html={title} />
+      <p class="hero-support">{SLOGAN}</p>
       {tagline && <p set:html={tagline} />}
+      <p class="hero-fact">{fato.join(' · ')}</p>
       <div class="hero-actions">
         <a class="cta-primary" href={`${base}fundamentos/comece-em-5-minutos/`}>
           Comece em 5 minutos <span aria-hidden="true">→</span>
         </a>
+        {percurso && <a class="hero-link" href={urlDaPagina(percurso.passos[0].pagina)}>Siga o percurso <span aria-hidden="true">→</span></a>}
       </div>
-      <p class="hero-footnote">Um guia prático, aberto e independente de plataformas.</p>
     </div>
   </section>
 ) : (

@@ -1,22 +1,21 @@
 ---
+/**
+ * Checklist de revisão: um item por dimensão de src/data/dimensoes.yaml (nome e revisao).
+ * As oito dimensões são uma convenção do Contexto (ADR 0014).
+ */
+import { baseUrl, lerDimensoes } from '../lib/dados';
+
 interface Props { title?: string }
-const { title = 'Verificação das oito dimensões' } = Astro.props;
-const criteria = [
-  ['Significado', 'Definições, sinônimos e variações entre áreas estão explícitos?'],
-  ['Contexto', 'Aplicabilidade, limites e exclusões estão descritos?'],
-  ['Objetivo', 'O documento explica qual necessidade atende?'],
-  ['Regras', 'Critérios, condições e prioridades estão especificados?'],
-  ['Exceções', 'Casos não previstos e o que fazer com eles estão identificados?'],
-  ['Responsabilidade', 'É claro quem decide, aprova, mantém e responde dúvidas?'],
-  ['Evidência', 'Há fonte autorizada e modo de verificar a informação?'],
-  ['Vigência', 'Estado, versão e vigência são conhecidos ou marcados como em aberto?'],
-];
+const { title = 'Checklist de revisão' } = Astro.props;
+const criteria = lerDimensoes().map((d) => [d.nome, d.revisao] as const);
+const base = baseUrl();
 // Ids estáveis entre builds, derivados do título; cada instância da página tem título próprio.
 const uid = 'readiness-' + title.normalize('NFD').replace(/[^\w]+/g, '-').replace(/^-|-$/g, '').toLowerCase();
 ---
 <section class="readiness" data-readiness data-total={criteria.length}>
   <div class="readiness-heading"><div><p class="eyebrow">VERIFICAÇÃO</p><h3>{title}</h3></div></div>
   <p>Marque o item quando o documento trouxer uma resposta explícita, não apenas um campo ou um título. <strong>Não é uma nota:</strong> a consistência das respostas e a aprovação da área são verificadas nas próximas etapas.</p>
+  <p class="readiness-convention">As oito dimensões são uma convenção do Contexto. Veja de onde vêm em <a href={`${base}metodo/oito-dimensoes/`}>Checklist das oito dimensões</a>.</p>
   <fieldset>
     <legend class="sr-only">Dimensões da qualidade documental</legend>
     {criteria.map(([label, description], index) => (
@@ -34,7 +33,7 @@ const uid = 'readiness-' + title.normalize('NFD').replace(/[^\w]+/g, '-').replac
 </section>
 <script>
   const INITIAL = 'Marque o que o documento já responde. O que ficar sem marca vira a sua lista de lacunas.';
-  const NONE_OPEN = 'Nenhuma lacuna nas oito dimensões. Agora confronte as afirmações com as fontes e peça a confirmação de quem responde pelo conteúdo.';
+  const NONE_OPEN = 'Nenhuma lacuna no checklist de revisão. Agora confronte as afirmações com as fontes e peça a confirmação de quem responde pelo conteúdo.';
   const openMessage = (open: number, total: number) =>
     (open === 1 ? `Falta 1 de ${total} dimensões.` : `Faltam ${open} de ${total} dimensões.`) +
     ' Sem marca, a dimensão vira lacuna. Leve a lista abaixo para quem responde pelo conteúdo.';
@@ -87,7 +86,7 @@ const uid = 'readiness-' + title.normalize('NFD').replace(/[^\w]+/g, '-').replac
         const { name, question } = label(c);
         return '- ' + name + ': ' + question;
       });
-      const textToCopy = 'Lacunas encontradas na verificação das oito dimensões:\n' + lines.join('\n');
+      const textToCopy = 'Lacunas encontradas no checklist de revisão (oito dimensões):\n' + lines.join('\n');
       let message: string;
       try {
         await navigator.clipboard.writeText(textToCopy);

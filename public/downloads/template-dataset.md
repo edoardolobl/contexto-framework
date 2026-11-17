@@ -54,7 +54,7 @@ Para cada campo, documente:
 
 ## Validação
 - Registros de exemplo conferidos por especialistas:
-- Consultas e perguntas de referência:
+- Consultas e perguntas de negócio:
 
 ## Perguntas em aberto
 Repita para cada pergunta que ninguém decidiu.

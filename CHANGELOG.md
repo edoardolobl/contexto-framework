@@ -24,6 +24,17 @@ Esta é a versão do **produto** (portal, método e ferramentas). Os modelos de 
 - `validate_content.py` acusa link `blob/main` ou `tree/main` do repositório que aponta para arquivo inexistente na cópia local (por exemplo, um ADR citado nas referências).
 - Imagem de compartilhamento (`public/og-contexto.png`) e cor do tema do navegador para os dois temas.
 - Seção "Evidência empírica" e tipo de fonte em cada linha das referências.
+- Percurso em sete passos (F2): páginas novas em `percurso/` (Escreva a pergunta de negócio, Delimite o acervo, Descubra o que falta, Revise e aprove, Teste com as perguntas, Leve à sua ferramenta de IA), com a página de modelos como passo 4 e o Laboratório Aurora depois do último passo.
+- Página "Modelo de AGENTS.md" no grupo Usar com IA, e trecho curto de AGENTS.md no passo 7.
+- Banco de perguntas por tipo de documento no passo 1, com versão fraca, versão boa e a decisão que muda.
+- Descoberta por entrevista a partir de um incidente real (adaptação do Critical Decision Method): oito famílias de perguntas, roteiro de 20 minutos e "5 porquês" só como heurística.
+- Fontes únicas em `src/data/`: `percurso.yaml`, `entradas.yaml` (cinco entradas por sintoma, uma com destino provisório até a F4; sintoma repetido é recusado) e `dimensoes.yaml`; `modelos.yaml` ganha página, nome, tarefa, resumo, quando, resultado, preparar e rótulo de download.
+- Componentes `NextStep` (bloco Próximo passo no fim de cada página do percurso), `PathMap`, `SymptomEntries` e `DimensionTable`, e `src/lib/dados.ts` para ler os dados.
+- `scripts/check_navegacao.py`: recusa página órfã, página do percurso sem Próximo passo, YAML no percurso, modelos fora da ordem de nível, grupo Percurso diferente de `percurso.yaml`, título divergente e destino ou redirecionamento para página inexistente; avisa página sem link interno de saída. Entra em `check:content`.
+- `validate_content.py` confere o nome de `modelos.yaml` com o título da página do modelo e os quatro arquivos de download de cada tipo, e aplica travessão, vocabulário e endereço antigo aos dados novos.
+- ADRs 0023 (percurso em sete passos), 0024 (descoberta por incidente) e 0025 (instrução mínima ao agente), em estado Proposto.
+- Protocolo de card sorting e tree test da F2 em `docs/PLANO_VALIDACAO.md`, aguardando execução.
+- Regra de vocabulário "Perguntas de negócio" no lugar de "perguntas de referência" e "casos de teste" (fora da bibliografia).
 
 ### Mudado
 
@@ -46,6 +57,13 @@ Esta é a versão do **produto** (portal, método e ferramentas). Os modelos de 
 - Citações: o guia Knowledge-Centered Success substitui o KCS v6; Polanyi (1966) aparece como origem da distinção entre conhecimento tácito e explícito; "Decisão própria" vira "Convenção do Contexto", com link para o ADR.
 - Contrato editorial 0.5 (proposto): termo "modelo" no lugar de "template", cinco tipos de fonte, exemplo com lacunas em `draft`, aprovações em dia útil, datas de artefatos conferidas e notas de arquivamento em `archival_note`.
 - Vocabulário: regra "modelo" no validador; termos em inglês do ROADMAP trocados por português.
+- Menu reorganizado em grupos (Comece aqui, Percurso, Modelos, Laboratórios, Entender, Consultar, Usar com IA), com os cinco modelos do núcleo primeiro e a Rubrica na trilha complementar.
+- Endereços movidos com redirecionamento direto ao destino: `/templates/casos-teste/` e `/exemplos/testes-analytics/` levam a `templates/perguntas-de-negocio/`; `/metodo/elicitar/` leva a `percurso/descubra-o-que-falta/`; `/validacao/checklist/` e `/metodo/revisao-e-entrega/` levam a `percurso/revise-e-aprove/`. Os arquivos de download e a chave `type` continuam `casos-teste` até a F3 (ADR 0007).
+- Títulos: "Casos de teste" passa a "Perguntas de negócio"; Decisão passa a "Regra e decisão"; a visão geral do método passa a "Como o método funciona"; as oito dimensões passam a "Checklist das oito dimensões", apresentadas como convenção do Contexto (ADR 0014); a página de modelos passa a "Escreva com o modelo".
+- Home com h1 de categoria e público, slogan como linha de apoio, promessa única como tagline, linha de fato calculada dos dados e entradas por sintoma no lugar dos cartões de princípios (`PrincipleTiles` removido).
+- Seletor de modelos vira tabela estática sem JavaScript, agrupada por nível e alimentada por `modelos.yaml`; `TemplateDownloads` e `TemplateStart` leem o mesmo arquivo; `ReadinessChecklist` lê `dimensoes.yaml` e passa a se chamar "Checklist de revisão".
+- Página de revisão sem YAML: a ficha de perguntas em aberto vira tabela.
+- Contrato editorial 0.6 e 0.7 (propostos): promessa da seção 1.2, três perfis leitores, organização do portal em percurso e regra "Perguntas de negócio"; a 0.7 descreve Comece aqui como o menu publicado (tutorial de negócio e visão do método) e deixa o tutorial de dados em aberto. README com a mesma promessa.
 
 ## [0.4.0] - 2026-11-16
 

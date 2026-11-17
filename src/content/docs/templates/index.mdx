@@ -1,38 +1,30 @@
 ---
-title: Encontrar um modelo
-description: Escolha pelo que você precisa explicar, leia como preencher ou baixe o modelo em texto.
+title: Escreva com o modelo
+description: Escolha o modelo pelo que você precisa explicar, preencha só o que consegue confirmar e registre o que está em aberto.
 ---
 
+import NextStep from '../../../components/NextStep.astro';
 import TemplateFinder from '../../../components/TemplateFinder.astro';
 
-**Não é preciso conhecer os nomes dos modelos.** Pense no que você precisa explicar para outra pessoa: o significado de uma palavra, a sequência de um trabalho, os critérios de uma decisão ou a interpretação de dados.
+**Não é preciso conhecer YAML nem os nomes dos modelos.** Você já tem a pergunta de negócio, sabe quais fontes entram e descobriu o que falta. Agora é escrever.
+
+1. **Baixe o modelo em texto** e abra no editor que a equipe usa; dá para copiar a estrutura para o Word ou o Google Docs.
+2. **Registre apenas o que consegue confirmar.** Separe o que está **confirmado**, o que é **relatado** e o que está **em aberto**.
+3. **Anote fontes e perguntas em aberto.** Se houver duas interpretações, identifique quem pode resolver.
+4. **Peça revisão.** Só declare a informação aprovada depois da validação de quem responde pelo assunto.
+
+Todo documento leva no cabeçalho quatro informações: **escopo** (onde vale), **vigência** (desde quando vale), **evidência** (a fonte que confirma) e **responsável** (quem responde pelo conteúdo). Os campos com esses nomes chegam na próxima versão dos modelos; por enquanto, veja onde cada um aparece em [Como ler os campos](../fundamentos/como-ler-os-campos/).
+
+Cada página de modelo mostra o mesmo documento em dois momentos: **com lacunas** e **depois da aprovação**. Se você nunca fez esse tipo de registro, comece pelo exercício [Comece em 5 minutos](../fundamentos/comece-em-5-minutos/).
+
+## Escolha o modelo
+
+Pense no que você precisa explicar para outra pessoa: o cálculo de um indicador, o significado de uma tabela, os critérios de uma decisão ou as perguntas que a documentação deve responder.
 
 <TemplateFinder />
-
-## Todos os modelos
-
-| O que você precisa fazer | Como preencher | Modelo em texto |
-|---|---|---|
-| Explicar o significado de um termo | [Conceito](conceito/) | [Baixar](../downloads/template-conceito.md) |
-| Descrever as etapas de um trabalho | [Processo](processo/) | [Baixar](../downloads/template-processo.md) |
-| Registrar critérios para decidir | [Regras e decisões](decisao/) | [Baixar](../downloads/template-decisao.md) |
-| Identificar qual política vale | [Política](politica/) | [Baixar](../downloads/template-politica.md) |
-| Avaliar um trabalho por critérios verificáveis | [Rubrica de avaliação](rubrica/) | [Baixar](../downloads/template-rubrica.md) |
-| Explicar como um indicador é calculado | [Indicador (KPI)](kpi/) | [Baixar](../downloads/template-kpi.md) |
-| Explicar o significado de tabelas e campos | [Dataset](dataset/) | [Baixar](../downloads/template-dataset.md) |
-| Documentar chaves e cardinalidade entre tabelas | [Relacionamento entre tabelas](relacionamento/) | [Baixar](../downloads/template-relacionamento.md) |
-| Explicar filtros, indicadores e limites de um dashboard | [Dashboard](dashboard/) | [Baixar](../downloads/template-dashboard.md) |
-| Definir perguntas que o acervo deve responder | [Perguntas de referência](casos-teste/) | [Baixar](../downloads/template-casos-teste.md) |
 
 ## E se meu trabalho precisar de mais de um modelo?
 
 É normal. A solicitação de campanha da Aurora usa um [processo](processo/), que descreve as etapas, e uma [regra](decisao/), que diz quando pedir aprovação. Os dois documentos se ligam pelo identificador, sem repetir o conteúdo. Quem trabalha com tabelas, SQL e dashboards encontra os quatro modelos de dados ligados no [Laboratório Aurora](../exemplos/analytics-integrado/).
 
-## Como usar um modelo sem conhecer YAML
-
-1. **Baixe o arquivo em texto** e abra no editor que a equipe usa; dá para copiar a estrutura para o Word ou o Google Docs.
-2. **Registre apenas o que consegue confirmar.** Separe o que está **confirmado**, o que é **relatado** e o que está **em aberto**.
-3. **Anote fontes e perguntas em aberto.** Se houver duas interpretações, identifique quem pode resolver.
-4. **Peça revisão.** Só declare a informação aprovada depois da validação de quem responde pelo assunto.
-
-Cada página de modelo mostra o mesmo documento em dois momentos: **com lacunas** e **depois da aprovação**. Se você nunca fez esse tipo de registro, comece pelo exercício [Comece em 5 minutos](../fundamentos/comece-em-5-minutos/).
+<NextStep />

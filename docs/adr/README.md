@@ -57,3 +57,6 @@ Para mudar uma decisão aceita, escreva um ADR novo. Não edite o antigo: só ma
 | [0020](./0020-dashboard-como-guia-de-leitura.md) | Dashboard como guia de leitura ligado ao indicador | Proposto | 2026-11-17 |
 | [0021](./0021-responder-esclarecer-ou-abster-se.md) | Responder, esclarecer ou abster-se | Proposto | 2026-11-17 |
 | [0022](./0022-laboratorio-pequeno-verificado-em-sqlite.md) | Laboratório pequeno verificado em SQLite, sem LLM | Proposto | 2026-11-17 |
+| [0023](./0023-percurso-em-sete-passos.md) | Percurso em sete passos | Proposto | 2026-11-17 |
+| [0024](./0024-descoberta-por-incidente.md) | Descoberta por incidente | Proposto | 2026-11-17 |
+| [0025](./0025-instrucao-minima-ao-agente.md) | Instrução mínima ao agente | Proposto | 2026-11-17 |
