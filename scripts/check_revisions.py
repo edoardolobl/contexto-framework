@@ -138,7 +138,7 @@ atual_conceito = revisions.get("CONCEPT-ONBOARDING-001@2.0", {}).get("data")
 
 def normalizar_janela(value):
     if isinstance(value, str):
-        return re.sub(r"\\b(?:30|60) dias\\b", "N dias", value)
+        return re.sub(r"\b(?:30|60) dias\b", "N dias", value)
     if isinstance(value, list):
         return [normalizar_janela(item) for item in value]
     return value
