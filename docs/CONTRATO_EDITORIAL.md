@@ -1,9 +1,10 @@
 # Contrato editorial: Contexto
 
-**Versão:** 0.3 · **Data desta versão:** 2026-11-17 · **Estado:** aprovado pelo mantenedor · **Mantenedor:** Edoardo Lobl
+**Versão:** 0.4 · **Data desta versão:** 2026-11-17 · **Estado:** proposto (F0), aguarda aprovação do mantenedor · **Mantenedor:** Edoardo Lobl
 
 | Versão | Data | O que mudou | Aprovado por |
 |---|---|---|---|
+| 0.4 | 2026-11-17 | Vocabulário com fonte única em `src/data/vocabulario.yaml` | Proposto (F0), aguarda aprovação do mantenedor |
 | 0.3 | 2026-11-17 | Um termo por ideia; aviso de que a Aurora é inventada só em três lugares; uma página por tipo de documento, com estrutura fixa; menu igual ao título; regras para exemplos concretos; regra de versão | Mantenedor |
 | 0.2 | 2026-11-16 | Regra dos exemplos completos e aprovados; versionamento com data obrigatório; estados de perguntas em aberto; templates Markdown sem bloco YAML | Mantenedor |
 | 0.1 | 2026-11-16 | Primeira versão do contrato | Mantenedor |
@@ -49,13 +50,13 @@ Cada ideia tem um nome só, em páginas, componentes, modelos e textos dos YAML.
 | Ligação entre tabelas | junção | join, fora do SQL |
 | Descobrir conhecimento com as pessoas | descobrir, perguntar | elicitar, fora da bibliografia |
 | Pedido de campanha | brief | briefing |
-| Medida acompanhada | indicador (KPI só no nome do modelo e nos identificadores) | métrica, fora da bibliografia |
+| Medida acompanhada | indicador; KPI só no nome do modelo e nos identificadores | métrica, fora da bibliografia |
 | Conjunto de dados | dataset | conjunto de dados |
 | Pedido ao banco | consulta | query |
 
 A tríade para o que se sabe é **Confirmado / Relatado / Em aberto**. “Lacuna” é só o que o checklist encontra num documento.
 
-O validador (`scripts/validate_content.py`) recusa as formas da coluna “Não usar” fora da bibliografia.
+O validador (`scripts/validate_content.py`) recusa as formas da coluna “Não usar” fora da bibliografia. As regras que ele aplica ficam em `src/data/vocabulario.yaml`; para mudar o vocabulário, altere a tabela acima e o arquivo juntos (`scripts/check_higiene.py` confere que todo termo do arquivo está na tabela).
 
 ## Exemplos
 

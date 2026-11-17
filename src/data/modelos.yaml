@@ -1,0 +1,40 @@
+# Tipos de documento do Contexto: fonte única da lista de modelos.
+# scripts/validate_content.py exige, para cada slug, template-<slug>.md, template-<slug>.yaml,
+# exemplo-<slug>-completo.yaml e a página src/content/docs/templates/<slug>.mdx.
+# nivel segue o ADR 0013 (núcleo de entrada) e o ADR 0003 (Rubrica na trilha complementar):
+#   nucleo: aparece na porta de entrada; segundo: segundo nível; complementar: trilha à parte.
+# nome é o título atual da página src/content/docs/templates/<slug>.mdx. Os nomes-alvo dos ADRs
+# 0007 (Perguntas de negócio) e 0013 (Dataset com relacionamentos, Regra e decisão) entram na F2
+# (menu e redirecionamentos) e na F3 (schema); até lá este arquivo mantém os títulos atuais.
+# O tipo Evento de coleta entra na fase F4, junto com os arquivos dele.
+tipos:
+  - slug: kpi
+    nome: Indicador (KPI)
+    nivel: nucleo
+  - slug: dataset
+    nome: Dataset
+    nivel: nucleo
+  - slug: relacionamento
+    nome: Relacionamento entre tabelas
+    nivel: nucleo
+  - slug: decisao
+    nome: Regras e decisões
+    nivel: nucleo
+  - slug: casos-teste
+    nome: Perguntas de referência
+    nivel: nucleo
+  - slug: conceito
+    nome: Conceito
+    nivel: segundo
+  - slug: politica
+    nome: Política
+    nivel: segundo
+  - slug: processo
+    nome: Processo
+    nivel: segundo
+  - slug: dashboard
+    nome: Dashboard
+    nivel: segundo
+  - slug: rubrica
+    nome: Rubrica de avaliação
+    nivel: complementar

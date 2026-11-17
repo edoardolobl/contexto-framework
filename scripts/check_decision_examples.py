@@ -4,17 +4,19 @@
 This is NOT a test of a real policy, formal DMN compliance or agent accuracy.
 """
 from itertools import product
-from pathlib import Path
-import sys
-import yaml
 
-ROOT = Path(__file__).resolve().parents[1]
+from comum import DOWNLOADS as DL, Relatorio, carregar_yaml
+
+relatorio = Relatorio()
+relatorio.instalar()
 FILES = ["exemplo-decisao-lacunas.yaml", "exemplo-decisao-completo.yaml"]
-errors = []
+errors = relatorio.erros
 summary = []
 
 for name in FILES:
-    doc = yaml.safe_load((ROOT / "public/downloads" / name).read_text(encoding="utf-8"))
+    doc = carregar_yaml(DL / name, relatorio)
+    if doc is None:
+        continue
     inputs = doc["required_inputs"]
     columns = [entry["name"] for entry in inputs]
     domains = [entry["allowed_values"] for entry in inputs]
@@ -42,16 +44,21 @@ for name in FILES:
     summary.append(f"{name}: {seen} combinações, {len(doc.get('tests', []))} casos")
 
 # Rubrica de material de campanha: pesos, âncoras, nota recalculada e encaminhamento pela tabela aprovada.
-DL = ROOT / "public/downloads"
-decision = yaml.safe_load((DL / "exemplo-decisao-completo.yaml").read_text(encoding="utf-8"))
-def route(brief_complete, evidence_sufficient):
+decision = carregar_yaml(DL / "exemplo-decisao-completo.yaml", relatorio) or {"decision_table": []}
+
+
+def route(brief_complete: bool, evidence_sufficient: bool) -> str | None:
     values = {"brief_complete": brief_complete, "evidence_sufficient": evidence_sufficient}
     hits = [r["then"] for r in decision["decision_table"]
             if all(r["when"][k] == "any" or r["when"][k] == v for k, v in values.items())]
     return hits[0] if len(hits) == 1 else None
+
+
 calibrated = 0
 for name in ("exemplo-rubrica-lacunas.yaml", "exemplo-rubrica-completo.yaml"):
-    rubric = yaml.safe_load((DL / name).read_text(encoding="utf-8"))
+    rubric = carregar_yaml(DL / name, relatorio)
+    if rubric is None:
+        continue
     weights = {c["id"]: c["weight"] for c in rubric["criteria"]}
     if sum(weights.values()) != 100 or rubric["scoring"]["weight_sum"] != 100:
         errors.append(f"{name}: os pesos devem somar 100 e a soma declarada deve conferir")
@@ -82,9 +89,4 @@ for name in ("exemplo-rubrica-lacunas.yaml", "exemplo-rubrica-completo.yaml"):
         calibrated += 1
 summary.append(f"rubrica de campanha: {calibrated} materiais com nota e encaminhamento recalculados")
 
-if errors:
-    for error in errors:
-        print("ERRO:", error)
-    sys.exit(1)
-
-print("OK: cada combinação casa com uma única regra. " + "; ".join(summary) + ".")
+relatorio.encerrar("OK: cada combinação casa com uma única regra. " + "; ".join(summary) + ".")

@@ -40,20 +40,18 @@ A consulta em `public/downloads/aurora-reference-query.sql` deve retornar **25%*
 
 ## Desenvolvimento
 
-Requer Node.js 22.12 ou superior, npm, Python 3 e PyYAML.
+Requer Node.js 22.12 ou superior, npm e Python 3. As dependências Python de desenvolvimento (PyYAML e pytest) estão em `requirements-dev.txt`.
 
 ```bash
-python3 -m pip install -r requirements.txt
+python3 -m pip install -r requirements-dev.txt
 npm ci
-npm run validate:content
-python3 scripts/check_decision_examples.py
-python3 scripts/check_analytics_fixture.py
-npm run build
-python3 scripts/check_built_links.py
+npm run check
 npm run dev
 ```
 
-O GitHub Actions executa validação de conteúdo, checagens de exemplos e build em PRs. Merges na `main` acionam a publicação do Astro Starlight no GitHub Pages.
+`npm run check` roda, nesta ordem, os testes dos validadores, as checagens de conteúdo (páginas, downloads, higiene, decisão, amostra SQLite e versões), o build e a conferência de links no HTML gerado. O GitHub Actions roda a mesma sequência em todo PR, e a publicação no GitHub Pages só acontece depois que ela passa num merge na `main`.
+
+Decisões de projeto ficam registradas em [`docs/adr/`](docs/adr/) e as mudanças, em [`CHANGELOG.md`](CHANGELOG.md). O vocabulário que o validador aplica e a lista de tipos de documento ficam em [`src/data/`](src/data/).
 
 ## Estrutura
 
@@ -61,10 +59,12 @@ O GitHub Actions executa validação de conteúdo, checagens de exemplos e build
 src/
   components/          Elementos visuais e downloads
   content/docs/        Metodologia, modelos e exemplos
+  data/                Fontes únicas: vocabulário e lista de tipos de documento
   styles/              Identidade visual
 public/downloads/     Modelos Markdown/YAML e laboratório SQL
 scripts/              Validações independentes de LLM
 docs/                 Contrato editorial e roadmap
+  adr/                Registros de decisão (ADR)
 .github/workflows/    Testes e publicação
 ```
 

@@ -3,18 +3,18 @@
 
 Does not test RAG, LLM accuracy, policies or live analytics systems.
 """
-from pathlib import Path
-from collections import Counter
 import sqlite3
-import sys
-import yaml
+from typing import Any
 
-ROOT = Path(__file__).resolve().parents[1]
-DL = ROOT / "public" / "downloads"
-errors = []
+from comum import DOWNLOADS as DL, ROOT, Relatorio, carregar_yaml
 
-def fail(msg):
-    errors.append(msg)
+relatorio = Relatorio()
+relatorio.instalar()
+errors = relatorio.erros
+
+
+def fail(msg: str) -> None:
+    relatorio.erro(None, msg)
 
 with sqlite3.connect(":memory:") as db:
     db.executescript((DL / "aurora-fixture.sql").read_text(encoding="utf8"))
@@ -57,8 +57,13 @@ with sqlite3.connect(":memory:") as db:
     """).fetchone()[0]
 
 
-def load(name):
-    return yaml.safe_load((DL / name).read_text(encoding="utf8"))
+def load(name: str) -> dict[str, Any]:
+    """Carrega um download; um arquivo ausente ou quebrado vira ERRO com o nome, não traceback."""
+    data = carregar_yaml(DL / name, relatorio)
+    if data is None:
+        relatorio.encerrar("")  # há erro registrado: encerra com código 1 e lista os erros
+        raise SystemExit(1)
+    return data
 
 base = {"Q01": "answer", "Q02": "answer", "Q03": "clarify", "Q04": "abstain", "Q05": "abstain", "Q06": "abstain"}
 for name, expected in (("exemplo-casos-teste-lacunas.yaml", base), ("exemplo-casos-teste-completo.yaml", {**base, "Q07": "answer"})):
@@ -143,11 +148,6 @@ if set(documented) != real_columns:
 if not real_codes <= set(documented["status_code"]["allowed_values"]):
     fail("Há código de estado na amostra que o dicionário de pedidos não documenta")
 
-if errors:
-    for e in errors:
-        print("ERRO:", e)
-    sys.exit(1)
-
-print("OK: SQLite retorna 25.0% (1 de 4 sessões); pedidos por sessão dá 50% (2 de 4); "
+relatorio.encerrar("OK: SQLite retorna 25.0% (1 de 4 sessões); pedidos por sessão dá 50% (2 de 4); "
       "taxa sem filtro de sessões internas dá 40%; sete perguntas de referência no gabarito aprovado; "
       "dicionário de pedidos confere com as colunas e os códigos da amostra.")
