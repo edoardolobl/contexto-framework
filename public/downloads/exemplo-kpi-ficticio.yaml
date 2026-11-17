@@ -34,7 +34,7 @@ scope:
   exclusions: ["tráfego interno", "pedidos de teste", "pedidos cancelados"]
 
 calculation:
-  formula_description: "(sessoes_unicas_com_pedido_confirmado / sessoes_elegiveis) * 100"
+  formula_description: "(Sessões únicas com pelo menos um pedido confirmado / Sessões elegíveis) × 100"
   numerator: "Quantidade de sessões elegíveis com pelo menos um pedido CONFIRMED"
   denominator: "Quantidade de sessões elegíveis"
   unit: "percentual"
