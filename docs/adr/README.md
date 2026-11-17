@@ -50,5 +50,5 @@ Para mudar uma decisão aceita, escreva um ADR novo. Não edite o antigo: só ma
 | [0013](./0013-nucleo-de-entrada-com-cinco-tipos.md) | Núcleo de entrada com cinco tipos | Aceito | 2026-11-17 |
 | [0014](./0014-oito-dimensoes-como-checklist.md) | Oito dimensões como checklist de revisão | Aceito | 2026-11-17 |
 | [0015](./0015-chaves-em-ingles-rotulos-em-portugues.md) | Chaves em inglês, rótulos em português | Aceito | 2026-11-17 |
-| [0016](./0016-sistema-visual.md) | Sistema visual | Proposto | 2026-11-17 |
-| [0017](./0017-tamanho-de-pagina-de-modelo.md) | Tamanho de página de modelo | Proposto | 2026-11-17 |
+| [0016](./0016-sistema-visual.md) | Sistema visual | Aceito | 2026-11-17 |
+| [0017](./0017-tamanho-de-pagina-de-modelo.md) | Tamanho de página de modelo | Aceito | 2026-11-17 |

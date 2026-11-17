@@ -1,8 +1,9 @@
 # 0017. Tamanho de página de modelo
 
-- **Estado:** Proposto
+- **Estado:** Aceito
 - **Data:** 2026-11-17
-- **Proposto por:** auditoria
+- **Decisão:** do mantenedor em 2026-11-17 (passos recolhíveis com a referência de campos à parte; sem limite próprio no celular)
+- **Decidido por:** mantenedor (texto redigido pela auditoria)
 - **Origem:** [13-ui-ux-tasteskill.md](../../auditoria/13-ui-ux-tasteskill.md), seção "O que entra no plano antes e durante a F0", segunda linha (UX-03); [12-incorporacoes.md](../../auditoria/12-incorporacoes.md), I-24
 
 ## Contexto
@@ -12,13 +13,15 @@ A página Indicador junta numa rolagem só orientação, problema, perguntas, do
 ## Decisão
 
 - Cada página de modelo tem **no máximo 4 telas** numa janela de 1440 x 900 px (altura da página dividida por 900).
-- A **sequência didática** do I-24 (par contrastante, exemplo comentado, erro para encontrar, campo para completar, caso em branco, "Teste você") é dividida em passos ou em páginas. Passos recolhíveis podem usar os componentes Steps e Tabs do Starlight.
-- A **referência de campos** (o que cada campo significa e aceita) fica numa página própria, separada da página que ensina.
+- A **sequência didática** do I-24 (par contrastante, exemplo comentado, erro para encontrar, campo para completar, caso em branco, "Teste você") fica **na mesma página, em passos recolhíveis**, com os componentes Steps e Tabs do Starlight.
+- A **referência de campos** (o que cada campo significa e aceita) fica numa página própria, separada da página que ensina. Cada tipo ganha uma página a mais, não três ou quatro.
+- **Celular sem limite próprio:** o número de telas é medido só no desktop. O celular (390 px) é conferido no checklist visual de cada PR, sem número fixo.
 - O limite entra no contrato editorial junto com o I-24, antes de reescrever as páginas.
-- Um limite para o celular e a escolha entre passos e páginas para cada tipo ficam em aberto.
 
 ## Alternativas consideradas
 
+- **Uma página para cada parte** (aprender, exemplos, exercício e referência): páginas curtas, mas três ou quatro páginas por tipo e um menu bem maior.
+- **Limite de 8 telas no celular:** mais rigoroso, mas forçaria cortes só por causa do celular.
 - **Sem limite, só recolher seções** (levantada na redação do ADR): o conteúdo continua na mesma página, com o mesmo peso, e nada impede que ela volte a crescer.
 - **Limite por número de elementos da página, não por telas** (levantada na redação do ADR): mede o custo técnico, mas não o que a pessoa sente ao rolar.
 - **Seguir a regra da tasteskill de uma seção por tela:** é regra de landing page e não serve para documentação ([13-ui-ux-tasteskill.md](../../auditoria/13-ui-ux-tasteskill.md), seção "Descartados").

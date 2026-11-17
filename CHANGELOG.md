@@ -9,7 +9,7 @@ Esta é a versão do **produto** (portal, método e ferramentas). Os modelos de 
 ### Adicionado
 
 - Pasta `auditoria/` com a auditoria de 17/11/2026: achados ancorados no repositório, pesquisa de boas práticas, casos de uso, direção proposta, decisões do mantenedor, incorporações das pesquisas externas e medições de interface.
-- ADRs: um por decisão do mantenedor, mais duas propostas da auditoria (0016, 0017), 0001 a 0015 aceitos pelo mantenedor e 0016 e 0017 ainda propostos (pasta `docs/adr/`).
+- ADRs: um por decisão do mantenedor, mais duas propostas da auditoria (0016, 0017), todos aceitos pelo mantenedor; 0016 escolhe a família IBM Plex e 0017 limita a página de modelo a 4 telas no desktop (pasta `docs/adr/`).
 - `src/data/vocabulario.yaml`: fonte única do vocabulário que o validador aplica.
 - `src/data/modelos.yaml`: fonte única da lista de tipos de documento, com o nível de cada um (núcleo, segundo nível, trilha complementar).
 - `scripts/check_higiene.py`: recusa caracteres Unicode invisíveis, descrições de campo que só repetem o nome, versões do produto divergentes e termos do vocabulário ausentes do contrato.
