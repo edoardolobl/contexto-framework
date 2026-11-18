@@ -1,0 +1,82 @@
+# Vocabulário do Contexto: um termo por ideia.
+# Fonte única das formas proibidas que scripts/validate_content.py recusa em páginas, componentes e downloads.
+# A tabela "Vocabulário" de docs/CONTRATO_EDITORIAL.md explica cada ideia; todo termo daqui precisa aparecer
+# na coluna "Termo" dela (scripts/check_higiene.py confere).
+# padrao: expressão regular Python; aspas simples para a barra invertida valer literalmente.
+# permitido_em: caminhos relativos a src/content/docs onde a forma proibida pode aparecer.
+regras:
+  - termo: caso-limite
+    padrao: '\bcasos? de fronteira\b|\bedge cases?\b|\bcasos? limites?\b'
+    sugestao: caso-limite
+    ignorar_maiusculas: true
+    permitido_em: []
+  - termo: vigência
+    padrao: '\bvalidade\b'
+    sugestao: vigência
+    ignorar_maiusculas: true
+    permitido_em: []
+  - termo: versão
+    padrao: '\bID da revisão\b|\brevis(?:ão|ões) (?:`?\d|histórica|anterior|vigente|específica)'
+    sugestao: versão (revisão é só o ato de revisar)
+    ignorar_maiusculas: true
+    permitido_em: []
+  - termo: responsável
+    padrao: '\bdonos?\b'
+    sugestao: responsável ou quem aprova
+    ignorar_maiusculas: true
+    permitido_em: []
+  - termo: quem aprova
+    padrao: '\baprovador(?:a|es)?\b'
+    sugestao: quem aprova
+    ignorar_maiusculas: true
+    permitido_em: []
+  - termo: responsável
+    padrao: '\bpropriet[aá]ri[oa]s?\b'
+    sugestao: responsável ou quem aprova
+    ignorar_maiusculas: true
+    permitido_em: []
+  - termo: pergunta em aberto
+    padrao: '\bpend[eê]ncias?\b'
+    sugestao: pergunta em aberto
+    ignorar_maiusculas: true
+    permitido_em: []
+  - termo: em aberto
+    padrao: '\bpendentes?\b(?! de aprovação)'
+    sugestao: em aberto (o estado do documento é 'pendente de aprovação')
+    ignorar_maiusculas: true
+    permitido_em: []
+  - termo: dashboard
+    padrao: '\bpain[eé]is\b|\bpainel\b'
+    sugestao: dashboard
+    ignorar_maiusculas: true
+    permitido_em: []
+  - termo: gabarito
+    padrao: '\brespostas? de refer[eê]ncia\b'
+    sugestao: gabarito ou resposta esperada
+    ignorar_maiusculas: true
+    permitido_em: []
+  - termo: junção
+    padrao: '\bjoins?\b'
+    sugestao: junção (JOIN só no SQL)
+    ignorar_maiusculas: false
+    permitido_em: []
+  - termo: descobrir
+    padrao: '\belicita\w*'
+    sugestao: descobrir ou perguntar
+    ignorar_maiusculas: true
+    permitido_em: [referencias/index.mdx]
+  - termo: brief
+    padrao: '\bbriefing\b'
+    sugestao: brief
+    ignorar_maiusculas: true
+    permitido_em: []
+  - termo: indicador
+    padrao: '\bm[eé]tricas?\b'
+    sugestao: indicador
+    ignorar_maiusculas: true
+    permitido_em: [referencias/index.mdx]
+  - termo: dataset
+    padrao: '\bconjuntos? de dados\b'
+    sugestao: dataset
+    ignorar_maiusculas: true
+    permitido_em: []

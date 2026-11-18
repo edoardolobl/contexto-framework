@@ -1,0 +1,136 @@
+"""Testes das checagens de higiene: caracteres invisíveis, descrições que só repetem o nome e versão."""
+from pathlib import Path
+
+import pytest
+
+import check_higiene as h
+
+
+class TestCaracteresInvisiveis:
+    def test_texto_limpo_nao_acusa_nada(self):
+        assert h.caracteres_invisiveis("Taxa de sessões convertidas: 25%\n") == []
+
+    def test_acusa_espaco_de_largura_zero_com_linha_e_coluna(self):
+        achados = h.caracteres_invisiveis("linha um\nab\u200bcd\n")
+        assert achados == [(2, 3, "U+200B ZERO WIDTH SPACE")]
+
+    def test_acusa_controle_bidirecional(self):
+        achados = h.caracteres_invisiveis("nunca \u202ecalcule\n")
+        assert [codigo for _, _, codigo in achados] == ["U+202E RIGHT-TO-LEFT OVERRIDE"]
+
+    def test_acusa_marca_de_ordem_de_bytes(self):
+        assert h.caracteres_invisiveis("\ufeffAGENTS")[0][2].startswith("U+FEFF")
+
+    def test_acusa_caractere_de_tag_unicode(self):
+        assert h.caracteres_invisiveis("ok\U000E0041")[0][2].startswith("U+E0041")
+
+    def test_aceita_acentos_e_simbolos_comuns(self):
+        assert h.caracteres_invisiveis("Ação, vigência, × 100, → próximo, R$ 10,00") == []
+
+
+class TestDescricaoTautologica:
+    @pytest.mark.parametrize(
+        ("nome", "descricao"),
+        [
+            ("session_id", "Session ID"),
+            ("Canal", "canal"),
+            ("data_da_sessao", "Data da sessão."),
+            ("Sessão interna", "sessão interna"),
+        ],
+    )
+    def test_acusa_descricao_que_so_repete_o_nome(self, nome, descricao):
+        assert h.descricao_tautologica(nome, descricao)
+
+    @pytest.mark.parametrize(
+        ("nome", "descricao"),
+        [
+            ("channel", "Plataforma em que ocorreu a sessão"),
+            ("is_internal", "1 = sessão aberta na rede do escritório; 0 = qualquer outra"),
+            ("session_date", "Data de referência no formato YYYY-MM-DD"),
+        ],
+    )
+    def test_aceita_descricao_que_acrescenta_informacao(self, nome, descricao):
+        assert not h.descricao_tautologica(nome, descricao)
+
+    def test_descricao_vazia_nao_e_tautologia(self):
+        assert not h.descricao_tautologica("channel", None)
+        assert not h.descricao_tautologica("channel", "")
+
+
+class TestPares:
+    def test_encontra_pares_nome_e_significado_em_qualquer_nivel(self):
+        dados = {"columns": [{"physical_name": "channel", "business_name": "Canal", "meaning": "canal"}]}
+        pares = list(h.pares_nome_descricao(dados))
+        assert ("Canal", "canal") in pares
+        assert ("channel", "canal") in pares
+
+    def test_ignora_mapas_sem_descricao(self):
+        assert list(h.pares_nome_descricao({"name": "x", "type": "string"})) == []
+
+
+class TestVersao:
+    def test_reduz_versao_a_maior_e_menor(self):
+        assert h.maior_menor("0.4.0") == "0.4"
+        assert h.maior_menor("v0.4") == "0.4"
+        assert h.maior_menor("1.12.3-rc1") == "1.12"
+
+    def test_versao_ilegivel_vira_none(self):
+        assert h.maior_menor("sem versão") is None
+
+    def test_versoes_do_produto_le_as_quatro_fontes(self, tmp_path: Path):
+        (tmp_path / "package.json").write_text('{"version": "0.4.0"}', encoding="utf-8")
+        (tmp_path / "README.md").write_text("## O que existe na v0.4\n", encoding="utf-8")
+        docs = tmp_path / "src" / "content" / "docs"
+        docs.mkdir(parents=True)
+        (docs / "index.mdx").write_text("Versão 0.4 · exemplos\n", encoding="utf-8")
+        (tmp_path / "CHANGELOG.md").write_text("## [Não lançado]\n\n## [0.4.0] - 2026-11-16\n", encoding="utf-8")
+        assert h.versoes_do_produto(tmp_path) == {
+            "package.json": "0.4",
+            "README.md": "0.4",
+            "src/content/docs/index.mdx": "0.4",
+            "CHANGELOG.md": "0.4",
+        }
+
+    def test_fonte_sem_versao_aparece_como_none(self, tmp_path: Path):
+        (tmp_path / "package.json").write_text('{"version": "0.4.0"}', encoding="utf-8")
+        assert h.versoes_do_produto(tmp_path)["README.md"] is None
+
+
+class TestVocabularioNoContrato:
+    def test_termo_ausente_da_tabela_do_contrato_e_acusado(self):
+        contrato = "| Ideia | Termo | Não usar |\n|---|---|---|\n| Período em que vale | vigência | validade |\n"
+        termos = [{"termo": "vigência"}, {"termo": "junção"}]
+        assert h.termos_fora_do_contrato(termos, contrato) == ["junção"]
+
+
+class TestCaracteresInvisiveisAmpliado:
+    """Além da categoria Cf: seletores de variação, preenchedores, controles e separadores."""
+
+    @pytest.mark.parametrize("codigo", [0xFE0F, 0xE0100, 0x3164, 0x115F, 0x2800, 0x001B, 0x0000, 0x2028, 0x2029, 0xFFA0])
+    def test_acusa_caractere_que_esconde_texto(self, codigo):
+        assert h.caracteres_invisiveis("a" + chr(codigo) + "b"), hex(codigo)
+
+    def test_tab_e_retorno_de_carro_sao_aceitos(self):
+        assert h.caracteres_invisiveis("coluna\tvalor\r\nlinha") == []
+
+
+class TestPlural:
+    def test_plural_simples_conta_como_repeticao(self):
+        assert h.descricao_tautologica("Canais", "canal")
+
+
+class TestContratoPorCelula:
+    CONTRATO = (
+        "## Vocabulário\n\n| Ideia | Termo | Não usar |\n|---|---|---|\n"
+        "| Estado numerado | versão; “ID da versão” | revisão |\n"
+        "| Painel | dashboard | painel |\n\n## Exemplos\n\n| A | junção | B |\n"
+    )
+
+    def test_termo_casa_com_parte_da_celula_separada_por_ponto_e_virgula(self):
+        assert h.termos_fora_do_contrato([{"termo": "versão"}, {"termo": "ID da versão"}], self.CONTRATO) == []
+
+    def test_pedaco_de_palavra_nao_conta(self):
+        assert h.termos_fora_do_contrato([{"termo": "dash"}], self.CONTRATO) == ["dash"]
+
+    def test_tabela_de_outra_secao_nao_conta(self):
+        assert h.termos_fora_do_contrato([{"termo": "junção"}], self.CONTRATO) == ["junção"]

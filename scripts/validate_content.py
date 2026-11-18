@@ -2,23 +2,23 @@
 """Quality gates for the Contexto documentation, not certification of its business rules."""
 from pathlib import Path
 import re
-import sys
 
 import yaml
 
-ROOT = Path(__file__).resolve().parents[1]
-DOCS = ROOT / "src" / "content" / "docs"
-DOWNLOADS = ROOT / "public" / "downloads"
+from comum import DADOS, DOCS, DOWNLOADS, ROOT, Relatorio, carregar_tipos, carregar_vocabulario, carregar_yaml, exigir_minimo
+
 TEMPLATE_COMPONENT = ROOT / "src" / "components" / "TemplateDownloads.astro"
-
-PAGES = sorted([*DOCS.rglob("*.md"), *DOCS.rglob("*.mdx")])
-REQUIRED_TYPES = ("kpi", "conceito", "processo", "decisao", "politica", "dataset", "relacionamento", "dashboard", "rubrica", "casos-teste")
 VALID_STATUSES = {"draft", "pending_approval", "approved", "deprecated"}
-errors: list[str] = []
+relatorio = Relatorio()
+relatorio.instalar()
+
+PAGES = exigir_minimo([*DOCS.rglob("*.md"), *DOCS.rglob("*.mdx")], 20, "páginas em src/content/docs", relatorio)
+# Tipos de documento: fonte única em src/data/modelos.yaml (níveis no ADR 0013).
+REQUIRED_TYPES = tuple(carregar_tipos(DADOS / "modelos.yaml", relatorio))
 
 
-def record(path: Path, msg: str):
-    errors.append(f"{path.relative_to(ROOT)}: {msg}")
+def record(path: Path, msg: str) -> None:
+    relatorio.erro(path, msg)
 
 
 def route(path: Path):
@@ -33,6 +33,7 @@ def route(path: Path):
 routes = {route(p): p for p in PAGES}
 
 for path in PAGES:
+    relatorio.arquivo_atual = path
     content = path.read_text(encoding="utf-8")
     match = re.match(r"\A---\r?\n(.*?)\r?\n---\r?\n", content, re.S)
     if not match:
@@ -124,20 +125,17 @@ def check_version_history(path, data, minimum):
         record(path, "a primeira entrada de version_history deve ser a versão atual")
 
 
-template_keys: dict[str, set] = {}
+template_keys: dict[str | None, set] = {}
 example_ids: dict[str, list[str]] = {}
 references: list[tuple[Path, str]] = []
-yaml_count = 0
-for path in sorted(DOWNLOADS.glob("*.yaml")):
-    yaml_count += 1
-    try:
-        data = yaml.safe_load(path.read_text(encoding="utf8"))
-    except yaml.YAMLError as exc:
-        record(path, f"YAML inválido: {exc}")
+loaded: dict[Path, dict] = {}
+yaml_files = exigir_minimo(DOWNLOADS.glob("*.yaml"), 20, "YAML em public/downloads", relatorio)
+yaml_count = len(yaml_files)
+for path in yaml_files:
+    data = carregar_yaml(path, relatorio)
+    if data is None:
         continue
-    if not isinstance(data, dict):
-        record(path, "YAML deve ser mapa na raiz")
-        continue
+    loaded[path] = data
     if not data.get("type"):
         record(path, "campo type ausente")
     if data.get("status") not in VALID_STATUSES:
@@ -187,16 +185,18 @@ for path, ref in references:
         record(path, f"referência a documento inexistente: {ref}")
 
 # Exemplo não pode usar campo de primeiro nível que o template do mesmo tipo não tem.
-for path in sorted(DOWNLOADS.glob("exemplo-*.yaml")):
-    data = yaml.safe_load(path.read_text(encoding="utf8"))
+for path, data in loaded.items():
+    if not path.name.startswith("exemplo-"):
+        continue
     allowed = template_keys.get(data.get("type"), set())
     extra = sorted(set(data) - allowed)
     if extra:
         record(path, f"campos fora do template: {', '.join(extra)}")
 
-markdown_count = 0
-for path in sorted(DOWNLOADS.glob("*.md")):
-    markdown_count += 1
+markdown_files = exigir_minimo(DOWNLOADS.glob("*.md"), 10, "modelos Markdown em public/downloads", relatorio)
+markdown_count = len(markdown_files)
+for path in markdown_files:
+    relatorio.arquivo_atual = path
     content = path.read_text(encoding="utf-8")
     if content.startswith("---"):
         record(path, "template Markdown não deve começar com bloco YAML")
@@ -224,6 +224,8 @@ for kind in REQUIRED_TYPES:
             record(TEMPLATE_COMPONENT, f"template anunciado não existe: {expected.name}")
     if not (DOWNLOADS / f"exemplo-{kind}-completo.yaml").exists():
         record(TEMPLATE_COMPONENT, f"falta o exemplo completo de {kind}")
+    if not (DOCS / "templates" / f"{kind}.mdx").exists():
+        record(DADOS / "modelos.yaml", f"tipo {kind} sem a página templates/{kind}.mdx")
 
 # Editorial rule: no em dashes in published text, components, downloads or docs.
 EDITORIAL_FILES = [
@@ -242,25 +244,9 @@ for path in EDITORIAL_FILES:
         if "—" in line:
             record(path, f"linha {lineno}: travessão (use dois-pontos, vírgula ou parênteses)")
 
-# Terminology: one concept, one term. Each rule: variant pattern, preferred term,
-# and the pages where the variant is allowed (references and their sources).
-TERM_RULES = [
-    (r"\bcasos? de fronteira\b|\bedge cases?\b|\bcasos? limites?\b", "caso-limite", re.I, ()),
-    (r"\bvalidade\b", "vigência", re.I, ()),
-    (r"\bID da revisão\b|\brevis(?:ão|ões) (?:`?\d|histórica|anterior|vigente|específica)", "versão (revisão é só o ato de revisar)", re.I, ()),
-    (r"\bdonos?\b", "responsável ou quem aprova", re.I, ()),
-    (r"\baprovador(?:a|es)?\b", "quem aprova", re.I, ()),
-    (r"\bpropriet[aá]ri[oa]s?\b", "responsável ou quem aprova", re.I, ()),
-    (r"\bpend[eê]ncias?\b", "pergunta em aberto", re.I, ()),
-    (r"\bpendentes?\b(?! de aprovação)", "em aberto (o estado do documento é 'pendente de aprovação')", re.I, ()),
-    (r"\bpain[eé]is\b|\bpainel\b", "dashboard", re.I, ()),
-    (r"\brespostas? de refer[eê]ncia\b", "gabarito ou resposta esperada", re.I, ()),
-    (r"\bjoins?\b", "junção (JOIN só no SQL)", 0, ()),
-    (r"\belicita\w*", "descobrir ou perguntar", re.I, ("referencias/index.mdx",)),
-    (r"\bbriefing\b", "brief", re.I, ()),
-    (r"\bm[eé]tricas?\b", "indicador", re.I, ("referencias/index.mdx",)),
-    (r"\bconjuntos? de dados\b", "dataset", re.I, ()),
-]
+# Terminology: one concept, one term. The rules live in src/data/vocabulario.yaml (pattern,
+# preferred term and the pages where the variant is allowed: references and their sources).
+TERM_RULES = [(r.padrao, r.sugestao, r.flags, r.permitido_em) for r in carregar_vocabulario(DADOS / "vocabulario.yaml", relatorio)]
 SOURCE_SECTION = re.compile(r"^#{2,4} (Fundamentação|Referências|Fontes)", re.I)
 
 
@@ -337,12 +323,21 @@ for path in TERM_FILES:
             record(path, f"linha {lineno}: \"{m.group(0)}\" só no laboratório")
 
 # Menu = título: o sidebar lista só slugs, sem rótulo próprio, e nenhuma página muda o rótulo.
-CONFIG = (DOCS.parents[2] / "astro.config.mjs").read_text(encoding="utf8")
-sidebar = CONFIG[CONFIG.index("sidebar: ["):]
+CONFIG_PATH = ROOT / "astro.config.mjs"
+CONFIG = CONFIG_PATH.read_text(encoding="utf8")
+if "sidebar: [" not in CONFIG:
+    record(CONFIG_PATH, "bloco 'sidebar: [' não encontrado; as checagens do menu não rodaram")
+sidebar = CONFIG.split("sidebar: [", 1)[1] if "sidebar: [" in CONFIG else ""
 if re.search(r"\bslug\s*:", sidebar):
-    record(DOCS.parents[2] / "astro.config.mjs", "item do menu com slug e rótulo próprio; use só o slug para o menu mostrar o título da página")
+    record(CONFIG_PATH, "item do menu com slug e rótulo próprio; use só o slug para o menu mostrar o título da página")
+for kind in REQUIRED_TYPES:
+    if not re.search(rf"""['"]templates/{re.escape(kind)}['"]""", sidebar):
+        record(CONFIG_PATH, f"o menu não lista templates/{kind}, que está em src/data/modelos.yaml")
 for path in sorted(DOCS.rglob("*.mdx")):
-    head = path.read_text(encoding="utf8").split("---", 2)[1]
+    front = re.match(r"\A---\r?\n(.*?)\r?\n---", path.read_text(encoding="utf8"), re.S)
+    if not front:
+        continue  # a falta de frontmatter já foi registrada no início
+    head = front.group(1)
     if re.search(r"^sidebar\s*:\s*\n(?:[ \t]+.*\n)*?[ \t]+label\s*:", head + "\n", re.M):
         record(path, "frontmatter 'sidebar' muda o rótulo do menu; o menu deve mostrar o título")
 # Endereços que viraram redirecionamento não devem ser usados em links do portal.
@@ -363,8 +358,6 @@ for path in PAGES:
         if not in_code and re.match(r"^# \S", line):
             record(path, f"linha {lineno}: título H1 no corpo duplica o título da página")
 
-if errors:
-    print("\n".join("ERRO: " + error for error in errors))
-    sys.exit(1)
-print(f"OK: {len(PAGES)} páginas, {markdown_count} templates Markdown, "
-      f"{yaml_count} arquivos YAML, rotas internas e downloads verificados.")
+relatorio.encerrar(f"OK: {len(PAGES)} páginas, {markdown_count} templates Markdown, "
+                   f"{yaml_count} arquivos YAML, {len(REQUIRED_TYPES)} tipos, {len(TERM_RULES)} regras de vocabulário, "
+                   "rotas internas e downloads verificados.")

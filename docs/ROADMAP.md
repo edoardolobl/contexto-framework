@@ -55,4 +55,17 @@
 - [ ] Planejar contribuições e governança de versões
 - [ ] Verificação periódica de links externos
 
+## Plano da auditoria de 17/11/2026
+
+O plano completo está em [auditoria/10-direcao-proposta.md](../auditoria/10-direcao-proposta.md), seção 2, com as fases F0 a F7 e o critério de saída de cada uma. As decisões do mantenedor estão em [auditoria/11-decisoes.md](../auditoria/11-decisoes.md) e viram registros em [docs/adr/](adr/).
+
+- [ ] **F0. Decisões e trilhos: concluída no branch, aguardando merge.** Entregue no branch `f0-decisoes-e-trilhos`: ADRs 0001 a 0017 aceitos pelo mantenedor em 17/11/2026 (0016: família IBM Plex; 0017: até 4 telas no desktop, passos recolhíveis e referência de campos à parte); `src/data/vocabulario.yaml` e `src/data/modelos.yaml`; CHANGELOG; versão do produto igual em package.json, README, página inicial e CHANGELOG; `npm run check` como comando único; deploy que só começa depois dos validadores; ações fixadas por SHA e Dependabot. Pelo ADR 0009, o contrato editorial tem versão própria de documento e fica fora da versão única do produto.
+- [ ] **F1. Correções baratas e credibilidade.** Remoções, correções de citação, contraste e linha do tempo da Aurora.
+- [ ] **F2. Porta de entrada.** Tipo Perguntas de negócio, menu em percurso, núcleo de entrada (ADR 0013) e checklist das oito dimensões (ADR 0014).
+- [ ] **F3. Schema 1.0.** Migração para Markdown com frontmatter (ADR 0006), versão de schema (ADR 0009) e marcação Breaking.
+- [ ] **F4. Mensuração.** Tipo Evento de coleta e laboratório Aurora com limite fixo.
+- [ ] **F5. Moldes e visual.** Sistema visual (ADR 0016), tamanho de página de modelo (ADR 0017) e moldes com nomes de produção (ADR 0012).
+- [ ] **F6. Saídas para máquinas.** Kit para agentes e crosswalk documental, sem domínio próprio (ADR 0011).
+- [ ] **F7. Agentes e prova.** Piloto com pessoas, que é o portão da v1.0 (ADR 0010).
+
 O framework documenta *como tornar o conhecimento explícito*. Não certifica agentes, RAG ou SQL gerado.

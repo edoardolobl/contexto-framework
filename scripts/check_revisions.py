@@ -6,21 +6,27 @@ Uma versão citada no changelog não equivale a um snapshot histórico recuperá
 from collections import defaultdict
 from datetime import date
 from pathlib import Path
-import sys
+import re
 
-import yaml
+from comum import DOWNLOADS as DL, Relatorio, carregar_yaml, exigir_minimo
 
-ROOT = Path(__file__).resolve().parents[1]
-DL = ROOT / "public" / "downloads"
-FILES = sorted(DL.glob("exemplo-*.yaml")) + sorted((DL / "historico").glob("*.yaml"))
+relatorio = Relatorio()
+relatorio.instalar()
+FILES = (exigir_minimo(DL.glob("exemplo-*.yaml"), 20, "exemplos YAML", relatorio)
+         + exigir_minimo((DL / "historico").glob("*.yaml"), 2, "versões históricas em historico/", relatorio))
 
-errors = []
+errors = relatorio.erros
 revisions = {}
 grouped = defaultdict(list)
+documents: dict[Path, dict] = {}
+for _path in FILES:
+    _data = carregar_yaml(_path, relatorio)
+    if _data is not None:
+        documents[_path] = _data
 
 
-def err(path, reason):
-    errors.append(f"{path.relative_to(ROOT)}: {reason}")
+def err(path: Path, reason: str) -> None:
+    relatorio.erro(path, reason)
 
 
 def day(path, value, field):
@@ -33,8 +39,8 @@ def day(path, value, field):
         return None
 
 
-for path in FILES:
-    data = yaml.safe_load(path.read_text(encoding="utf-8"))
+for path, data in documents.items():
+    relatorio.arquivo_atual = path
     stable = data.get("id")
     version = str(data.get("version"))
     rev = data.get("revision_id")
@@ -50,16 +56,19 @@ for path in FILES:
     start = day(path, data.get("valid_from"), "valid_from")
     end = day(path, data.get("valid_to"), "valid_to")
 
-    history = data.get("version_history") or []
+    raw_history = data.get("version_history") or []
+    if not all(isinstance(h, dict) for h in raw_history):
+        err(path, "version_history deve conter só mapas")
+    history = [h for h in raw_history if isinstance(h, dict)]
     if not history or str(history[0].get("version")) != version:
         err(path, "histórico deve começar pela versão representada no arquivo")
     elif day(path, history[0].get("date"), "version_history[0].date") != created:
         err(path, "data do histórico atual difere de version_date")
 
     previous = data.get("supersedes_revision")
-    if previous and (previous == rev or not previous.startswith(stable + "@")):
+    if previous and (previous == rev or not str(previous).startswith(f"{stable}@")):
         err(path, "supersedes_revision deve apontar uma revisão anterior do mesmo assunto")
-    if previous and not any(stable + "@" + str(x.get("version")) == previous for x in history[1:]):
+    if previous and not any(f"{stable}@{x.get('version')}" == previous for x in history[1:]):
         err(path, "revisão substituída precisa constar no histórico")
 
     approved = data.get("status") == "approved"
@@ -79,10 +88,9 @@ for path in FILES:
 for stable, items in grouped.items():
     approved = []
     for path, data in items:
-        if data.get("status") == "approved":
-            approved.append((date.fromisoformat(data["valid_from"]),
-                             date.fromisoformat(data["valid_to"]) if data.get("valid_to") else None,
-                             path, data))
+        start = day(path, data.get("valid_from"), "valid_from")
+        if data.get("status") == "approved" and start:
+            approved.append((start, day(path, data.get("valid_to"), "valid_to"), path, data))
     approved.sort(key=lambda x: x[0])
     for earlier, later in zip(approved, approved[1:]):
         if earlier[1] is None or earlier[1] > later[0]:
@@ -94,10 +102,10 @@ def select(stable, as_of):
     target = date.fromisoformat(as_of)
     found = []
     for path, data in grouped[stable]:
-        if data.get("status") != "approved" or not data.get("valid_from"):
+        start = day(path, data.get("valid_from"), "valid_from")
+        if data.get("status") != "approved" or not start:
             continue
-        start = date.fromisoformat(data["valid_from"])
-        end = date.fromisoformat(data["valid_to"]) if data.get("valid_to") else None
+        end = day(path, data.get("valid_to"), "valid_to")
         if start <= target and (end is None or target < end):
             found.append(data["revision_id"])
     return found
@@ -118,8 +126,7 @@ for stable, as_of, expected in expectations:
 
 # Documento datado antes de 01/10 não pode citar a amostra de 01/10 nem o gabarito, que nasceram nesse dia.
 LAB_DAY = date(2026, 10, 1)
-for path in FILES:
-    data = yaml.safe_load(path.read_text(encoding="utf-8"))
+for path, data in documents.items():
     created = day(path, data.get("version_date"), "version_date")
     if created and created < LAB_DAY:
         body = "\n".join(l for l in path.read_text(encoding="utf-8").splitlines() if not l.lstrip().startswith("#"))
@@ -138,14 +145,13 @@ else:
         reviewed = day(path, q.get("reviewed_at"), f"{q.get('id')}.reviewed_at")
         if reviewed and reviewed < sample_date:
             err(path, f"{q.get('id')}: revisão anterior aos dados sintéticos referenciados")
-    if date.fromisoformat(data["version_date"]) < sample_date:
+    qa_date = day(path, data.get("version_date"), "version_date")
+    if qa_date and qa_date < sample_date:
         err(path, "gabarito aprovado antes da data da amostra usada na avaliação")
 
 
 # A revisão histórica e a atual do conceito devem diferir APENAS na
 # janela temporal, sem alterar silenciosamente exclusões ou elegibilidade.
-import re
-
 historico_conceito = revisions.get("CONCEPT-ONBOARDING-001@1.0", {}).get("data")
 atual_conceito = revisions.get("CONCEPT-ONBOARDING-001@2.0", {}).get("data")
 
@@ -174,10 +180,5 @@ else:
         errors.append("Conceito Aurora: períodos de validade não se conectam corretamente")
 
 
-if errors:
-    for error in errors:
-        print("ERRO:", error)
-    sys.exit(1)
-
-print(f"OK: {len(FILES)} registros, IDs de revisão únicos, intervalos não sobrepostos, "
-      "duas revisões históricas integrais e cinco seleções temporais verificadas.")
+relatorio.encerrar(f"OK: {len(documents)} registros, IDs de revisão únicos, intervalos não sobrepostos, "
+                   f"duas revisões históricas integrais e {len(expectations)} seleções temporais verificadas.")
