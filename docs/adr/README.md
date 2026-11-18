@@ -60,3 +60,5 @@ Para mudar uma decisão aceita, escreva um ADR novo. Não edite o antigo: só ma
 | [0023](./0023-percurso-em-sete-passos.md) | Percurso em sete passos | Proposto | 2026-11-17 |
 | [0024](./0024-descoberta-por-incidente.md) | Descoberta por incidente | Proposto | 2026-11-17 |
 | [0025](./0025-instrucao-minima-ao-agente.md) | Instrução mínima ao agente | Proposto | 2026-11-17 |
+| [0026](./0026-schema-1-0-e-fonte-unica.md) | Schema 1.0 e fonte única | Proposto | 2026-11-17 |
+| [0027](./0027-evento-de-coleta-e-laboratorio-de-mensuracao.md) | Evento de coleta e laboratório de mensuração | Proposto | 2026-11-17 |

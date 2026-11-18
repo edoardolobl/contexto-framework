@@ -40,6 +40,11 @@ let decisionTable: { labels: string[]; rows: string[][] } | null = null;
 const decisionInputLabel = (key: string) => ({
   brief_complete: 'Brief completo?',
   evidence_sufficient: 'Evidência suficiente?',
+  active_in_scope: 'Ativo nesta operação?',
+  ingestion_complete: 'Dados completos (D+2)?',
+  expected_in_window: 'Disparo esperado na janela?',
+  deviation_streak_reached: 'Desvio da linha de base por N dias seguidos?',
+  known_exception_applies: 'Exceção conhecida explica?',
 } as Record<string, string>)[key] || key.replaceAll('_', ' ');
 const decisionValue = (v: any) => ({
   true: 'Sim',
@@ -50,16 +55,28 @@ const decisionValue = (v: any) => ({
   responsible_review: 'Revisão responsável',
   request_formal_approval: 'Solicitar aprovação formal',
   request_clarification: 'Solicitar esclarecimento',
+  not_active_in_scope: 'Não está ativo aqui: zero é o esperado',
+  wait_for_complete_data: 'Esperar os dados completos',
+  explained_by_known_exception: 'Explicado por exceção conhecida',
+  within_expected: 'Dentro do esperado',
+  failure_candidate: 'Candidato a falha: abrir a triagem',
 } as Record<string, string>)[String(v)] || display(v).replaceAll('_', ' ');
 
+// Datas AAAA-MM-DD aparecem como DD/MM/AAAA para quem lê.
+const dia = (v: any) => (typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v) ? v.split('-').reverse().join('/') : v);
+
+// Pergunta de negócio que o documento responde: abre o primeiro grupo de todo tipo.
+const question = () => pair('Pergunta de negócio', doc.intent?.question, true);
+
 switch (doc.type) {
-  case 'concept_definition':
+  case 'conceito':
     add('Definição e contexto', [
-      ...pair('Termo', doc.vocabulary?.preferred_term),
+      ...question(),
+      ...pair('Termo', doc.vocabulary?.prefLabel),
       ...pair('Definição', doc.definition, true),
-      ...pair('Para que serve', doc.context?.purpose),
-      ...pair('Quando se aplica', doc.context?.applies_when),
-      ...pair('Quando não se aplica', doc.context?.does_not_apply_when),
+      ...pair('Para que serve', doc.intent?.purpose),
+      ...pair('Quando se aplica', doc.scope?.applies_when),
+      ...pair('Quando não se aplica', doc.scope?.does_not_apply_when),
     ]);
     add('Critérios para reconhecer o conceito', [
       ...pair('Inclui', doc.inclusion_criteria),
@@ -73,9 +90,10 @@ switch (doc.type) {
       ...pair('Caso-limite', doc.boundary_cases),
     ]);
     break;
-  case 'process_definition':
+  case 'processo':
     add('Como o processo funciona', [
-      ...pair('Objetivo', doc.purpose),
+      ...question(),
+      ...pair('Objetivo', doc.intent?.purpose),
       ...pair('O que inicia o processo', doc.trigger, true),
       ...pair('Quando se aplica', doc.scope?.applies_when),
       ...pair('Quando não se aplica', doc.scope?.not_applicable_when),
@@ -97,10 +115,10 @@ switch (doc.type) {
       ...pair('Resultados sem sucesso', doc.completion?.failure_outcomes),
     ]);
     break;
-  case 'decision_rule': {
+  case 'decisao': {
     add('Qual decisão precisa ser documentada', [
-      ...pair('Pergunta', doc.decision_question),
-      ...pair('Finalidade', doc.purpose),
+      ...question(),
+      ...pair('Finalidade', doc.intent?.purpose),
       ...pair('Quando se aplica', doc.scope?.applies_when),
       ...pair('Fora do escopo', doc.scope?.not_applicable_when),
     ]);
@@ -137,9 +155,75 @@ switch (doc.type) {
     })));
     break;
   }
-  case 'policy_reference':
+  case 'evento-coleta': {
+    const comportamento = doc.expected_behavior ?? {};
+    add('Pergunta e gatilho', [
+      ...question(),
+      ...pair('Finalidade', doc.intent?.purpose),
+      ...pair('O que faz o evento disparar', doc.trigger, true),
+      ...pair('Informações enviadas com cada disparo', (doc.parameters ?? []).map((v: any) =>
+        `${display(v.name)}: ${display(v.meaning)}${v.required === true ? ' (sempre presente)' : ''}`)),
+      ...pair('Lançado em', dia(doc.launch_date)),
+      ...pair('Desativado em', dia(doc.retirement_date)),
+    ]);
+    add('Onde dispara, por operação', [
+      ...pair('Para onde vão os disparos', (doc.destination ?? []).map((v: any) =>
+        `${display(v.platform)}: ${display(v.object)}${present(v.timezone) ? ` (fuso: ${display(v.timezone)})` : ''}`)),
+    ], [], (doc.active_scopes ?? []).map((v: any) => ({
+      heading: [v.operation, v.country, v.brand].filter(present).map(display).join(' · ') || 'Operação',
+      body: v.active === true
+        ? (present(v.since) ? `Ativo desde ${dia(v.since)}` : 'Ativo, data de início ainda não definida')
+        : v.active === false ? 'Não está ativo aqui: zero é o esperado' : 'Ainda não se sabe se está ativo',
+      note: present(v.reason) ? display(v.reason) : undefined,
+    })));
+    add('Comportamento esperado e linha de base', [
+      ...pair('Frequência esperada', comportamento.expected_frequency, true),
+      ...pair('Sazonalidade', comportamento.seasonality),
+      ...pair('Tolerância ao silêncio', (comportamento.silence_tolerance ?? []).map((v: any) =>
+        `${display(v.operation)}: ${display(v.rule)}`)),
+    ], [], (comportamento.baseline_by_scope ?? []).map((v: any) => ({
+      heading: `Linha de base de ${display(v.operation)}`,
+      body: present(v.window) ? `Janela: ${display(v.window)}` : undefined,
+      items: [v.typical_daily, v.zero_days_share, v.longest_zero_run].filter(present).map(display),
+    })));
+    add('Quando zero é normal', [
+      ...pair('Situações em que zero não indica problema', list(comportamento.expected_zero_conditions)),
+      ...pair('Dia sem linha na tabela', doc.missing_days_policy),
+      ...pair('O que uma linha representa', doc.grain_note),
+      ...pair('Quando o dia fica completo', doc.late_arrival_window),
+    ]);
+    add('Exceções e incidentes', [
+      ...pair('Consentimento exigido', doc.consent_requirements),
+      ...pair('Como reconhecer disparo repetido', doc.deduplication_key),
+      ...pair('Indicadores que dependem do evento', list(doc.downstream_kpis)),
+      ...pair('Não confundir', (doc.disambiguation ?? []).map((v: any) =>
+        `${display(v.term)} quer dizer ${display(v.means)}; não é ${display(v.not_to_confuse_with)}`)),
+    ], [], [
+      ...(doc.known_exceptions ?? []).map((v: any) => ({
+        heading: `Exceção: ${display(v.condition)}`,
+        body: `Período: ${display(v.period)}`,
+        note: present(v.evidence) ? `Evidência: ${display(v.evidence)}` : undefined,
+      })),
+      ...(doc.data_incidents ?? []).map((v: any) => ({
+        heading: `Incidente de ${display(dia(v.start))} a ${display(dia(v.end))}`,
+        body: display(v.description),
+        note: present(v.effect_on_baseline) ? `Efeito na linha de base: ${display(v.effect_on_baseline)}` : undefined,
+        detail: present(v.status) ? `Situação: ${display(v.status)}` : undefined,
+      })),
+    ]);
+    add('Instruções ao agente', [
+      ...pair('Instrução', doc.context?.instructions),
+      ...pair('Limites', (doc.context?.constraints ?? []).map((v: any) => v?.constraint).filter(present)),
+    ], [], (doc.context?.verifiedStatements ?? []).filter((v: any) => present(v?.question)).map((v: any) => ({
+      heading: display(v.question),
+      body: present(v.answer) ? `Resposta conferida: ${display(v.answer)}` : 'Pergunta típica, ainda sem resposta conferida',
+    })));
+    break;
+  }
+  case 'politica':
     add('Aplicação e autoridade da política', [
-      ...pair('Finalidade', doc.purpose),
+      ...question(),
+      ...pair('Finalidade', doc.intent?.purpose),
       ...pair('Público', doc.scope?.audiences),
       ...pair('Atividades', doc.scope?.activities),
       ...pair('Fora do escopo', doc.scope?.exclusions),
@@ -170,10 +254,11 @@ switch (doc.type) {
       })),
     ]);
     break;
-  case 'metric_definition':
+  case 'kpi':
     add('O significado do indicador', [
+      ...question(),
       ...pair('O que mede', doc.business_definition?.concept, true),
-      ...pair('Objetivo', doc.business_definition?.purpose),
+      ...pair('Objetivo', doc.intent?.purpose),
       ...pair('Numerador', doc.calculation?.numerator, true),
       ...pair('Denominador', doc.calculation?.denominator, true),
       ...pair('Fórmula', doc.calculation?.formula_description, true),
@@ -191,10 +276,11 @@ switch (doc.type) {
       ...pair('Casos-limite', doc.validation?.known_edge_cases),
     ]);
     break;
-  case 'dataset_semantics':
+  case 'dataset':
     add('O que cada registro representa', [
+      ...question(),
       ...pair('Tabela', doc.dataset?.physical_name),
-      ...pair('Objetivo', doc.dataset?.business_purpose),
+      ...pair('Objetivo', doc.intent?.purpose),
       ...pair('Granularidade (uma linha)', doc.dataset?.grain, true),
       ...pair('Chave primária', doc.dataset?.primary_key),
       ...pair('Tempo e atualização', doc.time_semantics?.timezone),
@@ -210,9 +296,10 @@ switch (doc.type) {
       ...pair('Limitações conhecidas', doc.usage?.known_caveats),
     ]);
     break;
-  case 'relationship_semantics':
+  case 'relacionamento':
     add('Por que as tabelas se relacionam', [
-      ...pair('Finalidade', doc.business_intent),
+      ...question(),
+      ...pair('Finalidade', doc.intent?.purpose),
       ...pair('Tabela de origem', doc.left?.dataset),
       ...pair('Uma linha da origem', doc.left?.grain),
       ...pair('Tabela de destino', doc.right?.dataset),
@@ -227,10 +314,11 @@ switch (doc.type) {
       ...pair('Regra temporal', doc.coverage?.temporal_join_rule),
     ]);
     break;
-  case 'dashboard_definition':
+  case 'dashboard':
     add('Como interpretar o dashboard', [
-      ...pair('Finalidade', doc.purpose),
-      ...pair('Público', doc.audiences),
+      ...question(),
+      ...pair('Finalidade', doc.intent?.purpose),
+      ...pair('Público', doc.intent?.audience),
       ...pair('Indicadores', (doc.metrics ?? []).map((m: string) => doc.metric_versions?.[m] ? `${m}, versão ${doc.metric_versions[m]}` : m)),
       ...pair('Filtros padrão', doc.default_filters ? Object.entries(doc.default_filters).map(([k, v]) => `${k}: ${display(v)}`) : []),
       ...pair('Período', doc.time_semantics?.reporting_period),
@@ -240,17 +328,18 @@ switch (doc.type) {
     ]);
     add('O que este dashboard não permite concluir', [
       ...pair('Limitações', doc.known_limitations),
-      ...pair('Decisões que apoia', doc.supported_decisions),
+      ...pair('Decisões que apoia', doc.intent?.decisions),
     ], [], (doc.conflicting_dashboards ?? []).filter((v: any) => typeof v === 'object').map((v: any) => ({
       heading: `Conflito: ${display(v.name)} mostra “${display(v.shows)}”`,
       body: display(v.cause),
       note: present(v.precedence) ? `Qual vale: ${display(v.precedence)}` : undefined,
     })));
     break;
-  case 'evaluation_rubric':
+  case 'rubrica':
     add('Objeto e cuidados da avaliação', [
+      ...question(),
       ...pair('O que é avaliado', doc.evaluation_target),
-      ...pair('Objetivo', doc.business_goal),
+      ...pair('Objetivo', doc.intent?.purpose),
       ...pair('Uso permitido', doc.allowed_use),
       ...pair('Uso proibido', doc.disallowed_use),
       ...pair('Como calcular a nota', doc.scoring?.formula),
@@ -277,9 +366,10 @@ switch (doc.type) {
       note: v.score !== undefined ? `Nota ${String(v.score).replace('.', ',')} de 100 · evidência ${v.evidence_sufficient ? 'suficiente' : 'insuficiente'} · ${decisionValue(v.routing)}` : undefined,
     })));
     break;
-  case 'reference_question_set':
+  case 'perguntas-de-negocio':
     add('Finalidade do gabarito', [
-      ...pair('Para que serve', doc.purpose),
+      ...question(),
+      ...pair('Para que serve', doc.intent?.purpose),
       ...pair('Domínio', doc.domain),
       ...pair('Versão das definições utilizadas', doc.depends_on_versions
         ? Object.entries(doc.depends_on_versions).map(([k, v]) => `${k}@${v}`) : null),
@@ -295,7 +385,7 @@ switch (doc.type) {
     })));
     break;
   default:
-    add('Conteúdo do documento', [...pair('Finalidade', doc.purpose ?? doc.definition)]);
+    add('Conteúdo do documento', [...question(), ...pair('Finalidade', doc.intent?.purpose ?? doc.definition)]);
 }
 ---
 <section class="example-meaning" aria-label="Conteúdo principal do documento em linguagem natural">

@@ -1,17 +1,28 @@
 # Exemplo do Contexto. A Aurora é uma organização inventada; nomes, datas e aprovações fazem parte do caso.
 id: DATASET-AURORA-ORDERS
-revision_id: "DATASET-AURORA-ORDERS@1.0"  # versão específica; id = assunto estável
+schema_version: "1.0.0"
+type: dataset
 title: "Pedidos: Aurora"
-type: dataset_semantics
-status: approved
 version: "1.0"
-version_date: "2026-08-20"
+revision_id: "DATASET-AURORA-ORDERS@1.0" # versão específica; id = assunto estável
+status: approved
 owner: "Engenharia de Dados (Aurora)"
 approver: "Analytics de E-commerce (Aurora)"
 valid_from: "2026-08-20"
-valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
-supersedes_revision: "DATASET-AURORA-ORDERS@0.1"
+valid_to: null               # fim exclusivo da vigência; null = sem fim documentado
+version_date: "2026-08-20"
+last_reviewed: "2026-08-20"
+review_interval: null
 source_of_truth: "Catálogo de dados da Aurora, tabela demo_orders"
+supersedes_revision: "DATASET-AURORA-ORDERS@0.1"
+superseded_by_revision: null
+intent:
+  question: "O que significa cada coluna da tabela de pedidos da Aurora?"
+  audience: ["Analytics de E-commerce", "Engenharia de Dados"]
+  purpose: "Registrar os pedidos criados e a sessão em que cada um nasceu"
+  decisions: []
+plain_summary: "Uma linha por pedido. Uma sessão pode ter vários pedidos, e só o estado CONFIRMED conta como conversão."
+open_questions: []
 version_history:
   - version: "1.0"
     date: "2026-08-20"
@@ -22,15 +33,19 @@ version_history:
     change: "Primeiro rascunho"
     approved_by: null
 
+context:
+  instructions: null
+  verifiedStatements: []
+  constraints: []
+authoritativeDefinitions: []
+
 dataset:
   physical_name: demo_orders
-  platform: SQLite (laboratório)
-  business_purpose: "Registrar os pedidos criados e a sessão em que cada um nasceu"
+  platform: "SQLite (laboratório)"
   grain: "Uma linha por pedido"
   primary_key: order_id
   alternative_keys: []
   uniqueness_assumption: "Cada order_id representa um único pedido"
-
 columns:
   - physical_name: order_id
     technical_type: TEXT
@@ -40,7 +55,7 @@ columns:
     allowed_values: []
     sentinel_values: []
     null_meaning: "Não permitido"
-    examples: ["PED-101", "PED-102"]
+    examples: [PED-101, PED-102]
     do_not_use_for: ["Identificar pessoas"]
   - physical_name: session_id
     technical_type: TEXT
@@ -50,7 +65,7 @@ columns:
     allowed_values: []
     sentinel_values: []
     null_meaning: "Não permitido: todo pedido do laboratório tem sessão"
-    examples: ["SES-101"]
+    examples: [SES-101]
     do_not_use_for: ["Contar sessões sem remover repetições"]
   - physical_name: status_code
     technical_type: TEXT
@@ -62,24 +77,24 @@ columns:
     null_meaning: "Não permitido"
     examples: [CONFIRMED]
     do_not_use_for: ["Inferir pagamento ou entrega: o laboratório não tem esses estados"]
-
 time_semantics:
   reference_field: null
   timezone: null
   update_frequency: "Carga estática do laboratório"
   known_latency: "Não aplicável ao laboratório"
   snapshot_or_events: "Um registro por pedido, com o estado atual. A tabela não guarda data própria: o período vem da sessão de origem"
-
 usage:
   authoritative_questions: ["Quais sessões tiveram pelo menos um pedido confirmado"]
-  invalid_aggregations: ["Somar pedidos para obter sessões convertidas", "Filtrar pedidos por data: não há coluna de data nesta tabela"]
-  related_datasets: ["DATASET-AURORA-SESSIONS"]
-  known_caveats: ["Uma sessão pode ter mais de um pedido confirmado; ela conta uma vez na taxa de sessões convertidas"]
+  invalid_aggregations:
+    - "Somar pedidos para obter sessões convertidas"
+    - "Filtrar pedidos por data: não há coluna de data nesta tabela"
+  related_datasets: [DATASET-AURORA-SESSIONS]
+  known_caveats:
+    - "Uma sessão pode ter mais de um pedido confirmado; ela conta uma vez na taxa de sessões convertidas"
   sample_queries: []
-
 validation:
   checked_by: "Engenharia de Dados (Aurora)"
   checked_at: "2026-08-20"
   evidence: []
-open_questions: []
-related_documents: ["KPI-AURORA-001", "DATASET-AURORA-SESSIONS", "REL-AURORA-SESSIONS-ORDERS"]
+
+related_documents: [KPI-AURORA-001, DATASET-AURORA-SESSIONS, REL-AURORA-SESSIONS-ORDERS]

@@ -138,3 +138,111 @@ def test_aviso_de_domingo():
     rel = comum.Relatorio()
     cr.avisar_fim_de_semana(Path("/x/a.yaml"), doc("A-1", "1.0", "2026-08-16", approved_by="G"), rel)
     assert any("domingo" in a for a in rel.avisos)
+
+
+# ---------- estados ja aprovados e substituicao (F3) ----------
+
+def revisoes_de(docs):
+    mapa = {Path(f"/x/d{i}.yaml"): d for i, d in enumerate(docs)}
+    relatorio = comum.Relatorio()
+    revisions = cr.checar_documentos(mapa, relatorio)
+    cr.checar_substituicao(revisions, relatorio)
+    return mapa, revisions, relatorio
+
+
+def par(**sucessor_extras):
+    antigo = doc("A-1", "1.0", "2026-08-03", approved_by="G", status="superseded", extras={
+        "valid_from": "2026-08-03", "valid_to": "2026-09-14", "recorded_at": "2026-09-14",
+        "superseded_by_revision": "A-1@2.0"})
+    novo = doc("A-1", "2.0", "2026-09-14", approved_by="G", status="approved", extras={
+        "valid_from": "2026-09-14", "valid_to": None, "supersedes_revision": "A-1@1.0", **sucessor_extras})
+    novo["version_history"].append({"version": "1.0", "date": "2026-08-03", "change": "x", "approved_by": "G"})
+    return antigo, novo
+
+
+def test_par_superseded_e_sucessor_coerentes_nao_da_erro():
+    assert revisoes_de(par())[2].erros == []
+
+
+def test_superseded_conta_como_ja_aprovado_nas_selecoes():
+    antigo, novo = par()
+    grouped = cr.agrupar_por_id({Path("/x/a.yaml"): antigo, Path("/x/b.yaml"): novo})
+    rel = comum.Relatorio()
+    assert cr.select(grouped, "A-1", "2026-08-20", rel) == ["A-1@1.0"]
+    assert cr.select(grouped, "A-1", "2026-09-20", rel) == ["A-1@2.0"]
+    assert rel.erros == []
+    rel = comum.Relatorio()
+    cr.checar_sobreposicao(grouped, rel)
+    assert rel.erros == []
+
+
+def test_sobreposicao_entre_superseded_e_sucessor_e_acusada():
+    antigo, novo = par()
+    antigo["valid_to"] = "2026-09-20"
+    rel = comum.Relatorio()
+    cr.checar_sobreposicao(cr.agrupar_por_id({Path("/x/a.yaml"): antigo, Path("/x/b.yaml"): novo}), rel)
+    assert any("sobrepõe" in e for e in rel.erros)
+
+
+def test_superseded_com_valid_to_antes_de_valid_from_e_acusado():
+    antigo, novo = par()
+    antigo["valid_to"] = "2026-08-01"
+    assert any("valid_to deve ser posterior" in e for e in revisoes_de([antigo, novo])[2].erros)
+
+
+def test_superseded_sem_vigencia_e_acusado():
+    antigo, novo = par()
+    antigo["valid_from"] = None
+    assert any("precisa de valid_from" in e for e in revisoes_de([antigo, novo])[2].erros)
+
+
+def test_superseded_sem_superseded_by_revision():
+    antigo, novo = par()
+    del antigo["superseded_by_revision"]
+    assert any("superseded exige superseded_by_revision" in e for e in revisoes_de([antigo, novo])[2].erros)
+
+
+def test_superseded_by_revision_de_outro_id():
+    antigo, novo = par()
+    antigo["superseded_by_revision"] = "B-9@2.0"
+    assert any("superseded exige superseded_by_revision com o mesmo id" in e for e in revisoes_de([antigo, novo])[2].erros)
+
+
+def test_superseded_by_revision_ausente_do_registro():
+    antigo, _ = par()
+    assert any("A-1@2.0" in e and "registro" in e for e in revisoes_de([antigo])[2].erros)
+
+
+def test_sucessor_precisa_ser_reciproco():
+    antigo, novo = par()
+    novo["supersedes_revision"] = None
+    novo["version_history"].pop()
+    assert any("reciproc" in e or "recíproc" in e for e in revisoes_de([antigo, novo])[2].erros)
+
+
+def test_valid_to_da_substituida_igual_a_valid_from_do_sucessor():
+    antigo, novo = par()
+    antigo["valid_to"] = "2026-09-10"
+    assert any("valid_to da revisão substituída" in e for e in revisoes_de([antigo, novo])[2].erros)
+
+
+def test_recorded_at_invalido_e_anterior_a_version_date():
+    antigo, novo = par()
+    antigo["recorded_at"] = "ontem"
+    assert any("recorded_at: data inválida" in e for e in revisoes_de([antigo, novo])[2].erros)
+    antigo, novo = par()
+    antigo["recorded_at"] = "2026-08-01"
+    assert any("recorded_at" in e and "anterior a version_date" in e for e in revisoes_de([antigo, novo])[2].erros)
+
+
+def test_rascunho_com_vigencia_continua_acusado():
+    d = doc("A-1", "1.0", "2026-08-03", extras={"valid_from": "2026-08-03"})
+    assert any("rascunho pendente" in e for e in revisoes_de([d])[2].erros)
+
+
+def test_checar_datas_ignora_superseded_by_revision_e_recorded_at():
+    antigo, novo = par()
+    antigo["version_date"] = "2026-08-03"
+    antigo["version_history"][0]["date"] = "2026-08-03"
+    rel = acusar([antigo, novo])
+    assert rel.erros == []

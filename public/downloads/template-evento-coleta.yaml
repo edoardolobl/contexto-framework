@@ -1,0 +1,71 @@
+# Documentação do comportamento esperado de um evento; não configura nem corrige a coleta.
+# null significa "ainda não sei" ou "ainda não decidido". Não troque null por um palpite: registre a dúvida em open_questions.
+# Campos marcados (obrigatório) são o núcleo para sair do rascunho; os blocos "para quem é técnico" são opcionais.
+id: null                     # (obrigatório) identificador do assunto, igual em todas as versões
+schema_version: "1.0.0"      # versão do formato do arquivo; não mude
+type: evento-coleta
+title: null                  # (obrigatório)
+version: "0.1"               # (obrigatório) versão deste documento
+revision_id: null            # versão específica: id@version; id = assunto estável
+status: draft                # (obrigatório) draft | pending_approval | approved | superseded | deprecated
+owner: null                  # (obrigatório) cargo ou área responsável, não o nome de uma pessoa
+approver: null               # (obrigatório) cargo ou área que aprova
+valid_from: null             # primeiro dia da vigência, AAAA-MM-DD
+valid_to: null               # fim exclusivo da vigência; null = sem fim documentado
+version_date: null           # (obrigatório) data desta versão, no formato AAAA-MM-DD
+last_reviewed: null          # data da última revisão completa, AAAA-MM-DD
+review_interval: "P6M"       # de quanto em quanto tempo revisar, em ISO 8601; obrigatório porque context.instructions vem preenchido
+source_of_truth: null        # onde está a versão oficial, como o plano de mensuração
+supersedes_revision: null    # versão que esta substitui: id@version
+superseded_by_revision: null # só na cópia de uma versão substituída: id@version da sucessora
+intent:
+  question: null             # (obrigatório) pergunta de negócio que o documento responde
+  audience: []               # quem usa: cargos ou áreas
+  purpose: null              # para quê
+  decisions: []              # decisões que mudam conforme a resposta
+plain_summary: null          # uma ou duas frases em linguagem direta
+open_questions:              # uma entrada por pergunta que ninguém decidiu
+  - question: null
+    impact: null             # o que dá errado enquanto ela não tem resposta
+    owner_to_resolve: null   # quem pode resolver
+    status: unresolved       # unresolved | resolved
+    resolution: null         # o que foi decidido, com data e evidência; obrigatório quando resolved
+version_history:             # uma entrada por versão, a mais recente primeiro
+  - version: "0.1"
+    date: null
+    change: null             # o que mudou nesta versão e por quê
+    approved_by: null        # cargo ou área que aprovou; null enquanto não aprovado
+
+# Para quem é técnico: os dois blocos abaixo são opcionais.
+context:                     # para quem é técnico: opcional (bloco context do ODCS 3.2.0)
+  instructions: "Zero em um dia não é quebra; compare com a linha de base por operação. Sem indicador aprovado, não calcule com a definição de mercado; pergunte."
+  verifiedStatements: []     # perguntas típicas; cada item: question e, se já conferida, answer
+  constraints: []            # limites do agente; cada item: constraint
+# Cada item: type (sql | metricView | filter | dashboard | document | other), url e description.
+authoritativeDefinitions: [] # para quem é técnico: opcional. Onde mora a regra executável
+
+trigger: null                # (a chave precisa existir) ação que faz o evento disparar
+parameters: []               # cada item: name, meaning, example, required
+destination: []              # (a chave precisa existir) cada item: platform, object, timezone, note
+active_scopes: []            # (a chave precisa existir) cada item: operation, country, brand, active, since, reason
+expected_behavior:
+  expected_frequency: null   # ritmo normal, em palavras
+  baseline_by_scope: []      # cada item: operation, window, typical_daily, zero_days_share, longest_zero_run
+  seasonality: null
+  silence_tolerance: []      # cada item: operation, rule; escolha do time, não regra universal
+  expected_zero_conditions: [] # situações em que um dia em zero é normal
+launch_date: null            # primeiro dia em produção, AAAA-MM-DD
+retirement_date: null        # primeiro dia sem o evento, AAAA-MM-DD
+renamed_from: []             # cada item: name, valid_from, valid_to
+consent_requirements: null
+late_arrival_window: null    # até quando o dia ainda recebe disparos atrasados
+deduplication_key: null
+downstream_kpis: []          # identificadores dos indicadores que usam o evento
+known_exceptions: []         # cada item: condition, period, evidence
+validation_query: null       # para quem é técnico: consulta que recalcula a contagem diária por operação
+missing_days_policy: null    # o que significa um dia sem linha na tabela
+grain_note: null             # o que uma linha da tabela diária representa
+data_incidents: []           # cada item: start, end, description, effect_on_baseline, status
+disambiguation: []           # cada item: term, means, not_to_confuse_with
+
+related_documents: []        # identificadores de outros documentos

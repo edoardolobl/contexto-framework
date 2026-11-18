@@ -1,15 +1,17 @@
 # Contrato editorial: Contexto
 
-**Versão:** 0.7 · **Data desta versão:** 2026-11-17 · **Estado:** proposto (F2), aguarda aprovação do mantenedor · **Mantenedor:** Edoardo Lobl
+**Versão:** 0.9 · **Data desta versão:** 2026-11-17 · **Estado:** proposto (F4), aguarda aprovação do mantenedor · **Mantenedor:** Edoardo Lobl
 
 | Versão | Data | O que mudou | Aprovado por |
 |---|---|---|---|
+| 0.9 | 2026-11-17 | Tipo Evento de coleta no núcleo de entrada (ADR 0013 e 0027); grupo Laboratórios com dois laboratórios; seção opcional de triagem na página do tipo, quando o tipo pede; aviso de ficção também na primeira linha de cada .sql baixável (ADR 0012); regras para exemplos de Data Analytics sobre limite fixo do Lab 2, falta de linha x zero, dia incompleto em D+2, cenário só com fonte primária e limiar numérico como escolha do time; termos "linha de base" e "plano de mensuração" na tabela Vocabulário | Proposto (F4), aguarda aprovação do mantenedor |
+| 0.8 | 2026-11-17 | Fonte única em Markdown com frontmatter; downloads gerados e conferidos no CI; schema 1.0.0 com JSON Schema por tipo; cabeçalho comum e intent; estado superseded e campo status nas perguntas em aberto (ADR 0005, 0006, 0009 e 0015); exemplo YAML do cabeçalho na ordem que o validador exige | Proposto (F3), aguarda aprovação do mantenedor |
 | 0.7 | 2026-11-17 | Comece aqui descrito como o menu publicado: tutorial de negócio e visão do método; o tutorial de dados fica em aberto no ROADMAP | Proposto (F2), aguarda aprovação do mantenedor |
 | 0.6 | 2026-11-17 | Promessa única da seção 1.2 da direção (EDI-01); público em três perfis leitores; portal em percurso, com grupos do menu, bloco Próximo passo, prev/next pela ordem do menu, YAML fora do percurso e sem página órfã, conferido por `scripts/check_navegacao.py`; tipo Perguntas de negócio no vocabulário (ADR 0007); oito dimensões como checklist e convenção (ADR 0014) | Proposto (F2), aguarda aprovação do mantenedor |
 | 0.5 | 2026-11-17 | Termo "modelo" no lugar de "template" em rótulos e textos; cinco tipos de fonte e ADR para toda convenção do Contexto; exemplo com lacunas em `draft`; aprovações em dia útil e artefatos com data conferida; cópia histórica intacta, com notas em `archival_note` | Proposto (F1), aguarda aprovação do mantenedor |
 | 0.4 | 2026-11-17 | Vocabulário com fonte única em `src/data/vocabulario.yaml` | Proposto (F0), aguarda aprovação do mantenedor |
 | 0.3 | 2026-11-17 | Um termo por ideia; aviso de que a Aurora é inventada só em três lugares; uma página por tipo de documento, com estrutura fixa; menu igual ao título; regras para exemplos concretos; regra de versão | Mantenedor |
-| 0.2 | 2026-11-16 | Regra dos exemplos completos e aprovados; versionamento com data obrigatório; estados de perguntas em aberto; templates Markdown sem bloco YAML | Mantenedor |
+| 0.2 | 2026-11-16 | Regra dos exemplos completos e aprovados; versionamento com data obrigatório; estados de perguntas em aberto; modelos Markdown sem bloco YAML | Mantenedor |
 | 0.1 | 2026-11-16 | Primeira versão do contrato | Mantenedor |
 
 ## Promessa única
@@ -63,6 +65,8 @@ Cada ideia tem um nome só, em páginas, componentes, modelos e textos dos YAML.
 | Conjunto de dados | dataset | conjunto de dados |
 | Pedido ao banco | consulta | query |
 | Arquivo para preencher | modelo | template, fora de nome de arquivo, endereço e código |
+| Ponto de comparação de uma série no tempo | linha de base | baseline |
+| Documento que diz o que cada evento deve fazer e quando | plano de mensuração | tag plan (só na página do tipo Evento de coleta) |
 
 A tríade para o que se sabe é **Confirmado / Relatado / Em aberto**. “Lacuna” é só o que o checklist encontra num documento.
 
@@ -76,7 +80,7 @@ Todos os exemplos usam a Aurora, uma organização inventada. Isso é dito **em 
 
 1. uma frase na página inicial;
 2. a seção “Os exemplos são fictícios”, em Autoria e licença;
-3. a primeira linha de comentário de cada YAML de exemplo, porque o arquivo baixado circula sem o site.
+3. a primeira linha de comentário do frontmatter de cada exemplo, que vira a primeira linha do YAML gerado, e a primeira linha de comentário de cada `.sql` baixável, porque o arquivo baixado circula sem o site (ADR 0012).
 
 Fora deles, nenhum “fictício”, “hipotético”, “ilustrativo”, “didático”, “demonstrativo” ou “A Aurora não existe”. Repetir o aviso trata o leitor como incapaz de lembrar o que leu. “Amostra sintética” aparece uma vez, no laboratório, porque explica o tamanho da amostra. A restrição “a rubrica avalia o trabalho, nunca a pessoa” não é aviso de ficção e fica, uma vez.
 
@@ -89,7 +93,7 @@ O leitor precisa ver o destino, não só o ponto de partida. Por isso:
    - a organização é a Aurora;
    - responsável e quem aprova são um cargo ou área, nunca o nome de uma pessoa;
    - a primeira linha do arquivo diz que a Aurora é inventada e que nomes, datas e aprovações fazem parte do caso.
-3. Todo tipo de modelo tem **os dois exemplos**: `exemplo-<tipo>-lacunas.yaml` (estado `draft`, nunca `approved`; MOD-11) e `exemplo-<tipo>-completo.yaml` (`approved`, sem perguntas em aberto).
+3. Todo tipo de modelo tem **os dois exemplos**: `exemplo-<tipo>-lacunas.yaml` (estado `draft`, nunca `approved`; MOD-11) e `exemplo-<tipo>-completo.yaml` (`approved`, sem perguntas em aberto). Os nomes de arquivo continuam, mas a fonte fica em `src/exemplos/`.
 4. O exemplo completo traz um **histórico com pelo menos duas versões**, para ensinar o que muda quando a regra muda.
 5. Os dois exemplos compartilham o mesmo `id`: são o mesmo documento em momentos diferentes.
 
@@ -108,12 +112,24 @@ O validador confere as condições de “Exemplos completos e aprovados”, as n
 
 ## Versionamento com data
 
-Campos obrigatórios em todo modelo e exemplo:
+Todo modelo e todo exemplo declara o schema 1.0.0 no campo `schema_version`. Ele diz o formato do arquivo e muda em ritmo próprio, separado da versão do produto e da versão do documento (ADR 0009).
+
+Para sair do rascunho, o documento precisa de um núcleo de oito campos: `id`, `title`, `version`, `status`, `owner`, `approver`, `version_date` e `intent.question`. Os campos de data e de histórico também são obrigatórios:
 
 ```yaml
+id: "METRIC-001"            # o mesmo id em todas as versões do documento
+schema_version: "1.0.0"     # versão do formato, não do documento
+type: kpi                   # igual ao nome do modelo
+title: "Receita reconhecida"
 version: "1.1"              # versão deste documento
-version_date: "2026-09-01"  # data desta versão
+status: approved
+owner: "Cargo ou área"      # responsável por manter o documento
+approver: "Cargo ou área"   # quem aprova
 valid_from: "2026-09-01"    # desde quando a regra vale
+version_date: "2026-09-01"  # data desta versão
+review_interval: "P6M"      # revisão a cada seis meses, em ISO 8601
+intent:
+  question: "Qual é a receita reconhecida no mês?"
 version_history:            # a mais recente primeiro
   - version: "1.1"
     date: "2026-09-01"
@@ -123,8 +139,12 @@ version_history:            # a mais recente primeiro
 
 - `version_date` e `valid_from` são coisas diferentes: uma regra pode ser aprovada hoje para valer no mês que vem.
 - `change` descreve a mudança na regra, não a edição do texto.
-- A cópia histórica de uma versão fica como foi aprovada. Notas escritas depois, por exemplo que a versão foi substituída, vão para `archival_note`, com a data em que a nota foi escrita (MOD-12, AUR-04).
+- `review_interval` usa duração ISO 8601 (`P6M` são seis meses). É obrigatório quando o documento tem `context.instructions`, para que a instrução ao agente não envelheça sem revisão.
+- A cópia histórica de uma versão guarda o texto como foi aprovado. Quando outra versão toma o lugar dela, a cópia passa a `status: superseded`, e `superseded_by_revision` aponta a versão que a substituiu. O campo `recorded_at`, data em que o registro foi feito, aparece só nessa cópia substituída (I-15).
+- Notas escritas depois, por exemplo que a versão foi substituída, vão para `archival_note`, com a data em que a nota foi escrita (MOD-12, AUR-04).
+- Todo Indicador com versão maior declara `history_recalculation`: `recalculate`, quando a série antiga é recalculada, ou `method_break`, quando ela fica marcada como quebra de método (I-14).
 - Um rascunho também tem versão e data; `approved_by` fica `null`.
+- A versão do documento segue MAJOR.MINOR. O formato aceita PATCH, mas nenhum exemplo o usa.
 - Nos modelos Markdown, os mesmos dados aparecem nas seções "Identificação" e "Histórico de versões", em português.
 
 Qual número mudar:
@@ -140,10 +160,10 @@ Qual número mudar:
 
 O portal segue o percurso do leitor, não a ordem das pastas. A decisão está no [ADR 0023](adr/0023-percurso-em-sete-passos.md).
 
-- **Grupos do menu:** Comece aqui (tutorial de negócio e visão do método; o tutorial de dados ainda não existe e está em aberto no [ROADMAP](ROADMAP.md)), Percurso, Modelos, Laboratórios, Entender, Consultar e Usar com IA.
+- **Grupos do menu:** Comece aqui (tutorial de negócio e visão do método; o tutorial de dados ainda não existe e está em aberto no [ROADMAP](ROADMAP.md)), Percurso, Modelos, Laboratórios (dois: o de Data Analytics e o de eventos de coleta), Entender, Consultar e Usar com IA.
 - **Percurso em sete passos**, com fonte em `src/data/percurso.yaml`: 1 Escreva a pergunta de negócio; 2 Delimite o acervo; 3 Descubra o que falta; 4 Escreva com o modelo (a página de modelos); 5 Revise e aprove; 6 Teste com as perguntas; 7 Leve à sua ferramenta de IA.
 - **Próximo passo:** toda página do percurso termina com o bloco Próximo passo. O prev/next segue a ordem do menu, e não a ordem das pastas.
-- **Modelos:** o grupo segue o nível de `src/data/modelos.yaml`: o núcleo de entrada (ADR 0013), o segundo nível e a trilha complementar da rubrica (ADR 0003).
+- **Modelos:** o grupo segue o nível de `src/data/modelos.yaml`: o núcleo de entrada (ADR 0013), o segundo nível e a trilha complementar da rubrica (ADR 0003). O tipo Evento de coleta está no núcleo de entrada (ADR 0013 e 0027).
 - **Nenhuma página órfã:** toda página tem entrada no menu ou em outra página, e nenhuma página fica sem saída. `scripts/check_navegacao.py` confere.
 - **YAML só em páginas de modelo e de referência,** nunca no percurso (NAV-08).
 - **Uma página por tipo de documento**, com o modelo e o exemplo juntos. O endereço continua em `/templates/...`.
@@ -156,8 +176,9 @@ O portal segue o percurso do leitor, não a ordem das pastas. A decisão está n
 1. **O problema**, com números: uma situação da Aurora em que a falta do documento custa algo visível.
 2. **O que perguntar**, numa tabela só: pergunta, como ela aparece na Aurora, o que registrar.
 3. **Antes e depois da decisão**: o cartão com lacunas e o cartão completo, cada um uma vez, e o que o histórico de versões ensina.
-4. **Teste você**, com as respostas escondidas.
-5. **Baixe o modelo**, e a fundamentação.
+4. **Triagem**, seção opcional que só entra quando o tipo pede. O tipo Evento de coleta a usa para separar o que é quebra do que é esperado (ADR 0027).
+5. **Teste você**, com as respostas escondidas.
+6. **Baixe o modelo**, e a fundamentação.
 
 ## Estrutura de duas camadas de metadados
 
@@ -189,18 +210,38 @@ valid_from: null
 
 **Nunca misturar estas duas camadas** nem presumir que o YAML de negócio é uma especificação executável em qualquer plataforma.
 
+## Nomes das chaves e camadas (ADR 0015)
+
+- **Chaves** (nomes dos campos no frontmatter e no YAML) ficam em inglês e em `snake_case`. Onde há equivalente no ODCS 3.2.0 usado nesta fase, a grafia é a do ODCS: o bloco `context` com `instructions`, `verifiedStatements` e `constraints`, `synonyms` e `authoritativeDefinitions`.
+- **Rótulos** que o leitor vê ficam em português e vêm de `src/data/campos.yaml`.
+- **O Conceito** usa SKOS no bloco `vocabulary`: `prefLabel`, `altLabel`, `broader`, `related` e `not_synonyms`.
+- **Três camadas por documento** (I-13): o significado em linguagem humana; o lugar onde mora a regra executável (SQL, metric view ou filtro), que o documento aponta sem repetir; e a instrução curta ao agente. Instrução em texto só quando não há alternativa estruturada.
+
 ## Estados
 
-**Estado do documento** (campo `status`). Só estes quatro:
+**Estado do documento** (campo `status`). Só estes cinco:
 
 | Código | Em português | Significa |
 |---|---|---|
 | `draft` | Rascunho | Em construção |
 | `pending_approval` | Pendente de aprovação | Estruturado, ainda não validado por quem aprova |
 | `approved` | Aprovado | Confirmado pela autoridade identificada |
-| `deprecated` | Obsoleto | Não vale mais; aponta para o substituto quando houver |
+| `superseded` | Substituído | Outra versão do mesmo `id` tomou o lugar; `superseded_by_revision` aponta qual |
+| `deprecated` | Obsoleto | O assunto deixou de valer; pode apontar outro documento, quando houver |
 
-**Estado de uma pergunta em aberto ou de um conflito** (campo `state`, dentro de perguntas em aberto e de fontes em conflito). Só estes dois:
+A fronteira entre os dois estados de saída:
+
+- **Substituído** (`superseded`): o assunto continua valendo, e outra versão do mesmo `id` tomou o lugar. A cópia histórica aprovada e trocada usa este estado.
+- **Obsoleto** (`deprecated`): o assunto deixou de valer, e nenhuma versão nova do mesmo `id` o substitui.
+
+**Estado de uma pergunta em aberto** (campo `status`, junto de `question`, `impact`, `owner_to_resolve` e `resolution`; MOD-07). Só estes dois:
+
+| Código | Em português |
+|---|---|
+| `unresolved` | Não resolvido |
+| `resolved` | Resolvido, com a resolução, quem resolveu e a data |
+
+**Estado de uma fonte em conflito** (campo `state`, dentro da política conflitante). Só estes dois:
 
 | Código | Em português |
 |---|---|
@@ -236,7 +277,12 @@ Checklist de aprovação editorial do modelo: necessidade e aplicabilidade; perg
 
 As páginas não copiam trechos YAML dos exemplos. Usam o componente `ExampleDoc`, que lê o arquivo em `public/downloads/` na hora do build. O que a página mostra é o que o leitor baixa.
 
-Os modelos Markdown não começam com bloco YAML: abrem com a tabela "Identificação", em português, para quem não conhece YAML.
+A fonte de cada modelo é `src/modelos/<slug>.md`, e a de cada exemplo é `src/exemplos/<nome>.md`. Ambas são Markdown com frontmatter, e só essas fontes se editam à mão.
+
+- Os `.yaml` e os `.md` de `public/downloads/` são gerados por `scripts/gerar_downloads.py` e não se editam à mão. Para regenerar, rode `npm run gerar:downloads`.
+- O CI falha se os arquivos gerados estiverem fora de sincronia com as fontes.
+- O modelo `.md` baixado abre com os campos no topo, para quem não conhece YAML. As seções "Identificação" (rótulos em português de `src/data/campos.yaml`) e "Histórico de versões" são geradas.
+- O `ExampleDoc` lê o `.yaml` gerado.
 
 Os modelos vêm de `src/data/modelos.yaml`, que alimenta `TemplateFinder`, `TemplateDownloads` e `TemplateStart`. As oito dimensões vêm de `src/data/dimensoes.yaml`, que alimenta o checklist.
 
@@ -254,6 +300,11 @@ Os modelos vêm de `src/data/modelos.yaml`, que alimenta `TemplateFinder`, `Temp
 3. **Exemplo numérico verificável:** quando houver valor esperado, fornecer amostra sintética e consulta ou procedimento reproduzível.
 4. **Abstenção fundamentada:** incluir pelo menos um exemplo sem cobertura temporal, sem definição ou fora do escopo.
 5. **Documentação não é enforcement:** diferenciar gabarito documental, SQL verificado, camada semântica executável e sistema de agentes.
+6. **Limite fixo do laboratório:** cada laboratório declara o seu limite de escopo (operações, eventos, dias e incidentes) e não cresce além dele. O Lab 2 segue o limite fixo do ADR 0027, que fecha o ponto em aberto do ADR 0022.
+7. **Falta de linha não é zero:** numa tabela agregada, um dia sem linha pode significar zero ou falha de coleta. O exemplo diz qual dos dois, com a política de dia sem linha do Evento de coleta.
+8. **Dia incompleto:** um dia recente não entra na conclusão enquanto não estiver completo. No Lab 2, o dia D só fica completo em D+2 às 06h no fuso da operação; antes disso, fica fora da conta. Esse prazo vale para a tabela diária da Aurora e é escolha do time; outra fonte, como o export do GA4 para o BigQuery, pode ter janela própria de chegada tardia, que o exemplo cita quando usa essa fonte.
+9. **Cenário só com fonte primária:** cada cenário do banco de cenários cita documentação oficial lida (Google Analytics Help ou Google for Developers). Cenário sem confirmação nessas fontes fica de fora (ADR 0027).
+10. **Limiar numérico é escolha do time:** nenhum limiar de alerta é regra universal. Quando um exemplo traz número, diz que é escolha do time que o adota.
 
 A execução de testes automatizados pode encontrar contradições nos exemplos, mas não prova que um documento de produção é correto. A aprovação do especialista continua indispensável.
 

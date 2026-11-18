@@ -22,6 +22,14 @@ ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "src" / "content" / "docs"
 DOWNLOADS = ROOT / "public" / "downloads"
 DADOS = ROOT / "src" / "data"
+ESTADOS_DO_DOCUMENTO = frozenset({"draft", "pending_approval", "approved", "superseded", "deprecated"})
+ESTADOS_JA_APROVADOS = frozenset({"approved", "superseded"})
+HEADER_ORDER = (
+    "id", "schema_version", "type", "title", "version", "revision_id", "status", "owner", "approver",
+    "valid_from", "valid_to", "recorded_at", "version_date", "last_reviewed", "review_interval",
+    "source_of_truth", "supersedes_revision", "superseded_by_revision", "intent", "plain_summary",
+    "open_questions", "version_history",
+)
 REPOSITORIO = "github.com/edoardolobl/contexto-framework"
 _LINK_DO_REPOSITORIO = re.compile(re.escape(REPOSITORIO) + r"/(?:blob|tree)/main/([^\s)\"'#?<>]+)")
 
@@ -118,6 +126,46 @@ def carregar_yaml(caminho: Path, relatorio: Relatorio) -> dict[str, Any] | None:
         relatorio.erro(caminho, "YAML deve ter um mapa na raiz")
         return None
     return dados
+
+
+def ler_frontmatter(caminho: Path, relatorio: Relatorio) -> tuple[dict[str, Any], str, str] | None:
+    """Lê um .md com frontmatter. Devolve (dados, texto do frontmatter, corpo) ou None com o erro registrado.
+
+    Linha 1 é '---'; o frontmatter vai até a próxima linha que é só '---'.
+    """
+    relatorio.arquivo_atual = caminho
+    try:
+        bruto = caminho.read_bytes().decode("utf-8")
+    except FileNotFoundError:
+        relatorio.erro(caminho, "arquivo não encontrado")
+        return None
+    except UnicodeDecodeError as exc:
+        relatorio.erro(caminho, f"o arquivo não está em UTF-8: {exc}")
+        return None
+    except OSError as exc:
+        relatorio.erro(caminho, f"não foi possível ler o arquivo: {exc}")
+        return None
+    linhas = bruto.replace("\r\n", "\n").split("\n")
+    if linhas[0] != "---":
+        relatorio.erro(caminho, "frontmatter ausente (a primeira linha deve ser ---)")
+        return None
+    fim = next((i for i in range(1, len(linhas)) if linhas[i] == "---"), None)
+    if fim is None:
+        relatorio.erro(caminho, "frontmatter não fechado (falta a linha --- depois do YAML)")
+        return None
+    texto, corpo = "\n".join(linhas[1:fim]), "\n".join(linhas[fim + 1:])
+    try:
+        dados = yaml.safe_load(texto)
+    except yaml.YAMLError as exc:
+        relatorio.erro(caminho, f"frontmatter com YAML inválido: {exc}")
+        return None
+    except ValueError as exc:
+        relatorio.erro(caminho, f"frontmatter com valor impossível (data inválida?): {exc}")
+        return None
+    if not isinstance(dados, dict):
+        relatorio.erro(caminho, "frontmatter deve ser um mapa YAML")
+        return None
+    return dados, texto, corpo
 
 
 def exigir_minimo(itens: Iterable[Path], minimo: int, descricao: str, relatorio: Relatorio) -> list[Path]:
@@ -440,10 +488,12 @@ def _sem_ancora(url: str) -> str:
 
 
 def arquivo_de_download(url: str) -> str | None:
-    """Nome do arquivo se o link aponta para um download publicado (yaml, md ou pdf), senão None."""
+    """Caminho relativo a downloads/ se o link aponta para um download publicado (yaml, md ou pdf), senão None."""
     limpo = _sem_ancora(url)
     if _EXTERNO.match(url) or "downloads" not in limpo or not limpo.endswith(_ARQUIVO_PUBLICADO):
         return None
+    if "downloads/" in limpo:
+        return limpo.split("downloads/", 1)[1]
     return Path(limpo).name
 
 
@@ -469,3 +519,58 @@ def resolver_link(rota_origem: str, url: str) -> tuple[str | None, bool]:
         else:
             segmentos.append(parte)
     return ("/" + "/".join(segmentos) + "/" if segmentos else "/"), subiu
+
+
+# ---------- regras puras do validate_content ----------
+
+REFERENCE_FIELDS = ("related_documents", "covered_documents", "metrics", "decision_rules",
+                    "reference_questions", "valid_join_paths", "expected_questions_and_answers")
+
+
+def ids_citados(data: dict[str, Any]) -> Iterable[str]:
+    """Cada id de documento citado por um exemplo, onde quer que a convenção permita."""
+    for campo in REFERENCE_FIELDS:
+        for valor in data.get(campo) or []:
+            if isinstance(valor, str):
+                yield valor
+    depende = data.get("depends_on_versions")
+    if isinstance(depende, dict):
+        for chave in depende:
+            if isinstance(chave, str):
+                yield chave
+    fontes = data.get("data_sources") or {}
+    for valor in fontes.get("valid_join_paths") or []:
+        yield valor
+    if isinstance(fontes.get("authoritative_dataset"), str):
+        yield fontes["authoritative_dataset"]
+    validacao = data.get("validation") or {}
+    for valor in validacao.get("expected_questions_and_answers") or []:
+        if isinstance(valor, str):
+            yield valor
+    for pergunta in data.get("questions") or []:
+        for valor in pergunta.get("required_sources") or []:
+            yield valor
+
+
+def faltas_de_leitura(data: dict[str, Any]) -> list[str]:
+    """Campos de leitura que um exemplo completo precisa trazer preenchidos (I-16)."""
+    intent = data.get("intent")
+    pergunta = intent.get("question") if isinstance(intent, dict) else None
+    resumo = data.get("plain_summary")
+    faltas = []
+    if not isinstance(pergunta, str) or not pergunta.strip():
+        faltas.append("intent.question")
+    if not isinstance(resumo, str) or not resumo.strip():
+        faltas.append("plain_summary")
+    return faltas
+
+
+def erros_do_markdown_de_download(nome: str, conteudo: str) -> list[str]:
+    """Regras de um .md da raiz de downloads: modelo começa com frontmatter; todos têm as duas seções."""
+    erros = []
+    if nome.startswith("template-") and not conteudo.startswith("---"):
+        erros.append("modelo Markdown deve começar com frontmatter (ADR 0006)")
+    for titulo in ("## Identificação", "## Histórico de versões"):
+        if titulo not in conteudo:
+            erros.append(f"template Markdown sem a seção {titulo}")
+    return erros

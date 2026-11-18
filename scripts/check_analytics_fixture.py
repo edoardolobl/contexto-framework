@@ -66,7 +66,7 @@ def load(name: str) -> dict[str, Any]:
     return data
 
 base = {"Q01": "answer", "Q02": "answer", "Q03": "clarify", "Q04": "abstain", "Q05": "abstain", "Q06": "abstain"}
-for name, expected in (("exemplo-casos-teste-lacunas.yaml", base), ("exemplo-casos-teste-completo.yaml", {**base, "Q07": "answer"})):
+for name, expected in (("exemplo-perguntas-de-negocio-lacunas.yaml", base), ("exemplo-perguntas-de-negocio-completo.yaml", {**base, "Q07": "answer"})):
     questions = load(name)["questions"]
     behaviors = {q["id"]: q["expected_behavior"] for q in questions}
     if behaviors != expected:
@@ -81,7 +81,7 @@ for name, expected in (("exemplo-casos-teste-lacunas.yaml", base), ("exemplo-cas
             fail(f"{name}: {q['id']} pede esclarecimento e precisa dizer o que falta")
 # Uma resposta apoiada em definição ainda não aprovada precisa dizer isso.
 # Em 01/10 o KPI 2.0 já valia; o que faltava no gabarito com lacunas era a conferência da resposta.
-pending_qa = load("exemplo-casos-teste-lacunas.yaml")
+pending_qa = load("exemplo-perguntas-de-negocio-lacunas.yaml")
 pending_q01 = next(q for q in pending_qa["questions"] if q["id"] == "Q01")
 if pending_qa["status"] != "approved" and "ainda não foi conferida" not in pending_q01["reference_answer"]:
     fail("Q01 do gabarito com lacunas responde sem a ressalva de que ninguém conferiu a resposta")
@@ -133,6 +133,15 @@ if draft["calculation"]["numerator"] is not None:
 if not any("pedidos confirmados ou sessões" in q["question"] for q in draft["open_questions"]):
     fail("exemplo-kpi-lacunas.yaml: falta a pergunta em aberto sobre contar pedidos ou sessões")
 
+# I-14: o KPI atual declara que o histórico não se recalcula, o que sustenta a resposta "Não" de Q07.
+kpi_atual = load("exemplo-kpi-completo.yaml")
+politica = (kpi_atual.get("history_recalculation") or {}).get("policy")
+if politica != "method_break":
+    fail(f"exemplo-kpi-completo.yaml: history_recalculation.policy deve ser method_break, encontrado {politica!r}")
+q07 = next((q for q in load("exemplo-perguntas-de-negocio-completo.yaml")["questions"] if q["id"] == "Q07"), None)
+if not q07 or not str(q07["reference_answer"]).startswith("Não"):
+    fail("Q07 do gabarito completo deve responder Não, coerente com method_break")
+
 for name in ("exemplo-relacionamento-lacunas.yaml", "exemplo-relacionamento-completo.yaml"):
     if load(name)["cardinality"] != "one_to_many":
         fail(f"{name}: a relação sessões para pedidos deve ser um para muitos")
@@ -149,5 +158,5 @@ if not real_codes <= set(documented["status_code"]["allowed_values"]):
     fail("Há código de estado na amostra que o dicionário de pedidos não documenta")
 
 relatorio.encerrar("OK: SQLite retorna 25.0% (1 de 4 sessões); pedidos por sessão dá 50% (2 de 4); "
-      "taxa sem filtro de sessões internas dá 40%; sete perguntas de referência no gabarito aprovado; "
+      "taxa sem filtro de sessões internas dá 40%; sete perguntas de negócio no gabarito aprovado; "
       "dicionário de pedidos confere com as colunas e os códigos da amostra.")

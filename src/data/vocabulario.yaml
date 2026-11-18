@@ -90,3 +90,13 @@ regras:
     sugestao: 'Perguntas de negócio (o tipo) ou gabarito (as respostas)'
     ignorar_maiusculas: true
     permitido_em: [referencias/index.mdx]
+  - termo: linha de base
+    padrao: '\bbaselines?\b'
+    sugestao: linha de base
+    ignorar_maiusculas: true
+    permitido_em: []
+  - termo: plano de mensuração
+    padrao: '\btag plans?\b'
+    sugestao: plano de mensuração
+    ignorar_maiusculas: true
+    permitido_em: [templates/evento-coleta.mdx]

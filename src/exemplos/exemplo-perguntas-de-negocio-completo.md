@@ -1,17 +1,29 @@
+---
 # Exemplo do Contexto. A Aurora é uma organização inventada; nomes, datas e aprovações fazem parte do caso.
 id: QA-AURORA-001
-revision_id: "QA-AURORA-001@1.1"  # versão específica; id = assunto estável
+schema_version: "1.0.0"
+type: perguntas-de-negocio
 title: "Gabarito documental: sessões convertidas Aurora"
-type: reference_question_set
-status: approved
 version: "1.1"
-version_date: "2026-10-05"
+revision_id: "QA-AURORA-001@1.1" # versão específica; id = assunto estável
+status: approved
 owner: "Analytics de E-commerce (Aurora)"
 approver: "Gerência de E-commerce (Aurora)"
 valid_from: "2026-10-05"
-valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
-supersedes_revision: "QA-AURORA-001@1.0"
+valid_to: null               # fim exclusivo da vigência; null = sem fim documentado
+version_date: "2026-10-05"
+last_reviewed: "2026-10-05"
+review_interval: null
 source_of_truth: "Catálogo de indicadores da Aurora, gabarito do KPI-AURORA-001"
+supersedes_revision: "QA-AURORA-001@1.0"
+superseded_by_revision: null
+intent:
+  question: "Que perguntas sobre a conversão web da Aurora a IA deve responder, esclarecer ou recusar?"
+  audience: ["Analytics de E-commerce", "Quem testa agentes de IA"]
+  purpose: "Distinguir perguntas respondíveis, ambíguas e fora do escopo"
+  decisions: ["Aprovar ou não um agente para responder sobre conversão web"]
+plain_summary: "Sete perguntas conferidas contra a amostra: três com resposta, uma que pede esclarecimento e três em que a IA não deve responder."
+open_questions: []
 version_history:
   - version: "1.1"
     date: "2026-10-05"
@@ -26,8 +38,13 @@ version_history:
     change: "Rascunho do gabarito após disponibilização da amostra"
     approved_by: null
 
+context:
+  instructions: null
+  verifiedStatements: []
+  constraints: []
+authoritativeDefinitions: []
+
 domain: "Analytics: Laboratório Aurora"
-purpose: "Distinguir perguntas respondíveis, ambíguas e fora do escopo"
 covered_documents:
   - KPI-AURORA-001
   - DATASET-AURORA-SESSIONS
@@ -36,14 +53,21 @@ covered_documents:
   - DASH-AURORA-WEB
 depends_on_versions:
   KPI-AURORA-001: "2.0"
+  DATASET-AURORA-SESSIONS: "1.2"
+  DATASET-AURORA-ORDERS: "1.0"
+  REL-AURORA-SESSIONS-ORDERS: "2.0"
+  DASH-AURORA-WEB: "2.1"
 questions:
   - id: Q01
     question: "Qual foi a taxa de sessões web convertidas em 2026-10-01?"
-    intent: "Calcular a taxa de sessões únicas com pedido confirmado"
-    context: "Canal web, sem tráfego interno"
+    goal: "Calcular a taxa de sessões únicas com pedido confirmado"
+    assumptions: "Canal web, sem tráfego interno"
+    phrasings: ["Quanto converteu a loja web em 01/10/2026?", "Qual a conversão de sessões web no dia 2026-10-01?"]
+    onboarding: true
     expected_behavior: answer
     reference_answer: "25% em 2026-10-01: 1 sessão convertida entre 4 elegíveis"
-    required_sources: ["KPI-AURORA-001", "aurora-reference-query.sql"]
+    reference_sql: aurora-reference-query.sql
+    required_sources: [KPI-AURORA-001, aurora-reference-query.sql]
     evidence_description: "1 sessão convertida entre 4 elegíveis"
     ambiguity: null
     reason_if_abstain: null
@@ -51,11 +75,14 @@ questions:
     reviewed_at: "2026-10-02"
   - id: Q02
     question: "Por que a taxa de sessões web convertidas em 2026-10-01 não é 50%?"
-    intent: "Explicar a diferença entre contar pedidos e contar sessões"
-    context: "A sessão S1 tem dois pedidos confirmados"
+    goal: "Explicar a diferença entre contar pedidos e contar sessões"
+    assumptions: "A sessão S1 tem dois pedidos confirmados"
+    phrasings: []
+    onboarding: true
     expected_behavior: answer
     reference_answer: "50% é pedidos confirmados por sessão elegível (2 em 4). O indicador conta sessões: S1 conta uma vez, o que dá 25%"
-    required_sources: ["REL-AURORA-SESSIONS-ORDERS", "KPI-AURORA-001"]
+    reference_sql: null
+    required_sources: [REL-AURORA-SESSIONS-ORDERS, KPI-AURORA-001]
     evidence_description: "Cardinalidade um para muitos e regra do numerador"
     ambiguity: null
     reason_if_abstain: null
@@ -63,11 +90,14 @@ questions:
     reviewed_at: "2026-10-02"
   - id: Q03
     question: "Qual foi a conversão em 2026-10-01?"
-    intent: "Pergunta sem canal e sem dizer qual conversão"
-    context: "A documentação define uma única conversão, a de sessões no canal web"
+    goal: "Pergunta sem canal e sem dizer qual conversão"
+    assumptions: "A documentação define uma única conversão, a de sessões no canal web"
+    phrasings: ["Como foi a conversão no dia 01/10?"]
+    onboarding: true
     expected_behavior: clarify
     reference_answer: "Perguntar se a pessoa quer a taxa de sessões convertidas no canal web, que é a única definida. Não escolher por ela"
-    required_sources: ["KPI-AURORA-001"]
+    reference_sql: null
+    required_sources: [KPI-AURORA-001]
     evidence_description: "O KPI vale só para web; a pergunta não diz o canal"
     ambiguity: "Falta o canal, e conversão pode significar sessões ou pedidos"
     reason_if_abstain: null
@@ -75,11 +105,14 @@ questions:
     reviewed_at: "2026-10-02"
   - id: Q04
     question: "Qual foi a taxa de sessões convertidas no app em 2026-10-01?"
-    intent: "Aplicar o indicador a um canal fora do escopo"
-    context: "O KPI exclui o canal app"
+    goal: "Aplicar o indicador a um canal fora do escopo"
+    assumptions: "O KPI exclui o canal app"
+    phrasings: []
+    onboarding: false
     expected_behavior: abstain
     reference_answer: null
-    required_sources: ["KPI-AURORA-001"]
+    reference_sql: null
+    required_sources: [KPI-AURORA-001]
     evidence_description: "O KPI exclui o canal app"
     ambiguity: null
     reason_if_abstain: "Fora do escopo declarado: o indicador não foi definido para app. Encaminhar a quem responde pelo KPI"
@@ -87,11 +120,14 @@ questions:
     reviewed_at: "2026-10-02"
   - id: Q05
     question: "Qual foi a taxa de sessões web convertidas em setembro de 2026?"
-    intent: "Consultar período sem dados"
-    context: "A amostra só tem 2026-10-01"
+    goal: "Consultar período sem dados"
+    assumptions: "A amostra só tem 2026-10-01"
+    phrasings: []
+    onboarding: false
     expected_behavior: abstain
     reference_answer: null
-    required_sources: ["DATASET-AURORA-SESSIONS"]
+    reference_sql: null
+    required_sources: [DATASET-AURORA-SESSIONS]
     evidence_description: "Não há registros de setembro de 2026"
     ambiguity: null
     reason_if_abstain: "Sem cobertura de dados para o período"
@@ -99,10 +135,13 @@ questions:
     reviewed_at: "2026-10-02"
   - id: Q06
     question: "Qual foi a receita líquida em 2026-10-01?"
-    intent: "Consultar indicador sem definição"
-    context: "Nenhum documento define receita líquida"
+    goal: "Consultar indicador sem definição"
+    assumptions: "Nenhum documento define receita líquida"
+    phrasings: []
+    onboarding: false
     expected_behavior: abstain
     reference_answer: null
+    reference_sql: null
     required_sources: []
     evidence_description: "Não há fórmula nem fonte aprovada"
     ambiguity: null
@@ -111,19 +150,27 @@ questions:
     reviewed_at: "2026-10-02"
   - id: Q07
     question: "A taxa de sessões web convertidas de 01/10/2026 pode ser comparada com a taxa de 10/09/2026 do relatório de setembro?"
-    intent: "Comparar dois períodos"
-    context: "O KPI mudou de definição em 15/09"
+    goal: "Comparar dois períodos"
+    assumptions: "O KPI mudou de definição em 15/09"
+    phrasings: []
+    onboarding: false
     expected_behavior: answer
     reference_answer: "Não. Em 10/09 valia a versão 1.0, que contava pedidos confirmados por sessão; em 01/10 vale a 2.0, que conta sessões convertidas. Os dois números medem coisas diferentes, e a diferença entre eles não é variação de conversão"
-    required_sources: ["KPI-AURORA-001"]
+    reference_sql: null
+    required_sources: [KPI-AURORA-001]
     evidence_description: "Histórico de versões do KPI: 1.0 até 14/09, 2.0 desde 15/09"
     ambiguity: null
     reason_if_abstain: null
     reviewed_by: "Analytics de E-commerce (Aurora)"
     reviewed_at: "2026-10-05"
-
 revalidation_triggers:
   - "Mudança de definição ou de versão do KPI"
   - "Atualização da carga do laboratório"
   - "Mudança de granularidade ou de relacionamento"
-open_questions: []
+
+related_documents: []
+---
+
+Cada pergunta diz o comportamento esperado, as fontes e quem conferiu a resposta, com a data. A pergunta Q07 atravessa a mudança de versão do indicador: os números de antes e de depois medem coisas diferentes.
+
+O que observar: as perguntas marcadas com `onboarding: true` são as que todo agente novo precisa acertar antes de responder sobre conversão web. `phrasings` guarda outras formas de fazer a mesma pergunta.

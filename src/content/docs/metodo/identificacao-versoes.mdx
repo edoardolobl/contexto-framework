@@ -19,7 +19,7 @@ A solução documental não é escolher automaticamente o arquivo com a data mai
 | **Vigência** | `valid_from` e `valid_to` | Intervalo em que **esta versão** pode ser utilizada |
 | **Aprovação** | `status` e `approver` | Indica se há autoridade e confirmação, ou apenas proposta |
 
-`supersedes_revision` aponta para a versão anterior. O `version_history` resume o que mudou, mas **não substitui o conteúdo arquivado** da versão anterior.
+`supersedes_revision` aponta para a versão anterior; na cópia antiga, `superseded_by_revision` aponta a versão que tomou o lugar dela. O `version_history` resume o que mudou, mas **não substitui o conteúdo arquivado** da versão anterior.
 
 ## Exemplo 1. O mesmo termo muda de significado
 
@@ -47,20 +47,24 @@ Se a área quer medir **a mesma coisa** e a fórmula antiga estava errada, é um
 
 ## Como interpretar o último dia de vigência
 
-Neste framework, `valid_from` inclui o dia inicial e `valid_to` **exclui** o dia informado: ele guarda o primeiro dia em que a versão já não vale. Nos modelos em Markdown, a pessoa escreve o **último dia de vigência** (31/08), e quem passa para YAML registra o dia seguinte (`2026-09-01`). Assim:
+Neste framework, `valid_from` inclui o dia inicial e `valid_to` **exclui** o dia informado: ele guarda o primeiro dia em que a versão já não vale. Se o **último dia de vigência** é 31/08, o campo traz o dia seguinte (`2026-09-01`), no topo do Markdown e no YAML gerado dele. Assim fica a cópia da versão 1.0 depois que a 2.0 tomou o lugar dela:
 
 ```yaml
 id: CONCEPT-ONBOARDING-001
-revision_id: "CONCEPT-ONBOARDING-001@1.0"
+schema_version: "1.0.0"
+type: conceito
 version: "1.0"
-status: approved
-version_date: "2026-08-03"
+revision_id: "CONCEPT-ONBOARDING-001@1.0"
+status: superseded
 valid_from: "2026-08-03"
 valid_to: "2026-09-01"  # último dia de vigência: 31/08
+recorded_at: "2026-08-03"
+version_date: "2026-08-03"
 supersedes_revision: "CONCEPT-ONBOARDING-001@0.1"
+superseded_by_revision: "CONCEPT-ONBOARDING-001@2.0"
 ```
 
-A próxima versão começa em `2026-09-01`, sem dois intervalos aprovados sobrepostos. `valid_to: null` significa **sem data final registrada**, não que a regra vale eternamente.
+`recorded_at` é o dia em que esta cópia foi registrada, o que permite responder “o que a organização sabia naquela data”; por isso aparece só na cópia de uma versão substituída. A próxima versão começa em `2026-09-01`, sem dois intervalos aprovados sobrepostos. `valid_to: null` significa **sem data final registrada**, não que a regra vale eternamente.
 
 A organização pode adotar outras convenções de data e fuso, mas deve documentá-las. Para registros com hora, declarar o fuso e tratar limites temporais explicitamente.
 

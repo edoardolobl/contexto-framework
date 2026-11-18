@@ -28,12 +28,12 @@ https://edoardolobl.github.io/contexto-framework/
 - **Perguntas de negócio**, com o gabarito (as respostas esperadas), incluindo ambiguidade e abstenção;
 - **Laboratório Aurora** com dados sintéticos SQLite, SQL verificável e cálculo de taxa de sessões convertidas.
 
-Cada tipo de documento oferece quatro arquivos: modelo em Markdown (sem YAML, para preencher em texto), modelo em YAML, **exemplo com lacunas** e **exemplo completo com aprovação fictícia**. Todos trazem versão, data da versão e histórico de versões. Os formatos são **convenções pedagógicas**, não schemas de fornecedores.
+Cada tipo de documento oferece quatro arquivos: modelo em Markdown, com os campos no topo, como fonte; modelo em YAML, gerado a partir dele; **exemplo com lacunas** e **exemplo completo com aprovação fictícia**. Todos trazem versão, data da versão e histórico de versões. O schema 1.0.0 é validado por JSON Schema, um arquivo por tipo. Os formatos são **convenções pedagógicas**, não schemas de fornecedores.
 
 ## Reproduza o laboratório SQL
 
 ```bash
-python3 -m pip install PyYAML
+python3 -m pip install -r requirements-dev.txt
 python3 scripts/check_analytics_fixture.py
 ```
 
@@ -41,7 +41,7 @@ A consulta em `public/downloads/aurora-reference-query.sql` deve retornar **25%*
 
 ## Desenvolvimento
 
-Requer Node.js 22.12 ou superior, npm e Python 3. As dependências Python de desenvolvimento (PyYAML e pytest) estão em `requirements-dev.txt`.
+Requer Node.js 22.12 ou superior, npm e Python 3. As dependências Python (PyYAML, jsonschema e pytest) estão em `requirements-dev.txt`; instale com `python3 -m pip install -r requirements-dev.txt`.
 
 ```bash
 python3 -m pip install -r requirements-dev.txt
@@ -61,13 +61,18 @@ src/
   components/          Elementos visuais e downloads
   content/docs/        Metodologia, modelos e exemplos
   data/                Fontes únicas: vocabulário e lista de tipos de documento
+  exemplos/            Fontes dos exemplos, em Markdown com frontmatter
+  modelos/             Fontes dos modelos, em Markdown com frontmatter
   styles/              Identidade visual
-public/downloads/     Modelos Markdown/YAML e laboratório SQL
+public/downloads/     Modelos e exemplos gerados (Markdown/YAML) e laboratório SQL
+schemas/              JSON Schema 1.0.0, um arquivo por tipo
 scripts/              Validações independentes de LLM
 docs/                 Contrato editorial e roadmap
   adr/                Registros de decisão (ADR)
 .github/workflows/    Testes e publicação
 ```
+
+Os modelos e exemplos são escritos em `src/modelos/` e `src/exemplos/`. Os arquivos de `public/downloads/` (`.yaml` e `.md`) são gerados a partir deles; para regenerar, rode `npm run gerar:downloads`. O CI falha se os gerados estiverem fora de sincronia. Os schemas de cada tipo ficam em `schemas/`, e a validação usa `jsonschema`.
 
 ## Como editar com qualidade
 

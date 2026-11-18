@@ -168,3 +168,115 @@ def test_links_do_repositorio_ausentes_ignora_outros_enderecos(tmp_path: Path):
     )
     (tmp_path / "docs").mkdir()
     assert comum.links_do_repositorio_ausentes(texto, tmp_path) == []
+
+
+# ---------- ler_frontmatter ----------
+
+def _fonte(tmp_path: Path, conteudo: str) -> Path:
+    arquivo = tmp_path / "fonte.md"
+    arquivo.write_text(conteudo, encoding="utf-8")
+    return arquivo
+
+
+def test_ler_frontmatter_devolve_dados_texto_e_corpo(tmp_path: Path):
+    arquivo = _fonte(tmp_path, "---\n# nota\nid: KPI-1\ntitle: Um\n---\n## Corpo\n\ntexto\n")
+    relatorio = comum.Relatorio()
+    dados, texto, corpo = comum.ler_frontmatter(arquivo, relatorio)
+    assert dados == {"id": "KPI-1", "title": "Um"}
+    assert texto == "# nota\nid: KPI-1\ntitle: Um"
+    assert corpo == "## Corpo\n\ntexto\n"
+    assert relatorio.erros == []
+
+
+@pytest.mark.parametrize(
+    ("conteudo", "trecho"),
+    [
+        ("id: x\n", "frontmatter ausente"),
+        ("", "frontmatter ausente"),
+        ("---\nid: x\n", "não fechado"),
+        ("---\nid: [sem fim\n---\ncorpo\n", "YAML inválido"),
+        ("---\n- a\n- b\n---\ncorpo\n", "mapa"),
+        ("---\n---\ncorpo\n", "mapa"),
+    ],
+)
+def test_ler_frontmatter_registra_erro_legivel(tmp_path: Path, conteudo: str, trecho: str):
+    relatorio = comum.Relatorio()
+    assert comum.ler_frontmatter(_fonte(tmp_path, conteudo), relatorio) is None
+    assert len(relatorio.erros) == 1 and trecho in relatorio.erros[0] and "fonte.md" in relatorio.erros[0]
+
+
+def test_ler_frontmatter_arquivo_inexistente(tmp_path: Path):
+    relatorio = comum.Relatorio()
+    assert comum.ler_frontmatter(tmp_path / "nada.md", relatorio) is None
+    assert "não encontrado" in relatorio.erros[0]
+
+
+def test_ler_frontmatter_aceita_crlf(tmp_path: Path):
+    arquivo = tmp_path / "w.md"
+    arquivo.write_bytes(b"---\r\nid: A\r\n---\r\ncorpo\r\n")
+    dados, texto, corpo = comum.ler_frontmatter(arquivo, comum.Relatorio())
+    assert (dados, texto, corpo) == ({"id": "A"}, "id: A", "corpo\n")
+
+
+# ---------- constantes ----------
+
+def test_estados_e_ordem_do_cabecalho():
+    assert comum.ESTADOS_DO_DOCUMENTO == {"draft", "pending_approval", "approved", "superseded", "deprecated"}
+    assert comum.ESTADOS_JA_APROVADOS == {"approved", "superseded"}
+    assert comum.HEADER_ORDER[0] == "id" and comum.HEADER_ORDER[-1] == "version_history"
+    assert len(comum.HEADER_ORDER) == 22 and len(set(comum.HEADER_ORDER)) == 22
+    assert comum.HEADER_ORDER.index("recorded_at") == comum.HEADER_ORDER.index("valid_to") + 1
+
+
+# ---------- arquivo_de_download ----------
+
+@pytest.mark.parametrize(
+    ("url", "esperado"),
+    [
+        ("../../downloads/template-kpi.yaml", "template-kpi.yaml"),
+        ("../downloads/historico/0.x/template-casos-teste.yaml", "historico/0.x/template-casos-teste.yaml"),
+        ("downloads/historico/exemplo-kpi-v1.0.yaml#x", "historico/exemplo-kpi-v1.0.yaml"),
+        ("https://exemplo.org/downloads/a.yaml", None),
+        ("../metodo/limites/", None),
+    ],
+)
+def test_arquivo_de_download_devolve_caminho_relativo(url: str, esperado: str | None):
+    assert comum.arquivo_de_download(url) == esperado
+
+
+# ---------- regras puras de validate_content ----------
+
+def test_ids_citados_inclui_chaves_de_depends_on_versions():
+    dados = {"depends_on_versions": {"KPI-A-001": "2.0", "DATASET-B-001": "1.0"}, "related_documents": ["REL-1"]}
+    assert set(comum.ids_citados(dados)) == {"KPI-A-001", "DATASET-B-001", "REL-1"}
+
+
+def test_ids_citados_ignora_depends_on_versions_que_nao_e_mapa():
+    assert list(comum.ids_citados({"depends_on_versions": None})) == []
+    assert list(comum.ids_citados({"depends_on_versions": ["x"]})) == []
+
+
+def test_ids_citados_le_fontes_e_perguntas():
+    dados = {"data_sources": {"authoritative_dataset": "DATASET-1", "valid_join_paths": ["REL-1"]},
+             "questions": [{"required_sources": ["KPI-1"]}]}
+    assert set(comum.ids_citados(dados)) == {"DATASET-1", "REL-1", "KPI-1"}
+
+
+def test_exemplo_completo_exige_pergunta_e_resumo():
+    assert comum.faltas_de_leitura({"intent": {"question": "Q?"}, "plain_summary": "R"}) == []
+    faltas = comum.faltas_de_leitura({"intent": {"question": " "}, "plain_summary": ""})
+    assert faltas == ["intent.question", "plain_summary"]
+    assert comum.faltas_de_leitura({}) == ["intent.question", "plain_summary"]
+    assert comum.faltas_de_leitura({"intent": "texto", "plain_summary": "R"}) == ["intent.question"]
+
+
+def test_markdown_de_download_modelo_exige_frontmatter():
+    ok = "---\nid: x\n---\n## Identificação\n\n## Histórico de versões\n"
+    assert comum.erros_do_markdown_de_download("template-kpi.md", ok) == []
+    erros = comum.erros_do_markdown_de_download("template-kpi.md", "## Identificação\n\n## Histórico de versões\n")
+    assert erros == ["modelo Markdown deve começar com frontmatter (ADR 0006)"]
+
+
+def test_markdown_de_download_roteiro_nao_exige_frontmatter_mas_exige_secoes():
+    erros = comum.erros_do_markdown_de_download("roteiro-revisao-documental.md", "texto\n")
+    assert erros == ["template Markdown sem a seção ## Identificação", "template Markdown sem a seção ## Histórico de versões"]

@@ -13,13 +13,13 @@ import TemplateFinder from '../../../components/TemplateFinder.astro';
 3. **Anote fontes e perguntas em aberto.** Se houver duas interpretações, identifique quem pode resolver.
 4. **Peça revisão.** Só declare a informação aprovada depois da validação de quem responde pelo assunto.
 
-Todo documento leva no cabeçalho quatro informações: **escopo** (onde vale), **vigência** (desde quando vale), **evidência** (a fonte que confirma) e **responsável** (quem responde pelo conteúdo). Os campos com esses nomes chegam na próxima versão dos modelos; por enquanto, veja onde cada um aparece em [Como ler os campos](../fundamentos/como-ler-os-campos/).
+Todo documento leva no cabeçalho quatro informações: **escopo** (onde vale), **vigência** (desde quando vale), **evidência** (a fonte que confirma) e **responsável** (quem responde pelo conteúdo). No schema 1.0, a vigência fica em `valid_from` e `valid_to`, a evidência em `source_of_truth` e o responsável em `owner`; o escopo fica nos campos de cada tipo. Veja onde cada um aparece em [Como ler os campos](../fundamentos/como-ler-os-campos/).
 
 Cada página de modelo mostra o mesmo documento em dois momentos: **com lacunas** e **depois da aprovação**. Se você nunca fez esse tipo de registro, comece pelo exercício [Comece em 5 minutos](../fundamentos/comece-em-5-minutos/).
 
 ## Escolha o modelo
 
-Pense no que você precisa explicar para outra pessoa: o cálculo de um indicador, o significado de uma tabela, os critérios de uma decisão ou as perguntas que a documentação deve responder.
+Pense no que você precisa explicar para outra pessoa: o cálculo de um indicador, o significado de uma tabela, o comportamento esperado de um evento, os critérios de uma decisão ou as perguntas que a documentação deve responder.
 
 <TemplateFinder />
 

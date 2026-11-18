@@ -66,19 +66,21 @@ export default defineConfig({
         ] },
         { label: 'Modelos', items: [
           { label: 'Comece por estes', items: [
-            'templates/kpi', 'templates/dataset', 'templates/relacionamento', 'templates/decisao', 'templates/perguntas-de-negocio'
+            'templates/kpi', 'templates/dataset', 'templates/relacionamento', 'templates/evento-coleta', 'templates/decisao',
+            'templates/perguntas-de-negocio'
           ] },
           { label: 'Mais modelos', collapsed: true, items: [
             'templates/conceito', 'templates/politica', 'templates/processo', 'templates/dashboard'
           ] },
           { label: 'Trilha complementar', collapsed: true, items: ['templates/rubrica'] }
         ] },
-        { label: 'Laboratórios', items: ['exemplos/analytics-integrado'] },
+        { label: 'Laboratórios', items: ['exemplos/analytics-integrado', 'exemplos/laboratorio-eventos'] },
         { label: 'Entender', collapsed: true, items: [
           'dados/visao-geral', 'fundamentos/conhecimento-tacito', 'metodo/limites'
         ] },
         { label: 'Consultar', collapsed: true, items: [
-          'metodo/oito-dimensoes', 'fundamentos/como-ler-os-campos', 'metodo/identificacao-versoes',
+          'metodo/oito-dimensoes', 'referencias/cenarios-de-mensuracao', 'fundamentos/como-ler-os-campos', 'referencias/migracao-schema-1-0', 'referencias/correspondencia-odcs',
+          'metodo/identificacao-versoes',
           'governanca/papeis', 'referencias', 'sobre/creditos'
         ] },
         { label: 'Usar com IA', items: ['usar-com-ia/agents-md'] }

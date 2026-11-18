@@ -1,0 +1,50 @@
+# Documentação de relações; não gera um JOIN automaticamente.
+# null significa "ainda não sei" ou "ainda não decidido". Não troque null por um palpite: registre a dúvida em open_questions.
+id: null
+revision_id: null  # versão específica; id = assunto estável
+title: null
+type: relationship_semantics
+status: draft                # draft | pending_approval | approved | deprecated
+version: "0.1"
+version_date: null           # data desta versão, no formato AAAA-MM-DD
+owner: null                  # cargo ou área responsável, não o nome de uma pessoa
+approver: null
+valid_from: null
+valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
+supersedes_revision: null
+source_of_truth: null
+version_history:            # uma entrada por versão, a mais recente primeiro
+  - version: "0.1"
+    date: null
+    change: null             # o que mudou nesta versão e por quê
+    approved_by: null        # cargo ou área que aprovou; null enquanto não aprovado
+
+business_intent: null
+left:
+  dataset: null
+  grain: null
+right:
+  dataset: null
+  grain: null
+join_keys: []
+cardinality: null
+coverage:
+  unmatched_rows_expected: null
+  null_keys_expected: null
+  temporal_join_rule: null
+usage_rules:
+  approved_question_classes: []
+  disallowed_question_classes: []
+  join_strategy_by_question: []
+  duplication_risks: []
+  aggregation_safeguards: []
+validation:
+  test_cases: []
+  verified_query: null
+  reviewer: null
+open_questions:   # uma entrada por pergunta que ninguém decidiu
+  - question: null
+    impact: null            # o que dá errado enquanto ela não tem resposta
+    resolution_owner: null  # quem pode resolver
+    state: unresolved
+related_documents: []

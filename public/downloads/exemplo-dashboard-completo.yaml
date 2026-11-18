@@ -1,17 +1,28 @@
 # Exemplo do Contexto. A Aurora é uma organização inventada; nomes, datas e aprovações fazem parte do caso.
 id: DASH-AURORA-WEB
-revision_id: "DASH-AURORA-WEB@2.1"  # versão específica; id = assunto estável
+schema_version: "1.0.0"
+type: dashboard
 title: "Acompanhamento de sessões convertidas: Aurora"
-type: dashboard_definition
-status: approved
 version: "2.1"
-version_date: "2026-10-02"
+revision_id: "DASH-AURORA-WEB@2.1" # versão específica; id = assunto estável
+status: approved
 owner: "Analytics de E-commerce (Aurora)"
 approver: "Gerência de E-commerce (Aurora)"
 valid_from: "2026-10-02"
-valid_to: null  # fim exclusivo da vigência; null = sem fim documentado
-supersedes_revision: "DASH-AURORA-WEB@2.0"
+valid_to: null               # fim exclusivo da vigência; null = sem fim documentado
+version_date: "2026-10-02"
+last_reviewed: "2026-10-02"
+review_interval: null
 source_of_truth: "Dashboard Conversão Web no portal de BI da Aurora"
+supersedes_revision: "DASH-AURORA-WEB@2.0"
+superseded_by_revision: null
+intent:
+  question: "Como ler o dashboard de sessões convertidas da Aurora?"
+  audience: ["Operação de marketing"]
+  purpose: "Distinguir sessões web convertidas de quantidade de pedidos por sessão"
+  decisions: ["Investigar diferenças entre definições de conversão"]
+plain_summary: "Mostra a taxa de sessões convertidas do canal web pela versão 2.0 do KPI-AURORA-001; valores de antes de 2026-09-15 não se comparam com os de depois."
+open_questions: []
 version_history:
   - version: "2.1"
     date: "2026-10-02"
@@ -30,15 +41,19 @@ version_history:
     change: "Primeiro rascunho, com lacunas registradas"
     approved_by: null
 
-purpose: "Distinguir sessões web convertidas de quantidade de pedidos por sessão"
-audiences: ["Operação de marketing"]
-supported_decisions: ["Investigar diferenças entre definições de conversão"]
-metrics: ["KPI-AURORA-001"]
-metric_versions: {KPI-AURORA-001: "2.0"}
+context:
+  instructions: null
+  verifiedStatements: []
+  constraints: []
+authoritativeDefinitions: []
+
+metrics: [KPI-AURORA-001]
+metric_versions:
+  KPI-AURORA-001: "2.0"
 default_filters:
   channel: web
   is_internal: 0
-dimensions: ["session_date", "channel"]
+dimensions: [session_date, channel]
 time_semantics:
   date_field: session_date
   timezone: "Data local da loja, sem hora"
@@ -59,6 +74,6 @@ conflicting_dashboards:
     cause: "Continua com a fórmula da versão 1.0 do KPI-AURORA-001: conta pedidos confirmados por sessão, não sessões convertidas"
     precedence: "Este dashboard é o oficial para a taxa de sessões convertidas. O resumo da Diretoria foi marcado para correção pela Engenharia de Dados"
     found_at: "2026-10-02"
-reference_questions: ["QA-AURORA-001"]
-open_questions: []
-related_documents: ["KPI-AURORA-001", "DATASET-AURORA-SESSIONS", "DATASET-AURORA-ORDERS"]
+reference_questions: [QA-AURORA-001]
+
+related_documents: [KPI-AURORA-001, DATASET-AURORA-SESSIONS, DATASET-AURORA-ORDERS]

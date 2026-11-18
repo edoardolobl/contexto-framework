@@ -111,3 +111,33 @@ def test_pagina_fora_do_menu_e_sem_link_e_orfa(copia: Path):
     assert resultado.returncode == 1
     assert "página órfã: metodo/limites" in resultado.stdout
     assert "Traceback" not in resultado.stderr
+
+
+def test_fonte_fora_de_sincronia_faz_o_check_falhar(copia: Path):
+    fonte = next((copia / "src" / "modelos").glob("*.md"))
+    fonte.write_text(fonte.read_text(encoding="utf-8").replace("\n---\n", "\n# alteração solta\n---\n", 1), encoding="utf-8")
+    resultado = subprocess.run(
+        [sys.executable, str(copia / "scripts" / "gerar_downloads.py"), "--check"], capture_output=True, text=True, timeout=120)
+    assert resultado.returncode == 1
+    assert "desatualizado" in resultado.stdout
+    assert "Traceback" not in resultado.stderr
+
+
+def test_copia_historica_approved_com_superseded_by_revision_falha_no_schema(copia: Path):
+    fonte = next((copia / "src" / "exemplos" / "historico").glob("*.md"))
+    texto = fonte.read_text(encoding="utf-8")
+    assert "status: superseded" in texto
+    fonte.write_text(texto.replace("status: superseded", "status: approved", 1), encoding="utf-8")
+    resultado = rodar(copia, "check_schemas.py")
+    assert resultado.returncode == 1
+    assert fonte.name in resultado.stdout and "Traceback" not in resultado.stderr
+
+
+def test_superseded_sem_recorded_at_falha_no_schema(copia: Path):
+    fonte = next((copia / "src" / "exemplos" / "historico").glob("*.md"))
+    texto = fonte.read_text(encoding="utf-8")
+    assert re.search(r"^recorded_at:.*\n", texto, re.M)
+    fonte.write_text(re.sub(r"^recorded_at:.*\n", "", texto, count=1, flags=re.M), encoding="utf-8")
+    resultado = rodar(copia, "check_schemas.py")
+    assert resultado.returncode == 1
+    assert fonte.name in resultado.stdout and "Traceback" not in resultado.stderr

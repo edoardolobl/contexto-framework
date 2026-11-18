@@ -1,0 +1,116 @@
+---
+# Exemplo do Contexto. A Aurora é uma organização inventada; nomes, datas e aprovações fazem parte do caso.
+id: POLICY-AURORA-RECONCILIACAO-MIDIA
+schema_version: "1.0.0"
+type: politica
+title: "Ficha de reconciliação entre mídia, GA4, pedidos e ERP: Aurora"
+version: "1.1"
+revision_id: "POLICY-AURORA-RECONCILIACAO-MIDIA@1.1" # versão específica; id = assunto estável
+status: approved
+owner: "Performance de Mídia (Aurora)"
+approver: "Gerência de Marketing (Aurora)"
+valid_from: "2026-11-10"
+valid_to: null               # fim exclusivo da vigência; null = sem fim documentado
+version_date: "2026-11-10"
+last_reviewed: "2026-11-10"
+review_interval: "P6M"
+source_of_truth: "Ficha de reconciliação publicada pela Performance de Mídia, versão 1.1"
+supersedes_revision: "POLICY-AURORA-RECONCILIACAO-MIDIA@1.0"
+superseded_by_revision: null
+intent:
+  question: "Qual fonte vale para verba, pedidos e receita quando Meta, Google Ads, GA4, BigQuery e ERP mostram números diferentes?"
+  audience: ["Performance de Mídia (Aurora)", "Analytics de E-commerce (Aurora)", "Financeiro (Aurora)"]
+  purpose: "Explicar por que as fontes divergem por desenho e dizer qual fonte vale para cada decisão"
+  decisions: ["Quanto investir em cada plataforma", "Qual custo por pedido reportar", "Qual receita fechar no mês"]
+plain_summary: "A verba vem da plataforma que cobrou, os pedidos vêm do BigQuery confirmado e a receita faturada vem do ERP. Conversões de plataformas diferentes não se somam, e campanhas não se juntam pelo nome."
+open_questions: []
+version_history:
+  - version: "1.1"
+    date: "2026-11-10"
+    change: "Incluída a receita faturada no ERP como fonte oficial do fechamento mensal. Resolvido o conflito de receita entre plataformas, GA4, BigQuery e ERP, com a posição de cada fonte e o fuso usado"
+    approved_by: "Gerência de Marketing (Aurora)"
+  - version: "1.0"
+    date: "2026-11-04"
+    change: "Primeira versão aprovada: fonte oficial de verba e de pedidos, e proibição de somar conversões de plataformas diferentes. Conflito de conversões resolvido"
+    approved_by: "Gerência de Marketing (Aurora)"
+
+context:
+  instructions: "Antes de responder sobre verba, pedidos ou receita da Aurora, identifique a fonte oficial desta ficha para aquela decisão. Não some conversões de plataformas diferentes nem junte campanhas pelo nome. Se a pergunta não disser a data ou o fuso, pergunte antes de calcular. Se a fonte não estiver aprovada, diga isso."
+  verifiedStatements: []
+  constraints: []
+authoritativeDefinitions: []
+
+scope:
+  audiences: ["Performance de Mídia (Aurora)", "Analytics de E-commerce (Aurora)", "Financeiro (Aurora)"]
+  activities: ["Cálculo de custo por pedido e de receita por campanha", "Fechamento mensal de receita"]
+  localities: ["Operação Brasil (Aurora)"]
+  exclusions: ["Vendas em marketplaces de terceiros, cobertas pelo relatório de cada marketplace"]
+authority:
+  issuing_body: "Gerência de Marketing (Aurora)"
+  approver_role: "Gerência de Marketing (Aurora)"
+  version: "1.1"
+  effective_date: "2026-11-10"
+  expiry_date: null
+  supersedes: "Versão 1.0 desta ficha, de 04/11/2026: fontes oficiais de verba e de pedidos, sem a receita do ERP"
+obligations:
+  - "Verba por plataforma: vale o custo registrado em cada plataforma (Meta Ads e Google Ads), na moeda da conta. Não rateie a verba com outra fonte"
+  - "Pedidos: vale a tabela aurora-analytics.vendas.pedidos no BigQuery, só com status CONFIRMED"
+  - "Receita de venda: vale o valor do pedido confirmado no BigQuery, sem frete"
+  - "Receita faturada: vale o ERP, no fechamento do mês. É a única receita usada na contabilidade"
+  - "Custo por pedido: custo da campanha dividido pelos pedidos confirmados da mesma campanha e do mesmo período. Declare a data e o fuso usados"
+permissions: ["Usar as conversões de cada plataforma para ajustar lances dentro daquela plataforma, desde que o custo por pedido reportado use a fonte oficial"]
+prohibitions:
+  - "Somar conversões de plataformas diferentes para obter pedidos"
+  - "Juntar campanhas de plataformas diferentes pelo nome da campanha"
+  - "Tratar a diferença entre cliques ou sessões e pedidos como perda de rastreamento sem antes checar a divergência esperada entre as fontes"
+exceptions:
+  - condition: "Dado de campanha de uma plataforma indisponível na data de fechamento"
+    approval_role: "Gerência de Marketing (Aurora)"
+    evidence_needed: "Exportação da plataforma com a data em que ficou indisponível, anexada ao fechamento"
+conflicting_sources:
+  - id: CONFLICT-001
+    sources: [META-ADS, GOOGLE-ADS, GA4, BIGQUERY-PEDIDOS]
+    description: "Quantas vendas uma campanha gerou. Cada fonte conta de um jeito"
+    positions:
+      - source: "Meta Ads, conta Aurora Brasil, relatório de desempenho"
+        says: "Na conta da Aurora, o modelo tem clique em 7 dias e visualização em 1 dia. A data é a do clique ou da visualização, e não a do pedido. Fuso da conta: America/Sao_Paulo. Inclui visualizações, por isso tende a ficar acima das outras fontes"
+      - source: "Google Ads, conta Aurora Brasil, relatório de conversões"
+        says: "Na conta da Aurora, a conversão é contada na data do clique, com janela de 30 dias. Fuso da conta: America/Sao_Paulo. A visualização não é contada como conversão nesta conta"
+      - source: "GA4, propriedade Aurora Brasil, tabelas de eventos purchase"
+        says: "Na conta da Aurora, a janela de atribuição é de 30 dias e o modelo é o de último clique não direto. A data é a do evento, no fuso da propriedade (America/Sao_Paulo). Não conta visualizações"
+      - source: "BigQuery aurora-analytics.vendas.pedidos"
+        says: "O pedido conta na data de created_at, gravada em UTC; para agrupar por dia, converta para America/Sao_Paulo. Conta só pedidos CONFIRMED. A campanha vem da sessão do GA4 ligada ao pedido por transaction_id, sem janela de atribuição própria"
+    impact: "Uma campanha pode aparecer com quantidades diferentes de vendas em cada fonte, conforme janela, modelo, data e visualizações"
+    state: resolved
+    resolution: "Pedidos vêm só do BigQuery, com status CONFIRMED. As conversões de Meta, Google Ads e GA4 servem para diagnóstico e para ajuste de lances dentro de cada plataforma. Não entram na conta de custo por pedido e não se somam entre si."
+    resolution_owner: "Gerência de Marketing (Aurora)"
+    resolved_at: "2026-11-04"
+  - id: CONFLICT-002
+    sources: [META-ADS, GOOGLE-ADS, GA4, BIGQUERY-PEDIDOS, ERP]
+    description: "Quanto de receita uma campanha gerou. O valor de conversão de uma plataforma não é receita"
+    positions:
+      - source: "Meta Ads, conta Aurora Brasil"
+        says: "Valor de conversão atribuído pela própria plataforma, com a mesma janela de clique em 7 dias e visualização em 1 dia. Não é receita: é o valor que a plataforma atribui à conversão, sem o filtro de pedidos confirmados"
+      - source: "Google Ads, conta Aurora Brasil"
+        says: "Valor de conversão atribuído pela própria plataforma, com janela de 30 dias pela data do clique. Não é receita: é o valor que a plataforma atribui à conversão, sem o filtro de pedidos confirmados"
+      - source: "GA4, propriedade Aurora Brasil"
+        says: "Valor do evento purchase, enviado sem frete e sem imposto, com a moeda. Atribuído pelo modelo de último clique não direto, com janela de 30 dias. Pode divergir do pedido confirmado por cancelamento, estorno e pedido sem evento"
+      - source: "BigQuery aurora-analytics.vendas.pedidos"
+        says: "Valor do pedido confirmado, sem frete, na data do pedido em UTC convertida para America/Sao_Paulo. Esta é a receita de venda usada no cálculo de custo por pedido"
+      - source: "ERP, receita faturada"
+        says: "Receita com nota fiscal emitida, no fechamento do mês, na data de faturamento no fuso de São Paulo. É a receita usada na contabilidade; pode ser menor que a de venda por devolução e por atraso de faturamento"
+    impact: "O mesmo pedido pode ter valores diferentes em cada fonte; a diferença não é erro se a fonte for a esperada para a decisão"
+    state: resolved
+    resolution: "Receita de venda vem do BigQuery, pedidos confirmados sem frete. Para o fechamento mensal e a contabilidade, vale a receita faturada no ERP. Valores de conversão das plataformas e do GA4 não são receita."
+    resolution_owner: "Gerência de Marketing (Aurora), com o Financeiro (Aurora)"
+    resolved_at: "2026-11-10"
+source_precedence_rule: "Para verba, vale o custo registrado na plataforma que cobrou. Para pedidos, vale o BigQuery com status CONFIRMED. Para receita faturada, vale o ERP. Conversões de plataforma e do GA4 nunca substituem essas fontes."
+how_to_verify: "Compare, por campanha e por dia, os pedidos CONFIRMED do BigQuery com as conversões purchase do GA4, usando só dias completos. Dia completo é o que já passou da janela de chegada tardia do export do GA4 para o BigQuery, de três dias. Se a diferença passar de 15% em dois dias seguidos, abra investigação com o Analytics de E-commerce. O limite de 15% é escolha do time da Aurora, não regra de nenhuma plataforma."
+review_trigger: "Revisar quando a conta mudar a janela, o modelo de atribuição ou o fuso em alguma plataforma, quando o ERP mudar a data de faturamento, e a cada seis meses."
+
+related_documents: ["DATASET-AURORA-ORDERS", "REL-AURORA-SESSIONS-ORDERS", "KPI-AURORA-001"]
+---
+
+Esta ficha trata de um problema comum: cada plataforma conta vendas com regras próprias, e o número muda conforme a janela, o modelo, a data e o fuso. A ficha não decide qual plataforma está certa. Ela diz qual fonte vale para cada decisão e declara a configuração que a conta da Aurora usa.
+
+As posições são configurações da conta da Aurora. Elas não são regras das plataformas, e podem mudar se a conta mudar.

@@ -1,0 +1,361 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:contexto:schemas:1.0.0:kpi",
+  "title": "Indicador (KPI)",
+  "description": "Como um indicador é calculado: o que mede, para quem, com qual fórmula, período e fonte. Uma versão maior exige dizer o que acontece com a série antiga (I-14).",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "urn:contexto:schemas:1.0.0:common"
+    },
+    {
+      "if": {
+        "required": [
+          "version",
+          "status"
+        ],
+        "properties": {
+          "version": {
+            "pattern": "^([2-9]|[1-9]\\d+)\\."
+          },
+          "status": {
+            "not": {
+              "const": "draft"
+            }
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "history_recalculation"
+        ],
+        "properties": {
+          "history_recalculation": {
+            "required": [
+              "policy"
+            ],
+            "properties": {
+              "policy": {
+                "enum": [
+                  "recalculate",
+                  "method_break"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "properties": {
+    "type": {
+      "const": "kpi"
+    },
+    "domain": {
+      "title": "Domínio",
+      "description": "Área do negócio em que o indicador é usado, para filtrar o acervo.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "business_definition": {
+      "title": "Definição de negócio",
+      "description": "O que o indicador mede, em palavras da área, antes de qualquer fórmula.",
+      "type": "object",
+      "properties": {
+        "concept": {
+          "title": "O que mede",
+          "description": "Uma frase com a unidade contada (pedidos, sessões, clientes); é a parte que mais muda entre versões.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "different_meanings_in_other_domains": {
+          "title": "Nomes parecidos que medem outra coisa",
+          "description": "Indicadores de outras áreas com nome parecido que não devem ser usados como sinônimo.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "synonyms": {
+      "title": "Sinônimos",
+      "description": "Nomes que querem dizer exatamente a mesma coisa. Nome parecido com outro significado vai em different_meanings_in_other_domains.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "scope": {
+      "title": "Escopo",
+      "description": "A quem e a quais canais o indicador se aplica; fora disso, o número não deve ser usado.",
+      "type": "object",
+      "properties": {
+        "included_channels": {
+          "title": "Canais incluídos",
+          "description": "Canais em que o indicador vale.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "excluded_channels": {
+          "title": "Canais excluídos",
+          "description": "Canais em que o indicador não vale; uma pergunta sobre eles pede abstenção.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "applicable_population": {
+          "title": "População",
+          "description": "O que entra na conta, com os filtros (por exemplo, sessões que não são tráfego interno).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "exclusions": {
+          "title": "Exclusões",
+          "description": "Registros que saem da conta mesmo dentro dos canais incluídos.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "calculation": {
+      "title": "Cálculo",
+      "description": "Numerador, denominador e regras de agregação. A unidade vem antes da fórmula.",
+      "type": "object",
+      "properties": {
+        "formula_description": {
+          "title": "Fórmula em palavras",
+          "description": "A fórmula para leitura humana, sem nomes técnicos de coluna.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "numerator": {
+          "title": "Numerador",
+          "description": "O que conta em cima, com a regra de repetição (uma sessão com dois pedidos conta uma ou duas vezes).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "denominator": {
+          "title": "Denominador",
+          "description": "O que conta embaixo, com os filtros.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "unit": {
+          "title": "Unidade",
+          "description": "Percentual, valor em moeda, quantidade ou outra.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "granularity": {
+          "title": "Granularidade",
+          "description": "O nível em que o número é calculado (dia, canal, loja).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "aggregation_rule": {
+          "title": "Regra de agregação",
+          "description": "Como juntar períodos ou grupos; média de taxas costuma dar resultado errado.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "null_handling": {
+          "title": "Ausência de dados",
+          "description": "Como tratar registro sem valor, sem trocar ausência por zero.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "zero_denominator_policy": {
+          "title": "Denominador zero",
+          "description": "O que mostrar quando não há nada para dividir.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "history_recalculation": {
+      "title": "Recálculo do histórico",
+      "description": "Obrigatório quando a versão maior muda (2.0, 3.0): diz se a série antiga é recalculada ou marcada como quebra de método.",
+      "type": "object",
+      "properties": {
+        "policy": {
+          "title": "Política",
+          "description": "recalculate (a série antiga é recalculada pela regra nova) ou method_break (fica como estava e não se compara).",
+          "enum": [
+            "recalculate",
+            "method_break",
+            null
+          ]
+        },
+        "description": {
+          "title": "O que muda para quem compara",
+          "description": "Uma frase sobre o efeito para quem compara períodos.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "time": {
+      "title": "Convenções temporais",
+      "description": "Qual data decide o dia do registro, o fuso e a atualização.",
+      "type": "object",
+      "properties": {
+        "reference_date_field": {
+          "title": "Campo de data de referência",
+          "description": "Coluna que decide em que dia o registro conta.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "timezone": {
+          "title": "Fuso horário",
+          "description": "Fuso usado para fechar o dia.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "reporting_window": {
+          "title": "Janela",
+          "description": "Período de cálculo (diário, mensal).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "data_freshness": {
+          "title": "Atualização",
+          "description": "De quanto em quanto tempo os dados chegam e com que atraso.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "data_sources": {
+      "title": "Fontes",
+      "description": "De onde vêm os dados e qual fonte vale quando há divergência.",
+      "type": "object",
+      "properties": {
+        "authoritative_dataset": {
+          "title": "Dataset oficial",
+          "description": "Identificador do documento do dataset que manda quando há divergência.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "relevant_columns": {
+          "title": "Colunas usadas",
+          "description": "Colunas no formato tabela.coluna.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "valid_join_paths": {
+          "title": "Junções autorizadas",
+          "description": "Identificadores dos documentos de relacionamento que podem ser usados.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "source_conflicts_and_precedence": {
+          "title": "Precedência entre fontes",
+          "description": "Qual fonte vale quando duas mostram números diferentes.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "validation": {
+      "title": "Exemplos e conferência",
+      "description": "Casos que mostram a regra aplicada.",
+      "type": "object",
+      "properties": {
+        "approved_examples": {
+          "title": "Exemplos aprovados",
+          "description": "Casos com números e resultado esperado.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "expected_questions_and_answers": {
+          "title": "Perguntas que o documento responde",
+          "description": "Identificadores de Perguntas de negócio ou perguntas em texto.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "known_edge_cases": {
+          "title": "Casos-limite",
+          "description": "Situações no limite da regra, com o tratamento de cada uma.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "tests": {
+          "title": "Testes",
+          "description": "Testes executáveis ou descritos, quando existirem na data da versão.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "related_documents": {
+      "title": "Documentos relacionados",
+      "description": "Identificadores de outros documentos que ajudam a ler este.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "unevaluatedProperties": false
+}
