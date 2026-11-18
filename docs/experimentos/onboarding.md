@@ -1,6 +1,6 @@
 # Protocolo de onboarding: o kit mínimo responde às perguntas marcadas
 
-- **Estado:** Critério de saída atingido no Claude Code (terceira execução, 2026-11-17); no Codex, 7 de 8 por rodada; Antigravity pendente
+- **Estado:** Critério de saída atingido no Claude Code (terceira execução, 2026-11-17) e no Codex (quarta execução, 2026-11-18, depois do ajuste da Skill auditar-coleta); Antigravity pendente
 - **Data:** 2026-11-17
 - **Fase:** F6 (saídas para máquinas), [ADR 0028](../adr/0028-saidas-para-maquinas.md)
 - **Origem:** [12-incorporacoes.md](../../auditoria/12-incorporacoes.md), I-26; [10-direcao-proposta.md](../../auditoria/10-direcao-proposta.md), critério de saída da F6
@@ -198,3 +198,44 @@ Mesmo desenho da primeira execução (3 rodadas por modelo com o kit sem `gabari
 **Critério de saída da F6: atingido no Claude Code.** Com o kit, as 6 rodadas (3 por modelo) acertaram as 8 perguntas. O controle continua errando onde a resposta depende de uma definição aprovada: o termo ambíguo (Q03 do QA-AURORA-001), a abstenção (Q05) e, no Sonnet, a pergunta dos eventos (Q01 do QA-AURORA-002).
 
 **Ressalvas:** a resposta da Q06 está no kit, porque o contrato do KPI-AURORA-002 traz o exemplo de 02/11, como já acontecia com Q01 e Q02 do QA-AURORA-002; agentes e avaliador são da mesma família. Na segunda execução, no Codex, a Q01 do QA-AURORA-002 falhou nas três rodadas porque o passo 1 da Skill auditar-coleta manda perguntar a operação; essa mudança da Skill é decisão do mantenedor.
+
+## Quarta execução (Codex CLI, depois do ajuste da Skill auditar-coleta)
+
+Repetição no Codex, autorizada pelo mantenedor em 18/11/2026, depois da correção proposta na segunda execução. O passo 1 da Skill `auditar-coleta` agora separa dois casos: a pergunta sobre o plano inteiro ("quais eventos pararam?") não pede a operação e avalia cada evento em cada operação; a pergunta sobre um evento nomeado, sem a operação, só pede a operação quando o evento está ativo em mais de uma e o desfecho pode mudar de uma para outra. As seções anteriores ficam como estavam.
+
+- **Material:** o kit em `public/downloads/kit/contexto-kit-agentes/`, sem a pasta `gabaritos/`, copiado para uma pasta temporária fora do repositório, uma cópia por execução.
+- **Ferramenta e modelo:** o mesmo método da segunda execução. Codex CLI 0.167.0, modelo GPT-6.1 Sol (gpt-6.1-sol, esforço high), com o comando `codex exec --ignore-user-config --ephemeral --disable memories --disable hooks --ignore-rules -s read-only --skip-git-repo-check -m gpt-6.1-sol -c model_reasoning_effort="high" -C <pasta> -o <saída> "<prompt>"`.
+- **Execuções:** só a condição B, 3 rodadas de 8 perguntas (24 execuções), cada uma numa sessão nova. Prompt literal do protocolo, com "Leia primeiro o arquivo AGENTS.md desta pasta." no início e a mesma instrução de usar só os arquivos da pasta. Sem condição de controle.
+- **Avaliador:** Claude Opus 5.5 (claude-opus-5-5), pela rubrica acima, sem passar o gabarito ao agente.
+
+Respostas e pontuações completas em [onboarding-resultados-4.json](./onboarding-resultados-4.json).
+
+Acertos (categoria certa e conclusão certa) por pergunta:
+
+| Condição | Modelo | QA-AURORA-001 Q01 | QA-AURORA-001 Q02 | QA-AURORA-001 Q03 | QA-AURORA-002 Q01 | QA-AURORA-002 Q02 | QA-AURORA-002 Q03 | QA-AURORA-002 Q05 | QA-AURORA-002 Q06 |
+|---|---|---|---|---|---|---|---|---|---|
+| kit sem gabaritos | GPT-6.1 Sol (gpt-6.1-sol) | 3 de 3 | 3 de 3 | 3 de 3 | 3 de 3 | 3 de 3 | 3 de 3 | 3 de 3 | 3 de 3 |
+
+Registro por rodada, no formato da tabela do protocolo:
+
+| Ferramenta | Modelo (nome e versão) | Data | Condição | Rodada | Perguntas certas (de 8) | Sem Q01, Q02 e Q06 do QA-AURORA-002 (de 5) | Citações (de 7) | Observações |
+|---|---|---|---|---|---|---|---|---|
+| Codex CLI 0.167.0 | GPT-6.1 Sol (gpt-6.1-sol), esforço high | 2026-11-18 | B | 1 | 8 | 5 | 7 | Q03 do QA-AURORA-002 respondeu pela forma também aceita |
+| Codex CLI 0.167.0 | GPT-6.1 Sol (gpt-6.1-sol), esforço high | 2026-11-18 | B | 2 | 8 | 5 | 7 | Q03 do QA-AURORA-002 respondeu pela forma também aceita |
+| Codex CLI 0.167.0 | GPT-6.1 Sol (gpt-6.1-sol), esforço high | 2026-11-18 | B | 3 | 8 | 5 | 7 | Q03 do QA-AURORA-002 respondeu pela forma também aceita |
+
+**Critério de saída da F6: atingido no Codex.** As três rodadas acertaram as oito perguntas; o critério pede pelo menos duas de três.
+
+### O que a quarta execução mostra
+
+1. **A Q01 do QA-AURORA-002 passou de 0 de 3 para 3 de 3.** Nenhuma execução pediu a operação. Todas responderam com uma linha por evento e operação: só o add_to_cart no México é candidato a falha (5 dias completos em zero), o generate_lead no Brasil está dentro do esperado (2 dias, tolerância de 4) e o generate_lead não está ativo no México. As três citaram DECISION-AURORA-EVENTO-QUEBRADO@1.1 e EVENT-AURORA-GENERATE-LEAD@1.1.
+2. **A Q03 do QA-AURORA-002 mudou de forma.** Na segunda execução, as três pediram a operação. Agora as três avaliaram Brasil e México e disseram que no México o evento não está ativo, que é a forma registrada em `also_accepted`. O texto novo da Skill permite avaliar todas as operações quando o desfecho é o mesmo, e foi o que o agente fez.
+3. **Citações:** 21 de 21.
+
+### Ressalvas desta execução
+
+- Uma ferramenta, um modelo e nenhuma rodada de controle. O Antigravity continua pendente.
+- As respostas de Q01, Q02 e Q06 do QA-AURORA-002 aparecem nos testes e exemplos dos contratos e da Skill, como diz a ressalva do protocolo; sem essas três perguntas, as rodadas acertaram 5 de 5.
+- O prompt continua com "Hoje é 17/11/2026", como no protocolo, embora a execução tenha sido em 18/11/2026.
+- O isolamento foi por instrução e por cópias fora do repositório; o sandbox do Codex impede escrita, não leitura fora da pasta.
+- O avaliador é de outra família de modelos, mas não substitui a conferência por uma pessoa da Analytics de E-commerce.
