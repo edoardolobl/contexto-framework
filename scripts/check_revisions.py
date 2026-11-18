@@ -250,14 +250,36 @@ def _checar_documento(path: Path, data: dict, revisions: dict[str, dict], relato
     if ja_aprovada:
         if not start:
             err(path, "revisão aprovada precisa de valid_from")
-        if created and start and start < created:
-            err(path, "valid_from anterior à emissão; declarar retroatividade em registro próprio se existir")
+        for erro in erros_de_retroatividade(created, start, previous, data.get("retroactive_validity")):
+            err(path, erro)
         if end and start and end <= start:
             err(path, "valid_to deve ser posterior a valid_from")
     elif start or end:
         err(path, "rascunho pendente não deve se passar por regra vigente")
     if not ja_aprovada and previous:
         err(path, "rascunho inicial não deve afirmar que substitui uma revisão aprovada")
+
+
+def declaracao_completa(declaracao: Any) -> bool:
+    """retroactive_validity precisa de reason e confirmed_by, os dois com texto."""
+    return isinstance(declaracao, dict) and all(
+        isinstance(declaracao.get(chave), str) and declaracao[chave].strip() for chave in ("reason", "confirmed_by"))
+
+
+def erros_de_retroatividade(created: date | None, start: date | None, previous: Any, declaracao: Any) -> list[str]:
+    """Vigência retroativa (contrato 0.13): só na primeira revisão de um assunto e sempre declarada.
+
+    A primeira revisão pode documentar uma regra já em uso, desde que retroactive_validity diga por quê e
+    quem confirmou. Uma revisão que substitui outra nunca reescreve a vigência da anterior.
+    """
+    retroativa = bool(created and start and start < created)
+    if not retroativa:
+        return ["retroactive_validity só cabe quando valid_from é anterior a version_date"] if declaracao is not None else []
+    if previous:
+        return ["valid_from anterior à emissão: uma revisão que substitui outra não pode valer desde antes de version_date"]
+    if not declaracao_completa(declaracao):
+        return ["valid_from anterior à emissão: declare a retroatividade em retroactive_validity, com reason e confirmed_by"]
+    return []
 
 
 def checar_substituicao(revisions: dict[str, dict], relatorio: Relatorio) -> None:

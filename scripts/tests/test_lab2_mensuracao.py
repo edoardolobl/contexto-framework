@@ -316,3 +316,72 @@ def test_frase_trocada_falha(copia: Path, onde: str, antigo: str, novo: str, esp
     arquivos = {"pagina": copia / PAGINA_LAB2, "evento": downloads(copia) / EVENTO, "gabarito": downloads(copia) / GABARITO}
     trocar(arquivos[onde], antigo, novo)
     assert esperado in erros(copia)
+
+
+# ---------- indicador de receita de purchase (KPI-AURORA-002, I-23) ----------
+RECEITA_SQL = "aurora-lab2-receita-purchase.sql"
+KPI_RECEITA = Path("src/exemplos/exemplo-kpi-receita-purchase-completo.md")
+GABARITO_FONTE = Path("src/exemplos/exemplo-perguntas-de-negocio-eventos-completo.md")
+
+
+def test_comportamentos_continuam_q03_clarify_e_q06_answer():
+    assert lab2.COMPORTAMENTOS["Q03"] == "clarify" and lab2.COMPORTAMENTOS["Q06"] == "answer"
+
+
+def test_sql_da_receita_roda_no_sqlite_e_da_500_na_br():
+    sql = (comum.ROOT / "public/downloads" / RECEITA_SQL).read_text(encoding="utf-8")
+    completo = sqlite3.connect(":memory:")
+    completo.executescript((comum.ROOT / "public/downloads" / FIXTURE).read_text(encoding="utf-8"))
+    linhas = {(o, d): r for o, d, r in completo.execute(sql).fetchall()}
+    assert linhas[("BR", "2026-11-02")] == 500
+
+
+def test_receita_sql_com_juncao_e_acusada(copia: Path):
+    trocar(downloads(copia) / RECEITA_SQL, "FROM lab2_pedidos\n",
+           "FROM lab2_pedidos JOIN lab2_itens ON lab2_itens.order_id = lab2_pedidos.order_id\n")
+    texto = erros(copia)
+    assert RECEITA_SQL in texto and "JOIN" in texto
+
+
+def test_receita_sql_com_total_diferente_do_recalculo_e_acusada(copia: Path):
+    trocar(downloads(copia) / RECEITA_SQL, "SUM(revenue)", "SUM(revenue) + 1")
+    assert "500" in erros(copia)
+
+
+def test_receita_sql_ausente_e_acusada(copia: Path):
+    (downloads(copia) / RECEITA_SQL).unlink()
+    assert RECEITA_SQL in erros(copia)
+
+
+def test_receita_sql_invalida_vira_erro_legivel(copia: Path):
+    (downloads(copia) / RECEITA_SQL).write_text("SELECT FROM ((;", encoding="utf-8")
+    texto = erros(copia)
+    assert "SQL inválido" in texto and RECEITA_SQL in texto
+
+
+@pytest.mark.parametrize("antigo, novo", [("R$ 500", "R$ 501"), ("R$ 1.100", "R$ 1.000")])
+def test_kpi_com_valor_diferente_do_recalculo_e_acusado(copia: Path, antigo: str, novo: str):
+    trocar(copia / KPI_RECEITA, antigo, novo, todas=True)
+    assert antigo in erros(copia)
+
+
+def test_kpi_ausente_e_acusado(copia: Path):
+    (copia / KPI_RECEITA).unlink()
+    assert "exemplo-kpi-receita-purchase-completo.md" in erros(copia)
+
+
+def test_q06_sem_o_kpi_nas_fontes_e_acusada(copia: Path):
+    trocar(copia / GABARITO_FONTE, "required_sources: [KPI-AURORA-002, aurora-lab2-fixture.sql]",
+           "required_sources: [aurora-lab2-fixture.sql]")
+    assert "Q06" in erros(copia) and "required_sources" in erros(copia)
+
+
+def test_q06_sem_versao_do_kpi_em_depends_on_versions_e_acusada(copia: Path):
+    trocar(copia / GABARITO_FONTE, '  KPI-AURORA-002: "1.0"\n', "")
+    assert "depends_on_versions" in erros(copia)
+
+
+def test_q03_sem_also_accepted_com_answer_e_acusada(copia: Path):
+    trocar(copia / GABARITO_FONTE, "      - behavior: answer\n", "      - behavior: abstain\n")
+    texto = erros(copia)
+    assert "Q03" in texto and "also_accepted" in texto

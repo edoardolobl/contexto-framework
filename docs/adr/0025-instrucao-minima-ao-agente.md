@@ -1,8 +1,8 @@
 # 0025. Instrução mínima ao agente
 
-- **Estado:** Proposto
+- **Estado:** Aceito
 - **Data:** 2026-11-17
-- **Proposto por:** auditoria (F2)
+- **Decidido por:** mantenedor (texto proposto pela auditoria (F2); aceito pelo [ADR 0030](./0030-decisoes-do-mantenedor-depois-das-fases.md))
 - **Origem:** [10-direcao-proposta.md](../../auditoria/10-direcao-proposta.md), seção 1.5, item 5, e regra de desacoplamento; [08-pesquisa-boas-praticas.md](../../auditoria/08-pesquisa-boas-praticas.md), AG-05; relação com o [ADR 0021](./0021-responder-esclarecer-ou-abster-se.md)
 
 ## Contexto

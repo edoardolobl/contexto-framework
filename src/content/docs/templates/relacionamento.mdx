@@ -18,7 +18,7 @@ import Exercicio from '../../../components/Exercicio.astro';
 
 ## O problema
 
-No [Laboratório Aurora](../../exemplos/analytics-integrado/), `demo_sessions` e `demo_orders` têm a coluna `session_id` em comum. O schema mostra a chave. Não mostra que **uma sessão pode ter vários pedidos**, nem o que contar depois de juntar as duas tabelas. Em 01/10, a sessão S1 tem dois pedidos confirmados:
+No [Laboratório Aurora](../../exemplos/analytics-integrado/), `sessoes_web` e `pedidos` têm a coluna `session_id` em comum. O schema mostra a chave. Não mostra que **uma sessão pode ter vários pedidos**, nem o que contar depois de juntar as duas tabelas. Em 01/10, a sessão S1 tem dois pedidos confirmados:
 
 <ParContrastante
   pergunta="Que parte das sessões web elegíveis de 01/10/2026 converteu?"
@@ -92,7 +92,7 @@ No [Laboratório Aurora](../../exemplos/analytics-integrado/), `demo_sessions` e
    | Pergunta | Na Aurora | O que registrar |
    |---|---|---|
    | O que uma linha representa de cada lado? | Uma sessão; um pedido | Granularidade dos dois lados |
-   | Qual par de colunas liga as tabelas? | `demo_orders.session_id` → `demo_sessions.session_id` | Chave da junção |
+   | Qual par de colunas liga as tabelas? | `pedidos.session_id` → `sessoes_web.session_id` | Chave da junção |
    | A relação é 1:1, 1:N ou N:N? | Uma sessão, zero ou mais pedidos | Cardinalidade |
    | Depois de juntar, conta-se cada pedido ou cada sessão? | S1 conta uma ou duas vezes? | Regra de contagem |
    | Há linhas sem par? | S6 não tem pedido | Junção que preserva quem não tem par |

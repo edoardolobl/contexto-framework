@@ -1,8 +1,8 @@
 # 0019. Par de exemplos com lacunas e completo
 
-- **Estado:** Proposto
+- **Estado:** Aceito
 - **Data:** 2026-11-17
-- **Proposto por:** auditoria (F1)
+- **Decidido por:** mantenedor (texto proposto pela auditoria (F1); aceito pelo [ADR 0030](./0030-decisoes-do-mantenedor-depois-das-fases.md))
 - **Origem:** [04-modelos-e-exemplos.md](../../auditoria/04-modelos-e-exemplos.md), MOD-11 e AUR-09; [08-pesquisa-boas-praticas.md](../../auditoria/08-pesquisa-boas-praticas.md), seção sobre exemplos trabalhados (par "Decisão própria"); linha 57 de [referencias/index.mdx](../../src/content/docs/referencias/index.mdx)
 
 ## Contexto

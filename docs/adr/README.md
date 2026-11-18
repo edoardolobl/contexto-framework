@@ -52,14 +52,16 @@ Para mudar uma decisão aceita, escreva um ADR novo. Não edite o antigo: só ma
 | [0015](./0015-chaves-em-ingles-rotulos-em-portugues.md) | Chaves em inglês, rótulos em português | Aceito | 2026-11-17 |
 | [0016](./0016-sistema-visual.md) | Sistema visual | Aceito | 2026-11-17 |
 | [0017](./0017-tamanho-de-pagina-de-modelo.md) | Tamanho de página de modelo | Aceito | 2026-11-17 |
-| [0018](./0018-nao-resolver-politicas-conflitantes-por-data.md) | Não resolver políticas conflitantes pela data | Proposto | 2026-11-17 |
-| [0019](./0019-par-de-exemplos-com-lacunas-e-completo.md) | Par de exemplos com lacunas e completo | Proposto | 2026-11-17 |
-| [0020](./0020-dashboard-como-guia-de-leitura.md) | Dashboard como guia de leitura ligado ao indicador | Proposto | 2026-11-17 |
-| [0021](./0021-responder-esclarecer-ou-abster-se.md) | Responder, esclarecer ou abster-se | Proposto | 2026-11-17 |
-| [0022](./0022-laboratorio-pequeno-verificado-em-sqlite.md) | Laboratório pequeno verificado em SQLite, sem LLM | Proposto | 2026-11-17 |
-| [0023](./0023-percurso-em-sete-passos.md) | Percurso em sete passos | Proposto | 2026-11-17 |
-| [0024](./0024-descoberta-por-incidente.md) | Descoberta por incidente | Proposto | 2026-11-17 |
-| [0025](./0025-instrucao-minima-ao-agente.md) | Instrução mínima ao agente | Proposto | 2026-11-17 |
-| [0026](./0026-schema-1-0-e-fonte-unica.md) | Schema 1.0 e fonte única | Proposto | 2026-11-17 |
-| [0027](./0027-evento-de-coleta-e-laboratorio-de-mensuracao.md) | Evento de coleta e laboratório de mensuração | Proposto | 2026-11-17 |
-| [0028](./0028-saidas-para-maquinas.md) | Saídas para máquinas | Proposto | 2026-11-17 |
+| [0018](./0018-nao-resolver-politicas-conflitantes-por-data.md) | Não resolver políticas conflitantes pela data | Aceito | 2026-11-17 |
+| [0019](./0019-par-de-exemplos-com-lacunas-e-completo.md) | Par de exemplos com lacunas e completo | Aceito | 2026-11-17 |
+| [0020](./0020-dashboard-como-guia-de-leitura.md) | Dashboard como guia de leitura ligado ao indicador | Aceito | 2026-11-17 |
+| [0021](./0021-responder-esclarecer-ou-abster-se.md) | Responder, esclarecer ou abster-se | Aceito | 2026-11-17 |
+| [0022](./0022-laboratorio-pequeno-verificado-em-sqlite.md) | Laboratório pequeno verificado em SQLite, sem LLM | Aceito | 2026-11-17 |
+| [0023](./0023-percurso-em-sete-passos.md) | Percurso em sete passos | Aceito | 2026-11-17 |
+| [0024](./0024-descoberta-por-incidente.md) | Descoberta por incidente | Aceito | 2026-11-17 |
+| [0025](./0025-instrucao-minima-ao-agente.md) | Instrução mínima ao agente | Aceito | 2026-11-17 |
+| [0026](./0026-schema-1-0-e-fonte-unica.md) | Schema 1.0 e fonte única | Aceito | 2026-11-17 |
+| [0027](./0027-evento-de-coleta-e-laboratorio-de-mensuracao.md) | Evento de coleta e laboratório de mensuração | Aceito | 2026-11-17 |
+| [0028](./0028-saidas-para-maquinas.md) | Saídas para máquinas | Aceito | 2026-11-17 |
+| [0029](./0029-agentes-e-prova.md) | Agentes e prova | Aceito | 2026-11-17 |
+| [0030](./0030-decisoes-do-mantenedor-depois-das-fases.md) | Decisões do mantenedor depois das fases | Aceito | 2026-11-17 |

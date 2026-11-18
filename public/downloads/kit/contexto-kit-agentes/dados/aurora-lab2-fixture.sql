@@ -2,6 +2,7 @@
 -- Laboratório Aurora 2: eventos de coleta em duas operações (BR e MX), de 2026-10-20 a 2026-11-16.
 -- Dialeto: SQLite 3. lab2_eventos_diarios espelha a tabela de produção aurora_prod.tracking.eventos_diarios:
 -- não há linha nos dias em que o evento não disparou. A carga de 2026-11-16 ainda está incompleta (regra D+2).
+-- lab2_pedidos espelha aurora-analytics.vendas.pedidos e guarda só pedidos CONFIRMED.
 PRAGMA foreign_keys = ON;
 
 CREATE TABLE lab2_plano (

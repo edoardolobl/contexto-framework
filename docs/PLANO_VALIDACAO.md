@@ -1,8 +1,12 @@
 # Plano de validação com leitores: proposta para após v0.3
 
-**Estado:** planejamento, não teste já realizado.
+**Estado:** o teste com pessoas descrito aqui ainda é planejamento e não foi realizado. Os dois experimentos com agentes abaixo já rodaram.
 
-**Protocolo do caso 1 (F4):** [pergunta, dados, duas condições e pontuação](experimentos/caso-1.md), com a tabela de resultados ainda em branco.
+**Caso 1 (F4):** [protocolo e resultados](experimentos/caso-1.md). Executado no Claude Code em 2026-11-17, com o critério de saída da F4 atendido nessa ferramenta; faltam o Codex e o Antigravity.
+
+**Onboarding (F6):** [protocolo e resultados](experimentos/onboarding.md). Executado no Claude Code em 2026-11-17, com o critério de saída não atingido; faltam o Codex e o Antigravity. Os erros viraram perguntas em aberto propostas no [relatório do onboarding](experimentos/onboarding-perguntas-em-aberto.md).
+
+**Piloto com pessoas (F7):** aguarda execução; ver a seção F7 no fim deste arquivo.
 
 ## Pergunta principal
 
@@ -95,3 +99,14 @@ Cada tarefa registra a origem (sintoma ou passo), a página esperada e se o part
 - **Sequência:** pré-teste, tarefa observada no portal, pós-teste em caso não visto e retenção numa segunda data.
 - **Indicador principal:** a definição escrita pelo participante fez a IA acertar o gabarito?
 - **Não medir:** nota de satisfação ou de facilidade como resultado principal.
+
+
+## F7: piloto, portão da v1.0
+
+**Origem:** [ADR 0010](adr/0010-validacao-com-pessoas.md), [ADR 0029](adr/0029-agentes-e-prova.md), I-10 e MET-16.
+
+**Estado:** aguarda execução. O protocolo completo, com materiais, ordem e pontuação, está em [docs/piloto/README.md](piloto/README.md).
+
+- **Participantes:** 2 ou 3 pessoas do público misto, reproduzindo os casos 1 e 2 antes e depois de usar o Contexto, com uma tarefa de transferência em caso não visto.
+- **Indicador principal:** 'a definição escrita pela pessoa fez a IA acertar o gabarito?'
+- **Critério do portão (proposto, a confirmar pelo mantenedor antes da primeira sessão):** em cada caso, em pelo menos 2 de 3 pessoas (ou 2 de 2), o texto escrito depois faz a IA acertar a pergunta principal e o texto escrito antes não fazia; a linha de base, só com os dados e sem texto, não acerta a pergunta principal; e nenhuma definição escrita depois preenche responsável, aprovação, fórmula ou vigência sem fonte e sem marcar como em aberto. A pergunta principal proposta é a Q02 do QA-AURORA-002@1.0 no caso 1 e a Q01 do QA-AURORA-001@1.1 no caso 2.

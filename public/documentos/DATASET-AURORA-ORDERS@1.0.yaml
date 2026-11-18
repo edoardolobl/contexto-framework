@@ -13,7 +13,7 @@ valid_to: null               # fim exclusivo da vigência; null = sem fim docume
 version_date: "2026-08-20"
 last_reviewed: "2026-08-20"
 review_interval: null
-source_of_truth: "Catálogo de dados da Aurora, tabela demo_orders"
+source_of_truth: "Catálogo de dados da Aurora, tabela aurora-analytics.vendas.pedidos"
 supersedes_revision: "DATASET-AURORA-ORDERS@0.1"
 superseded_by_revision: null
 license: CC-BY-4.0
@@ -42,16 +42,16 @@ context:
 authoritativeDefinitions: []
 
 dataset:
-  physical_name: demo_orders
-  platform: "SQLite (laboratório)"
+  physicalName: aurora-analytics.vendas.pedidos
+  platform: "BigQuery (amostra reproduzida em SQLite)"
   grain: "Uma linha por pedido"
   primary_key: order_id
   alternative_keys: []
   uniqueness_assumption: "Cada order_id representa um único pedido"
 columns:
-  - physical_name: order_id
-    technical_type: TEXT
-    business_name: "Identificador do pedido"
+  - physicalName: order_id
+    physicalType: TEXT
+    businessName: "Identificador do pedido"
     meaning: "Chave única do pedido"
     unit: null
     allowed_values: []
@@ -59,9 +59,9 @@ columns:
     null_meaning: "Não permitido"
     examples: [PED-101, PED-102]
     do_not_use_for: ["Identificar pessoas"]
-  - physical_name: session_id
-    technical_type: TEXT
-    business_name: "Sessão de origem"
+  - physicalName: session_id
+    physicalType: TEXT
+    businessName: "Sessão de origem"
     meaning: "Sessão em que o pedido foi criado. Várias linhas podem ter a mesma sessão"
     unit: null
     allowed_values: []
@@ -69,9 +69,9 @@ columns:
     null_meaning: "Não permitido: todo pedido do laboratório tem sessão"
     examples: [SES-101]
     do_not_use_for: ["Contar sessões sem remover repetições"]
-  - physical_name: status_code
-    technical_type: TEXT
-    business_name: "Estado do pedido"
+  - physicalName: status_code
+    physicalType: TEXT
+    businessName: "Estado do pedido"
     meaning: "CONFIRMED: pedido confirmado, conta como conversão. CANCELED: pedido cancelado, não conta. TEST: pedido de teste interno, não conta"
     unit: null
     allowed_values: [CONFIRMED, CANCELED, TEST]

@@ -149,10 +149,13 @@ for path, ref in references:
         record(path, f"referência a documento inexistente: {ref}")
 
 # Exemplo não pode usar campo de primeiro nível que o template do mesmo tipo não tem.
+# Exceção: campos do cabeçalho comum que só cabem numa situação e por isso ficam fora do modelo em branco
+# (retroactive_validity só existe na primeira versão com vigência retroativa, contrato 0.13).
+CAMPOS_DE_SITUACAO = {"retroactive_validity"}
 for path, data in loaded.items():
     if not path.name.startswith("exemplo-"):
         continue
-    allowed = template_keys.get(data.get("type"), set())
+    allowed = template_keys.get(data.get("type"), set()) | CAMPOS_DE_SITUACAO
     extra = sorted(set(data) - allowed)
     if extra:
         record(path, f"campos fora do template: {', '.join(extra)}")

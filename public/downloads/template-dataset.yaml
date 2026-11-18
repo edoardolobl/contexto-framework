@@ -47,16 +47,16 @@ context:                     # para quem é técnico: opcional (bloco context do
 authoritativeDefinitions: [] # para quem é técnico: opcional. Onde mora a regra executável
 
 dataset:
-  physical_name: null
+  physicalName: null
   platform: null
   grain: null
   primary_key: null
   alternative_keys: []
   uniqueness_assumption: null
 columns:
-  - physical_name: null
-    technical_type: null
-    business_name: null
+  - physicalName: null
+    physicalType: null
+    businessName: null
     meaning: null
     unit: null
     allowed_values: []

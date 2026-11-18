@@ -1,8 +1,8 @@
 # 0026. Schema 1.0 e fonte única
 
-- **Estado:** Proposto
+- **Estado:** Aceito
 - **Data:** 2026-11-17
-- **Proposto por:** F3 (fase Schema 1.0; quando aceito, vira "**Decidido por:** mantenedor")
+- **Decidido por:** mantenedor (texto proposto na F3; aceito pelo [ADR 0030](./0030-decisoes-do-mantenedor-depois-das-fases.md))
 - **Origem:** [10-direcao-proposta.md](../../auditoria/10-direcao-proposta.md), fase F3; [11-decisoes.md](../../auditoria/11-decisoes.md), decisões 5, 8 e 14; [12-incorporacoes.md](../../auditoria/12-incorporacoes.md), I-11 a I-17 (I-17 adiado, veja Fica em aberto)
 
 ## Contexto

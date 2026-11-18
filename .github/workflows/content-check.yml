@@ -24,6 +24,16 @@ jobs:
           node-version: '22'
       - name: Instalar dependências
         run: npm ci --no-audit --no-fund
+      # O cache dos navegadores usa a versão do playwright-core como chave (item H das decisões de 17/11/2026).
+      - name: Ler a versão do playwright-core
+        id: playwright
+        run: echo "version=$(node -p "require('playwright-core/package.json').version")" >> "$GITHUB_OUTPUT"
+      - name: Cache do navegador do checklist visual
+        id: playwright-cache
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ steps.playwright.outputs.version }}
       # Mesma ordem do `npm run check` local.
       - name: Verificar CSS
         run: npm run lint:css
@@ -36,6 +46,11 @@ jobs:
       - name: Conferir links internos no HTML gerado
         run: npm run check:links
       - name: Instalar Chromium para o checklist visual
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright-core install --with-deps chromium
+      # As bibliotecas do sistema não ficam no cache; com acerto, só elas são instaladas.
+      - name: Instalar as bibliotecas do sistema para o Chromium
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: npx playwright-core install-deps chromium
       - name: Checklist visual (1440 e 390, claro e escuro)
         run: npm run check:visual

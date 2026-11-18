@@ -481,7 +481,7 @@ def rota_da_pagina(path: Path, docs: Path) -> str:
 
 _EXTERNO = re.compile(r"^(https?:|mailto:|#|/)")
 _ARQUIVO_PUBLICADO = (".yaml", ".md", ".pdf")
-_EXTENSOES_PUBLICADAS = (".json", ".zip", ".txt", ".md", ".yaml", ".sql", ".pdf")
+_EXTENSOES_PUBLICADAS = (".json", ".zip", ".txt", ".md", ".yaml", ".sql", ".pdf", ".csv")
 
 
 def _sem_ancora(url: str) -> str:

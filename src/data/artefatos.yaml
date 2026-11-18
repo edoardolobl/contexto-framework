@@ -15,3 +15,7 @@ artefatos:
     desde: 2026-11-16
     origem: 'eventos diários de 2026-10-20 a 2026-11-16, com a carga de 16/11 ainda incompleta'
     padroes: ['aurora-lab2-fixture\.sql', 'aurora-lab2-reference-query\.sql']
+  - nome: 'consulta de receita de purchase (aurora-lab2-receita-purchase.sql)'
+    desde: 2026-11-17
+    origem: 'implementa KPI-AURORA-002@1.0, receita de purchase por operação e dia'
+    padroes: ['aurora-lab2-receita-purchase\.sql']

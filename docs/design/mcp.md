@@ -1,9 +1,9 @@
 # Nota de design: o Contexto como servidor MCP
 
-- **Estado:** nota de design; nada implementado
+- **Estado:** nota de design, sem código. Implementar fica para depois da v1.0, decidido no [ADR 0029](../adr/0029-agentes-e-prova.md).
 - **Data:** 2026-11-17
-- **Fase:** F6 escreve esta nota; F7 reconfere e decide se ela vira projeto ([ADR 0028](../adr/0028-saidas-para-maquinas.md))
-- **Versão alvo:** Model Context Protocol (MCP) 2026-07-28. Reconferir quando a F7 começar, porque as datas de protocolos mudam em semanas.
+- **Fase:** F6 escreveu esta nota; F7 a manteve sem código ([ADR 0028](../adr/0028-saidas-para-maquinas.md) e [ADR 0029](../adr/0029-agentes-e-prova.md)). A reconferência da versão do protocolo é pergunta em aberto do mantenedor.
+- **Versão alvo:** Model Context Protocol (MCP) 2026-07-28. Reconferir antes de qualquer implementação, porque as datas de protocolos mudam em semanas.
 - **Origem:** [08-pesquisa-boas-praticas.md](../../auditoria/08-pesquisa-boas-praticas.md), AG-07; [12-incorporacoes.md](../../auditoria/12-incorporacoes.md), I-28; [ADR 0011](../adr/0011-adiar-dominio-proprio.md)
 
 ## Por que uma nota
@@ -36,7 +36,7 @@ Prompts são escolhidos pela pessoa, não pelo modelo. Podem reunir as perguntas
 ## Fora desta nota
 
 - Nenhum servidor, tool ou prompt implementado.
-- Autenticação, cache e limites de uso ficam para a F7, se a nota virar projeto.
+- Autenticação, cache e limites de uso ficam para depois da v1.0, se a nota virar projeto ([ADR 0029](../adr/0029-agentes-e-prova.md)).
 
 ## Fontes, com data
 

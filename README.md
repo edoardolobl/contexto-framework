@@ -10,7 +10,9 @@ O Contexto **não garante** o acerto de SQL, RAG, agentes ou avaliações automa
 
 https://edoardolobl.github.io/contexto-framework/
 
-## O que existe na v0.4
+## O que existe na v1.0
+
+Versão 1.0, candidata a lançamento (1.0.0-rc.1). A 1.0 final sai depois do piloto de validação com pessoas, registrado em `docs/piloto/` ([ADR 0029](docs/adr/0029-agentes-e-prova.md)).
 
 ### Núcleo transversal
 - Percurso em **sete passos**, da pergunta de negócio ao teste com a ferramenta de IA ([ADR 0023](docs/adr/0023-percurso-em-sete-passos.md));

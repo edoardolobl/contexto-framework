@@ -1,8 +1,8 @@
 # 0023. Percurso em sete passos
 
-- **Estado:** Proposto
+- **Estado:** Aceito
 - **Data:** 2026-11-17
-- **Proposto por:** auditoria (F2)
+- **Decidido por:** mantenedor (texto proposto pela auditoria (F2); aceito pelo [ADR 0030](./0030-decisoes-do-mantenedor-depois-das-fases.md))
 - **Origem:** [10-direcao-proposta.md](../../auditoria/10-direcao-proposta.md), seção 1.5, item 2; [05-navegacao-e-ux.md](../../auditoria/05-navegacao-e-ux.md), NAV-03 a NAV-07, NAV-13 e NAV-14; [12-incorporacoes.md](../../auditoria/12-incorporacoes.md), I-06
 
 ## Contexto

@@ -259,6 +259,7 @@ def test_arquivo_de_download_devolve_caminho_relativo(url: str, esperado: str | 
         ("/a/b/", "../../documentos/KPI-A-001@2.0.md", "documentos/KPI-A-001@2.0.md"),
         ("/a/", "kit.zip?v=1", "a/kit.zip"),
         ("/a/", "x.sql", "a/x.sql"),
+        ("/usar-com-ia/x/", "../../downloads/plano-de-mensuracao-modelo.csv", "downloads/plano-de-mensuracao-modelo.csv"),
         ("/a/", "../metodo/limites/", None),
         ("/a/", "../metodo/versao-1.0/", None),
         ("/a/", "https://x.org/a.json", None),

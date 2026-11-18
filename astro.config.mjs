@@ -94,12 +94,12 @@ export default defineConfig({
           'dados/visao-geral', 'fundamentos/conhecimento-tacito', 'metodo/limites'
         ] },
         { label: 'Consultar', collapsed: true, items: [
-          'metodo/oito-dimensoes', 'referencias/cenarios-de-mensuracao', 'fundamentos/como-ler-os-campos', 'referencias/campos', 'referencias/migracao-schema-1-0', 'referencias/correspondencia-odcs',
+          'metodo/oito-dimensoes', 'referencias/cenarios-de-mensuracao', 'fundamentos/como-ler-os-campos', 'referencias/campos', 'referencias/correspondencia-odcs',
           'metodo/identificacao-versoes',
           'governanca/papeis', 'referencias', 'sobre/creditos'
         ] },
         { label: 'Usar com IA', items: [
-          'usar-com-ia/kit-para-agentes', 'usar-com-ia/agents-md', 'usar-com-ia/preparar-para-notebooklm-ou-rag',
+          'usar-com-ia/kit-para-agentes', 'usar-com-ia/agents-md', 'usar-com-ia/plano-de-mensuracao-em-planilha', 'usar-com-ia/preparar-para-notebooklm-ou-rag',
           'usar-com-ia/enderecos-e-schemas'
         ] }
       ]

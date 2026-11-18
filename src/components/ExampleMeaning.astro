@@ -279,14 +279,14 @@ switch (doc.type) {
   case 'dataset':
     add('O que cada registro representa', [
       ...question(),
-      ...pair('Tabela', doc.dataset?.physical_name),
+      ...pair('Tabela', doc.dataset?.physicalName),
       ...pair('Objetivo', doc.intent?.purpose),
       ...pair('Granularidade (uma linha)', doc.dataset?.grain, true),
       ...pair('Chave primária', doc.dataset?.primary_key),
       ...pair('Tempo e atualização', doc.time_semantics?.timezone),
     ]);
     add('Dicionário dos campos', [], [], (doc.columns ?? []).map((v: any) => ({
-      heading: `${display(v.business_name)} · ${display(v.physical_name)}`,
+      heading: `${display(v.businessName)} · ${display(v.physicalName)}`,
       body: display(v.meaning),
       note: present(v.allowed_values) ? `Valores documentados: ${display(v.allowed_values)}` : undefined,
       detail: present(v.do_not_use_for) ? `Não usar para: ${display(v.do_not_use_for)}` : undefined,
@@ -381,7 +381,10 @@ switch (doc.type) {
         : v.expected_behavior === 'clarify'
         ? `Pedir esclarecimento: ${display(v.reference_answer ?? v.ambiguity)}`
         : `Não responder com número: ${display(v.reason_if_abstain)}`,
-      note: present(v.evidence_description) ? `Fundamento: ${display(v.evidence_description)}` : undefined,
+      note: [
+        ...(v.also_accepted ?? []).map((a: any) => `Outra forma aceita (${display(a.behavior)}): ${display(a.condition)}`),
+        ...(present(v.evidence_description) ? [`Fundamento: ${display(v.evidence_description)}`] : []),
+      ].join('. ') || undefined,
     })));
     break;
   default:

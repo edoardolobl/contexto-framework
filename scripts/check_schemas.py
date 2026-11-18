@@ -96,6 +96,20 @@ def erros_de_publicacao(dados: dict[str, Any], modelo: bool) -> list[str]:
     return erros
 
 
+def erros_de_perguntas(dados: dict[str, Any]) -> list[str]:
+    """also_accepted não pode repetir o expected_behavior da mesma pergunta (o esperado já vale)."""
+    perguntas = dados.get("questions")
+    if not isinstance(perguntas, list):
+        return []
+    erros: list[str] = []
+    for pergunta in (q for q in perguntas if isinstance(q, dict) and isinstance(q.get("also_accepted"), list)):
+        for aceita in (a for a in pergunta["also_accepted"] if isinstance(a, dict)):
+            if aceita.get("behavior") == pergunta.get("expected_behavior"):
+                erros.append(f"questions.{pergunta.get('id')}.also_accepted: behavior {aceita.get('behavior')!r} "
+                             "repete o expected_behavior da mesma pergunta")
+    return erros
+
+
 def erros_de_campos(itens: list[dict[str, Any]], chaves_do_comum: set[str]) -> list[str]:
     """Regras de src/data/campos.yaml: ordem do cabeçalho, chaves no comum e núcleo curto (ADR 0006)."""
     erros = []
@@ -110,6 +124,37 @@ def erros_de_campos(itens: list[dict[str, Any]], chaves_do_comum: set[str]) -> l
     obrigatorios = sum(1 for i in itens if i.get("obrigatorio") is True)
     if obrigatorios > MAX_OBRIGATORIOS_NO_NUCLEO:
         erros.append(f"{obrigatorios} campos obrigatórios; o núcleo curto aceita no máximo {MAX_OBRIGATORIOS_NO_NUCLEO} (ADR 0006)")
+    return erros
+
+
+def titulo_do_campo(schema: dict[str, Any], chave: str) -> str | None:
+    """Título de um campo do tipo pelo caminho com pontos ("dataset.physicalName", "columns[].physicalType")."""
+    no: Any = schema
+    for parte in chave.split("."):
+        lista = parte.endswith("[]")
+        nome = parte[:-2] if lista else parte
+        no = (no.get("properties") or {}).get(nome) if isinstance(no, dict) else None
+        if not isinstance(no, dict):
+            return None
+        if lista:
+            no = no.get("items") if no.get("type") == "array" else None
+    titulo = no.get("title") if isinstance(no, dict) else None
+    return titulo if isinstance(titulo, str) else None
+
+
+def erros_de_rotulos_do_tipo(itens: list[dict[str, Any]], schemas: dict[str, dict[str, Any]]) -> list[str]:
+    """Seção campos_do_tipo de src/data/campos.yaml: cada rótulo repete o title do campo no schema do tipo."""
+    erros = []
+    for item in itens:
+        tipo, chave, rotulo = item.get("tipo"), str(item.get("chave", "")), item.get("rotulo")
+        if tipo not in schemas:
+            erros.append(f"campos_do_tipo: o tipo {tipo} não tem schema")
+            continue
+        titulo = titulo_do_campo(schemas[tipo], chave)
+        if titulo is None:
+            erros.append(f"campos_do_tipo: a chave {chave} não existe no schema {tipo}")
+        elif titulo != rotulo:
+            erros.append(f"campos_do_tipo: o rótulo de {tipo} {chave} é \"{rotulo}\", mas o schema diz \"{titulo}\"")
     return erros
 
 
@@ -177,6 +222,9 @@ def _checar_fonte(caminho: Path, modelo: bool, schemas: dict[str, dict[str, Any]
         relatorio.erro(caminho, erro)
     validador = Draft202012Validator(schemas[tipo], registry=registro, format_checker=FormatChecker())
     _validar(caminho, dados, validador, relatorio)
+    if tipo == "perguntas-de-negocio":
+        for erro in erros_de_perguntas(dados):
+            relatorio.erro(caminho, erro)
 
 
 def _checar_vinculos(raiz: Path, slugs: list[str], schemas: dict[str, dict[str, Any]], relatorio: Relatorio) -> None:
@@ -193,7 +241,8 @@ def _checar_vinculos(raiz: Path, slugs: list[str], schemas: dict[str, dict[str, 
             relatorio.erro(fonte, "modelo sem tipo correspondente em src/data/modelos.yaml")
 
 
-def _checar_campos(raiz: Path, comum_schema: dict[str, Any] | None, relatorio: Relatorio) -> None:
+def _checar_campos(raiz: Path, schemas: dict[str, dict[str, Any]], relatorio: Relatorio) -> None:
+    comum_schema = schemas.get("common")
     caminho = raiz / "src" / "data" / "campos.yaml"
     dados = carregar_yaml(caminho, relatorio)
     if dados is None:
@@ -204,6 +253,12 @@ def _checar_campos(raiz: Path, comum_schema: dict[str, Any] | None, relatorio: R
         return
     propriedades = set((comum_schema or {}).get("properties", {}))
     for erro in erros_de_campos(itens, propriedades):
+        relatorio.erro(caminho, erro)
+    do_tipo = dados.get("campos_do_tipo", [])
+    if not isinstance(do_tipo, list) or not all(isinstance(i, dict) for i in do_tipo):
+        relatorio.erro(caminho, "campos_do_tipo deve ser uma lista de mapas")
+        return
+    for erro in erros_de_rotulos_do_tipo(do_tipo, schemas):
         relatorio.erro(caminho, erro)
 
 
@@ -224,7 +279,7 @@ def executar(raiz: Path) -> tuple[Relatorio, int, int]:
         _checar_fonte(fonte, False, schemas, registro, relatorio)
     slugs = [m.slug for m in carregar_modelos(raiz / "src" / "data" / "modelos.yaml", relatorio)]
     _checar_vinculos(raiz, slugs, schemas, relatorio)
-    _checar_campos(raiz, schemas.get("common"), relatorio)
+    _checar_campos(raiz, schemas, relatorio)
     return relatorio, len(modelos), len(exemplos)
 
 

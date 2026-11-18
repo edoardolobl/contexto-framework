@@ -59,10 +59,14 @@ class TestDescricaoTautologica:
 
 class TestPares:
     def test_encontra_pares_nome_e_significado_em_qualquer_nivel(self):
-        dados = {"columns": [{"physical_name": "channel", "business_name": "Canal", "meaning": "canal"}]}
+        dados = {"columns": [{"physicalName": "channel", "businessName": "Canal", "meaning": "canal"}]}
         pares = list(h.pares_nome_descricao(dados))
         assert ("Canal", "canal") in pares
         assert ("channel", "canal") in pares
+
+    def test_chaves_antigas_em_snake_case_nao_formam_par(self):
+        dados = {"columns": [{"physical_name": "channel", "business_name": "Canal", "meaning": "canal"}]}
+        assert list(h.pares_nome_descricao(dados)) == []
 
     def test_ignora_mapas_sem_descricao(self):
         assert list(h.pares_nome_descricao({"name": "x", "type": "string"})) == []
@@ -90,6 +94,23 @@ class TestVersao:
             "src/content/docs/index.mdx": "0.4",
             "CHANGELOG.md": "0.4",
         }
+
+    def _raiz_com_changelog(self, tmp_path: Path, changelog: str, versao: str = "1.0.0-rc.1") -> Path:
+        (tmp_path / "package.json").write_text(f'{{"version": "{versao}"}}', encoding="utf-8")
+        (tmp_path / "README.md").write_text("## O que existe na v1.0\n", encoding="utf-8")
+        docs = tmp_path / "src" / "content" / "docs"
+        docs.mkdir(parents=True)
+        (docs / "index.mdx").write_text("Versão 1.0 · exemplos\n", encoding="utf-8")
+        (tmp_path / "CHANGELOG.md").write_text(changelog, encoding="utf-8")
+        return tmp_path
+
+    def test_changelog_com_pre_lancamento_fica_em_1_0_e_bate_com_as_outras_fontes(self, tmp_path: Path):
+        raiz = self._raiz_com_changelog(tmp_path, "## [Não lançado]\n\n## [1.0.0-rc.1] - 2026-11-17\n")
+        assert set(h.versoes_do_produto(raiz).values()) == {"1.0"}
+
+    def test_nao_lancado_sozinho_nao_conta_como_versao(self, tmp_path: Path):
+        raiz = self._raiz_com_changelog(tmp_path, "## [Não lançado]\n")
+        assert h.versoes_do_produto(raiz)["CHANGELOG.md"] is None
 
     def test_fonte_sem_versao_aparece_como_none(self, tmp_path: Path):
         (tmp_path / "package.json").write_text('{"version": "0.4.0"}', encoding="utf-8")

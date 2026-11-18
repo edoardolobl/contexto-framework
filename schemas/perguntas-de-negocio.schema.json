@@ -105,6 +105,36 @@
               null
             ]
           },
+          "also_accepted": {
+            "title": "Outras formas aceitas",
+            "description": "Opcional. Outros comportamentos que também valem, cada um com a condição que a resposta precisa cumprir. Não repete o comportamento esperado.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "behavior",
+                "condition"
+              ],
+              "properties": {
+                "behavior": {
+                  "title": "Comportamento aceito",
+                  "description": "answer (responder), clarify (pedir esclarecimento) ou abstain (não responder); diferente do comportamento esperado.",
+                  "enum": [
+                    "answer",
+                    "clarify",
+                    "abstain"
+                  ]
+                },
+                "condition": {
+                  "title": "Condição",
+                  "description": "O que a resposta precisa fazer para valer.",
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "additionalProperties": false
+            }
+          },
           "reference_answer": {
             "title": "Resposta esperada",
             "description": "A resposta conferida; null quando o comportamento é não responder.",

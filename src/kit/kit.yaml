@@ -6,10 +6,15 @@ dados:
   - aurora-reference-query.sql
   - aurora-lab2-fixture.sql
   - aurora-lab2-reference-query.sql
+  - aurora-lab2-receita-purchase.sql
 # Por skill: ids de documento copiados para references/ (versão aprovada vigente).
 skills:
   auditar-coleta:
     - DECISION-AURORA-EVENTO-QUEBRADO
+    - EVENT-AURORA-GENERATE-LEAD
+  contexto-elicitar: []
+  contexto-consultar: []
+  importar-plano-de-mensuracao:
     - EVENT-AURORA-GENERATE-LEAD
 # Termos do glossário que não têm campo próprio num documento. Cada um cita o documento aprovado que o define,
 # e o glossário mostra a versão aprovada vigente desse documento. Conceitos, indicadores e eventos entram sozinhos.

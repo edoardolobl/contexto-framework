@@ -1,8 +1,8 @@
 # 0027. Evento de coleta e laboratório de mensuração
 
-- **Estado:** Proposto
+- **Estado:** Aceito
 - **Data:** 2026-11-17
-- **Proposto por:** F4 (fase Mensuração; quando aceito, vira "**Decidido por:** mantenedor")
+- **Decidido por:** mantenedor (texto proposto na F4; aceito pelo [ADR 0030](./0030-decisoes-do-mantenedor-depois-das-fases.md))
 - **Origem:** [10-direcao-proposta.md](../../auditoria/10-direcao-proposta.md), fase F4; [09-casos-de-uso.md](../../auditoria/09-casos-de-uso.md), casos 1 e 3; [12-incorporacoes.md](../../auditoria/12-incorporacoes.md), I-18 a I-23
 
 ## Contexto

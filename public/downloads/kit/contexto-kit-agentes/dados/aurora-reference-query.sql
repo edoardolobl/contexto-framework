@@ -1,18 +1,19 @@
 -- Exemplo do Contexto. A Aurora é uma organização inventada; nomes, datas e aprovações fazem parte do caso.
+-- Nomes no BigQuery: sessoes_web é aurora-analytics.web.sessoes_web; pedidos é aurora-analytics.vendas.pedidos.
 -- CONTEXTO: taxa de sessões web convertidas na amostra Aurora.
 -- Definição da Aurora (KPI-AURORA-001, versão 2.0); não equivale ao indicador de outra empresa.
 -- Denominador: sessões web não internas em 2026-10-01.
 -- Numerador: sessões elegíveis com pelo menos um pedido confirmado.
 -- Resultado esperado: 25.0.
 WITH eligible_sessions AS (
-  SELECT session_id FROM demo_sessions
+  SELECT session_id FROM sessoes_web
   WHERE channel = 'web'
     AND is_internal = 0
     AND session_date = '2026-10-01'
 ),
 converted_sessions AS (
   SELECT DISTINCT o.session_id
-  FROM demo_orders AS o
+  FROM pedidos AS o
   JOIN eligible_sessions AS s
     ON s.session_id = o.session_id
   WHERE o.status_code = 'CONFIRMED'

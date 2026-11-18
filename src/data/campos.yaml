@@ -118,3 +118,37 @@ cabecalho:
     rotulo: Histórico de versões
     obrigatorio: false
     descricao: Uma entrada por versão, a mais recente primeiro, com data, o que mudou na regra e quem aprovou. O resumo não substitui a cópia completa de cada versão aprovada.
+
+# Rótulos de campos do tipo que precisam de nome em português fixo (ADR 0015 e ADR 0030).
+# Cada rótulo repete o title do campo em schemas/<tipo>.schema.json; scripts/check_schemas.py confere.
+# Campos de cada item: tipo (slug do modelo), chave (caminho com pontos; [] marca item de lista),
+# rotulo e descricao.
+campos_do_tipo:
+  - tipo: dataset
+    chave: dataset.physicalName
+    rotulo: Nome físico
+    descricao: Nome completo da tabela no banco, como aurora-analytics.web.sessoes_web. A chave segue o ODCS 3.2.0.
+  - tipo: dataset
+    chave: columns[].physicalName
+    rotulo: Nome físico
+    descricao: Nome da coluna como está no banco. A chave segue o ODCS 3.2.0.
+  - tipo: dataset
+    chave: columns[].physicalType
+    rotulo: Tipo técnico
+    descricao: Tipo da coluna no banco, como TEXT ou INTEGER. A chave segue o ODCS 3.2.0.
+  - tipo: dataset
+    chave: columns[].businessName
+    rotulo: Nome de negócio
+    descricao: Nome que a área usa para a coluna. A chave segue o ODCS 3.2.0.
+  - tipo: perguntas-de-negocio
+    chave: questions[].also_accepted
+    rotulo: Outras formas aceitas
+    descricao: Opcional. Outro comportamento que também vale para a pergunta, com a condição que a resposta precisa cumprir. Não repete o comportamento esperado.
+  - tipo: perguntas-de-negocio
+    chave: questions[].also_accepted[].behavior
+    rotulo: Comportamento aceito
+    descricao: answer (responder), clarify (pedir esclarecimento) ou abstain (não responder), diferente do comportamento esperado.
+  - tipo: perguntas-de-negocio
+    chave: questions[].also_accepted[].condition
+    rotulo: Condição
+    descricao: O que a resposta precisa fazer para valer, como dizer que no México o evento não está ativo.

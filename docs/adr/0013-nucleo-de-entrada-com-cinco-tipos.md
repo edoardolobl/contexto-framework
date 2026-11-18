@@ -16,6 +16,7 @@ O portal oferece dez tipos de modelo lado a lado, sem dizer por onde começar (N
 - **Segundo nível:** Conceito, Política, Processo e Dashboard.
 - **Trilha complementar:** Rubrica ([0003](./0003-rubrica-em-trilha-complementar.md)).
 - Como os tipos atuais Dataset e Relacionamento se juntam em "Dataset com relacionamentos", e Decisão vira "Regra e decisão", fica em aberto até a F3.
+  - **Fechado em 2026-11-17 pelo [ADR 0030](./0030-decisoes-do-mantenedor-depois-das-fases.md):** os tipos ficam separados. Dataset, Relacionamento e Decisão continuam como modelos próprios, sem fusão.
 
 ## Alternativas consideradas
 

@@ -372,3 +372,131 @@ def test_executar_acusa_source_url_errado_no_exemplo(tmp_path: Path):
     arq.write_text(arq.read_text(encoding="utf-8").replace(url_do_documento("KPI-A-001", "1.0"), "https://x.org/a.md"),
                    encoding="utf-8")
     assert any("source_url" in e and "documentos/KPI-A-001@1.0.md" in e for e in erros(tmp_path))
+
+
+# ---------- also_accepted nas perguntas de negócio (ADR 0021, QA-AURORA-002@1.1) ----------
+
+def _perguntas_reais() -> dict:
+    import copy
+    lido = comum.ler_frontmatter(comum.ROOT / "src/exemplos/exemplo-perguntas-de-negocio-eventos-completo.md", comum.Relatorio())
+    assert lido is not None
+    return copy.deepcopy(lido[0])
+
+
+def _erros_do_schema_de_perguntas(dados: dict) -> list[str]:
+    relatorio = comum.Relatorio()
+    schemas = cs._carregar_schemas(comum.ROOT / "schemas", relatorio)
+    validador = cs.Draft202012Validator(schemas["perguntas-de-negocio"], registry=cs._registro(schemas),
+                                        format_checker=cs.FormatChecker())
+    return [e.message for e in validador.iter_errors(cs.para_json(dados))]
+
+
+def _com_also_accepted(valor) -> dict:
+    dados = _perguntas_reais()
+    pergunta = next(q for q in dados["questions"] if q["id"] == "Q03")
+    pergunta["also_accepted"] = valor
+    return dados
+
+
+def test_also_accepted_valido_passa_no_schema():
+    valor = [{"behavior": "answer", "condition": "avalia Brasil e México"}]
+    assert _erros_do_schema_de_perguntas(_com_also_accepted(valor)) == []
+
+
+def test_pergunta_sem_also_accepted_continua_valida():
+    assert _erros_do_schema_de_perguntas(_perguntas_reais()) == []
+
+
+@pytest.mark.parametrize("valor", [
+    [{"behavior": "guess", "condition": "x"}],
+    [{"behavior": None, "condition": "x"}],
+    [{"behavior": "answer", "condition": ""}],
+    [{"behavior": "answer", "condition": None}],
+    [{"behavior": "answer"}],
+    [{"condition": "x"}],
+    [{"behavior": "answer", "condition": "x", "extra": 1}],
+    {"behavior": "answer", "condition": "x"},
+    ["answer"],
+])
+def test_also_accepted_invalido_falha_no_schema(valor):
+    assert _erros_do_schema_de_perguntas(_com_also_accepted(valor)) != []
+
+
+def test_also_accepted_com_comportamento_diferente_do_esperado_passa_na_checagem_semantica():
+    dados = _com_also_accepted([{"behavior": "answer", "condition": "x"}])
+    assert cs.erros_de_perguntas(dados) == []
+
+
+def test_also_accepted_repetindo_o_expected_behavior_e_acusado():
+    dados = _com_also_accepted([{"behavior": "clarify", "condition": "x"}])
+    erros_ = cs.erros_de_perguntas(dados)
+    assert len(erros_) == 1 and "Q03" in erros_[0] and "clarify" in erros_[0]
+
+
+def test_checagem_semantica_ignora_perguntas_sem_also_accepted_e_listas_malformadas():
+    assert cs.erros_de_perguntas({"questions": [{"id": "Q1", "expected_behavior": "answer"}]}) == []
+    assert cs.erros_de_perguntas({"questions": "x"}) == []
+    assert cs.erros_de_perguntas({}) == []
+    assert cs.erros_de_perguntas({"questions": [{"id": "Q1", "expected_behavior": "answer", "also_accepted": "x"}]}) == []
+
+
+def test_executar_acusa_also_accepted_repetido_no_exemplo(tmp_path: Path):
+    montar(tmp_path)
+    (tmp_path / "schemas/perguntas-de-negocio.schema.json").write_text(json.dumps(
+        {"$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "urn:contexto:schemas:1.0.0:perguntas-de-negocio",
+         "allOf": [{"$ref": "urn:contexto:schemas:1.0.0:common"}]}), encoding="utf-8")
+    (tmp_path / "src/data/modelos.yaml").write_text(
+        MODELOS_YAML + MODELOS_YAML.split("tipos:\n")[1].replace("kpi", "perguntas-de-negocio"), encoding="utf-8")
+    (tmp_path / "src/modelos/perguntas-de-negocio.md").write_text(
+        fonte_do_modelo().replace("type: kpi", "type: perguntas-de-negocio"), encoding="utf-8")
+    (tmp_path / "src/exemplos/exemplo-perguntas-de-negocio-completo.md").write_text(
+        "---\nid: QA-A-001\nschema_version: \"1.1.0\"\ntype: perguntas-de-negocio\nversion: \"1.0\"\nvalid_from: 2026-09-15\n"
+        f"license: CC-BY-4.0\nsource_url: {url_do_documento('QA-A-001', '1.0')}\nintent:\n  question: Q?\n"
+        "questions:\n  - id: Q01\n    expected_behavior: clarify\n    also_accepted:\n      - {behavior: clarify, condition: x}\n---\ncorpo\n",
+        encoding="utf-8")
+    assert any("Q01" in e and "also_accepted" in e for e in erros(tmp_path))
+
+
+# ---------- rótulos de campos do tipo em src/data/campos.yaml (ADR 0015, ADR 0030) ----------
+
+SCHEMA_DE_TIPO = {
+    "properties": {
+        "dataset": {"type": "object", "properties": {"physicalName": {"title": "Nome físico"}}},
+        "columns": {"type": "array", "items": {"type": "object", "properties": {"businessName": {"title": "Nome de negócio"}}}},
+    }
+}
+
+
+def test_titulo_do_campo_segue_pontos_e_colchetes():
+    assert cs.titulo_do_campo(SCHEMA_DE_TIPO, "dataset.physicalName") == "Nome físico"
+    assert cs.titulo_do_campo(SCHEMA_DE_TIPO, "columns[].businessName") == "Nome de negócio"
+
+
+def test_titulo_do_campo_inexistente_e_none():
+    assert cs.titulo_do_campo(SCHEMA_DE_TIPO, "columns[].physical_name") is None
+    assert cs.titulo_do_campo(SCHEMA_DE_TIPO, "dataset[].physicalName") is None
+
+
+def test_rotulo_igual_ao_titulo_do_schema_passa():
+    itens = [{"tipo": "dataset", "chave": "dataset.physicalName", "rotulo": "Nome físico", "descricao": "x"}]
+    assert cs.erros_de_rotulos_do_tipo(itens, {"dataset": SCHEMA_DE_TIPO}) == []
+
+
+def test_rotulo_diferente_do_titulo_do_schema_e_acusado():
+    itens = [{"tipo": "dataset", "chave": "dataset.physicalName", "rotulo": "Tabela", "descricao": "x"}]
+    assert any("Nome físico" in e for e in cs.erros_de_rotulos_do_tipo(itens, {"dataset": SCHEMA_DE_TIPO}))
+
+
+def test_chave_ou_tipo_desconhecido_e_acusado():
+    itens = [{"tipo": "dataset", "chave": "columns[].physical_name", "rotulo": "Nome físico", "descricao": "x"},
+             {"tipo": "kpi", "chave": "domain", "rotulo": "Domínio", "descricao": "x"}]
+    erros = cs.erros_de_rotulos_do_tipo(itens, {"dataset": SCHEMA_DE_TIPO})
+    assert any("columns[].physical_name" in e for e in erros)
+    assert any("kpi" in e for e in erros)
+
+
+def test_campos_yaml_real_tem_rotulos_de_also_accepted_e_das_chaves_do_odcs():
+    dados = comum.carregar_yaml(comum.ROOT / "src/data/campos.yaml", comum.Relatorio())
+    chaves = {(i["tipo"], i["chave"]) for i in dados["campos_do_tipo"]}
+    assert ("perguntas-de-negocio", "questions[].also_accepted") in chaves
+    assert ("dataset", "columns[].physicalType") in chaves

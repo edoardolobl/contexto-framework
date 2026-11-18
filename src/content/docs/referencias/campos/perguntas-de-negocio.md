@@ -58,6 +58,9 @@ Depois do cabeçalho, o modelo Perguntas de negócio tem estes campos.
 | Outras formas de perguntar | `questions[].phrasings` | lista de textos | Opcional: variações da mesma pergunta. |
 | Pergunta de entrada | `questions[].onboarding` | sim ou não (true ou false) | Opcional: true se todo agente novo precisa acertar esta pergunta. |
 | Comportamento esperado | `questions[].expected_behavior` | um destes: answer, clarify, abstain | answer (responder), clarify (pedir esclarecimento) ou abstain (não responder). |
+| Outras formas aceitas | `questions[].also_accepted` | lista de grupos de campos | Opcional. Outros comportamentos que também valem, cada um com a condição que a resposta precisa cumprir. Não repete o comportamento esperado. |
+| Comportamento aceito | `questions[].also_accepted[].behavior` | um destes: answer, clarify, abstain | answer (responder), clarify (pedir esclarecimento) ou abstain (não responder); diferente do comportamento esperado. |
+| Condição | `questions[].also_accepted[].condition` | texto | O que a resposta precisa fazer para valer. |
 | Resposta esperada | `questions[].reference_answer` | texto | A resposta conferida; null quando o comportamento é não responder. |
 | Consulta da resposta | `questions[].reference_sql` | texto | Opcional, para quem é técnico: arquivo ou consulta que calcula a resposta. |
 | Fontes | `questions[].required_sources` | lista de textos | Documentos e arquivos que sustentam a resposta. |

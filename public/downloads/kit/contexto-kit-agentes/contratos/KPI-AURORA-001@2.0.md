@@ -74,19 +74,19 @@ history_recalculation:
   policy: method_break
   description: "A série calculada pela 1.0 não é recalculada. Números de antes de 15/09/2026 contam pedidos e não se comparam com os da 2.0."
 time:
-  reference_date_field: demo_sessions.session_date
+  reference_date_field: aurora-analytics.web.sessoes_web.session_date
   timezone: "Data local da loja, já gravada em session_date"
   reporting_window: "Diária"
   data_freshness: "Carga estática no laboratório"
 data_sources:
   authoritative_dataset: DATASET-AURORA-SESSIONS
   relevant_columns:
-    - demo_sessions.session_id
-    - demo_sessions.channel
-    - demo_sessions.is_internal
-    - demo_sessions.session_date
-    - demo_orders.session_id
-    - demo_orders.status_code
+    - aurora-analytics.web.sessoes_web.session_id
+    - aurora-analytics.web.sessoes_web.channel
+    - aurora-analytics.web.sessoes_web.is_internal
+    - aurora-analytics.web.sessoes_web.session_date
+    - aurora-analytics.vendas.pedidos.session_id
+    - aurora-analytics.vendas.pedidos.status_code
   valid_join_paths: [REL-AURORA-SESSIONS-ORDERS]
   source_conflicts_and_precedence: ["Se um dashboard mostrar valor diferente, vale o cálculo de aurora-reference-query.sql"]
 validation:

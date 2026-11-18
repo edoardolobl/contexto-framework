@@ -19,7 +19,9 @@ O gerador copia os dois arquivos do kit para a pasta `references/`.
 
 ## Passos
 
-1. **Identifique o evento e a operação.** Se a pergunta não disser a operação e o evento existir em mais de uma, pergunte qual é antes de fazer qualquer conta. Desfecho: pedir esclarecimento.
+1. **Identifique o escopo da pergunta.**
+   - **Pergunta sobre o plano inteiro** (por exemplo, "quais eventos pararam?"): não pergunte a operação. Avalie cada evento em cada operação do plano, separadamente, com os passos 2 a 6, e responda com uma linha por evento e operação.
+   - **Pergunta sobre um evento nomeado, sem dizer a operação:** se o evento estiver ativo em mais de uma operação e o desfecho puder mudar de uma para outra, pergunte qual é antes de fazer qualquer conta (desfecho: pedir esclarecimento). Se ele estiver ativo em uma só, ou se o desfecho for o mesmo em todas, avalie todas e diga em quais o evento não está ativo.
 2. **Confira se o evento está ativo naquela operação.** Veja `active_scopes` no Evento de coleta. Se estiver inativo, o zero é esperado e não há quebra. Se não houver registro, pergunte.
 3. **Tire da conta os dias incompletos.** Um dia só conta depois de fechar, que é D+2 às 06h no fuso da operação quando o Evento de coleta usa essa regra. Falta de linha na tabela diária é zero, mas um dia incompleto não entra na conta. Se o dia avaliado ainda não fechou, abstenha-se e diga quando a resposta sai.
 4. **Meça a sequência atual e compare.** Conte os dias completos seguidos sem disparo, só na operação em questão. Compare com a linha de base da mesma operação, se o evento tem histórico suficiente, e com a tolerância ao silêncio do Evento de coleta. Verifique também se uma exceção conhecida, registrada e aprovada no Evento de coleta cobre o período.
