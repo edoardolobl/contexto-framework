@@ -1,0 +1,194 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edoardolobl.github.io/contexto-framework/schemas/1.0.0/conceito.schema.json",
+  "title": "Conceito",
+  "description": "O significado de um termo no contexto da organização, com os limites. O vocabulário segue o SKOS (I-12).",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "https://edoardolobl.github.io/contexto-framework/schemas/1.0.0/common.schema.json"
+    }
+  ],
+  "properties": {
+    "type": {
+      "const": "conceito"
+    },
+    "domain": {
+      "title": "Domínio",
+      "description": "Área em que o termo tem este significado; em outra área ele pode querer dizer outra coisa.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "scope": {
+      "title": "Aplicabilidade",
+      "description": "Quando a definição vale e quando não deve ser usada.",
+      "type": "object",
+      "properties": {
+        "applies_when": {
+          "title": "Quando se aplica",
+          "description": "Situações em que a definição deve ser usada.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "does_not_apply_when": {
+          "title": "Quando não se aplica",
+          "description": "Situações em que usar a definição leva a erro.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "vocabulary": {
+      "title": "Vocabulário (SKOS)",
+      "description": "Termo preferido, sinônimos, termo mais amplo, relacionados e o que não confundir.",
+      "type": "object",
+      "properties": {
+        "prefLabel": {
+          "title": "Termo preferido",
+          "description": "O nome que todos devem usar nos relatórios.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "altLabel": {
+          "title": "Sinônimos",
+          "description": "Nomes de fato equivalentes; nome só parecido vai em related ou not_synonyms.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "broader": {
+          "title": "Termo mais amplo",
+          "description": "Conceito que inclui este (por exemplo, participante inclui participante ativo).",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "related": {
+          "title": "Termos relacionados",
+          "description": "Termos ligados a este que não são equivalentes.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "not_synonyms": {
+          "title": "Não confundir com",
+          "description": "Termos que parecem sinônimos e não são; o erro mais comum fica aqui.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "other_domain_meanings": {
+          "title": "Significados em outras áreas",
+          "description": "O que a mesma palavra quer dizer em outra área.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "definition": {
+      "title": "Definição",
+      "description": "Definição completa, com período e condições, que permita classificar um caso sem perguntar a ninguém.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "inclusion_criteria": {
+      "title": "Critérios de inclusão",
+      "description": "Condições que, juntas, fazem um caso pertencer ao conceito.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "exclusion_criteria": {
+      "title": "Critérios de exclusão",
+      "description": "Condições que tiram um caso do conceito, com o nome do que ele passa a ser.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "examples": {
+      "title": "Exemplos",
+      "description": "Casos concretos que pertencem, com datas.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "counterexamples": {
+      "title": "Contraexemplos",
+      "description": "Casos concretos que não pertencem, com o motivo.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "boundary_cases": {
+      "title": "Casos-limite",
+      "description": "Casos no limite da definição e como classificá-los.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "validation": {
+      "title": "Confirmação",
+      "description": "Quem confirmou o significado e com que evidência.",
+      "type": "object",
+      "properties": {
+        "decisions_confirmed_by": {
+          "title": "Confirmado por",
+          "description": "Cargo ou área que confirmou.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "confirmation_evidence": {
+          "title": "Evidência",
+          "description": "Documento que registra a confirmação, como uma ata.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "review_history": {
+          "title": "Histórico de revisões",
+          "description": "Revisões do significado, com data.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "related_documents": {
+      "title": "Documentos relacionados",
+      "description": "Identificadores de outros documentos que ajudam a ler este.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "unevaluatedProperties": false
+}

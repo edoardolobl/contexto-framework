@@ -1,6 +1,6 @@
 # Exemplo do Contexto. A Aurora é uma organização inventada; nomes, datas e aprovações fazem parte do caso.
 id: DATASET-AURORA-SESSIONS
-schema_version: "1.0.0"
+schema_version: "1.1.0"
 type: dataset
 title: "Sessões web e app: Aurora"
 version: "1.2"
@@ -16,6 +16,8 @@ review_interval: null
 source_of_truth: "Catálogo de dados da Aurora, tabela demo_sessions"
 supersedes_revision: "DATASET-AURORA-SESSIONS@1.1"
 superseded_by_revision: null
+license: CC-BY-4.0
+source_url: "https://edoardolobl.github.io/contexto-framework/documentos/DATASET-AURORA-SESSIONS@1.2.md"
 intent:
   question: "O que significa cada coluna da tabela de sessões da Aurora?"
   audience: ["Analytics de E-commerce", "Engenharia de Dados"]

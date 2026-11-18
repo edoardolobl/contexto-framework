@@ -1,12 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:contexto:schemas:1.0.0:conceito",
+  "$id": "urn:contexto:schemas:1.1.0:conceito",
   "title": "Conceito",
   "description": "O significado de um termo no contexto da organização, com os limites. O vocabulário segue o SKOS (I-12).",
   "type": "object",
   "allOf": [
     {
-      "$ref": "urn:contexto:schemas:1.0.0:common"
+      "$ref": "urn:contexto:schemas:1.1.0:common"
     }
   ],
   "properties": {

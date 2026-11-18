@@ -1,12 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:contexto:schemas:1.0.0:decisao",
+  "$id": "urn:contexto:schemas:1.1.0:decisao",
   "title": "Regra e decisão",
   "description": "Critérios verificáveis para uma decisão recorrente, com a tabela de decisão e testes descritos como pedidos reais.",
   "type": "object",
   "allOf": [
     {
-      "$ref": "urn:contexto:schemas:1.0.0:common"
+      "$ref": "urn:contexto:schemas:1.1.0:common"
     }
   ],
   "properties": {

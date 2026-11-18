@@ -98,7 +98,10 @@ export default defineConfig({
           'metodo/identificacao-versoes',
           'governanca/papeis', 'referencias', 'sobre/creditos'
         ] },
-        { label: 'Usar com IA', items: ['usar-com-ia/agents-md'] }
+        { label: 'Usar com IA', items: [
+          'usar-com-ia/kit-para-agentes', 'usar-com-ia/agents-md', 'usar-com-ia/preparar-para-notebooklm-ou-rag',
+          'usar-com-ia/enderecos-e-schemas'
+        ] }
       ]
     })
   ]

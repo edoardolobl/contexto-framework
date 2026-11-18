@@ -1,6 +1,6 @@
 # Exemplo do Contexto. A Aurora é uma organização inventada; nomes, datas e aprovações fazem parte do caso.
 id: REL-AURORA-SESSIONS-ORDERS
-schema_version: "1.0.0"
+schema_version: "1.1.0"
 type: relacionamento
 title: "Sessões para pedidos: Aurora"
 version: "2.0"
@@ -16,6 +16,8 @@ review_interval: null
 source_of_truth: "Catálogo de dados da Aurora, relacionamento sessões e pedidos"
 supersedes_revision: "REL-AURORA-SESSIONS-ORDERS@1.0"
 superseded_by_revision: null
+license: CC-BY-4.0
+source_url: "https://edoardolobl.github.io/contexto-framework/documentos/REL-AURORA-SESSIONS-ORDERS@2.0.md"
 intent:
   question: "Como ligar sessões e pedidos da Aurora sem contar a mesma sessão duas vezes?"
   audience: ["Analytics de E-commerce", "Engenharia de Dados"]

@@ -1,31 +1,122 @@
 ---
-title: Correspondência com o ODCS
-description: Quais campos do Contexto têm equivalente no ODCS 3.2.0, o padrão aberto de contratos de dados, e onde os dois diferem.
+title: Correspondência com ODCS e Ossie
+description: Quais campos do Contexto têm equivalente no ODCS 3.2.0, o padrão aberto de contratos de dados, e no Apache Ossie 0.1.1, o formato aberto de modelo semântico, e onde eles diferem.
 ---
 
-O ODCS (Open Data Contract Standard) é um padrão aberto para descrever contratos de dados entre quem produz e quem usa um dataset. A versão de referência desta página é a **3.2.0**. O Contexto não depende do ODCS: os modelos funcionam sem ele, e os oito campos do núcleo não exigem nenhuma chave do padrão. Onde o significado é o mesmo, porém, o Contexto usa o mesmo nome de chave, o que facilita levar um documento para um contrato de dados (ADR 0015).
+O ODCS (Open Data Contract Standard) é um padrão aberto para descrever contratos de dados entre quem produz e quem usa um dataset. O Apache Ossie é um formato aberto para descrever um modelo semântico: datasets, relacionamentos, `metrics` e dimensões. O Contexto não depende de nenhum dos dois: os modelos funcionam sem eles, e os oito campos do núcleo não exigem nenhuma chave desses formatos. Onde o significado é o mesmo, porém, o Contexto usa o mesmo nome de chave do ODCS, o que facilita levar um documento para um contrato de dados ([ADR 0015](https://github.com/edoardolobl/contexto-framework/blob/main/docs/adr/0015-chaves-em-ingles-rotulos-em-portugues.md)).
 
-Esta é uma tabela curta, só com as chaves principais. A tabela completa fica para a fase F6. Para o que cada campo significa no Contexto, veja [Como ler os campos](../../fundamentos/como-ler-os-campos/); para o que mudou do formato 0.x para o 1.0, veja [Migração para o schema 1.0](../migracao-schema-1-0/).
+O Ossie ainda é imaturo: a versão de referência é a 0.1.1, de dezembro de 2025, e a próxima, 0.3.0.dev0, ainda é rascunho e pode mudar. Por isso o Contexto se alinha aos conceitos do Ossie sem depender dele, e a coluna do Ossie só mostra quatro conceitos: `metrics`, dimensão (`dimension`), entidade (`datasets`) e `relationships`. O resto fica como “sem equivalente”.
 
-| Chave no Contexto | Chave no ODCS 3.2.0 | Observação |
-|---|---|---|
-| `id` | `id` | Mesmo papel: identificador estável. O ODCS sugere um código único, como um UUID; o Contexto usa um código legível, como `KPI-AURORA-001` |
-| `version` | `version` | Mesmo papel: a versão do documento, separada da versão do formato |
-| `status` | `status` | Mesma chave, valores diferentes. O Contexto usa `draft`, `pending_approval`, `approved`, `superseded` e `deprecated`; o ODCS dá como exemplos `proposed`, `draft`, `active`, `deprecated` e `retired` |
-| `title` | `name` | Nome do documento. No ODCS, `name` é o nome do contrato |
-| `intent.purpose` | `description.purpose` | Para que o documento serve. No ODCS, fica dentro de `description`, ao lado de `usage` e `limitations` |
-| `context.instructions` | `context.instructions` | Mesma grafia. Orientação em texto para a IA sobre como usar o documento |
-| `context.verifiedStatements` | `context.verifiedStatements` | Mesma grafia e mesmo formato. Perguntas típicas do assunto: cada item tem `question` e, quando quem aprova já conferiu, `answer`. O ODCS aceita outras chaves no item, como `id` e `tags`, que o Contexto ainda não usa |
-| `context.constraints` | `context.constraints` | Mesma grafia e mesmo formato. O que a IA não deve fazer com o documento, um limite por item, em `constraint` |
-| `synonyms` | `synonyms` | Mesma grafia, formato diferente. No Contexto, cada item é um texto; no ODCS, cada item é um objeto com `synonym` e, se preciso, `locale`, e fica no elemento do schema |
-| `authoritativeDefinitions` | `authoritativeDefinitions` | Mesma grafia. Links para a fonte que define o assunto, cada um com `url` e `type`. O ODCS aceita qualquer texto em `type`; os valores do Contexto (`sql`, `metricView`, `filter` e outros) não estão entre os exemplos dele |
-| `dataset.physical_name` | `schema[].physicalName` | Equivalentes. O Contexto mantém o nome em `snake_case` até a F6 |
-| `columns[].physical_name` | `schema[].properties[].physicalName` | Equivalentes. O Contexto mantém o nome em `snake_case` até a F6 |
+Algumas chaves do Contexto têm equivalente no ODCS com outra grafia, em camelCase, como `physical_name` e `physicalName`. Elas não foram renomeadas porque a troca seria uma mudança Breaking: todo documento já preenchido deixaria de valer no schema novo.
 
-Cada chave foi conferida em 17/11/2026 no JSON Schema oficial do ODCS 3.2.0, citado abaixo.
+Para o que cada campo significa no Contexto, veja [Como ler os campos](../../fundamentos/como-ler-os-campos/); para o que mudou entre as versões do formato, veja [Migração para o schema 1.0](../migracao-schema-1-0/).
+
+Conferido em 17/11/2026, no JSON Schema oficial do ODCS 3.2.0 e na especificação do Apache Ossie 0.1.1. “Parecido” quer dizer que as chaves servem a propósitos próximos, mas não iguais.
+
+## Cabeçalho comum
+
+Os campos que todo modelo tem, na mesma ordem, mais os blocos opcionais para IA.
+
+| Chave no Contexto | ODCS 3.2.0 | Apache Ossie 0.1.1 | Observação | Fonte |
+|---|---|---|---|---|
+| `id` | `id` | sem equivalente | Mesmo papel: identificador estável. O ODCS sugere um código único, como um UUID; o Contexto usa um código legível, como `KPI-AURORA-001` | [ODCS, linha 23](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L23) |
+| `schema_version` | `apiVersion` | sem equivalente | Mesmo papel: a versão do formato, não a do documento. No ODCS, o valor é a versão do padrão, como `v3.2.0` | [ODCS, linha 17](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L17) |
+| `type` | `kind` | sem equivalente | Parecido. No ODCS só existe o valor `DataContract`; no Contexto, o tipo diz qual modelo foi usado, como `kpi` | [ODCS, linha 11](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L11) |
+| `title` | `name` | sem equivalente | Nome do documento. No ODCS, `name` é o nome do contrato | [ODCS, linha 27](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L27) |
+| `version` | `version` | sem equivalente | Mesmo papel: a versão do documento, separada da versão do formato | [ODCS, linha 7](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L7) |
+| `revision_id` | sem equivalente | sem equivalente | O ODCS guarda id e versão em chaves separadas. O par `id@versão` é convenção do Contexto | [ODCS, linha 6](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L6) |
+| `status` | `status` | sem equivalente | Mesma chave, valores diferentes. O Contexto usa `draft`, `pending_approval`, `approved`, `superseded` e `deprecated`; o ODCS dá como exemplos `proposed`, `draft`, `active`, `deprecated` e `retired` | [ODCS, linha 38](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L38) |
+| `owner` | `team.members[].role` | sem equivalente | Parecido. O ODCS lista pessoas da equipe, cada uma com um papel, como `owner`; o Contexto pede um cargo ou uma área, nunca o nome de uma pessoa | [ODCS, linha 3156](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L3156) |
+| `approver` | sem equivalente | sem equivalente | Não confundir com `roles[].firstLevelApprovers`: no ODCS, quem aprova o acesso ao dataset, não a definição | [ODCS, linha 3246](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L3246) |
+| `valid_from` e `valid_to` | sem equivalente | sem equivalente | O ODCS não registra vigência | [ODCS, linha 6](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L6) |
+| `recorded_at` | sem equivalente | sem equivalente | O ODCS não registra quando a cópia de uma versão substituída foi guardada | [ODCS, linha 6](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L6) |
+| `version_date` | `contractCreatedTs` | sem equivalente | Parecido. No ODCS, o momento em que o contrato foi criado, com hora em UTC; no Contexto, o dia desta versão | [ODCS, linha 143](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L143) |
+| `last_reviewed` e `review_interval` | sem equivalente | sem equivalente | O ODCS não tem data nem intervalo de revisão | [ODCS, linha 6](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L6) |
+| `source_of_truth` | sem equivalente | sem equivalente | O mais próximo é `authoritativeDefinitions`, que no Contexto tem outro uso (linha abaixo) | [ODCS, linha 137](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L137) |
+| `supersedes_revision` e `superseded_by_revision` | sem equivalente | sem equivalente | O ODCS não liga uma versão à anterior nem à seguinte | [ODCS, linha 6](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L6) |
+| `license` | sem equivalente | sem equivalente | O ODCS 3.2.0 não tem chave de licença. O Contexto usa um identificador SPDX, como `CC-BY-4.0` | [ODCS, linha 6](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L6) |
+| `source_url` | `authoritativeDefinitions[]` com `type: canonicalUrl` | sem equivalente | Parecido. O ODCS sugere o tipo `canonicalUrl` para o endereço oficial; o Contexto guarda o endereço publicado desta versão numa chave própria | [ODCS, linha 3055](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L3055) |
+| `intent.question` | sem equivalente | sem equivalente | A pergunta de negócio que o documento responde não tem lugar no ODCS | [ODCS, linha 57](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L57) |
+| `intent.purpose` | `description.purpose` | sem equivalente | Para que o documento serve. No ODCS, fica dentro de `description`, ao lado de `usage` e `limitations` | [ODCS, linha 65](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L65) |
+| `intent.audience` | sem equivalente | sem equivalente | O ODCS não diz quem usa o contrato | [ODCS, linha 57](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L57) |
+| `intent.decisions` | `description.usage` | sem equivalente | Parecido. No ODCS, o uso previsto do dataset; no Contexto, as decisões que mudam conforme a resposta | [ODCS, linha 61](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L61) |
+| `plain_summary` | sem equivalente | sem equivalente | O ODCS não tem resumo em linguagem direta | [ODCS, linha 57](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L57) |
+| `open_questions` | sem equivalente | sem equivalente | O ODCS não registra perguntas em aberto | [ODCS, linha 6](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L6) |
+| `version_history` | sem equivalente | sem equivalente | O ODCS não guarda o histórico de versões dentro do contrato | [ODCS, linha 6](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L6) |
+| `context.instructions` | `context.instructions` | sem equivalente | Mesma grafia. Orientação em texto para a IA sobre como usar o documento | [ODCS, linha 153](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L153) |
+| `context.verifiedStatements` | `context.verifiedStatements` | sem equivalente | Mesma grafia e mesmo formato. Cada item tem `question` e, quando quem aprova já conferiu, `answer`. O ODCS aceita outras chaves no item, como `id` e `tags`, que o Contexto ainda não usa | [ODCS, linha 153](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L153) |
+| `context.constraints` | `context.constraints` | sem equivalente | Mesma grafia e mesmo formato. O que a IA não deve fazer com o documento, um limite por item, em `constraint` | [ODCS, linha 153](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L153) |
+| `authoritativeDefinitions` | `authoritativeDefinitions` | sem equivalente | Mesma grafia. Links para onde a regra roda, cada um com `url` e `type`. O ODCS aceita qualquer texto em `type`; os valores do Contexto (`sql`, `metricView`, `filter` e outros) não estão entre os exemplos dele | [ODCS, linha 3042](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L3042) |
+| `related_documents` | sem equivalente | sem equivalente | O ODCS não aponta outros contratos pelo identificador | [ODCS, linha 6](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L6) |
+| `archival_note` | sem equivalente | sem equivalente | O ODCS não tem nota de arquivamento | [ODCS, linha 6](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L6) |
+
+## Indicador
+
+Os campos principais do modelo de KPI. É aqui que o Ossie tem mais correspondência, em `metrics`.
+
+| Chave no Contexto | ODCS 3.2.0 | Apache Ossie 0.1.1 | Observação | Fonte |
+|---|---|---|---|---|
+| O documento `kpi` inteiro | sem equivalente | `metrics` | O ODCS descreve datasets, não indicadores. No Ossie, cada indicador é um item de `metrics` | [ODCS, linha 6](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L6); [Ossie, Metrics](https://github.com/apache/ossie/blob/osi-0.1.1-rc1/core-spec/spec.md#metrics) |
+| `domain` | `domain` | sem equivalente | Mesma grafia: o domínio de negócio do documento | [ODCS, linha 81](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L81) |
+| `synonyms` | `synonyms` | sem equivalente | Mesma grafia, formato diferente. No Contexto, cada item é um texto; no ODCS, cada item é um objeto com `synonym` e, se preciso, `locale`, e fica no elemento do schema | [ODCS, linha 2144](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L2144); [ODCS, linha 3376](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L3376) |
+| `business_definition.concept` | sem equivalente | `metrics[].description` | O que o indicador mede, em texto | [Ossie, Metrics](https://github.com/apache/ossie/blob/osi-0.1.1-rc1/core-spec/spec.md#metrics) |
+| `calculation` (`numerator`, `denominator`, `formula_description`) | sem equivalente | `metrics[].expression` | No Ossie, o cálculo é uma expressão SQL; no Contexto, numerador e denominador em texto, para quem aprova conseguir ler | [Ossie, Metrics](https://github.com/apache/ossie/blob/osi-0.1.1-rc1/core-spec/spec.md#metrics) |
+| `calculation.granularity` | sem equivalente | sem equivalente | Nenhum dos dois guarda o nível de detalhe do indicador | [ODCS, linha 6](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L6) |
+| `time.reference_date_field` | sem equivalente | `fields[].dimension.is_time` | No Ossie, a dimensão de tempo é marcada no campo do dataset | [Ossie, Dimension Object](https://github.com/apache/ossie/blob/osi-0.1.1-rc1/core-spec/spec.md#dimension-object) |
+| `data_sources.authoritative_dataset` | sem equivalente | `datasets` | No Ossie, o dataset é a entidade de onde o cálculo parte | [Ossie, Datasets](https://github.com/apache/ossie/blob/osi-0.1.1-rc1/core-spec/spec.md#datasets) |
+| `scope` e `history_recalculation` | sem equivalente | sem equivalente | Escopo e recálculo da série antiga não têm lugar nos dois formatos | [ODCS, linha 6](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L6) |
+| `validation.expected_questions_and_answers` | sem equivalente | sem equivalente | Parecido com `context.verifiedStatements`, que o Contexto também aceita | [ODCS, linha 153](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L153) |
+
+## Dataset
+
+Os campos principais do modelo de dataset. O ODCS nasceu para descrever datasets, por isso a correspondência é maior.
+
+| Chave no Contexto | ODCS 3.2.0 | Apache Ossie 0.1.1 | Observação | Fonte |
+|---|---|---|---|---|
+| O bloco `dataset` | `schema[]` | `datasets` | No ODCS, cada item de `schema` é uma tabela; no Ossie, um dataset representa uma entidade do negócio | [ODCS, linha 2158](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L2158); [Ossie, Datasets](https://github.com/apache/ossie/blob/osi-0.1.1-rc1/core-spec/spec.md#datasets) |
+| `dataset.physical_name` | `schema[].physicalName` | `datasets[].source` | Equivalentes: o nome da tabela no banco | [ODCS, linha 2166](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L2166); [Ossie, Datasets](https://github.com/apache/ossie/blob/osi-0.1.1-rc1/core-spec/spec.md#datasets) |
+| `dataset.platform` | `servers[].type` | sem equivalente | Parecido. No ODCS, o tipo vem de uma lista fixa, como `bigquery`; no Contexto, é texto livre | [ODCS, linha 235](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L235) |
+| `dataset.grain` | `schema[].dataGranularityDescription` | sem equivalente | O que uma linha representa | [ODCS, linha 2171](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L2171) |
+| `dataset.primary_key` | `schema[].properties[].primaryKey` | `datasets[].primary_key` | No ODCS, cada coluna diz se faz parte da chave; no Contexto e no Ossie, a lista fica no dataset | [ODCS, linha 2208](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L2208); [Ossie, Datasets](https://github.com/apache/ossie/blob/osi-0.1.1-rc1/core-spec/spec.md#datasets) |
+| `columns[]` | `schema[].properties[]` | `datasets[].fields` | No Ossie, os campos usados para agrupar e filtrar são as dimensões | [ODCS, linha 2176](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L2176); [Ossie, Fields](https://github.com/apache/ossie/blob/osi-0.1.1-rc1/core-spec/spec.md#fields) |
+| `columns[].physical_name` | `schema[].properties[].physicalName` | sem equivalente | Equivalentes: o nome da coluna no banco | [ODCS, linha 2230](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L2230) |
+| `columns[].technical_type` | `schema[].properties[].physicalType` | sem equivalente | O tipo da coluna no banco | [ODCS, linha 2226](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L2226) |
+| `columns[].business_name` | `schema[].properties[].businessName` | sem equivalente | O nome que a área usa | [ODCS, linha 2135](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L2135) |
+| `columns[].meaning` | `schema[].properties[].description` | sem equivalente | O que a coluna significa | [ODCS, linha 2131](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L2131) |
+| `columns[].allowed_values` | `schema[].properties[].enum` | sem equivalente | Parecido: a lista de valores aceitos | [ODCS, linha 2292](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L2292) |
+| `columns[].examples` | `schema[].properties[].examples` | sem equivalente | Exemplos de valores | [ODCS, linha 2285](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L2285) |
+| `columns[].do_not_use_for` | sem equivalente | sem equivalente | Parecido com `context.constraints` | [ODCS, linha 153](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L153) |
+| `time_semantics.update_frequency` e `time_semantics.known_latency` | `slaProperties[]` | sem equivalente | Parecido. No ODCS, o nome da propriedade (`property`) é texto livre | [ODCS, linha 3261](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L3261) |
+| `usage.known_caveats` | `description.limitations` | sem equivalente | Os limites conhecidos do dataset | [ODCS, linha 69](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L69) |
+
+## Relacionamento
+
+Os campos principais do modelo de relacionamento, a ligação entre duas tabelas.
+
+| Chave no Contexto | ODCS 3.2.0 | Apache Ossie 0.1.1 | Observação | Fonte |
+|---|---|---|---|---|
+| O documento `relacionamento` | `schema[].relationships[]` | `relationships` | A ligação entre duas tabelas | [ODCS, linha 2183](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L2183); [Ossie, Relationships](https://github.com/apache/ossie/blob/osi-0.1.1-rc1/core-spec/spec.md#relationships) |
+| `left.dataset` e `right.dataset` | `relationships[].from` e `relationships[].to` | `relationships[].from` e `relationships[].to` | No Ossie, `from` é sempre o lado N e `to` o lado 1; no Contexto, a cardinalidade fica escrita à parte | [ODCS, linha 3502](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L3502); [Ossie, Relationships](https://github.com/apache/ossie/blob/osi-0.1.1-rc1/core-spec/spec.md#relationships) |
+| `join_keys` | `from` e `to` com lista de colunas | `from_columns` e `to_columns` | Chaves compostas: a ordem das colunas precisa bater dos dois lados | [ODCS, linha 3502](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L3502); [Ossie, Relationships](https://github.com/apache/ossie/blob/osi-0.1.1-rc1/core-spec/spec.md#relationships) |
+| `cardinality` | sem equivalente | sem equivalente | O ODCS não registra cardinalidade; o Ossie só descreve ligações N para 1 | [ODCS, linha 3488](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L3488); [Ossie, Relationships](https://github.com/apache/ossie/blob/osi-0.1.1-rc1/core-spec/spec.md#relationships) |
+| `coverage` e `usage_rules` | sem equivalente | sem equivalente | Linhas sem par e perguntas que a junção responde são convenção do Contexto | [ODCS, linha 3488](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L3488) |
+
+## Evento de coleta
+
+Os campos principais do modelo de evento de coleta. Nenhum dos dois padrões cobre esse tipo.
+
+| Chave no Contexto | ODCS 3.2.0 | Apache Ossie 0.1.1 | Observação | Fonte |
+|---|---|---|---|---|
+| O documento `evento-coleta` | sem equivalente | sem equivalente | Nenhum dos dois descreve um evento de coleta nem o plano de mensuração | [ODCS, linha 6](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L6); [Ossie, Semantic Model](https://github.com/apache/ossie/blob/osi-0.1.1-rc1/core-spec/spec.md#semantic-model) |
+| `parameters` | sem equivalente | sem equivalente | Parecido com as colunas de um dataset, mas descreve o que o evento envia | [ODCS, linha 2176](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L2176) |
+| `destination[].object` | sem equivalente | sem equivalente | Parecido com `physicalName`: a tabela onde o evento chega | [ODCS, linha 2166](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L2166) |
+| `expected_behavior` (`baseline_by_scope`, `silence_tolerance`) | sem equivalente | sem equivalente | A linha de base por operação é convenção do Contexto | [ODCS, linha 6](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L6) |
+| `downstream_kpis` | sem equivalente | sem equivalente | Nenhum dos dois liga um evento aos indicadores que dependem dele | [ODCS, linha 6](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json#L6) |
 
 ## Fontes
 
-- [Bitol: ODCS 3.2.0, JSON Schema oficial](https://github.com/bitol-io/open-data-contract-standard/blob/main/schema/odcs-json-schema-v3.2.0.json)
+- [Bitol: ODCS 3.2.0, JSON Schema oficial](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json)
 - [Bitol: ODCS, fundamentos](https://github.com/bitol-io/open-data-contract-standard/blob/main/docs/fundamentals.md)
 - [Bitol: ODCS, histórico de versões](https://github.com/bitol-io/open-data-contract-standard/blob/main/CHANGELOG.md)
+- [Apache Ossie 0.1.1, especificação](https://github.com/apache/ossie/blob/osi-0.1.1-rc1/core-spec/spec.md)
+- [Apache Ossie, versão em desenvolvimento (0.3.0.dev0, rascunho)](https://github.com/apache/ossie/blob/main/core-spec/spec.md)

@@ -1,12 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:contexto:schemas:1.0.0:dashboard",
+  "$id": "urn:contexto:schemas:1.1.0:dashboard",
   "title": "Dashboard",
   "description": "Guia de leitura de um dashboard: indicadores e versões, filtros, atualização, limitações e outros dashboards com números diferentes.",
   "type": "object",
   "allOf": [
     {
-      "$ref": "urn:contexto:schemas:1.0.0:common"
+      "$ref": "urn:contexto:schemas:1.1.0:common"
     }
   ],
   "properties": {
@@ -98,7 +98,7 @@
         "verified_at": {
           "title": "Conferido em",
           "description": "Última data em que os números foram conferidos.",
-          "$ref": "urn:contexto:schemas:1.0.0:common#/$defs/data_ou_nulo"
+          "$ref": "urn:contexto:schemas:1.1.0:common#/$defs/data_ou_nulo"
         }
       },
       "additionalProperties": false
@@ -172,7 +172,7 @@
           "found_at": {
             "title": "Encontrado em",
             "description": "Data em que a divergência foi vista.",
-            "$ref": "urn:contexto:schemas:1.0.0:common#/$defs/data_ou_nulo"
+            "$ref": "urn:contexto:schemas:1.1.0:common#/$defs/data_ou_nulo"
           }
         },
         "additionalProperties": false

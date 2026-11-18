@@ -1,12 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:contexto:schemas:1.0.0:politica",
+  "$id": "urn:contexto:schemas:1.1.0:politica",
   "title": "Política",
   "description": "Qual política vale, a quem se aplica, quem a emitiu e como resolver fontes em conflito. A versão deste registro é diferente da versão da política.",
   "type": "object",
   "allOf": [
     {
-      "$ref": "urn:contexto:schemas:1.0.0:common"
+      "$ref": "urn:contexto:schemas:1.1.0:common"
     }
   ],
   "properties": {
@@ -85,12 +85,12 @@
         "effective_date": {
           "title": "Início da vigência da política",
           "description": "Data em que a política passou a valer.",
-          "$ref": "urn:contexto:schemas:1.0.0:common#/$defs/data_ou_nulo"
+          "$ref": "urn:contexto:schemas:1.1.0:common#/$defs/data_ou_nulo"
         },
         "expiry_date": {
           "title": "Fim da vigência da política",
           "description": "Data em que a política deixa de valer, se houver.",
-          "$ref": "urn:contexto:schemas:1.0.0:common#/$defs/data_ou_nulo"
+          "$ref": "urn:contexto:schemas:1.1.0:common#/$defs/data_ou_nulo"
         },
         "supersedes": {
           "title": "Substitui",
@@ -261,7 +261,7 @@
           "resolved_at": {
             "title": "Resolvido em",
             "description": "Data da resolução.",
-            "$ref": "urn:contexto:schemas:1.0.0:common#/$defs/data_ou_nulo"
+            "$ref": "urn:contexto:schemas:1.1.0:common#/$defs/data_ou_nulo"
           }
         },
         "required": [

@@ -1,7 +1,7 @@
 ---
 # Exemplo do Contexto. A Aurora é uma organização inventada; nomes, datas e aprovações fazem parte do caso.
 id: RUBRIC-CAMPAIGN-001
-schema_version: "1.0.0"
+schema_version: "1.1.0"
 type: rubrica
 title: "Rubrica de revisão de material de campanha: Aurora"
 version: "2.0"
@@ -17,6 +17,8 @@ review_interval: null
 source_of_truth: "Guia de revisão de conteúdo da Aurora, anexo B"
 supersedes_revision: "RUBRIC-CAMPAIGN-001@1.0"
 superseded_by_revision: null
+license: CC-BY-4.0
+source_url: "https://edoardolobl.github.io/contexto-framework/documentos/RUBRIC-CAMPAIGN-001@2.0.md"
 intent:
   question: "Como avaliar um material de campanha antes da aprovação formal?"
   audience: ["Revisão de Conteúdo", "Liderança de Marca"]

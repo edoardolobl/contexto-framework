@@ -1,0 +1,332 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edoardolobl.github.io/contexto-framework/schemas/1.0.0/politica.schema.json",
+  "title": "Política",
+  "description": "Qual política vale, a quem se aplica, quem a emitiu e como resolver fontes em conflito. A versão deste registro é diferente da versão da política.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "https://edoardolobl.github.io/contexto-framework/schemas/1.0.0/common.schema.json"
+    }
+  ],
+  "properties": {
+    "type": {
+      "const": "politica"
+    },
+    "scope": {
+      "title": "Escopo",
+      "description": "Quem e o que a política abrange.",
+      "type": "object",
+      "properties": {
+        "audiences": {
+          "title": "Quem é abrangido",
+          "description": "Cargos, áreas ou grupos.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "activities": {
+          "title": "Atividades",
+          "description": "Atividades cobertas.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "localities": {
+          "title": "Localidades",
+          "description": "Unidades ou regiões cobertas.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "exclusions": {
+          "title": "Exclusões",
+          "description": "O que fica fora, com a política que cobre.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "authority": {
+      "title": "Autoridade da política",
+      "description": "Dados da própria política, que podem ser diferentes dos deste registro.",
+      "type": "object",
+      "properties": {
+        "issuing_body": {
+          "title": "Quem emitiu",
+          "description": "Cargo ou área.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "approver_role": {
+          "title": "Quem aprova a política",
+          "description": "Cargo ou área.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "version": {
+          "title": "Versão da política",
+          "description": "A versão da política em si, não a deste registro.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "effective_date": {
+          "title": "Início da vigência da política",
+          "description": "Data em que a política passou a valer.",
+          "$ref": "https://edoardolobl.github.io/contexto-framework/schemas/1.0.0/common.schema.json#/$defs/data_ou_nulo"
+        },
+        "expiry_date": {
+          "title": "Fim da vigência da política",
+          "description": "Data em que a política deixa de valer, se houver.",
+          "$ref": "https://edoardolobl.github.io/contexto-framework/schemas/1.0.0/common.schema.json#/$defs/data_ou_nulo"
+        },
+        "supersedes": {
+          "title": "Substitui",
+          "description": "Política anterior e o que ela dizia.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "obligations": {
+      "title": "Obrigações",
+      "description": "O que é obrigatório.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "permissions": {
+      "title": "Permissões",
+      "description": "O que é permitido.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "prohibitions": {
+      "title": "Proibições",
+      "description": "O que é proibido.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "exceptions": {
+      "title": "Exceções",
+      "description": "Situações fora da regra.",
+      "type": "array",
+      "items": {
+        "title": "Exceção",
+        "description": "Situação fora da regra, com quem aprova e a evidência exigida.",
+        "type": "object",
+        "properties": {
+          "condition": {
+            "title": "Condição",
+            "description": "Quando a exceção vale.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "approval_role": {
+            "title": "Quem aprova",
+            "description": "Cargo ou área que autoriza a exceção.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "evidence_needed": {
+            "title": "Evidência exigida",
+            "description": "O que precisa ser anexado.",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "conflicting_sources": {
+      "title": "Fontes em conflito",
+      "description": "Uma entrada por conflito; quando resolvido, com resolução, quem resolveu e a data.",
+      "type": "array",
+      "items": {
+        "title": "Fonte em conflito",
+        "description": "Fontes que dizem coisas diferentes sobre a mesma regra.",
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Identificador",
+            "description": "Código do conflito.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "sources": {
+            "title": "Fontes",
+            "description": "Identificadores das fontes em conflito.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "description": {
+            "title": "Descrição",
+            "description": "O que diverge.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "positions": {
+            "title": "Posições",
+            "description": "O que cada fonte diz.",
+            "type": "array",
+            "items": {
+              "title": "Posição",
+              "description": "Uma fonte e o que ela diz.",
+              "type": "object",
+              "properties": {
+                "source": {
+                  "title": "Fonte",
+                  "description": "Onde está escrito, com data ou versão.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "says": {
+                  "title": "O que diz",
+                  "description": "A regra segundo esta fonte.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "impact": {
+            "title": "Impacto",
+            "description": "O que muda conforme a fonte consultada.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "state": {
+            "title": "Estado",
+            "description": "unresolved ou resolved.",
+            "enum": [
+              "unresolved",
+              "resolved"
+            ]
+          },
+          "resolution_owner": {
+            "title": "Quem resolve",
+            "description": "Cargo ou área com autoridade.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "resolution": {
+            "title": "Resolução",
+            "description": "O que foi decidido.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "resolved_at": {
+            "title": "Resolvido em",
+            "description": "Data da resolução.",
+            "$ref": "https://edoardolobl.github.io/contexto-framework/schemas/1.0.0/common.schema.json#/$defs/data_ou_nulo"
+          }
+        },
+        "required": [
+          "state"
+        ],
+        "if": {
+          "properties": {
+            "state": {
+              "const": "resolved"
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "resolution": {
+              "type": "string"
+            },
+            "resolution_owner": {
+              "type": "string"
+            },
+            "resolved_at": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "resolution",
+            "resolution_owner",
+            "resolved_at"
+          ]
+        },
+        "additionalProperties": false
+      }
+    },
+    "source_precedence_rule": {
+      "title": "Regra de precedência",
+      "description": "Qual fonte prevalece quando duas discordam.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "how_to_verify": {
+      "title": "Como conferir",
+      "description": "Onde olhar para saber se a política mudou.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "review_trigger": {
+      "title": "Quando revisar",
+      "description": "O que dispara uma revisão deste registro.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "related_documents": {
+      "title": "Documentos relacionados",
+      "description": "Identificadores de outros documentos que ajudam a ler este.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "unevaluatedProperties": false
+}

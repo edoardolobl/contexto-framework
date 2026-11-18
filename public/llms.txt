@@ -1,0 +1,76 @@
+# Contexto
+
+> Transforme perguntas de negócio em documentos aprovados e versionados que uma IA consegue consultar sem inventar definições, seja a ferramenta que você usa direto, seja o sistema que a engenharia monta.
+
+## Início
+
+- [Contexto: Framework de Conhecimento para IA](https://edoardolobl.github.io/contexto-framework/): Da pergunta de negócio ao documento aprovado que uma IA consegue consultar sem inventar definições.
+
+## Comece aqui
+
+- [Comece em 5 minutos](https://edoardolobl.github.io/contexto-framework/fundamentos/comece-em-5-minutos/): Faça um primeiro registro de conhecimento sem programar ou entender de IA.
+- [Como o método funciona](https://edoardolobl.github.io/contexto-framework/metodo/visao-geral/): O problema que o Contexto resolve, os sete passos do percurso e onde cada peça do portal entra.
+
+## Percurso
+
+- [Escreva a pergunta de negócio](https://edoardolobl.github.io/contexto-framework/percurso/escreva-a-pergunta/): Comece pela pergunta de negócio que a IA vai receber e pela decisão que a resposta muda.
+- [Delimite o acervo](https://edoardolobl.github.io/contexto-framework/percurso/delimite-o-acervo/): Parta das perguntas do passo 1 e escolha o menor conjunto de documentos que as sustenta, em ordem.
+- [Descubra o que falta](https://edoardolobl.github.io/contexto-framework/percurso/descubra-o-que-falta/): Uma entrevista curta, a partir de um caso real, para encontrar o que ninguém escreveu antes de redigir.
+- [Escreva com o modelo](https://edoardolobl.github.io/contexto-framework/templates/): Escolha o modelo pelo que você precisa explicar, preencha só o que consegue confirmar e registre o que está em aberto.
+- [Revise e aprove](https://edoardolobl.github.io/contexto-framework/percurso/revise-e-aprove/): Confira cobertura, evidências e aprovação, e entregue o documento com as perguntas em aberto à vista.
+- [Teste com as perguntas](https://edoardolobl.github.io/contexto-framework/percurso/teste-com-as-perguntas/): Faça as Perguntas de negócio à IA, sem e com os documentos aprovados, e compare com a resposta esperada.
+- [Leve à sua ferramenta de IA](https://edoardolobl.github.io/contexto-framework/percurso/leve-a-sua-ferramenta-de-ia/): Entregue à IA só documentos aprovados, numa conversa ou num repositório, com uma instrução curta sobre o que fazer quando falta definição.
+
+## Modelos
+
+- [Indicador (KPI)](https://edoardolobl.github.io/contexto-framework/templates/kpi/): Documente o que um indicador mede, como cada parte da fórmula é interpretada e qual versão vale em cada período.
+- [Dataset](https://edoardolobl.github.io/contexto-framework/templates/dataset/): Documente o que cada linha e cada valor de uma tabela significam, para que ninguém tenha de adivinhar pelo nome da coluna.
+- [Relacionamento entre tabelas](https://edoardolobl.github.io/contexto-framework/templates/relacionamento/): Documente chave, cardinalidade e o que contar depois de juntar duas tabelas.
+- [Evento de coleta](https://edoardolobl.github.io/contexto-framework/templates/evento-coleta/): Registre onde um evento dispara, com que frequência em cada operação e quando zero é normal, antes de chamar o silêncio de quebra.
+- [Regra e decisão](https://edoardolobl.github.io/contexto-framework/templates/decisao/): Documente como uma decisão é tomada, com entradas definidas, um resultado por combinação e quem aprova exceções.
+- [Perguntas de negócio](https://edoardolobl.github.io/contexto-framework/templates/perguntas-de-negocio/): Escreva as perguntas que a IA vai receber e a resposta esperada de cada uma; o mesmo documento abre o percurso e serve de gabarito.
+- [Conceito](https://edoardolobl.github.io/contexto-framework/templates/conceito/): Defina um termo para um contexto específico, diga quem fica de fora e como tratar o caso-limite.
+- [Política](https://edoardolobl.github.io/contexto-framework/templates/politica/): Documente qual política vale, quem a emitiu, desde quando, e o que fazer quando duas fontes dizem coisas diferentes.
+- [Processo](https://edoardolobl.github.io/contexto-framework/templates/processo/): Documente um processo que alguém novo consiga executar sem perguntar a quem já faz.
+- [Dashboard](https://edoardolobl.github.io/contexto-framework/templates/dashboard/): Documente qual definição cada cartão segue, com quais filtros e período, e o que fazer quando dois dashboards discordam.
+- [Rubrica de avaliação](https://edoardolobl.github.io/contexto-framework/templates/rubrica/): Explicite como reconhecer a qualidade de um trabalho, com critérios, âncoras por nível e o que fazer quando falta evidência.
+
+## Laboratórios
+
+- [Laboratório Aurora](https://edoardolobl.github.io/contexto-framework/exemplos/analytics-integrado/): KPI, schema e dashboard numa amostra pequena: como SQL válido pode responder à pergunta errada.
+- [Laboratório Aurora: eventos de coleta](https://edoardolobl.github.io/contexto-framework/exemplos/laboratorio-eventos/): Um evento raro com dias em zero não está quebrado, e outro que sumiu está: como a documentação por operação separa os dois, refeito em SQLite.
+
+## Entender
+
+- [Por que dados precisam de contexto](https://edoardolobl.github.io/contexto-framework/dados/visao-geral/): O schema diz o que existe no banco; a documentação diz o que os dados significam, como contar e qual fonte vale.
+- [Conhecimento tácito](https://edoardolobl.github.io/contexto-framework/fundamentos/conhecimento-tacito/): Aprenda a reconhecer o que os especialistas sabem, mas ainda não colocaram na documentação.
+- [Quando o método não basta](https://edoardolobl.github.io/contexto-framework/metodo/limites/): Cinco situações em que documentar é difícil e o que fazer em cada uma, sem inventar respostas.
+
+## Consultar
+
+- [Checklist das oito dimensões](https://edoardolobl.github.io/contexto-framework/metodo/oito-dimensoes/): Lista para conferir um documento antes de aprovar; convenção do Contexto.
+- [Cenários de mensuração](https://edoardolobl.github.io/contexto-framework/referencias/cenarios-de-mensuracao/): Quinze perguntas de marketing em que uma IA sem contexto costuma errar, a regra que corrige cada uma e a fonte oficial do Google.
+- [Como ler os campos](https://edoardolobl.github.io/contexto-framework/fundamentos/como-ler-os-campos/): O que significam null, status, id, versão e os outros campos dos modelos, em linguagem simples.
+- [Referência de campos](https://edoardolobl.github.io/contexto-framework/referencias/campos/): Tabela dos campos de cada modelo do Contexto, gerada dos schemas.
+- [Migração para o schema 1.0](https://edoardolobl.github.io/contexto-framework/referencias/migracao-schema-1-0/): O que mudou nos modelos com o schema 1.0, campo a campo, para quem já baixou e preencheu um modelo 0.x.
+- [Correspondência com ODCS e Ossie](https://edoardolobl.github.io/contexto-framework/referencias/correspondencia-odcs/): Quais campos do Contexto têm equivalente no ODCS 3.2.0, o padrão aberto de contratos de dados, e no Apache Ossie 0.1.1, o formato aberto de modelo semântico, e onde eles diferem.
+- [Versões e vigência](https://edoardolobl.github.io/contexto-framework/metodo/identificacao-versoes/): Como distinguir o assunto, a versão e a vigência sem misturar definições históricas.
+- [Responsabilidades](https://edoardolobl.github.io/contexto-framework/governanca/papeis/): Quem explicita, aprova, publica e utiliza as informações, sem transferir decisões de negócio para a engenharia.
+
+## Usar com IA
+
+- [Kit para agentes](https://edoardolobl.github.io/contexto-framework/usar-com-ia/kit-para-agentes/): Um pacote para baixar com as definições aprovadas, o gabarito e a instrução curta que um agente de IA precisa para não improvisar o cálculo de um indicador.
+- [Modelo de AGENTS.md](https://edoardolobl.github.io/contexto-framework/usar-com-ia/agents-md/): Arquivo curto para a raiz do repositório, que orienta o agente a usar só documentos aprovados e a dizer quando não há base.
+- [Preparar para NotebookLM ou RAG](https://edoardolobl.github.io/contexto-framework/usar-com-ia/preparar-para-notebooklm-ou-rag/): Quatro regras para que cada trecho recortado de um documento ainda diga de que documento, versão e período ele é.
+- [Endereços estáveis e schemas](https://edoardolobl.github.io/contexto-framework/usar-com-ia/enderecos-e-schemas/): Cada versão de documento tem um endereço que não muda, e cada versão do formato tem um schema publicado, para pessoas e agentes citarem a fonte certa.
+
+## Para agentes
+
+- [Kit para agentes (zip)](https://edoardolobl.github.io/contexto-framework/downloads/kit/contexto-kit-agentes.zip): AGENTS.md, glossário, contratos, gabaritos e a skill de auditoria.
+- [Índice dos documentos](https://edoardolobl.github.io/contexto-framework/documentos/indice.json): Lista de todos os documentos por id e versão, com o endereço de cada um.
+- [Schema comum](https://edoardolobl.github.io/contexto-framework/schemas/1.1.0/common.schema.json): Campos que todo documento tem.
+
+## Optional
+
+- [Fontes e bibliografia](https://edoardolobl.github.io/contexto-framework/referencias/): Fontes metodológicas, estudos empíricos e origem das decisões do framework.
+- [Autoria e licença](https://edoardolobl.github.io/contexto-framework/sobre/creditos/): Quem mantém o Contexto, sob quais licenças o material pode ser reutilizado e como atribuir.

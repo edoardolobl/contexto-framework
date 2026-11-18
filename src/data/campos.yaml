@@ -17,7 +17,7 @@ cabecalho:
   - chave: schema_version
     rotulo: Versão do formato
     obrigatorio: false
-    descricao: Versão do formato do arquivo, hoje 1.0.0. Diz quais campos o arquivo tem e não muda quando o conteúdo muda.
+    descricao: Versão do formato do arquivo, hoje 1.1.0. Diz quais campos o arquivo tem e não muda quando o conteúdo muda.
   - chave: type
     rotulo: Tipo de documento
     obrigatorio: false
@@ -82,6 +82,14 @@ cabecalho:
     rotulo: Substituída por qual versão?
     obrigatorio: false
     descricao: Só na cópia de uma versão substituída, aponta a versão que tomou o lugar dela. Em documento aprovado e em vigor, fica em branco.
+  - chave: license
+    rotulo: Licença
+    obrigatorio: false
+    descricao: Identificador SPDX da licença do documento, como CC-BY-4.0. Nos modelos em branco fica vazio, porque cada time define a licença dos seus documentos.
+  - chave: source_url
+    rotulo: Endereço publicado
+    obrigatorio: false
+    descricao: Endereço onde esta versão está publicada, para quem recebe um trecho citar a origem. Nos modelos em branco fica vazio, até o documento ser publicado.
   - chave: intent.question
     rotulo: Pergunta de negócio que o documento responde
     obrigatorio: true

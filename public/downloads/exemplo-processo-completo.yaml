@@ -1,6 +1,6 @@
 # Exemplo do Contexto. A Aurora é uma organização inventada; nomes, datas e aprovações fazem parte do caso.
 id: PROCESS-CAMPAIGN-001
-schema_version: "1.0.0"
+schema_version: "1.1.0"
 type: processo
 title: "Solicitar e publicar campanha: Aurora"
 version: "2.0"
@@ -16,6 +16,8 @@ review_interval: null
 source_of_truth: "Procedimento PRC-MKT-007"
 supersedes_revision: "PROCESS-CAMPAIGN-001@1.0"
 superseded_by_revision: null
+license: CC-BY-4.0
+source_url: "https://edoardolobl.github.io/contexto-framework/documentos/PROCESS-CAMPAIGN-001@2.0.md"
 intent:
   question: "Que caminho um pedido de campanha percorre até ser publicado?"
   audience: ["Operação de Marketing", "Revisão de Conteúdo", "Liderança de Marca"]

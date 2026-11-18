@@ -1,0 +1,98 @@
+---
+/**
+ * Tabela dos documentos publicados por id@versão, lida de public/documentos/indice.json no build
+ * (mesmo padrão de leitura de arquivo do ExampleDoc). O índice é gerado por scripts/gerar_saidas.py
+ * (npm run gerar:saidas); se ele ainda não existir, o build para com uma mensagem que diz o que rodar.
+ * Cada linha liga o .md e o .yaml da versão, com endereço montado a partir de import.meta.env.BASE_URL.
+ * Sem bloco de estilo: a rolagem e a legenda ficam em src/styles/componentes.css (.documentos-publicados).
+ */
+import fs from 'node:fs';
+import path from 'node:path';
+
+interface Entrada {
+  id: string;
+  version: string;
+  revision_id: string;
+  type: string;
+  title: string;
+  status: string;
+  valid_from: string | null;
+  valid_to: string | null;
+  md: string;
+  yaml: string;
+}
+
+const ARQUIVO = path.join(process.cwd(), 'public', 'documentos', 'indice.json');
+if (!fs.existsSync(ARQUIVO)) {
+  throw new Error('public/documentos/indice.json não encontrado. Rode npm run gerar:saidas antes do build.');
+}
+let bruto: unknown;
+try {
+  bruto = JSON.parse(fs.readFileSync(ARQUIVO, 'utf8'));
+} catch (erro) {
+  throw new Error(`public/documentos/indice.json não é um JSON válido: ${(erro as Error).message}`);
+}
+if (!Array.isArray(bruto) || bruto.length === 0) {
+  throw new Error('public/documentos/indice.json precisa ser uma lista com pelo menos um documento.');
+}
+const OBRIGATORIOS = ['id', 'version', 'revision_id', 'type', 'title', 'status', 'md', 'yaml'] as const;
+const entradas: Entrada[] = bruto.map((item: any, indice: number) => {
+  for (const campo of OBRIGATORIOS) {
+    if (typeof item?.[campo] !== 'string' || item[campo].trim() === '') {
+      throw new Error(`public/documentos/indice.json: o item ${indice + 1} está sem o campo '${campo}'.`);
+    }
+  }
+  return item as Entrada;
+});
+
+const ESTADOS: Record<string, string> = {
+  draft: 'Rascunho',
+  pending_approval: 'Pendente de aprovação',
+  approved: 'Aprovado',
+  superseded: 'Substituído',
+  deprecated: 'Obsoleto',
+};
+const ehDia = (v: unknown): v is string => typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v);
+const data = (v: string) => v.split('-').reverse().join('/');
+/** valid_to é exclusivo; quem lê vê o último dia em que a versão vale. */
+const diaAnterior = (v: string) => {
+  const d = new Date(v + 'T00:00:00Z');
+  d.setUTCDate(d.getUTCDate() - 1);
+  return d.toISOString().slice(0, 10);
+};
+const vigencia = (e: Entrada) => {
+  if (!ehDia(e.valid_from)) return 'Ainda não definida';
+  if (!ehDia(e.valid_to)) return `Desde ${data(e.valid_from)}`;
+  return `${data(e.valid_from)} a ${data(diaAnterior(e.valid_to))}`;
+};
+const rawBase = import.meta.env.BASE_URL;
+const base = rawBase.endsWith('/') ? rawBase : rawBase + '/';
+const href = (arquivo: string) => base + arquivo.replace(/^\/+/, '');
+---
+<div class="documentos-publicados" role="region" aria-label="Documentos publicados por id e versão" tabindex="0">
+  <table>
+    <caption>Documentos publicados ({entradas.length}). A vigência mostra o último dia em que cada versão vale.</caption>
+    <thead>
+      <tr>
+        <th scope="col">Endereço (id@versão)</th>
+        <th scope="col">Tipo</th>
+        <th scope="col">Título</th>
+        <th scope="col">Estado</th>
+        <th scope="col">Vigência</th>
+        <th scope="col">YAML</th>
+      </tr>
+    </thead>
+    <tbody>
+      {entradas.map((e) => (
+        <tr>
+          <td><a href={href(e.md)}><code>{e.revision_id}</code></a></td>
+          <td>{e.type}</td>
+          <td>{e.title}</td>
+          <td>{ESTADOS[e.status] ?? e.status}</td>
+          <td>{vigencia(e)}</td>
+          <td><a href={href(e.yaml)} aria-label={`YAML de ${e.revision_id}`}>.yaml</a></td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>

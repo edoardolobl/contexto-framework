@@ -31,6 +31,8 @@ Todo documento começa com estes campos, na mesma ordem.
 | Fonte oficial | `source_of_truth` | Não |
 | Substitui qual versão? | `supersedes_revision` | Não |
 | Substituída por qual versão? | `superseded_by_revision` | Não |
+| Licença | `license` | Não |
+| Endereço publicado | `source_url` | Não |
 | Pergunta de negócio que o documento responde | `intent.question` | Sim |
 | Quem usa | `intent.audience` | Não |
 | Para quê | `intent.purpose` | Não |

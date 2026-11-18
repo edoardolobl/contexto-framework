@@ -1,0 +1,47 @@
+---
+title: Preparar para NotebookLM ou RAG
+description: Quatro regras para que cada trecho recortado de um documento ainda diga de que documento, versão e período ele é.
+---
+
+Ferramentas como o NotebookLM, que a ajuda oficial do Google hoje chama de Gemini Notebook, e os sistemas de RAG (busca que entrega à IA trechos dos seus documentos antes de ela responder) não leem o documento inteiro de uma vez. Eles cortam o texto em trechos e passam à IA só os que parecem responder à pergunta. Um trecho cortado perde o que estava no topo do arquivo: de que documento é, qual versão, para que período vale. As regras abaixo fazem cada trecho continuar dizendo de onde veio.
+
+## As quatro regras
+
+### 1. Um conceito por arquivo
+
+Cada indicador, dataset, relacionamento ou evento de coleta fica no seu próprio arquivo. Quando duas definições dividem o mesmo arquivo, um trecho de uma pode aparecer como resposta para a outra, e nada no trecho avisa a troca.
+
+### 2. Id, escopo e vigência em cada bloco
+
+Repita no título ou no subtítulo de cada seção o id com a versão, o escopo e a vigência. Assim, um trecho recortado do meio do arquivo ainda diz de que documento e de que período ele é:
+
+> **Cálculo da taxa de sessões convertidas (KPI-AURORA-001@2.0, loja web, vigente desde 15/09/2026)**
+
+Um título genérico, como “Cálculo”, vale para qualquer indicador e não ajuda a busca a escolher o trecho certo.
+
+### 3. Tabelas inteiras
+
+Mantenha as tabelas como tabelas, com o cabeçalho. Nunca achate uma tabela em texto corrido: “60 dias, 30 dias, setembro, agosto” perde a ligação entre cada valor e a coluna que dá sentido a ele.
+
+### 4. Só documentos aprovados como definição
+
+Entregue como fonte de definição só documentos no estado Aprovado. Rascunho e documento pendente de aprovação não entram. Versões substituídas só entram para perguntas sobre o passado, e com a vigência à vista em cada bloco, como pede a regra 2.
+
+## Que arquivo usar
+
+Use os arquivos `.md` publicados em [Endereços estáveis e schemas](../enderecos-e-schemas/), um por id e versão. Cada arquivo tem duas partes. No corpo, o título e cada subtítulo trazem o id com a versão e a vigência, e o quadro do título traz estado, domínio e licença: essa parte já segue as regras 1 e 2. No topo, entre as linhas `---`, fica o bloco de campos técnicos (fórmula, filtros, escopo, histórico), sem títulos: um pedaço cortado do meio dele não diz de que documento nem de que período é. Mantenha esse bloco num trecho só, junto do título do documento, ou acrescente a cada pedaço o id com a versão e a vigência. Se a sua ferramenta não reconhece esse bloco, ela pode ler a primeira linha dele, o aviso de que a Aurora é inventada, como se fosse o título; nesse caso, o título certo é a primeira linha que começa com `#` depois do bloco. Prefira o `.md` ao `.yaml`: a [ajuda oficial do Gemini Notebook](https://support.google.com/notebooklm/answer/16215270?hl=en) lista Markdown entre os formatos aceitos, e YAML não aparece na lista.
+
+## Tamanho do trecho
+
+Não existe um tamanho de trecho que sirva para todo caso. O [guia de chunking da Microsoft](https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/rag/rag-chunking-phase) diz que o resultado varia conforme o tipo de documento e recomenda testar mais de uma abordagem com as suas perguntas. Por isso o Contexto não fixa um número: as regras acima valem para qualquer tamanho que você escolher.
+
+Preparar os arquivos melhora as chances, mas não garante que a busca entregue o trecho certo. Veja os [limites do método](../../metodo/limites/).
+
+### Fundamentação
+
+- [Microsoft: enriquecimento de trechos em RAG](https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/rag/rag-enrichment-phase) (prática de mercado): guardar em cada trecho id, título, resumo, perguntas que ele responde e a fonte.
+- [Microsoft: fase de chunking em RAG](https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/rag/rag-chunking-phase) (prática de mercado): o resultado varia por tipo de documento; teste as abordagens.
+- [Anthropic: contextual retrieval](https://www.anthropic.com/news/contextual-retrieval) (relato de fornecedor): acrescentar a cada trecho uma frase sobre o documento de origem reduziu em 35% as falhas de busca entre os 20 primeiros trechos, e em 49% quando combinado com busca por palavras.
+- [Google: fontes aceitas no Gemini Notebook](https://support.google.com/notebooklm/answer/16215270?hl=en) (relato de fornecedor): formatos aceitos, entre eles Markdown, sem YAML na lista.
+
+Fontes conferidas em 17/11/2026.

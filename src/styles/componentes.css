@@ -530,6 +530,13 @@
   }
   .site-credits a { color: var(--sl-color-accent); }
 
+  /* DocumentosPublicados: tabela dos documentos por id@versão, com rolagem só na tabela. */
+  .documentos-publicados { max-width: 100%; min-width: 0; overflow-x: auto; margin: 1rem 0 1.25rem; }
+  .documentos-publicados:focus-visible { outline: 3px solid var(--sl-color-accent); outline-offset: 2px; }
+  .documentos-publicados table { display: table; width: 100%; min-width: 44rem; margin: 0; }
+  .documentos-publicados caption { text-align: left; font-weight: 700; font-size: var(--context-text-sm); padding-bottom: 0.4rem; color: var(--context-ink); }
+  .documentos-publicados code { white-space: nowrap; }
+
   /* Larguras de tela, da maior para a menor. */
   @media (max-width: 950px) {
     .context-hero__visual { width: 100%; }

@@ -1,7 +1,7 @@
 ---
 # Exemplo do Contexto. A Aurora é uma organização inventada; nomes, datas e aprovações fazem parte do caso.
 id: CONCEPT-ONBOARDING-001
-schema_version: "1.0.0"
+schema_version: "1.1.0"
 type: conceito
 title: "Participante ativo: programa de integração Aurora"
 version: "2.0"
@@ -17,6 +17,8 @@ review_interval: null
 source_of_truth: "Manual do Programa de Integração Aurora, seção 2.1"
 supersedes_revision: "CONCEPT-ONBOARDING-001@1.0"
 superseded_by_revision: null
+license: CC-BY-4.0
+source_url: "https://edoardolobl.github.io/contexto-framework/documentos/CONCEPT-ONBOARDING-001@2.0.md"
 intent:
   question: "Quem conta como participante ativo no programa de integração da Aurora?"
   audience: ["Coordenação de Integração", "Gerência de Pessoas"]

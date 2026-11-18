@@ -1,0 +1,294 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:contexto:schemas:1.0.0:dataset",
+  "title": "Dataset",
+  "description": "O significado de uma tabela e de cada coluna: o que é uma linha, chaves, códigos e limites de uso.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "urn:contexto:schemas:1.0.0:common"
+    }
+  ],
+  "properties": {
+    "type": {
+      "const": "dataset"
+    },
+    "dataset": {
+      "title": "Tabela",
+      "description": "Identificação física e o que uma linha representa.",
+      "type": "object",
+      "properties": {
+        "physical_name": {
+          "title": "Nome físico",
+          "description": "Nome da tabela no banco.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "platform": {
+          "title": "Plataforma",
+          "description": "Onde a tabela está.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "grain": {
+          "title": "Granularidade",
+          "description": "O que uma linha representa; sem isso, contagens saem erradas.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "primary_key": {
+          "title": "Chave primária",
+          "description": "Coluna que identifica cada linha.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "alternative_keys": {
+          "title": "Chaves alternativas",
+          "description": "Outras colunas que também identificam a linha.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "uniqueness_assumption": {
+          "title": "Critério de unicidade",
+          "description": "O que se supõe único e o que fazer com repetições.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "columns": {
+      "title": "Colunas",
+      "description": "Uma entrada por coluna.",
+      "type": "array",
+      "items": {
+        "title": "Coluna",
+        "description": "Uma coluna da tabela, com o significado de negócio.",
+        "type": "object",
+        "properties": {
+          "physical_name": {
+            "title": "Nome físico",
+            "description": "Nome da coluna como está no banco.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "technical_type": {
+            "title": "Tipo técnico",
+            "description": "Tipo no banco (TEXT, INTEGER).",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "business_name": {
+            "title": "Nome de negócio",
+            "description": "Nome que a área usa.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "meaning": {
+            "title": "Significado",
+            "description": "O que o valor quer dizer, inclusive códigos.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "unit": {
+            "title": "Unidade",
+            "description": "Unidade do valor, quando houver.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "allowed_values": {
+            "title": "Valores permitidos",
+            "description": "Lista fechada de valores, quando houver.",
+            "type": "array",
+            "items": {}
+          },
+          "sentinel_values": {
+            "title": "Códigos especiais",
+            "description": "Valores que significam outra coisa (como 9999 para sem data).",
+            "type": "array",
+            "items": {}
+          },
+          "null_meaning": {
+            "title": "Significado do vazio",
+            "description": "O que quer dizer a coluna sem valor.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "examples": {
+            "title": "Exemplos",
+            "description": "Valores reais ou de amostra.",
+            "type": "array",
+            "items": {}
+          },
+          "do_not_use_for": {
+            "title": "Não usar para",
+            "description": "Usos que levam a erro.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "time_semantics": {
+      "title": "Tempo",
+      "description": "Data de referência, fuso e atualização.",
+      "type": "object",
+      "properties": {
+        "reference_field": {
+          "title": "Campo de data",
+          "description": "Coluna que decide o dia de cada linha.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "timezone": {
+          "title": "Fuso horário",
+          "description": "Fuso da data gravada.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "update_frequency": {
+          "title": "Frequência de atualização",
+          "description": "De quanto em quanto tempo chegam dados.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "known_latency": {
+          "title": "Atraso conhecido",
+          "description": "Quanto tempo leva para um registro aparecer.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "snapshot_or_events": {
+          "title": "Fotografia ou eventos",
+          "description": "Se a tabela guarda uma fotografia por data ou cada evento.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "usage": {
+      "title": "Uso",
+      "description": "Perguntas que a tabela responde e armadilhas.",
+      "type": "object",
+      "properties": {
+        "authoritative_questions": {
+          "title": "Perguntas que responde",
+          "description": "Perguntas para as quais esta tabela é a fonte oficial.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "invalid_aggregations": {
+          "title": "Agregações proibidas",
+          "description": "Contas que dão número errado com esta tabela.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "related_datasets": {
+          "title": "Datasets relacionados",
+          "description": "Outras tabelas usadas junto, pelo identificador quando houver documento.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "known_caveats": {
+          "title": "Armadilhas conhecidas",
+          "description": "Ressalvas com o efeito no número.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "sample_queries": {
+          "title": "Consultas de exemplo",
+          "description": "Arquivos ou consultas que existiam na data da versão.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "validation": {
+      "title": "Conferência",
+      "description": "Quem conferiu, quando e com que evidência.",
+      "type": "object",
+      "properties": {
+        "checked_by": {
+          "title": "Conferido por",
+          "description": "Cargo ou área.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "checked_at": {
+          "title": "Conferido em",
+          "description": "Data da conferência.",
+          "$ref": "urn:contexto:schemas:1.0.0:common#/$defs/data_ou_nulo"
+        },
+        "evidence": {
+          "title": "Evidência",
+          "description": "Arquivos ou registros usados na conferência.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "related_documents": {
+      "title": "Documentos relacionados",
+      "description": "Identificadores de outros documentos que ajudam a ler este.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "unevaluatedProperties": false
+}

@@ -50,8 +50,20 @@ Cada fonte nas tabelas abaixo leva um rótulo com o tipo dela:
 | [Databricks: Tune Genie Agent quality](https://docs.databricks.com/gcp/en/genie/add-instructions) | Relato de fornecedor | Exemplos SQL e contexto de negócio para consultas analíticas | Recursos e nomes específicos podem evoluir |
 | [Microsoft: Preparação de RAG](https://learn.microsoft.com/pt-br/azure/architecture/ai-ml/guide/rag/rag-preparation-phase) | Prática de mercado | Delimitar domínio, selecionar conteúdo e perguntas de referência | Preparação documental não substitui validação de sistema |
 | [Microsoft: Avaliação de recuperação](https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/rag/rag-information-retrieval) | Prática de mercado | Casos positivos e negativos de recuperação | Não atribuímos pontuação de RAG neste portal |
-| [AGENTS.md](https://agents.md/) | Prática de mercado | Arquivo de instruções que agentes de programação leem na raiz do repositório | Formato livre; cada ferramenta decide como lê. A instrução orienta, não garante o comportamento |
 | [NIST AI RMF: Measure](https://airc.nist.gov/airmf-resources/playbook/measure/) | Norma | Avaliação, supervisão humana e registro de riscos | Nossa rubrica não certifica decisões de alto impacto |
+
+## Padrões e formatos para agentes
+
+Formatos que o Contexto usa ou cita para entregar documentos a agentes e a outras ferramentas. Todos mudam rápido; por isso cada linha traz a versão e a data em que foi consultada.
+
+| Fonte | Tipo de fonte | Versão e consulta | Uso no framework | Limite |
+|---|---|---|---|---|
+| [ODCS, JSON Schema oficial](https://github.com/bitol-io/open-data-contract-standard/blob/v3.2.0/schema/odcs-json-schema-v3.2.0.json) | Prática de mercado | 3.2.0, consultado em 17/11/2026 | Nomes de chave iguais onde o significado é o mesmo; [tabela de correspondência](./correspondencia-odcs/) | Contrato técnico de dados, não formulário para público misto. O Contexto não depende dele |
+| [Apache Ossie, especificação](https://github.com/apache/ossie/blob/osi-0.1.1-rc1/core-spec/spec.md) | Prática de mercado | 0.1.1, de 11/12/2025, consultado em 17/11/2026 | Correspondência dos conceitos de modelo semântico (`metrics`, dimensão, entidade e relacionamento) | Projeto em incubação na Apache; a 0.3.0.dev0 é rascunho. Alinhamento só documental |
+| [Agent Skills, especificação](https://agentskills.io/specification) | Prática de mercado | Sem número de versão na página, consultado em 17/11/2026 | Formato da Skill de auditoria de coleta do [kit para agentes](../usar-com-ia/kit-para-agentes/) | Criada pela Anthropic e aberta depois. Onde cada ferramenta instala a Skill depende da ferramenta |
+| [AGENTS.md](https://agents.md/) | Prática de mercado | Sem número de versão, consultado em 17/11/2026 | Arquivo de instruções que agentes de programação leem na raiz do repositório | Formato livre; cada ferramenta decide como lê. A instrução orienta, não garante o comportamento |
+| [llms.txt](https://llmstxt.org/) | Prática de mercado | Proposta v2, de 03/09/2024, revista em 10/08/2026, consultada em 17/11/2026 | Arquivo `llms.txt` gerado com a lista de páginas e documentos ([Endereços estáveis e schemas](../usar-com-ia/enderecos-e-schemas/)) | Convenção da comunidade, não padrão. A Busca do Google não usa o arquivo |
+| [Model Context Protocol (MCP)](https://modelcontextprotocol.io/specification/2026-07-28) | Prática de mercado | 2026-07-28, consultado em 17/11/2026 | Referência para desenhar, no futuro, como expor documentos a agentes | O Contexto não publica servidor MCP. O protocolo muda a cada revisão |
 
 ## Evidência empírica
 

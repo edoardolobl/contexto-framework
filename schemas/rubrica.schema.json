@@ -1,12 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:contexto:schemas:1.0.0:rubrica",
+  "$id": "urn:contexto:schemas:1.1.0:rubrica",
   "title": "Rubrica de avaliação",
   "description": "Critérios, níveis, nota e calibração para avaliar um trabalho. A nota nunca decide sozinha.",
   "type": "object",
   "allOf": [
     {
-      "$ref": "urn:contexto:schemas:1.0.0:common"
+      "$ref": "urn:contexto:schemas:1.1.0:common"
     }
   ],
   "properties": {

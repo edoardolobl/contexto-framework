@@ -1,0 +1,199 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:contexto:schemas:1.0.0:dashboard",
+  "title": "Dashboard",
+  "description": "Guia de leitura de um dashboard: indicadores e versões, filtros, atualização, limitações e outros dashboards com números diferentes.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "urn:contexto:schemas:1.0.0:common"
+    }
+  ],
+  "properties": {
+    "type": {
+      "const": "dashboard"
+    },
+    "metrics": {
+      "title": "Indicadores",
+      "description": "Identificadores dos indicadores mostrados.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "default_filters": {
+      "title": "Filtros padrão",
+      "description": "Filtro e valor aplicados quando o dashboard abre.",
+      "type": "object"
+    },
+    "dimensions": {
+      "title": "Dimensões",
+      "description": "Cortes disponíveis.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "time_semantics": {
+      "title": "Tempo",
+      "description": "Data, fuso, período e comparação.",
+      "type": "object",
+      "properties": {
+        "date_field": {
+          "title": "Campo de data",
+          "description": "Coluna que decide o dia.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "timezone": {
+          "title": "Fuso horário",
+          "description": "Fuso do fechamento do dia.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "reporting_period": {
+          "title": "Período",
+          "description": "Período coberto.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "comparison_baseline": {
+          "title": "Comparação",
+          "description": "Com o que o número é comparado e desde quando a comparação vale.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "freshness": {
+      "title": "Atualização",
+      "description": "Frequência, latência e última conferência.",
+      "type": "object",
+      "properties": {
+        "refresh_frequency": {
+          "title": "Frequência",
+          "description": "De quanto em quanto tempo atualiza.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "latency": {
+          "title": "Latência",
+          "description": "Atraso esperado.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "verified_at": {
+          "title": "Conferido em",
+          "description": "Última data em que os números foram conferidos.",
+          "$ref": "urn:contexto:schemas:1.0.0:common#/$defs/data_ou_nulo"
+        }
+      },
+      "additionalProperties": false
+    },
+    "official_or_exploratory": {
+      "title": "Oficial ou exploratório",
+      "description": "Se este dashboard é a fonte oficial do indicador ou um dashboard exploratório.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "known_limitations": {
+      "title": "Limitações",
+      "description": "O que o dashboard não cobre e quando o número não deve apoiar uma decisão.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "metric_versions": {
+      "title": "Versão de cada indicador",
+      "description": "Versão que o dashboard segue, por identificador do indicador.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^\\d+\\.\\d+(\\.\\d+)?$"
+      }
+    },
+    "conflicting_dashboards": {
+      "title": "Outros dashboards com outro número",
+      "description": "Outro dashboard que mostra outro número para o mesmo dia, com a causa e qual vale.",
+      "type": "array",
+      "items": {
+        "title": "Dashboard em conflito",
+        "description": "Um dashboard que diverge deste.",
+        "type": "object",
+        "properties": {
+          "name": {
+            "title": "Nome",
+            "description": "Nome do outro dashboard.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "shows": {
+            "title": "O que mostra",
+            "description": "O número que ele mostra.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "cause": {
+            "title": "Causa",
+            "description": "Por que diverge.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "precedence": {
+            "title": "Qual vale",
+            "description": "Qual dos dois prevalece.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "found_at": {
+            "title": "Encontrado em",
+            "description": "Data em que a divergência foi vista.",
+            "$ref": "urn:contexto:schemas:1.0.0:common#/$defs/data_ou_nulo"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "reference_questions": {
+      "title": "Perguntas de negócio",
+      "description": "Identificadores dos documentos de Perguntas de negócio ligados.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "related_documents": {
+      "title": "Documentos relacionados",
+      "description": "Identificadores de outros documentos que ajudam a ler este.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "unevaluatedProperties": false
+}

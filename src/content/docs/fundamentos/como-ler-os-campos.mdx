@@ -27,7 +27,7 @@ Quando o núcleo estiver claro, complete a identificação. Todo modelo tem este
 | Rótulo em português | Nome do campo | O que escrever |
 |---|---|---|
 | Identificador do assunto | `id` | Um código estável para a definição, como `KPI-AURORA-001` |
-| Versão do formato | `schema_version` | Já vem preenchido (`1.0.0`). Diz em qual formato o arquivo foi escrito, não a versão do documento |
+| Versão do formato | `schema_version` | Já vem preenchido (`1.1.0`). Diz em qual formato o arquivo foi escrito, não a versão do documento. Documentos com `1.0.0` continuam valendo |
 | Tipo de documento | `type` | Já vem preenchido com o nome do modelo, como `kpi` ou `perguntas-de-negocio` |
 | Título | `title` | O nome do assunto, como as pessoas da área o chamam |
 | Versão atual | `version` | 0.1 para o primeiro rascunho; 1.0 para a primeira versão aprovada. Para as seguintes, veja [como numerar](#como-numerar-as-versões) |
@@ -44,6 +44,8 @@ Quando o núcleo estiver claro, complete a identificação. Todo modelo tem este
 | Fonte oficial | `source_of_truth` | Onde está o documento ou sistema que manda quando há divergência |
 | Substitui qual versão? | `supersedes_revision` | Identificador da versão anterior, quando houver |
 | Substituída por qual versão? | `superseded_by_revision` | Só quando outra versão tomou o lugar desta: o identificador da versão nova |
+| Licença | `license` | Opcional. A licença com que o documento pode ser reutilizado, num código padrão (SPDX), como `CC-BY-4.0`. Deixe em branco enquanto o time não decidir |
+| Endereço publicado | `source_url` | Opcional. O endereço na internet onde esta versão está publicada, começando por `https://`, para quem receber um trecho saber de onde ele veio. Deixe em branco enquanto o documento não for publicado |
 | Pergunta de negócio que o documento responde | `intent.question` | A pergunta escrita como alguém da área faria. Sem ela, o documento não sai do rascunho |
 | Quem usa | `intent.audience` | Cargos ou áreas que leem e usam o documento |
 | Para quê | `intent.purpose` | Para que o documento existe, em uma frase |

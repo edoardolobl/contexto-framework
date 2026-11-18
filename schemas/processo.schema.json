@@ -1,12 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:contexto:schemas:1.0.0:processo",
+  "$id": "urn:contexto:schemas:1.1.0:processo",
   "title": "Processo",
   "description": "Como um trabalho é executado: gatilho, etapas, papéis, prazos, exceções e evidências.",
   "type": "object",
   "allOf": [
     {
-      "$ref": "urn:contexto:schemas:1.0.0:common"
+      "$ref": "urn:contexto:schemas:1.1.0:common"
     }
   ],
   "properties": {

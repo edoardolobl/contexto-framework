@@ -1,7 +1,7 @@
 ---
 # Exemplo do Contexto, versão com lacunas: nada aqui foi aprovado. A Aurora é uma organização inventada.
 id: QA-AURORA-001
-schema_version: "1.0.0"
+schema_version: "1.1.0"
 type: perguntas-de-negocio
 title: "Gabarito documental: sessões convertidas Aurora"
 version: "0.1"
@@ -17,6 +17,8 @@ review_interval: null
 source_of_truth: null
 supersedes_revision: null
 superseded_by_revision: null
+license: CC-BY-4.0
+source_url: "https://edoardolobl.github.io/contexto-framework/documentos/QA-AURORA-001@0.1.md"
 intent:
   question: "Que perguntas sobre a conversão web da Aurora a IA deve responder, esclarecer ou recusar?"
   audience: ["Analytics de E-commerce", "Quem testa agentes de IA"]

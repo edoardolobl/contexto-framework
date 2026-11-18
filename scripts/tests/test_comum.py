@@ -226,7 +226,9 @@ def test_estados_e_ordem_do_cabecalho():
     assert comum.ESTADOS_DO_DOCUMENTO == {"draft", "pending_approval", "approved", "superseded", "deprecated"}
     assert comum.ESTADOS_JA_APROVADOS == {"approved", "superseded"}
     assert comum.HEADER_ORDER[0] == "id" and comum.HEADER_ORDER[-1] == "version_history"
-    assert len(comum.HEADER_ORDER) == 22 and len(set(comum.HEADER_ORDER)) == 22
+    assert len(comum.HEADER_ORDER) == 24 and len(set(comum.HEADER_ORDER)) == 24
+    i = comum.HEADER_ORDER.index("superseded_by_revision")
+    assert comum.HEADER_ORDER[i + 1:i + 4] == ("license", "source_url", "intent")
     assert comum.HEADER_ORDER.index("recorded_at") == comum.HEADER_ORDER.index("valid_to") + 1
 
 
@@ -244,6 +246,47 @@ def test_estados_e_ordem_do_cabecalho():
 )
 def test_arquivo_de_download_devolve_caminho_relativo(url: str, esperado: str | None):
     assert comum.arquivo_de_download(url) == esperado
+
+
+# ---------- arquivo_publicado ----------
+
+@pytest.mark.parametrize(
+    ("rota", "url", "esperado"),
+    [
+        ("/usar-com-ia/enderecos/", "../../schemas/1.1.0/kpi.schema.json", "schemas/1.1.0/kpi.schema.json"),
+        ("/usar-com-ia/enderecos/", "../../schemas/1.1.0/kpi.schema.json#x", "schemas/1.1.0/kpi.schema.json"),
+        ("/usar-com-ia/", "../llms.txt", "llms.txt"),
+        ("/a/b/", "../../documentos/KPI-A-001@2.0.md", "documentos/KPI-A-001@2.0.md"),
+        ("/a/", "kit.zip?v=1", "a/kit.zip"),
+        ("/a/", "x.sql", "a/x.sql"),
+        ("/a/", "../metodo/limites/", None),
+        ("/a/", "../metodo/versao-1.0/", None),
+        ("/a/", "https://x.org/a.json", None),
+        ("/a/", "/schemas/a.json", None),
+        ("/a/", "#ancora", None),
+        ("/a/", "../../../x.json", None),
+        ("/a/", "{id}.json", None),
+        ("/a/", "mailto:a@b.json", None),
+        ("/a/", "", None),
+    ],
+)
+def test_arquivo_publicado_resolve_como_o_navegador(rota: str, url: str, esperado: str | None):
+    assert comum.arquivo_publicado(rota, url) == esperado
+
+
+def test_link_para_arquivo_publicado_e_aceito_se_existe_e_recusado_se_nao(tmp_path: Path):
+    (tmp_path / "schemas/1.1.0").mkdir(parents=True)
+    (tmp_path / "schemas/1.1.0/kpi.schema.json").write_text("{}", encoding="utf-8")
+    url = "../../schemas/1.1.0/kpi.schema.json"
+    assert comum.arquivo_publicado_ausente("/usar-com-ia/enderecos/", url, tmp_path) is None
+    assert comum.arquivo_publicado_ausente("/usar-com-ia/enderecos/", "../../schemas/1.1.0/dataset.schema.json", tmp_path) \
+        == "schemas/1.1.0/dataset.schema.json"
+    assert comum.arquivo_publicado_ausente("/a/", "../metodo/limites/", tmp_path) is None
+
+
+def test_resolver_link_ignora_arquivo_publicado():
+    assert comum.resolver_link("/a/b/", "../../schemas/1.1.0/kpi.schema.json") == (None, False)
+    assert comum.resolver_link("/a/b/", "../c/") == ("/a/c/", False)
 
 
 # ---------- regras puras de validate_content ----------

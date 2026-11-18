@@ -1,12 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:contexto:schemas:1.0.0:evento-coleta",
+  "$id": "urn:contexto:schemas:1.1.0:evento-coleta",
   "title": "Evento de coleta",
   "description": "Como um evento de mensuração deve se comportar em cada operação: onde dispara, com que frequência, quando zero é normal e o que já aconteceu com ele. Serve para separar silêncio esperado de falha antes de chamar o evento de quebrado.",
   "type": "object",
   "allOf": [
     {
-      "$ref": "urn:contexto:schemas:1.0.0:common"
+      "$ref": "urn:contexto:schemas:1.1.0:common"
     }
   ],
   "required": [
@@ -162,7 +162,7 @@
           "since": {
             "title": "Ativo desde",
             "description": "Primeiro dia em que o evento passou a disparar nesse escopo, no formato AAAA-MM-DD.",
-            "$ref": "urn:contexto:schemas:1.0.0:common#/$defs/data_ou_nulo"
+            "$ref": "urn:contexto:schemas:1.1.0:common#/$defs/data_ou_nulo"
           },
           "reason": {
             "title": "Motivo",
@@ -293,12 +293,12 @@
     "launch_date": {
       "title": "Data de lançamento",
       "description": "Primeiro dia em que o evento disparou em produção; antes dele, zero é o esperado.",
-      "$ref": "urn:contexto:schemas:1.0.0:common#/$defs/data_ou_nulo"
+      "$ref": "urn:contexto:schemas:1.1.0:common#/$defs/data_ou_nulo"
     },
     "retirement_date": {
       "title": "Data de desativação",
       "description": "Primeiro dia em que o evento deixou de existir; em branco enquanto continua em uso.",
-      "$ref": "urn:contexto:schemas:1.0.0:common#/$defs/data_ou_nulo"
+      "$ref": "urn:contexto:schemas:1.1.0:common#/$defs/data_ou_nulo"
     },
     "renamed_from": {
       "title": "Nomes anteriores",
@@ -320,12 +320,12 @@
           "valid_from": {
             "title": "Usado a partir de",
             "description": "Primeiro dia em que o nome antigo foi usado, no formato AAAA-MM-DD.",
-            "$ref": "urn:contexto:schemas:1.0.0:common#/$defs/data_ou_nulo"
+            "$ref": "urn:contexto:schemas:1.1.0:common#/$defs/data_ou_nulo"
           },
           "valid_to": {
             "title": "Usado até (sem incluir)",
             "description": "Primeiro dia em que o nome antigo deixou de ser usado, sem contar esse dia.",
-            "$ref": "urn:contexto:schemas:1.0.0:common#/$defs/data_ou_nulo"
+            "$ref": "urn:contexto:schemas:1.1.0:common#/$defs/data_ou_nulo"
           }
         },
         "additionalProperties": false
@@ -436,12 +436,12 @@
           "start": {
             "title": "Início",
             "description": "Primeiro dia afetado, no formato AAAA-MM-DD.",
-            "$ref": "urn:contexto:schemas:1.0.0:common#/$defs/data_ou_nulo"
+            "$ref": "urn:contexto:schemas:1.1.0:common#/$defs/data_ou_nulo"
           },
           "end": {
             "title": "Fim",
             "description": "Último dia afetado, no formato AAAA-MM-DD; em branco se ainda não acabou.",
-            "$ref": "urn:contexto:schemas:1.0.0:common#/$defs/data_ou_nulo"
+            "$ref": "urn:contexto:schemas:1.1.0:common#/$defs/data_ou_nulo"
           },
           "description": {
             "title": "O que aconteceu",

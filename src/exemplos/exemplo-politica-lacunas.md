@@ -1,7 +1,7 @@
 ---
 # Exemplo do Contexto, versão com lacunas: nada aqui foi aprovado. A Aurora é uma organização inventada.
 id: POLICY-EVENTS-001
-schema_version: "1.0.0"
+schema_version: "1.1.0"
 type: politica
 title: "Despesas em eventos: Aurora"
 version: "0.1"
@@ -17,6 +17,8 @@ review_interval: null
 source_of_truth: null
 supersedes_revision: null
 superseded_by_revision: null
+license: CC-BY-4.0
+source_url: "https://edoardolobl.github.io/contexto-framework/documentos/POLICY-EVENTS-001@0.1.md"
 intent:
   question: "Qual regra de despesas de evento está valendo na Aurora?"
   audience: ["Equipe de eventos", Controladoria]

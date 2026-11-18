@@ -1,0 +1,35 @@
+# Configuração do kit para agentes (gerar_saidas.py). Os textos AGENTS.md e skills/ ficam nesta pasta.
+pasta: contexto-kit-agentes
+# Arquivos de public/downloads copiados para dados/ no kit.
+dados:
+  - aurora-fixture.sql
+  - aurora-reference-query.sql
+  - aurora-lab2-fixture.sql
+  - aurora-lab2-reference-query.sql
+# Por skill: ids de documento copiados para references/ (versão aprovada vigente).
+skills:
+  auditar-coleta:
+    - DECISION-AURORA-EVENTO-QUEBRADO
+    - EVENT-AURORA-GENERATE-LEAD
+# Termos do glossário que não têm campo próprio num documento. Cada um cita o documento aprovado que o define,
+# e o glossário mostra a versão aprovada vigente desse documento. Conceitos, indicadores e eventos entram sozinhos.
+termos:
+  - termo: sessão convertida
+    documento: KPI-AURORA-001
+    resumo: "Sessão do canal web, fora do tráfego interno, com pelo menos um pedido confirmado. Conta uma vez, mesmo com dois pedidos."
+    nao_confundir: ["pedido confirmado: uma sessão convertida pode ter mais de um"]
+  - termo: linha de base
+    documento: EVENT-AURORA-GENERATE-LEAD
+    resumo: "Comportamento normal de um evento numa operação, medido numa janela de dias completos: média por dia, parte dos dias em zero e maior sequência em zero. O silêncio se compara com a linha de base da mesma operação."
+    nao_confundir: ["um dia isolado em zero, que sozinho não é quebra"]
+  - termo: dia completo
+    documento: EVENT-AURORA-GENERATE-LEAD
+    resumo: "Dia cujos dados já chegaram por inteiro. Para o generate_lead, o dia fica completo em D+2 às 06h no fuso da operação. Dia incompleto não entra na conta de dias em zero."
+  - termo: tolerância ao silêncio
+    documento: EVENT-AURORA-GENERATE-LEAD
+    resumo: "Número de dias completos seguidos em zero a partir do qual o time suspeita de falha, registrado por operação no Evento de coleta. É escolha do time, não regra universal."
+  - termo: evento quebrado
+    documento: DECISION-AURORA-EVENTO-QUEBRADO
+    resumo: "Evento do plano de mensuração que parou de coletar numa operação. Só vira candidato a falha (failure_candidate) quando está no escopo, os dados do dia estão completos, não há exceção conhecida, ele costuma disparar e o silêncio durou o que o time definiu. Candidato a falha é motivo para investigar, não defeito provado."
+    sinonimos: ["evento que parou de coletar"]
+    nao_confundir: ["silêncio dentro da tolerância (within_expected)", "evento fora do escopo da operação (not_active_in_scope)"]

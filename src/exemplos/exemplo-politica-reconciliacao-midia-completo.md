@@ -1,7 +1,7 @@
 ---
 # Exemplo do Contexto. A Aurora é uma organização inventada; nomes, datas e aprovações fazem parte do caso.
 id: POLICY-AURORA-RECONCILIACAO-MIDIA
-schema_version: "1.0.0"
+schema_version: "1.1.0"
 type: politica
 title: "Ficha de reconciliação entre mídia, GA4, pedidos e ERP: Aurora"
 version: "1.1"
@@ -17,6 +17,8 @@ review_interval: "P6M"
 source_of_truth: "Ficha de reconciliação publicada pela Performance de Mídia, versão 1.1"
 supersedes_revision: "POLICY-AURORA-RECONCILIACAO-MIDIA@1.0"
 superseded_by_revision: null
+license: CC-BY-4.0
+source_url: "https://edoardolobl.github.io/contexto-framework/documentos/POLICY-AURORA-RECONCILIACAO-MIDIA@1.1.md"
 intent:
   question: "Qual fonte vale para verba, pedidos e receita quando Meta, Google Ads, GA4, BigQuery e ERP mostram números diferentes?"
   audience: ["Performance de Mídia (Aurora)", "Analytics de E-commerce (Aurora)", "Financeiro (Aurora)"]

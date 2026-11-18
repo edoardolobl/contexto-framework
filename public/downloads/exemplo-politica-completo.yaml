@@ -1,6 +1,6 @@
 # Exemplo do Contexto. A Aurora é uma organização inventada; nomes, datas e aprovações fazem parte do caso.
 id: POLICY-EVENTS-001
-schema_version: "1.0.0"
+schema_version: "1.1.0"
 type: politica
 title: "Despesas em eventos: Aurora"
 version: "1.1"
@@ -16,6 +16,8 @@ review_interval: null
 source_of_truth: "POL-FIN-014, versão 3, publicada na intranet em Políticas > Finanças"
 supersedes_revision: "POLICY-EVENTS-001@1.0"
 superseded_by_revision: null
+license: CC-BY-4.0
+source_url: "https://edoardolobl.github.io/contexto-framework/documentos/POLICY-EVENTS-001@1.1.md"
 intent:
   question: "Qual regra de despesas de evento está valendo na Aurora?"
   audience: ["Equipe de eventos", "Quem aprova despesas", Controladoria]
