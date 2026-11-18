@@ -23,17 +23,17 @@ Os campos marcados com **(obrigatório)** são o mínimo para começar. Os demai
 
 Estados possíveis: **Rascunho**, **Pendente de aprovação**, **Aprovado**, **Obsoleto**. Só marque "Aprovado" quando quem aprova tiver confirmado por escrito.
 
-## 1. Definição de negócio
+## Definição de negócio
 - O que mede?
 - Qual decisão apoia?
 - Existem sinônimos ou definições diferentes em outras áreas?
 
-## 2. Escopo e aplicabilidade
+## Escopo e aplicabilidade
 - Canais/população incluídos:
 - Exclusões:
 - Quando a definição não deve ser aplicada:
 
-## 3. Cálculo
+## Cálculo
 - Numerador (definição e critérios):
 - Denominador (definição e critérios):
 - Fórmula e unidade:
@@ -41,27 +41,24 @@ Estados possíveis: **Rascunho**, **Pendente de aprovação**, **Aprovado**, **O
 - Regra de agregação:
 - Nulos e divisões por zero:
 
-## 4. Convenções temporais
+## Convenções temporais
 - Campo de data de referência:
 - Janela e fuso horário:
 - Frequência e defasagem de atualização:
 
-## 5. Fontes e semântica dos dados
+## Fontes e semântica dos dados
 - Sistema ou tabela que manda quando há divergência:
 - Tabelas e campos necessários:
 - Relacionamentos autorizados:
 - Regras de precedência entre fontes:
 
-## 6. Exceções e exemplos
+## Exceções e exemplos
 - Casos-limite e tratamento:
 - Exemplos aprovados de interpretação:
 - Perguntas que o documento deve permitir responder:
 
-## 7. Revisão
+## Revisão
 - Quando este indicador deve ser revisto:
-
-## 8. Perguntas ainda em aberto
-- [ ] Pergunta em aberto, responsável e impacto se não resolvida:
 
 ## Perguntas em aberto
 Repita para cada pergunta que ninguém decidiu.

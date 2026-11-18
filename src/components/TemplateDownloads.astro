@@ -1,76 +1,24 @@
 ---
-interface Props {
-  kind: 'conceito' | 'processo' | 'decisao' | 'politica' | 'kpi' | 'dataset' | 'relacionamento' | 'dashboard' | 'rubrica' | 'casos-teste';
-}
+/**
+ * Os quatro arquivos de um modelo, montados a partir do slug de src/data/modelos.yaml.
+ * kind: o slug do tipo (Perguntas de negócio usa 'casos-teste' até a F3).
+ */
+import { baseUrl, modeloPorSlug } from '../lib/dados';
+
+interface Props { kind: string }
 const { kind } = Astro.props;
-const files: Record<Props['kind'], { name: string; href: string; format: string }[]> = {
-  conceito: [
-    { name: 'Modelo de conceito', href: 'template-conceito.md', format: 'Markdown · para preencher em texto' },
-    { name: 'Modelo estruturado', href: 'template-conceito.yaml', format: 'YAML · campos vazios' },
-    { name: 'Exemplo com lacunas', href: 'exemplo-conceito-lacunas.yaml', format: 'YAML · nada aprovado' },
-    { name: 'Exemplo completo', href: 'exemplo-conceito-completo.yaml', format: 'YAML · aprovado' },
-  ],
-  processo: [
-    { name: 'Modelo de processo', href: 'template-processo.md', format: 'Markdown · para preencher em texto' },
-    { name: 'Modelo estruturado', href: 'template-processo.yaml', format: 'YAML · campos vazios' },
-    { name: 'Exemplo com lacunas', href: 'exemplo-processo-lacunas.yaml', format: 'YAML · nada aprovado' },
-    { name: 'Exemplo completo', href: 'exemplo-processo-completo.yaml', format: 'YAML · aprovado' },
-  ],
-  decisao: [
-    { name: 'Modelo de decisão', href: 'template-decisao.md', format: 'Markdown · para preencher em texto' },
-    { name: 'Modelo estruturado', href: 'template-decisao.yaml', format: 'YAML · campos vazios' },
-    { name: 'Exemplo com lacunas', href: 'exemplo-decisao-lacunas.yaml', format: 'YAML · nada aprovado' },
-    { name: 'Exemplo completo', href: 'exemplo-decisao-completo.yaml', format: 'YAML · aprovado' },
-  ],
-  politica: [
-    { name: 'Modelo de política', href: 'template-politica.md', format: 'Markdown · para preencher em texto' },
-    { name: 'Modelo estruturado', href: 'template-politica.yaml', format: 'YAML · campos vazios' },
-    { name: 'Exemplo com lacunas', href: 'exemplo-politica-lacunas.yaml', format: 'YAML · nada aprovado' },
-    { name: 'Exemplo completo', href: 'exemplo-politica-completo.yaml', format: 'YAML · aprovado' },
-  ],
-  dataset: [
-    { name: 'Modelo de dataset', href: 'template-dataset.md', format: 'Markdown · para preencher em texto' },
-    { name: 'Modelo estruturado', href: 'template-dataset.yaml', format: 'YAML · campos vazios' },
-    { name: 'Exemplo com lacunas', href: 'exemplo-dataset-lacunas.yaml', format: 'YAML · nada aprovado' },
-    { name: 'Exemplo completo', href: 'exemplo-dataset-completo.yaml', format: 'YAML · aprovado' },
-  ],
-  relacionamento: [
-    { name: 'Modelo de relacionamento', href: 'template-relacionamento.md', format: 'Markdown · para preencher em texto' },
-    { name: 'Modelo estruturado', href: 'template-relacionamento.yaml', format: 'YAML · campos vazios' },
-    { name: 'Exemplo com lacunas', href: 'exemplo-relacionamento-lacunas.yaml', format: 'YAML · nada aprovado' },
-    { name: 'Exemplo completo', href: 'exemplo-relacionamento-completo.yaml', format: 'YAML · aprovado' },
-  ],
-  dashboard: [
-    { name: 'Modelo de dashboard', href: 'template-dashboard.md', format: 'Markdown · para preencher em texto' },
-    { name: 'Modelo estruturado', href: 'template-dashboard.yaml', format: 'YAML · campos vazios' },
-    { name: 'Exemplo com lacunas', href: 'exemplo-dashboard-lacunas.yaml', format: 'YAML · nada aprovado' },
-    { name: 'Exemplo completo', href: 'exemplo-dashboard-completo.yaml', format: 'YAML · aprovado' },
-  ],
-  rubrica: [
-    { name: 'Modelo de rubrica', href: 'template-rubrica.md', format: 'Markdown · para preencher em texto' },
-    { name: 'Modelo estruturado', href: 'template-rubrica.yaml', format: 'YAML · campos vazios' },
-    { name: 'Exemplo com lacunas', href: 'exemplo-rubrica-lacunas.yaml', format: 'YAML · nada aprovado' },
-    { name: 'Exemplo completo', href: 'exemplo-rubrica-completo.yaml', format: 'YAML · aprovado' },
-  ],
-  'casos-teste': [
-    { name: 'Modelo de gabarito', href: 'template-casos-teste.md', format: 'Markdown · para preencher em texto' },
-    { name: 'Modelo estruturado', href: 'template-casos-teste.yaml', format: 'YAML · campos vazios' },
-    { name: 'Exemplo com lacunas', href: 'exemplo-casos-teste-lacunas.yaml', format: 'YAML · nada aprovado' },
-    { name: 'Exemplo completo', href: 'exemplo-casos-teste-completo.yaml', format: 'YAML · aprovado' },
-  ],
-  kpi: [
-    { name: 'Modelo de KPI', href: 'template-kpi.md', format: 'Markdown · para preencher em texto' },
-    { name: 'Modelo estruturado', href: 'template-kpi.yaml', format: 'YAML · campos vazios' },
-    { name: 'Exemplo com lacunas', href: 'exemplo-kpi-lacunas.yaml', format: 'YAML · nada aprovado' },
-    { name: 'Exemplo completo', href: 'exemplo-kpi-completo.yaml', format: 'YAML · aprovado' },
-  ],
-};
-const raw = import.meta.env.BASE_URL;
-const base = raw.endsWith('/') ? raw : raw + '/';
+const modelo = modeloPorSlug(kind);
+const arquivos = [
+  { name: modelo.rotulo_download, href: `template-${modelo.slug}.md`, format: 'Markdown · para preencher em texto' },
+  { name: 'Modelo estruturado', href: `template-${modelo.slug}.yaml`, format: 'YAML · campos vazios' },
+  { name: 'Exemplo com lacunas', href: `exemplo-${modelo.slug}-lacunas.yaml`, format: 'YAML · nada aprovado' },
+  { name: 'Exemplo completo', href: `exemplo-${modelo.slug}-completo.yaml`, format: 'YAML · aprovado' },
+];
+const base = baseUrl();
 ---
-<div class="template-downloads" role="group" aria-label="Arquivos de exemplo e template para reutilizar">
-  {files[kind].map((file) => <a href={base + 'downloads/' + file.href} download>
+<div class="template-downloads" role="group" aria-label="Arquivos de exemplo e modelo para reutilizar">
+  {arquivos.map((arquivo) => <a href={`${base}downloads/${arquivo.href}`} download>
     <span class="download-icon" aria-hidden="true">↓</span>
-    <span class="download-name">{file.name}<small>{file.format}</small></span>
+    <span class="download-name">{arquivo.name}<small>{arquivo.format}</small></span>
   </a>)}
 </div>

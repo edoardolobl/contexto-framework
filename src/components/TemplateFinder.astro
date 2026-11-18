@@ -1,64 +1,40 @@
 ---
-const choices = [
-  { group: 'negocio', id: 'conceito', label: 'Explicar o significado de um termo', href: 'templates/conceito/', download: 'template-conceito.md', summary: 'Definição, sinônimos, exemplos e situações em que o termo não se aplica.' },
-  { group: 'negocio', id: 'processo', label: 'Descrever como um trabalho é executado', href: 'templates/processo/', download: 'template-processo.md', summary: 'Gatilho, etapas, responsáveis, decisões, exceções e evidências.' },
-  { group: 'negocio', id: 'decisao', label: 'Definir critérios para uma decisão', href: 'templates/decisao/', download: 'template-decisao.md', summary: 'Condições, prioridade entre regras, resultados e tratamento de dúvidas.' },
-  { group: 'negocio', id: 'politica', label: 'Registrar uma política ou obrigação', href: 'templates/politica/', download: 'template-politica.md', summary: 'Escopo, autoridade, versões, vigência, exceções e fontes oficiais.' },
-  { group: 'negocio', id: 'rubrica', label: 'Definir como avaliar um trabalho', href: 'templates/rubrica/', download: 'template-rubrica.md', summary: 'Critérios, níveis de qualidade, evidências e revisão humana.' },
-  { group: 'dados', id: 'kpi', label: 'Explicar como um indicador é calculado', href: 'templates/kpi/', download: 'template-kpi.md', summary: 'Fórmula, população, filtros, período e significado do indicador.' },
-  { group: 'dados', id: 'dataset', label: 'Explicar uma tabela e seus campos', href: 'templates/dataset/', download: 'template-dataset.md', summary: 'Granularidade, chaves, códigos, valores especiais e limites de uso.' },
-  { group: 'dados', id: 'relacionamento', label: 'Documentar como tabelas se relacionam', href: 'templates/relacionamento/', download: 'template-relacionamento.md', summary: 'Chaves, cardinalidade e risco de duplicação de linhas.' },
-  { group: 'dados', id: 'dashboard', label: 'Explicar como interpretar um dashboard', href: 'templates/dashboard/', download: 'template-dashboard.md', summary: 'Indicadores, filtros, públicos, atualização e limitações.' },
-  { group: 'dados', id: 'casos-teste', label: 'Definir quais perguntas podem ser respondidas', href: 'templates/casos-teste/', download: 'template-casos-teste.md', summary: 'Perguntas de referência, fontes, esclarecimentos e casos sem resposta.' },
+/**
+ * Tabela de modelos da página "Escreva com o modelo", lida de src/data/modelos.yaml (NAV-14).
+ * Um só mecanismo, estático: um h3 por nível (ADR 0013 e ADR 0003). Não tem h2 próprio;
+ * entra logo depois do h2 "Escolha o modelo" da página.
+ */
+import { baseUrl, lerModelos, urlDaPagina, type Nivel } from '../lib/dados';
+
+const GRUPOS: readonly { nivel: Nivel; titulo: string }[] = [
+  { nivel: 'nucleo', titulo: 'Comece por estes' },
+  { nivel: 'segundo', titulo: 'Mais modelos' },
+  { nivel: 'complementar', titulo: 'Trilha complementar' },
 ];
-const groups = [
-  { id: 'negocio', label: 'Conhecimento do negócio' },
-  { id: 'dados', label: 'Dados e Analytics' },
-];
-const raw = import.meta.env.BASE_URL;
-const base = raw.endsWith('/') ? raw : raw + '/';
+const modelos = lerModelos();
+const grupos = GRUPOS
+  .map((grupo) => ({ ...grupo, itens: modelos.filter((modelo) => modelo.nivel === grupo.nivel) }))
+  .filter((grupo) => grupo.itens.length > 0);
+const base = baseUrl();
 ---
-<section class="template-finder" data-template-finder aria-label="Escolha um modelo pelo objetivo">
-  <p class="finder-eyebrow">ESCOLHA POR TAREFA · SEM CONHECER YAML OU IA</p>
-  <h2>O que você precisa documentar?</h2>
-  <p>Escolha o resultado que deseja produzir. Você pode ler as orientações ou baixar imediatamente o modelo em texto simples.</p>
-  <fieldset>
-    <legend>Selecione uma finalidade</legend>
-    {groups.map((group) => <>
-      <p class="finder-group">{group.label}</p>
-      {choices.filter((choice) => choice.group === group.id).map((choice) => (
-        <label>
-          <input type="radio" name="template-intent" value={choice.id}/>
-          <span>{choice.label}</span>
-        </label>
-      ))}
-    </>)}
-  </fieldset>
-  <div class="finder-output">
-    <p data-summary role="status" aria-live="polite">Escolha uma finalidade acima para ver o que o modelo cobre.</p>
-    <div class="finder-output__actions" data-actions hidden>
-      <a data-link href={base + 'templates/'}>Ver como preencher <span aria-hidden="true">→</span></a>
-      <a data-download href={base + 'templates/'} download>Baixar modelo em texto <span aria-hidden="true">↓</span></a>
-    </div>
-  </div>
-  <p class="finder-footnote">Os arquivos são modelos para adaptar, não políticas aprovadas. Se houver informação ausente, registre a dúvida.</p>
-</section>
-<script define:vars={{ choices, base }}>
-  document.querySelectorAll('[data-template-finder]').forEach((root) => {
-    const choicesById = Object.fromEntries(choices.map(item => [item.id, item]));
-    const summary = root.querySelector('[data-summary]');
-    const link = root.querySelector('[data-link]');
-    const download = root.querySelector('[data-download]');
-    const actions = root.querySelector('[data-actions]');
-    root.querySelectorAll('input[type="radio"]').forEach((input) => {
-      input.addEventListener('change', () => {
-        const item = choicesById[input.value];
-        if (!item) return;
-        summary.textContent = item.summary;
-        link.setAttribute('href', base + item.href);
-        download.setAttribute('href', base + 'downloads/' + item.download);
-        actions.hidden = false;
-      });
-    });
-  });
-</script>
+<div class="template-finder">
+  {grupos.map((grupo) => (
+    <>
+      <h3>{grupo.titulo}</h3>
+      <table>
+        <thead>
+          <tr><th scope="col">O que você precisa fazer</th><th scope="col">Modelo</th><th scope="col">Modelo em texto</th></tr>
+        </thead>
+        <tbody>
+          {grupo.itens.map((modelo) => (
+            <tr>
+              <td>{modelo.tarefa}</td>
+              <td><a href={urlDaPagina(`templates/${modelo.pagina}`)}>{modelo.nome}</a></td>
+              <td><a href={`${base}downloads/template-${modelo.slug}.md`} download>Baixar<span class="sr-only">: {modelo.rotulo_download}</span></a></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </>
+  ))}
+</div>

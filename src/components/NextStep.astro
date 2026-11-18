@@ -1,0 +1,28 @@
+---
+/**
+ * Bloco "Próximo passo" no fim de cada página do percurso (src/data/percurso.yaml).
+ * Localiza a página atual pela rota; no último passo, leva a depois_do_ultimo.
+ * Usa h2 porque entra no fim da página, no mesmo nível das seções.
+ * texto: frase opcional que explica por que seguir para o próximo passo.
+ */
+import { lerPercurso, rotaDaPagina, urlDaPagina } from '../lib/dados';
+
+interface Props { texto?: string }
+const { texto } = Astro.props;
+const rota = rotaDaPagina(Astro.locals.starlightRoute.id);
+const { passos, depois_do_ultimo } = lerPercurso();
+const indice = passos.findIndex((passo) => passo.pagina === rota);
+if (indice < 0) {
+  throw new Error(`NextStep: a página '${rota}' não está em src/data/percurso.yaml.`);
+}
+const atual = passos[indice];
+const proximo = passos[indice + 1] ?? depois_do_ultimo;
+const rotulo = indice + 1 < passos.length ? `Passo ${atual.numero + 1}: ${proximo.titulo}` : proximo.titulo;
+const tituloId = 'proximo-passo';
+---
+<section class="next-step" aria-labelledby={tituloId}>
+  <h2 id={tituloId}>Próximo passo</h2>
+  <p class="next-step__position">Passo {atual.numero} de {passos.length}</p>
+  {texto && <p class="next-step__text">{texto}</p>}
+  <a class="next-step__link" href={urlDaPagina(proximo.pagina)}>{rotulo} <span aria-hidden="true">→</span></a>
+</section>

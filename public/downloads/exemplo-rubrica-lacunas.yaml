@@ -3,7 +3,7 @@ id: RUBRIC-CAMPAIGN-001
 revision_id: "RUBRIC-CAMPAIGN-001@0.1"  # versão específica; id = assunto estável
 title: "Rubrica de revisão de material de campanha: Aurora"
 type: evaluation_rubric
-status: pending_approval
+status: draft
 version: "0.1"
 version_date: "2026-07-20"
 owner: "Revisão de Conteúdo (Aurora)"

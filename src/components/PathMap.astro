@@ -1,0 +1,20 @@
+---
+/**
+ * Mapa do percurso em sete passos, lido de src/data/percurso.yaml.
+ * Uma lista ordenada de links, sem títulos; a página atual recebe aria-current.
+ */
+import { lerPercurso, rotaDaPagina, urlDaPagina } from '../lib/dados';
+
+const rota = rotaDaPagina(Astro.locals.starlightRoute.id);
+const { passos } = lerPercurso();
+---
+<ol class="path-map">
+  {passos.map((passo) => (
+    <li>
+      <a href={urlDaPagina(passo.pagina)} aria-current={passo.pagina === rota ? 'page' : undefined}>
+        <span class="path-map__number" aria-hidden="true">{passo.numero}</span>
+        <span class="path-map__title">{passo.titulo}</span>
+      </a>
+    </li>
+  ))}
+</ol>

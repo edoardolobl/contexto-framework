@@ -1,0 +1,52 @@
+---
+title: Modelo de AGENTS.md
+description: Arquivo curto para a raiz do repositório, que orienta o agente a usar só documentos aprovados e a dizer quando não há base.
+---
+
+`AGENTS.md` é um arquivo de instruções que agentes de programação leem na raiz do repositório. Este modelo diz ao agente onde estão os documentos aprovados e o que fazer quando eles não bastam. Copie, troque os caminhos e mantenha as regras.
+
+## O arquivo
+
+```markdown
+# Instruções para agentes
+
+## Onde fica cada coisa
+
+- Indicadores aprovados: docs/indicadores/
+- Datasets e relacionamentos: docs/dados/
+- Dashboards: docs/dashboards/
+- Perguntas de negócio e gabarito: docs/perguntas/
+
+## Regras
+
+- Nunca calcule um indicador sem a definição aprovada. Se não houver, pergunte.
+- Use só documentos aprovados e cite o id e a versão de cada um.
+- Rascunho e documento pendente de aprovação não valem como definição.
+- Respeite o escopo e a vigência escritos no cabeçalho do documento.
+
+## Desfechos
+
+Toda resposta termina num destes três:
+
+- Responder: há definição aprovada que cobre a pergunta. Cite id e versão.
+- Pedir esclarecimento: a pergunta é ambígua (falta canal, período ou unidade).
+  Mostre as definições que existem como opções.
+- Abster-se: não há base aprovada. Diga isso e aponte quem pode resolver.
+```
+
+## Como adaptar os caminhos
+
+- **Use as pastas que já existem.** Se os indicadores ficam em `analytics/definicoes/`, escreva esse caminho; não mova arquivos só por causa do modelo.
+- **Um caminho por tipo de documento.** Se dois tipos ficam na mesma pasta, escreva a pasta uma vez e diga quais tipos estão nela.
+- **Documentos fora do repositório:** aponte o endereço onde a versão aprovada está publicada e diga como o agente reconhece a versão.
+- **Remova o que você não tem.** Uma linha que aponta para uma pasta vazia ensina o agente a procurar onde não há nada.
+
+## Um adaptador descartável
+
+O `AGENTS.md` é um adaptador: liga os seus documentos a um tipo de ferramenta. Se a ferramenta mudar, você troca o arquivo e os documentos continuam iguais. Por isso os documentos do Contexto não ganham nenhum campo de protocolo ou de ferramenta: o que está aprovado não depende de como a IA o lê.
+
+A instrução orienta, não garante. Depois de mudar o arquivo, refaça o [teste com as perguntas](../../percurso/teste-com-as-perguntas/) e veja o passo [Leve à sua ferramenta de IA](../../percurso/leve-a-sua-ferramenta-de-ia/) para o caso do assistente de conversa.
+
+### Fundamentação
+
+O formato `AGENTS.md` é descrito em [agents.md](https://agents.md/) (prática de mercado); cada ferramenta decide como o lê. As regras deste modelo e a decisão de não pôr campo de protocolo nos documentos são uma [convenção do Contexto](https://github.com/edoardolobl/contexto-framework/blob/main/docs/adr/0025-instrucao-minima-ao-agente.md).

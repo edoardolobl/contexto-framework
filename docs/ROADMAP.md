@@ -1,9 +1,9 @@
 # Roadmap do Contexto
 
-## v0.1: baseline técnica e editorial
+## v0.1: base técnica e editorial
 - [x] Propósito, promessa e limites
 - [x] Método das oito dimensões, elicitação e revisão
-- [x] Template de KPI e exemplo
+- [x] Modelo de KPI e exemplo
 - [x] Checklist interativo e bibliografia
 - [x] Publicação automatizada e validação em PR
 
@@ -18,13 +18,13 @@
 
 ## v0.3: Dados e Analytics
 - [x] Dataset e dicionário semântico + exemplo SQLite
-- [x] Relacionamentos, cardinalidade e joins + exemplo 1:N
+- [x] Relacionamentos, cardinalidade e junções + exemplo 1:N
 - [x] Dashboard e interpretação com filtros e escopo
 - [x] Rubricas para entregáveis analíticos, com âncoras e revisão humana
-- [x] Perguntas de referência respondíveis, ambíguas e não respondíveis
+- [x] Perguntas de negócio respondíveis, ambíguas e não respondíveis
 - [x] Estudo de caso integrado de KPI, dataset, dashboard e rubrica
 - [x] SQL sintético reproduzível + teste automatizado independente de LLM
-- [x] Validação de todas as famílias de templates e arquivos
+- [x] Validação de todas as famílias de modelos e arquivos
 - [x] Fundamentação bibliográfica e ressalvas ampliadas
 - [ ] Revisão visual manual e testes de acessibilidade com pessoas
 
@@ -38,13 +38,13 @@
 - [x] Ressalvas do preprint e das fontes; lockfile; validação de links no HTML gerado
 
 ## Consolidação da experiência (v0.5 em construção)
-- [x] Checkpoint A: entradas por tarefa, seleção de modelos e primeira documentação sem YAML
-- [x] Checkpoint B: identificação, intervalos de vigência e versões históricas
-- [x] Checkpoint C: exemplos de negócio visíveis, comparação alinhada e painel técnico único
-- [x] Checkpoint visual: aumentar destaque e contraste do disclosure técnico
-- [x] Checkpoint D: separar cobertura, consistência/evidências e confirmação pelo responsável; ficha prática para download
-- [x] Checkpoint E: ajustes pontuais de tipografia, respiração e leitura mobile implementados; aguardando conferência visual do mantenedor
-- [ ] Conferir visualmente o checkpoint E (tema claro/escuro, leitura mobile e seta única)
+- [x] Etapa A: entradas por tarefa, seleção de modelos e primeira documentação sem YAML
+- [x] Etapa B: identificação, intervalos de vigência e versões históricas
+- [x] Etapa C: exemplos de negócio visíveis, comparação alinhada e painel técnico único
+- [x] Etapa visual: aumentar destaque e contraste do painel técnico recolhível
+- [x] Etapa D: separar cobertura, consistência/evidências e confirmação pelo responsável; ficha prática para download
+- [x] Etapa E: ajustes pontuais de tipografia, respiração e leitura mobile implementados; aguardando conferência visual do mantenedor
+- [ ] Conferir visualmente a etapa E (tema claro/escuro, leitura mobile e seta única)
 - [ ] Teste de compreensão com participantes externos (issue #4; após estabilizar os materiais)
 
 ## Antes de declarar a edição 1.0
@@ -60,8 +60,20 @@
 O plano completo está em [auditoria/10-direcao-proposta.md](../auditoria/10-direcao-proposta.md), seção 2, com as fases F0 a F7 e o critério de saída de cada uma. As decisões do mantenedor estão em [auditoria/11-decisoes.md](../auditoria/11-decisoes.md) e viram registros em [docs/adr/](adr/).
 
 - [ ] **F0. Decisões e trilhos: concluída no branch, aguardando merge.** Entregue no branch `f0-decisoes-e-trilhos`: ADRs 0001 a 0017 aceitos pelo mantenedor em 17/11/2026 (0016: família IBM Plex; 0017: até 4 telas no desktop, passos recolhíveis e referência de campos à parte); `src/data/vocabulario.yaml` e `src/data/modelos.yaml`; CHANGELOG; versão do produto igual em package.json, README, página inicial e CHANGELOG; `npm run check` como comando único; deploy que só começa depois dos validadores; ações fixadas por SHA e Dependabot. Pelo ADR 0009, o contrato editorial tem versão própria de documento e fica fora da versão única do produto.
-- [ ] **F1. Correções baratas e credibilidade.** Remoções, correções de citação, contraste e linha do tempo da Aurora.
-- [ ] **F2. Porta de entrada.** Tipo Perguntas de negócio, menu em percurso, núcleo de entrada (ADR 0013) e checklist das oito dimensões (ADR 0014).
+- [ ] **F1. Correções baratas e credibilidade: concluída no branch, aguardando merge.** Entregue no branch `f1-correcoes-e-credibilidade`, empilhado sobre o da F0:
+  - Linha do tempo da Aurora coerente: nenhum exemplo cita registro, amostra, consulta ou versão de data posterior à sua; aprovações de sábado passam para a sexta anterior; a cópia histórica do KPI 1.0 volta a ser o que foi aprovado, com as notas posteriores em `archival_note`; os 10 exemplos com lacunas passam a `draft`.
+  - Validadores novos ou ampliados: `check_revisions.py` lê as datas dos próprios YAML e de `src/data/artefatos.yaml` e avisa aprovação em fim de semana; `check_contraste.py` confere os pares de `src/data/contraste.yaml` (4,5:1 texto, 3:1 bordas, 7:1 texto secundário) nos dois temas; `check_html_gerado.py` confere no site gerado um h1 por página, títulos sem pular nível, og:image e theme-color.
+  - Interface: h1 real na home, entradas por tarefa antes do cartão ilustrativo, tokens de cor com contraste conferido, nenhum `!important` além do de movimento reduzido, alvos de toque de 44 px no celular, retorno do checklist com contagem e região de status, grupos com nome acessível no seletor de modelos, imagem de compartilhamento.
+  - Fontes: cinco tipos de fonte, seção de evidência empírica, guia Knowledge-Centered Success no lugar do KCS v6, Polanyi (1966) como origem da distinção tácito e explícito; nenhuma "Decisão própria" sem ADR (ADRs 0018 a 0022, propostos).
+  - Contrato editorial 0.5 (proposto) e regra de vocabulário "modelo" no lugar de "template".
+  - Pendente com o mantenedor: aceitar os ADRs 0018 a 0022 e o contrato 0.5; conferir os links para os ADRs novos depois do merge; aprovar a imagem de compartilhamento; medir de novo no navegador (UX-02, UX-05, UX-07, UX-08, UX-09) e testar o checklist e o seletor com leitor de tela; conferir na fonte primária os números de Painter et al., os papéis do guia Knowledge-Centered Success e a classificação de Polanyi; confirmar o título recuperado do KPI 1.0.
+- [ ] **F2. Porta de entrada e percurso: concluída no branch, aguardando merge.** Entregue no branch `f2-porta-de-entrada`, empilhado sobre o da F1:
+  - Menu em grupos (Comece aqui, Percurso, Modelos, Laboratórios, Entender, Consultar, Usar com IA) e percurso em sete passos, cada página com o bloco Próximo passo; página de modelos como passo 4; Laboratório Aurora depois do último passo; redirecionamento para cada endereço movido.
+  - Tipo Perguntas de negócio no título, no menu e nos textos (ADR 0007), com banco de perguntas por tipo no passo 1; Regra e decisão (ADR 0013); checklist das oito dimensões como convenção do Contexto e fonte única em `src/data/dimensoes.yaml` (ADR 0014).
+  - Descoberta por entrevista de um incidente real, instrução mínima ao agente (trecho e modelo de AGENTS.md) e home com h1 de categoria e público, promessa única e cinco entradas por sintoma.
+  - Fontes únicas em `src/data/` (`modelos.yaml`, `percurso.yaml`, `entradas.yaml`, `dimensoes.yaml`) e `scripts/check_navegacao.py` (sem página órfã, sem beco sem saída no percurso, sem YAML no percurso).
+  - Contrato editorial 0.7 e ADRs 0023 a 0025, propostos; protocolo de card sorting e tree test em `docs/PLANO_VALIDACAO.md`.
+  - Pendente com o mantenedor: executar o card sorting (15 pessoas ou mais) e o tree test (sucesso de pelo menos 80% nas tarefas do percurso), que são o critério de saída da fase; aprovar o h1 da home, o contrato 0.7 e os ADRs 0023 a 0025; decidir o tutorial de dados de Comece aqui (página nova ou atalho para o Laboratório Aurora), que ainda não existe; confirmar os rótulos dos subgrupos de Modelos e o lugar da Rubrica; confirmar o destino provisório do sintoma do evento que parou de coletar até a F4; decidir se a F2 sobe a versão do produto (continua 0.4); conferir os links `blob/main` para os ADRs novos depois do merge.
 - [ ] **F3. Schema 1.0.** Migração para Markdown com frontmatter (ADR 0006), versão de schema (ADR 0009) e marcação Breaking.
 - [ ] **F4. Mensuração.** Tipo Evento de coleta e laboratório Aurora com limite fixo.
 - [ ] **F5. Moldes e visual.** Sistema visual (ADR 0016), tamanho de página de modelo (ADR 0017) e moldes com nomes de produção (ADR 0012).

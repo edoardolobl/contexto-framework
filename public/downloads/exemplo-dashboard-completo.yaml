@@ -22,7 +22,7 @@ version_history:
     change: "Cartão passa a seguir a versão 2.0 do KPI-AURORA-001. Incluído aviso de que valores anteriores não são comparáveis"
     approved_by: "Gerência de E-commerce (Aurora)"
   - version: "1.0"
-    date: "2026-08-22"
+    date: "2026-08-21"
     change: "Primeira versão aprovada, com filtros padrão de canal web e sem tráfego interno"
     approved_by: "Gerência de E-commerce (Aurora)"
   - version: "0.1"

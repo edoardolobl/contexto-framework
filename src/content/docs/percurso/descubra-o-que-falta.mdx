@@ -1,0 +1,71 @@
+---
+title: Descubra o que falta
+description: Uma entrevista curta, a partir de um caso real, para encontrar o que ninguém escreveu antes de redigir.
+---
+
+import NextStep from '../../../components/NextStep.astro';
+import ReadinessChecklist from '../../../components/ReadinessChecklist.astro';
+
+O que falta num documento costuma estar na cabeça de quem faz o trabalho. Perguntar “quais são as regras?” traz a versão oficial. Perguntar por um caso real traz o que a pessoa de fato olha, decide e evita.
+
+## Comece por um caso real
+
+Peça: **“Conte o último caso em que...”** e complete com algo concreto do assunto: o último caso em que o número enganou alguém, em que a regra não serviu, em que alguém novo errou.
+
+Na Aurora, alguém de Analytics viu um evento da loja sem nenhum disparo no dia e concluiu que ele tinha parado de coletar. Quem acompanha o evento contou o caso, passo a passo, e a conversa revelou o que nenhum documento dizia:
+
+- o evento é raro, e dias sem disparo são normais para ele;
+- ele só está implementado numa das operações; nas outras, zero é o esperado;
+- na tabela diária, um dia sem disparo não tem linha, e a consulta leu a falta de linha como zero;
+- o dia ainda não estava completo quando a conta foi feita.
+
+Nenhum desses pontos apareceria numa pergunta genérica. Todos apareceram quando a pessoa contou o que olhou, em que ordem, e por que não se preocupou.
+
+## As oito famílias de perguntas
+
+Depois do relato, volte aos momentos em que alguém decidiu algo e use estas perguntas. Não é preciso fazer todas.
+
+| Família | Pergunta-modelo | O que revela |
+|---|---|---|
+| Incidente | Conte o último caso em que isso deu errado. O que aconteceu primeiro? | A linha do tempo real e os pontos de decisão |
+| Fronteira | Qual é o caso mais parecido que fica de fora da regra? | Onde a regra termina e os casos-limite |
+| Contraste | O que alguém novo faria diferente de você aqui? | O que quem tem experiência aplica sem perceber |
+| Pista | O que você olhou primeiro para saber que algo estava errado? | Os sinais e as fontes que a pessoa consulta |
+| Escopo | Em que canal, operação ou período essa regra não vale? | Exclusões e limites de aplicação |
+| Contrafactual | Se o evento fosse frequente, você teria chegado à mesma conclusão? | A regra que estava por trás da decisão |
+| Proveniência | De onde vem essa regra, e quem pode mudá-la? | A fonte oficial e quem tem autoridade |
+| Reprodução | Como outra pessoa chegaria à mesma conclusão sem você? | Os passos e a consulta que dá para conferir |
+
+**Os 5 porquês, só como heurística.** Quando a resposta for uma ação (“abri um chamado”, “ignorei o alerta”), pergunte por quê algumas vezes até chegar à regra que justificou a ação. Use para encontrar a regra, não para provar a causa de um problema.
+
+## Roteiro de 20 minutos com um rascunho imperfeito
+
+Leve um rascunho, mesmo incompleto ou com erros. Corrigir um texto é mais fácil do que responder a uma folha em branco, e os erros do rascunho provocam as melhores correções.
+
+1. **2 minutos:** mostre a pergunta de negócio e o rascunho. Diga que ele está incompleto de propósito.
+2. **8 minutos:** peça o caso real e deixe a pessoa contar sem interromper. Depois, refaça a linha do tempo com ela.
+3. **6 minutos:** volte aos pontos de decisão e use as famílias de perguntas que fizerem sentido.
+4. **4 minutos:** leia em voz alta o que ficou confirmado, relatado e em aberto, e combine quem confirma por escrito.
+
+## Como registrar as respostas
+
+Separe o que tem fonte do que é só relato. No caso do evento, o registro ficou assim:
+
+| Confirmado | Relatado | Em aberto |
+|---|---|---|
+| O evento só está implementado numa das operações (plano de coleta vigente). | Dias sem disparo são normais para este evento, segundo quem o acompanha. | A partir de quantos dias seguidos sem disparo vale desconfiar de quebra? |
+| Na tabela diária, um dia sem disparo não gera linha (dicionário do dataset). | O dia só fica completo depois da carga do dia seguinte. | Quem aprova essa regra? Ainda não identificado. |
+
+O relato não vira regra só porque é comum. A pergunta em aberto fica registrada, com quem pode resolvê-la, até alguém com autoridade decidir.
+
+## Confira o rascunho com o checklist
+
+Antes de encerrar, passe o rascunho pelo checklist das oito dimensões, uma convenção do Contexto. O que ficar sem marca é o que você ainda precisa perguntar.
+
+<ReadinessChecklist title="O que o rascunho ainda não responde" />
+
+### Fundamentação
+
+A entrevista a partir de um caso real vem do Critical Decision Method, descrito por [Klein, Calderwood e MacGregor (1989), IEEE Transactions on Systems, Man, and Cybernetics 19(3)](https://doi.org/10.1109/21.31053), e detalhado por [Hoffman, Crandall e Shadbolt (1998), Human Factors 40(2)](https://doi.org/10.1518/001872098779480442), ambos pesquisa revisada por pares. Confirmar o que foi descoberto inspira-se no [IIBA: Elicitation and Collaboration](https://www.iiba.org/knowledgehub/the-business-analysis-standard/5-applying-business-analysis-tasks/5-3-business-analysis-knowledge-areas/elicitation-and-collaboration/) (prática de mercado), e capturar conhecimento durante o trabalho dialoga com o [Knowledge-Centered Success: Practices Guide](https://library.serviceinnovation.org/KCS/Knowledge-Centered_Success_Practices_Guide) (prática de mercado). Os 5 porquês são prática de mercado, usados aqui só como heurística. A versão curta, com as oito famílias e o roteiro de 20 minutos, é uma [convenção do Contexto](https://github.com/edoardolobl/contexto-framework/blob/main/docs/adr/0024-descoberta-por-incidente.md); o checklist das oito dimensões é outra [convenção do Contexto](https://github.com/edoardolobl/contexto-framework/blob/main/docs/adr/0014-oito-dimensoes-como-checklist.md).
+
+<NextStep />

@@ -1,0 +1,20 @@
+---
+/**
+ * Entradas por sintoma da home (I-06), lidas de src/data/entradas.yaml.
+ * Cada cartão usa h3: o componente entra logo depois de um h2 da home.
+ * Destino provisório mostra a nota, para a pessoa saber que a página ainda vai mudar.
+ */
+import { lerEntradas, urlDaPagina } from '../lib/dados';
+
+const entradas = lerEntradas();
+---
+<nav class="principle-tiles task-paths symptom-entries" aria-label="Comece pelo problema que você vê">
+  {entradas.map((entrada) => (
+    <a class="principle-tile" href={urlDaPagina(entrada.pagina)}>
+      <h3>{entrada.sintoma}</h3>
+      <p>{entrada.texto}</p>
+      {entrada.provisorio && entrada.nota && <p class="symptom-entries__note">Nota: {entrada.nota}.</p>}
+      <span class="task-paths__action">Ver o caminho <span aria-hidden="true">→</span></span>
+    </a>
+  ))}
+</nav>

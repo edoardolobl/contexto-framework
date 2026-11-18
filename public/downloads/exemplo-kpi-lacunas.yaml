@@ -4,7 +4,7 @@ revision_id: "KPI-AURORA-001@0.1"  # versão específica; id = assunto estável
 title: "Taxa de sessões convertidas: loja web Aurora"
 type: metric_definition
 domain: ecommerce
-status: pending_approval
+status: draft
 owner: null
 approver: null
 version: "0.1"

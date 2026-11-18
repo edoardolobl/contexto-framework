@@ -1,0 +1,25 @@
+# Entradas por sintoma na home (I-06): a pessoa chega pelo problema que vê, não pelo nome do modelo.
+# sintoma: o que a pessoa diz; texto: uma frase sobre o que fazer; pagina: destino, sem barras.
+# provisorio: true quando o destino ideal ainda não existe; nota explica até quando.
+entradas:
+  - sintoma: A IA calculou meu indicador errado
+    texto: Registre a fórmula, a população e os filtros que valem na sua organização.
+    pagina: templates/kpi
+    provisorio: false
+  - sintoma: Um evento parece ter parado de coletar
+    texto: Antes de chamar de quebra, descubra o que falta saber sobre o comportamento esperado do evento.
+    pagina: percurso/descubra-o-que-falta
+    provisorio: true
+    nota: enquanto o modelo de evento de coleta não sai, comece pela entrevista sobre o último caso
+  - sintoma: Duas ferramentas dão números diferentes
+    texto: Explique de onde vem cada número, com filtros, período e atualização.
+    pagina: templates/dashboard
+    provisorio: false
+  - sintoma: Preciso documentar uma junção sem duplicar contagens
+    texto: Registre as chaves, a cardinalidade e o risco de duplicar linhas.
+    pagina: templates/relacionamento
+    provisorio: false
+  - sintoma: Quero preparar esta fonte para um agente
+    texto: Comece pela pergunta de negócio que o agente precisa responder.
+    pagina: percurso/escreva-a-pergunta
+    provisorio: false

@@ -1,0 +1,13 @@
+# Artefatos do laboratório Aurora e a data em que passaram a existir.
+# scripts/check_revisions.py acusa um exemplo que cite um destes artefatos antes da 'desde'.
+# Campos: nome, desde (AAAA-MM-DD), origem (frase curta) e padroes (expressões regulares Python,
+# entre aspas simples para preservar a barra invertida).
+artefatos:
+  - nome: 'aurora-reference-query.sql'
+    desde: 2026-09-15
+    origem: 'implementa KPI-AURORA-001@2.0'
+    padroes: ['aurora-reference-query\.sql']
+  - nome: 'amostra do laboratório Aurora (aurora-fixture.sql)'
+    desde: 2026-10-01
+    origem: 'registros de sessões e pedidos com session_date 2026-10-01'
+    padroes: ['aurora-fixture\.sql', '\b2026-10-01\b', '\b01/10\b', '\b[SO][1-9]\b']

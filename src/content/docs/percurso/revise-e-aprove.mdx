@@ -1,28 +1,29 @@
 ---
-title: Revisar e entregar
-description: Verifique cobertura, evidências e aprovação, e entregue o documento com as perguntas em aberto à vista.
+title: Revise e aprove
+description: Confira cobertura, evidências e aprovação, e entregue o documento com as perguntas em aberto à vista.
 ---
 
 import ReadinessChecklist from '../../../components/ReadinessChecklist.astro';
 import ReviewStages from '../../../components/ReviewStages.astro';
+import NextStep from '../../../components/NextStep.astro';
 
 **Documento preenchido não significa documento aprovado.**
 
 **Você já tem um manual, regra, processo ou indicador documentado?** Use este roteiro para descobrir o que falta, o que não está sustentado por evidências e quem precisa confirmar a versão.
 
-Não é necessário conhecer IA, escrever YAML ou usar uma ferramenta especial. Abra o seu documento e siga as três verificações abaixo. Elas têm **resultados independentes**: uma página pode estar completa e, mesmo assim, conter uma regra incorreta.
+Não é preciso conhecer IA, escrever YAML ou usar uma ferramenta especial. Abra o seu documento e siga as três verificações abaixo. Elas têm **resultados independentes**: uma página pode estar completa e, mesmo assim, conter uma regra incorreta.
 
 [**Baixar ficha de revisão em texto**](../../downloads/roteiro-revisao-documental.md): copiar para Word, Google Docs ou outro editor.
 
 <ReviewStages />
 
-## 1. Cobertura: estão claras as oito dimensões?
+## 1. Cobertura: confira com o checklist de revisão
 
-Comece marcando os pontos **para os quais você encontra uma resposta no documento**. Não marque somente porque existe um campo: uma seção intitulada “Exceções” que diz “tratar caso a caso” ainda não explica como agir.
+As oito dimensões são uma convenção do Contexto: um [checklist](../../metodo/oito-dimensoes/) para achar lacunas, não uma norma. Comece marcando os pontos **para os quais você encontra uma resposta no documento**. Não marque somente porque existe um campo: uma seção intitulada “Exceções” que diz “tratar caso a caso” ainda não explica como agir.
 
-<ReadinessChecklist title="Conferir cobertura das oito dimensões" />
+<ReadinessChecklist title="Conferir a cobertura do documento" />
 
-**O resultado desta etapa é uma lista de lacunas**, e não uma nota de qualidade. Mesmo oito dimensões assinaladas não significam que as respostas sejam corretas ou oficialmente aceitas.
+**O resultado desta etapa é uma lista de lacunas**, e não uma nota de qualidade. Mesmo com todos os itens marcados, isso não significa que as respostas sejam corretas ou oficialmente aceitas.
 
 ## 2. Consistência e evidências: o conteúdo pode ser confirmado?
 
@@ -44,7 +45,7 @@ Quando um documento apresenta dez regras importantes, a referência geral ao “
 
 ## 3. Confirmação: quem pode aprovar esta versão?
 
-A validação documental depende de alguém com autoridade sobre o assunto. Não basta o texto ser claro, ter oito dimensões preenchidas ou passar por um validador automático.
+A validação documental depende de alguém com autoridade sobre o assunto. Não basta o texto ser claro, ter o checklist todo marcado ou passar por um validador automático.
 
 Para confirmar, registre:
 
@@ -67,7 +68,7 @@ O fato de uma pessoa **conhecer** uma prática não significa que ela possa **ap
 
 ## 4. Entregar: o pacote e as perguntas em aberto
 
-O objetivo não é produzir muitos arquivos. É entregar uma **descrição verificável do assunto, com autoridade identificada e lacunas visíveis**. Não cabe ao engenheiro de IA descobrir sozinho regras, significados ou exceções que a organização ainda não formalizou.
+O objetivo não é produzir muitos arquivos. É entregar uma **descrição verificável do assunto, com autoridade identificada e lacunas visíveis**. Não cabe a quem monta o sistema, nem à IA, descobrir sozinho regras, significados ou exceções que a organização ainda não formalizou.
 
 | Item | Pergunta de revisão |
 |---|---|
@@ -80,40 +81,25 @@ O objetivo não é produzir muitos arquivos. É entregar uma **descrição verif
 
 Quando sobram perguntas, entregue-as numa ficha. Esta leva duas das três perguntas em aberto do [processo de campanha](../../templates/processo/), antes da decisão:
 
-```yaml
----
-id: HANDOFF-001
-type: documentation_handoff
-status: pending_approval
-domain_owner: null
-related_documents:
-  - PROCESS-CAMPAIGN-001
-open_questions:
-  - id: GAP-01
-    question: "Quem pode autorizar uma exceção de publicação?"
-    impact: "O fluxo não define qual responsável deve decidir"
-    resolution_owner: null
-    priority: null
-    state: unresolved
-  - id: GAP-02
-    question: "Qual é o prazo de cada etapa, e o que acontece quando ele vence?"
-    impact: "Não há referência para interpretar atrasos"
-    resolution_owner: null
-    priority: null
-    state: unresolved
-```
+**Ficha de perguntas em aberto**
 
-O `status` da ficha não aprova a regra correspondente.
+| Pergunta | Impacto | Quem resolve | Estado |
+|---|---|---|---|
+| Quem pode autorizar uma exceção de publicação? | O fluxo não define qual responsável deve decidir | Ainda não identificado | Em aberto |
+| Qual é o prazo de cada etapa, e o que acontece quando ele vence? | Não há referência para interpretar atrasos | Ainda não identificado | Em aberto |
+
+O estado da ficha não aprova a regra correspondente.
 
 **Não entregue como aprovado** se não houver autoridade identificada, se documentos se contradisserem sem resolução, se uma condição decisiva não tem definição ou se um exemplo foi confundido com regra vigente. **Documentação incompleta e transparente é uma saída legítima da revisão:** mostra onde o trabalho precisa continuar.
-
 
 ## O que este roteiro não certifica
 
 As verificações são uma **proposta** do Contexto, inspirada em práticas de análise de negócios, confirmação e manutenção documental. Elas não constituem auditoria jurídica, certificação de conformidade, garantia de qualidade de dados ou teste de um sistema de IA.
 
-A engenharia de IA ainda precisará validar recuperação, permissões, execução de consultas, ferramentas e respostas. **Documentação confirmada é um insumo; não uma garantia de execução correta.**
+Quem monta o sistema ainda precisará validar recuperação, permissões, execução de consultas, ferramentas e respostas. O teste com as Perguntas de negócio, no próximo passo, mostra se a IA usa o que foi aprovado. **Documentação confirmada é um insumo; não uma garantia de execução correta.**
 
-### Fontes metodológicas
+### Fundamentação
 
-[IIBA: Confirm Elicitation Results](https://www.iiba.org/knowledgehub/the-business-analysis-standard/5-applying-business-analysis-tasks/5-3-business-analysis-knowledge-areas/elicitation-and-collaboration/) · [KCS v6: Practices Guide](https://library.serviceinnovation.org/KCS/KCS_v6/KCS_v6_Practices_Guide). As oito dimensões, a divisão entre cobertura, consistência e confirmação e a ficha de perguntas em aberto são adaptações próprias do Contexto.
+[IIBA: Confirm Elicitation Results](https://www.iiba.org/knowledgehub/the-business-analysis-standard/5-applying-business-analysis-tasks/5-3-business-analysis-knowledge-areas/elicitation-and-collaboration/) (prática de mercado) · [Knowledge-Centered Success: Practices Guide](https://library.serviceinnovation.org/KCS/Knowledge-Centered_Success_Practices_Guide) (prática de mercado). As oito dimensões são uma [convenção do Contexto](https://github.com/edoardolobl/contexto-framework/blob/main/docs/adr/0014-oito-dimensoes-como-checklist.md); a divisão entre cobertura, consistência e confirmação e a ficha de perguntas em aberto também são convenções do Contexto.
+
+<NextStep />

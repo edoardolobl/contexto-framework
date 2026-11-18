@@ -3,7 +3,7 @@ id: PROCESS-CAMPAIGN-001
 revision_id: "PROCESS-CAMPAIGN-001@0.1"  # versão específica; id = assunto estável
 title: "Solicitar e publicar campanha: Aurora"
 type: process_definition
-status: pending_approval
+status: draft
 version: "0.1"
 version_date: "2026-07-20"
 owner: null

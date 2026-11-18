@@ -1,0 +1,81 @@
+# Pares de cor conferidos por scripts/check_contraste.py nos temas escuro e claro.
+# frente: token da cor do texto ou da borda; fundos: tokens dos fundos onde ela aparece.
+# minimo: 4.5 para texto, 3 para bordas e objetos gráficos, 7 para o texto secundário (UX-09).
+# Os tokens ficam em src/styles/custom.css (ADR 0016). Sem 'temas', valem os dois.
+pares:
+  - nome: Texto principal sobre os três fundos
+    frente: --context-ink
+    fundos: [--context-bg, --context-surface, --context-surface-2]
+    minimo: 4.5
+  - nome: Texto dourado (selo de rascunho, número errado do diagrama) sobre os três fundos
+    frente: --context-gold-text
+    fundos: [--context-bg, --context-surface, --context-surface-2]
+    minimo: 4.5
+  - nome: Destaque e links sobre os três fundos
+    frente: --sl-color-accent
+    fundos: [--context-bg, --context-surface, --context-surface-2]
+    minimo: 4.5
+  - nome: Texto secundário sobre os três fundos
+    frente: --context-muted
+    fundos: [--context-bg, --context-surface, --context-surface-2]
+    minimo: 7
+  - nome: Borda de componente (caixas e ligações do diagrama) sobre os três fundos
+    frente: --context-border
+    fundos: [--context-bg, --context-surface, --context-surface-2]
+    minimo: 3
+  - nome: Título do aviso note sobre o fundo do aviso
+    frente: --sl-color-accent
+    fundos: [--context-surface]
+    minimo: 4.5
+  - nome: Título do aviso tip sobre o fundo do aviso
+    frente: --context-gold-text
+    fundos: [--context-surface]
+    minimo: 4.5
+  - nome: Texto dos avisos note e tip e da citação sobre o fundo deles
+    frente: --context-ink
+    fundos: [--context-surface]
+    minimo: 4.5
+  - nome: Texto do botão principal, normal e com o ponteiro em cima
+    frente: --context-button-text
+    fundos: [--context-button-bg, --context-button-bg-hover]
+    minimo: 4.5
+  - nome: Cartão da home, rótulos do topo e do rodapé
+    frente: --context-card-label
+    fundos: [--context-card-bg]
+    minimo: 4.5
+  - nome: Cartão da home, palavra DOCUMENTAR
+    frente: --context-card-bridge
+    fundos: [--context-card-bg]
+    minimo: 4.5
+  - nome: Cartão da home, número da instrução vaga
+    frente: --context-card-number
+    fundos: [--context-card-problem-bg]
+    minimo: 4.5
+  - nome: Cartão da home, frase da instrução vaga
+    frente: --context-card-quote
+    fundos: [--context-card-problem-bg]
+    minimo: 4.5
+  - nome: Cartão da home, perguntas em etiqueta
+    frente: --context-card-chip-text
+    fundos: [--context-card-chip-bg]
+    minimo: 4.5
+  - nome: Cartão da home, texto do bloco documentado
+    frente: --context-card-solution-text
+    fundos: [--context-card-solution-bg]
+    minimo: 4.5
+  - nome: Cartão da home, número do bloco documentado
+    frente: --context-card-solution-number
+    fundos: [--context-card-solution-bg]
+    minimo: 4.5
+  - nome: Cartão da home, nomes dos campos
+    frente: --context-card-solution-muted
+    fundos: [--context-card-solution-bg]
+    minimo: 4.5
+  - nome: Cartão da home, estado em destaque
+    frente: --context-card-solution-strong
+    fundos: [--context-card-solution-bg]
+    minimo: 4.5
+  - nome: Cartão da home, frase final do bloco documentado
+    frente: --context-card-solution-result
+    fundos: [--context-card-solution-bg]
+    minimo: 7

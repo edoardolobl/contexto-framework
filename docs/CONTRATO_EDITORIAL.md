@@ -1,9 +1,12 @@
 # Contrato editorial: Contexto
 
-**Versão:** 0.4 · **Data desta versão:** 2026-11-17 · **Estado:** proposto (F0), aguarda aprovação do mantenedor · **Mantenedor:** Edoardo Lobl
+**Versão:** 0.7 · **Data desta versão:** 2026-11-17 · **Estado:** proposto (F2), aguarda aprovação do mantenedor · **Mantenedor:** Edoardo Lobl
 
 | Versão | Data | O que mudou | Aprovado por |
 |---|---|---|---|
+| 0.7 | 2026-11-17 | Comece aqui descrito como o menu publicado: tutorial de negócio e visão do método; o tutorial de dados fica em aberto no ROADMAP | Proposto (F2), aguarda aprovação do mantenedor |
+| 0.6 | 2026-11-17 | Promessa única da seção 1.2 da direção (EDI-01); público em três perfis leitores; portal em percurso, com grupos do menu, bloco Próximo passo, prev/next pela ordem do menu, YAML fora do percurso e sem página órfã, conferido por `scripts/check_navegacao.py`; tipo Perguntas de negócio no vocabulário (ADR 0007); oito dimensões como checklist e convenção (ADR 0014) | Proposto (F2), aguarda aprovação do mantenedor |
+| 0.5 | 2026-11-17 | Termo "modelo" no lugar de "template" em rótulos e textos; cinco tipos de fonte e ADR para toda convenção do Contexto; exemplo com lacunas em `draft`; aprovações em dia útil e artefatos com data conferida; cópia histórica intacta, com notas em `archival_note` | Proposto (F1), aguarda aprovação do mantenedor |
 | 0.4 | 2026-11-17 | Vocabulário com fonte única em `src/data/vocabulario.yaml` | Proposto (F0), aguarda aprovação do mantenedor |
 | 0.3 | 2026-11-17 | Um termo por ideia; aviso de que a Aurora é inventada só em três lugares; uma página por tipo de documento, com estrutura fixa; menu igual ao título; regras para exemplos concretos; regra de versão | Mantenedor |
 | 0.2 | 2026-11-16 | Regra dos exemplos completos e aprovados; versionamento com data obrigatório; estados de perguntas em aberto; templates Markdown sem bloco YAML | Mantenedor |
@@ -11,14 +14,19 @@
 
 ## Promessa única
 
-Orientar especialistas de diferentes áreas a produzir documentação que explicite conhecimento, contexto, critérios e exceções para que engenheiros de IA não precisem inventar regras ausentes ou inferir significados a partir de documentos ambíguos.
+Transforme perguntas de negócio em documentos aprovados e versionados que uma IA consegue consultar sem inventar definições, seja a ferramenta que você usa direto, seja o sistema que a engenharia monta.
 
 Este projeto **não promete** que os modelos resolvem por si só problemas de SQL, RAG, avaliação automática ou agentes. Documentos são insumos; sistemas precisam ser projetados e testados.
 
 ## Público e linguagem
 
-- Especialistas de negócio, gestores, analistas de dados e pessoas não técnicas são leitores primários.
-- Engenharia de IA é um público secundário interessado em entradas documentais bem definidas.
+Três perfis leitores:
+
+- **Especialista de negócio**, que conhece a regra e precisa registrá-la.
+- **Analista de dados ou martech**, que transforma a regra em indicador e dashboard.
+- **Quem monta agentes ou RAG**, que recebe os documentos como insumo.
+
+Os dois primeiros perfis e quem usa a IA direto, numa ferramenta de chat ou de código, são os leitores primários. Quem monta agentes ou RAG é o público secundário, interessado em entradas documentais bem definidas.
 - Em todo termo técnico: explicar antes de utilizar, fornecer exemplo quando útil.
 - Não infantilizar o leitor nem remover o conteúdo rigoroso por ser técnico.
 - Sem o caractere travessão em nenhum texto.
@@ -26,7 +34,7 @@ Este projeto **não promete** que os modelos resolvem por si só problemas de SQ
 ## Regras editoriais
 
 1. **Ensinar como fazer:** toda regra editorial acompanha pergunta operacional e evidência esperada.
-2. **Explicar a origem:** diferenciar normas, estudos, práticas industriais e decisões autorais.
+2. **Explicar a origem:** diferenciar os cinco tipos de fonte: norma, pesquisa revisada por pares, prática de mercado, relato de fornecedor e convenção do Contexto. Toda convenção do Contexto aponta para um ADR em `docs/adr/`.
 3. **Exibir os dois lados:** cada modelo publicado tem um exemplo com lacunas e um exemplo completo. Ver "Exemplos".
 4. **Separar conhecimento e execução:** documentação não é enforcement de regras em runtime.
 5. **Marcar incertezas:** em documento real, nunca inventar responsável, aprovação, fórmula, vigência, fonte, regra ou valor para deixar um modelo “completo”.
@@ -47,12 +55,14 @@ Cada ideia tem um nome só, em páginas, componentes, modelos e textos dos YAML.
 | O que ninguém decidiu | pergunta em aberto; “em aberto” | pendência, pendente (o estado do documento continua “pendente de aprovação”) |
 | Painel de visualização | dashboard | painel |
 | Respostas certas de um conjunto de perguntas | gabarito; “resposta esperada” para uma pergunta | resposta de referência |
+| Documento com as perguntas que a IA vai receber e as respostas esperadas | Perguntas de negócio | Perguntas de referência, casos de teste |
 | Ligação entre tabelas | junção | join, fora do SQL |
 | Descobrir conhecimento com as pessoas | descobrir, perguntar | elicitar, fora da bibliografia |
 | Pedido de campanha | brief | briefing |
 | Medida acompanhada | indicador; KPI só no nome do modelo e nos identificadores | métrica, fora da bibliografia |
 | Conjunto de dados | dataset | conjunto de dados |
 | Pedido ao banco | consulta | query |
+| Arquivo para preencher | modelo | template, fora de nome de arquivo, endereço e código |
 
 A tríade para o que se sabe é **Confirmado / Relatado / Em aberto**. “Lacuna” é só o que o checklist encontra num documento.
 
@@ -79,7 +89,7 @@ O leitor precisa ver o destino, não só o ponto de partida. Por isso:
    - a organização é a Aurora;
    - responsável e quem aprova são um cargo ou área, nunca o nome de uma pessoa;
    - a primeira linha do arquivo diz que a Aurora é inventada e que nomes, datas e aprovações fazem parte do caso.
-3. Todo tipo de modelo tem **os dois exemplos**: `exemplo-<tipo>-lacunas.yaml` (nunca `approved`) e `exemplo-<tipo>-completo.yaml` (`approved`, sem perguntas em aberto).
+3. Todo tipo de modelo tem **os dois exemplos**: `exemplo-<tipo>-lacunas.yaml` (estado `draft`, nunca `approved`; MOD-11) e `exemplo-<tipo>-completo.yaml` (`approved`, sem perguntas em aberto).
 4. O exemplo completo traz um **histórico com pelo menos duas versões**, para ensinar o que muda quando a regra muda.
 5. Os dois exemplos compartilham o mesmo `id`: são o mesmo documento em momentos diferentes.
 
@@ -92,7 +102,7 @@ Risco aceito: alguém pode copiar um exemplo completo achando que é regra real.
 3. **O texto da página não repete o cartão:** comenta o que o cartão não diz.
 4. **Termina com “Teste você”:** casos com a resposta escondida, pelo menos um atravessando uma mudança de versão.
 5. **Números da amostra são calculados, não digitados:** o validador refaz a conta no SQLite e confere o texto.
-6. **Datas conferidas:** dia da semana, prazos em dias úteis (fim de semana não conta; o prazo vence no fim do último dia útil) e coerência com o histórico de versões.
+6. **Datas conferidas:** dia da semana, prazos em dias úteis (fim de semana não conta; o prazo vence no fim do último dia útil), aprovações em dia útil (o validador avisa) e coerência com o histórico de versões. Nenhum documento cita artefato, registro ou versão com data posterior à sua. As datas dos artefatos ficam em `src/data/artefatos.yaml`, e o validador acusa a referência com data posterior.
 
 O validador confere as condições de “Exemplos completos e aprovados”, as notas da rubrica, os encaminhamentos da tabela de decisão e os números da amostra.
 
@@ -113,6 +123,7 @@ version_history:            # a mais recente primeiro
 
 - `version_date` e `valid_from` são coisas diferentes: uma regra pode ser aprovada hoje para valer no mês que vem.
 - `change` descreve a mudança na regra, não a edição do texto.
+- A cópia histórica de uma versão fica como foi aprovada. Notas escritas depois, por exemplo que a versão foi substituída, vão para `archival_note`, com a data em que a nota foi escrita (MOD-12, AUR-04).
 - Um rascunho também tem versão e data; `approved_by` fica `null`.
 - Nos modelos Markdown, os mesmos dados aparecem nas seções "Identificação" e "Histórico de versões", em português.
 
@@ -127,11 +138,18 @@ Qual número mudar:
 
 ## Organização do portal
 
+O portal segue o percurso do leitor, não a ordem das pastas. A decisão está no [ADR 0023](adr/0023-percurso-em-sete-passos.md).
+
+- **Grupos do menu:** Comece aqui (tutorial de negócio e visão do método; o tutorial de dados ainda não existe e está em aberto no [ROADMAP](ROADMAP.md)), Percurso, Modelos, Laboratórios, Entender, Consultar e Usar com IA.
+- **Percurso em sete passos**, com fonte em `src/data/percurso.yaml`: 1 Escreva a pergunta de negócio; 2 Delimite o acervo; 3 Descubra o que falta; 4 Escreva com o modelo (a página de modelos); 5 Revise e aprove; 6 Teste com as perguntas; 7 Leve à sua ferramenta de IA.
+- **Próximo passo:** toda página do percurso termina com o bloco Próximo passo. O prev/next segue a ordem do menu, e não a ordem das pastas.
+- **Modelos:** o grupo segue o nível de `src/data/modelos.yaml`: o núcleo de entrada (ADR 0013), o segundo nível e a trilha complementar da rubrica (ADR 0003).
+- **Nenhuma página órfã:** toda página tem entrada no menu ou em outra página, e nenhuma página fica sem saída. `scripts/check_navegacao.py` confere.
+- **YAML só em páginas de modelo e de referência,** nunca no percurso (NAV-08).
 - **Uma página por tipo de documento**, com o modelo e o exemplo juntos. O endereço continua em `/templates/...`.
 - **Cada cartão de exemplo aparece em uma página só.** Onde outra página precisa dele, entra um link.
 - **O menu mostra o título da página.** O sidebar lista só os slugs, sem rótulo próprio, e nenhuma página muda o rótulo pelo frontmatter. O validador confere.
-- **Página fundida ganha redirecionamento** em `astro.config.mjs`, e nenhum link do portal aponta para o endereço antigo. O validador confere.
-- Tudo o que é Analytics fica em Dados e Analytics.
+- **Página movida ou renomeada ganha redirecionamento** em `astro.config.mjs`, e o validador recusa link para o endereço antigo.
 
 ### Estrutura de uma página de tipo
 
@@ -219,6 +237,8 @@ Checklist de aprovação editorial do modelo: necessidade e aplicabilidade; perg
 As páginas não copiam trechos YAML dos exemplos. Usam o componente `ExampleDoc`, que lê o arquivo em `public/downloads/` na hora do build. O que a página mostra é o que o leitor baixa.
 
 Os modelos Markdown não começam com bloco YAML: abrem com a tabela "Identificação", em português, para quem não conhece YAML.
+
+Os modelos vêm de `src/data/modelos.yaml`, que alimenta `TemplateFinder`, `TemplateDownloads` e `TemplateStart`. As oito dimensões vêm de `src/data/dimensoes.yaml`, que alimenta o checklist.
 
 ## Gestão de alterações
 

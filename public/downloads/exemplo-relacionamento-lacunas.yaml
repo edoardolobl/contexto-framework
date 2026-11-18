@@ -3,7 +3,7 @@ id: REL-AURORA-SESSIONS-ORDERS
 revision_id: "REL-AURORA-SESSIONS-ORDERS@0.1"  # versão específica; id = assunto estável
 title: "Sessões para pedidos: Aurora"
 type: relationship_semantics
-status: pending_approval
+status: draft
 version: "0.1"
 version_date: "2026-07-20"
 owner: null
@@ -39,16 +39,16 @@ usage_rules:
   disallowed_question_classes:
     - "Contar sessões usando COUNT(*) após a junção sem tratar multiplicidade"
   join_strategy_by_question:
-    - "Para sessões convertidas, contar session_id distinto dos pedidos confirmados elegíveis"
+    - "Ainda não definida: depende de contar pedido ou sessão (ver perguntas em aberto)"
   duplication_risks:
-    - "S1 possui O1 e O2: a linha de S1 aparece duas vezes na junção"
+    - "Uma sessão com dois pedidos confirmados aparece duas vezes na junção"
   aggregation_safeguards:
-    - "Deduplicar sessão convertida antes da razão por sessões elegíveis"
+    - "A definir junto com a pergunta em aberto sobre contar pedido ou sessão"
 validation:
   test_cases:
-    - "S1 possui dois pedidos confirmados mas conta como uma sessão convertida"
-    - "S2 tem pedido cancelado e não conta como sessão convertida"
-  verified_query: "aurora-reference-query.sql"
+    - "Uma sessão com dois pedidos confirmados aparece duas vezes na junção"
+    - "Uma sessão com somente pedido cancelado não conta como sessão convertida"
+  verified_query: null
   reviewer: null
 open_questions:
   - question: "Para contar sessões convertidas, conta-se cada pedido confirmado ou cada sessão distinta?"

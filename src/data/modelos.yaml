@@ -1,40 +1,114 @@
 # Tipos de documento do Contexto: fonte única da lista de modelos.
-# scripts/validate_content.py exige, para cada slug, template-<slug>.md, template-<slug>.yaml,
-# exemplo-<slug>-completo.yaml e a página src/content/docs/templates/<slug>.mdx.
-# nivel segue o ADR 0013 (núcleo de entrada) e o ADR 0003 (Rubrica na trilha complementar):
+# Alimenta o menu (astro.config.mjs confere a ordem), a tabela da página de modelos (TemplateFinder),
+# o resumo de cada página (TemplateStart), os arquivos para baixar (TemplateDownloads) e os validadores.
+# slug: chave de arquivo e de type. Os arquivos template-<slug>.md, template-<slug>.yaml,
+#   exemplo-<slug>-lacunas.yaml e exemplo-<slug>-completo.yaml seguem o slug. O slug muda só na F3 (ADR 0007).
+# pagina: endereço da página em src/content/docs/templates/<pagina>.mdx. Quase sempre igual ao slug;
+#   Perguntas de negócio já tem endereço novo e mantém o slug casos-teste até a F3.
+# nome: título da página. nivel segue o ADR 0013 (núcleo de entrada) e o ADR 0003 (Rubrica na trilha complementar):
 #   nucleo: aparece na porta de entrada; segundo: segundo nível; complementar: trilha à parte.
-# nome é o título atual da página src/content/docs/templates/<slug>.mdx. Os nomes-alvo dos ADRs
-# 0007 (Perguntas de negócio) e 0013 (Dataset com relacionamentos, Regra e decisão) entram na F2
-# (menu e redirecionamentos) e na F3 (schema); até lá este arquivo mantém os títulos atuais.
+# tarefa e resumo: o que a pessoa quer fazer e o que o modelo cobre, na tabela da página de modelos.
+# quando, resultado e preparar: o bloco "Antes de preencher" de cada página de modelo.
+# rotulo_download: nome do primeiro arquivo para baixar, o modelo em texto.
 # O tipo Evento de coleta entra na fase F4, junto com os arquivos dele.
 tipos:
   - slug: kpi
+    pagina: kpi
     nome: Indicador (KPI)
     nivel: nucleo
+    tarefa: Explicar como um indicador é calculado
+    resumo: Fórmula, população, filtros, período e significado do indicador.
+    quando: Pessoas calculam ou interpretam um mesmo indicador de maneiras diferentes.
+    resultado: Uma definição de indicador com fórmula, população, filtros e fonte oficial.
+    preparar: Nome do indicador, exemplo de resultado e dúvidas sobre o cálculo.
+    rotulo_download: Modelo de KPI
   - slug: dataset
+    pagina: dataset
     nome: Dataset
     nivel: nucleo
+    tarefa: Explicar uma tabela e seus campos
+    resumo: Granularidade, chaves, códigos, valores especiais e limites de uso.
+    quando: Os nomes e tipos das colunas não explicam o significado dos dados.
+    resultado: Um dicionário semântico com granularidade, campos e valores especiais.
+    preparar: Schema, amostras não sensíveis e uma pessoa que conhece os dados.
+    rotulo_download: Modelo de dataset
   - slug: relacionamento
+    pagina: relacionamento
     nome: Relacionamento entre tabelas
     nivel: nucleo
+    tarefa: Documentar como tabelas se relacionam
+    resumo: Chaves, cardinalidade e risco de duplicação de linhas.
+    quando: Duas tabelas precisam ser combinadas sem distorcer contagens ou períodos.
+    resultado: Uma relação documentada com chaves, cardinalidade e limites de uso.
+    preparar: Os dois datasets, um exemplo de junção e riscos conhecidos.
+    rotulo_download: Modelo de relacionamento
   - slug: decisao
-    nome: Regras e decisões
+    pagina: decisao
+    nome: Regra e decisão
     nivel: nucleo
+    tarefa: Definir critérios para uma decisão
+    resumo: Condições, prioridade entre regras, resultados e tratamento de dúvidas.
+    quando: Condições diferentes levam a aprovar, devolver, interromper ou escalar.
+    resultado: Critérios verificáveis, resultados possíveis e tratamento de conflitos.
+    preparar: Uma decisão recorrente, exemplos de resultados e quem tem autoridade.
+    rotulo_download: Modelo de regra e decisão
   - slug: casos-teste
-    nome: Perguntas de referência
+    pagina: perguntas-de-negocio
+    nome: Perguntas de negócio
     nivel: nucleo
+    tarefa: Definir quais perguntas a documentação deve responder
+    resumo: Perguntas de negócio, fontes, esclarecimentos e casos sem resposta.
+    quando: É preciso estabelecer o que a documentação permite responder ou não.
+    resultado: Perguntas de negócio com resposta esperada, evidências e limites.
+    preparar: O acervo, perguntas frequentes e quem pode validar as respostas.
+    rotulo_download: Modelo de perguntas de negócio
   - slug: conceito
+    pagina: conceito
     nome: Conceito
     nivel: segundo
+    tarefa: Explicar o significado de um termo
+    resumo: Definição, sinônimos, exemplos e situações em que o termo não se aplica.
+    quando: Uma palavra tem significados diferentes ou uma definição está implícita.
+    resultado: Uma definição contextualizada, com exemplos, limites e autoridade.
+    preparar: O termo, uma situação real de uso e quem pode confirmar seu significado.
+    rotulo_download: Modelo de conceito
   - slug: politica
+    pagina: politica
     nome: Política
     nivel: segundo
+    tarefa: Registrar uma política ou obrigação
+    resumo: Escopo, autoridade, versões, vigência, exceções e fontes oficiais.
+    quando: É preciso identificar o que vale, a quem se aplica e qual fonte tem autoridade.
+    resultado: Uma referência de política com escopo, vigência, exceções e fontes.
+    preparar: Documentos existentes, versões conflitantes e o responsável pela política.
+    rotulo_download: Modelo de política
   - slug: processo
+    pagina: processo
     nome: Processo
     nivel: segundo
+    tarefa: Descrever como um trabalho é executado
+    resumo: Gatilho, etapas, responsáveis, decisões, exceções e evidências.
+    quando: Alguém precisa executar um fluxo sem depender de instruções verbais.
+    resultado: Um procedimento com etapas, papéis, decisões, exceções e evidências.
+    preparar: Uma solicitação típica, os envolvidos e um caso que saiu do esperado.
+    rotulo_download: Modelo de processo
   - slug: dashboard
+    pagina: dashboard
     nome: Dashboard
     nivel: segundo
+    tarefa: Explicar como interpretar um dashboard
+    resumo: Indicadores, filtros, públicos, atualização e limitações.
+    quando: Um dashboard precisa ter seus indicadores, filtros e limitações interpretados.
+    resultado: Um guia de leitura com indicadores, escopo, filtros, atualização e fontes.
+    preparar: O dashboard, as perguntas que apoia e as definições dos indicadores.
+    rotulo_download: Modelo de dashboard
   - slug: rubrica
+    pagina: rubrica
     nome: Rubrica de avaliação
     nivel: complementar
+    tarefa: Definir como avaliar um trabalho
+    resumo: Critérios, níveis de qualidade, evidências e revisão humana.
+    quando: Um trabalho precisa ser avaliado com critérios e evidências claros.
+    resultado: Uma rubrica com critérios, níveis, exemplos e revisão humana.
+    preparar: O entregável a avaliar e exemplos do que seria suficiente ou insuficiente.
+    rotulo_download: Modelo de rubrica

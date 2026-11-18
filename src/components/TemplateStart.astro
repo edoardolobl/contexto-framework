@@ -1,90 +1,40 @@
 ---
-interface Props {
-  kind: 'conceito' | 'processo' | 'decisao' | 'politica' | 'kpi' | 'rubrica' |
-    'dataset' | 'relacionamento' | 'dashboard' | 'casos-teste';
-}
+/**
+ * Bloco "Antes de preencher" de cada página de modelo, lido de src/data/modelos.yaml pelo slug.
+ * kind: o slug do tipo (Perguntas de negócio usa 'casos-teste' até a F3).
+ */
+import { baseUrl, modeloPorSlug } from '../lib/dados';
+
+interface Props { kind: string }
 const { kind } = Astro.props;
-
-const guidance: Record<Props['kind'], { when: string; result: string; prepare: string }> = {
-  conceito: {
-    when: 'Uma palavra tem significados diferentes ou uma definição está implícita.',
-    result: 'Uma definição contextualizada, com exemplos, limites e autoridade.',
-    prepare: 'O termo, uma situação real de uso e quem pode confirmar seu significado.',
-  },
-  processo: {
-    when: 'Alguém precisa executar um fluxo sem depender de instruções verbais.',
-    result: 'Um procedimento com etapas, papéis, decisões, exceções e evidências.',
-    prepare: 'Uma solicitação típica, os envolvidos e um caso que saiu do esperado.',
-  },
-  decisao: {
-    when: 'Condições diferentes levam a aprovar, devolver, interromper ou escalar.',
-    result: 'Critérios verificáveis, resultados possíveis e tratamento de conflitos.',
-    prepare: 'Uma decisão recorrente, exemplos de resultados e quem tem autoridade.',
-  },
-  politica: {
-    when: 'É preciso identificar o que vale, a quem se aplica e qual fonte tem autoridade.',
-    result: 'Uma referência de política com escopo, vigência, exceções e fontes.',
-    prepare: 'Documentos existentes, versões conflitantes e o responsável pela política.',
-  },
-  kpi: {
-    when: 'Pessoas calculam ou interpretam um mesmo indicador de maneiras diferentes.',
-    result: 'Uma definição de indicador com fórmula, população, filtros e fonte oficial.',
-    prepare: 'Nome do indicador, exemplo de resultado e dúvidas sobre o cálculo.',
-  },
-  rubrica: {
-    when: 'Um trabalho precisa ser avaliado com critérios e evidências claros.',
-    result: 'Uma rubrica com critérios, níveis, exemplos e revisão humana.',
-    prepare: 'O entregável a avaliar e exemplos do que seria suficiente ou insuficiente.',
-  },
-  dataset: {
-    when: 'Os nomes e tipos das colunas não explicam o significado dos dados.',
-    result: 'Um dicionário semântico com granularidade, campos e valores especiais.',
-    prepare: 'Schema, amostras não sensíveis e uma pessoa que conhece os dados.',
-  },
-  relacionamento: {
-    when: 'Duas tabelas precisam ser combinadas sem distorcer contagens ou períodos.',
-    result: 'Uma relação documentada com chaves, cardinalidade e limites de uso.',
-    prepare: 'Os dois datasets, um exemplo de junção e riscos conhecidos.',
-  },
-  dashboard: {
-    when: 'Um dashboard precisa ter seus indicadores, filtros e limitações interpretados.',
-    result: 'Um guia de leitura com indicadores, escopo, filtros, atualização e fontes.',
-    prepare: 'O dashboard, as perguntas que apoia e as definições dos indicadores.',
-  },
-  'casos-teste': {
-    when: 'É preciso estabelecer o que a documentação permite responder ou não.',
-    result: 'Perguntas de referência com evidências, esclarecimentos e limites.',
-    prepare: 'O acervo, perguntas frequentes e quem pode validar as respostas.',
-  },
-};
-
-const data = guidance[kind];
-const rawBase = import.meta.env.BASE_URL;
-const base = rawBase.endsWith('/') ? rawBase : rawBase + '/';
+const data = modeloPorSlug(kind);
+const base = baseUrl();
 ---
 <section class="template-start" aria-label="Resumo prático deste modelo">
   <p class="template-start__eyebrow">ANTES DE PREENCHER</p>
-  <div class="template-start__grid">
+  {/* Lista de termos, não títulos: o bloco vem antes do primeiro h2 da página. */}
+  <dl class="template-start__grid">
     <div>
-      <h2>Quando usar</h2>
-      <p>{data.when}</p>
+      <dt>Quando usar</dt>
+      <dd>{data.quando}</dd>
     </div>
     <div>
-      <h2>O que você vai produzir</h2>
-      <p>{data.result}</p>
+      <dt>O que você vai produzir</dt>
+      <dd>{data.resultado}</dd>
     </div>
     <div>
-      <h2>O que ter em mãos</h2>
-      <p>{data.prepare}</p>
+      <dt>O que ter em mãos</dt>
+      <dd>{data.preparar}</dd>
     </div>
-  </div>
+  </dl>
   <div class="template-start__next">
     <div>
       <strong>Próximo passo</strong>
       <span>Baixe o modelo em texto, preencha o que sabe e registre o que ainda precisa ser confirmado.</span>
     </div>
-    <a href={base + 'downloads/template-' + kind + '.md'} download>
+    <a href={`${base}downloads/template-${data.slug}.md`} download>
       Baixar modelo em texto <span aria-hidden="true">↓</span>
     </a>
   </div>
+  <p class="template-start__help">Dúvida sobre um campo? Veja <a href={`${base}fundamentos/como-ler-os-campos/`}>Como ler os campos</a>.</p>
 </section>

@@ -49,13 +49,13 @@ usage_rules:
   join_strategy_by_question:
     - "Para sessões convertidas, contar session_id distinto dos pedidos confirmados elegíveis"
   duplication_risks:
-    - "S1 possui O1 e O2: a linha de S1 aparece duas vezes na junção"
+    - "Uma sessão com dois pedidos confirmados aparece duas vezes na junção"
   aggregation_safeguards:
     - "Deduplicar sessão convertida antes da razão por sessões elegíveis"
 validation:
   test_cases:
-    - "S1 possui dois pedidos confirmados mas conta como uma sessão convertida"
-    - "S2 tem pedido cancelado e não conta como sessão convertida"
+    - "Uma sessão com dois pedidos confirmados conta uma vez como sessão convertida"
+    - "Uma sessão com somente pedido cancelado não conta como sessão convertida"
   verified_query: "aurora-reference-query.sql"
   reviewer: "Engenharia de Dados (Aurora)"
 open_questions: []

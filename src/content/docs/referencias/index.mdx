@@ -4,63 +4,102 @@ description: Fontes metodológicas, estudos empíricos e origem das decisões do
 ---
 
 
-O Contexto combina literatura sobre conhecimento organizacional, análise de negócios, documentação, modelos semânticos e avaliação. É uma **metodologia autoral**: não existe uma norma que determine as “oito dimensões” exatamente como apresentadas aqui.
+O Contexto combina literatura sobre conhecimento organizacional, análise de negócios, documentação, modelos semânticos e avaliação. As oito dimensões são um **checklist de revisão, convenção do Contexto**: nenhuma norma as define como aparecem aqui.
 
 Para cada tema, distinguimos **o que a fonte realmente sustenta**, **qual adaptação pedagógica propomos** e **qual limite não podemos ultrapassar**.
 
+## Tipos de fonte
+
+Cada fonte nas tabelas abaixo leva um rótulo com o tipo dela:
+
+- **Norma:** padrão publicado por um organismo de normalização ou por um órgão oficial, como ISO, W3C, OMG ou NIST.
+- **Pesquisa revisada por pares:** artigo ou estudo acadêmico avaliado por outros pesquisadores antes de publicado. Livros acadêmicos de referência, como Polanyi (1966), entram aqui.
+- **Prática de mercado:** guia ou metodologia de associação profissional, consórcio ou equipe de empresa, que descreve boas práticas sem passar por revisão acadêmica.
+- **Relato de fornecedor:** documentação de produto, benchmark ou preprint publicado por empresa que vende a solução avaliada. Serve como indício, não como prova independente.
+- **Convenção do Contexto:** regra deste projeto. Toda convenção aponta para um registro de decisão (ADR) em `docs/adr/`.
+
 ## Fundamentos da metodologia
 
-| Fonte primária | Uso no framework | Ressalva |
-|---|---|---|
-| [Nonaka (1994), *A Dynamic Theory of Organizational Knowledge Creation*](https://doi.org/10.1287/orsc.5.1.14) | Relação entre conhecimento tácito e explícito | Não sugere que todo julgamento humano pode ser formalizado |
-| [KCS v6, *Practices Guide*](https://library.serviceinnovation.org/KCS/KCS_v6/KCS_v6_Practices_Guide) | Captura, estrutura e evolução de conhecimento | Guia sob licença CC BY-NC 4.0; "KCS" é marca de serviço do Consortium for Service Innovation. Usamos como inspiração, sem reproduzir texto |
-| [IIBA, *The Business Analysis Standard*](https://www.iiba.org/knowledgehub/the-business-analysis-standard/) e *BABOK Guide* v3, capítulo 4 | Nomes e sequência das tarefas de elicitação e confirmação | O Standard lista as tarefas; o detalhamento está no BABOK Guide, de acesso restrito. Inspiração, não derivação. Modelos não são formulários oficiais IIBA |
-| [Diátaxis](https://diataxis.fr/) | Explicação, tutorial, guia prático e referência | Modelo editorial, não especificação de IA |
-| [ISO 30401:2018](https://www.iso.org/standard/68683.html), com emendas de 2022 e 2024 | Referência geral de gestão do conhecimento | Norma paga e em revisão. Não alegamos certificação, não reproduzimos a norma e não derivamos dela decisões específicas do método |
-| [DCMI Metadata Terms](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/) | Propriedades e identificação de documentos | YAML de exemplo não é schema DCMI |
-| [W3C SKOS](https://www.w3.org/TR/skos-reference/) | Termos preferidos, alternativos e relacionados | Nosso glossário não é serialização formal SKOS |
+| Fonte primária | Tipo de fonte | Uso no framework | Ressalva |
+|---|---|---|---|
+| [Nonaka (1994), *A Dynamic Theory of Organizational Knowledge Creation*](https://doi.org/10.1287/orsc.5.1.14) | Pesquisa revisada por pares | Aplicação organizacional da distinção entre conhecimento tácito e explícito | Não sugere que todo julgamento humano pode ser formalizado |
+| Polanyi, M. (1966), *The Tacit Dimension* | Pesquisa revisada por pares | Origem da distinção entre conhecimento tácito e explícito | Livro acadêmico, citado sem link |
+| [Knowledge-Centered Success: Practices Guide](https://library.serviceinnovation.org/KCS/Knowledge-Centered_Success_Practices_Guide) | Prática de mercado | Captura, estrutura e evolução de conhecimento | Guia sob licença CC BY-NC 4.0; "KCS" é marca de serviço do Consortium for Service Innovation. Usamos como inspiração, sem reproduzir texto |
+| [IIBA, *The Business Analysis Standard*](https://www.iiba.org/knowledgehub/the-business-analysis-standard/) e *BABOK Guide* v3, capítulo 4 | Prática de mercado | Nomes e sequência das tarefas de elicitação e confirmação | O Standard lista as tarefas; o detalhamento está no BABOK Guide, de acesso restrito. Inspiração, não derivação. Modelos não são formulários oficiais IIBA |
+| [Diátaxis](https://diataxis.fr/) | Prática de mercado | Explicação, tutorial, guia prático e referência | Modelo editorial, não especificação de IA |
+| [ISO 30401:2018](https://www.iso.org/standard/68683.html), com emendas de 2022 e 2024 | Norma | Referência geral de gestão do conhecimento | Norma paga e em revisão. Não alegamos certificação, não reproduzimos a norma e não derivamos dela decisões específicas do método |
+| [DCMI Metadata Terms](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/) | Norma | Propriedades e identificação de documentos | YAML de exemplo não é schema DCMI |
+| [W3C SKOS](https://www.w3.org/TR/skos-reference/) | Norma | Termos preferidos, alternativos e relacionados | Nosso glossário não é serialização formal SKOS |
 
 ## Processos, decisões e políticas
 
-| Fonte | Utilização | Limite |
-|---|---|---|
-| [OMG BPMN 2.0.2](https://www.omg.org/spec/BPMN/2.0.2) | Participantes, atividades e fluxos | Diagramas ASCII e YAML do Contexto não são BPMN formal |
-| [OMG DMN 1.6](https://www.omg.org/spec/DMN/1.6) | Decisões, condições e tabelas de decisão | As tabelas do portal não são DMN executável |
-| [IIBA: tarefa Confirm Elicitation Results](https://www.iiba.org/knowledgehub/the-business-analysis-standard/5-applying-business-analysis-tasks/5-3-business-analysis-knowledge-areas/elicitation-and-collaboration/) | Confirmação de interpretações por especialistas | Não transforma prática relatada em regra automaticamente |
-| [KCS](https://library.serviceinnovation.org/KCS/KCS_v6/KCS_v6_Practices_Guide) | Revisão, versionamento e autoridade do conteúdo | Conformidade e governança dependem da organização |
+| Fonte | Tipo de fonte | Utilização | Limite |
+|---|---|---|---|
+| [OMG BPMN 2.0.2](https://www.omg.org/spec/BPMN/2.0.2) | Norma | Participantes, atividades e fluxos | Diagramas ASCII e YAML do Contexto não são BPMN formal |
+| [OMG DMN 1.6](https://www.omg.org/spec/DMN/1.6) | Norma | Decisões, condições e tabelas de decisão | As tabelas do portal não são DMN executável |
+| [IIBA: tarefa Confirm Elicitation Results](https://www.iiba.org/knowledgehub/the-business-analysis-standard/5-applying-business-analysis-tasks/5-3-business-analysis-knowledge-areas/elicitation-and-collaboration/) | Prática de mercado | Confirmação de interpretações por especialistas | Não transforma prática relatada em regra automaticamente |
+| [Knowledge-Centered Success: Practices Guide](https://library.serviceinnovation.org/KCS/Knowledge-Centered_Success_Practices_Guide) | Prática de mercado | Revisão, versionamento e autoridade do conteúdo | Conformidade e governança dependem da organização |
 
 ## Semântica e análise de dados
 
-| Fonte | O que aprendemos | Limite |
-|---|---|---|
-| [Rumiantsau & Fokeev (2026), *Semantic Layers for Reliable LLM-Powered Data Analytics: A Paired Benchmark of Accuracy and Hallucination Across Three Frontier Models*](https://arxiv.org/abs/2604.25149), preprint | Com um documento semântico adicional, houve ganho de 17 a 23 pontos percentuais em 99 perguntas, em três modelos | **Preprint, sem revisão por pares.** Autores vinculados à Cube, fornecedora de camada semântica. Um dataset e um banco. Uma tentativa por pergunta. O avaliador foi um modelo da mesma família de dois dos três testados. O documento semântico não foi escrito às cegas em relação às perguntas. Os autores relatam que um experimento com agente não superou a linha de base. Cerca de 30% de erros permanecem. Não comprova resultado em produção |
-| [dbt MetricFlow](https://docs.getdbt.com/docs/build/about-metricflow) | Modelos de entidade, dimensão e métrica | O YAML do portal não é arquivo MetricFlow executável |
-| [Snowflake Semantic Views YAML](https://docs.snowflake.com/en/user-guide/views-semantic/semantic-view-yaml-spec) | Descrições, sinônimos, valores de exemplo, relações e consultas verificadas | Nosso modelo não é arquivo Snowflake válido |
-| [Databricks: Tune Genie Agent quality](https://docs.databricks.com/gcp/en/genie/add-instructions) | Exemplos SQL e contexto de negócio para consultas analíticas | Recursos e nomes específicos podem evoluir |
-| [Microsoft: Preparação de RAG](https://learn.microsoft.com/pt-br/azure/architecture/ai-ml/guide/rag/rag-preparation-phase) | Delimitar domínio, selecionar conteúdo e perguntas de referência | Preparação documental não substitui validação de sistema |
-| [Microsoft: Avaliação de recuperação](https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/rag/rag-information-retrieval) | Casos positivos e negativos de recuperação | Não atribuímos pontuação de RAG neste portal |
-| [NIST AI RMF: Measure](https://airc.nist.gov/airmf-resources/playbook/measure/) | Avaliação, supervisão humana e registro de riscos | Nossa rubrica não certifica decisões de alto impacto |
+| Fonte | Tipo de fonte | O que aprendemos | Limite |
+|---|---|---|---|
+| [Rumiantsau & Fokeev (2026), *Semantic Layers for Reliable LLM-Powered Data Analytics: A Paired Benchmark of Accuracy and Hallucination Across Three Frontier Models*](https://arxiv.org/abs/2604.25149), preprint | Relato de fornecedor | Com um documento semântico adicional, houve ganho de 17 a 23 pontos percentuais em 99 perguntas, em três modelos | **Preprint, sem revisão por pares.** Autores vinculados à Cube, fornecedora de camada semântica. Um dataset e um banco. Uma tentativa por pergunta. O avaliador foi um modelo da mesma família de dois dos três testados. Os autores relatam que um experimento com agente não superou a linha de base. Cerca de 30% de erros permanecem. Não comprova resultado em produção. Ver a ressalva abaixo da tabela |
+| [dbt MetricFlow](https://docs.getdbt.com/docs/build/about-metricflow) | Relato de fornecedor | Modelos de entidade, dimensão e métrica | O YAML do portal não é arquivo MetricFlow executável |
+| [Snowflake Semantic Views YAML](https://docs.snowflake.com/en/user-guide/views-semantic/semantic-view-yaml-spec) | Relato de fornecedor | Descrições, sinônimos, valores de exemplo, relações e consultas verificadas | Nosso modelo não é arquivo Snowflake válido |
+| [Databricks: Tune Genie Agent quality](https://docs.databricks.com/gcp/en/genie/add-instructions) | Relato de fornecedor | Exemplos SQL e contexto de negócio para consultas analíticas | Recursos e nomes específicos podem evoluir |
+| [Microsoft: Preparação de RAG](https://learn.microsoft.com/pt-br/azure/architecture/ai-ml/guide/rag/rag-preparation-phase) | Prática de mercado | Delimitar domínio, selecionar conteúdo e perguntas de referência | Preparação documental não substitui validação de sistema |
+| [Microsoft: Avaliação de recuperação](https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/rag/rag-information-retrieval) | Prática de mercado | Casos positivos e negativos de recuperação | Não atribuímos pontuação de RAG neste portal |
+| [AGENTS.md](https://agents.md/) | Prática de mercado | Arquivo de instruções que agentes de programação leem na raiz do repositório | Formato livre; cada ferramenta decide como lê. A instrução orienta, não garante o comportamento |
+| [NIST AI RMF: Measure](https://airc.nist.gov/airmf-resources/playbook/measure/) | Norma | Avaliação, supervisão humana e registro de riscos | Nossa rubrica não certifica decisões de alto impacto |
+
+## Evidência empírica
+
+Os estudos abaixo sustentam a tese de que contexto de negócio explícito melhora as respostas de IA sobre dados. Eles são separados por tipo: o que foi revisado por pares vem primeiro, e o que vem de fornecedor fica marcado.
+
+| Fonte | Tipo de fonte | O que sustenta | Limite |
+|---|---|---|---|
+| [Painter et al., JAMIA Open, 2025, doi 10.1093/jamiaopen/ooaf003](https://doi.org/10.1093/jamiaopen/ooaf003) | Pesquisa revisada por pares | Em 60 perguntas, o acerto foi de 8,3% só com o schema e de 78,3% com um documento de contexto de negócio | Um estudo, com 60 perguntas; não mede um sistema em produção |
+| [BIRD, Li et al., NeurIPS 2023](https://arxiv.org/abs/2305.03111) | Pesquisa revisada por pares | Evidência externa, como definições e termos do negócio, muda o desempenho de text-to-SQL | Benchmark com bancos de dados de pesquisa, não com o dataset de uma empresa |
+| [Spider 2.0, Lei et al., ICLR 2025](https://arxiv.org/abs/2411.07763) | Pesquisa revisada por pares | Teto do problema: tarefas corporativas reais seguem difíceis para os modelos | Não estuda documentação de contexto; serve de referência do tamanho do problema |
+
+**Rumiantsau e Fokeev (2026)** são um relato de fornecedor: um preprint de autores da Cube, fornecedora de camada semântica, sem revisão por pares. O documento foi escrito por um analista que conhecia o dataset, mas não as perguntas na forma final; os autores reconhecem que um documento escrito antes de qualquer contato com o benchmark poderia render menos.
+
+**Sequeda, Allemang e Jacob (2023)**, [arxiv.org/abs/2311.07509](https://arxiv.org/abs/2311.07509), são um relato de fornecedor em preprint.
+
+**dbt, Snowflake e Databricks** também são relatos de fornecedor: as páginas acima descrevem produtos e não estudos independentes.
+
+## Descoberta com especialistas
+
+| Fonte | Tipo de fonte | Utilização | Limite |
+|---|---|---|---|
+| [Klein, Calderwood e MacGregor (1989), *Critical Decision Method for Eliciting Knowledge*, IEEE Transactions on Systems, Man, and Cybernetics 19(3)](https://doi.org/10.1109/21.31053) | Pesquisa revisada por pares | Entrevista sobre um incidente real: linha do tempo, decisões, pistas e perguntas do tipo “e se” | O Contexto usa uma versão simplificada, para documentação de negócio e dados |
+| [Hoffman, Crandall e Shadbolt (1998), *Use of the Critical Decision Method to Elicit Expert Knowledge*, Human Factors 40(2)](https://doi.org/10.1518/001872098779480442) | Pesquisa revisada por pares | Como conduzir e analisar entrevistas por incidente | Estuda especialistas em tarefas complexas, não documentação de dados |
+| 5 porquês | Prática de mercado | Heurística para chegar à regra por trás de um caso | Só heurística: não prova causa e não substitui a entrevista |
 
 ## Rastreabilidade: decisão, inspiração e adaptação
 
-A coluna do meio indica **de onde veio a ideia**, não uma exigência da fonte. Nenhuma das fontes prescreve o que o Contexto faz.
+A coluna do meio indica **de onde veio a ideia**, não uma exigência da fonte. Nenhuma das fontes prescreve o que o Contexto faz. Quando a ideia é uma convenção do Contexto, a célula aponta para o registro de decisão que a sustenta. Para ver as convenções aplicadas, comece pelo [checklist das oito dimensões](../metodo/oito-dimensoes/) e pelo passo [Descubra o que falta](../percurso/descubra-o-que-falta/).
 
 | Decisão original do Contexto | Inspiração | Adaptação e consequência |
 |---|---|---|
-| Método das oito dimensões | Afinidade temática com IIBA, KCS e DCMI; formulação própria | Perguntas de elicitação que qualquer especialista pode usar |
+| Checklist das oito dimensões | [Convenção do Contexto](https://github.com/edoardolobl/contexto-framework/blob/main/docs/adr/0014-oito-dimensoes-como-checklist.md); afinidade temática com IIBA, KCS e DCMI | Lista para conferir um documento antes de aprovar |
+| Percurso em sete passos, da pergunta de negócio à ferramenta de IA | [Convenção do Contexto](https://github.com/edoardolobl/contexto-framework/blob/main/docs/adr/0023-percurso-em-sete-passos.md) | Menu do portal em ordem de trabalho, com próximo passo em cada página |
+| Descobrir o que falta a partir de um caso real | Critical Decision Method (Klein et al. 1989; Hoffman et al. 1998); IIBA e KCS. A adaptação é [convenção do Contexto](https://github.com/edoardolobl/contexto-framework/blob/main/docs/adr/0024-descoberta-por-incidente.md) | Entrevista curta com oito famílias de perguntas e um rascunho imperfeito |
+| Instrução mínima ao agente | AGENTS.md (prática de mercado). O conteúdo das regras é [convenção do Contexto](https://github.com/edoardolobl/contexto-framework/blob/main/docs/adr/0025-instrucao-minima-ao-agente.md) | Trecho de AGENTS.md que manda usar só documentos aprovados e perguntar quando falta definição |
 | Separar relato de regra aprovada | IIBA, KCS | `status`, perguntas em aberto, responsáveis e evidências |
 | Distinguir sinônimo e termo relacionado | W3C SKOS | Modelo de conceito com exemplos e contraexemplos |
 | Registrar gatilhos, atores e exceções | BPMN, IIBA | Modelo de processo independente de BPMN formal |
 | Declarar precedência e tratar desconhecidos | DMN, IIBA | Tabelas com 9 combinações verificadas |
-| Não resolver políticas conflitantes por data | Decisão própria, coerente com a ênfase de KCS em autoridade do conteúdo | Registro de fontes divergentes e de quem aprova, quando em aberto |
+| Não resolver políticas conflitantes por data | [Convenção do Contexto](https://github.com/edoardolobl/contexto-framework/blob/main/docs/adr/0018-nao-resolver-politicas-conflitantes-por-data.md), coerente com a ênfase de KCS em autoridade do conteúdo | Registro de fontes divergentes e de quem aprova, quando em aberto |
 | Datar e versionar todo documento | Prática comum de controle de documentos; KCS sobre evolução do conteúdo | `version`, `version_date`, `valid_from` e histórico de versões em todos os modelos |
-| Mostrar o exemplo completo, já aprovado | Decisão própria | Par de exemplos por tipo: com lacunas e completo |
+| Mostrar o exemplo completo, já aprovado | [Convenção do Contexto](https://github.com/edoardolobl/contexto-framework/blob/main/docs/adr/0019-par-de-exemplos-com-lacunas-e-completo.md) | Par de exemplos por tipo: com lacunas e completo |
 | Documentar granularidade e códigos | Snowflake, Databricks | Modelo semântico de dataset portável |
 | Registrar caminhos de junção e cardinalidade | dbt, Snowflake | Modelo de relacionamento e caso 1:N |
-| Explicitar a interpretação de dashboards | Decisão própria; dbt inspira a ligação entre dashboard e definição do indicador | Modelo de dashboard que referencia KPI e fonte |
+| Explicitar a interpretação de dashboards | [Convenção do Contexto](https://github.com/edoardolobl/contexto-framework/blob/main/docs/adr/0020-dashboard-como-guia-de-leitura.md); dbt inspira a ligação entre dashboard e definição do indicador | Modelo de dashboard que referencia KPI e fonte |
 | Usar âncoras e evidências em rubricas | NIST, IIBA | Rubrica original com revisão humana e exemplos |
-| Separar responder, esclarecer e abster-se | Microsoft RAG, princípios de evidência | Perguntas de referência e limites conhecidos |
-| Testar um caso pequeno sem LLM | Verificabilidade analítica e literaturas semânticas | Amostra SQLite com resultado reproduzível de 25% |
+| Separar responder, esclarecer e abster-se | Microsoft sustenta testar casos positivos e negativos e dizer que não sabe a resposta quando a pergunta não é coberta (seção "Unaddressed queries", na preparação de RAG). Pedir esclarecimento é [Convenção do Contexto](https://github.com/edoardolobl/contexto-framework/blob/main/docs/adr/0021-responder-esclarecer-ou-abster-se.md) | Perguntas de negócio e limites conhecidos |
+| Testar um caso pequeno sem LLM | [Convenção do Contexto](https://github.com/edoardolobl/contexto-framework/blob/main/docs/adr/0022-laboratorio-pequeno-verificado-em-sqlite.md); verificabilidade analítica e literaturas semânticas | Amostra SQLite com resultado reproduzível de 25% |
 
 ## O que o experimento de exemplo realmente demonstra
 

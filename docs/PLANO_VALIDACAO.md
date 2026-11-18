@@ -65,3 +65,31 @@ Proposta de limiar mínimo, a confirmar pelo mantenedor antes das sessões: pelo
 ## Limites
 
 Este plano não testa eficiência de RAG, confiabilidade de agentes, aderência normativa nem resultados de avaliações de emprego. Se algum material de usuário real for utilizado num teste, deve ser tratado segundo as permissões e políticas aplicáveis.
+
+## F2: card sorting e tree test
+
+**Origem:** [ADR 0010](adr/0010-validacao-com-pessoas.md) e incorporação I-10 em [12-incorporacoes.md](../auditoria/12-incorporacoes.md).
+
+**Estado:** aguarda execução. Nenhuma sessão foi realizada.
+
+### Card sorting
+
+- **Participantes:** 15 pessoas ou mais, do público misto: especialistas de negócio, analistas de dados ou martech, quem usa a IA direto e quem monta agentes ou RAG.
+- **Material:** cartões com os rótulos dos grupos do menu (Comece aqui, Percurso, Modelos, Laboratórios, Entender, Consultar, Usar com IA) e cartões com os rótulos das páginas.
+- **Tarefa:** a pessoa agrupa as páginas e dá um nome a cada grupo com as próprias palavras. Registrar onde cada página foi colocada e quais não couberam em nenhum grupo.
+- **Limiar:** a definir pelo mantenedor antes da primeira sessão.
+
+### Tree test
+
+- **Tarefas:** de 5 a 8, saindo das cinco entradas por sintoma da home e dos sete passos do percurso.
+- **Registro:** cada tarefa tem a página esperada escrita antes da sessão.
+- **Critério de sucesso:** pelo menos 80% de acerto nas tarefas do percurso.
+
+Cada tarefa registra a origem (sintoma ou passo), a página esperada e se o participante acertou.
+
+### Medir aprendizagem, não satisfação (I-10)
+
+- **Rodadas:** de 5 a 8 participantes por rodada.
+- **Sequência:** pré-teste, tarefa observada no portal, pós-teste em caso não visto e retenção numa segunda data.
+- **Indicador principal:** a definição escrita pelo participante fez a IA acertar o gabarito?
+- **Não medir:** nota de satisfação ou de facilidade como resultado principal.

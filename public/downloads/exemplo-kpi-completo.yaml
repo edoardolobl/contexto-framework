@@ -20,7 +20,7 @@ version_history:
     change: "O numerador passa a contar sessões únicas com pedido confirmado. Antes contava pedidos, o que inflava a taxa quando uma sessão tinha mais de um pedido"
     approved_by: "Gerência de E-commerce (Aurora)"
   - version: "1.0"
-    date: "2026-08-15"
+    date: "2026-08-14"
     change: "Primeira definição aprovada: pedidos confirmados divididos por sessões elegíveis"
     approved_by: "Gerência de E-commerce (Aurora)"
   - version: "0.1"

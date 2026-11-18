@@ -3,7 +3,7 @@ id: DASH-AURORA-WEB
 revision_id: "DASH-AURORA-WEB@0.1"  # versão específica; id = assunto estável
 title: "Acompanhamento de sessões convertidas: Aurora"
 type: dashboard_definition
-status: pending_approval
+status: draft
 version: "0.1"
 version_date: "2026-07-20"
 owner: null

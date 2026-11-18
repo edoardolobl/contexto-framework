@@ -1,0 +1,30 @@
+# Percurso em sete passos (seção 1.5 da direção, F2): da pergunta de negócio ao documento aprovado.
+# Fonte única da ordem: o grupo Percurso de astro.config.mjs, o mapa da home (PathMap) e o bloco
+# "Próximo passo" de cada página (NextStep) seguem esta lista.
+# pagina: endereço sem barra inicial nem final; titulo: igual ao title da página (scripts/check_navegacao.py confere).
+# depois_do_ultimo: para onde o último passo leva.
+passos:
+  - numero: 1
+    pagina: percurso/escreva-a-pergunta
+    titulo: Escreva a pergunta de negócio
+  - numero: 2
+    pagina: percurso/delimite-o-acervo
+    titulo: Delimite o acervo
+  - numero: 3
+    pagina: percurso/descubra-o-que-falta
+    titulo: Descubra o que falta
+  - numero: 4
+    pagina: templates
+    titulo: Escreva com o modelo
+  - numero: 5
+    pagina: percurso/revise-e-aprove
+    titulo: Revise e aprove
+  - numero: 6
+    pagina: percurso/teste-com-as-perguntas
+    titulo: Teste com as perguntas
+  - numero: 7
+    pagina: percurso/leve-a-sua-ferramenta-de-ia
+    titulo: Leve à sua ferramenta de IA
+depois_do_ultimo:
+  pagina: exemplos/analytics-integrado
+  titulo: Laboratório Aurora

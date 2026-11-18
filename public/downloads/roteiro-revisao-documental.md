@@ -86,4 +86,4 @@ Verificações úteis:
 
 ---
 
-**Fontes do método:** [IIBA: Business Analysis Standard](https://www.iiba.org/knowledgehub/the-business-analysis-standard/) · [KCS Practices Guide](https://library.serviceinnovation.org/KCS/KCS_v6/KCS_v6_Practices_Guide). As três verificações e este roteiro são uma proposta editorial original do Contexto.
+**Fontes do método:** [IIBA: Business Analysis Standard](https://www.iiba.org/knowledgehub/the-business-analysis-standard/) (prática de mercado) · [Knowledge-Centered Success: Practices Guide](https://library.serviceinnovation.org/KCS/Knowledge-Centered_Success_Practices_Guide) (prática de mercado). As três verificações e este roteiro são uma proposta editorial original do Contexto.

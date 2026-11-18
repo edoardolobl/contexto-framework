@@ -4,6 +4,9 @@
  * Três formas de ver o mesmo documento, em abas: o que ele diz, a identificação
  * com o histórico e o arquivo YAML. A linha de versão fica fora das abas,
  * sempre visível, porque é a lição principal sobre versões.
+ *
+ * nivel: nível do título do exemplo (padrão 3, para uso logo depois de um h2).
+ * Os títulos internos ficam sempre um nível abaixo.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -11,8 +14,12 @@ import { parse } from 'yaml';
 import { Code, Tabs, TabItem } from '@astrojs/starlight/components';
 import ExampleMeaning from './ExampleMeaning.astro';
 
-interface Props { file: string }
-const { file } = Astro.props;
+type Nivel = 2 | 3 | 4 | 5;
+interface Props { file: string; nivel?: Nivel }
+const { file, nivel = 3 } = Astro.props;
+const Titulo = `h${nivel}` as 'h2' | 'h3' | 'h4' | 'h5';
+const subnivel = Math.min(nivel + 1, 6) as 3 | 4 | 5 | 6;
+const Subtitulo = `h${subnivel}` as 'h3' | 'h4' | 'h5' | 'h6';
 const raw = fs.readFileSync(path.join(process.cwd(), 'public', 'downloads', file), 'utf8');
 const doc = parse(raw);
 const STATUS: Record<string, string> = {
@@ -50,7 +57,7 @@ const base = rawBase.endsWith('/') ? rawBase : rawBase + '/';
 ---
 <section class:list={['example-doc', complete ? 'example-doc--complete' : 'example-doc--gaps']}>
   <p class="panel-kicker">{complete ? 'EXEMPLO COMPLETO' : 'EXEMPLO COM LACUNAS · NADA APROVADO'}</p>
-  <p class="example-doc__title">{doc.title}</p>
+  <Titulo class="example-doc__title">{doc.title}</Titulo>
   <p class="example-doc__byline">
     {complete
       ? <>Aprovado por {text(doc.approver)}<span aria-hidden="true"> · </span>Fonte: {text(doc.source_of_truth)}</>
@@ -75,9 +82,9 @@ const base = rawBase.endsWith('/') ? rawBase : rawBase + '/';
   <div class="example-doc__tabs">
     <Tabs>
       <TabItem label="O que diz">
-        <ExampleMeaning doc={doc}/>
+        <ExampleMeaning doc={doc} nivel={subnivel}/>
         {questions.length > 0 && <section class="example-doc__gaps" aria-label="Perguntas que ainda precisam de resposta">
-          <h4>Perguntas em aberto ({questions.length})</h4>
+          <Subtitulo class="example-doc__gaps-title">Perguntas em aberto ({questions.length})</Subtitulo>
           <ul>{questions.map((q: any) => <li>{q.text}{q.impact && <span class="example-doc__impact">Se ficar sem resposta: {q.impact}</span>}</li>)}</ul>
         </section>}
       </TabItem>

@@ -119,3 +119,52 @@ def test_gancho_diz_ultimo_arquivo_e_onde_o_script_falhou(capsys, monkeypatch):
     saida = capsys.readouterr().out
     assert "último arquivo lido: README.md" in saida
     assert "test_comum.py:" in saida
+
+
+def test_aviso_sai_em_linha_aviso_e_nao_muda_o_codigo_de_saida(capsys):
+    relatorio = comum.Relatorio()
+    relatorio.aviso(comum.ROOT / "README.md", "data em sábado")
+    relatorio.encerrar("OK: tudo certo")
+    saida = capsys.readouterr().out
+    assert "AVISO: README.md: data em sábado" in saida
+    assert "OK: tudo certo" in saida
+    assert relatorio.erros == []
+
+
+def test_aviso_aparece_junto_dos_erros_e_o_codigo_continua_1(capsys):
+    relatorio = comum.Relatorio()
+    relatorio.aviso(None, "cuidado")
+    relatorio.erro(None, "quebrou")
+    with pytest.raises(SystemExit) as saida:
+        relatorio.encerrar("OK")
+    assert saida.value.code == 1
+    texto = capsys.readouterr().out
+    assert "AVISO: cuidado" in texto and "ERRO: quebrou" in texto
+
+
+def test_mesmo_aviso_nao_se_repete():
+    relatorio = comum.Relatorio()
+    relatorio.aviso(None, "x")
+    relatorio.aviso(None, "x")
+    assert relatorio.avisos == ["x"]
+
+
+def test_links_do_repositorio_ausentes_acusa_arquivo_que_nao_existe(tmp_path: Path):
+    (tmp_path / "docs" / "adr").mkdir(parents=True)
+    (tmp_path / "docs" / "adr" / "0001-existe.md").write_text("# ok\n", encoding="utf-8")
+    base = "https://github.com/edoardolobl/contexto-framework/blob/main/"
+    texto = (
+        f"[ok]({base}docs/adr/0001-existe.md) e [falta]({base}docs/adr/0099-falta.md#contexto) "
+        '<a href="https://github.com/edoardolobl/contexto-framework/tree/main/docs/nada">pasta</a>'
+    )
+    assert comum.links_do_repositorio_ausentes(texto, tmp_path) == ["docs/adr/0099-falta.md", "docs/nada"]
+
+
+def test_links_do_repositorio_ausentes_ignora_outros_enderecos(tmp_path: Path):
+    texto = (
+        "[repo](https://github.com/edoardolobl/contexto-framework) "
+        "[outro](https://github.com/outra/coisa/blob/main/x.md) "
+        "[pasta](https://github.com/edoardolobl/contexto-framework/tree/main/docs)"
+    )
+    (tmp_path / "docs").mkdir()
+    assert comum.links_do_repositorio_ausentes(texto, tmp_path) == []

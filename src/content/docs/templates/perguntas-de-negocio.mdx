@@ -1,6 +1,6 @@
 ---
-title: Perguntas de referência
-description: Defina as perguntas que o acervo deve conseguir responder, as que pedem esclarecimento e as que ficam sem número.
+title: Perguntas de negócio
+description: Escreva as perguntas que a IA vai receber e a resposta esperada de cada uma; o mesmo documento abre o percurso e serve de gabarito.
 ---
 
 import TemplateDownloads from '../../../components/TemplateDownloads.astro';
@@ -9,11 +9,13 @@ import TemplateStart from '../../../components/TemplateStart.astro';
 
 <p class="editorial-lead">“O agente vai responder perguntas sobre o dashboard.” Quais perguntas?</p>
 
+O mesmo documento serve duas vezes: é a ficha de entrada, onde você [escreve as perguntas](../../percurso/escreva-a-pergunta/#banco-de-perguntas-por-tipo-de-documento) no passo 1, e é o gabarito com que você [testa a IA](../../percurso/teste-com-as-perguntas/) no passo 6.
+
 <TemplateStart kind="casos-teste" />
 
 ## O problema
 
-Antes de uma equipe técnica avaliar um RAG ou agente, quem responde pelo conhecimento precisa dizer **o que a documentação autoriza afirmar**, com qual evidência, e quando não há informação suficiente. Sem isso, “o agente respondeu” não diz se a resposta estava certa. O resultado deste modelo é um **gabarito validado pelo domínio**, não um relatório de desempenho de um modelo.
+Antes de testar uma IA, quem responde pelo conhecimento precisa dizer **o que a documentação autoriza afirmar**, com qual evidência, e quando falta informação. Sem isso, “a IA respondeu” não diz se a resposta estava certa. O resultado é um documento de **Perguntas de negócio validado pelo domínio**, não um relatório de desempenho de um modelo de IA.
 
 Toda pergunta cai numa de três categorias:
 
@@ -34,11 +36,11 @@ Toda pergunta cai numa de três categorias:
 | A versão das definições usadas | KPI 2.0, vigente desde 15/09 |
 | Quem revisou, e quando | Analytics de E-commerce, 02/10/2026 |
 
-**Cada pergunta se lê sozinha.** Um gabarito não deve ter pergunta que dependa da anterior, como “e no mês passado?”.
+**Cada pergunta se lê sozinha.** Nenhuma pergunta deve depender da anterior, como “e no mês passado?”.
 
 ## Antes e depois da decisão
 
-O gabarito do [Laboratório Aurora](../../exemplos/analytics-integrado/) tem sete perguntas:
+As Perguntas de negócio do [Laboratório Aurora](../../exemplos/analytics-integrado/) são sete:
 
 | ID | Pergunta | Resposta esperada | Evidência necessária |
 |---|---|---|---|
@@ -52,7 +54,7 @@ O gabarito do [Laboratório Aurora](../../exemplos/analytics-integrado/) tem set
 
 Q04 a Q06 não dizem que um banco maior seria incapaz de respondê-las; dizem que **esta documentação e esta definição não as sustentam**.
 
-Enquanto ninguém da Gerência de E-commerce conferiu as respostas, Q01 carrega essa ressalva:
+Enquanto a Analytics de E-commerce não conferiu as respostas e a Gerência de E-commerce não aprovou, Q01 carrega essa ressalva:
 
 <ExampleDoc file="exemplo-casos-teste-lacunas.yaml" />
 
@@ -60,7 +62,7 @@ Depois da revisão, a ressalva sai, cada pergunta ganha revisor e data e, na ver
 
 <ExampleDoc file="exemplo-casos-teste-completo.yaml" />
 
-Quando um indicador muda de versão, as respostas do gabarito que dependem dele **também precisam ser revisadas**. A versão 1.1, de 05/10, acrescentou Q07 sem mudar as respostas de Q01 a Q06: é uma versão menor.
+Quando um indicador muda de versão, as respostas esperadas que dependem dele **também precisam ser revisadas**. A versão 1.1, de 05/10, acrescentou Q07 sem mudar as respostas de Q01 a Q06: é uma versão menor.
 
 ## Teste você
 
@@ -75,7 +77,7 @@ Quando um indicador muda de versão, as respostas do gabarito que dependem dele 
 
 <TemplateDownloads kind="casos-teste" />
 
-A engenharia poderá usar essas perguntas em testes de recuperação, respostas e ferramentas. O Contexto **não certifica** nenhuma arquitetura RAG ou agente.
+Os arquivos ainda se chamam template-casos-teste; o nome muda com o schema 1.0. Quem monta o sistema pode usar as mesmas perguntas em testes de recuperação e de respostas; o Contexto **não certifica** nenhuma arquitetura RAG ou agente.
 
 ### Fundamentação
 

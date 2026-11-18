@@ -40,7 +40,7 @@ columns:
     allowed_values: []
     sentinel_values: []
     null_meaning: "Não permitido"
-    examples: ["O1", "O2"]
+    examples: ["PED-101", "PED-102"]
     do_not_use_for: ["Identificar pessoas"]
   - physical_name: session_id
     technical_type: TEXT
@@ -50,7 +50,7 @@ columns:
     allowed_values: []
     sentinel_values: []
     null_meaning: "Não permitido: todo pedido do laboratório tem sessão"
-    examples: ["S1"]
+    examples: ["SES-101"]
     do_not_use_for: ["Contar sessões sem remover repetições"]
   - physical_name: status_code
     technical_type: TEXT
@@ -74,12 +74,12 @@ usage:
   authoritative_questions: ["Quais sessões tiveram pelo menos um pedido confirmado"]
   invalid_aggregations: ["Somar pedidos para obter sessões convertidas", "Filtrar pedidos por data: não há coluna de data nesta tabela"]
   related_datasets: ["DATASET-AURORA-SESSIONS"]
-  known_caveats: ["Uma sessão pode ter mais de um pedido confirmado (S1 tem O1 e O2)"]
-  sample_queries: ["aurora-reference-query.sql"]
+  known_caveats: ["Uma sessão pode ter mais de um pedido confirmado; ela conta uma vez na taxa de sessões convertidas"]
+  sample_queries: []
 
 validation:
   checked_by: "Engenharia de Dados (Aurora)"
   checked_at: "2026-08-20"
-  evidence: ["aurora-fixture.sql"]
+  evidence: []
 open_questions: []
 related_documents: ["KPI-AURORA-001", "DATASET-AURORA-SESSIONS", "REL-AURORA-SESSIONS-ORDERS"]
