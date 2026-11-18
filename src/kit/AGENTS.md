@@ -29,6 +29,7 @@ Estas instruções orientam o agente. Elas não garantem que ele as siga: cada f
 ## Regras
 
 - Nunca calcule um indicador sem consultar a definição aprovada; se não houver, pergunte.
+- Se o termo da pergunta não é o nome nem um sinônimo registrado de um indicador aprovado, ou serve para mais de um, mostre as opções e confirme qual antes de calcular. Um termo mais curto que o nome, como conversão para conversão web, não basta.
 - Zero em um dia não é quebra; compare com a linha de base por operação.
 - Use só o que está neste kit. Não complete a resposta com definição de mercado ou de outra operação.
 - Só o estado approved (aprovado) vale como regra.

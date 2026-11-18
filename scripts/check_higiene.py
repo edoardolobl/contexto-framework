@@ -31,7 +31,7 @@ PERMITIDOS = {"\t", "\n", "\r"}
 FAIXAS_INVISIVEIS = ((0xFE00, 0xFE0F), (0xE0100, 0xE01EF))
 PREENCHEDORES = {0x3164, 0x115F, 0x1160, 0x2800, 0xFFA0}
 PASTAS_IGNORADAS = {".git", "node_modules", "dist", ".astro", ".codegraph", ".taste-skill", "__pycache__", ".pytest_cache"}
-CHAVES_DE_NOME = ("name", "physical_name", "business_name", "term", "field", "prefLabel", "rotulo")
+CHAVES_DE_NOME = ("name", "physicalName", "businessName", "term", "field", "prefLabel", "rotulo")
 CHAVES_DE_DESCRICAO = ("meaning", "description", "definition", "descricao")
 PALAVRAS_VAZIAS = {"a", "o", "as", "os", "de", "da", "do", "das", "dos", "e", "em", "no", "na", "the", "of"}
 
@@ -129,7 +129,7 @@ def versoes_do_produto(raiz: Path) -> dict[str, str | None]:
         pacote = ""
     readme = re.search(r"^## O que existe na (v[\d.]+)", _ler(raiz / "README.md"), re.M)
     inicio = re.search(r"Versão (\d+\.\d+)", _ler(raiz / "src" / "content" / "docs" / "index.mdx"))
-    lancada = re.search(r"^## \[(\d+\.\d+\.\d+)\]", _ler(raiz / "CHANGELOG.md"), re.M)
+    lancada = re.search(r"^## \[(\d+\.\d+\.\d+(?:-[0-9A-Za-z.]+)?)\]", _ler(raiz / "CHANGELOG.md"), re.M)
     return {
         "package.json": maior_menor(pacote),
         "README.md": maior_menor(readme.group(1)) if readme else None,

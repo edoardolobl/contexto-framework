@@ -54,16 +54,16 @@ context:
 authoritativeDefinitions: []
 
 dataset:
-  physical_name: demo_sessions
-  platform: "SQLite (laboratório)"
+  physicalName: aurora-analytics.web.sessoes_web
+  platform: "BigQuery (amostra reproduzida em SQLite)"
   grain: "Uma linha por sessão"
   primary_key: session_id
   alternative_keys: []
   uniqueness_assumption: "Cada session_id representa uma única sessão"
 columns:
-  - physical_name: session_id
-    technical_type: TEXT
-    business_name: "Identificador da sessão"
+  - physicalName: session_id
+    physicalType: TEXT
+    businessName: "Identificador da sessão"
     meaning: "Chave única da sessão"
     unit: null
     allowed_values: []
@@ -71,9 +71,9 @@ columns:
     null_meaning: "Não permitido no laboratório"
     examples: [SES-101, SES-102]
     do_not_use_for: ["Identificar pessoas"]
-  - physical_name: channel
-    technical_type: TEXT
-    business_name: Canal
+  - physicalName: channel
+    physicalType: TEXT
+    businessName: Canal
     meaning: "Plataforma em que ocorreu a sessão"
     unit: null
     allowed_values: [web, app]
@@ -81,9 +81,9 @@ columns:
     null_meaning: "Não permitido no laboratório"
     examples: [web, app]
     do_not_use_for: ["Inferir localização geográfica"]
-  - physical_name: is_internal
-    technical_type: INTEGER
-    business_name: "Sessão interna"
+  - physicalName: is_internal
+    physicalType: INTEGER
+    businessName: "Sessão interna"
     meaning: "1 = sessão interna. O que conta como interna ainda não foi confirmado"
     unit: null
     allowed_values: [0, 1]
@@ -91,9 +91,9 @@ columns:
     null_meaning: "Não permitido no laboratório"
     examples: [0, 1]
     do_not_use_for: ["Identificar a pessoa que navegou"]
-  - physical_name: session_date
-    technical_type: TEXT
-    business_name: "Data da sessão"
+  - physicalName: session_date
+    physicalType: TEXT
+    businessName: "Data da sessão"
     meaning: "Data de referência no formato YYYY-MM-DD"
     unit: dia
     allowed_values: []
@@ -110,7 +110,7 @@ time_semantics:
 usage:
   authoritative_questions: ["Taxa de sessões web convertidas na amostra do laboratório"]
   invalid_aggregations: ["Contar sessões com COUNT(*) após junção 1:N sem avaliar duplicidade"]
-  related_datasets: [demo_orders]
+  related_datasets: [aurora-analytics.vendas.pedidos]
   known_caveats: ["Não extrapolar a amostra para outros períodos ou canais"]
   sample_queries: []
 validation:

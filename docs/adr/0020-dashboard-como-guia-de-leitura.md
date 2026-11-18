@@ -1,8 +1,8 @@
 # 0020. Dashboard como guia de leitura ligado ao indicador
 
-- **Estado:** Proposto
+- **Estado:** Aceito
 - **Data:** 2026-11-17
-- **Proposto por:** auditoria (F1)
+- **Decidido por:** mantenedor (texto proposto pela auditoria (F1); aceito pelo [ADR 0030](./0030-decisoes-do-mantenedor-depois-das-fases.md))
 - **Origem:** [10-direcao-proposta.md](../../auditoria/10-direcao-proposta.md), fase F1 (trocar as linhas "Decisão própria" por ADRs datados); linha 60 de [referencias/index.mdx](../../src/content/docs/referencias/index.mdx)
 
 ## Contexto

@@ -121,9 +121,9 @@ Exemplo Aurora: `plain_summary`: Uma sessão pode ter vários pedidos. Para cont
 ## Tabelas e granularidade
 Em `left` e `right`, diga as duas tabelas e o que uma linha de cada uma representa. Em `join_keys`, as colunas que ligam uma à outra.
 
-Exemplo Aurora: `left.dataset`: demo_sessions
+Exemplo Aurora: `left.dataset`: aurora-analytics.web.sessoes_web
 
-Exemplo Aurora: `right.dataset`: demo_orders
+Exemplo Aurora: `right.dataset`: aurora-analytics.vendas.pedidos
 
 ## Cardinalidade e cobertura
 Em `cardinality`, use `one_to_one`, `one_to_many` ou `many_to_many`. Em `coverage`, diga se linhas sem par e chaves vazias são esperadas e se a junção depende de data ou versão.

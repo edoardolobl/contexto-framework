@@ -43,7 +43,7 @@
     },
     "schema_version": {
       "title": "Versão do formato",
-      "description": "Versão do formato do arquivo, hoje 1.1.0. Diz quais campos o arquivo tem e não muda quando o conteúdo muda. A 1.1.0 só acrescenta dois campos opcionais (license e source_url); um arquivo na 1.0.0 continua válido.",
+      "description": "Versão do formato do arquivo, hoje 1.1.0. Diz quais campos o arquivo tem e não muda quando o conteúdo muda. A 1.1.0 acrescenta campos opcionais (license, source_url e retroactive_validity) e troca três chaves do dataset pelos nomes do ODCS (physicalName, physicalType e businessName). Nenhuma versão 1.x tinha sido publicada, por isso a troca não tem período de transição.",
       "enum": [
         "1.0.0",
         "1.1.0"
@@ -369,6 +369,30 @@
       "required": [
         "date",
         "text"
+      ],
+      "additionalProperties": false
+    },
+    "retroactive_validity": {
+      "title": "Vigência retroativa",
+      "description": "Só na primeira versão de um assunto cujo valid_from é anterior a version_date, quando o documento registra uma regra que já estava em uso. Diz por que a vigência começa antes da emissão e quem confirmou.",
+      "type": "object",
+      "properties": {
+        "reason": {
+          "title": "Motivo",
+          "description": "Por que a regra vale desde antes desta versão (por exemplo, já era usada nos relatórios).",
+          "type": "string",
+          "minLength": 1
+        },
+        "confirmed_by": {
+          "title": "Quem confirmou (cargo ou área)",
+          "description": "Cargo ou área que confirmou por escrito o início retroativo, nunca o nome de uma pessoa.",
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "reason",
+        "confirmed_by"
       ],
       "additionalProperties": false
     }

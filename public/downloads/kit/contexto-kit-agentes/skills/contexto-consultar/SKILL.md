@@ -13,7 +13,7 @@ Esta Skill orienta o agente. Ela não garante o comportamento dele. As regras ab
 ## Passos
 
 1. **Fixe a data de referência da pergunta.** Se faltar período, operação, canal ou unidade e a resposta mudar com isso, peça esclarecimento e mostre as opções documentadas.
-2. **Ache os termos e os documentos.** Os termos estão no [glossário](../../glossario.md). Os documentos, por id, em [contratos](../../contratos/) e no [histórico de contratos](../../contratos/historico/).
+2. **Ache os termos e os documentos.** Os termos estão no [glossário](../../glossario.md). Os documentos, por id, em [contratos](../../contratos/) e no [histórico de contratos](../../contratos/historico/). Se o termo da pergunta não é o nome nem um sinônimo registrado de um indicador aprovado, ou serve para mais de um, mostre as opções e confirme qual antes de calcular. Um termo mais curto que o nome, como conversão para conversão web, não basta.
 3. **Filtre por estado.**
    - approved vale como regra.
    - superseded serve só para o passado, pela vigência que cobre a data da pergunta.

@@ -14,7 +14,7 @@ valid_to: null               # fim exclusivo da vigência; null = sem fim docume
 version_date: "2026-10-02"
 last_reviewed: "2026-10-02"
 review_interval: null
-source_of_truth: "Catálogo de dados da Aurora, tabela demo_sessions"
+source_of_truth: "Catálogo de dados da Aurora, tabela aurora-analytics.web.sessoes_web"
 supersedes_revision: "DATASET-AURORA-SESSIONS@1.1"
 superseded_by_revision: null
 license: CC-BY-4.0
@@ -51,16 +51,16 @@ context:
 authoritativeDefinitions: []
 
 dataset:
-  physical_name: demo_sessions
-  platform: "SQLite (laboratório)"
+  physicalName: aurora-analytics.web.sessoes_web
+  platform: "BigQuery (amostra reproduzida em SQLite)"
   grain: "Uma linha por sessão"
   primary_key: session_id
   alternative_keys: []
   uniqueness_assumption: "Cada session_id representa uma única sessão"
 columns:
-  - physical_name: session_id
-    technical_type: TEXT
-    business_name: "Identificador da sessão"
+  - physicalName: session_id
+    physicalType: TEXT
+    businessName: "Identificador da sessão"
     meaning: "Chave única da sessão"
     unit: null
     allowed_values: []
@@ -68,9 +68,9 @@ columns:
     null_meaning: "Não permitido no laboratório"
     examples: [S1, S2]
     do_not_use_for: ["Identificar pessoas"]
-  - physical_name: channel
-    technical_type: TEXT
-    business_name: Canal
+  - physicalName: channel
+    physicalType: TEXT
+    businessName: Canal
     meaning: "Plataforma em que ocorreu a sessão"
     unit: null
     allowed_values: [web, app]
@@ -78,9 +78,9 @@ columns:
     null_meaning: "Não permitido no laboratório"
     examples: [web, app]
     do_not_use_for: ["Inferir localização geográfica"]
-  - physical_name: is_internal
-    technical_type: INTEGER
-    business_name: "Sessão interna"
+  - physicalName: is_internal
+    physicalType: INTEGER
+    businessName: "Sessão interna"
     meaning: "1 = sessão aberta na rede do escritório da Aurora: testes da equipe, demonstrações e compras de funcionários. 0 = qualquer outra sessão"
     unit: null
     allowed_values: [0, 1]
@@ -88,9 +88,9 @@ columns:
     null_meaning: "Não permitido no laboratório"
     examples: [0, 1]
     do_not_use_for: ["Identificar a pessoa que navegou"]
-  - physical_name: session_date
-    technical_type: TEXT
-    business_name: "Data da sessão"
+  - physicalName: session_date
+    physicalType: TEXT
+    businessName: "Data da sessão"
     meaning: "Data de referência no formato YYYY-MM-DD"
     unit: dia
     allowed_values: []

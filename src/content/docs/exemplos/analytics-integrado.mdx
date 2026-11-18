@@ -13,9 +13,11 @@ A loja Aurora quer documentar a **taxa de sessões web convertidas**. A pergunta
 
 O laboratório usa uma amostra sintética pequena, para que cada cálculo possa ser refeito à mão.
 
+No BigQuery da Aurora, as duas tabelas se chamam `aurora-analytics.web.sessoes_web` e `aurora-analytics.vendas.pedidos`. A amostra em SQLite usa só o último trecho de cada nome, `sessoes_web` e `pedidos`.
+
 ## 1. As duas tabelas
 
-`demo_sessions`: uma linha por sessão.
+`sessoes_web`: uma linha por sessão.
 
 | session_id | channel | is_internal | session_date |
 |---|---|---|---|
@@ -26,7 +28,7 @@ O laboratório usa uma amostra sintética pequena, para que cada cálculo possa 
 | S5 | web | 0 | 2026-10-01 |
 | S6 | web | 0 | 2026-10-01 |
 
-`demo_orders`: uma linha por pedido.
+`pedidos`: uma linha por pedido.
 
 | order_id | session_id | status_code |
 |---|---|---|
@@ -57,19 +59,19 @@ Isso é uma definição de **taxa de sessões convertidas**, não uma taxa gené
 
 S1 possui dois pedidos confirmados. Se uma consulta conta **pedidos confirmados por sessão elegível**, encontra **2 ÷ 4 = 50%**. Esse cálculo pode estar matematicamente correto para um **indicador diferente**, mas não corresponde à nossa pergunta, que mede sessões únicas convertidas.
 
-A relação documentada entre `demo_sessions` e `demo_orders` é **um-para-muitos**. Essa informação, e não somente o nome da chave, explica o risco de duplicidade. O erro está em não declarar a **granularidade**, o que uma linha representa. Antes da junção, uma linha é uma sessão; depois, é um pedido. Contar linhas depois da junção conta pedidos, mesmo que a pergunta fale de sessões. O documento de [relacionamento entre tabelas](../../templates/relacionamento/) é onde isso fica escrito.
+A relação documentada entre `sessoes_web` e `pedidos` é **um-para-muitos**. Essa informação, e não somente o nome da chave, explica o risco de duplicidade. O erro está em não declarar a **granularidade**, o que uma linha representa. Antes da junção, uma linha é uma sessão; depois, é um pedido. Contar linhas depois da junção conta pedidos, mesmo que a pergunta fale de sessões. O documento de [relacionamento entre tabelas](../../templates/relacionamento/) é onde isso fica escrito.
 
 ## 4. SQL de referência para esta amostra
 
 ```sql
 WITH eligible_sessions AS (
-  SELECT session_id FROM demo_sessions
+  SELECT session_id FROM sessoes_web
   WHERE channel = 'web' AND is_internal = 0
     AND session_date = '2026-10-01'
 ),
 converted_sessions AS (
   SELECT DISTINCT o.session_id
-  FROM demo_orders AS o
+  FROM pedidos AS o
   JOIN eligible_sessions AS s ON s.session_id = o.session_id
   WHERE o.status_code = 'CONFIRMED'
 )

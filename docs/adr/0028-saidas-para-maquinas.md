@@ -1,8 +1,8 @@
 # 0028. Saídas para máquinas
 
-- **Estado:** Proposto
+- **Estado:** Aceito
 - **Data:** 2026-11-17
-- **Proposto por:** F6 (fase Saídas para máquinas; quando aceito, vira "**Decidido por:** mantenedor")
+- **Decidido por:** mantenedor (texto proposto na F6; aceito pelo [ADR 0030](./0030-decisoes-do-mantenedor-depois-das-fases.md))
 - **Origem:** [10-direcao-proposta.md](../../auditoria/10-direcao-proposta.md), fase F6 e regra de desacoplamento; [12-incorporacoes.md](../../auditoria/12-incorporacoes.md), I-26 a I-28; [08-pesquisa-boas-praticas.md](../../auditoria/08-pesquisa-boas-praticas.md), AG-01, AG-05, AG-06, AG-07 e AG-11
 
 ## Contexto

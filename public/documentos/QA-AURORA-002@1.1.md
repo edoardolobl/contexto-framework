@@ -4,8 +4,8 @@ id: QA-AURORA-002
 schema_version: "1.1.0"
 type: perguntas-de-negocio
 title: "Gabarito documental: quais eventos pararam de coletar"
-version: "1.0"
-revision_id: "QA-AURORA-002@1.0" # versão específica; id = assunto estável
+version: "1.1"
+revision_id: "QA-AURORA-002@1.1" # versão específica; id = assunto estável
 status: approved
 owner: "Analytics de E-commerce (Aurora)"
 approver: "Gerência de Analytics (Aurora)"
@@ -18,15 +18,19 @@ source_of_truth: "Plano de mensuração da Aurora, gabarito da regra de evento q
 supersedes_revision: null
 superseded_by_revision: null
 license: CC-BY-4.0
-source_url: "https://edoardolobl.github.io/contexto-framework/documentos/QA-AURORA-002@1.0.md"
+source_url: "https://edoardolobl.github.io/contexto-framework/documentos/QA-AURORA-002@1.1.md"
 intent:
   question: "Que perguntas sobre os eventos de coleta da Aurora a IA deve responder, esclarecer ou recusar?"
   audience: ["Analytics de E-commerce", "Quem testa agentes de IA"]
   purpose: "Distinguir um evento que parou de coletar de um evento raro com dias em zero"
   decisions: ["Abrir ou não um chamado de Engenharia de Tagueamento para um evento"]
-plain_summary: "Seis perguntas conferidas contra a amostra do Laboratório Aurora 2: três com resposta, uma que pede esclarecimento e duas em que a IA não deve responder."
+plain_summary: "Seis perguntas conferidas contra a amostra do Laboratório Aurora 2: três com resposta, uma que pede esclarecimento (e também aceita a resposta que avalia Brasil e México) e duas em que a IA não deve responder. A receita de purchase vem do indicador KPI-AURORA-002."
 open_questions: []
 version_history:
+  - version: "1.1"
+    date: "2026-11-17"
+    change: "Q06 passa a citar o indicador aprovado KPI-AURORA-002@1.0 (receita de purchase) e usa o nome do indicador na variação. Q03 passa a aceitar também a resposta que avalia Brasil e México, com condição (also_accepted)"
+    approved_by: "Gerência de Analytics (Aurora)"
   - version: "1.0"
     date: "2026-11-17"
     change: "Primeira versão aprovada, depois que a Analytics de E-commerce conferiu as seis respostas contra a amostra de 16/11, pela regra de evento quebrado 1.1"
@@ -46,9 +50,11 @@ domain: "Analytics: Laboratório Aurora 2"
 covered_documents:
   - EVENT-AURORA-GENERATE-LEAD
   - DECISION-AURORA-EVENTO-QUEBRADO
+  - KPI-AURORA-002
 depends_on_versions:
   EVENT-AURORA-GENERATE-LEAD: "1.1"
   DECISION-AURORA-EVENTO-QUEBRADO: "1.1"
+  KPI-AURORA-002: "1.0"
 questions:
   - id: Q01
     question: "Quais eventos do plano de mensuração pararam de coletar, considerando os dias completos até 15/11/2026?"
@@ -87,6 +93,9 @@ questions:
     phrasings: []
     onboarding: true
     expected_behavior: clarify
+    also_accepted:
+      - behavior: answer
+        condition: "avalia Brasil e México e diz que no Brasil o silêncio está dentro da tolerância e que no México o evento não está ativo, sem chamar o México de quebrado nem de normal"
     reference_answer: "Perguntar de qual operação a pessoa fala. O evento só está ativo no Brasil; no México não dispara, e isso não é quebra"
     reference_sql: null
     required_sources: [EVENT-AURORA-GENERATE-LEAD]
@@ -129,12 +138,12 @@ questions:
     question: "Qual foi a receita de purchase no Brasil em 02/11/2026?"
     goal: "Somar a receita dos pedidos sem duplicar depois da junção com os itens"
     assumptions: "A receita mora no pedido; juntar com os itens repete o pedido uma vez por item"
-    phrasings: ["Quanto a BR vendeu em 02/11?"]
+    phrasings: ["Qual foi a receita de purchase da BR em 02/11?"]
     onboarding: true
     expected_behavior: answer
     reference_answer: "R$ 500, somando os 3 pedidos (R$ 120, R$ 80 e R$ 300) na tabela de pedidos. Somar depois de juntar com os itens dá R$ 1.100, valor errado: o pedido de R$ 300 tem 3 itens e entra 3 vezes"
-    reference_sql: null
-    required_sources: [aurora-lab2-fixture.sql]
+    reference_sql: aurora-lab2-receita-purchase.sql
+    required_sources: [KPI-AURORA-002, aurora-lab2-fixture.sql]
     evidence_description: "Soma na tabela de pedidos: R$ 500; soma depois da junção com os itens: R$ 1.100"
     ambiguity: null
     reason_if_abstain: null
@@ -148,7 +157,7 @@ revalidation_triggers:
 related_documents: []
 ---
 
-# Gabarito documental: quais eventos pararam de coletar (QA-AURORA-002@1.0)
+# Gabarito documental: quais eventos pararam de coletar (QA-AURORA-002@1.1)
 
 > **Estado:** Aprovado
 >
@@ -158,17 +167,17 @@ related_documents: []
 >
 > **Licença:** CC-BY-4.0
 >
-> **Endereço:** https://edoardolobl.github.io/contexto-framework/documentos/QA-AURORA-002@1.0.md
+> **Endereço:** https://edoardolobl.github.io/contexto-framework/documentos/QA-AURORA-002@1.1.md
 
-## Pergunta que este documento responde (QA-AURORA-002@1.0, de 17/11/2026, sem fim previsto)
+## Pergunta que este documento responde (QA-AURORA-002@1.1, de 17/11/2026, sem fim previsto)
 
 Que perguntas sobre os eventos de coleta da Aurora a IA deve responder, esclarecer ou recusar?
 
-## Em poucas palavras (QA-AURORA-002@1.0, de 17/11/2026, sem fim previsto)
+## Em poucas palavras (QA-AURORA-002@1.1, de 17/11/2026, sem fim previsto)
 
-Seis perguntas conferidas contra a amostra do Laboratório Aurora 2: três com resposta, uma que pede esclarecimento e duas em que a IA não deve responder.
+Seis perguntas conferidas contra a amostra do Laboratório Aurora 2: três com resposta, uma que pede esclarecimento (e também aceita a resposta que avalia Brasil e México) e duas em que a IA não deve responder. A receita de purchase vem do indicador KPI-AURORA-002.
 
-## Comentário (QA-AURORA-002@1.0, de 17/11/2026, sem fim previsto)
+## Comentário (QA-AURORA-002@1.1, de 17/11/2026, sem fim previsto)
 
 Cada pergunta diz o comportamento esperado, as fontes e quem conferiu a resposta, com a data. Q01 é a pergunta do caso: o agente só acerta se olhar o histórico por operação.
 

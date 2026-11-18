@@ -6,6 +6,7 @@ dados:
   - aurora-reference-query.sql
   - aurora-lab2-fixture.sql
   - aurora-lab2-reference-query.sql
+  - aurora-lab2-receita-purchase.sql
 # Por skill: ids de documento copiados para references/ (versão aprovada vigente).
 skills:
   auditar-coleta:

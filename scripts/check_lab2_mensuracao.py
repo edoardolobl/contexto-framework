@@ -2,7 +2,7 @@
 """Validador do Lab 2 Aurora: refaz no SQLite as contas citadas e confere os textos que as repetem.
 
 Confere o limite fixo da amostra, a regra canônica de evento quebrado (lida de um YAML), a consulta
-de referência, o gabarito "quais eventos pararam?", a página e os documentos do evento.
+de referência, o gabarito "quais eventos pararam?", a consulta de receita, o KPI-AURORA-002, as Q03 e Q06 e a página e os documentos do evento.
 Não chama nenhum modelo de IA e não avalia nenhum (ADR 0022). Funções puras no topo; `executar` junta
 tudo e `main` imprime o resultado.
 """
@@ -11,12 +11,13 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import date, timedelta
 from pathlib import Path
+import re
 import sqlite3
 import sys
 from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from comum import ROOT, Relatorio, carregar_yaml  # noqa: E402
+from comum import ROOT, Relatorio, carregar_yaml, ler_frontmatter  # noqa: E402
 
 CONSULTA = "2026-11-17"
 ATRASO_EM_DIAS = 2
@@ -25,6 +26,10 @@ ARQUIVO_CONSULTA = "aurora-lab2-reference-query.sql"
 ARQUIVO_REGRA = "exemplo-decisao-evento-quebrado-completo.yaml"
 ARQUIVO_GABARITO = "exemplo-perguntas-de-negocio-eventos-completo.yaml"
 ARQUIVO_EVENTO = "exemplo-evento-coleta-completo.yaml"
+ARQUIVO_RECEITA = "aurora-lab2-receita-purchase.sql"
+FONTE_KPI_RECEITA = Path("src/exemplos/exemplo-kpi-receita-purchase-completo.md")
+FONTE_GABARITO = Path("src/exemplos/exemplo-perguntas-de-negocio-eventos-completo.md")
+ID_KPI_RECEITA, VERSAO_KPI_RECEITA = "KPI-AURORA-002", "1.0"
 PAGINA = Path("src/content/docs/exemplos/laboratorio-eventos.mdx")
 PAGINA_MODELO = Path("src/content/docs/templates/evento-coleta.mdx")
 OPERACOES = {"BR", "MX"}
@@ -377,6 +382,52 @@ def _conferir_pergunta(caminho: Path, q: dict[str, Any], relatorio: Relatorio) -
         relatorio.erro(caminho, f"Q01 deve usar a consulta {ARQUIVO_CONSULTA}")
 
 
+def conferir_receita_sql(db: sqlite3.Connection, downloads: Path, relatorio: Relatorio) -> None:
+    """Roda a consulta de receita no SQLite: sem JOIN, cada linha igual a receita_certa, BR em 02/11 = 500."""
+    caminho = downloads / ARQUIVO_RECEITA
+    sql = _ler(caminho, relatorio)
+    if sql is None:
+        return
+    if re.search(r"\bJOIN\b", re.sub(r"--[^\n]*", "", sql), re.IGNORECASE):
+        relatorio.erro(caminho, "a consulta de receita não pode usar JOIN: a soma deve ser feita na tabela de pedidos")
+    try:
+        linhas = db.execute(sql).fetchall()
+    except sqlite3.Error as exc:
+        relatorio.erro(caminho, f"SQL inválido: {exc}")
+        return
+    observado = {(r[0], r[1]): r[2] for r in linhas if len(r) >= 3}
+    esperado = {(o, d): receita_certa(db, o, d) for o, d in db.execute("SELECT DISTINCT operation, order_date FROM lab2_pedidos")}
+    if observado != esperado:
+        relatorio.erro(caminho, f"a consulta devolve {observado}, o recálculo em Python dá {esperado}")
+    if observado.get(("BR", DIA_DO_PEDIDO)) != RECEITA_CERTA:
+        relatorio.erro(caminho, f"BR em {DIA_DO_PEDIDO} deve dar {RECEITA_CERTA}, a consulta dá {observado.get(('BR', DIA_DO_PEDIDO))}")
+
+
+def conferir_kpi_receita(raiz: Path, db: sqlite3.Connection, relatorio: Relatorio) -> None:
+    """KPI-AURORA-002 cita os dois valores recalculados: o certo e o inflado pela junção."""
+    frases = (formatar_reais(receita_certa(db, "BR", DIA_DO_PEDIDO)), formatar_reais(receita_apos_juncao(db, "BR", DIA_DO_PEDIDO)))
+    conferir_numeros(raiz / FONTE_KPI_RECEITA, frases, relatorio)
+
+
+def conferir_perguntas_da_receita(raiz: Path, relatorio: Relatorio) -> None:
+    """Q06 depende do KPI aprovado; Q03 aceita também a resposta que avalia as duas operações."""
+    caminho = raiz / FONTE_GABARITO
+    lido = ler_frontmatter(caminho, relatorio)
+    if lido is None:
+        return
+    dados = lido[0]
+    perguntas = {q.get("id"): q for q in dados.get("questions") or [] if isinstance(q, dict)}
+    q06, q03 = perguntas.get("Q06", {}), perguntas.get("Q03", {})
+    if ID_KPI_RECEITA not in (q06.get("required_sources") or []):
+        relatorio.erro(caminho, f"Q06 deve ter {ID_KPI_RECEITA} em required_sources")
+    versoes = dados.get("depends_on_versions")
+    if not isinstance(versoes, dict) or str(versoes.get(ID_KPI_RECEITA)) != VERSAO_KPI_RECEITA:
+        relatorio.erro(caminho, f'depends_on_versions deve ter {ID_KPI_RECEITA}: "{VERSAO_KPI_RECEITA}"')
+    aceitas = q03.get("also_accepted")
+    if not isinstance(aceitas, list) or not any(isinstance(a, dict) and a.get("behavior") == "answer" for a in aceitas):
+        relatorio.erro(caminho, "Q03 deve ter also_accepted com behavior answer (resposta que avalia Brasil e México)")
+
+
 def resumo(pares: dict[tuple[str, str], Par], db: sqlite3.Connection) -> str:
     lead, fim = pares[LEAD_BR], pares[CANDIDATO]
     return (f"OK: limite fixo respeitado (2 operações, 3 eventos, {TOTAL_DE_DIAS} dias, 1 dia incompleto, "
@@ -403,6 +454,9 @@ def executar(raiz: Path = ROOT) -> Relatorio:
         conferir_regra(downloads, pares, relatorio)
         conferir_consulta(db, downloads, pares, relatorio)
         conferir_fan_out(db, relatorio)
+        conferir_receita_sql(db, downloads, relatorio)
+        conferir_kpi_receita(raiz, db, relatorio)
+        conferir_perguntas_da_receita(raiz, relatorio)
         conferir_gabarito(downloads, relatorio)
         relatorio.avisos.append(resumo(pares, db))
     return relatorio

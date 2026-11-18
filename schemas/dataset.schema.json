@@ -18,7 +18,7 @@
       "description": "Identificação física e o que uma linha representa.",
       "type": "object",
       "properties": {
-        "physical_name": {
+        "physicalName": {
           "title": "Nome físico",
           "description": "Nome da tabela no banco.",
           "type": [
@@ -78,7 +78,7 @@
         "description": "Uma coluna da tabela, com o significado de negócio.",
         "type": "object",
         "properties": {
-          "physical_name": {
+          "physicalName": {
             "title": "Nome físico",
             "description": "Nome da coluna como está no banco.",
             "type": [
@@ -86,7 +86,7 @@
               "null"
             ]
           },
-          "technical_type": {
+          "physicalType": {
             "title": "Tipo técnico",
             "description": "Tipo no banco (TEXT, INTEGER).",
             "type": [
@@ -94,7 +94,7 @@
               "null"
             ]
           },
-          "business_name": {
+          "businessName": {
             "title": "Nome de negócio",
             "description": "Nome que a área usa.",
             "type": [

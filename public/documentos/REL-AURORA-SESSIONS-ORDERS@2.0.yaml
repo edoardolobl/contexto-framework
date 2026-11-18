@@ -46,10 +46,10 @@ context:
 authoritativeDefinitions: []
 
 left:
-  dataset: demo_sessions     # DATASET-AURORA-SESSIONS
+  dataset: aurora-analytics.web.sessoes_web     # DATASET-AURORA-SESSIONS
   grain: "Uma linha por sessão"
 right:
-  dataset: demo_orders       # DATASET-AURORA-ORDERS
+  dataset: aurora-analytics.vendas.pedidos       # DATASET-AURORA-ORDERS
   grain: "Uma linha por pedido"
 join_keys:
   - left: session_id

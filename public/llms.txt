@@ -52,7 +52,6 @@
 - [Cenários de mensuração](https://edoardolobl.github.io/contexto-framework/referencias/cenarios-de-mensuracao/): Quinze perguntas de marketing em que uma IA sem contexto costuma errar, a regra que corrige cada uma e a fonte oficial do Google.
 - [Como ler os campos](https://edoardolobl.github.io/contexto-framework/fundamentos/como-ler-os-campos/): O que significam null, status, id, versão e os outros campos dos modelos, em linguagem simples.
 - [Referência de campos](https://edoardolobl.github.io/contexto-framework/referencias/campos/): Tabela dos campos de cada modelo do Contexto, gerada dos schemas.
-- [Migração para o schema 1.0](https://edoardolobl.github.io/contexto-framework/referencias/migracao-schema-1-0/): O que mudou nos modelos com o schema 1.0, campo a campo, para quem já baixou e preencheu um modelo 0.x.
 - [Correspondência com ODCS e Ossie](https://edoardolobl.github.io/contexto-framework/referencias/correspondencia-odcs/): Quais campos do Contexto têm equivalente no ODCS 3.2.0, o padrão aberto de contratos de dados, e no Apache Ossie 0.1.1, o formato aberto de modelo semântico, e onde eles diferem.
 - [Versões e vigência](https://edoardolobl.github.io/contexto-framework/metodo/identificacao-versoes/): Como distinguir o assunto, a versão e a vigência sem misturar definições históricas.
 - [Responsabilidades](https://edoardolobl.github.io/contexto-framework/governanca/papeis/): Quem explicita, aprova, publica e utiliza as informações, sem transferir decisões de negócio para a engenharia.

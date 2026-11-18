@@ -2,6 +2,8 @@
 from datetime import date
 from pathlib import Path
 
+import pytest
+
 import comum
 import check_revisions as cr
 
@@ -246,3 +248,48 @@ def test_checar_datas_ignora_superseded_by_revision_e_recorded_at():
     antigo["version_history"][0]["date"] = "2026-08-03"
     rel = acusar([antigo, novo])
     assert rel.erros == []
+
+
+# ---------- vigência retroativa declarada (KPI-AURORA-002, F8, contrato 0.13) ----------
+
+DECLARACAO = {"reason": "Documenta uma regra em uso desde 01/10/2026", "confirmed_by": "Gerência de Analytics (Aurora)"}
+
+
+def _primeira_revisao(valid_from, retroatividade=None):
+    extras = {"valid_from": valid_from, "valid_to": None, "supersedes_revision": None}
+    if retroatividade is not None:
+        extras["retroactive_validity"] = retroatividade
+    return doc("A-2", "1.0", "2026-11-17", approved_by="G", status="approved", extras=extras)
+
+
+def _erros(docs):
+    return revisoes_de(docs)[2].erros
+
+
+def test_primeira_revisao_com_retroatividade_declarada_pode_valer_desde_antes_da_emissao():
+    assert _erros([_primeira_revisao("2026-10-01", DECLARACAO)]) == []
+
+
+def test_primeira_revisao_sem_declaracao_nao_pode_valer_desde_antes_da_emissao():
+    assert any("retroactive_validity" in e for e in _erros([_primeira_revisao("2026-10-01")]))
+
+
+@pytest.mark.parametrize("declaracao", [
+    {"reason": "", "confirmed_by": "G"},
+    {"reason": "x"},
+    {"confirmed_by": "G"},
+    "sim",
+])
+def test_declaracao_incompleta_e_acusada(declaracao):
+    assert any("retroactive_validity" in e for e in _erros([_primeira_revisao("2026-10-01", declaracao)]))
+
+
+def test_declaracao_sem_vigencia_retroativa_e_acusada():
+    assert any("retroactive_validity" in e for e in _erros([_primeira_revisao("2026-11-17", DECLARACAO)]))
+
+
+def test_revisao_que_substitui_outra_nao_pode_valer_desde_antes_da_emissao_mesmo_declarada():
+    antigo, novo = par()
+    novo["valid_from"] = "2026-09-01"
+    novo["retroactive_validity"] = DECLARACAO
+    assert any("valid_from anterior à emissão" in e for e in _erros([antigo, novo]))

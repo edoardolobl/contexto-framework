@@ -18,6 +18,7 @@ O projeto não segue a regra de versão que ensina: package.json diz 0.4.0, o RE
 - As três numerações são independentes.
 - A migração para Markdown com frontmatter ([0006](./0006-markdown-com-frontmatter-como-fonte-unica.md)) é o **schema 1.0**, marcado como Breaking no CHANGELOG.
 - O número da próxima versão do produto e a regra exata de MAJOR, MINOR e PATCH para o schema ficam em aberto.
+  - **Fechado em 2026-11-17 pelo [ADR 0030](./0030-decisoes-do-mantenedor-depois-das-fases.md):** a versão de cada documento continua no formato MAJOR.MINOR (1.0, 1.1, 2.0), sem PATCH; o schema segue MAJOR.MINOR.PATCH (1.1.0); a próxima versão do produto é 1.0.0-rc.1.
 
 ## Alternativas consideradas
 

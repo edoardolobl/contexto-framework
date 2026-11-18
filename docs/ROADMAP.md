@@ -54,7 +54,7 @@
 - [x] Nome mantido: Contexto. Sem domínio próprio por enquanto; o portal segue no GitHub Pages
 - [ ] Planejar contribuições e governança de versões
 - [ ] Verificação periódica de links externos
-- [ ] Portão da v1.0: depende do piloto com pessoas registrado em [docs/piloto/](piloto/README.md) (ADR 0010, MET-16) e das decisões em aberto do mantenedor listadas em "Pendências do mantenedor", no fim deste arquivo
+- [ ] Portão da v1.0: depende do piloto com pessoas registrado em [docs/piloto/](piloto/README.md) (ADR 0010, MET-16) e das pendências restantes em "Pendências do mantenedor (depois da F8)", no fim deste arquivo
 
 ## Plano da auditoria de 17/11/2026
 
@@ -79,7 +79,7 @@ O plano completo está em [auditoria/10-direcao-proposta.md](../auditoria/10-dir
   - Fonte única em Markdown com frontmatter (ADR 0006): 10 modelos em `src/modelos/` e 23 exemplos em `src/exemplos/`; `scripts/gerar_downloads.py` gera `public/downloads`, e `--check` confere a sincronia no CI.
   - Schema 1.0.0 (ADR 0009): 11 JSON Schemas em `schemas/` (comum mais um por tipo, `$id` em URN), validados por `scripts/check_schemas.py`; `type` igual ao slug; cabeçalho comum com `intent`, `plain_summary`, `review_interval` e `superseded_by_revision`; blocos `context` e `authoritativeDefinitions` do ODCS; vocabulário SKOS no Conceito; núcleo de 8 campos e rótulos em português em `src/data/campos.yaml` (ADR 0015).
   - Estado Substituído (ADR 0005) nas cópias históricas, com `recorded_at` (I-15) e checagem recíproca de substituição em `check_revisions.py`; regra de recálculo do Indicador (I-14) ligada à resposta de Q07.
-  - Tipo Perguntas de negócio com arquivos e `type` renomeados (ADR 0007); modelos 0.x preservados em `public/downloads/historico/0.x/`; páginas "Migração para o schema 1.0" e "Correspondência com o ODCS".
+  - Tipo Perguntas de negócio com arquivos e `type` renomeados (ADR 0007); página "Correspondência com o ODCS". Os modelos 0.x em `historico/0.x/` e a página "Migração para o schema 1.0" foram removidos na F8 (ADR 0030).
   - Contrato editorial 0.8 e ADR 0026, propostos; CHANGELOG com as mudanças Breaking.
   - Adiado: seções autocontidas para RAG e NotebookLM (I-17), com id, escopo e vigência repetidos no subtítulo de cada seção. Os modelos são formulários em branco, sem id nem vigência para repetir, e os exemplos só ganham `.md` para download na F6. Entra na F6, junto da página "Preparar para NotebookLM ou RAG" (ADR 0026).
   - Pendente com o mantenedor: aprovar o ADR 0026 e o contrato 0.8; decidir se `physical_name`, `business_name`, `technical_type` e `grain` mudam na F6 (seria outro Breaking); decidir a fusão de Dataset com Relacionamento e de Decisão (ADR 0013); decidir se as versões de documento passam a MAJOR.MINOR.PATCH; testar o `.md` com campos no topo e o núcleo de 8 campos com o público não técnico; escolher o número da próxima versão do produto (continua 0.4) e a data de lançamento; aceitar que os endereços antigos `template-casos-teste.*` e `exemplo-casos-teste-*.yaml` dão 404.
@@ -116,21 +116,33 @@ O plano completo está em [auditoria/10-direcao-proposta.md](../auditoria/10-dir
   - Fora desta fase: servidor MCP e código de deriva; mudança nos gabaritos QA-AURORA-001 e QA-AURORA-002, no `src/kit/AGENTS.md` e na Skill `auditar-coleta`; correções do onboarding; schema novo; execução do piloto, do card sorting e do tree test; versão do produto (continua 0.4.0).
   - Pendente com o mantenedor: ver a lista consolidada abaixo.
 
-## Pendências do mantenedor (consolidado na F7)
+- [x] **F8. Decisões do mantenedor: concluída no branch `f8-decisoes-do-mantenedor`, aguardando merge.** O mantenedor respondeu em 17/11/2026 às pendências das fases F1 a F7, registradas no [ADR 0030](adr/0030-decisoes-do-mantenedor-depois-das-fases.md):
+  - ADRs 0018 a 0029 aceitos; contrato editorial aprovado até a 0.12, com a 0.13 para as regras da F8; perguntas em aberto dos ADRs 0013 (tipos separados) e 0009 (versão do documento em MAJOR.MINOR) fechadas.
+  - Correções do onboarding: indicador aprovado KPI-AURORA-002@1.0 (receita de purchase), gabarito QA-AURORA-002@1.1 com `also_accepted` na Q03, regra do termo ambíguo no AGENTS.md do kit e na Skill `contexto-consultar`; experimento repetido no Codex em 17/11/2026 com o kit corrigido: as três correções funcionaram, mas o critério de saída não foi atingido por uma falha nova (Q01 do QA-AURORA-002, conflito com o passo 1 da Skill `auditar-coleta`), que espera decisão do mantenedor. Repetição no Claude Code pendente.
+  - Vigência retroativa só na primeira versão e declarada em `retroactive_validity`; chaves do ODCS (`physicalName`, `businessName`, `physicalType`) no schema 1.1.0; rótulos de campos do tipo em `src/data/campos.yaml`.
+  - Nomes de produção confirmados e aplicados ao Lab 1 e à cópia histórica do KPI 1.0; h1 da home mantido; `historico/0.x/` e a página de migração removidos; cache do navegador no CI; `CLAUDE.md` na raiz; versão do produto 1.0.0-rc.1.
 
-- [ ] Juntar os branches empilhados F0 a F7 e, depois do merge, conferir os links `blob/main` para os ADRs 0018 a 0029.
-- [ ] F1: aceitar os ADRs 0018 a 0022 e o contrato 0.5; aprovar a imagem de compartilhamento; medir de novo no navegador UX-02, UX-05, UX-07, UX-08 e UX-09 e testar o checklist e o seletor com leitor de tela; conferir na fonte primária os números de Painter et al., os papéis do guia Knowledge-Centered Success e a classificação de Polanyi; confirmar o título recuperado do KPI 1.0.
-- [ ] F2: executar o card sorting (15 pessoas ou mais) e o tree test (pelo menos 80% nas tarefas do percurso), incluindo a Referência de campos, as etapas recolhíveis, a página Kit para agentes e a página Plano de mensuração em planilha; aprovar o h1 da home, os contratos 0.6 e 0.7 e os ADRs 0023 a 0025; decidir o tutorial de dados de Comece aqui; confirmar os rótulos dos subgrupos de Modelos e o lugar da Rubrica.
-- [ ] F3: aprovar o ADR 0026 e o contrato 0.8; decidir a renomeação de `physical_name`, `business_name`, `technical_type` e `grain` (seria Breaking); decidir as fusões de tipos do ADR 0013 (Dataset com Relacionamento, e Decisão); decidir se as versões de documento passam a MAJOR.MINOR.PATCH; testar o `.md` com campos no topo e o núcleo de 8 campos com o público não técnico; aceitar o 404 dos endereços antigos `template-casos-teste.*` e `exemplo-casos-teste-*.yaml`.
-- [ ] F4: rodar o experimento do caso 1 no Codex e no Antigravity, registrando modelo, versão e data (o Claude Code já rodou); aprovar o ADR 0027 e o contrato 0.9; confirmar os nomes de produção dos exemplos (aurora-analytics, analytics_312345678, analytics_398765432, aurora_prod.tracking.eventos_diarios, GTM-AURBR01, GTM-AURMX01); revisar os links de fonte primária dos cenários e decidir se entram cenários de Meta e Google Ads.
-- [ ] F5: aprovar o contrato 0.10; revisar os textos novos por tipo (par contrastante de Política, Processo, Conceito e Rubrica e enunciados de "Caso novo"); aceitar o tempo a mais no CI e decidir sobre cache do navegador; rodar de novo o `perf.mjs` e o `consistency.mjs`; testar com leitor de tela real e celular físico.
-- [ ] F6: aprovar o ADR 0028 e o contrato 0.11; decidir as três questões do experimento de onboarding, registradas em `docs/experimentos/onboarding.md` e em `docs/experimentos/onboarding-perguntas-em-aberto.md` (Q06 do QA-AURORA-002: o gabarito passa a esperar pedir esclarecimento, ou o Lab 2 ganha um indicador aprovado de receita; Q03 do QA-AURORA-001: acrescentar ou não ao AGENTS.md do kit a regra de termo com mais de uma leitura; Q03 do QA-AURORA-002: aceitar ou não a resposta que avalia as duas operações) e depois repetir o experimento; repetir o onboarding no Codex e no Antigravity, e no Claude Code com o kit de quatro Skills, registrando a composição do kit em cada execução; revisar com quem cuida de Analytics os resumos do glossário em `src/kit/kit.yaml`, a Skill `auditar-coleta` e o AGENTS.md do kit; reconferir na fonte primária o suporte a AGENTS.md de cada ferramenta, a especificação Agent Skills, o nome NotebookLM ou Gemini Notebook, a frase do Google sobre llms.txt e cada linha da correspondência ODCS 3.2.0 e Ossie 0.1.1; decidir se o repositório ganha um `CLAUDE.md` e aceitar que os `$id` publicados ficam presos ao github.io.
-- [ ] F7: aprovar o ADR 0029 e o contrato 0.12; revisar com quem cuida de Analytics as Skills `contexto-elicitar`, `contexto-consultar` e `importar-plano-de-mensuracao`; depois das decisões do onboarding, decidir se a `contexto-consultar` ganha as mesmas regras novas; reconferir a especificação Agent Skills, que é a "Versão alvo" das quatro Skills, e a segunda fonte sobre a Agentic AI Foundation.
-- [ ] F7, antes da primeira sessão do piloto: confirmar o limiar do portão proposto em `docs/piloto/README.md`, a pergunta principal do caso 1 (Q02 ou tarefa ampliada ao plano inteiro) e rodar a linha de base sem texto; confirmar os fatos e o gabarito do caso de transferência (ticket médio) na ficha do especialista e em `docs/piloto/pontuacao.md`; revisar o termo de consentimento quanto à LGPD.
-- [ ] F7: recrutar 2 ou 3 pessoas do público misto e rodar o piloto (ADR 0010, MET-16). O registro em `docs/piloto/resultados.md`, com data, commit, ferramenta e modelo, é o portão da v1.0.
-- [ ] F7: revisar o relatório `docs/experimentos/onboarding-perguntas-em-aberto.md` e decidir quais propostas entram, como perguntas em aberto, em versões novas dos documentos; testar o fluxo da planilha com uma pessoa que não usa Git, no Excel e no Google Planilhas.
-- [ ] F7: reconferir a versão do MCP (`docs/design/mcp.md`) e decidir, depois da v1.0, se a nota vira projeto; decidir, depois da v1.0, se a deriva (`docs/design/deriva.md`) vira projeto e com que acesso aos sistemas.
-- [ ] Itens antigos ainda abertos: revisão visual manual e testes de acessibilidade com pessoas; conferir visualmente a etapa E; teste de compreensão e pesquisa de aplicabilidade com participantes externos (issue #4); teste com leitor de tela e em celular físico; revisão humana dos 11 exemplos completos; planejar contribuições e governança de versões; verificação periódica de links externos.
-- [ ] Versão do produto: escolher o número e a data da próxima versão. Continua 0.4.0 em todas as fases, e a v1.0 só sai depois do piloto registrado e das decisões acima.
+## Pendências do mantenedor (depois da F8)
+
+Decisões tomadas em 17/11/2026 ([ADR 0030](adr/0030-decisoes-do-mantenedor-depois-das-fases.md)):
+
+- [x] Aceitar os ADRs 0018 a 0029 e aprovar o contrato editorial até a 0.12.
+- [x] Correções do onboarding: Q06 com definição aprovada, Q03 do QA-AURORA-001 com regra no AGENTS.md, Q03 do QA-AURORA-002 com as duas formas aceitas.
+- [x] h1 da home: mantido o proposto.
+- [x] Nomes de produção dos exemplos da Aurora: confirmados.
+- [x] Fusões de tipos do ADR 0013: os tipos ficam separados.
+- [x] Versão do documento: continua MAJOR.MINOR.
+- [x] Versão do produto: 1.0.0-rc.1; a 1.0 final depende do piloto.
+- [x] Chaves com equivalente direto no ODCS: renomeadas no schema 1.1.0.
+- [x] Endereços antigos de casos-teste: `historico/0.x/` e a página de migração removidos, sem 404 no site publicado.
+- [x] Checagem visual no CI: mantida, com cache do navegador.
+- [x] `CLAUDE.md` na raiz: criado, com `@AGENTS.md`.
+
+Pendências restantes:
+
+- [ ] Card sorting (15 pessoas ou mais) e tree test (pelo menos 80% nas tarefas do percurso), com a Referência de campos, as etapas recolhíveis, a página Kit para agentes e a página Plano de mensuração em planilha.
+- [ ] Piloto com 2 ou 3 pessoas do público misto (ADR 0010, ADR 0029, MET-16). O registro em `docs/piloto/resultados.md`, com data, commit, ferramenta e modelo, é o portão da 1.0 final.
+- [ ] Repetir os experimentos no Codex e no Antigravity (caso 1 e onboarding), registrando modelo, versão, data e a composição do kit; o onboarding no Claude Code é repetido com o kit da F8.
+- [ ] Revisar os textos editoriais por tipo, em especial o par contrastante de Política, Processo, Conceito e Rubrica e os enunciados de "Caso novo".
 
 O framework documenta *como tornar o conhecimento explícito*. Não certifica agentes, RAG ou SQL gerado.

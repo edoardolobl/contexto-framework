@@ -1,8 +1,8 @@
 # 0024. Descoberta por incidente
 
-- **Estado:** Proposto
+- **Estado:** Aceito
 - **Data:** 2026-11-17
-- **Proposto por:** auditoria (F2)
+- **Decidido por:** mantenedor (texto proposto pela auditoria (F2); aceito pelo [ADR 0030](./0030-decisoes-do-mantenedor-depois-das-fases.md))
 - **Origem:** [12-incorporacoes.md](../../auditoria/12-incorporacoes.md), I-08; [08-pesquisa-boas-praticas.md](../../auditoria/08-pesquisa-boas-praticas.md), recomendação sobre o roteiro de 8 perguntas; [07-metodo-e-credibilidade.md](../../auditoria/07-metodo-e-credibilidade.md), listas de perguntas que não se referenciam
 
 ## Contexto

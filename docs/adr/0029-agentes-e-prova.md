@@ -1,8 +1,8 @@
 # 0029. Agentes e prova
 
-- **Estado:** Proposto
+- **Estado:** Aceito
 - **Data:** 2026-11-17
-- **Proposto por:** F7 (fase Agentes e prova; quando aceito, vira "**Decidido por:** mantenedor")
+- **Decidido por:** mantenedor (texto proposto na F7; aceito pelo [ADR 0030](./0030-decisoes-do-mantenedor-depois-das-fases.md))
 - **Origem:** [10-direcao-proposta.md](../../auditoria/10-direcao-proposta.md), fase F7, seção 4 (riscos: instruções para IA que envelhecem ou são lidas como garantia) e regra de desacoplamento; [12-incorporacoes.md](../../auditoria/12-incorporacoes.md), I-29 a I-31 e I-10; [11-decisoes.md](../../auditoria/11-decisoes.md), decisão 9 (ADR 0010); [ADR 0021](./0021-responder-esclarecer-ou-abster-se.md), [ADR 0025](./0025-instrucao-minima-ao-agente.md) e [ADR 0028](./0028-saidas-para-maquinas.md)
 
 ## Contexto

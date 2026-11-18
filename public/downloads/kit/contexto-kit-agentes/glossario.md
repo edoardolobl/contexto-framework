@@ -42,6 +42,16 @@ Pessoa inscrita no programa, que não está em pausa nem concluiu todas as ativi
 
 **Fonte:** `CONCEPT-ONBOARDING-001@2.0`
 
+## Receita de purchase
+
+Soma do valor (revenue) dos pedidos confirmados de uma operação em um dia
+
+**Também chamado:** receita de purchase
+
+**Não confundir com:** Receita contábil: reconhecida pelo Financeiro, com outras regras de data; não usar como sinônimo; Receita depois da junção com os itens: soma errada, que repete o pedido uma vez por item
+
+**Fonte:** `KPI-AURORA-002@1.0`
+
 ## sessão convertida
 
 Sessão do canal web, fora do tráfego interno, com pelo menos um pedido confirmado. Conta uma vez, mesmo com dois pedidos.

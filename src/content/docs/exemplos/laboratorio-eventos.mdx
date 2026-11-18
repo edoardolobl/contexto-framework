@@ -121,6 +121,8 @@ Na amostra, a BR teve 3 pedidos em 02/11/2026: R$ 120, R$ 80 e R$ 300. O pedido 
 
 Antes da junção, cada linha é um pedido. Depois, cada linha é um item. Somar a receita do pedido depois da junção conta o pedido de novo para cada item. É o mesmo cuidado de contar sessões em vez de pedidos no [laboratório de conversão](../analytics-integrado/).
 
+Essa regra está registrada num indicador aprovado, o [KPI-AURORA-002@1.0, receita de purchase: pedidos por operação e dia](../../documentos/KPI-AURORA-002@1.0.md). Ele manda somar sempre na tabela de pedidos, por operação e dia, na moeda da operação, e nunca somar BRL com MXN. A consulta `aurora-lab2-receita-purchase.sql` faz a conta sem JOIN e dá os R$ 500 do dia.
+
 ## 8. Teste você
 
 1. Em que dia o `add_to_cart` do México deixou de ter linha?

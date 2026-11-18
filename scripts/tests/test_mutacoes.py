@@ -141,3 +141,18 @@ def test_superseded_sem_recorded_at_falha_no_schema(copia: Path):
     resultado = rodar(copia, "check_schemas.py")
     assert resultado.returncode == 1
     assert fonte.name in resultado.stdout and "Traceback" not in resultado.stderr
+
+
+# ---------- campos de situação fora do modelo (retroactive_validity, contrato 0.13) ----------
+
+def test_exemplo_com_retroactive_validity_nao_e_campo_fora_do_modelo(copia: Path):
+    resultado = rodar(copia, "validate_content.py")
+    assert "campos fora do template: retroactive_validity" not in resultado.stdout
+
+
+def test_exemplo_com_campo_desconhecido_continua_acusado(copia: Path):
+    arquivo = copia / "public" / "downloads" / "exemplo-kpi-completo.yaml"
+    arquivo.write_text(arquivo.read_text(encoding="utf-8") + "campo_inventado: 1\n", encoding="utf-8")
+    resultado = rodar(copia, "validate_content.py")
+    assert resultado.returncode == 1
+    assert "campos fora do template: campo_inventado" in resultado.stdout

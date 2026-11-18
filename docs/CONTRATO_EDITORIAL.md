@@ -1,18 +1,19 @@
 # Contrato editorial: Contexto
 
-**Versão:** 0.12 · **Data desta versão:** 2026-11-17 · **Estado:** proposto (F7), aguarda aprovação do mantenedor · **Mantenedor:** Edoardo Lobl
+**Versão:** 0.13 · **Data desta versão:** 2026-11-17 · **Estado:** aprovado pelo mantenedor (ADR 0030) · **Mantenedor:** Edoardo Lobl
 
 | Versão | Data | O que mudou | Aprovado por |
 |---|---|---|---|
-| 0.12 | 2026-11-17 | Quatro Skills no kit (`auditar-coleta`, `contexto-elicitar`, `contexto-consultar` e `importar-plano-de-mensuracao`), com texto à mão, ressalva e `Versão alvo:` conferidas pelo gerador (ADR 0029); quinta página de Usar com IA, sobre o plano de mensuração em planilha; aviso de que o modelo CSV não tem linha de comentário; ciclo de manutenção a partir do uso, com a regra de que o relatório de erros não altera documento aprovado; piloto de validação como portão da v1.0 (MET-16, ADR 0010) | Proposto (F7), aguarda aprovação do mantenedor |
-| 0.11 | 2026-11-17 | Schema 1.1.0, com `license` e `source_url` opcionais (ADR 0028); as quatro páginas de Usar com IA; saídas para máquinas (documentos por id e versão, schemas, kit para agentes e llms.txt) geradas por `scripts/gerar_saidas.py`, sem edição à mão e conferidas no CI; aviso de ficção no frontmatter do .md de cada documento publicado e dos contratos do kit, mas não no AGENTS.md nem no glossário do kit; protocolo de onboarding como critério de saída da F6 (I-26) | Proposto (F6), aguarda aprovação do mantenedor |
-| 0.10 | 2026-11-17 | Sequência didática da página de tipo (I-24) em cinco passos recolhíveis, com o modelo em branco por último; limite de até 4 telas a 1440 x 900 px, sem limite próprio no celular (ADR 0017); nomes Diagnóstico e Complete (I-25); duas páginas por tipo, a que ensina e a referência de campos gerada; linha "Exemplo Aurora:" nos modelos .md; sistema visual com IBM Plex, tokens de cor e checklist visual por PR (ADR 0016); "Teste você" com resposta antes do gabarito | Proposto (F5), aguarda aprovação do mantenedor |
-| 0.9 | 2026-11-17 | Tipo Evento de coleta no núcleo de entrada (ADR 0013 e 0027); grupo Laboratórios com dois laboratórios; seção opcional de triagem na página do tipo, quando o tipo pede; aviso de ficção também na primeira linha de cada .sql baixável (ADR 0012); regras para exemplos de Data Analytics sobre limite fixo do Lab 2, falta de linha x zero, dia incompleto em D+2, cenário só com fonte primária e limiar numérico como escolha do time; termos "linha de base" e "plano de mensuração" na tabela Vocabulário | Proposto (F4), aguarda aprovação do mantenedor |
-| 0.8 | 2026-11-17 | Fonte única em Markdown com frontmatter; downloads gerados e conferidos no CI; schema 1.0.0 com JSON Schema por tipo; cabeçalho comum e intent; estado superseded e campo status nas perguntas em aberto (ADR 0005, 0006, 0009 e 0015); exemplo YAML do cabeçalho na ordem que o validador exige | Proposto (F3), aguarda aprovação do mantenedor |
-| 0.7 | 2026-11-17 | Comece aqui descrito como o menu publicado: tutorial de negócio e visão do método; o tutorial de dados fica em aberto no ROADMAP | Proposto (F2), aguarda aprovação do mantenedor |
-| 0.6 | 2026-11-17 | Promessa única da seção 1.2 da direção (EDI-01); público em três perfis leitores; portal em percurso, com grupos do menu, bloco Próximo passo, prev/next pela ordem do menu, YAML fora do percurso e sem página órfã, conferido por `scripts/check_navegacao.py`; tipo Perguntas de negócio no vocabulário (ADR 0007); oito dimensões como checklist e convenção (ADR 0014) | Proposto (F2), aguarda aprovação do mantenedor |
-| 0.5 | 2026-11-17 | Termo "modelo" no lugar de "template" em rótulos e textos; cinco tipos de fonte e ADR para toda convenção do Contexto; exemplo com lacunas em `draft`; aprovações em dia útil e artefatos com data conferida; cópia histórica intacta, com notas em `archival_note` | Proposto (F1), aguarda aprovação do mantenedor |
-| 0.4 | 2026-11-17 | Vocabulário com fonte única em `src/data/vocabulario.yaml` | Proposto (F0), aguarda aprovação do mantenedor |
+| 0.13 | 2026-11-17 | Decisões do mantenedor depois das fases (ADR 0030): versões 0.4 a 0.12 aprovadas; vigência retroativa só na primeira versão de um assunto e sempre declarada em `retroactive_validity`, com motivo e quem confirmou, conferida por `scripts/check_revisions.py`; schema 1.1.0 com as chaves do ODCS `physicalName`, `businessName` e `physicalType` no lugar de `physical_name`, `business_name` e `technical_type`, e com `also_accepted` opcional nas perguntas de negócio; rótulos de campos do tipo em `src/data/campos.yaml`, conferidos contra o schema; regra do termo ambíguo (nome ou sinônimo registrado) no AGENTS.md do kit e na Skill `contexto-consultar`; nomes de produção nos laboratórios da Aurora; versão do documento em MAJOR.MINOR e tipos do ADR 0013 separados | Mantenedor |
+| 0.12 | 2026-11-17 | Quatro Skills no kit (`auditar-coleta`, `contexto-elicitar`, `contexto-consultar` e `importar-plano-de-mensuracao`), com texto à mão, ressalva e `Versão alvo:` conferidas pelo gerador (ADR 0029); quinta página de Usar com IA, sobre o plano de mensuração em planilha; aviso de que o modelo CSV não tem linha de comentário; ciclo de manutenção a partir do uso, com a regra de que o relatório de erros não altera documento aprovado; piloto de validação como portão da v1.0 (MET-16, ADR 0010) | Mantenedor |
+| 0.11 | 2026-11-17 | Schema 1.1.0, com `license` e `source_url` opcionais (ADR 0028); as quatro páginas de Usar com IA; saídas para máquinas (documentos por id e versão, schemas, kit para agentes e llms.txt) geradas por `scripts/gerar_saidas.py`, sem edição à mão e conferidas no CI; aviso de ficção no frontmatter do .md de cada documento publicado e dos contratos do kit, mas não no AGENTS.md nem no glossário do kit; protocolo de onboarding como critério de saída da F6 (I-26) | Mantenedor |
+| 0.10 | 2026-11-17 | Sequência didática da página de tipo (I-24) em cinco passos recolhíveis, com o modelo em branco por último; limite de até 4 telas a 1440 x 900 px, sem limite próprio no celular (ADR 0017); nomes Diagnóstico e Complete (I-25); duas páginas por tipo, a que ensina e a referência de campos gerada; linha "Exemplo Aurora:" nos modelos .md; sistema visual com IBM Plex, tokens de cor e checklist visual por PR (ADR 0016); "Teste você" com resposta antes do gabarito | Mantenedor |
+| 0.9 | 2026-11-17 | Tipo Evento de coleta no núcleo de entrada (ADR 0013 e 0027); grupo Laboratórios com dois laboratórios; seção opcional de triagem na página do tipo, quando o tipo pede; aviso de ficção também na primeira linha de cada .sql baixável (ADR 0012); regras para exemplos de Data Analytics sobre limite fixo do Lab 2, falta de linha x zero, dia incompleto em D+2, cenário só com fonte primária e limiar numérico como escolha do time; termos "linha de base" e "plano de mensuração" na tabela Vocabulário | Mantenedor |
+| 0.8 | 2026-11-17 | Fonte única em Markdown com frontmatter; downloads gerados e conferidos no CI; schema 1.0.0 com JSON Schema por tipo; cabeçalho comum e intent; estado superseded e campo status nas perguntas em aberto (ADR 0005, 0006, 0009 e 0015); exemplo YAML do cabeçalho na ordem que o validador exige | Mantenedor |
+| 0.7 | 2026-11-17 | Comece aqui descrito como o menu publicado: tutorial de negócio e visão do método; o tutorial de dados fica em aberto no ROADMAP | Mantenedor |
+| 0.6 | 2026-11-17 | Promessa única da seção 1.2 da direção (EDI-01); público em três perfis leitores; portal em percurso, com grupos do menu, bloco Próximo passo, prev/next pela ordem do menu, YAML fora do percurso e sem página órfã, conferido por `scripts/check_navegacao.py`; tipo Perguntas de negócio no vocabulário (ADR 0007); oito dimensões como checklist e convenção (ADR 0014) | Mantenedor |
+| 0.5 | 2026-11-17 | Termo "modelo" no lugar de "template" em rótulos e textos; cinco tipos de fonte e ADR para toda convenção do Contexto; exemplo com lacunas em `draft`; aprovações em dia útil e artefatos com data conferida; cópia histórica intacta, com notas em `archival_note` | Mantenedor |
+| 0.4 | 2026-11-17 | Vocabulário com fonte única em `src/data/vocabulario.yaml` | Mantenedor |
 | 0.3 | 2026-11-17 | Um termo por ideia; aviso de que a Aurora é inventada só em três lugares; uma página por tipo de documento, com estrutura fixa; menu igual ao título; regras para exemplos concretos; regra de versão | Mantenedor |
 | 0.2 | 2026-11-16 | Regra dos exemplos completos e aprovados; versionamento com data obrigatório; estados de perguntas em aberto; modelos Markdown sem bloco YAML | Mantenedor |
 | 0.1 | 2026-11-16 | Primeira versão do contrato | Mantenedor |
@@ -120,10 +121,12 @@ O validador confere as condições de “Exemplos completos e aprovados”, as n
 
 ## Versionamento com data
 
-Todo modelo e todo exemplo declara o schema 1.1.0 no campo `schema_version` (ADR 0028). Um arquivo declarado na 1.0.0 continua válido. O schema diz o formato do arquivo e muda em ritmo próprio, separado da versão do produto e da versão do documento (ADR 0009). A 1.1.0 só acrescenta dois campos opcionais:
+Todo modelo e todo exemplo declara o schema 1.1.0 no campo `schema_version` (ADR 0028). O schema diz o formato do arquivo e muda em ritmo próprio, separado da versão do produto e da versão do documento (ADR 0009). A 1.1.0 troca três chaves do dataset pelos nomes do ODCS (`physicalName`, `businessName` e `physicalType`, ADR 0030); um dataset escrito na 1.0.0 precisa trocar essas três chaves. Nenhuma versão 1.x tinha sido publicada, por isso a troca não tem período de transição. A 1.1.0 também acrescenta campos opcionais:
 
 - `license`: a licença do documento, como identificador SPDX. Nos modelos em branco fica `null`, porque cada time escolhe a sua licença. Nos exemplos, `CC-BY-4.0`.
 - `source_url`: o endereço publicado do documento. Nos modelos em branco fica `null`. Nos exemplos, é o endereço publicado do próprio exemplo.
+- `retroactive_validity`: só na primeira versão de um assunto cujo `valid_from` é anterior a `version_date`. Traz `reason` (por que a regra vale desde antes desta versão) e `confirmed_by` (cargo ou área que confirmou).
+- `also_accepted`: só nas perguntas de negócio. Outro comportamento que também vale para a pergunta, com a condição que a resposta precisa cumprir.
 
 Para sair do rascunho, o documento precisa de um núcleo de oito campos: `id`, `title`, `version`, `status`, `owner`, `approver`, `version_date` e `intent.question`. Os campos de data e de histórico também são obrigatórios:
 
@@ -149,13 +152,14 @@ version_history:            # a mais recente primeiro
 ```
 
 - `version_date` e `valid_from` são coisas diferentes: uma regra pode ser aprovada hoje para valer no mês que vem.
+- **Vigência retroativa:** `valid_from` anterior a `version_date` só vale na primeira versão de um assunto, quando o documento registra uma regra que já estava em uso, e sempre declarada em `retroactive_validity`, com motivo e quem confirmou. Uma versão que substitui outra nunca reescreve a vigência da anterior. O validador confere as duas condições (ADR 0030).
 - `change` descreve a mudança na regra, não a edição do texto.
 - `review_interval` usa duração ISO 8601 (`P6M` são seis meses). É obrigatório quando o documento tem `context.instructions`, para que a instrução ao agente não envelheça sem revisão.
 - A cópia histórica de uma versão guarda o texto como foi aprovado. Quando outra versão toma o lugar dela, a cópia passa a `status: superseded`, e `superseded_by_revision` aponta a versão que a substituiu. O campo `recorded_at`, data em que o registro foi feito, aparece só nessa cópia substituída (I-15).
 - Notas escritas depois, por exemplo que a versão foi substituída, vão para `archival_note`, com a data em que a nota foi escrita (MOD-12, AUR-04).
 - Todo Indicador com versão maior declara `history_recalculation`: `recalculate`, quando a série antiga é recalculada, ou `method_break`, quando ela fica marcada como quebra de método (I-14).
 - Um rascunho também tem versão e data; `approved_by` fica `null`.
-- A versão do documento segue MAJOR.MINOR. O formato aceita PATCH, mas nenhum exemplo o usa.
+- A versão do documento segue MAJOR.MINOR (ADR 0030). O formato aceita PATCH, mas nenhum exemplo o usa.
 - Nos modelos Markdown, os mesmos dados aparecem nas seções "Identificação" e "Histórico de versões", em português.
 
 Qual número mudar:
@@ -230,8 +234,8 @@ valid_from: null
 
 ## Nomes das chaves e camadas (ADR 0015)
 
-- **Chaves** (nomes dos campos no frontmatter e no YAML) ficam em inglês e em `snake_case`. Onde há equivalente no ODCS 3.2.0 usado nesta fase, a grafia é a do ODCS: o bloco `context` com `instructions`, `verifiedStatements` e `constraints`, `synonyms` e `authoritativeDefinitions`.
-- **Rótulos** que o leitor vê ficam em português e vêm de `src/data/campos.yaml`.
+- **Chaves** (nomes dos campos no frontmatter e no YAML) ficam em inglês e em `snake_case`. Onde há equivalente direto no ODCS 3.2.0, a grafia é a do ODCS: o bloco `context` com `instructions`, `verifiedStatements` e `constraints`, `synonyms`, `authoritativeDefinitions` e, no dataset, `physicalName`, `businessName` e `physicalType` (ADR 0030). A página de correspondência com o ODCS diz quais chaves são equivalentes diretos.
+- **Rótulos** que o leitor vê ficam em português e vêm de `src/data/campos.yaml`: a lista `cabecalho` para o cabeçalho comum e a lista `campos_do_tipo` para campos do tipo que precisam de rótulo fixo. Cada rótulo repete o `title` do campo no schema.
 - **O Conceito** usa SKOS no bloco `vocabulary`: `prefLabel`, `altLabel`, `broader`, `related` e `not_synonyms`.
 - **Três camadas por documento** (I-13): o significado em linguagem humana; o lugar onde mora a regra executável (SQL, metric view ou filtro), que o documento aponta sem repetir; e a instrução curta ao agente. Instrução em texto só quando não há alternativa estruturada.
 
@@ -336,6 +340,7 @@ As saídas para máquinas seguem a mesma regra. `scripts/gerar_saidas.py` gera `
 8. **Dia incompleto:** um dia recente não entra na conclusão enquanto não estiver completo. No Lab 2, o dia D só fica completo em D+2 às 06h no fuso da operação; antes disso, fica fora da conta. Esse prazo vale para a tabela diária da Aurora e é escolha do time; outra fonte, como o export do GA4 para o BigQuery, pode ter janela própria de chegada tardia, que o exemplo cita quando usa essa fonte.
 9. **Cenário só com fonte primária:** cada cenário do banco de cenários cita documentação oficial lida (Google Analytics Help ou Google for Developers). Cenário sem confirmação nessas fontes fica de fora (ADR 0027).
 10. **Limiar numérico é escolha do time:** nenhum limiar de alerta é regra universal. Quando um exemplo traz número, diz que é escolha do time que o adota.
+11. **Nomes de produção:** os laboratórios usam no SQLite o último trecho do nome de produção (`sessoes_web`, `pedidos`) e documentam o nome completo (`aurora-analytics.web.sessoes_web`, `aurora-analytics.vendas.pedidos`) na amostra, na consulta e no dicionário (ADR 0012 e ADR 0030).
 
 A execução de testes automatizados pode encontrar contradições nos exemplos, mas não prova que um documento de produção é correto. A aprovação do especialista continua indispensável.
 

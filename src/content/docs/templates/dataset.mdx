@@ -17,7 +17,7 @@ import Exercicio from '../../../components/Exercicio.astro';
 
 ## O problema
 
-A tabela `demo_sessions` do [Laboratório Aurora](../../exemplos/analytics-integrado/) tem uma coluna `is_internal`, e o schema só diz que ela vale 0 ou 1. A sessão S3 tem o valor 1 e o pedido O4 confirmado. Nada no nome da coluna avisa que uma compra confirmada pode ficar de fora:
+A tabela `sessoes_web` do [Laboratório Aurora](../../exemplos/analytics-integrado/) tem uma coluna `is_internal`, e o schema só diz que ela vale 0 ou 1. A sessão S3 tem o valor 1 e o pedido O4 confirmado. Nada no nome da coluna avisa que uma compra confirmada pode ficar de fora:
 
 <ParContrastante
   pergunta="Qual foi a conversão web de 01/10/2026?"
@@ -65,9 +65,9 @@ A tabela `demo_sessions` do [Laboratório Aurora](../../exemplos/analytics-integ
    <EtapaDeEstudo tipo="complete" resumo="O significado de uma coluna para escrever">
 
    ```yaml
-   - physical_name: is_internal
-     technical_type: INTEGER
-     business_name: "Sessão interna"
+   - physicalName: is_internal
+     physicalType: INTEGER
+     businessName: "Sessão interna"
      meaning: "____"
      allowed_values: [0, 1]
    ```
@@ -85,7 +85,7 @@ A tabela `demo_sessions` do [Laboratório Aurora](../../exemplos/analytics-integ
 
    <EtapaDeEstudo tipo="caso-novo" resumo="A tabela de carga do Laboratório de eventos">
 
-   A tabela `lab2_carga` do [Laboratório de eventos](../../exemplos/laboratorio-eventos/) diz, por operação e por dia, se a carga daquele dia está completa. Ela ainda não tem dicionário. Baixe o modelo em branco e responda a estas perguntas sobre ela; a coluna “Na Aurora” mostra como elas apareceram em `demo_sessions`:
+   A tabela `lab2_carga` do [Laboratório de eventos](../../exemplos/laboratorio-eventos/) diz, por operação e por dia, se a carga daquele dia está completa. Ela ainda não tem dicionário. Baixe o modelo em branco e responda a estas perguntas sobre ela; a coluna “Na Aurora” mostra como elas apareceram em `sessoes_web`:
 
    | Pergunta | Na Aurora | O que registrar |
    |---|---|---|

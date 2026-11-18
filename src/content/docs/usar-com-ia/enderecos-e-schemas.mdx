@@ -31,7 +31,7 @@ O schema é o arquivo que diz quais campos um documento pode ter e em que format
 - [`schemas/1.1.0/common.schema.json`](../../schemas/1.1.0/common.schema.json): versão atual do cabeçalho comum;
 - [`schemas/1.0.0/common.schema.json`](../../schemas/1.0.0/common.schema.json): versão anterior, guardada para quem ainda tem documentos nela.
 
-Ao lado do `common.schema.json` fica um schema por tipo de documento, como `kpi.schema.json`. O `$id` de cada schema, o campo que identifica o arquivo, é o próprio endereço em que ele está publicado. A versão 1.1.0 só acrescenta dois campos opcionais, `license` e `source_url`; nada que valia na 1.0.0 deixa de valer. Cada documento diz em qual formato foi escrito no campo `schema_version`, e é por ele que uma ferramenta escolhe o schema certo. Veja [Migração para o schema 1.0](../../referencias/migracao-schema-1-0/) para o que mudou entre as versões.
+Ao lado do `common.schema.json` fica um schema por tipo de documento, como `kpi.schema.json`. O `$id` de cada schema, o campo que identifica o arquivo, é o próprio endereço em que ele está publicado. A versão 1.1.0 acrescenta campos opcionais, como `license`, `source_url` e `retroactive_validity`, e troca três chaves do dataset pelos nomes do ODCS: `physicalName`, `physicalType` e `businessName`. Um dataset escrito na 1.0.0 precisa trocar essas três chaves para valer na 1.1.0. Cada documento diz em qual formato foi escrito no campo `schema_version`, e é por ele que uma ferramenta escolhe o schema certo.
 
 ## O arquivo llms.txt
 

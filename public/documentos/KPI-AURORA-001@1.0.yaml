@@ -60,19 +60,19 @@ calculation:
   null_handling: "Sessão sem pedido conta no denominador e não no numerador"
   zero_denominator_policy: "Sem sessões elegíveis, exibir 'sem dados'. Não exibir 0%"
 time:
-  reference_date_field: demo_sessions.session_date
+  reference_date_field: aurora-analytics.web.sessoes_web.session_date
   timezone: "Data local da loja, já gravada em session_date"
   reporting_window: "Diária"
   data_freshness: "Carga estática no laboratório"
 data_sources:
   authoritative_dataset: DATASET-AURORA-SESSIONS
   relevant_columns:
-    - demo_sessions.session_id
-    - demo_sessions.channel
-    - demo_sessions.is_internal
-    - demo_sessions.session_date
-    - demo_orders.session_id
-    - demo_orders.status_code
+    - aurora-analytics.web.sessoes_web.session_id
+    - aurora-analytics.web.sessoes_web.channel
+    - aurora-analytics.web.sessoes_web.is_internal
+    - aurora-analytics.web.sessoes_web.session_date
+    - aurora-analytics.vendas.pedidos.session_id
+    - aurora-analytics.vendas.pedidos.status_code
   valid_join_paths: [REL-AURORA-SESSIONS-ORDERS]
   source_conflicts_and_precedence: []
 validation:
@@ -87,5 +87,5 @@ validation:
 related_documents: [DATASET-AURORA-SESSIONS, DATASET-AURORA-ORDERS, REL-AURORA-SESSIONS-ORDERS]
 
 archival_note:
-  date: "2026-09-15"
-  text: "Substituída por KPI-AURORA-001@2.0. A consulta aurora-reference-query.sql implementa a 2.0 e não deve ser usada para reconstruir a 1.0."
+  date: "2026-11-17"
+  text: "Substituída por KPI-AURORA-001@2.0 em 15/09/2026. A consulta aurora-reference-query.sql implementa a 2.0 e não deve ser usada para reconstruir a 1.0. Em 17/11/2026 os nomes de tabela desta cópia foram corrigidos de demo_sessions e demo_orders para os nomes de produção, aurora-analytics.web.sessoes_web e aurora-analytics.vendas.pedidos (ADR 0030). A regra aprovada e os valores não mudaram: só os nomes, que eram de demonstração."

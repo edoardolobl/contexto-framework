@@ -48,16 +48,16 @@ Depois do cabeçalho, o modelo Dataset tem estes campos.
 | Campo | Chave | Valor | O que escrever |
 |---|---|---|---|
 | Tabela | `dataset` | grupo de campos | Identificação física e o que uma linha representa. |
-| Nome físico | `dataset.physical_name` | texto | Nome da tabela no banco. |
+| Nome físico | `dataset.physicalName` | texto | Nome da tabela no banco. |
 | Plataforma | `dataset.platform` | texto | Onde a tabela está. |
 | Granularidade | `dataset.grain` | texto | O que uma linha representa; sem isso, contagens saem erradas. |
 | Chave primária | `dataset.primary_key` | texto | Coluna que identifica cada linha. |
 | Chaves alternativas | `dataset.alternative_keys` | lista de textos | Outras colunas que também identificam a linha. |
 | Critério de unicidade | `dataset.uniqueness_assumption` | texto | O que se supõe único e o que fazer com repetições. |
 | Colunas | `columns` | lista de grupos de campos | Uma entrada por coluna. |
-| Nome físico | `columns[].physical_name` | texto | Nome da coluna como está no banco. |
-| Tipo técnico | `columns[].technical_type` | texto | Tipo no banco (TEXT, INTEGER). |
-| Nome de negócio | `columns[].business_name` | texto | Nome que a área usa. |
+| Nome físico | `columns[].physicalName` | texto | Nome da coluna como está no banco. |
+| Tipo técnico | `columns[].physicalType` | texto | Tipo no banco (TEXT, INTEGER). |
+| Nome de negócio | `columns[].businessName` | texto | Nome que a área usa. |
 | Significado | `columns[].meaning` | texto | O que o valor quer dizer, inclusive códigos. |
 | Unidade | `columns[].unit` | texto | Unidade do valor, quando houver. |
 | Valores permitidos | `columns[].allowed_values` | lista de valores livres | Lista fechada de valores, quando houver. |

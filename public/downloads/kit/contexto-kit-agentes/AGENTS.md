@@ -25,6 +25,7 @@ Estas instruções orientam o agente. Elas não garantem que ele as siga: cada f
 - [Triagem de campanha: Aurora (DECISION-CAMPAIGN-001@2.0)](contratos/DECISION-CAMPAIGN-001@2.0.md)
 - [Evento generate_lead: Aurora (EVENT-AURORA-GENERATE-LEAD@1.1)](contratos/EVENT-AURORA-GENERATE-LEAD@1.1.md)
 - [Taxa de sessões convertidas: loja web Aurora (KPI-AURORA-001@2.0)](contratos/KPI-AURORA-001@2.0.md)
+- [Receita de purchase: pedidos por operação e dia (KPI-AURORA-002@1.0)](contratos/KPI-AURORA-002@1.0.md)
 - [Ficha de reconciliação entre mídia, GA4, pedidos e ERP: Aurora (POLICY-AURORA-RECONCILIACAO-MIDIA@1.1)](contratos/POLICY-AURORA-RECONCILIACAO-MIDIA@1.1.md)
 - [Despesas em eventos: Aurora (POLICY-EVENTS-001@1.1)](contratos/POLICY-EVENTS-001@1.1.md)
 - [Solicitar e publicar campanha: Aurora (PROCESS-CAMPAIGN-001@2.0)](contratos/PROCESS-CAMPAIGN-001@2.0.md)
@@ -34,10 +35,11 @@ Estas instruções orientam o agente. Elas não garantem que ele as siga: cada f
 - [Taxa de sessões convertidas: loja web Aurora (KPI-AURORA-001@1.0)](contratos/historico/KPI-AURORA-001@1.0.md)
 - [Dados: aurora-fixture.sql](dados/aurora-fixture.sql)
 - [Dados: aurora-lab2-fixture.sql](dados/aurora-lab2-fixture.sql)
+- [Dados: aurora-lab2-receita-purchase.sql](dados/aurora-lab2-receita-purchase.sql)
 - [Dados: aurora-lab2-reference-query.sql](dados/aurora-lab2-reference-query.sql)
 - [Dados: aurora-reference-query.sql](dados/aurora-reference-query.sql)
 - [Gabarito documental: sessões convertidas Aurora (QA-AURORA-001@1.1)](gabaritos/QA-AURORA-001@1.1.md)
-- [Gabarito documental: quais eventos pararam de coletar (QA-AURORA-002@1.0)](gabaritos/QA-AURORA-002@1.0.md)
+- [Gabarito documental: quais eventos pararam de coletar (QA-AURORA-002@1.1)](gabaritos/QA-AURORA-002@1.1.md)
 - [Skill `auditar-coleta`](skills/auditar-coleta/SKILL.md)
 - [Evento quebrado: Aurora (DECISION-AURORA-EVENTO-QUEBRADO@1.1)](skills/auditar-coleta/references/DECISION-AURORA-EVENTO-QUEBRADO@1.1.md)
 - [Evento generate_lead: Aurora (EVENT-AURORA-GENERATE-LEAD@1.1)](skills/auditar-coleta/references/EVENT-AURORA-GENERATE-LEAD@1.1.md)
@@ -60,6 +62,7 @@ Estas instruções orientam o agente. Elas não garantem que ele as siga: cada f
 ## Regras
 
 - Nunca calcule um indicador sem consultar a definição aprovada; se não houver, pergunte.
+- Se o termo da pergunta não é o nome nem um sinônimo registrado de um indicador aprovado, ou serve para mais de um, mostre as opções e confirme qual antes de calcular. Um termo mais curto que o nome, como conversão para conversão web, não basta.
 - Zero em um dia não é quebra; compare com a linha de base por operação.
 - Use só o que está neste kit. Não complete a resposta com definição de mercado ou de outra operação.
 - Só o estado approved (aprovado) vale como regra.
