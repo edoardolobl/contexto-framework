@@ -38,9 +38,16 @@ Estas instruções orientam o agente. Elas não garantem que ele as siga: cada f
 - [Dados: aurora-reference-query.sql](dados/aurora-reference-query.sql)
 - [Gabarito documental: sessões convertidas Aurora (QA-AURORA-001@1.1)](gabaritos/QA-AURORA-001@1.1.md)
 - [Gabarito documental: quais eventos pararam de coletar (QA-AURORA-002@1.0)](gabaritos/QA-AURORA-002@1.0.md)
-- [Skill auditar-coleta](skills/auditar-coleta/SKILL.md)
+- [Skill `auditar-coleta`](skills/auditar-coleta/SKILL.md)
 - [Evento quebrado: Aurora (DECISION-AURORA-EVENTO-QUEBRADO@1.1)](skills/auditar-coleta/references/DECISION-AURORA-EVENTO-QUEBRADO@1.1.md)
 - [Evento generate_lead: Aurora (EVENT-AURORA-GENERATE-LEAD@1.1)](skills/auditar-coleta/references/EVENT-AURORA-GENERATE-LEAD@1.1.md)
+- [Skill `contexto-consultar`](skills/contexto-consultar/SKILL.md)
+- [Skill `contexto-elicitar`](skills/contexto-elicitar/SKILL.md)
+- [Referência da Skill `contexto-elicitar`: references/perguntas-por-incidente.md](skills/contexto-elicitar/references/perguntas-por-incidente.md)
+- [Referência da Skill `contexto-elicitar`: references/tipos.md](skills/contexto-elicitar/references/tipos.md)
+- [Skill `importar-plano-de-mensuracao`](skills/importar-plano-de-mensuracao/SKILL.md)
+- [Evento generate_lead: Aurora (EVENT-AURORA-GENERATE-LEAD@1.1)](skills/importar-plano-de-mensuracao/references/EVENT-AURORA-GENERATE-LEAD@1.1.md)
+- [Referência da Skill `importar-plano-de-mensuracao`: references/colunas.md](skills/importar-plano-de-mensuracao/references/colunas.md)
 
 ## Ordem de leitura
 

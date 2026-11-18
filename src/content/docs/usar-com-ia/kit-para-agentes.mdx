@@ -23,6 +23,9 @@ O kit desta página traz os documentos da Aurora, a organização dos laboratór
 | `gabaritos/` | Perguntas de negócio com as respostas esperadas | Para conferir se o agente acerta antes de confiar nele |
 | `dados/` | Dados do laboratório | Para o agente calcular e você comparar o resultado com o gabarito |
 | `skills/auditar-coleta/` | Skill de auditoria de coleta | Roteiro para investigar um evento que parece ter parado de chegar, comparando com a linha de base de cada operação antes de falar em quebra |
+| `skills/contexto-elicitar/` | Skill para descobrir conhecimento | Conduz a conversa para descobrir o que falta num documento; devolve só rascunho, com as lacunas em perguntas em aberto |
+| `skills/contexto-consultar/` | Skill de consulta | Responde com os documentos aprovados, ou pergunta, ou diz que não há base para responder |
+| `skills/importar-plano-de-mensuracao/` | Skill de importação de planilha | Converte o plano de mensuração, numa planilha em CSV, para um rascunho no formato do Contexto |
 
 Rascunhos e documentos pendentes de aprovação ficam fora do kit: só o que tem quem aprova confirmado vale como definição.
 
@@ -42,13 +45,20 @@ Conferido em 17/11/2026.
 
 Para o modelo do arquivo e como adaptar os caminhos, veja [Modelo de AGENTS.md](../agents-md/).
 
-## A Skill de auditoria de coleta
+## As Skills do kit
 
 Uma Skill é uma pasta com um arquivo `SKILL.md`. No topo do arquivo ficam um nome e uma descrição que diz quando usar; abaixo, o roteiro em texto; ao lado, pastas opcionais com material de consulta. O formato é descrito na [especificação Agent Skills](https://agentskills.io/specification), e o agente carrega primeiro só o nome e a descrição, e o resto quando a tarefa pede.
 
-A Skill do kit, `auditar-coleta`, guia o agente quando alguém pergunta se um evento parou de chegar. Na pasta `references/` ela leva os documentos aprovados de que precisa: o do evento, com a linha de base de cada operação, e a decisão sobre o que fazer quando um evento parece quebrado.
+O kit tem quatro Skills, uma por tipo de tarefa:
 
-Onde instalar a pasta depende da ferramenta. No Claude Code, a documentação indica `.claude/skills/auditar-coleta/SKILL.md` dentro do projeto ([Anthropic: Skills no Claude Code](https://code.claude.com/docs/en/skills), conferido em 17/11/2026). Para outras ferramentas, consulte a documentação da ferramenta.
+- `auditar-coleta` guia o agente quando alguém pergunta se um evento parou de chegar. Na pasta `references/` ela leva os documentos aprovados de que precisa: o do evento, com a linha de base de cada operação, e a decisão sobre o que fazer quando um evento parece quebrado.
+- `contexto-elicitar` ajuda a descobrir o que falta num documento, fazendo perguntas à pessoa. Ela devolve só um rascunho, com as lacunas em perguntas em aberto, e não inventa responsável, aprovação, fórmula nem vigência.
+- `contexto-consultar` responde com base nos documentos aprovados, ou pergunta antes de calcular, ou diz que não há base para responder, como define o [ADR 0021](https://github.com/edoardolobl/contexto-framework/blob/main/docs/adr/0021-responder-esclarecer-ou-abster-se.md).
+- `importar-plano-de-mensuracao` converte o plano de mensuração de uma planilha, salva em CSV, para um rascunho no formato do Contexto. Célula vazia vira pergunta em aberto.
+
+Cada Skill orienta o agente, mas não garante o comportamento dele.
+
+Onde instalar a pasta depende da ferramenta. No Claude Code, a documentação indica `.claude/skills/<nome>/SKILL.md` dentro do projeto ([Anthropic: Skills no Claude Code](https://code.claude.com/docs/en/skills), conferido em 17/11/2026). Para outras ferramentas, consulte a documentação da ferramenta.
 
 ## Um adaptador descartável
 
@@ -61,4 +71,5 @@ O kit orienta, não garante. Nenhuma instrução obriga o agente a segui-la. Dep
 - [agents.md](https://agents.md/): formato do `AGENTS.md` e lista de ferramentas compatíveis (prática de mercado).
 - [Agent Skills, especificação](https://agentskills.io/specification): formato da pasta com `SKILL.md` (prática de mercado).
 - Documentação de cada ferramenta, citada na tabela acima (relato de fornecedor), conferida em 17/11/2026.
+- Agentes e prova, [convenção do Contexto, ADR 0029](https://github.com/edoardolobl/contexto-framework/blob/main/docs/adr/0029-agentes-e-prova.md): Skills como adaptadores descartáveis, rascunho sem decisão e manutenção a partir do uso.
 - Regra de desacoplamento e instrução mínima: [convenção do Contexto, ADR 0025](https://github.com/edoardolobl/contexto-framework/blob/main/docs/adr/0025-instrucao-minima-ao-agente.md).

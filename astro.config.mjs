@@ -99,7 +99,7 @@ export default defineConfig({
           'governanca/papeis', 'referencias', 'sobre/creditos'
         ] },
         { label: 'Usar com IA', items: [
-          'usar-com-ia/kit-para-agentes', 'usar-com-ia/agents-md', 'usar-com-ia/preparar-para-notebooklm-ou-rag',
+          'usar-com-ia/kit-para-agentes', 'usar-com-ia/agents-md', 'usar-com-ia/plano-de-mensuracao-em-planilha', 'usar-com-ia/preparar-para-notebooklm-ou-rag',
           'usar-com-ia/enderecos-e-schemas'
         ] }
       ]

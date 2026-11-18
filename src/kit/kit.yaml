@@ -11,6 +11,10 @@ skills:
   auditar-coleta:
     - DECISION-AURORA-EVENTO-QUEBRADO
     - EVENT-AURORA-GENERATE-LEAD
+  contexto-elicitar: []
+  contexto-consultar: []
+  importar-plano-de-mensuracao:
+    - EVENT-AURORA-GENERATE-LEAD
 # Termos do glossário que não têm campo próprio num documento. Cada um cita o documento aprovado que o define,
 # e o glossário mostra a versão aprovada vigente desse documento. Conceitos, indicadores e eventos entram sozinhos.
 termos:

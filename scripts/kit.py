@@ -21,6 +21,8 @@ PADRAO_NOME_DA_SKILL = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 MAXIMO_NOME_DA_SKILL = 64
 MAXIMO_DESCRICAO_DA_SKILL = 1024
 LIMITE_LINHAS_DA_SKILL = 500
+FRASE_DA_RESSALVA = "Esta Skill orienta o agente. Ela não garante o comportamento dele."
+PREFIXO_DA_VERSAO_ALVO = "Versão alvo:"
 DATA_FIXA_DO_ZIP = (1980, 1, 1, 0, 0, 0)
 PERMISSAO_DO_ZIP = 0o644
 FRASE_DO_GLOSSARIO = ("Este glossário é gerado dos documentos aprovados. Quando houver dúvida, vale a definição "
@@ -153,7 +155,12 @@ def erros_da_skill(caminho: Path, pasta: str, relatorio: Relatorio) -> None:
         return
     for erro in erros_do_frontmatter_da_skill(lido[0], pasta):
         relatorio.erro(caminho, erro)
-    linhas = len(lido[2].strip("\n").splitlines())
+    corpo = lido[2]
+    if FRASE_DA_RESSALVA not in " ".join(corpo.split()):
+        relatorio.erro(caminho, f"falta a ressalva obrigatória: {FRASE_DA_RESSALVA}")
+    if not any(linha.startswith(PREFIXO_DA_VERSAO_ALVO) for linha in corpo.splitlines()):
+        relatorio.erro(caminho, f"falta uma linha que comece com '{PREFIXO_DA_VERSAO_ALVO}'")
+    linhas = len(corpo.strip("\n").splitlines())
     if linhas >= LIMITE_LINHAS_DA_SKILL:
         relatorio.erro(caminho, f"corpo com {linhas} linhas; o limite é menos de {LIMITE_LINHAS_DA_SKILL}")
 
@@ -274,7 +281,7 @@ def _referencias(raiz: Path, config: Config, documentos: list[Documento], relato
             continue
         erros_da_skill(fonte, skill, relatorio)
         nome = f"skills/{skill}/SKILL.md"
-        arquivos[nome], titulos[nome] = fonte.read_bytes(), f"Skill {skill}"
+        arquivos[nome], titulos[nome] = fonte.read_bytes(), f"Skill `{skill}`"
         for id_ in ids:
             documento = _vigente(documentos, id_)
             if documento is None:
@@ -282,7 +289,31 @@ def _referencias(raiz: Path, config: Config, documentos: list[Documento], relato
                 continue
             referencia = f"skills/{skill}/references/{documento.rev}.md"
             arquivos[referencia], titulos[referencia] = documento.md, f"{documento.title} ({documento.rev})"
+        _estaticos(fonte.parent, skill, arquivos, titulos, relatorio)
+    _skills_sem_registro(raiz, config, relatorio)
     return arquivos, titulos
+
+
+def _estaticos(pasta: Path, skill: str, arquivos: dict[str, bytes], titulos: dict[str, str], relatorio: Relatorio) -> None:
+    """Copia todo arquivo da pasta da Skill, exceto SKILL.md, em ordem alfabética."""
+    estaticos = sorted(p for p in pasta.rglob("*") if p.is_file() and not p.name.startswith(".")
+                       and p.relative_to(pasta).as_posix() != "SKILL.md")
+    for caminho in estaticos:
+        relativo = caminho.relative_to(pasta).as_posix()
+        nome = f"skills/{skill}/{relativo}"
+        if nome in arquivos:
+            relatorio.erro(caminho, f"arquivo estático com o mesmo caminho de uma referência gerada ({nome})")
+            continue
+        arquivos[nome], titulos[nome] = caminho.read_bytes(), f"Referência da Skill `{skill}`: {relativo}"
+
+
+def _skills_sem_registro(raiz: Path, config: Config, relatorio: Relatorio) -> None:
+    pasta = raiz / "src" / "kit" / "skills"
+    if not pasta.is_dir():
+        return
+    for dir_ in sorted(p for p in pasta.iterdir() if (p / "SKILL.md").is_file()):
+        if dir_.name not in config.skills:
+            relatorio.erro(raiz / "src/kit/kit.yaml", f"skill {dir_.name} sem entrada em src/kit/kit.yaml")
 
 
 def _documentos_do_kit(documentos: list[Documento]) -> tuple[dict[str, bytes], dict[str, str]]:

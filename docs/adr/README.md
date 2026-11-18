@@ -63,3 +63,4 @@ Para mudar uma decisão aceita, escreva um ADR novo. Não edite o antigo: só ma
 | [0026](./0026-schema-1-0-e-fonte-unica.md) | Schema 1.0 e fonte única | Proposto | 2026-11-17 |
 | [0027](./0027-evento-de-coleta-e-laboratorio-de-mensuracao.md) | Evento de coleta e laboratório de mensuração | Proposto | 2026-11-17 |
 | [0028](./0028-saidas-para-maquinas.md) | Saídas para máquinas | Proposto | 2026-11-17 |
+| [0029](./0029-agentes-e-prova.md) | Agentes e prova | Proposto | 2026-11-17 |

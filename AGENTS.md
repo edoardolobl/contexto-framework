@@ -16,8 +16,8 @@ Fontes editáveis, à mão:
 - `src/kit/`: fonte do kit para agentes (`kit.yaml`, o AGENTS.md do kit e `skills/`).
 - `src/content/docs/`: páginas do portal.
 - `schemas/`: JSON Schema por tipo, na versão 1.1.0. `schemas/historico/1.0.0/` guarda a versão anterior.
-- `docs/`: contrato, ADRs, roadmap, notas de design e protocolos de experimento.
-- `scripts/`: validadores e geradores em Python. Os testes ficam em `scripts/tests/`.
+- `docs/`: contrato, ADRs, roadmap, notas de design e protocolos de experimento. `docs/piloto/` tem o kit do piloto com pessoas, que é o portão da v1.0: roteiro, tarefas, ficha do especialista, termo, folha de registro, pontuação e resultados. Essa pasta não guarda dado pessoal.
+- `scripts/`: validadores e geradores em Python. Os testes ficam em `scripts/tests/`. Duas ferramentas de uso manual não rodam no `npm run check`: `scripts/planilha_para_evento.py`, que converte o plano de mensuração de uma planilha, e `scripts/erros_para_perguntas.py`, que gera o relatório de erros do teste com as perguntas e não altera documento.
 - `auditoria/`: registro histórico da auditoria. Não altere.
 
 Gerados, que não se editam à mão (o CI falha se saírem de sincronia com as fontes):

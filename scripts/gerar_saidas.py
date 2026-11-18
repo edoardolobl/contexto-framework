@@ -213,7 +213,7 @@ def montar_llms(raiz: Path, relatorio: Relatorio) -> dict[Path, bytes]:
         if grupo.rotulo and any(itens):
             secoes.append(f"## {grupo.rotulo}\n\n" + "\n".join(i for i in itens if i))
     versao = max((v for v, _ in _pastas_de_schemas(raiz) if v), key=_versao_ordenavel, default="")
-    agentes = [("Kit para agentes (zip)", f"{URL_DO_SITE}/downloads/kit/contexto-kit-agentes.zip", "AGENTS.md, glossário, contratos, gabaritos e a skill de auditoria."),
+    agentes = [("Kit para agentes (zip)", f"{URL_DO_SITE}/downloads/kit/contexto-kit-agentes.zip", "AGENTS.md, glossário, contratos, gabaritos e as Skills do kit (auditoria de coleta, descoberta, consulta e importação do plano de mensuração)."),
                ("Índice dos documentos", f"{URL_DO_SITE}/documentos/indice.json", "Lista de todos os documentos por id e versão, com o endereço de cada um."),
                ("Schema comum", url_do_schema(versao, "common") if versao else "", "Campos que todo documento tem.")]
     secoes.append("## Para agentes\n\n" + "\n".join(f"- [{t}]({u}): {d}" for t, u, d in agentes if u))

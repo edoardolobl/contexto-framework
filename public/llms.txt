@@ -61,12 +61,13 @@
 
 - [Kit para agentes](https://edoardolobl.github.io/contexto-framework/usar-com-ia/kit-para-agentes/): Um pacote para baixar com as definições aprovadas, o gabarito e a instrução curta que um agente de IA precisa para não improvisar o cálculo de um indicador.
 - [Modelo de AGENTS.md](https://edoardolobl.github.io/contexto-framework/usar-com-ia/agents-md/): Arquivo curto para a raiz do repositório, que orienta o agente a usar só documentos aprovados e a dizer quando não há base.
+- [Plano de mensuração em planilha](https://edoardolobl.github.io/contexto-framework/usar-com-ia/plano-de-mensuracao-em-planilha/): Preencha uma planilha com os eventos e as operações e receba rascunhos de Evento de coleta, com cada célula vazia virando uma pergunta em aberto.
 - [Preparar para NotebookLM ou RAG](https://edoardolobl.github.io/contexto-framework/usar-com-ia/preparar-para-notebooklm-ou-rag/): Quatro regras para que cada trecho recortado de um documento ainda diga de que documento, versão e período ele é.
 - [Endereços estáveis e schemas](https://edoardolobl.github.io/contexto-framework/usar-com-ia/enderecos-e-schemas/): Cada versão de documento tem um endereço que não muda, e cada versão do formato tem um schema publicado, para pessoas e agentes citarem a fonte certa.
 
 ## Para agentes
 
-- [Kit para agentes (zip)](https://edoardolobl.github.io/contexto-framework/downloads/kit/contexto-kit-agentes.zip): AGENTS.md, glossário, contratos, gabaritos e a skill de auditoria.
+- [Kit para agentes (zip)](https://edoardolobl.github.io/contexto-framework/downloads/kit/contexto-kit-agentes.zip): AGENTS.md, glossário, contratos, gabaritos e as Skills do kit (auditoria de coleta, descoberta, consulta e importação do plano de mensuração).
 - [Índice dos documentos](https://edoardolobl.github.io/contexto-framework/documentos/indice.json): Lista de todos os documentos por id e versão, com o endereço de cada um.
 - [Schema comum](https://edoardolobl.github.io/contexto-framework/schemas/1.1.0/common.schema.json): Campos que todo documento tem.
 

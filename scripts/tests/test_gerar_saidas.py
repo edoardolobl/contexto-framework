@@ -40,7 +40,8 @@ skills:
   auditar-coleta: [EVENT-AURORA-GENERATE-LEAD]
 """
 AGENTS = "# Kit\n\nÍndice:\n\n<!-- contexto:kit-indice -->\n\nVeja [o glossário](glossario.md) e [a skill](skills/auditar-coleta/SKILL.md).\n"
-SKILL = "---\nname: auditar-coleta\ndescription: Audita a coleta de eventos.\n---\n# Auditar coleta\n\nLeia [o evento](references/EVENT-AURORA-GENERATE-LEAD@1.1.md).\n"
+RESSALVA = kit.FRASE_DA_RESSALVA + "\n\nVersão alvo: especificação Agent Skills, conferida em 17/11/2026.\n"
+SKILL = "---\nname: auditar-coleta\ndescription: Audita a coleta de eventos.\n---\n# Auditar coleta\n\n" + RESSALVA + "\nLeia [o evento](references/EVENT-AURORA-GENERATE-LEAD@1.1.md).\n"
 
 
 def escrever(caminho: Path, texto: str) -> None:
@@ -249,6 +250,7 @@ def test_agents_troca_o_marcador_por_lista_com_id_versao_e_titulo(raiz):
     assert "- [Taxa de conversão (KPI-AURORA-001@2.0)](contratos/KPI-AURORA-001@2.0.md)" in texto
     assert "- [Perguntas da Aurora (QA-AURORA-001@1.1)](gabaritos/QA-AURORA-001@1.1.md)" in texto
     assert "(contratos/historico/KPI-AURORA-001@1.0.md)" in texto
+    assert "- [Skill `auditar-coleta`](skills/auditar-coleta/SKILL.md)" in texto
 
 
 @pytest.mark.parametrize("agents", ["# Kit sem marcador\n", AGENTS + "\n<!-- contexto:kit-indice -->\n"])
@@ -284,7 +286,7 @@ def test_links_externos_ancoras_e_codigo_nao_sao_conferidos(raiz):
     ("name: auditar-coleta\ndescription: " + "x" * 1025 + "\n", "description"),
 ])
 def test_skill_fora_da_especificacao_gera_erro(raiz, cabecalho, trecho):
-    escrever(raiz / "src/kit/skills/auditar-coleta/SKILL.md", f"---\n{cabecalho}---\n# Corpo\n")
+    escrever(raiz / "src/kit/skills/auditar-coleta/SKILL.md", f"---\n{cabecalho}---\n# Corpo\n\n{RESSALVA}")
     relatorio, _ = rodar(raiz)
     assert any("SKILL.md" in e and trecho in e for e in relatorio.erros)
 
@@ -296,7 +298,7 @@ def test_skill_com_name_de_64_caracteres_passa_e_65_falha():
 
 def test_skill_com_corpo_de_500_linhas_gera_erro(raiz):
     corpo = "linha\n" * 500
-    escrever(raiz / "src/kit/skills/auditar-coleta/SKILL.md", "---\nname: auditar-coleta\ndescription: ok\n---\n" + corpo)
+    escrever(raiz / "src/kit/skills/auditar-coleta/SKILL.md", "---\nname: auditar-coleta\ndescription: ok\n---\n" + RESSALVA + corpo)
     relatorio, _ = rodar(raiz)
     assert any("500" in e for e in relatorio.erros)
 
@@ -569,6 +571,8 @@ def test_llms_txt_segue_o_menu_e_aponta_para_as_saidas(raiz):
     para_agentes = texto.split("## Para agentes")[1].split("## Optional")[0]
     assert f"{SITE}/downloads/kit/contexto-kit-agentes.zip" in para_agentes
     assert f"{SITE}/documentos/indice.json" in para_agentes
+    assert ("AGENTS.md, glossário, contratos, gabaritos e as Skills do kit (auditoria de coleta, descoberta, "
+            "consulta e importação do plano de mensuração).") in para_agentes
     assert f"{SITE}/schemas/1.1.0/common.schema.json" in para_agentes
     opcional = texto.split("## Optional")[1]
     assert f"[Referências]({SITE}/referencias/): Lista de consulta." in opcional
@@ -595,3 +599,81 @@ def test_check_acusa_llms_txt_desatualizado(raiz):
     (raiz / "public/llms.txt").write_text("velho\n", encoding="utf-8")
     relatorio, _ = rodar(raiz, check=True)
     assert any("llms.txt" in e and "desatualizado" in e for e in relatorio.erros)
+
+
+# ---------- arquivos estáticos, ressalva, versão alvo e Skill sem registro ----------
+SKILLS_DIR = "src/kit/skills"
+
+
+def test_arquivo_estatico_da_skill_vai_para_o_kit_e_para_o_zip(raiz):
+    escrever(raiz / SKILLS_DIR / "auditar-coleta/references/x.md", "# Estático\n")
+    escrever(raiz / SKILLS_DIR / "auditar-coleta/assets/modelo/y.txt", "y\n")
+    relatorio, _ = rodar(raiz)
+    assert relatorio.erros == []
+    kit_ = instantaneo(raiz / KIT)
+    assert kit_["skills/auditar-coleta/references/x.md"] == "# Estático\n".encode()
+    assert kit_["skills/auditar-coleta/assets/modelo/y.txt"] == b"y\n"
+    zip_ = entradas_do_zip(raiz / "public/downloads/kit/contexto-kit-agentes.zip")
+    assert "contexto-kit-agentes/skills/auditar-coleta/references/x.md" in zip_
+    assert "contexto-kit-agentes/skills/auditar-coleta/assets/modelo/y.txt" in zip_
+    texto = (raiz / KIT / "AGENTS.md").read_text(encoding="utf-8")
+    assert "- [Referência da Skill `auditar-coleta`: references/x.md](skills/auditar-coleta/references/x.md)" in texto
+
+
+def test_arquivo_estatico_com_caminho_de_referencia_gerada_gera_erro(raiz):
+    escrever(raiz / SKILLS_DIR / "auditar-coleta/references/EVENT-AURORA-GENERATE-LEAD@1.1.md", "# Outro\n")
+    relatorio, _ = rodar(raiz)
+    assert any("EVENT-AURORA-GENERATE-LEAD@1.1.md" in e and "mesmo caminho" in e for e in relatorio.erros)
+
+
+def test_link_do_skill_para_arquivo_estatico_passa(raiz):
+    escrever(raiz / SKILLS_DIR / "auditar-coleta/references/x.md", "# Estático\n")
+    escrever(raiz / SKILLS_DIR / "auditar-coleta/SKILL.md", SKILL + "\n[x](references/x.md)\n")
+    relatorio, _ = rodar(raiz)
+    assert relatorio.erros == []
+
+
+def test_link_do_skill_para_estatico_inexistente_gera_erro(raiz):
+    escrever(raiz / SKILLS_DIR / "auditar-coleta/SKILL.md", SKILL + "\n[x](references/x.md)\n")
+    relatorio, _ = rodar(raiz)
+    assert any("references/x.md" in e for e in relatorio.erros)
+
+
+def corpo_da_skill(extra: str) -> str:
+    return f"---\nname: auditar-coleta\ndescription: ok\n---\n# Corpo\n\n{extra}"
+
+
+@pytest.mark.parametrize("extra,trecho", [
+    ("Versão alvo: x.\n", "ressalva"),
+    (kit.FRASE_DA_RESSALVA + "\n", "Versão alvo:"),
+    ("", "ressalva"),
+])
+def test_skill_sem_ressalva_ou_sem_versao_alvo_gera_erro(raiz, extra, trecho):
+    escrever(raiz / SKILLS_DIR / "auditar-coleta/SKILL.md", corpo_da_skill(extra))
+    relatorio, _ = rodar(raiz)
+    assert any("SKILL.md" in e and trecho in e for e in relatorio.erros)
+
+
+def test_skill_com_ressalva_e_versao_alvo_passa(raiz):
+    escrever(raiz / SKILLS_DIR / "auditar-coleta/SKILL.md", corpo_da_skill(RESSALVA))
+    relatorio, _ = rodar(raiz)
+    assert relatorio.erros == []
+
+
+def test_frase_da_ressalva_e_a_da_auditar_coleta_real():
+    real = (g.ROOT if hasattr(g, "ROOT") else Path(__file__).resolve().parents[2]) / "src/kit/skills/auditar-coleta/SKILL.md"
+    assert kit.FRASE_DA_RESSALVA in real.read_text(encoding="utf-8")
+
+
+def test_skill_sem_entrada_no_kit_yaml_gera_erro(raiz):
+    escrever(raiz / SKILLS_DIR / "nova-skill/SKILL.md", SKILL.replace("auditar-coleta", "nova-skill"))
+    relatorio, _ = rodar(raiz)
+    assert any("skill nova-skill sem entrada em src/kit/kit.yaml" in e for e in relatorio.erros)
+
+
+def test_skill_com_lista_vazia_no_kit_yaml_e_aceita(raiz):
+    escrever(raiz / "src/kit/kit.yaml", KIT_YAML + "  nova-skill: []\n")
+    escrever(raiz / SKILLS_DIR / "nova-skill/SKILL.md", SKILL.replace("auditar-coleta", "nova-skill").replace("Leia [o evento](references/EVENT-AURORA-GENERATE-LEAD@1.1.md).", ""))
+    relatorio, _ = rodar(raiz)
+    assert relatorio.erros == []
+    assert "skills/nova-skill/SKILL.md" in instantaneo(raiz / KIT)

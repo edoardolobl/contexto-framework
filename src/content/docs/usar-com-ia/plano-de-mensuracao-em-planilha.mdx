@@ -1,0 +1,73 @@
+---
+title: Plano de mensuração em planilha
+description: Preencha uma planilha com os eventos e as operações e receba rascunhos de Evento de coleta, com cada célula vazia virando uma pergunta em aberto.
+---
+
+Muitos times já guardam o plano de mensuração numa planilha. Esta página mostra como transformar essa planilha em rascunhos de [Evento de coleta](../../templates/evento-coleta/), sem usar Git. Nada sai aprovado: o resultado é um ponto de partida para quem responde pelo evento revisar.
+
+## Para que serve
+
+Cada linha da planilha descreve um evento em uma operação. Um programa lê as linhas, junta as que são do mesmo evento e escreve um rascunho por evento. O que a planilha não diz não é inventado: vira uma pergunta em aberto.
+
+## Baixe o modelo
+
+[Baixar o modelo da planilha](../../downloads/plano-de-mensuracao-modelo.csv) (CSV, separador ponto e vírgula). Ele traz uma linha de exemplo da Aurora, a organização dos laboratórios do portal. Apague a linha de exemplo e escreva a sua.
+
+## Como preencher
+
+- Escreva uma linha por evento e operação. Se o evento existe no Brasil e no México, são duas linhas com o mesmo Evento.
+- Abra o arquivo no Excel ou no Google Planilhas. Salve de volta como CSV, mantendo o ponto e vírgula e a codificação UTF-8.
+- Se os acentos aparecerem trocados, importe o arquivo escolhendo UTF-8 como codificação, em vez de abrir com duplo clique.
+- Datas valem em DD/MM/AAAA ou AAAA-MM-DD. A coluna Ativo na operação aceita sim ou não.
+- Deixe em branco o que ninguém confirmou. Não escreva um palpite.
+
+## As colunas
+
+A linha de exemplo é da Aurora, a organização dos laboratórios do portal.
+
+| Coluna | Exemplo da Aurora | Vale para |
+|---|---|---|
+| Evento | generate_lead | o evento |
+| Identificador | EVENT-AURORA-GENERATE-LEAD | o evento |
+| Pergunta de negócio | Quando um dia sem generate_lead deve ser tratado como falha de coleta? | o evento |
+| Responsável | Analytics de E-commerce (Aurora) | o evento |
+| Gatilho | Envio com sucesso do formulário de cadastro de atacado | o evento |
+| Frequência esperada | Poucos envios por dia no Brasil | o evento |
+| Prazo para os dados chegarem | D+2 às 06h no fuso da operação | o evento |
+| Data de lançamento | 03/08/2026 | o evento |
+| Consentimento exigido | Dispara só com analytics_storage concedido | o evento |
+| Indicadores que dependem do evento | Taxa de cadastro de atacado | o evento |
+| Operação | BR | a operação |
+| País | Brasil | a operação |
+| Marca | Aurora | a operação |
+| Ativo na operação | sim | a operação |
+| Ativo desde | 03/08/2026 | a operação |
+| Motivo | Formulário de atacado publicado no site do Brasil | a operação |
+| Tolerância ao silêncio | Suspeitar a partir de 4 dias completos seguidos em zero | a operação |
+| Ferramenta de destino | GA4 | a operação |
+| Onde dentro da ferramenta | Propriedade Aurora BR | a operação |
+| Fuso horário | America/Sao_Paulo | a operação |
+
+Se duas linhas do mesmo evento trazem valores diferentes numa coluna que vale para o evento, o programa para e avisa as duas linhas. Uma célula vazia numa linha e preenchida na outra não é conflito.
+
+## O que sai
+
+- Um rascunho por evento, sempre em estado draft.
+- Quem aprova, vigência e aprovação ficam em branco.
+- Cada célula vazia vira uma pergunta em aberto. A única exceção é o Motivo, quando o evento está ativo na operação.
+- Todo rascunho traz também a pergunta "Quem aprova o documento do evento?".
+- Se a planilha tiver qualquer erro, como data inválida ou evento sem nome, nada é escrito e cada erro diz a linha da planilha, como o Excel numera. Uma célula com quebra de linha (Alt+Enter) é lida inteira e continua contando como uma linha só.
+
+## A quem entregar
+
+Entregue a planilha a quem mantém os documentos do Contexto na sua organização, ou a um agente de IA com a Skill `importar-plano-de-mensuracao` (veja o [Kit para agentes](../kit-para-agentes/)). Em qualquer caso, o próximo passo é revisar os rascunhos com quem responde pelo evento e resolver as perguntas em aberto.
+
+A Skill orienta o agente, mas não garante o comportamento dele. Confira os rascunhos antes de seguir.
+
+## Para quem é técnico
+
+Numa cópia do repositório, rode `python3 scripts/planilha_para_evento.py plano.csv --saida rascunhos --data 2026-11-17`. Use `--substituir` para trocar arquivos que já existem e `--raiz` para apontar outra cópia dos schemas. O frontmatter de cada rascunho é conferido no schema do Evento de coleta antes de escrever.
+
+### Fundamentação
+
+A planilha como porta de entrada, a regra de que célula vazia vira pergunta em aberto e o estado sempre draft são uma [convenção do Contexto](https://github.com/edoardolobl/contexto-framework/blob/main/docs/adr/0029-agentes-e-prova.md). O Evento de coleta e o laboratório de mensuração da Aurora vêm do [ADR 0027](https://github.com/edoardolobl/contexto-framework/blob/main/docs/adr/0027-evento-de-coleta-e-laboratorio-de-mensuracao.md).

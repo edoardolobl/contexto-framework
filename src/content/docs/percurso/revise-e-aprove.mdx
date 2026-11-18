@@ -92,6 +92,26 @@ O estado da ficha não aprova a regra correspondente.
 
 **Não entregue como aprovado** se não houver autoridade identificada, se documentos se contradisserem sem resolução, se uma condição decisiva não tem definição ou se um exemplo foi confundido com regra vigente. **Documentação incompleta e transparente é uma saída legítima da revisão:** mostra onde o trabalho precisa continuar.
 
+## 5. Manter a partir do uso
+
+Um documento aprovado também envelhece: a regra muda, o sistema muda e aparece uma pergunta que ninguém tinha previsto. Por isso, depois de publicado, o documento é corrigido pelo uso. A rotina tem cinco passos:
+
+1. **Usar:** faça perguntas reais à IA, com o gabarito ao lado. O gabarito reúne as perguntas e as respostas esperadas do [teste com as perguntas](../teste-com-as-perguntas/).
+2. **Detectar:** a IA errou uma pergunta do gabarito. Anote a pergunta, a resposta dada e o documento ligado a ela.
+3. **Corrigir:** a pergunta em aberto proposta entra numa versão nova, em rascunho, do documento ligado à pergunta. O documento aprovado não muda nesse momento.
+4. **Validar:** quem aprova revisa a versão nova, e o teste com as perguntas roda de novo.
+5. **Republicar:** as saídas e o kit para agentes são gerados de novo, para que a IA leia só a versão aprovada.
+
+Para reunir os erros de um teste, numa cópia do repositório, rode o comando com o arquivo de resultados e um `--mapa` para cada grupo de perguntas. O `--mapa` liga o prefixo das perguntas do teste (QA1, por exemplo) ao gabarito delas. Este é o comando que gerou o [relatório do experimento de onboarding](https://github.com/edoardolobl/contexto-framework/blob/main/docs/experimentos/onboarding-perguntas-em-aberto.md):
+
+```sh
+python3 scripts/erros_para_perguntas.py docs/experimentos/onboarding-resultados.json --mapa QA1=QA-AURORA-001 --mapa QA2=QA-AURORA-002
+```
+
+Uma pergunta sem `--mapa` fica fora das propostas, com um aviso. O comando gera um relatório com as perguntas em aberto propostas, registra no cabeçalho o comando que o reproduz e não altera nenhum documento: quem decide o que entra no documento é quem aprova.
+
+Esse ciclo completa a revisão por calendário, que segue o campo `review_interval` do documento, e não a substitui. Um documento com revisão vencida continua precisando de revisão, mesmo sem erro nenhum no teste.
+
 ## O que este roteiro não certifica
 
 As verificações são uma **proposta** do Contexto, inspirada em práticas de análise de negócios, confirmação e manutenção documental. Elas não constituem auditoria jurídica, certificação de conformidade, garantia de qualidade de dados ou teste de um sistema de IA.
@@ -100,6 +120,6 @@ Quem monta o sistema ainda precisará validar recuperação, permissões, execu�
 
 ### Fundamentação
 
-[IIBA: Confirm Elicitation Results](https://www.iiba.org/knowledgehub/the-business-analysis-standard/5-applying-business-analysis-tasks/5-3-business-analysis-knowledge-areas/elicitation-and-collaboration/) (prática de mercado) · [Knowledge-Centered Success: Practices Guide](https://library.serviceinnovation.org/KCS/Knowledge-Centered_Success_Practices_Guide) (prática de mercado). As oito dimensões são uma [convenção do Contexto](https://github.com/edoardolobl/contexto-framework/blob/main/docs/adr/0014-oito-dimensoes-como-checklist.md); a divisão entre cobertura, consistência e confirmação e a ficha de perguntas em aberto também são convenções do Contexto.
+[IIBA: Confirm Elicitation Results](https://www.iiba.org/knowledgehub/the-business-analysis-standard/5-applying-business-analysis-tasks/5-3-business-analysis-knowledge-areas/elicitation-and-collaboration/) (prática de mercado) · [Knowledge-Centered Success: Practices Guide](https://library.serviceinnovation.org/KCS/Knowledge-Centered_Success_Practices_Guide) (prática de mercado). As oito dimensões são uma [convenção do Contexto](https://github.com/edoardolobl/contexto-framework/blob/main/docs/adr/0014-oito-dimensoes-como-checklist.md); a divisão entre cobertura, consistência e confirmação e a ficha de perguntas em aberto também são convenções do Contexto. A manutenção a partir do uso segue a Knowledge-Centered Success, citada acima, e é uma convenção do Contexto ([ADR 0029](https://github.com/edoardolobl/contexto-framework/blob/main/docs/adr/0029-agentes-e-prova.md)).
 
 <NextStep />

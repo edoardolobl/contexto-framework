@@ -1,9 +1,10 @@
 # Contrato editorial: Contexto
 
-**Versão:** 0.11 · **Data desta versão:** 2026-11-17 · **Estado:** proposto (F6), aguarda aprovação do mantenedor · **Mantenedor:** Edoardo Lobl
+**Versão:** 0.12 · **Data desta versão:** 2026-11-17 · **Estado:** proposto (F7), aguarda aprovação do mantenedor · **Mantenedor:** Edoardo Lobl
 
 | Versão | Data | O que mudou | Aprovado por |
 |---|---|---|---|
+| 0.12 | 2026-11-17 | Quatro Skills no kit (`auditar-coleta`, `contexto-elicitar`, `contexto-consultar` e `importar-plano-de-mensuracao`), com texto à mão, ressalva e `Versão alvo:` conferidas pelo gerador (ADR 0029); quinta página de Usar com IA, sobre o plano de mensuração em planilha; aviso de que o modelo CSV não tem linha de comentário; ciclo de manutenção a partir do uso, com a regra de que o relatório de erros não altera documento aprovado; piloto de validação como portão da v1.0 (MET-16, ADR 0010) | Proposto (F7), aguarda aprovação do mantenedor |
 | 0.11 | 2026-11-17 | Schema 1.1.0, com `license` e `source_url` opcionais (ADR 0028); as quatro páginas de Usar com IA; saídas para máquinas (documentos por id e versão, schemas, kit para agentes e llms.txt) geradas por `scripts/gerar_saidas.py`, sem edição à mão e conferidas no CI; aviso de ficção no frontmatter do .md de cada documento publicado e dos contratos do kit, mas não no AGENTS.md nem no glossário do kit; protocolo de onboarding como critério de saída da F6 (I-26) | Proposto (F6), aguarda aprovação do mantenedor |
 | 0.10 | 2026-11-17 | Sequência didática da página de tipo (I-24) em cinco passos recolhíveis, com o modelo em branco por último; limite de até 4 telas a 1440 x 900 px, sem limite próprio no celular (ADR 0017); nomes Diagnóstico e Complete (I-25); duas páginas por tipo, a que ensina e a referência de campos gerada; linha "Exemplo Aurora:" nos modelos .md; sistema visual com IBM Plex, tokens de cor e checklist visual por PR (ADR 0016); "Teste você" com resposta antes do gabarito | Proposto (F5), aguarda aprovação do mantenedor |
 | 0.9 | 2026-11-17 | Tipo Evento de coleta no núcleo de entrada (ADR 0013 e 0027); grupo Laboratórios com dois laboratórios; seção opcional de triagem na página do tipo, quando o tipo pede; aviso de ficção também na primeira linha de cada .sql baixável (ADR 0012); regras para exemplos de Data Analytics sobre limite fixo do Lab 2, falta de linha x zero, dia incompleto em D+2, cenário só com fonte primária e limiar numérico como escolha do time; termos "linha de base" e "plano de mensuração" na tabela Vocabulário | Proposto (F4), aguarda aprovação do mantenedor |
@@ -86,6 +87,8 @@ Todos os exemplos usam a Aurora, uma organização inventada. Isso é dito **só
 4. o frontmatter do `.md` de cada documento publicado em `public/documentos/` e dos contratos do kit (`contratos/` e `contratos/historico/`), com a mesma linha de aviso dos exemplos. O AGENTS.md do kit e o glossário do kit não repetem o aviso.
 
 Fora deles, nenhum “fictício”, “hipotético”, “ilustrativo”, “didático”, “demonstrativo” ou “A Aurora não existe”. Repetir o aviso trata o leitor como incapaz de lembrar o que leu. “Amostra sintética” aparece uma vez, no laboratório, porque explica o tamanho da amostra. A restrição “a rubrica avalia o trabalho, nunca a pessoa” não é aviso de ficção e fica, uma vez.
+
+O modelo CSV do plano de mensuração não tem linha de comentário, porque o formato CSV não tem comentário. Por isso a linha de exemplo leva Aurora na marca e no responsável, e o aviso de ficção não aparece no arquivo.
 
 ### Exemplos completos e aprovados
 
@@ -172,7 +175,7 @@ O portal segue o percurso do leitor, não a ordem das pastas. A decisão está n
 - **Percurso em sete passos**, com fonte em `src/data/percurso.yaml`: 1 Escreva a pergunta de negócio; 2 Delimite o acervo; 3 Descubra o que falta; 4 Escreva com o modelo (a página de modelos); 5 Revise e aprove; 6 Teste com as perguntas; 7 Leve à sua ferramenta de IA.
 - **Próximo passo:** toda página do percurso termina com o bloco Próximo passo. O prev/next segue a ordem do menu, e não a ordem das pastas.
 - **Modelos:** o grupo segue o nível de `src/data/modelos.yaml`: o núcleo de entrada (ADR 0013), o segundo nível e a trilha complementar da rubrica (ADR 0003). O tipo Evento de coleta está no núcleo de entrada (ADR 0013 e 0027).
-- **Usar com IA:** quatro páginas. `usar-com-ia/kit-para-agentes` apresenta o kit mínimo para baixar; `usar-com-ia/preparar-para-notebooklm-ou-rag` mostra como preparar um documento para um agente ou um RAG; `usar-com-ia/enderecos-e-schemas` diz onde ficam os documentos, os endereços e os schemas publicados; `usar-com-ia/agents-md` traz o modelo de AGENTS.md para os times.
+- **Usar com IA:** cinco páginas. `usar-com-ia/kit-para-agentes` apresenta o kit mínimo para baixar; `usar-com-ia/preparar-para-notebooklm-ou-rag` mostra como preparar um documento para um agente ou um RAG; `usar-com-ia/enderecos-e-schemas` diz onde ficam os documentos, os endereços e os schemas publicados; `usar-com-ia/agents-md` traz o modelo de AGENTS.md para os times; `usar-com-ia/plano-de-mensuracao-em-planilha` leva o plano de mensuração de uma planilha para o formato do Contexto (ADR 0029).
 - **Nenhuma página órfã:** toda página tem entrada no menu ou em outra página, e nenhuma página fica sem saída. `scripts/check_navegacao.py` confere.
 - **YAML só em páginas de modelo e de referência,** nunca no percurso (NAV-08).
 - **Duas páginas por tipo de documento:** a que ensina, em `/templates/<slug>/`, com a sequência descrita abaixo; e a referência de campos, em `/referencias/campos/<slug>/`, gerada por `scripts/gerar_referencias.py` a partir de `src/data/campos.yaml` e dos schemas. A referência não se edita à mão e o CI a confere. O índice "Referência de campos" fica no grupo Consultar.
@@ -311,7 +314,7 @@ A fonte de cada modelo é `src/modelos/<slug>.md`, e a de cada exemplo é `src/e
 
 Os modelos vêm de `src/data/modelos.yaml`, que alimenta `TemplateFinder`, `TemplateDownloads` e `TemplateStart`. As oito dimensões vêm de `src/data/dimensoes.yaml`, que alimenta o checklist.
 
-As saídas para máquinas seguem a mesma regra. `scripts/gerar_saidas.py` gera `public/documentos/` (cada documento por id e versão, em Markdown), `public/schemas/`, o kit para agentes em `public/downloads/kit/` e `public/llms.txt`. Nenhum deles se edita à mão, e o CI confere que estão em dia. A fonte do kit fica em `src/kit/` (`kit.yaml`, o AGENTS.md do kit e `skills/`); a Skill é texto escrito à mão. Para regenerar, rode `npm run gerar:saidas`.
+As saídas para máquinas seguem a mesma regra. `scripts/gerar_saidas.py` gera `public/documentos/` (cada documento por id e versão, em Markdown), `public/schemas/`, o kit para agentes em `public/downloads/kit/` e `public/llms.txt`. Nenhum deles se edita à mão, e o CI confere que estão em dia. A fonte do kit fica em `src/kit/` (`kit.yaml`, o AGENTS.md do kit e `skills/`); as quatro Skills são textos escritos à mão, com arquivos estáticos em `src/kit/skills/<nome>/`; a ressalva exata e a linha `Versão alvo:` são conferidas pelo gerador (ADR 0029). Para regenerar, rode `npm run gerar:saidas`.
 
 ## Gestão de alterações
 
@@ -319,6 +322,7 @@ As saídas para máquinas seguem a mesma regra. `scripts/gerar_saidas.py` gera `
 - Um modelo novo só entra na navegação após possuir exemplo e instruções de uso.
 - Referências substituídas devem ser revistas para evitar justificativas obsoletas.
 - Mudança grande passa por revisão independente, feita por quem não escreveu o texto, antes do merge.
+- **Manutenção a partir do uso:** quando a IA erra uma pergunta do gabarito, o erro vira uma pergunta em aberto proposta num relatório, ligada ao documento correspondente. O relatório de `scripts/erros_para_perguntas.py` não altera documento aprovado. A correção entra numa versão nova, em rascunho, e passa pela aprovação de quem tem a palavra final. O ciclo é usar, detectar, corrigir, validar e republicar. Ele completa a revisão por calendário (`review_interval`) e não a substitui (I-29, ADR 0029).
 
 ## Regras adicionais para exemplos de Data Analytics
 
@@ -341,4 +345,4 @@ Diferenciar “não avaliável” de nota zero; avaliar o trabalho, nunca a pess
 
 ## Como validar o próprio framework
 
-O [plano de validação exploratória](PLANO_VALIDACAO.md) propõe exercícios com pessoas técnicas e não técnicas. Não marcar como “validado por usuários” um material que apenas passou pelo build do Astro.
+O [plano de validação exploratória](PLANO_VALIDACAO.md) propõe exercícios com pessoas técnicas e não técnicas. Não marcar como “validado por usuários” um material que apenas passou pelo build do Astro. O protocolo do piloto, que é o portão da v1.0, está em [docs/piloto/README.md](piloto/README.md).
