@@ -1,4 +1,5 @@
 """Testes do gerador de downloads, com fontes de mentira em tmp_path e a raiz como parâmetro."""
+from datetime import date, datetime
 from pathlib import Path
 import subprocess
 import sys
@@ -27,11 +28,20 @@ version_history:
 
 Corpo do meio.
 
+<!-- contexto:exemplo intent.question -->
+<!-- contexto:exemplo plain_summary -->
+<!-- contexto:exemplo owner -->
+<!-- contexto:exemplo version_date -->
+
 <!-- contexto:historico -->
 
 Fim.
 """
-EXEMPLO = "---\n# Exemplo do Contexto, organização inventada\nid: KPI-X\ntype: kpi\n---\n## Corpo que não vai\n"
+EXEMPLO = (
+    "---\n# Exemplo do Contexto, organização inventada\nid: KPI-X\ntype: kpi\nowner: Área  de\n  Vendas\n"
+    "version_date: 2026-09-15\nintent:\n  question: Quanto vendemos?\n  audience: [Gerência, Operação]\n"
+    "plain_summary: Resumo simples.\n---\n## Corpo que não vai\n"
+)
 CAMPOS = """cabecalho:
   - chave: id
     rotulo: Identificador
@@ -106,7 +116,7 @@ def test_tabela_de_historico(tmp_path: Path):
 def test_exemplos_geram_so_o_frontmatter_mantendo_o_caminho(tmp_path: Path):
     montar(tmp_path)
     rodar(tmp_path)
-    esperado = "# Exemplo do Contexto, organização inventada\nid: KPI-X\ntype: kpi\n"
+    esperado = EXEMPLO.split("---\n", 2)[1]
     assert (tmp_path / "public/downloads/exemplo-kpi-completo.yaml").read_text(encoding="utf-8") == esperado
     assert (tmp_path / "public/downloads/historico/exemplo-kpi-v1.0.yaml").read_text(encoding="utf-8") == esperado
 
@@ -211,3 +221,161 @@ def test_cli_com_entrada_quebrada_sai_1_sem_traceback(tmp_path: Path):
 def test_secao_de_historico_aceita_data_em_texto_e_lista_vazia():
     assert "| 1.0 | 02/03/2026 | m | a |" in g.secao_historico([{"version": "1.0", "date": "2026-03-02", "change": "m", "approved_by": "a"}])
     assert g.secao_historico([]).count("\n") == 3 or "## Histórico de versões" in g.secao_historico([])
+
+
+# ---------------------------------------------------------------- Exemplo Aurora nos moldes (AUR-13, MOD-03)
+def marcador(chave: str) -> str:
+    return f"<!-- contexto:exemplo {chave} -->"
+
+
+MARCADORES_BASE = "\n".join(marcador(c) for c in ("intent.question", "plain_summary", "owner", "version_date"))
+
+
+def modelo_com(marcadores: str) -> str:
+    return MODELO.replace(MARCADORES_BASE, marcadores)
+
+
+def exemplo_com(extra: str) -> str:
+    return EXEMPLO.replace("plain_summary: Resumo simples.\n", "plain_summary: Resumo simples.\n" + extra)
+
+
+class TestValorDoExemplo:
+    DADOS = {
+        "texto": "  um   texto\n em  linhas ",
+        "data": date(2026, 9, 15),
+        "datahora": datetime(2026, 9, 15, 10, 30),
+        "ligado": True,
+        "desligado": False,
+        "numero": 25,
+        "lista": ["a", " b  c", 3, True],
+        "aninhado": {"filho": {"neto": "x"}},
+        "lista_de_mapas": [{"baseline": "10%"}, {"baseline": "20%"}],
+        "vazio": "",
+        "branco": "   ",
+        "nulo": None,
+        "lista_vazia": [],
+    }
+
+    @pytest.mark.parametrize(
+        ("chave", "esperado"),
+        [
+            ("texto", "um texto em linhas"),
+            ("data", "2026-09-15"),
+            ("datahora", "2026-09-15"),
+            ("ligado", "true"),
+            ("desligado", "false"),
+            ("numero", "25"),
+            ("lista", "a; b c; 3; true"),
+            ("aninhado.filho.neto", "x"),
+            ("lista_de_mapas.1.baseline", "20%"),
+            ("lista.0", "a"),
+        ],
+    )
+    def test_formata_cada_tipo_de_valor(self, chave: str, esperado: str):
+        assert g.valor_do_exemplo(self.DADOS, chave) == esperado
+
+    @pytest.mark.parametrize(
+        ("chave", "trecho"),
+        [
+            ("nao_existe", "ausente"),
+            ("aninhado.outro", "ausente"),
+            ("lista.9", "ausente"),
+            ("texto.filho", "ausente"),
+            ("nulo", "vazio"),
+            ("vazio", "vazio"),
+            ("branco", "vazio"),
+            ("lista_vazia", "vazio"),
+            ("aninhado", "aponte uma chave mais funda"),
+            ("aninhado.filho", "aponte uma chave mais funda"),
+            ("lista_de_mapas", "aponte uma chave mais funda"),
+            ("lista_de_mapas.0", "aponte uma chave mais funda"),
+        ],
+    )
+    def test_erros_dizem_o_motivo(self, chave: str, trecho: str):
+        with pytest.raises(g.ErroDeExemplo) as erro:
+            g.valor_do_exemplo(self.DADOS, chave)
+        assert trecho in str(erro.value) and chave in str(erro.value)
+
+
+def test_marcadores_de_exemplo_lista_chaves_na_ordem():
+    corpo = f"a\n{marcador('x.y')}\ntexto\n{marcador('z.0.w')}\n"
+    assert g.chaves_de_exemplo(corpo) == ["x.y", "z.0.w"]
+
+
+def test_substitui_marcadores_pela_linha_exemplo_aurora(tmp_path: Path):
+    montar(tmp_path, exemplo=exemplo_com("tags: [a, b]\n"))
+    relatorio, _ = rodar(tmp_path)
+    assert relatorio.erros == []
+    md = (tmp_path / "public/downloads/template-kpi.md").read_text(encoding="utf-8")
+    assert "Exemplo Aurora: `intent.question`: Quanto vendemos?\n" in md
+    assert "Exemplo Aurora: `plain_summary`: Resumo simples.\n" in md
+    assert "Exemplo Aurora: `owner`: Área de Vendas\n" in md
+    assert "Exemplo Aurora: `version_date`: 2026-09-15\n" in md
+    assert "contexto:" not in md
+
+
+def test_marcador_com_lista_usa_ponto_e_virgula(tmp_path: Path):
+    modelo = modelo_com(MARCADORES_BASE.replace(marcador("owner"), marcador("intent.audience")))
+    montar(tmp_path, modelo=modelo)
+    rodar(tmp_path)
+    md = (tmp_path / "public/downloads/template-kpi.md").read_text(encoding="utf-8")
+    assert "Exemplo Aurora: `intent.audience`: Gerência; Operação\n" in md
+
+
+def test_yaml_do_modelo_continua_identico_ao_frontmatter_com_marcadores(tmp_path: Path):
+    montar(tmp_path)
+    rodar(tmp_path)
+    assert (tmp_path / "public/downloads/template-kpi.yaml").read_text(encoding="utf-8") == MODELO.split("---\n", 2)[1]
+
+
+@pytest.mark.parametrize(
+    ("exemplo", "trecho"),
+    [
+        (EXEMPLO.replace("owner: Área  de\n  Vendas\n", ""), "owner"),
+        (EXEMPLO.replace("owner: Área  de\n  Vendas\n", "owner: null\n"), "vazio"),
+        (EXEMPLO.replace("owner: Área  de\n  Vendas\n", "owner: []\n"), "vazio"),
+        (EXEMPLO.replace("owner: Área  de\n  Vendas\n", "owner:\n  area: Vendas\n"), "aponte uma chave mais funda"),
+        (EXEMPLO.replace("owner: Área  de\n  Vendas\n", "owner:\n  - area: Vendas\n"), "aponte uma chave mais funda"),
+    ],
+)
+def test_erro_de_valor_do_exemplo_cita_modelo_e_exemplo(tmp_path: Path, exemplo: str, trecho: str):
+    montar(tmp_path, exemplo=exemplo)
+    relatorio, _ = rodar(tmp_path)
+    assert any("kpi.md" in e and "owner" in e and trecho in e for e in relatorio.erros), relatorio.erros
+    assert not (tmp_path / "public/downloads/template-kpi.md").exists()
+
+
+def test_marcador_sem_exemplo_completo_do_mesmo_slug_vira_erro(tmp_path: Path):
+    montar(tmp_path)
+    (tmp_path / "src/exemplos/exemplo-kpi-completo.md").unlink()
+    relatorio, _ = rodar(tmp_path)
+    assert any("kpi.md" in e and "exemplo-kpi-completo.md" in e for e in relatorio.erros), relatorio.erros
+
+
+def test_modelo_sem_marcador_de_intent_question_vira_erro(tmp_path: Path):
+    montar(tmp_path, modelo=modelo_com(MARCADORES_BASE.replace(marcador("intent.question"), marcador("title"))))
+    relatorio, _ = rodar(tmp_path)
+    assert any("kpi.md" in e and "intent.question" in e for e in relatorio.erros), relatorio.erros
+
+
+def test_modelo_com_menos_de_quatro_marcadores_vira_erro(tmp_path: Path):
+    tres = "\n".join(marcador(c) for c in ("intent.question", "plain_summary", "owner"))
+    montar(tmp_path, modelo=modelo_com(tres))
+    relatorio, _ = rodar(tmp_path)
+    assert any("kpi.md" in e and "pelo menos 4" in e for e in relatorio.erros), relatorio.erros
+
+
+def test_marcador_mal_formado_vira_erro(tmp_path: Path):
+    montar(tmp_path, modelo=modelo_com(MARCADORES_BASE + "\ntexto <!-- contexto:exemplo owner --> no meio da linha"))
+    relatorio, _ = rodar(tmp_path)
+    assert any("kpi.md" in e and "linha própria" in e for e in relatorio.erros), relatorio.erros
+
+
+def test_saida_com_exemplos_e_deterministica_e_check_passa(tmp_path: Path):
+    montar(tmp_path)
+    rodar(tmp_path)
+    primeira = instantaneo(tmp_path / "public")
+    rodar(tmp_path)
+    assert instantaneo(tmp_path / "public") == primeira
+    relatorio, _ = rodar(tmp_path, check=True)
+    assert relatorio.erros == []

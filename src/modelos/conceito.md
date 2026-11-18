@@ -3,7 +3,7 @@
 # null significa "ainda não sei" ou "ainda não decidido". Não troque null por um palpite: registre a dúvida em open_questions.
 # Campos marcados (obrigatório) são o núcleo para sair do rascunho; os blocos "para quem é técnico" são opcionais.
 id: null                     # (obrigatório) identificador do assunto, igual em todas as versões
-schema_version: "1.0.0"      # versão do formato do arquivo; não mude
+schema_version: "1.1.0"      # versão do formato do arquivo; não mude
 type: conceito
 title: null                  # (obrigatório)
 version: "0.1"               # (obrigatório) versão deste documento
@@ -19,6 +19,8 @@ review_interval: null        # de quanto em quanto tempo revisar, em ISO 8601: P
 source_of_truth: null        # onde está a versão oficial
 supersedes_revision: null    # versão que esta substitui: id@version
 superseded_by_revision: null # só na cópia de uma versão substituída: id@version da sucessora
+license: null                # opcional: licença do documento (identificador SPDX); cada time define a sua
+source_url: null            # opcional: endereço onde esta versão está publicada
 intent:
   question: null             # (obrigatório) pergunta de negócio que o documento responde
   audience: []               # quem usa: cargos ou áreas
@@ -79,14 +81,24 @@ related_documents: []        # identificadores de outros documentos
 ## Para que serve
 Em `intent`, escreva a pergunta de negócio que o documento responde (`question`), como alguém da área faria. Diga quem usa (`audience`), para quê (`purpose`) e quais decisões mudam conforme a resposta (`decisions`). Em `plain_summary`, explique em uma ou duas frases, sem termos técnicos, o que o documento diz.
 
+<!-- contexto:exemplo intent.question -->
+
+<!-- contexto:exemplo plain_summary -->
+
 ## Domínio e aplicabilidade
 Em `domain`, diga em que área o termo é usado. Em `scope.applies_when`, diga quando a definição vale; em `scope.does_not_apply_when`, quando ela não deve ser usada.
 
 ## Significado
 Em `definition`, escreva a definição completa, com o período e as condições. O bloco `vocabulary` segue o SKOS: `prefLabel` é o termo preferido, `altLabel` lista sinônimos de fato equivalentes, `broader` traz o termo mais amplo, `related` lista termos ligados que não são equivalentes, e `not_synonyms` diz com o que não confundir. Em `other_domain_meanings`, registre o que a mesma palavra quer dizer em outra área.
 
+<!-- contexto:exemplo definition -->
+
+<!-- contexto:exemplo vocabulary.prefLabel -->
+
 ## Critérios e exemplos
 Em `inclusion_criteria` e `exclusion_criteria`, liste o que faz alguém ou algo pertencer ou não ao conceito. Em `examples`, dê um caso que pertence; em `counterexamples`, um que não pertence; em `boundary_cases`, os casos no limite da definição e como classificá-los.
+
+<!-- contexto:exemplo inclusion_criteria -->
 
 ## Confirmação
 Em `validation`, diga quem confirmou as decisões, a evidência da confirmação (uma ata, por exemplo) e o histórico de revisões do significado.

@@ -1,0 +1,33 @@
+---
+/**
+ * Etapa recolhível da sequência de estudo das páginas de modelo (ADR 0017, I-24).
+ * Fica fechada por padrão; o <summary> abre com Enter e Espaço, sem JavaScript.
+ *
+ * tipo: uma das cinco etapas, na ordem da página. Outro valor faz o build falhar.
+ * resumo: frase curta opcional, mostrada no <summary> abaixo do rótulo fixo.
+ */
+type Tipo = 'comentado' | 'diagnostico' | 'complete' | 'caso-novo' | 'teste';
+interface Props { tipo: Tipo; resumo?: string }
+
+const ROTULOS: Record<Tipo, string> = {
+  comentado: 'Exemplo comentado',
+  diagnostico: 'Diagnóstico: encontre o que falta ou está errado',
+  complete: 'Complete: escreva o campo que falta',
+  'caso-novo': 'Caso novo: comece do zero',
+  teste: 'Teste você',
+};
+
+const { tipo, resumo } = Astro.props;
+if (!Object.hasOwn(ROTULOS, tipo)) {
+  throw new Error(`EtapaDeEstudo: tipo "${tipo}" desconhecido; use ${Object.keys(ROTULOS).join(', ')}`);
+}
+---
+<details class="etapa-estudo" data-tipo={tipo}>
+  <summary class="etapa-estudo__resumo">
+    <span class="etapa-estudo__rotulo">{ROTULOS[tipo]}</span>
+    {resumo && <span class="etapa-estudo__sub">{resumo}</span>}
+  </summary>
+  <div class="etapa-estudo__corpo">
+    <slot />
+  </div>
+</details>

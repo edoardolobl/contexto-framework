@@ -1,0 +1,521 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edoardolobl.github.io/contexto-framework/schemas/1.0.0/evento-coleta.schema.json",
+  "title": "Evento de coleta",
+  "description": "Como um evento de mensuração deve se comportar em cada operação: onde dispara, com que frequência, quando zero é normal e o que já aconteceu com ele. Serve para separar silêncio esperado de falha antes de chamar o evento de quebrado.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "https://edoardolobl.github.io/contexto-framework/schemas/1.0.0/common.schema.json"
+    }
+  ],
+  "required": [
+    "trigger",
+    "destination",
+    "active_scopes"
+  ],
+  "properties": {
+    "type": {
+      "const": "evento-coleta"
+    },
+    "trigger": {
+      "title": "Gatilho",
+      "description": "A ação da pessoa ou do sistema que faz o evento disparar, escrita como alguém da área descreveria (por exemplo, envio com sucesso de um formulário). Em branco enquanto ninguém confirmou.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "parameters": {
+      "title": "Parâmetros",
+      "description": "Informações que seguem junto com cada disparo, uma por item.",
+      "type": "array",
+      "items": {
+        "title": "Parâmetro",
+        "description": "Um dado enviado com o evento, com o significado e um valor de amostra.",
+        "type": "object",
+        "properties": {
+          "name": {
+            "title": "Nome do parâmetro",
+            "description": "Chave exatamente como chega na ferramenta de coleta, por exemplo lead_source.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "meaning": {
+            "title": "Significado",
+            "description": "O que o valor quer dizer para o negócio, sem repetir a chave.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "example": {
+            "title": "Valor de amostra",
+            "description": "Um valor real ou plausível, para quem lê reconhecer o formato.",
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "required": {
+            "title": "Sempre presente?",
+            "description": "true quando todo disparo precisa trazer o parâmetro; false quando pode faltar.",
+            "type": [
+              "boolean",
+              "null"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "destination": {
+      "title": "Destinos",
+      "description": "Para onde o disparo vai depois de coletado: ferramenta, tabela ou contêiner de tags.",
+      "type": "array",
+      "items": {
+        "title": "Destino",
+        "description": "Um lugar onde os disparos ficam registrados, com o fuso que vale ali.",
+        "type": "object",
+        "properties": {
+          "platform": {
+            "title": "Ferramenta",
+            "description": "Sistema que recebe ou guarda o disparo, como GA4, BigQuery, Databricks ou Google Tag Manager.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "object": {
+            "title": "Onde dentro da ferramenta",
+            "description": "Propriedade, dataset, tabela ou contêiner específico, com o identificador usado no sistema.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "timezone": {
+            "title": "Fuso horário",
+            "description": "Fuso em que o dia é contado nesse destino; dois destinos com fusos diferentes dão totais diários diferentes.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "note": {
+            "title": "Observação",
+            "description": "Detalhe que muda a leitura dos números nesse destino, como atraso de exportação.",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "active_scopes": {
+      "title": "Onde está ativo",
+      "description": "Em que operação, país e marca o evento existe, desde quando e por quê. Zero onde o evento não está ativo é o esperado.",
+      "type": "array",
+      "items": {
+        "title": "Escopo",
+        "description": "Uma combinação de operação, país e marca com o estado do evento ali.",
+        "type": "object",
+        "properties": {
+          "operation": {
+            "title": "Operação",
+            "description": "Código da operação avaliada, como BR ou MX; a linha de base é sempre por operação.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "country": {
+            "title": "País",
+            "description": "País atendido pela operação, por extenso ou em código ISO.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "brand": {
+            "title": "Marca",
+            "description": "Marca ou site em que o evento foi implementado.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "active": {
+            "title": "Está ativo?",
+            "description": "true quando o evento foi implementado e deve disparar nesse escopo; false quando não existe lá.",
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "since": {
+            "title": "Ativo desde",
+            "description": "Primeiro dia em que o evento passou a disparar nesse escopo, no formato AAAA-MM-DD.",
+            "$ref": "https://edoardolobl.github.io/contexto-framework/schemas/1.0.0/common.schema.json#/$defs/data_ou_nulo"
+          },
+          "reason": {
+            "title": "Motivo",
+            "description": "Por que o evento está ou não está ativo ali, para ninguém tratar ausência como defeito.",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "expected_behavior": {
+      "title": "Comportamento esperado",
+      "description": "O ritmo normal do evento por operação, medido em dias completos, e quanto silêncio o time tolera antes de investigar.",
+      "type": "object",
+      "properties": {
+        "expected_frequency": {
+          "title": "Frequência esperada",
+          "description": "Com que ritmo o evento costuma disparar, em palavras (por exemplo, poucas vezes por dia, com dias em zero).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "baseline_by_scope": {
+          "title": "Linha de base por operação",
+          "description": "O que é normal em cada operação, calculado sobre uma janela de dias completos.",
+          "type": "array",
+          "items": {
+            "title": "Linha de base",
+            "description": "Os números de referência de uma operação numa janela declarada.",
+            "type": "object",
+            "properties": {
+              "operation": {
+                "title": "Operação",
+                "description": "Código da operação a que os números se referem.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "window": {
+                "title": "Janela",
+                "description": "Período de dias completos usado no cálculo, com início e fim.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "typical_daily": {
+                "title": "Volume típico por dia",
+                "description": "Média ou mediana de disparos por dia completo, com a medida usada.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "zero_days_share": {
+                "title": "Dias em zero",
+                "description": "Quantos dias da janela tiveram zero disparo, em número de dias e não só em porcentagem.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "longest_zero_run": {
+                "title": "Maior sequência em zero",
+                "description": "Maior número de dias completos seguidos sem nenhum disparo dentro da janela.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "seasonality": {
+          "title": "Sazonalidade",
+          "description": "Dias da semana, datas ou campanhas que mudam o volume de forma conhecida.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "silence_tolerance": {
+          "title": "Tolerância ao silêncio",
+          "description": "A partir de quantos dias seguidos em zero o time passa a suspeitar, por operação. É escolha do time, não regra universal.",
+          "type": "array",
+          "items": {
+            "title": "Tolerância",
+            "description": "O limiar de uma operação, escrito como regra que alguém consegue conferir.",
+            "type": "object",
+            "properties": {
+              "operation": {
+                "title": "Operação",
+                "description": "Código da operação a que o limiar se aplica.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "rule": {
+                "title": "Regra",
+                "description": "Condição que dispara a suspeita, com o número de dias completos e quem escolheu.",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "expected_zero_conditions": {
+          "title": "Quando zero é normal",
+          "description": "Situações em que um dia sem disparo não indica problema, uma por item.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "launch_date": {
+      "title": "Data de lançamento",
+      "description": "Primeiro dia em que o evento disparou em produção; antes dele, zero é o esperado.",
+      "$ref": "https://edoardolobl.github.io/contexto-framework/schemas/1.0.0/common.schema.json#/$defs/data_ou_nulo"
+    },
+    "retirement_date": {
+      "title": "Data de desativação",
+      "description": "Primeiro dia em que o evento deixou de existir; em branco enquanto continua em uso.",
+      "$ref": "https://edoardolobl.github.io/contexto-framework/schemas/1.0.0/common.schema.json#/$defs/data_ou_nulo"
+    },
+    "renamed_from": {
+      "title": "Nomes anteriores",
+      "description": "Outros nomes que o mesmo evento já teve, com o período de cada um, para juntar séries antigas sem perder dias.",
+      "type": "array",
+      "items": {
+        "title": "Nome anterior",
+        "description": "Um nome antigo e o intervalo em que ele valeu.",
+        "type": "object",
+        "properties": {
+          "name": {
+            "title": "Nome antigo",
+            "description": "Como o evento se chamava na coleta antes da troca.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "valid_from": {
+            "title": "Usado a partir de",
+            "description": "Primeiro dia em que o nome antigo foi usado, no formato AAAA-MM-DD.",
+            "$ref": "https://edoardolobl.github.io/contexto-framework/schemas/1.0.0/common.schema.json#/$defs/data_ou_nulo"
+          },
+          "valid_to": {
+            "title": "Usado até (sem incluir)",
+            "description": "Primeiro dia em que o nome antigo deixou de ser usado, sem contar esse dia.",
+            "$ref": "https://edoardolobl.github.io/contexto-framework/schemas/1.0.0/common.schema.json#/$defs/data_ou_nulo"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "consent_requirements": {
+      "title": "Consentimento exigido",
+      "description": "Que autorização da pessoa o disparo precisa, como o modo de consentimento, e o que acontece com a contagem quando ela recusa.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "late_arrival_window": {
+      "title": "Prazo para os dados chegarem",
+      "description": "Até quando um dia ainda pode receber disparos atrasados; antes desse prazo, o dia não conta como completo.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "deduplication_key": {
+      "title": "Chave de deduplicação",
+      "description": "Campo ou combinação que identifica o mesmo disparo repetido, para contar uma vez só.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "downstream_kpis": {
+      "title": "Indicadores que dependem do evento",
+      "description": "Indicadores calculados a partir deste evento, pelo identificador quando já existe definição aprovada.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "known_exceptions": {
+      "title": "Exceções conhecidas",
+      "description": "Períodos ou situações já explicados em que o volume foge do normal sem ser falha.",
+      "type": "array",
+      "items": {
+        "title": "Exceção",
+        "description": "Uma situação conhecida, com o período e a prova.",
+        "type": "object",
+        "properties": {
+          "condition": {
+            "title": "Situação",
+            "description": "O que aconteceu, como manutenção programada ou campanha fora do comum.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "period": {
+            "title": "Período",
+            "description": "Dias afetados, com início e fim.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "evidence": {
+            "title": "Evidência",
+            "description": "Chamado, comunicado ou registro que confirma a situação.",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "validation_query": {
+      "title": "Consulta de conferência",
+      "description": "Consulta SQL que recalcula a contagem diária por operação na fonte oficial, para conferir a linha de base.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "missing_days_policy": {
+      "title": "Dia sem linha na tabela",
+      "description": "Como ler a falta de registro de um dia: se vale zero, se é dia incompleto ou se é falha de carga.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "grain_note": {
+      "title": "Nota sobre a granularidade",
+      "description": "O que uma linha da tabela diária representa, como um dia de uma operação, para não somar coisas de níveis diferentes.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "data_incidents": {
+      "title": "Incidentes nos dados",
+      "description": "Problemas já investigados que distorceram a contagem, com o efeito na linha de base.",
+      "type": "array",
+      "items": {
+        "title": "Incidente",
+        "description": "Um problema nos dados com datas, efeito e estado.",
+        "type": "object",
+        "properties": {
+          "start": {
+            "title": "Início",
+            "description": "Primeiro dia afetado, no formato AAAA-MM-DD.",
+            "$ref": "https://edoardolobl.github.io/contexto-framework/schemas/1.0.0/common.schema.json#/$defs/data_ou_nulo"
+          },
+          "end": {
+            "title": "Fim",
+            "description": "Último dia afetado, no formato AAAA-MM-DD; em branco se ainda não acabou.",
+            "$ref": "https://edoardolobl.github.io/contexto-framework/schemas/1.0.0/common.schema.json#/$defs/data_ou_nulo"
+          },
+          "description": {
+            "title": "O que aconteceu",
+            "description": "Causa e sintoma em uma ou duas frases.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "effect_on_baseline": {
+            "title": "Efeito na linha de base",
+            "description": "Se os dias afetados saíram do cálculo ou foram corrigidos, e como.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "status": {
+            "title": "Situação do incidente",
+            "description": "Em investigação, corrigido ou aceito, com a data da última atualização se houver.",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "disambiguation": {
+      "title": "Não confundir",
+      "description": "Termos ou eventos parecidos que levam a contar a coisa errada.",
+      "type": "array",
+      "items": {
+        "title": "Termo",
+        "description": "Um termo, o que ele quer dizer aqui e com o que se costuma confundir.",
+        "type": "object",
+        "properties": {
+          "term": {
+            "title": "Termo",
+            "description": "A palavra ou nome de evento que gera confusão.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "means": {
+            "title": "Quer dizer",
+            "description": "O que o termo significa neste documento.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "not_to_confuse_with": {
+            "title": "Não confundir com",
+            "description": "O evento ou conceito parecido que conta outra coisa.",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "related_documents": {
+      "title": "Documentos relacionados",
+      "description": "Identificadores de outros documentos que ajudam a ler este, como a regra de evento quebrado.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "unevaluatedProperties": false
+}

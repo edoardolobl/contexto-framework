@@ -1,12 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:contexto:schemas:1.0.0:relacionamento",
+  "$id": "urn:contexto:schemas:1.1.0:relacionamento",
   "title": "Relacionamento entre tabelas",
   "description": "Como duas tabelas se ligam sem distorcer contagens: chaves, cardinalidade e risco de duplicar linhas.",
   "type": "object",
   "allOf": [
     {
-      "$ref": "urn:contexto:schemas:1.0.0:common"
+      "$ref": "urn:contexto:schemas:1.1.0:common"
     }
   ],
   "properties": {

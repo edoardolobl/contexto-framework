@@ -1,12 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:contexto:schemas:1.0.0:dataset",
+  "$id": "urn:contexto:schemas:1.1.0:dataset",
   "title": "Dataset",
   "description": "O significado de uma tabela e de cada coluna: o que é uma linha, chaves, códigos e limites de uso.",
   "type": "object",
   "allOf": [
     {
-      "$ref": "urn:contexto:schemas:1.0.0:common"
+      "$ref": "urn:contexto:schemas:1.1.0:common"
     }
   ],
   "properties": {
@@ -268,7 +268,7 @@
         "checked_at": {
           "title": "Conferido em",
           "description": "Data da conferência.",
-          "$ref": "urn:contexto:schemas:1.0.0:common#/$defs/data_ou_nulo"
+          "$ref": "urn:contexto:schemas:1.1.0:common#/$defs/data_ou_nulo"
         },
         "evidence": {
           "title": "Evidência",

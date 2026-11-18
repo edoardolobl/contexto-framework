@@ -16,14 +16,17 @@ from jsonschema.exceptions import SchemaError
 from referencing import Registry, Resource
 from referencing.jsonschema import DRAFT202012
 
+from enderecos import LICENCA_DO_CONTEUDO, url_do_documento
 from comum import HEADER_ORDER, ROOT, Relatorio, carregar_modelos, carregar_yaml, ler_frontmatter
 
 MAX_OBRIGATORIOS_NO_NUCLEO = 8
 CHAVES_DE_MODELO = tuple(k for k in HEADER_ORDER if k != "recorded_at")
+SCHEMA_CONGELADO = "1.0.0"
+CAMPOS_DE_PUBLICACAO = ("license", "source_url")
 
 
 def mensagem_ok(modelos: int, exemplos: int) -> str:
-    return f"OK: {modelos} modelos e {exemplos} exemplos válidos no JSON Schema 1.0.0, cabeçalho na ordem"
+    return f"OK: {modelos} modelos e {exemplos} exemplos válidos no JSON Schema 1.1.0, cabeçalho na ordem"
 
 
 def para_json(valor: Any) -> Any:
@@ -52,6 +55,44 @@ def erros_de_ordem(chaves: list[str], exigir_todas: bool) -> list[str]:
             break
     if exigir_todas:
         erros += [f"falta a chave {k} do cabeçalho no modelo" for k in CHAVES_DE_MODELO if k not in chaves]
+    return erros
+
+
+def _esperado_do_exemplo(dados: dict[str, Any]) -> dict[str, Any]:
+    """Valores que um exemplo publicado deve ter; source_url some se id ou version não formam endereço."""
+    esperado: dict[str, Any] = {"schema_version": "1.1.0", "license": LICENCA_DO_CONTEUDO}
+    try:
+        esperado["source_url"] = url_do_documento(dados.get("id"), dados.get("version"))  # type: ignore[arg-type]
+    except ValueError:
+        esperado["source_url"] = None
+    return esperado
+
+
+def e_copia_historica_1_0_0(dados: dict[str, Any]) -> bool:
+    """Cópia histórica (superseded, com recorded_at) que declara o schema 1.0.0 com que foi aprovada."""
+    return (dados.get("schema_version") == SCHEMA_CONGELADO and dados.get("status") == "superseded"
+            and dados.get("recorded_at") is not None)
+
+
+def erros_de_publicacao(dados: dict[str, Any], modelo: bool) -> list[str]:
+    """Modelo: license e source_url presentes e null. Exemplo: schema 1.1.0, licença do conteúdo e URL do documento.
+
+    A cópia histórica guarda o texto como foi aprovado (contrato editorial): se declara 1.0.0, fica sem os dois campos.
+    """
+    if not modelo and e_copia_historica_1_0_0(dados):
+        return [f"{k} não existe no schema {SCHEMA_CONGELADO}: a cópia histórica fica como foi aprovada"
+                for k in CAMPOS_DE_PUBLICACAO if k in dados]
+    if modelo:
+        esperado: dict[str, Any] = {"license": None, "source_url": None}
+        presentes = [k for k in esperado if k in dados]
+        erros = [f"falta a chave {k}: o modelo traz {k}: null" for k in esperado if k not in presentes]
+        return erros + [f"{k} deve ser null no modelo em branco (cada time define o seu), encontrado {dados[k]!r}"
+                        for k in presentes if dados[k] is not None]
+    esperado = _esperado_do_exemplo(dados)
+    erros = [f"{k} deve ser {valor!r}, encontrado {dados.get(k)!r}" for k, valor in esperado.items()
+             if valor is not None and dados.get(k) != valor]
+    if esperado["source_url"] is None:
+        erros.append("source_url não pôde ser calculado: id (como KPI-AURORA-001) ou version (como 2.0) fora do padrão")
     return erros
 
 
@@ -91,7 +132,7 @@ def _carregar_schemas(pasta: Path, relatorio: Relatorio) -> dict[str, dict[str, 
             relatorio.erro(caminho, f"schema inválido: {exc.message}")
             continue
         if not isinstance(schema, dict) or not isinstance(schema.get("$id"), str):
-            relatorio.erro(caminho, "schema sem $id (use urn:contexto:schemas:1.0.0:<slug>)")
+            relatorio.erro(caminho, "schema sem $id (use urn:contexto:schemas:1.1.0:<slug>)")
             continue
         schemas[caminho.name.removesuffix(".schema.json")] = schema
     return schemas
@@ -132,6 +173,8 @@ def _checar_fonte(caminho: Path, modelo: bool, schemas: dict[str, dict[str, Any]
     if tipo not in schemas:
         relatorio.erro(caminho, f"sem schemas/{tipo}.schema.json para validar type {tipo!r}")
         return
+    for erro in erros_de_publicacao(dados, modelo):
+        relatorio.erro(caminho, erro)
     validador = Draft202012Validator(schemas[tipo], registry=registro, format_checker=FormatChecker())
     _validar(caminho, dados, validador, relatorio)
 

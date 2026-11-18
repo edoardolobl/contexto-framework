@@ -27,7 +27,7 @@ ESTADOS_JA_APROVADOS = frozenset({"approved", "superseded"})
 HEADER_ORDER = (
     "id", "schema_version", "type", "title", "version", "revision_id", "status", "owner", "approver",
     "valid_from", "valid_to", "recorded_at", "version_date", "last_reviewed", "review_interval",
-    "source_of_truth", "supersedes_revision", "superseded_by_revision", "intent", "plain_summary",
+    "source_of_truth", "supersedes_revision", "superseded_by_revision", "license", "source_url", "intent", "plain_summary",
     "open_questions", "version_history",
 )
 REPOSITORIO = "github.com/edoardolobl/contexto-framework"
@@ -481,6 +481,7 @@ def rota_da_pagina(path: Path, docs: Path) -> str:
 
 _EXTERNO = re.compile(r"^(https?:|mailto:|#|/)")
 _ARQUIVO_PUBLICADO = (".yaml", ".md", ".pdf")
+_EXTENSOES_PUBLICADAS = (".json", ".zip", ".txt", ".md", ".yaml", ".sql", ".pdf")
 
 
 def _sem_ancora(url: str) -> str:
@@ -497,14 +498,46 @@ def arquivo_de_download(url: str) -> str | None:
     return Path(limpo).name
 
 
+def arquivo_publicado(rota_origem: str, url: str) -> str | None:
+    """Caminho relativo a public/ se o link relativo aponta para um arquivo publicado, senão None.
+
+    Resolve como o navegador. Link externo, âncora, endereço absoluto, chaves de modelo, rota que
+    termina em barra e link que sobe além da raiz do site não são arquivo publicado.
+    """
+    limpo = _sem_ancora(url)
+    if _EXTERNO.match(url) or not limpo or "{" in limpo or "}" in limpo or limpo.endswith("/"):
+        return None
+    if not limpo.lower().endswith(_EXTENSOES_PUBLICADAS):
+        return None
+    segmentos = [s for s in rota_origem.strip("/").split("/") if s]
+    for parte in limpo.split("/"):
+        if parte in ("", "."):
+            continue
+        if parte != "..":
+            segmentos.append(parte)
+        elif segmentos:
+            segmentos.pop()
+        else:
+            return None
+    return "/".join(segmentos)
+
+
+def arquivo_publicado_ausente(rota_origem: str, url: str, publico: Path) -> str | None:
+    """Caminho relativo a public/ se o link aponta para um arquivo publicado que não existe em `publico`."""
+    caminho = arquivo_publicado(rota_origem, url)
+    return caminho if caminho and not (publico / caminho).is_file() else None
+
+
 def resolver_link(rota_origem: str, url: str) -> tuple[str | None, bool]:
     """Resolve um link relativo como o navegador faria.
 
     Devolve (rota, subiu_alem_da_raiz). A rota é None para link externo, âncora, endereço absoluto,
-    download ou link com chaves de modelo. Subir além da raiz do site dá 404 no GitHub Pages.
+    download, arquivo publicado (ver arquivo_publicado) ou link com chaves de modelo. Subir além da raiz do site dá 404 no GitHub Pages.
     """
     limpo = _sem_ancora(url)
     if _EXTERNO.match(url) or not limpo or "{" in limpo or "}" in limpo or arquivo_de_download(url):
+        return None, False
+    if arquivo_publicado(rota_origem, url):
         return None, False
     segmentos = [s for s in rota_origem.strip("/").split("/") if s]
     subiu = False

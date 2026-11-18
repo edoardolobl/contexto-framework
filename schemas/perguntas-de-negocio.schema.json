@@ -1,12 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:contexto:schemas:1.0.0:perguntas-de-negocio",
+  "$id": "urn:contexto:schemas:1.1.0:perguntas-de-negocio",
   "title": "Perguntas de negócio",
   "description": "Perguntas que a IA vai receber, com a resposta esperada, o pedido de esclarecimento ou a recusa, e a versão de cada documento em que as respostas se apoiam.",
   "type": "object",
   "allOf": [
     {
-      "$ref": "urn:contexto:schemas:1.0.0:common"
+      "$ref": "urn:contexto:schemas:1.1.0:common"
     }
   ],
   "properties": {
@@ -164,7 +164,7 @@
           "reviewed_at": {
             "title": "Conferido em",
             "description": "Data da conferência; não pode ser anterior aos dados usados.",
-            "$ref": "urn:contexto:schemas:1.0.0:common#/$defs/data_ou_nulo"
+            "$ref": "urn:contexto:schemas:1.1.0:common#/$defs/data_ou_nulo"
           }
         },
         "allOf": [

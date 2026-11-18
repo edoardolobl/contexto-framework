@@ -1,0 +1,112 @@
+/* As quatro primitivas do portal (seção 1.5, item 12; UX-06): cartão, rótulo, botão e aviso.
+   Os nomes .ctx-* são contrato com as páginas e os componentes: não mude sem trocar todos os usos.
+   O aviso é o Aside do Starlight, recolorido aqui pelos tokens. Guia: docs/GUIA_VISUAL.md. */
+@layer contexto.primitivas {
+  /* Cartão: superfície, borda e raio. O destaque é a borda de acento, não outro fundo. */
+  .ctx-card {
+    background: var(--context-surface);
+    border: 1px solid var(--context-line);
+    border-radius: var(--context-radius);
+    color: var(--context-ink);
+  }
+  .ctx-card--destaque { border-color: var(--sl-color-accent); }
+
+  /* Rótulo: estado curto de um documento, sempre com texto (a cor nunca é o único sinal). */
+  .ctx-label {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border: 1px solid var(--context-border);
+    border-radius: 6px;
+    font-size: var(--context-text-sm);
+    font-weight: 600;
+    line-height: 1.45;
+    color: var(--context-ink);
+  }
+  .ctx-label--rascunho {
+    color: var(--context-gold-text);
+    border-style: dashed;
+    border-color: var(--context-gold);
+  }
+  .ctx-label--aprovado {
+    color: var(--sl-color-accent);
+    border-color: var(--sl-color-accent);
+  }
+
+  /* Botão: um par só em todo o portal. O LinkButton do Starlight usa os mesmos dois estilos. */
+  .ctx-button,
+  .sl-link-button.primary,
+  .sl-link-button.secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+    min-height: 44px;
+    padding: 0.625rem 1.125rem;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: var(--context-text-sm);
+    font-weight: 600;
+    line-height: 1.3;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .ctx-button--primary,
+  .sl-link-button.primary {
+    background: var(--context-button-bg);
+    border-color: var(--context-button-bg);
+    color: var(--context-button-text);
+  }
+  .ctx-button--primary:hover,
+  .sl-link-button.primary:hover {
+    background: var(--context-button-bg-hover);
+    border-color: var(--context-button-bg-hover);
+    color: var(--context-button-text);
+  }
+  .ctx-button--secondary,
+  .sl-link-button.secondary {
+    background: transparent;
+    border-color: var(--sl-color-accent);
+    color: var(--sl-color-accent);
+  }
+  .ctx-button--secondary:hover,
+  .sl-link-button.secondary:hover {
+    border-color: var(--sl-color-accent-high);
+    color: var(--sl-color-accent-high);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+  .ctx-button:focus-visible,
+  .sl-link-button.primary:focus-visible,
+  .sl-link-button.secondary:focus-visible {
+    outline: 3px solid var(--sl-color-accent);
+    outline-offset: 3px;
+  }
+
+  /* Aviso: os quatro tipos do Aside na paleta do portal (UX-08). */
+  .starlight-aside {
+    background-color: var(--context-surface);
+    color: var(--context-ink);
+  }
+  .starlight-aside--note,
+  .starlight-aside--tip {
+    --sl-color-asides-text-accent: var(--sl-color-accent);
+    --sl-color-asides-border: var(--sl-color-accent);
+  }
+  .starlight-aside--caution {
+    --sl-color-asides-text-accent: var(--context-gold-text);
+    --sl-color-asides-border: var(--context-gold);
+  }
+  .starlight-aside--danger {
+    --sl-color-asides-text-accent: var(--context-danger);
+    --sl-color-asides-border: var(--context-danger);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .ctx-button,
+    .sl-link-button.primary,
+    .sl-link-button.secondary {
+      transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    }
+  }
+}

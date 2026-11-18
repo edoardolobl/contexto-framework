@@ -1,0 +1,225 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edoardolobl.github.io/contexto-framework/schemas/1.0.0/relacionamento.schema.json",
+  "title": "Relacionamento entre tabelas",
+  "description": "Como duas tabelas se ligam sem distorcer contagens: chaves, cardinalidade e risco de duplicar linhas.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "https://edoardolobl.github.io/contexto-framework/schemas/1.0.0/common.schema.json"
+    }
+  ],
+  "properties": {
+    "type": {
+      "const": "relacionamento"
+    },
+    "left": {
+      "title": "Tabela",
+      "description": "Uma das duas tabelas e o que uma linha representa.",
+      "type": "object",
+      "properties": {
+        "dataset": {
+          "title": "Tabela",
+          "description": "Nome físico da tabela.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "grain": {
+          "title": "Granularidade",
+          "description": "O que uma linha representa.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "right": {
+      "title": "Tabela",
+      "description": "Uma das duas tabelas e o que uma linha representa.",
+      "type": "object",
+      "properties": {
+        "dataset": {
+          "title": "Tabela",
+          "description": "Nome físico da tabela.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "grain": {
+          "title": "Granularidade",
+          "description": "O que uma linha representa.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "join_keys": {
+      "title": "Chaves da junção",
+      "description": "Pares de colunas que ligam as duas tabelas.",
+      "type": "array",
+      "items": {
+        "title": "Par de chaves",
+        "description": "Coluna da esquerda e da direita.",
+        "type": "object",
+        "properties": {
+          "left": {
+            "title": "Coluna da esquerda",
+            "description": "Coluna da tabela left.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "right": {
+            "title": "Coluna da direita",
+            "description": "Coluna da tabela right.",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "cardinality": {
+      "title": "Cardinalidade",
+      "description": "one_to_one, one_to_many ou many_to_many; um para muitos repete a linha da esquerda.",
+      "enum": [
+        "one_to_one",
+        "one_to_many",
+        "many_to_many",
+        null
+      ]
+    },
+    "coverage": {
+      "title": "Cobertura",
+      "description": "Linhas sem par, chaves vazias e regra de tempo.",
+      "type": "object",
+      "properties": {
+        "unmatched_rows_expected": {
+          "title": "Linhas sem par esperadas",
+          "description": "true se é normal haver linha sem correspondente.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "null_keys_expected": {
+          "title": "Chaves vazias esperadas",
+          "description": "true se é normal haver chave sem valor.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "temporal_join_rule": {
+          "title": "Regra de tempo",
+          "description": "Em que data o registro ligado conta.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "usage_rules": {
+      "title": "Regras de uso",
+      "description": "O que a junção responde e como evitar contagem dobrada.",
+      "type": "object",
+      "properties": {
+        "approved_question_classes": {
+          "title": "Perguntas autorizadas",
+          "description": "Perguntas que a junção responde.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "disallowed_question_classes": {
+          "title": "Perguntas proibidas",
+          "description": "Perguntas que a junção responde errado.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "join_strategy_by_question": {
+          "title": "Estratégia por pergunta",
+          "description": "Como juntar para cada tipo de pergunta.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "duplication_risks": {
+          "title": "Riscos de duplicação",
+          "description": "Quando uma linha aparece mais de uma vez.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "aggregation_safeguards": {
+          "title": "Cuidados antes de agregar",
+          "description": "O que fazer antes de somar ou dividir.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "validation": {
+      "title": "Conferência",
+      "description": "Casos conferidos e consulta verificada.",
+      "type": "object",
+      "properties": {
+        "test_cases": {
+          "title": "Casos conferidos",
+          "description": "Situações conferidas com o resultado.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "verified_query": {
+          "title": "Consulta verificada",
+          "description": "Arquivo ou consulta que implementa a junção, se existia na data da versão.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "reviewer": {
+          "title": "Revisado por",
+          "description": "Cargo ou área.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "related_documents": {
+      "title": "Documentos relacionados",
+      "description": "Identificadores de outros documentos que ajudam a ler este.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "unevaluatedProperties": false
+}

@@ -3,9 +3,13 @@ title: Rubrica de avaliação
 description: Explicite como reconhecer a qualidade de um trabalho, com critérios, âncoras por nível e o que fazer quando falta evidência.
 ---
 
+import { Steps } from '@astrojs/starlight/components';
 import TemplateDownloads from '../../../components/TemplateDownloads.astro';
 import ExampleDoc from '../../../components/ExampleDoc.astro';
 import TemplateStart from '../../../components/TemplateStart.astro';
+import ParContrastante from '../../../components/ParContrastante.astro';
+import EtapaDeEstudo from '../../../components/EtapaDeEstudo.astro';
+import Exercicio from '../../../components/Exercicio.astro';
 
 <p class="editorial-lead">Dois revisores, o mesmo e-mail, notas 8 e 4</p>
 
@@ -13,89 +17,151 @@ import TemplateStart from '../../../components/TemplateStart.astro';
 
 ## O problema
 
-Na etapa 3 do [processo de campanha](../processo/), a Revisão de Conteúdo da Aurora avalia cada material antes da aprovação formal. A instrução era:
+Na etapa 3 do [processo de campanha](../processo/), a Revisão de Conteúdo da Aurora avalia cada material antes da aprovação formal. A instrução era “avaliar clareza, veracidade e alinhamento à marca, nota de 0 a 10”. Em 15/09 chegou o e-mail da campanha Semana do Refil, que diz “30% menos plástico”; a planilha anexada, de 12/03/2026, mostra **22%**:
 
-> “Avaliar clareza, veracidade e alinhamento à marca. Nota de 0 a 10.”
+<ParContrastante
+  pergunta="Que nota merece o e-mail da Semana do Refil?"
+  a={{ rotulo: 'Primeiro revisor', definicao: 'Olhou o texto: “claro, dentro da marca”.', resultado: '8' }}
+  b={{ rotulo: 'Segundo revisor', definicao: 'Conferiu o número: “o 30% não bate com a planilha”.', resultado: '4' }}
+  nota="Os dois estão certos sobre o que olharam; a instrução não dizia o que olhar. E a triagem precisa saber se a evidência é suficiente, sim ou não. Ninguém sabe se 8 quer dizer sim."
+/>
 
-Em 15/09, a Revisão de Conteúdo recebeu o e-mail da campanha Semana do Refil:
+## Aprenda com a Aurora
 
-> **Assunto:** Refil Aurora: 30% menos plástico e frete grátis
->
-> O refil usa 30% menos plástico. Frete grátis nesta semana. Use seu crédito de refil.
+<Steps>
 
-Anexos: uma planilha de 12/03/2026, que mostra **22%** de redução em comparação com o frasco de 2024, e o regulamento, que diz frete grátis **acima de R$ 99, de 22 a 28/09, exceto região Norte**. O brief pede o e-mail para clientes sem compra há mais de 90 dias **que nunca compraram refil**.
+1. Veja o e-mail e os anexos, leia a rubrica aprovada e acompanhe a avaliação do mesmo e-mail.
 
-Um revisor deu **8**: “texto claro, dentro da marca”. Outro deu **4**: “o 30% não bate com a planilha”. Os dois estão certos sobre o que olharam; a instrução não dizia o que olhar. E a [triagem](../decisao/) precisa saber se a evidência é suficiente, sim ou não. Ninguém sabe se 8 quer dizer sim.
+   <EtapaDeEstudo tipo="comentado" resumo="O e-mail, a rubrica aprovada e a nota critério a critério, com três perguntas">
 
-## O que perguntar
+   > **Assunto:** Refil Aurora: 30% menos plástico e frete grátis
+   >
+   > O refil usa 30% menos plástico. Frete grátis nesta semana. Use seu crédito de refil.
 
-| Pergunta | Na Aurora | O que registrar |
-|---|---|---|
-| O que está sendo avaliado, e para quê? | Material de campanha, antes da aprovação formal | Objeto e uso permitido |
-| O que cada critério olha, e o que não olha? | “Veracidade” inclui a oferta ou só os números do produto? | Critérios com fronteiras |
-| O que separa um nível do outro, olhando o material? | Fonte que diz outro número é pior que fonte sem data? | Âncora observável por nível |
-| Por que um critério pesa mais? | Alegação errada gera risco legal; tom errado, não | Pesos e motivo |
-| E quando não há o que avaliar? | Peça institucional sem oferta | Regra de “não avaliável” |
-| A nota alimenta alguma decisão? | A triagem precisa de “evidência suficiente” | Ligação com outro documento |
-| E quando dois revisores discordam? | Nível 1 contra nível 3 no mesmo critério | Regra de desempate e quem decide |
+   Anexos: uma planilha de 12/03/2026, que mostra 22% de redução em comparação com o frasco de 2024, e o regulamento, que diz frete grátis **acima de R$ 99, de 22 a 28/09, exceto região Norte**. O brief pede o e-mail para clientes sem compra há mais de 90 dias **que nunca compraram refil**.
 
-## Antes e depois da decisão
+   <ExampleDoc file="exemplo-rubrica-completo.yaml" />
 
-O primeiro rascunho trocou a nota de 0 a 10 por quatro critérios, mas com pesos iguais e âncoras como “fonte fraca” e “fonte adequada”. Os dois revisores continuariam discordando, porque “fraca” não diz o que procurar. O documento registra isso:
+   Com a rubrica, os dois revisores chegam aos mesmos níveis, porque cada âncora diz o que conferir:
 
-<ExampleDoc file="exemplo-rubrica-lacunas.yaml" />
+   | Critério | Nível | Por quê |
+   |---|---:|---|
+   | Alegações com prova | 1 | Há fonte, mas ela diz 22%, não 30% |
+   | Condições da oferta | 1 | Falta o mínimo de R$ 99; “nesta semana” não tem datas |
+   | Adequação ao público | 1 | Quem nunca comprou refil não tem crédito de refil |
+   | Conformidade com a marca | 3 | Nome, logotipo e tom dentro do guia |
 
-Na versão aprovada, cada âncora descreve algo que se vê no material. Em *Alegações com prova*, que pesa 40:
+   A nota é a soma de *nível ÷ 4 × peso*: 10 + 6,25 + 5 + 11,25 = **32,5 de 100**. Em 16/09 voltou a segunda versão: “O refil usa 22% menos plástico que o frasco de 2024. Frete grátis acima de R$ 99, de 22 a 28/09, exceto região Norte. Experimente o refil.”, com o link direto para a página do refil. Níveis 4, 3, 4 e 3: **90 de 100**, evidência suficiente, e o pedido segue para **aprovação formal**.
 
-| Nível | O que o revisor vê |
-|---|---|
-| 0 | Há alegação verificável sem nenhuma fonte anexada |
-| 1 | Todas têm fonte, mas pelo menos uma fonte não diz o que o material diz (a planilha mostra 22%, o e-mail diz 30%) |
-| 2 | As fontes dizem o que o material diz, mas pelo menos uma não tem data |
-| 3 | Cada alegação tem fonte anexada e datada que diz exatamente o que o material diz |
-| 4 | Além do 3, o material repete a condição que a fonte impõe (“22% menos plástico que o frasco de 2024”) |
+   <details><summary>Por que o nível 1 em Alegações com prova pesa mais que a nota 32,5?</summary>Alegações com prova abaixo de 3 quer dizer **evidência insuficiente**, e a tabela de decisão manda o pedido para **revisão responsável**. É esse nível, e não a soma, que alimenta a [triagem](../decisao/).</details>
 
-Os outros critérios são *Condições da oferta* (25), *Adequação ao público* (20) e *Conformidade com a marca* (15). A rubrica completa, com as âncoras dos quatro:
+   <details><summary>O que uma IA revisora pode e não pode fazer com esta rubrica?</summary>Pode comparar cada número do material com a fonte anexada e apontar a divergência (30% no e-mail, 22% na planilha), listar condições do regulamento que não aparecem no texto e sugerir o nível com a justificativa. Não aprova nem publica: a rubrica alimenta a triagem, e a triagem leva a uma pessoa. A rubrica avalia o material, nunca quem o produziu; a nota não entra em avaliação de desempenho.</details>
 
-<ExampleDoc file="exemplo-rubrica-completo.yaml" />
+   <details><summary>O que o histórico de versões ensina?</summary>Na versão 1.0 (12/08), uma restrição que aparecia só no regulamento valia nível 3 em *Condições da oferta*. Em agosto, o SAC recebeu 41 reclamações de clientes da região Norte que não tiveram o frete grátis, porque a exclusão estava só no regulamento. A 2.0 (10/09) rebaixou esse caso para nível 2. É versão maior porque o mesmo material passa a ter outra nota.</details>
 
-### O mesmo e-mail, agora com a rubrica
+   </EtapaDeEstudo>
 
-Os dois revisores chegam aos mesmos níveis, porque cada âncora diz o que conferir:
+2. O primeiro rascunho trocou a nota de 0 a 10 por quatro critérios. Encontre por que os revisores continuariam discordando.
 
-| Critério | Nível | Por quê |
-|---|---:|---|
-| Alegações com prova | 1 | Há fonte, mas ela diz 22%, não 30% |
-| Condições da oferta | 1 | Falta o mínimo de R$ 99; “nesta semana” não tem datas |
-| Adequação ao público | 1 | Quem nunca comprou refil não tem crédito de refil |
-| Conformidade com a marca | 3 | Nome, logotipo e tom dentro do guia |
+   <EtapaDeEstudo tipo="diagnostico" resumo="O rascunho, com seis perguntas em aberto">
 
-A nota é a soma de *nível ÷ 4 × peso*: 10 + 6,25 + 5 + 11,25 = **32,5 de 100**. Mais importante que a nota: alegações com prova abaixo de 3 quer dizer **evidência insuficiente**, e a tabela de decisão manda o pedido para **revisão responsável**.
+   <ExampleDoc file="exemplo-rubrica-lacunas.yaml" />
 
-Em 16/09 voltou a segunda versão: “O refil usa 22% menos plástico que o frasco de 2024. Frete grátis acima de R$ 99, de 22 a 28/09, exceto região Norte. Experimente o refil.”, com o link direto para a página do refil. Níveis 4, 3, 4 e 3: **90 de 100**, evidência suficiente, e o pedido segue para **aprovação formal**.
+   <Exercicio
+     pergunta="Com o rascunho, por que os dois revisores continuariam dando notas diferentes ao mesmo e-mail?"
+     opcoes={[
+       { texto: 'As âncoras dizem “fonte fraca” e “fonte adequada”, sem dizer o que observar no material', correta: true, explicacao: '“Fraca” não diz o que procurar. O rascunho registra o impacto: dois revisores dão notas diferentes ao mesmo material.' },
+       { texto: 'Os quatro critérios têm pesos iguais', explicacao: 'Os pesos mudam quanto cada critério conta na nota, não o nível que cada revisor dá.' },
+       { texto: 'A escala vai de 0 a 4, e não de 0 a 10', explicacao: 'O tamanho da escala não importa se nenhum nível diz o que procurar.' },
+     ]}
+   />
 
-### O que o histórico de versões ensina
+   </EtapaDeEstudo>
 
-Na versão 1.0 (12/08), uma restrição que aparecia só no regulamento valia nível 3 em *Condições da oferta*. Em agosto, o SAC recebeu 41 reclamações de clientes da região Norte que não tiveram o frete grátis, porque a exclusão estava só no regulamento. A 2.0 (10/09) rebaixou esse caso para nível 2. É versão maior porque o mesmo material passa a ter outra nota.
+3. No trecho de Condições da oferta abaixo, a âncora do nível 2 foi apagada. Escreva-a como a versão 2.0 aprovou.
 
-## Teste você
+   <EtapaDeEstudo tipo="complete" resumo="Uma âncora de nível para escrever">
 
-1. Peça para rede social avaliada em 04/09: “Frete grátis acima de R$ 99, de 21 a 27/09”. A exclusão da região Norte está só no regulamento, anexado ao pedido. Que nível recebe em *Condições da oferta*?
-   <details><summary>Ver resposta</summary>Nível 3. Em 04/09 valia a versão 1.0, que aceitava a restrição no regulamento.</details>
-2. A mesma peça, avaliada em 15/09. Que nível?
-   <details><summary>Ver resposta</summary>Nível 2. Desde 10/09 vale a 2.0: restrição relevante só no regulamento é nível 2.</details>
-3. Post institucional, sem oferta e sem números: “Conheça o refil Aurora.” Como fica a nota?
-   <details><summary>Ver resposta</summary>Alegações com prova fica em 3, porque não há alegação verificável. Condições da oferta sai da conta, e os pesos restantes (40, 20 e 15) são reescalados para somar 100. A nota é publicada como “parcial: 3 de 4 critérios”.</details>
-4. Um revisor dá nível 1 em *Adequação ao público* e o outro dá 3. O que acontece?
-   <details><summary>Ver resposta</summary>Diferença de dois níveis exige conversa e justificativa escrita. Se a discordância continuar, decide a Liderança de Marca.</details>
+   ```yaml
+   anchors:
+     "1": "Falta o período ou o valor mínimo (\"frete grátis nesta semana\", sem dizer acima de quanto)"
+     "2": "____"
+     "3": "Valor, período e restrições estão no próprio material, com o mesmo texto do regulamento"
+   ```
 
-## O que uma IA revisora pode e não pode fazer
+   <Exercicio
+     pergunta="Como fica a âncora do nível 2 em Condições da oferta?"
+     rotulo="Sua resposta para a âncora do nível 2"
+     gabarito="Valor e período estão no material, mas uma restrição relevante aparece só no regulamento (a exclusão de uma região)"
+     explicacao="É a âncora que a versão 2.0 mudou: na 1.0, restrição só no regulamento valia nível 3. A âncora descreve o que se vê no material, com o exemplo da região, e não um adjetivo."
+   />
 
-Pode comparar cada número do material com a fonte anexada e apontar a divergência (30% no e-mail, 22% na planilha), listar condições do regulamento que não aparecem no texto e sugerir o nível com a justificativa. Não aprova nem publica: a rubrica alimenta a triagem, e a triagem leva a uma pessoa. A rubrica avalia o material, nunca quem o produziu; a nota não entra em avaliação de desempenho.
+   </EtapaDeEstudo>
+
+4. Agora com o modelo em branco, para outro trabalho da Aurora.
+
+   <EtapaDeEstudo tipo="caso-novo" resumo="As respostas do SAC a reclamações sobre ofertas">
+
+   Escreva com o modelo em branco uma rubrica para avaliar as respostas escritas do SAC a reclamações sobre ofertas, como as de frete grátis na região Norte. Use as perguntas abaixo; a coluna “Na Aurora” mostra como elas apareceram nos materiais de campanha:
+
+   | Pergunta | Na Aurora | O que registrar |
+   |---|---|---|
+   | O que está sendo avaliado, e para quê? | Material de campanha, antes da aprovação formal | Objeto e uso permitido |
+   | O que cada critério olha, e o que não olha? | “Veracidade” inclui a oferta ou só os números do produto? | Critérios com fronteiras |
+   | O que separa um nível do outro, olhando o material? | Fonte que diz outro número é pior que fonte sem data? | Âncora observável por nível |
+   | Por que um critério pesa mais? | Alegação errada gera risco legal; tom errado, não | Pesos e motivo |
+   | E quando não há o que avaliar? | Peça institucional sem oferta | Regra de “não avaliável” |
+   | A nota alimenta alguma decisão? | A triagem precisa de “evidência suficiente” | Ligação com outro documento |
+   | E quando dois revisores discordam? | Nível 1 contra nível 3 no mesmo critério | Regra de desempate e quem decide |
+
+   </EtapaDeEstudo>
+
+5. Responda antes de conferir. Cada alternativa errada traz a explicação do erro.
+
+   <EtapaDeEstudo tipo="teste" resumo="Quatro casos, dois atravessando a mudança de 10/09">
+
+   <Exercicio
+     pergunta="Peça para rede social avaliada em 04/09: “Frete grátis acima de R$ 99, de 21 a 27/09”. A exclusão da região Norte está só no regulamento, anexado ao pedido. Que nível recebe em Condições da oferta?"
+     opcoes={[
+       { texto: 'Nível 3', correta: true, explicacao: 'Em 04/09 valia a versão 1.0, que aceitava a restrição no regulamento.' },
+       { texto: 'Nível 2', explicacao: 'É o nível pela versão 2.0, que só vale desde 10/09.' },
+       { texto: 'Nível 1', explicacao: 'Nível 1 é quando falta o período ou o valor mínimo, e a peça tem os dois.' },
+     ]}
+   />
+
+   <Exercicio
+     pergunta="A mesma peça, avaliada em 15/09. Que nível recebe em Condições da oferta?"
+     opcoes={[
+       { texto: 'Nível 2', correta: true, explicacao: 'Desde 10/09 vale a 2.0: restrição relevante só no regulamento é nível 2.' },
+       { texto: 'Nível 3', explicacao: 'Era o nível pela versão 1.0, que deixou de valer em 10/09.' },
+     ]}
+   />
+
+   <Exercicio
+     pergunta="Post institucional, sem oferta e sem números: “Conheça o refil Aurora.” Como fica a nota?"
+     opcoes={[
+       { texto: 'Parcial, com 3 de 4 critérios', correta: true, explicacao: 'Alegações com prova fica em 3, porque não há alegação verificável. Condições da oferta sai da conta, e os pesos restantes (40, 20 e 15) são reescalados para somar 100.' },
+       { texto: 'Zero em Condições da oferta', explicacao: 'Sem oferta não há o que avaliar: o critério sai da conta, em vez de puxar a nota para baixo.' },
+     ]}
+   />
+
+   <Exercicio
+     pergunta="Um revisor dá nível 1 em Adequação ao público e o outro dá 3. O que acontece?"
+     opcoes={[
+       { texto: 'Conversa e justificativa escrita; se a discordância continuar, decide a Liderança de Marca', correta: true, explicacao: 'Diferença de dois níveis exige conversa e justificativa escrita antes de qualquer nota.' },
+       { texto: 'Fica a média, nível 2', explicacao: 'A rubrica não tira média de níveis discordantes: pede conversa e, se preciso, a decisão da Liderança de Marca.' },
+     ]}
+   />
+
+   </EtapaDeEstudo>
+
+</Steps>
 
 ## Baixe o modelo
 
 <TemplateDownloads kind="rubrica" />
+
+O que cada campo significa e aceita está na [Referência de campos de Rubrica de avaliação](../../referencias/campos/rubrica/).
 
 ### Fundamentação
 

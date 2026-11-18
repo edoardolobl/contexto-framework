@@ -3,7 +3,7 @@
 # null significa "ainda não sei" ou "ainda não decidido". Não troque null por um palpite: registre a dúvida em open_questions.
 # Campos marcados (obrigatório) são o núcleo para sair do rascunho; os blocos "para quem é técnico" são opcionais.
 id: null                     # (obrigatório) identificador do assunto, igual em todas as versões
-schema_version: "1.0.0"      # versão do formato do arquivo; não mude
+schema_version: "1.1.0"      # versão do formato do arquivo; não mude
 type: rubrica
 title: null                  # (obrigatório)
 version: "0.1"               # (obrigatório) versão deste documento
@@ -19,6 +19,8 @@ review_interval: null        # de quanto em quanto tempo revisar, em ISO 8601: P
 source_of_truth: null        # onde está a versão oficial
 supersedes_revision: null    # versão que esta substitui: id@version
 superseded_by_revision: null # só na cópia de uma versão substituída: id@version da sucessora
+license: null                # opcional: licença do documento (identificador SPDX); cada time define a sua
+source_url: null            # opcional: endereço onde esta versão está publicada
 intent:
   question: null             # (obrigatório) pergunta de negócio que o documento responde
   audience: []               # quem usa: cargos ou áreas
@@ -89,7 +91,7 @@ Preencha estes campos no topo do arquivo antes de escrever o resto.
 | Campo | Chave no topo do arquivo | Obrigatório | O que escrever |
 |---|---|---|---|
 | Identificador do assunto | `id` | Sim | Código estável do assunto, igual em todas as versões, em maiúsculas com hífens (por exemplo KPI-AURORA-001). Não muda quando a regra muda. |
-| Versão do formato | `schema_version` |  | Versão do formato do arquivo, hoje 1.0.0. Diz quais campos o arquivo tem e não muda quando o conteúdo muda. |
+| Versão do formato | `schema_version` |  | Versão do formato do arquivo, hoje 1.1.0. Diz quais campos o arquivo tem e não muda quando o conteúdo muda. |
 | Tipo de documento | `type` |  | Tipo de documento, igual ao nome do modelo (kpi, dataset, conceito e outros). Define quais campos vêm depois do cabeçalho. |
 | Título | `title` | Sim | Nome que uma pessoa da área reconhece, com o assunto e a organização. Pode mudar entre versões sem mudar o identificador. |
 | Versão atual | `version` | Sim | Número desta versão no formato MAIOR.MENOR (1.0, 1.1, 2.0). Suba o número maior quando a regra muda de sentido e o menor quando só esclarece. |
@@ -106,6 +108,8 @@ Preencha estes campos no topo do arquivo antes de escrever o resto.
 | Fonte oficial | `source_of_truth` |  | Sistema, documento ou tabela que vale quando duas fontes discordam. Fica em branco enquanto ninguém confirmou qual é. |
 | Substitui qual versão? | `supersedes_revision` |  | Versão anterior do mesmo assunto que esta substitui, no formato id@versão. Em branco na primeira versão. |
 | Substituída por qual versão? | `superseded_by_revision` |  | Só na cópia de uma versão substituída, aponta a versão que tomou o lugar dela. Em documento aprovado e em vigor, fica em branco. |
+| Licença | `license` |  | Identificador SPDX da licença do documento, como CC-BY-4.0. Nos modelos em branco fica vazio, porque cada time define a licença dos seus documentos. |
+| Endereço publicado | `source_url` |  | Endereço onde esta versão está publicada, para quem recebe um trecho citar a origem. Nos modelos em branco fica vazio, até o documento ser publicado. |
 | Pergunta de negócio que o documento responde | `intent.question` | Sim | A pergunta escrita como alguém da área faria. Sem ela, o documento não sai do rascunho, porque ninguém sabe o que ele precisa responder. |
 | Quem usa | `intent.audience` |  | Cargos ou áreas que leem e usam o documento. Ajuda a escolher o nível de detalhe e quem precisa saber de cada mudança. |
 | Para quê | `intent.purpose` |  | Para que o documento existe, em uma frase, dizendo o problema que ele evita. |
@@ -117,14 +121,24 @@ Preencha estes campos no topo do arquivo antes de escrever o resto.
 ## Para que serve
 Em `intent`, escreva a pergunta de negócio que o documento responde (`question`), como alguém da área faria. Diga quem usa (`audience`), para quê (`purpose`) e quais decisões mudam conforme a resposta (`decisions`). Em `plain_summary`, explique em uma ou duas frases, sem termos técnicos, o que o documento diz.
 
+Exemplo Aurora: `intent.question`: Como avaliar um material de campanha antes da aprovação formal?
+
+Exemplo Aurora: `plain_summary`: Quatro critérios com pesos 40, 25, 20 e 15 dão uma nota de 0 a 100; a nota orienta a triagem, mas uma pessoa sempre revisa.
+
 ## O que se avalia
 Em `evaluation_target`, diga o trabalho avaliado. Em `allowed_use` e `disallowed_use`, para que a nota pode e não pode servir.
+
+Exemplo Aurora: `evaluation_target`: Material de campanha externa (e-mail, página de oferta, peça para rede social) antes da aprovação formal
 
 ## Critérios e níveis
 Em `criteria`, repita um item para cada critério: identificador, nome, definição, o que o critério não avalia (`not_in_scope`), peso, evidências aceitas e o que se vê no trabalho em cada nível de 0 a 4 (`anchors`).
 
 ## Nota
 Em `scoring`, diga a soma dos pesos, a escala, a fórmula da nota, o que fazer quando falta evidência ou um critério não pode ser avaliado, qual decisão a nota alimenta e a partir de qual nível. A nota nunca decide sozinha: `automatic_decision_allowed` fica `false` e `human_review_required` fica `true`.
+
+Exemplo Aurora: `scoring.weight_sum`: 100
+
+Exemplo Aurora: `scoring.formula`: Soma de (nível ÷ 4 × peso) dos critérios avaliados, de 0 a 100
 
 ## Calibração e cuidados
 Em `calibration_examples`, registre trabalhos já avaliados, com o nível de cada critério, a justificativa, a nota e o encaminhamento. Em `disagreement_resolution`, como resolver quando dois revisores discordam. Em `privacy_and_fairness_considerations`, os cuidados com privacidade e justiça.

@@ -3,9 +3,13 @@ title: Conceito
 description: Defina um termo para um contexto específico, diga quem fica de fora e como tratar o caso-limite.
 ---
 
+import { Steps } from '@astrojs/starlight/components';
 import TemplateDownloads from '../../../components/TemplateDownloads.astro';
 import ExampleDoc from '../../../components/ExampleDoc.astro';
 import TemplateStart from '../../../components/TemplateStart.astro';
+import ParContrastante from '../../../components/ParContrastante.astro';
+import EtapaDeEstudo from '../../../components/EtapaDeEstudo.astro';
+import Exercicio from '../../../components/Exercicio.astro';
 
 <p class="editorial-lead">Uma palavra pode contar três grupos diferentes de pessoas</p>
 
@@ -13,74 +17,141 @@ import TemplateStart from '../../../components/TemplateStart.astro';
 
 ## O problema
 
-A Aurora mantém um programa voluntário de integração de pessoas recém-contratadas. Um relatório traz a coluna `participante_ativo`, e o manual só diz para “acompanhar participantes ativos”. Quando alguém pergunta o que é isso, a resposta costuma ser:
+A Aurora mantém um programa voluntário de integração de pessoas recém-contratadas. Um relatório traz a coluna `participante_ativo`, e o manual só diz para “acompanhar participantes ativos”. Quando alguém pergunta o que é isso, a resposta costuma ser “são participantes ativos aqueles que participam do programa”. Em 30/09, duas áreas fizeram a conta:
 
-> “São participantes ativos aqueles que participam do programa.”
+<ParContrastante
+  pergunta="Quantos participantes ativos havia em 30/09?"
+  a={{ rotulo: 'RH', definicao: 'Todas as pessoas inscritas no programa.', resultado: '214' }}
+  b={{ rotulo: 'Coordenação do programa', definicao: 'Presença nos 30 dias anteriores, sem estar em pausa e sem ter concluído, como manda a versão 2.0.', resultado: '131' }}
+  nota="Ninguém errou a conta: a diferença de 83 pessoas é inteira de definição. Uma terceira leitura, “quem foi ao primeiro encontro”, daria um terceiro número."
+/>
 
-Em 30/09, o RH informou **214** participantes ativos; a coordenação do programa informou **131**. Ninguém errou a conta. O RH contou todas as pessoas inscritas; a coordenação, quem atende à definição da versão 2.0: presença nos 30 dias anteriores, sem estar em pausa e sem ter concluído. A diferença de 83 pessoas é inteira de definição:
+## Aprenda com a Aurora
 
-| Grupo em 30/09 | Pessoas | RH contou? | Coordenação contou? |
-|---|---:|---|---|
-| Presença nos últimos 30 dias, sem pausa e sem ter concluído | 131 | Sim | Sim |
-| Inscritas, sem nenhuma presença | 52 | Sim | Não |
-| Última presença há mais de 30 dias | 11 | Sim | Não |
-| Em pausa (afastamento registrado) | 12 | Sim | Não |
-| Concluíram todas as atividades (contam à parte, mesmo com presença recente) | 8 | Sim | Não |
-| **Total** | **214** | **214** | **131** |
+<Steps>
 
-Uma terceira leitura, “quem foi ao primeiro encontro”, daria um terceiro número. O documento de conceito diz qual dessas populações o termo conta, naquele contexto.
+1. Veja de onde vêm as 83 pessoas, leia o conceito aprovado e tente responder antes de abrir cada resposta.
 
-## O que perguntar
+   <EtapaDeEstudo tipo="comentado" resumo="Os grupos de 30/09 e o documento aprovado, com três perguntas">
 
-| Pergunta | Na Aurora | O que registrar |
-|---|---|---|
-| Que regra coloca alguém dentro do termo? | Uma inscrição ainda não iniciada conta como participação ativa? | Critérios de inclusão e exclusão |
-| A regra tem janela de tempo? | Uma presença de quantos dias atrás ainda conta? | Data de referência e janela |
-| Que situação costuma ser confundida com o termo? | Quem faltou a um encontro fica inativo? E quem está afastado? | Contraexemplo e caso-limite |
-| Que outros nomes aparecem para a mesma coisa? | “Participante”, “inscrito” e “ativo” são equivalentes? | Sinônimos e termos que **não** são sinônimos |
-| Qual fonte prevalece quando duas divergem? | O manual ou a regra usada no dashboard? | Fonte e autoridade |
-| Quem pode mudar a definição? | Quem atualiza o significado de ativo? | Responsável e quem aprova |
+   | Grupo em 30/09 | Pessoas | RH contou? | Coordenação contou? |
+   |---|---:|---|---|
+   | Presença nos últimos 30 dias, sem pausa e sem ter concluído | 131 | Sim | Sim |
+   | Inscritas, sem nenhuma presença | 52 | Sim | Não |
+   | Última presença há mais de 30 dias | 11 | Sim | Não |
+   | Em pausa (afastamento registrado) | 12 | Sim | Não |
+   | Concluíram todas as atividades (contam à parte, mesmo com presença recente) | 8 | Sim | Não |
+   | **Total** | **214** | **214** | **131** |
 
-## Antes e depois da decisão
+   <ExampleDoc file="exemplo-conceito-completo.yaml" />
 
-Com as perguntas feitas, mas ainda sem resposta da área, o documento fica assim. A melhoria está em mostrar **onde termina a descrição e começa uma decisão que ainda não foi tomada**:
+   | Pergunta feita à área | Como ficou escrita |
+   |---|---|
+   | Que atividade torna uma pessoa ativa? | Pelo menos uma presença entre 30 dias antes da data de referência e a própria data |
+   | E quem está afastado? | É “participante em pausa”, mesmo com presença recente |
+   | Uma pessoa apenas inscrita está ativa? | Não. É “participante inscrito” |
+   | E quem concluiu todas as atividades? | É “participante concluinte” |
+   | Quem homologa a definição? | A Gerência de Pessoas, com registro em ata |
 
-<ExampleDoc file="exemplo-conceito-lacunas.yaml" />
+   <details><summary>Por que “participante inscrito” é termo relacionado, e não sinônimo?</summary>**Termo preferido** é o nome adotado no domínio; **sinônimo** é outro rótulo para o mesmo conceito nesse domínio; **termo relacionado** é parecido, mas não equivalente. Quem está só inscrito ainda não tem presença, então forma outra população. Pelo mesmo motivo, não trate “cliente”, “visitante” e “usuário” como sinônimos sem confirmação.</details>
 
-Depois, a Coordenação de Integração respondeu às perguntas e a Gerência de Pessoas aprovou. O documento deixa de listar dúvidas e passa a dizer a regra, quem fica de fora e como tratar o caso-limite:
+   <details><summary>Por que o documento traz um caso-limite com presença em 31/08?</summary>Porque 31/08 está exatamente 30 dias antes de 30/09, e a definição diz que as duas pontas da janela entram. Sem o caso escrito, duas pessoas contariam a janela de jeitos diferentes.</details>
 
-<ExampleDoc file="exemplo-conceito-completo.yaml" />
+   <details><summary>O que o histórico de versões ensina?</summary>A versão 1.0 usava uma janela de 60 dias. A 2.0 reduziu para 30, e por isso é uma versão maior: algumas pessoas deixam de ser ativas. Um relatório de agosto e um de setembro podem contar populações diferentes com o mesmo nome. **O histórico avisa que a regra mudou; só a versão histórica integral permite recuperar a redação antiga com segurança.** Compare os dois arquivos em [Versões e vigência](../../metodo/identificacao-versoes/).</details>
 
-| Pergunta feita à área | Como ficou escrita |
-|---|---|
-| Que atividade torna uma pessoa ativa? | Pelo menos uma presença entre 30 dias antes da data de referência e a própria data |
-| E quem está afastado? | É “participante em pausa”, mesmo com presença recente |
-| Uma pessoa apenas inscrita está ativa? | Não. É “participante inscrito” |
-| E quem concluiu todas as atividades? | É “participante concluinte” |
-| Quem homologa a definição? | A Gerência de Pessoas, com registro em ata |
+   </EtapaDeEstudo>
 
-### O que o histórico de versões ensina
+2. O rascunho mostra onde termina a descrição e começa uma decisão que ainda não foi tomada. Encontre o que falta.
 
-A versão 1.0 usava uma janela de 60 dias. A 2.0 reduziu para 30, e por isso é uma versão maior: algumas pessoas deixam de ser ativas. Um relatório de agosto e um de setembro podem contar populações diferentes com o mesmo nome. **O histórico avisa que a regra mudou; só a versão histórica integral permite recuperar a redação antiga com segurança.** Compare os dois arquivos em [Versões e vigência](../../metodo/identificacao-versoes/).
+   <EtapaDeEstudo tipo="diagnostico" resumo="O rascunho, com duas perguntas em aberto">
 
-## Teste você
+   <ExampleDoc file="exemplo-conceito-lacunas.yaml" />
 
-Decida cada caso antes de abrir a resposta. Use a data de referência indicada e a versão que valia nessa data.
+   <Exercicio
+     pergunta="O rascunho já separa quem se inscreveu, quem participa e quem concluiu. O que ainda falta para contar participantes ativos?"
+     opcoes={[
+       { texto: 'A atividade que conta e a janela de tempo', correta: true, explicacao: 'São as duas perguntas em aberto do rascunho. Sem elas, cada área escolhe a sua população, e os relatórios contam grupos diferentes.' },
+       { texto: 'Os nomes das categorias', explicacao: 'O rascunho já tem os nomes. O que falta é a regra que põe cada pessoa numa delas.' },
+       { texto: 'A fórmula do total de pessoas', explicacao: 'Um conceito define quem pertence a um grupo; a conta vem depois. Faltam a atividade e o período.' },
+     ]}
+   />
 
-1. Presença em 01/09 e nenhuma outra depois. A pessoa está ativa em 30/09?
-   <details><summary>Ver resposta</summary>Sim. Em 30/09 vale a versão 2.0, e 01/09 está dentro dos 30 dias anteriores (29 dias).</details>
-2. Presença em 25/09, mas com afastamento registrado de 28/09 até outubro. Está ativa em 30/09?
-   <details><summary>Ver resposta</summary>Não. Está em pausa, e a definição exclui quem está em pausa, mesmo com presença recente.</details>
-3. Presença em 20/07 e nenhuma outra. A pessoa estava ativa em 31/08?
-   <details><summary>Ver resposta</summary>Sim. Em 31/08 ainda valia a versão 1.0, com janela de 60 dias, e 20/07 está a 42 dias. Pela 2.0 ela não seria ativa, mas a 2.0 só vale a partir de 01/09.</details>
+   </EtapaDeEstudo>
 
-## Termo preferido, sinônimo e termo relacionado
+3. No trecho abaixo, um critério de inclusão foi apagado. Escreva-o como a versão 2.0 aprovou.
 
-**Termo preferido** é o nome adotado no domínio; **sinônimo** é outro rótulo para o mesmo conceito nesse domínio; **termo relacionado** é parecido, mas não equivalente. Na Aurora, “participante inscrito” é relacionado a “participante ativo”, não sinônimo. Não trate “cliente”, “visitante” e “usuário” como sinônimos sem confirmação.
+   <EtapaDeEstudo tipo="complete" resumo="Um critério de inclusão para escrever">
+
+   ```yaml
+   inclusion_criteria:
+     - "Inscrição confirmada no programa"
+     - "____"
+     - "Sem afastamento registrado na data de referência e com atividades ainda por concluir"
+   ```
+
+   <Exercicio
+     pergunta="Qual critério de inclusão falta no trecho?"
+     rotulo="Sua resposta para o critério que falta"
+     gabarito="Pelo menos uma presença registrada entre 30 dias antes da data de referência e a própria data"
+     explicacao="O critério diz a atividade (presença registrada), a janela (30 dias) e as pontas (a data de referência entra). Foi a janela que a versão 2.0 mudou."
+   />
+
+   </EtapaDeEstudo>
+
+4. Agora com o modelo em branco, para outro termo.
+
+   <EtapaDeEstudo tipo="caso-novo" resumo="Cliente ativo da loja web">
+
+   Defina com o modelo em branco o termo “cliente ativo” da loja web da Aurora. Use as perguntas abaixo; a coluna “Na Aurora” mostra como elas apareceram para participante ativo:
+
+   | Pergunta | Na Aurora | O que registrar |
+   |---|---|---|
+   | Que regra coloca alguém dentro do termo? | Uma inscrição ainda não iniciada conta como participação ativa? | Critérios de inclusão e exclusão |
+   | A regra tem janela de tempo? | Uma presença de quantos dias atrás ainda conta? | Data de referência e janela |
+   | Que situação costuma ser confundida com o termo? | Quem faltou a um encontro fica inativo? E quem está afastado? | Contraexemplo e caso-limite |
+   | Que outros nomes aparecem para a mesma coisa? | “Participante”, “inscrito” e “ativo” são equivalentes? | Sinônimos e termos que **não** são sinônimos |
+   | Qual fonte prevalece quando duas divergem? | O manual ou a regra usada no dashboard? | Fonte e autoridade |
+   | Quem pode mudar a definição? | Quem atualiza o significado de ativo? | Responsável e quem aprova |
+
+   </EtapaDeEstudo>
+
+5. Decida cada caso antes de conferir, com a data de referência indicada e a versão que valia nessa data.
+
+   <EtapaDeEstudo tipo="teste" resumo="Três casos, um atravessando a mudança de 01/09">
+
+   <Exercicio
+     pergunta="Presença em 01/09 e nenhuma outra depois. A pessoa está ativa em 30/09?"
+     opcoes={[
+       { texto: 'Sim', correta: true, explicacao: 'Em 30/09 vale a versão 2.0, e 01/09 está dentro dos 30 dias anteriores (29 dias).' },
+       { texto: 'Não', explicacao: 'São 29 dias, e a janela da versão 2.0 é de 30.' },
+     ]}
+   />
+
+   <Exercicio
+     pergunta="Presença em 25/09, mas com afastamento registrado de 28/09 até outubro. Está ativa em 30/09?"
+     opcoes={[
+       { texto: 'Não, está em pausa', correta: true, explicacao: 'A definição exclui quem está em pausa, mesmo com presença recente.' },
+       { texto: 'Sim, a presença é recente', explicacao: 'A presença está na janela, mas o afastamento registrado na data de referência tira a pessoa do termo.' },
+     ]}
+   />
+
+   <Exercicio
+     pergunta="Presença em 20/07 e nenhuma outra. A pessoa estava ativa em 31/08?"
+     opcoes={[
+       { texto: 'Sim', correta: true, explicacao: 'Em 31/08 ainda valia a versão 1.0, com janela de 60 dias, e 20/07 está a 42 dias. Pela 2.0 ela não seria ativa, mas a 2.0 só vale a partir de 01/09.' },
+       { texto: 'Não', explicacao: 'Essa resposta aplica a janela de 30 dias da versão 2.0, que só vale a partir de 01/09.' },
+     ]}
+   />
+
+   </EtapaDeEstudo>
+
+</Steps>
 
 ## Baixe o modelo
 
 <TemplateDownloads kind="conceito" />
+
+O que cada campo significa e aceita está na [Referência de campos de Conceito](../../referencias/campos/conceito/).
 
 **Antes de pedir aprovação:** uma pessoa de outra área consegue explicar o termo, reconhecer um caso que **não** pertence a ele e apontar a fonte oficial sem perguntar ao autor? Se não, registre a dúvida e peça validação.
 

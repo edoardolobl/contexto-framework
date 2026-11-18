@@ -28,7 +28,13 @@ https://edoardolobl.github.io/contexto-framework/
 - **Perguntas de negócio**, com o gabarito (as respostas esperadas), incluindo ambiguidade e abstenção;
 - **Laboratório Aurora** com dados sintéticos SQLite, SQL verificável e cálculo de taxa de sessões convertidas.
 
-Cada tipo de documento oferece quatro arquivos: modelo em Markdown, com os campos no topo, como fonte; modelo em YAML, gerado a partir dele; **exemplo com lacunas** e **exemplo completo com aprovação fictícia**. Todos trazem versão, data da versão e histórico de versões. O schema 1.0.0 é validado por JSON Schema, um arquivo por tipo. Os formatos são **convenções pedagógicas**, não schemas de fornecedores.
+Cada tipo de documento oferece quatro arquivos: modelo em Markdown, com os campos no topo, como fonte; modelo em YAML, gerado a partir dele; **exemplo com lacunas** e **exemplo completo e aprovado**. Todos trazem versão, data da versão e histórico de versões. O schema 1.1.0 é validado por JSON Schema, um arquivo por tipo; a versão 1.0.0 fica em `schemas/historico/1.0.0/`. Os formatos são **convenções pedagógicas**, não schemas de fornecedores.
+
+### Para agentes e máquinas
+- **Kit para agentes**, para baixar: um `AGENTS.md` curto, glossário, contratos, gabaritos, dados e a Skill `auditar-coleta` ([ADR 0028](docs/adr/0028-saidas-para-maquinas.md));
+- **Documentos por id e versão**, em Markdown, com a vigência no título, para o agente citar o que usou;
+- **Schemas publicados** (1.1.0, com o histórico da 1.0.0) e um `llms.txt`, que não é critério de saída;
+- Tudo sai de `npm run gerar:saidas`. Quem contribui com o repositório lê o [AGENTS.md](AGENTS.md) da raiz; o do kit fica em `src/kit/AGENTS.md`.
 
 ## Reproduza o laboratório SQL
 
@@ -37,7 +43,7 @@ python3 -m pip install -r requirements-dev.txt
 python3 scripts/check_analytics_fixture.py
 ```
 
-A consulta em `public/downloads/aurora-reference-query.sql` deve retornar **25%** na amostra fictícia `aurora-fixture.sql`. Ela calcula **sessões únicas convertidas**, não quantidade de pedidos. Isso é um exemplo de como a documentação ajuda a explicitar a unidade do indicador, não uma prova de acurácia de modelos de IA.
+A consulta em `public/downloads/aurora-reference-query.sql` deve retornar **25%** na amostra `aurora-fixture.sql`. Ela calcula **sessões únicas convertidas**, não quantidade de pedidos. Isso é um exemplo de como a documentação ajuda a explicitar a unidade do indicador, não uma prova de acurácia de modelos de IA.
 
 ## Desenvolvimento
 
@@ -50,7 +56,7 @@ npm run check
 npm run dev
 ```
 
-`npm run check` roda, nesta ordem, os testes dos validadores, as checagens de conteúdo (páginas, downloads, higiene, decisão, amostra SQLite e versões), o build e a conferência de links no HTML gerado. O GitHub Actions roda a mesma sequência em todo PR, e a publicação no GitHub Pages só acontece depois que ela passa num merge na `main`.
+`npm run check` roda, nesta ordem, os testes dos validadores em Python e Node, o Stylelint, as checagens de conteúdo (páginas, downloads, higiene, decisão, amostra SQLite e versões), o build, a conferência de links no HTML gerado e o checklist visual a 1440 e 390 px. O GitHub Actions roda a mesma sequência em todo PR, e a publicação no GitHub Pages só acontece depois que ela passa num merge na `main`.
 
 Decisões de projeto ficam registradas em [`docs/adr/`](docs/adr/) e as mudanças, em [`CHANGELOG.md`](CHANGELOG.md). O vocabulário que o validador aplica e a lista de tipos de documento ficam em [`src/data/`](src/data/).
 
@@ -62,17 +68,21 @@ src/
   content/docs/        Metodologia, modelos e exemplos
   data/                Fontes únicas: vocabulário e lista de tipos de documento
   exemplos/            Fontes dos exemplos, em Markdown com frontmatter
+  kit/                 Fonte do kit para agentes (kit.yaml, AGENTS.md do kit e skills/)
   modelos/             Fontes dos modelos, em Markdown com frontmatter
   styles/              Identidade visual
-public/downloads/     Modelos e exemplos gerados (Markdown/YAML) e laboratório SQL
-schemas/              JSON Schema 1.0.0, um arquivo por tipo
-scripts/              Validações independentes de LLM
-docs/                 Contrato editorial e roadmap
+public/downloads/     Modelos e exemplos gerados (Markdown/YAML), kit gerado e laboratório SQL
+public/documentos/    Documentos publicados por id e versão (gerados)
+public/schemas/       Schemas publicados (gerados)
+schemas/              JSON Schema 1.1.0, um arquivo por tipo; histórico em historico/1.0.0/
+scripts/              Validações e geradores, sem LLM
+docs/                 Contrato editorial, experimentos, notas de design e roadmap
   adr/                Registros de decisão (ADR)
+AGENTS.md             Instruções para quem contribui com o repositório
 .github/workflows/    Testes e publicação
 ```
 
-Os modelos e exemplos são escritos em `src/modelos/` e `src/exemplos/`. Os arquivos de `public/downloads/` (`.yaml` e `.md`) são gerados a partir deles; para regenerar, rode `npm run gerar:downloads`. O CI falha se os gerados estiverem fora de sincronia. Os schemas de cada tipo ficam em `schemas/`, e a validação usa `jsonschema`.
+Os modelos e exemplos são escritos em `src/modelos/` e `src/exemplos/`. Os arquivos de `public/downloads/` (`.yaml` e `.md`) são gerados a partir deles; para regenerar, rode `npm run gerar:downloads`. Cada campo crítico do `.md` de um modelo traz uma linha `Exemplo Aurora:`, gerada do exemplo completo pelo mesmo comando. A referência de campos (`/referencias/campos/`) sai de `src/data/campos.yaml` e dos schemas com `npm run gerar:referencias`, sem edição à mão. O CI falha se os gerados estiverem fora de sincronia. Os schemas de cada tipo ficam em `schemas/`, e a validação usa `jsonschema`. A saída para máquinas (documentos por id e versão, schemas publicados, kit e llms.txt) sai de `npm run gerar:saidas`, e também não se edita à mão.
 
 ## Como editar com qualidade
 

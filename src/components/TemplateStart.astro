@@ -2,7 +2,10 @@
 /**
  * Bloco "Antes de preencher" de cada página de modelo, lido de src/data/modelos.yaml pelo slug.
  * kind: o slug do tipo, igual ao type do documento e ao nome dos arquivos.
+ * Sem download aqui: o modelo em branco fica por último na página (I-24), na seção "Baixe o modelo";
+ * o botão secundário leva até lá.
  */
+import { LinkButton } from '@astrojs/starlight/components';
 import { baseUrl, modeloPorSlug } from '../lib/dados';
 
 interface Props { kind: string }
@@ -10,7 +13,7 @@ const { kind } = Astro.props;
 const data = modeloPorSlug(kind);
 const base = baseUrl();
 ---
-<section class="template-start" aria-label="Resumo prático deste modelo">
+<section class="template-start ctx-card" aria-label="Resumo prático deste modelo">
   <p class="template-start__eyebrow">ANTES DE PREENCHER</p>
   {/* Lista de termos, não títulos: o bloco vem antes do primeiro h2 da página. */}
   <dl class="template-start__grid">
@@ -30,11 +33,11 @@ const base = baseUrl();
   <div class="template-start__next">
     <div>
       <strong>Próximo passo</strong>
-      <span>Baixe o modelo em texto, preencha o que sabe e registre o que ainda precisa ser confirmado.</span>
+      <span class="template-start__next-text">Leia o exemplo antes de preencher. O modelo em branco fica no fim da página: preencha o que sabe e registre o que ainda precisa ser confirmado.</span>
     </div>
-    <a href={`${base}downloads/template-${data.slug}.md`} download>
-      Baixar modelo em texto <span aria-hidden="true">↓</span>
-    </a>
+    <LinkButton href="#baixe-o-modelo" variant="secondary">
+      Ir para o modelo em branco <span aria-hidden="true">↓</span>
+    </LinkButton>
   </div>
-  <p class="template-start__help">Dúvida sobre um campo? Veja <a href={`${base}fundamentos/como-ler-os-campos/`}>Como ler os campos</a>.</p>
+  <p class="template-start__help">Dúvida sobre um campo? Veja a <a href={`${base}referencias/campos/${data.slug}/`}>Referência de campos</a> deste modelo ou <a href={`${base}fundamentos/como-ler-os-campos/`}>Como ler os campos</a>.</p>
 </section>

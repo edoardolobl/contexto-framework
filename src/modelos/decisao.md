@@ -3,7 +3,7 @@
 # null significa "ainda não sei" ou "ainda não decidido". Não troque null por um palpite: registre a dúvida em open_questions.
 # Campos marcados (obrigatório) são o núcleo para sair do rascunho; os blocos "para quem é técnico" são opcionais.
 id: null                     # (obrigatório) identificador do assunto, igual em todas as versões
-schema_version: "1.0.0"      # versão do formato do arquivo; não mude
+schema_version: "1.1.0"      # versão do formato do arquivo; não mude
 type: decisao
 title: null                  # (obrigatório)
 version: "0.1"               # (obrigatório) versão deste documento
@@ -19,6 +19,8 @@ review_interval: null        # de quanto em quanto tempo revisar, em ISO 8601: P
 source_of_truth: null        # onde está a versão oficial
 supersedes_revision: null    # versão que esta substitui: id@version
 superseded_by_revision: null # só na cópia de uma versão substituída: id@version da sucessora
+license: null                # opcional: licença do documento (identificador SPDX); cada time define a sua
+source_url: null            # opcional: endereço onde esta versão está publicada
 intent:
   question: null             # (obrigatório) pergunta de negócio que o documento responde
   audience: []               # quem usa: cargos ou áreas
@@ -78,11 +80,21 @@ related_documents: []        # identificadores de outros documentos
 ## Para que serve
 Em `intent`, escreva a pergunta de negócio que o documento responde (`question`), como alguém da área faria. Diga quem usa (`audience`), para quê (`purpose`) e quais decisões mudam conforme a resposta (`decisions`). Em `plain_summary`, explique em uma ou duas frases, sem termos técnicos, o que o documento diz.
 
+<!-- contexto:exemplo intent.question -->
+
+<!-- contexto:exemplo plain_summary -->
+
 ## Escopo
 Em `scope`, diga quando a regra se aplica e quando não se aplica.
 
+<!-- contexto:exemplo scope.applies_when -->
+
 ## Entradas e saídas
 Em `required_inputs`, repita um item para cada entrada, com o nome, os valores possíveis e a definição verificável. Em `possible_outputs`, liste os resultados possíveis.
+
+<!-- contexto:exemplo default_behavior -->
+
+<!-- contexto:exemplo unknown_input_behavior -->
 
 ## Tabela de decisão
 Em `decision_table`, cada linha diz as condições (`when`) e o resultado (`then`); `any` vale para qualquer valor. Em `priority_rules`, diga o que fazer se duas linhas valerem ao mesmo tempo. Em `default_behavior` e `unknown_input_behavior`, o resultado quando nenhuma linha vale e quando falta uma entrada. Em `exceptions`, cada exceção com a condição, quem aprova e a evidência exigida. Em `conflicts`, conflitos com outras regras.

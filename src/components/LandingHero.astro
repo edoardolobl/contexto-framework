@@ -4,9 +4,11 @@
  * Na home (UX-04, ADR 0008, EDI-01): o h1 vem de hero.title em index.mdx (categoria e público),
  * o slogan entra como linha de apoio, a tagline traz a promessa da seção 1.2 e a linha de fato
  * é contada nos dados (núcleo em modelos.yaml, passos em percurso.yaml).
+ * Ação principal com o LinkButton nativo (par de botões do portal, UX-06) e o link de texto ao lado.
  * Em qualquer outra página com hero (a 404 do Starlight, por exemplo), o Hero padrão continua.
  */
 import Default from '@astrojs/starlight/components/Hero.astro';
+import { LinkButton } from '@astrojs/starlight/components';
 import { baseUrl, lerModelos, lerPercurso, urlDaPagina } from '../lib/dados';
 
 const route = Astro.locals.starlightRoute;
@@ -32,12 +34,12 @@ const fato = percurso
       <span class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span> CONTEXTO · FRAMEWORK</span>
       <h1 id={PAGE_TITLE_ID} class="hero-title" data-page-title set:html={title} />
       <p class="hero-support">{SLOGAN}</p>
-      {tagline && <p set:html={tagline} />}
+      {tagline && <p class="hero-tagline" set:html={tagline} />}
       <p class="hero-fact">{fato.join(' · ')}</p>
       <div class="hero-actions">
-        <a class="cta-primary" href={`${base}fundamentos/comece-em-5-minutos/`}>
+        <LinkButton href={`${base}fundamentos/comece-em-5-minutos/`} variant="primary">
           Comece em 5 minutos <span aria-hidden="true">→</span>
-        </a>
+        </LinkButton>
         {percurso && <a class="hero-link" href={urlDaPagina(percurso.passos[0].pagina)}>Siga o percurso <span aria-hidden="true">→</span></a>}
       </div>
     </div>

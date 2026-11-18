@@ -1,0 +1,234 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edoardolobl.github.io/contexto-framework/schemas/1.0.0/perguntas-de-negocio.schema.json",
+  "title": "Perguntas de negócio",
+  "description": "Perguntas que a IA vai receber, com a resposta esperada, o pedido de esclarecimento ou a recusa, e a versão de cada documento em que as respostas se apoiam.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "https://edoardolobl.github.io/contexto-framework/schemas/1.0.0/common.schema.json"
+    }
+  ],
+  "properties": {
+    "type": {
+      "const": "perguntas-de-negocio"
+    },
+    "domain": {
+      "title": "Domínio",
+      "description": "Assunto coberto pelas perguntas.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "covered_documents": {
+      "title": "Documentos cobertos",
+      "description": "Identificadores dos documentos que as respostas usam.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "depends_on_versions": {
+      "title": "Versões em que as respostas se apoiam",
+      "description": "Versão de cada documento coberto; quando uma muda, as respostas que dependem dele são conferidas de novo.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^\\d+\\.\\d+(\\.\\d+)?$"
+      }
+    },
+    "questions": {
+      "title": "Perguntas",
+      "description": "Uma entrada por pergunta.",
+      "type": "array",
+      "items": {
+        "title": "Pergunta",
+        "description": "Uma pergunta com o comportamento esperado e a resposta conferida.",
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Identificador",
+            "description": "Código curto da pergunta (Q01).",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "question": {
+            "title": "Pergunta",
+            "description": "Como alguém da área faria.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "goal": {
+            "title": "O que a pessoa quer saber",
+            "description": "O objetivo por trás da pergunta.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "assumptions": {
+            "title": "O que a pergunta supõe",
+            "description": "Canal, período ou filtro que a pergunta supõe.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "phrasings": {
+            "title": "Outras formas de perguntar",
+            "description": "Opcional: variações da mesma pergunta.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "onboarding": {
+            "title": "Pergunta de entrada",
+            "description": "Opcional: true se todo agente novo precisa acertar esta pergunta.",
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "expected_behavior": {
+            "title": "Comportamento esperado",
+            "description": "answer (responder), clarify (pedir esclarecimento) ou abstain (não responder).",
+            "enum": [
+              "answer",
+              "clarify",
+              "abstain",
+              null
+            ]
+          },
+          "reference_answer": {
+            "title": "Resposta esperada",
+            "description": "A resposta conferida; null quando o comportamento é não responder.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "reference_sql": {
+            "title": "Consulta da resposta",
+            "description": "Opcional, para quem é técnico: arquivo ou consulta que calcula a resposta.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "required_sources": {
+            "title": "Fontes",
+            "description": "Documentos e arquivos que sustentam a resposta.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "evidence_description": {
+            "title": "Evidência",
+            "description": "O que a fonte mostra.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "ambiguity": {
+            "title": "Ambiguidade",
+            "description": "O que falta na pergunta; obrigatório quando o comportamento é pedir esclarecimento.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "reason_if_abstain": {
+            "title": "Motivo para não responder",
+            "description": "Obrigatório quando o comportamento é não responder.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "reviewed_by": {
+            "title": "Conferido por",
+            "description": "Cargo ou área que conferiu a resposta.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "reviewed_at": {
+            "title": "Conferido em",
+            "description": "Data da conferência; não pode ser anterior aos dados usados.",
+            "$ref": "https://edoardolobl.github.io/contexto-framework/schemas/1.0.0/common.schema.json#/$defs/data_ou_nulo"
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "expected_behavior": {
+                  "const": "abstain"
+                }
+              },
+              "required": [
+                "expected_behavior"
+              ]
+            },
+            "then": {
+              "properties": {
+                "reference_answer": {
+                  "type": "null"
+                },
+                "reason_if_abstain": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "expected_behavior": {
+                  "const": "clarify"
+                }
+              },
+              "required": [
+                "expected_behavior"
+              ]
+            },
+            "then": {
+              "properties": {
+                "ambiguity": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "additionalProperties": false
+      }
+    },
+    "revalidation_triggers": {
+      "title": "Quando conferir de novo",
+      "description": "Mudanças que obrigam a conferir as respostas.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "related_documents": {
+      "title": "Documentos relacionados",
+      "description": "Identificadores de outros documentos que ajudam a ler este.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "unevaluatedProperties": false
+}

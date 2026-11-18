@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:contexto:schemas:1.0.0:common",
+  "$id": "urn:contexto:schemas:1.1.0:common",
   "title": "Cabeçalho comum do Contexto",
   "description": "Campos que todo documento do Contexto tem, na mesma ordem, e os blocos técnicos opcionais. Cada schema de tipo inclui este e acrescenta os campos do tipo.",
   "type": "object",
@@ -43,8 +43,11 @@
     },
     "schema_version": {
       "title": "Versão do formato",
-      "description": "Versão do formato do arquivo, hoje 1.0.0. Diz quais campos o arquivo tem e não muda quando o conteúdo muda.",
-      "const": "1.0.0"
+      "description": "Versão do formato do arquivo, hoje 1.1.0. Diz quais campos o arquivo tem e não muda quando o conteúdo muda. A 1.1.0 só acrescenta dois campos opcionais (license e source_url); um arquivo na 1.0.0 continua válido.",
+      "enum": [
+        "1.0.0",
+        "1.1.0"
+      ]
     },
     "type": {
       "title": "Tipo de documento",
@@ -81,7 +84,7 @@
     "revision_id": {
       "title": "Identificador desta versão",
       "description": "Identificador e versão juntos, no formato id@versão (KPI-AURORA-001@2.0). É o que outro documento cita para apontar exatamente esta versão.",
-      "$ref": "urn:contexto:schemas:1.0.0:common#/$defs/revisao_ou_nulo"
+      "$ref": "urn:contexto:schemas:1.1.0:common#/$defs/revisao_ou_nulo"
     },
     "status": {
       "title": "Estado",
@@ -115,27 +118,27 @@
     "valid_from": {
       "title": "Vale a partir de",
       "description": "Primeiro dia em que a regra vale, no formato AAAA-MM-DD. Pode ser depois da data desta versão; em rascunho, fica em branco.",
-      "$ref": "urn:contexto:schemas:1.0.0:common#/$defs/data_ou_nulo"
+      "$ref": "urn:contexto:schemas:1.1.0:common#/$defs/data_ou_nulo"
     },
     "valid_to": {
       "title": "Primeiro dia em que já não vale",
       "description": "Dia em que a vigência acaba, sem contar esse dia. Em branco quando não há fim previsto.",
-      "$ref": "urn:contexto:schemas:1.0.0:common#/$defs/data_ou_nulo"
+      "$ref": "urn:contexto:schemas:1.1.0:common#/$defs/data_ou_nulo"
     },
     "recorded_at": {
       "title": "Data em que esta versão foi registrada",
       "description": "Só na cópia de uma versão substituída. Guarda o dia do registro, para responder o que se sabia naquela data.",
-      "$ref": "urn:contexto:schemas:1.0.0:common#/$defs/data_ou_nulo"
+      "$ref": "urn:contexto:schemas:1.1.0:common#/$defs/data_ou_nulo"
     },
     "version_date": {
       "title": "Data desta versão",
       "description": "Dia em que esta versão foi escrita ou aprovada, no formato AAAA-MM-DD. Não é o início da vigência.",
-      "$ref": "urn:contexto:schemas:1.0.0:common#/$defs/data_ou_nulo"
+      "$ref": "urn:contexto:schemas:1.1.0:common#/$defs/data_ou_nulo"
     },
     "last_reviewed": {
       "title": "Última revisão",
       "description": "Último dia em que alguém conferiu o documento inteiro, mesmo sem mudar nada. Em branco se ninguém revisou ainda.",
-      "$ref": "urn:contexto:schemas:1.0.0:common#/$defs/data_ou_nulo"
+      "$ref": "urn:contexto:schemas:1.1.0:common#/$defs/data_ou_nulo"
     },
     "review_interval": {
       "title": "De quanto em quanto tempo revisar",
@@ -162,12 +165,38 @@
     "supersedes_revision": {
       "title": "Substitui qual versão?",
       "description": "Versão anterior do mesmo assunto que esta substitui, no formato id@versão. Em branco na primeira versão.",
-      "$ref": "urn:contexto:schemas:1.0.0:common#/$defs/revisao_ou_nulo"
+      "$ref": "urn:contexto:schemas:1.1.0:common#/$defs/revisao_ou_nulo"
     },
     "superseded_by_revision": {
       "title": "Substituída por qual versão?",
       "description": "Só na cópia de uma versão substituída, aponta a versão que tomou o lugar dela. Em documento aprovado e em vigor, fica em branco.",
-      "$ref": "urn:contexto:schemas:1.0.0:common#/$defs/revisao_ou_nulo"
+      "$ref": "urn:contexto:schemas:1.1.0:common#/$defs/revisao_ou_nulo"
+    },
+    "license": {
+      "title": "Licença",
+      "description": "Identificador SPDX da licença do documento, como CC-BY-4.0. Fica em branco quando o time ainda não definiu a licença dos seus documentos.",
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9.+-]*$"
+        }
+      ]
+    },
+    "source_url": {
+      "title": "Endereço publicado",
+      "description": "Endereço onde esta versão está publicada, para quem recebe um trecho citar a origem. Fica em branco enquanto o documento não foi publicado.",
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "pattern": "^https://"
+        }
+      ]
     },
     "intent": {
       "title": "Intenção",
@@ -328,7 +357,7 @@
         "date": {
           "title": "Data da nota",
           "description": "Dia em que a nota foi escrita, que pode ser posterior à versão.",
-          "$ref": "urn:contexto:schemas:1.0.0:common#/$defs/data_ou_nulo"
+          "$ref": "urn:contexto:schemas:1.1.0:common#/$defs/data_ou_nulo"
         },
         "text": {
           "title": "Texto da nota",
@@ -635,7 +664,7 @@
         "date": {
           "title": "Data",
           "description": "Data desta versão; a da entrada mais recente é igual a version_date.",
-          "$ref": "urn:contexto:schemas:1.0.0:common#/$defs/data_ou_nulo"
+          "$ref": "urn:contexto:schemas:1.1.0:common#/$defs/data_ou_nulo"
         },
         "change": {
           "title": "O que mudou e por quê",

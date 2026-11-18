@@ -3,7 +3,7 @@
 # null significa "ainda não sei" ou "ainda não decidido". Não troque null por um palpite: registre a dúvida em open_questions.
 # Campos marcados (obrigatório) são o núcleo para sair do rascunho; os blocos "para quem é técnico" são opcionais.
 id: null                     # (obrigatório) identificador do assunto, igual em todas as versões
-schema_version: "1.0.0"      # versão do formato do arquivo; não mude
+schema_version: "1.1.0"      # versão do formato do arquivo; não mude
 type: conceito
 title: null                  # (obrigatório)
 version: "0.1"               # (obrigatório) versão deste documento
@@ -19,6 +19,8 @@ review_interval: null        # de quanto em quanto tempo revisar, em ISO 8601: P
 source_of_truth: null        # onde está a versão oficial
 supersedes_revision: null    # versão que esta substitui: id@version
 superseded_by_revision: null # só na cópia de uma versão substituída: id@version da sucessora
+license: null                # opcional: licença do documento (identificador SPDX); cada time define a sua
+source_url: null            # opcional: endereço onde esta versão está publicada
 intent:
   question: null             # (obrigatório) pergunta de negócio que o documento responde
   audience: []               # quem usa: cargos ou áreas
@@ -81,7 +83,7 @@ Preencha estes campos no topo do arquivo antes de escrever o resto.
 | Campo | Chave no topo do arquivo | Obrigatório | O que escrever |
 |---|---|---|---|
 | Identificador do assunto | `id` | Sim | Código estável do assunto, igual em todas as versões, em maiúsculas com hífens (por exemplo KPI-AURORA-001). Não muda quando a regra muda. |
-| Versão do formato | `schema_version` |  | Versão do formato do arquivo, hoje 1.0.0. Diz quais campos o arquivo tem e não muda quando o conteúdo muda. |
+| Versão do formato | `schema_version` |  | Versão do formato do arquivo, hoje 1.1.0. Diz quais campos o arquivo tem e não muda quando o conteúdo muda. |
 | Tipo de documento | `type` |  | Tipo de documento, igual ao nome do modelo (kpi, dataset, conceito e outros). Define quais campos vêm depois do cabeçalho. |
 | Título | `title` | Sim | Nome que uma pessoa da área reconhece, com o assunto e a organização. Pode mudar entre versões sem mudar o identificador. |
 | Versão atual | `version` | Sim | Número desta versão no formato MAIOR.MENOR (1.0, 1.1, 2.0). Suba o número maior quando a regra muda de sentido e o menor quando só esclarece. |
@@ -98,6 +100,8 @@ Preencha estes campos no topo do arquivo antes de escrever o resto.
 | Fonte oficial | `source_of_truth` |  | Sistema, documento ou tabela que vale quando duas fontes discordam. Fica em branco enquanto ninguém confirmou qual é. |
 | Substitui qual versão? | `supersedes_revision` |  | Versão anterior do mesmo assunto que esta substitui, no formato id@versão. Em branco na primeira versão. |
 | Substituída por qual versão? | `superseded_by_revision` |  | Só na cópia de uma versão substituída, aponta a versão que tomou o lugar dela. Em documento aprovado e em vigor, fica em branco. |
+| Licença | `license` |  | Identificador SPDX da licença do documento, como CC-BY-4.0. Nos modelos em branco fica vazio, porque cada time define a licença dos seus documentos. |
+| Endereço publicado | `source_url` |  | Endereço onde esta versão está publicada, para quem recebe um trecho citar a origem. Nos modelos em branco fica vazio, até o documento ser publicado. |
 | Pergunta de negócio que o documento responde | `intent.question` | Sim | A pergunta escrita como alguém da área faria. Sem ela, o documento não sai do rascunho, porque ninguém sabe o que ele precisa responder. |
 | Quem usa | `intent.audience` |  | Cargos ou áreas que leem e usam o documento. Ajuda a escolher o nível de detalhe e quem precisa saber de cada mudança. |
 | Para quê | `intent.purpose` |  | Para que o documento existe, em uma frase, dizendo o problema que ele evita. |
@@ -109,14 +113,24 @@ Preencha estes campos no topo do arquivo antes de escrever o resto.
 ## Para que serve
 Em `intent`, escreva a pergunta de negócio que o documento responde (`question`), como alguém da área faria. Diga quem usa (`audience`), para quê (`purpose`) e quais decisões mudam conforme a resposta (`decisions`). Em `plain_summary`, explique em uma ou duas frases, sem termos técnicos, o que o documento diz.
 
+Exemplo Aurora: `intent.question`: Quem conta como participante ativo no programa de integração da Aurora?
+
+Exemplo Aurora: `plain_summary`: Ativo é quem se inscreveu, não está em pausa, não concluiu e foi a pelo menos uma atividade nos últimos 30 dias.
+
 ## Domínio e aplicabilidade
 Em `domain`, diga em que área o termo é usado. Em `scope.applies_when`, diga quando a definição vale; em `scope.does_not_apply_when`, quando ela não deve ser usada.
 
 ## Significado
 Em `definition`, escreva a definição completa, com o período e as condições. O bloco `vocabulary` segue o SKOS: `prefLabel` é o termo preferido, `altLabel` lista sinônimos de fato equivalentes, `broader` traz o termo mais amplo, `related` lista termos ligados que não são equivalentes, e `not_synonyms` diz com o que não confundir. Em `other_domain_meanings`, registre o que a mesma palavra quer dizer em outra área.
 
+Exemplo Aurora: `definition`: Pessoa inscrita no programa, que não está em pausa nem concluiu todas as atividades, e que registrou presença em pelo menos uma atividade entre 30 dias antes da data de referência do relatório e a própria data de referência, ambas incluídas.
+
+Exemplo Aurora: `vocabulary.prefLabel`: Participante ativo
+
 ## Critérios e exemplos
 Em `inclusion_criteria` e `exclusion_criteria`, liste o que faz alguém ou algo pertencer ou não ao conceito. Em `examples`, dê um caso que pertence; em `counterexamples`, um que não pertence; em `boundary_cases`, os casos no limite da definição e como classificá-los.
+
+Exemplo Aurora: `inclusion_criteria`: Inscrição confirmada no programa; Pelo menos uma presença registrada entre 30 dias antes da data de referência e a própria data; Sem afastamento registrado na data de referência e com atividades ainda por concluir
 
 ## Confirmação
 Em `validation`, diga quem confirmou as decisões, a evidência da confirmação (uma ata, por exemplo) e o histórico de revisões do significado.

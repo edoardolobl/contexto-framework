@@ -3,7 +3,7 @@
 # null significa "ainda não sei" ou "ainda não decidido". Não troque null por um palpite: registre a dúvida em open_questions.
 # Campos marcados (obrigatório) são o núcleo para sair do rascunho; os blocos "para quem é técnico" são opcionais.
 id: null                     # (obrigatório) identificador do assunto, igual em todas as versões
-schema_version: "1.0.0"      # versão do formato do arquivo; não mude
+schema_version: "1.1.0"      # versão do formato do arquivo; não mude
 type: politica
 title: null                  # (obrigatório)
 version: "0.1"               # (obrigatório) versão deste documento
@@ -19,6 +19,8 @@ review_interval: null        # de quanto em quanto tempo revisar, em ISO 8601: P
 source_of_truth: null        # onde está a versão oficial
 supersedes_revision: null    # versão que esta substitui: id@version
 superseded_by_revision: null # só na cópia de uma versão substituída: id@version da sucessora
+license: null                # opcional: licença do documento (identificador SPDX); cada time define a sua
+source_url: null            # opcional: endereço onde esta versão está publicada
 intent:
   question: null             # (obrigatório) pergunta de negócio que o documento responde
   audience: []               # quem usa: cargos ou áreas
@@ -81,17 +83,27 @@ related_documents: []        # identificadores de outros documentos
 ## Para que serve
 Em `intent`, escreva a pergunta de negócio que o documento responde (`question`), como alguém da área faria. Diga quem usa (`audience`), para quê (`purpose`) e quais decisões mudam conforme a resposta (`decisions`). Em `plain_summary`, explique em uma ou duas frases, sem termos técnicos, o que o documento diz.
 
+<!-- contexto:exemplo intent.question -->
+
+<!-- contexto:exemplo plain_summary -->
+
 ## Escopo
 Em `scope`, liste quem é abrangido, quais atividades e localidades, e as exclusões.
 
 ## Autoridade da política
 Em `authority`, diga quem emitiu a política, quem aprova, a versão e a data de entrada em vigor da própria política, a data de fim, se houver, e qual política ela substitui. Estes campos descrevem a política em si. `version`, `valid_from` e `valid_to` do cabeçalho descrevem este registro sobre a política; os dois podem ser diferentes.
 
+<!-- contexto:exemplo authority.version -->
+
+<!-- contexto:exemplo authority.effective_date -->
+
 ## Regras e exceções
 Em `obligations`, `permissions` e `prohibitions`, liste o que é obrigatório, permitido e proibido. Em `exceptions`, cada exceção com a condição, quem aprova e a evidência exigida.
 
 ## Relação com outras fontes
 Em `conflicting_sources`, registre cada conflito com as fontes, o que cada uma diz, o impacto e o estado; quando resolvido, a resolução, quem resolveu e a data. Em `source_precedence_rule`, diga qual fonte prevalece. Em `how_to_verify` e `review_trigger`, como conferir se a política mudou e o que dispara uma revisão.
+
+<!-- contexto:exemplo source_precedence_rule -->
 
 ## Para quem é técnico (opcional)
 `authoritativeDefinitions` aponta onde mora a regra executável, como o documento oficial publicado na intranet, sem copiar o código para o documento. Cada item tem `type` (`sql`, `metricView`, `filter`, `dashboard`, `document` ou `other`), `url` e `description`.

@@ -3,6 +3,7 @@
  * Tabela de modelos da página "Escreva com o modelo", lida de src/data/modelos.yaml (NAV-14).
  * Um só mecanismo, estático: um h3 por nível (ADR 0013 e ADR 0003). Não tem h2 próprio;
  * entra logo depois do h2 "Escolha o modelo" da página.
+ * O "Baixar" de cada linha é link de texto, com alvo de 44 px (template-finder__baixar).
  */
 import { baseUrl, lerModelos, urlDaPagina, type Nivel } from '../lib/dados';
 
@@ -30,7 +31,7 @@ const base = baseUrl();
             <tr>
               <td>{modelo.tarefa}</td>
               <td><a href={urlDaPagina(`templates/${modelo.pagina}`)}>{modelo.nome}</a></td>
-              <td><a href={`${base}downloads/template-${modelo.slug}.md`} download>Baixar<span class="sr-only">: {modelo.rotulo_download}</span></a></td>
+              <td><a class="template-finder__baixar" href={`${base}downloads/template-${modelo.slug}.md`} download>Baixar<span class="sr-only">: {modelo.rotulo_download}</span></a></td>
             </tr>
           ))}
         </tbody>

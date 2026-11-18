@@ -74,6 +74,15 @@ Cada linha diz onde o campo antigo foi parar. Quando a primeira coluna diz “n�
 | Não existia | `open_questions[].resolution` | O que foi decidido, com data e evidência. Obrigatório quando a pergunta está resolvida |
 | [`template-casos-teste.md`](../../downloads/historico/0.x/template-casos-teste.md) e [`template-casos-teste.yaml`](../../downloads/historico/0.x/template-casos-teste.yaml), e os dois exemplos com o mesmo nome de tipo | `template-perguntas-de-negocio.md`, `template-perguntas-de-negocio.yaml`, `exemplo-perguntas-de-negocio-lacunas.yaml` e `exemplo-perguntas-de-negocio-completo.yaml` | Os arquivos levam o nome do tipo, Perguntas de negócio |
 
+## Do 1.0.0 para o 1.1.0
+
+Nada quebra. A versão 1.1.0 do formato só acrescenta dois campos opcionais ao cabeçalho:
+
+- `license`: a licença do documento, com um identificador SPDX, como `CC-BY-4.0`;
+- `source_url`: o endereço onde esta versão do documento está publicada.
+
+Os modelos novos trazem os dois em branco, para cada time preencher quando decidir a licença e publicar o documento. Documentos escritos com `schema_version: "1.0.0"` continuam válidos: o schema da 1.0.0 segue publicado, e você só precisa trocar para `"1.1.0"` se quiser usar os campos novos. Veja [Endereços estáveis e schemas](../../usar-com-ia/enderecos-e-schemas/).
+
 ## Como migrar um documento seu
 
 1. Baixe o modelo novo do mesmo tipo em [Modelos](../../templates/).

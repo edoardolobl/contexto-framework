@@ -1,0 +1,228 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edoardolobl.github.io/contexto-framework/schemas/1.1.0/decisao.schema.json",
+  "title": "Regra e decisão",
+  "description": "Critérios verificáveis para uma decisão recorrente, com a tabela de decisão e testes descritos como pedidos reais.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "https://edoardolobl.github.io/contexto-framework/schemas/1.1.0/common.schema.json"
+    }
+  ],
+  "properties": {
+    "type": {
+      "const": "decisao"
+    },
+    "scope": {
+      "title": "Escopo",
+      "description": "Quando a regra se aplica.",
+      "type": "object",
+      "properties": {
+        "applies_when": {
+          "title": "Quando se aplica",
+          "description": "Situações em que a regra decide.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "not_applicable_when": {
+          "title": "Quando não se aplica",
+          "description": "Situações fora da regra.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "required_inputs": {
+      "title": "Entradas",
+      "description": "Cada entrada com os valores possíveis e a definição verificável.",
+      "type": "array",
+      "items": {
+        "title": "Entrada",
+        "description": "Uma entrada da tabela.",
+        "type": "object",
+        "properties": {
+          "name": {
+            "title": "Nome",
+            "description": "Nome da entrada, igual ao usado na tabela.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "allowed_values": {
+            "title": "Valores possíveis",
+            "description": "Lista fechada; unknown quando a entrada pode faltar.",
+            "type": "array",
+            "items": {}
+          },
+          "definition": {
+            "title": "Definição",
+            "description": "Como saber o valor sem depender de quem confere.",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "possible_outputs": {
+      "title": "Resultados possíveis",
+      "description": "Todos os resultados que a tabela pode dar.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "decision_table": {
+      "title": "Tabela de decisão",
+      "description": "Cada linha com as condições (when) e o resultado (then); any vale para qualquer valor.",
+      "type": "array",
+      "items": {
+        "title": "Linha",
+        "description": "Uma linha da tabela.",
+        "type": "object",
+        "properties": {
+          "when": {
+            "title": "Condições",
+            "description": "Valor de cada entrada, ou any.",
+            "type": "object"
+          },
+          "then": {
+            "title": "Resultado",
+            "description": "Um dos resultados possíveis.",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "priority_rules": {
+      "title": "Precedência",
+      "description": "O que fazer se duas linhas valerem ao mesmo tempo.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "default_behavior": {
+      "title": "Resultado padrão",
+      "description": "Resultado quando nenhuma linha vale.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "unknown_input_behavior": {
+      "title": "Entrada desconhecida",
+      "description": "Resultado quando falta uma entrada.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "exceptions": {
+      "title": "Exceções",
+      "description": "Situações fora da regra.",
+      "type": "array",
+      "items": {
+        "title": "Exceção",
+        "description": "Situação fora da regra, com quem aprova e a evidência exigida.",
+        "type": "object",
+        "properties": {
+          "condition": {
+            "title": "Condição",
+            "description": "Quando a exceção vale.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "approval_role": {
+            "title": "Quem aprova",
+            "description": "Cargo ou área que autoriza a exceção.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "evidence_needed": {
+            "title": "Evidência exigida",
+            "description": "O que precisa ser anexado.",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "tests": {
+      "title": "Testes",
+      "description": "Pedidos reais com as entradas e o resultado esperado.",
+      "type": "array",
+      "items": {
+        "title": "Teste",
+        "description": "Um pedido real.",
+        "type": "object",
+        "properties": {
+          "case": {
+            "title": "Caso",
+            "description": "O pedido descrito como chegou.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "inputs": {
+            "title": "Entradas",
+            "description": "Valor de cada entrada neste caso.",
+            "type": "object"
+          },
+          "expected_outcome": {
+            "title": "Resultado esperado",
+            "description": "Um dos resultados possíveis.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "reasoning": {
+            "title": "Justificativa",
+            "description": "Por que este é o resultado.",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "conflicts": {
+      "title": "Conflitos",
+      "description": "Conflitos com outras regras.",
+      "type": "array",
+      "items": {}
+    },
+    "related_documents": {
+      "title": "Documentos relacionados",
+      "description": "Identificadores de outros documentos que ajudam a ler este.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "unevaluatedProperties": false
+}

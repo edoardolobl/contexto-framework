@@ -48,7 +48,22 @@ export default defineConfig({
         { tag: 'meta', attrs: { name: 'theme-color', media: '(prefers-color-scheme: dark)', content: '#17181c' } },
       ],
       locales: { root: { label: 'Português', lang: 'pt-BR' } },
-      customCss: ['./src/styles/custom.css'],
+      // Fontes IBM Plex servidas pelo próprio site (ADR 0016), só nos pesos usados; depois os tokens
+      // e a ordem das camadas (custom.css), a base, as quatro primitivas, os componentes e o estudo.
+      customCss: [
+        '@fontsource/ibm-plex-sans/400.css',
+        '@fontsource/ibm-plex-sans/600.css',
+        '@fontsource/ibm-plex-sans/700.css',
+        '@fontsource/ibm-plex-serif/600.css',
+        '@fontsource/ibm-plex-serif/400-italic.css',
+        '@fontsource/ibm-plex-mono/400.css',
+        '@fontsource/ibm-plex-mono/600.css',
+        './src/styles/custom.css',
+        './src/styles/base.css',
+        './src/styles/primitivas.css',
+        './src/styles/componentes.css',
+        './src/styles/estudo.css'
+      ],
       components: { Footer: './src/components/SiteFooter.astro', Hero: './src/components/LandingHero.astro' },
       social: [
         { icon: 'github', label: 'Repositório no GitHub', href: 'https://github.com/edoardolobl/contexto-framework' },
@@ -79,11 +94,14 @@ export default defineConfig({
           'dados/visao-geral', 'fundamentos/conhecimento-tacito', 'metodo/limites'
         ] },
         { label: 'Consultar', collapsed: true, items: [
-          'metodo/oito-dimensoes', 'referencias/cenarios-de-mensuracao', 'fundamentos/como-ler-os-campos', 'referencias/migracao-schema-1-0', 'referencias/correspondencia-odcs',
+          'metodo/oito-dimensoes', 'referencias/cenarios-de-mensuracao', 'fundamentos/como-ler-os-campos', 'referencias/campos', 'referencias/migracao-schema-1-0', 'referencias/correspondencia-odcs',
           'metodo/identificacao-versoes',
           'governanca/papeis', 'referencias', 'sobre/creditos'
         ] },
-        { label: 'Usar com IA', items: ['usar-com-ia/agents-md'] }
+        { label: 'Usar com IA', items: [
+          'usar-com-ia/kit-para-agentes', 'usar-com-ia/agents-md', 'usar-com-ia/preparar-para-notebooklm-ou-rag',
+          'usar-com-ia/enderecos-e-schemas'
+        ] }
       ]
     })
   ]

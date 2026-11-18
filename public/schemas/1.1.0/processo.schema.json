@@ -1,0 +1,255 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edoardolobl.github.io/contexto-framework/schemas/1.1.0/processo.schema.json",
+  "title": "Processo",
+  "description": "Como um trabalho é executado: gatilho, etapas, papéis, prazos, exceções e evidências.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "https://edoardolobl.github.io/contexto-framework/schemas/1.1.0/common.schema.json"
+    }
+  ],
+  "properties": {
+    "type": {
+      "const": "processo"
+    },
+    "scope": {
+      "title": "Escopo",
+      "description": "Quando o processo se aplica.",
+      "type": "object",
+      "properties": {
+        "applies_when": {
+          "title": "Quando se aplica",
+          "description": "Situações cobertas.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "not_applicable_when": {
+          "title": "Quando não se aplica",
+          "description": "Situações fora do processo.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "trigger": {
+      "title": "Gatilho",
+      "description": "O que dá início ao processo.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "preconditions": {
+      "title": "Pré-condições",
+      "description": "O que precisa existir antes do início.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "required_inputs": {
+      "title": "Entradas indispensáveis",
+      "description": "O que precisa chegar com o pedido.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "roles": {
+      "title": "Papéis",
+      "description": "Quem responde, executa e aprova, por cargo ou área.",
+      "type": "object",
+      "properties": {
+        "process_owner": {
+          "title": "Responsável pelo processo",
+          "description": "Cargo ou área.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "performers": {
+          "title": "Quem executa",
+          "description": "Cargos ou áreas.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "approvers": {
+          "title": "Quem aprova",
+          "description": "Cargos ou áreas.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "steps": {
+      "title": "Etapas",
+      "description": "Uma entrada por etapa, na ordem.",
+      "type": "array",
+      "items": {
+        "title": "Etapa",
+        "description": "Uma etapa do processo.",
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Identificador",
+            "description": "Código curto da etapa (S01, S02).",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "name": {
+            "title": "Nome",
+            "description": "Nome da etapa.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "performer_role": {
+            "title": "Quem executa",
+            "description": "Cargo ou área.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "action": {
+            "title": "Ação",
+            "description": "O que é feito.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "inputs": {
+            "title": "Entradas",
+            "description": "O que a etapa recebe.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "output_evidence": {
+            "title": "Evidência",
+            "description": "O registro que a etapa deixa.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "next_step": {
+            "title": "Próxima etapa",
+            "description": "Para onde o pedido vai, inclusive desvios.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "deadline": {
+            "title": "Prazo",
+            "description": "Quanto tempo a etapa pode esperar.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "on_deadline": {
+            "title": "Quando o prazo vence",
+            "description": "O que acontece se ninguém agir.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "exception_handling": {
+            "title": "Exceções",
+            "description": "Como tratar o que sai do esperado.",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "decision_rules": {
+      "title": "Regras de decisão",
+      "description": "Identificadores das regras usadas, sem copiar o conteúdo.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "completion": {
+      "title": "Encerramento",
+      "description": "Como o processo termina.",
+      "type": "object",
+      "properties": {
+        "success_criteria": {
+          "title": "Critério de sucesso",
+          "description": "O que precisa ser verdade no fim.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "failure_outcomes": {
+          "title": "Resultados de falha",
+          "description": "Formas de encerrar sem sucesso.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "evidence_record": {
+          "title": "Registro da evidência",
+          "description": "Onde a evidência fica guardada.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "exceptions": {
+      "title": "Exceções",
+      "description": "Situações fora do fluxo normal.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "escalation": {
+      "title": "Escalonamento",
+      "description": "Para quem o pedido sobe e quando.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "related_documents": {
+      "title": "Documentos relacionados",
+      "description": "Identificadores de outros documentos que ajudam a ler este.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "unevaluatedProperties": false
+}

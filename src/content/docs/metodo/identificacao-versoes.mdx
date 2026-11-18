@@ -21,6 +21,8 @@ A solução documental não é escolher automaticamente o arquivo com a data mai
 
 `supersedes_revision` aponta para a versão anterior; na cópia antiga, `superseded_by_revision` aponta a versão que tomou o lugar dela. O `version_history` resume o que mudou, mas **não substitui o conteúdo arquivado** da versão anterior.
 
+Cada versão também tem um endereço próprio no portal, formado pelo mesmo `id@versão`: a versão 2.0 do indicador de conversão fica em `documentos/KPI-AURORA-001@2.0.md`. O endereço não muda depois de publicado, então uma resposta que citou uma versão continua levando ao texto que valia naquela data. Veja [Endereços estáveis e schemas](../../usar-com-ia/enderecos-e-schemas/).
+
 ## Exemplo 1. O mesmo termo muda de significado
 
 No programa da Aurora, “participante ativo” passou de uma janela de **60 dias** para **30 dias**. Compare as duas versões completas do mesmo conceito.
@@ -51,7 +53,7 @@ Neste framework, `valid_from` inclui o dia inicial e `valid_to` **exclui** o dia
 
 ```yaml
 id: CONCEPT-ONBOARDING-001
-schema_version: "1.0.0"
+schema_version: "1.1.0"
 type: conceito
 version: "1.0"
 revision_id: "CONCEPT-ONBOARDING-001@1.0"

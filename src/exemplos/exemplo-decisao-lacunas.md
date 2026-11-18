@@ -1,7 +1,7 @@
 ---
 # Exemplo do Contexto, versão com lacunas: nada aqui foi aprovado. A Aurora é uma organização inventada.
 id: DECISION-CAMPAIGN-001
-schema_version: "1.0.0"
+schema_version: "1.1.0"
 type: decisao
 title: "Triagem de campanha: Aurora"
 version: "0.1"
@@ -17,6 +17,8 @@ review_interval: null
 source_of_truth: null
 supersedes_revision: null
 superseded_by_revision: null
+license: CC-BY-4.0
+source_url: "https://edoardolobl.github.io/contexto-framework/documentos/DECISION-CAMPAIGN-001@0.1.md"
 intent:
   question: "Que encaminhamento deve receber um pedido de campanha?"
   audience: ["Operação de Marketing", "Revisão de Conteúdo"]

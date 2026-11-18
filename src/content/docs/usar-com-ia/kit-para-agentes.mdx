@@ -1,0 +1,64 @@
+---
+title: Kit para agentes
+description: Um pacote para baixar com as definições aprovadas, o gabarito e a instrução curta que um agente de IA precisa para não improvisar o cálculo de um indicador.
+---
+
+Peça a um agente de IA “qual foi a conversão de outubro?” sem dar a ele a definição do seu time, e ele calcula com a definição genérica que aprendeu no treinamento. A resposta parece certa, mas usa outra conta. O kit existe para evitar isso: junta num pacote só as definições aprovadas, o histórico, o gabarito e uma instrução curta que manda o agente usar essas definições e perguntar quando não houver uma.
+
+O kit desta página traz os documentos da Aurora, a organização dos laboratórios do portal. Ele mostra como o pacote funciona; no seu time, o conteúdo são os seus documentos aprovados.
+
+## Baixar
+
+- [Baixar o kit completo (.zip)](../../downloads/kit/contexto-kit-agentes.zip)
+- [Ver o AGENTS.md do kit](../../downloads/kit/contexto-kit-agentes/AGENTS.md), a instrução que o agente lê primeiro
+
+## O que vem no kit
+
+| Arquivo ou pasta | O que é | Para que serve |
+|---|---|---|
+| `AGENTS.md` | Instrução curta ao agente | Diz onde está cada coisa e as regras: nunca calcular um indicador sem a definição aprovada, citar id e versão, perguntar quando faltar definição |
+| `glossario.md` | Glossário | Os termos do negócio com o significado aprovado, para o agente não trocar uma palavra por outra parecida |
+| `contratos/` | Documentos aprovados | A definição que vale hoje, um arquivo por id e versão, como `KPI-AURORA-001@2.0.md` |
+| `contratos/historico/` | Versões substituídas | Só para perguntas sobre o passado, como “qual era a regra em agosto?” |
+| `gabaritos/` | Perguntas de negócio com as respostas esperadas | Para conferir se o agente acerta antes de confiar nele |
+| `dados/` | Dados do laboratório | Para o agente calcular e você comparar o resultado com o gabarito |
+| `skills/auditar-coleta/` | Skill de auditoria de coleta | Roteiro para investigar um evento que parece ter parado de chegar, comparando com a linha de base de cada operação antes de falar em quebra |
+
+Rascunhos e documentos pendentes de aprovação ficam fora do kit: só o que tem quem aprova confirmado vale como definição.
+
+## Como apontar a sua ferramenta
+
+Copie o conteúdo da pasta do kit para a raiz do repositório em que o agente trabalha, ou ajuste os caminhos do `AGENTS.md` para onde os arquivos ficarem. O `AGENTS.md` é um arquivo de texto que várias ferramentas leem na raiz do repositório; o site [agents.md](https://agents.md/) lista as ferramentas compatíveis. Cada ferramenta decide como o lê, por isso a tabela abaixo diz só o que a documentação de cada uma afirma.
+
+Conferido em 17/11/2026.
+
+| Ferramenta | O que a documentação oficial diz | Fonte |
+|---|---|---|
+| Claude Code | Lê o `AGENTS.md` quando o repositório não tem `CLAUDE.md` (versão 2.1.277 ou mais nova). Se já houver um `CLAUDE.md`, ponha nele a linha `@AGENTS.md`, que importa o arquivo | [Anthropic: memória do Claude Code](https://code.claude.com/docs/en/memory#agents-md) |
+| Codex | Lê os arquivos `AGENTS.md` antes de começar, da raiz do projeto até a pasta atual; o mais próximo da pasta atual vem por último e prevalece | [OpenAI: instruções com AGENTS.md](https://learn.chatgpt.com/docs/agent-configuration/agents-md) |
+| Cursor | Aceita `AGENTS.md` na raiz do projeto e em subpastas; a instrução mais específica prevalece | [Cursor: Rules](https://cursor.com/docs/context/rules) |
+| GitHub Copilot | Aceita um ou mais `AGENTS.md` em qualquer pasta do repositório; o mais próximo na árvore de pastas prevalece | [GitHub Docs: instruções do repositório](https://docs.github.com/en/copilot/how-tos/configure-custom-instructions/add-repository-instructions) |
+| Outra ferramenta | Consulte a documentação da ferramenta | A documentação oficial da própria ferramenta |
+
+Para o modelo do arquivo e como adaptar os caminhos, veja [Modelo de AGENTS.md](../agents-md/).
+
+## A Skill de auditoria de coleta
+
+Uma Skill é uma pasta com um arquivo `SKILL.md`. No topo do arquivo ficam um nome e uma descrição que diz quando usar; abaixo, o roteiro em texto; ao lado, pastas opcionais com material de consulta. O formato é descrito na [especificação Agent Skills](https://agentskills.io/specification), e o agente carrega primeiro só o nome e a descrição, e o resto quando a tarefa pede.
+
+A Skill do kit, `auditar-coleta`, guia o agente quando alguém pergunta se um evento parou de chegar. Na pasta `references/` ela leva os documentos aprovados de que precisa: o do evento, com a linha de base de cada operação, e a decisão sobre o que fazer quando um evento parece quebrado.
+
+Onde instalar a pasta depende da ferramenta. No Claude Code, a documentação indica `.claude/skills/auditar-coleta/SKILL.md` dentro do projeto ([Anthropic: Skills no Claude Code](https://code.claude.com/docs/en/skills), conferido em 17/11/2026). Para outras ferramentas, consulte a documentação da ferramenta.
+
+## Um adaptador descartável
+
+O kit é um adaptador: liga os seus documentos a um tipo de ferramenta. Pela regra de desacoplamento do Contexto, todo adaptador declara a versão para a qual foi escrito (o `AGENTS.md` do kit diz isso logo no começo) e pode ser jogado fora e refeito sem mudar nenhum documento. Os documentos não ganham campo de ferramenta ou de protocolo ([ADR 0025](https://github.com/edoardolobl/contexto-framework/blob/main/docs/adr/0025-instrucao-minima-ao-agente.md)).
+
+O kit orienta, não garante. Nenhuma instrução obriga o agente a segui-la. Depois de instalar ou trocar o kit, refaça o [teste com as perguntas](../../percurso/teste-com-as-perguntas/) e confira as respostas com o gabarito.
+
+### Fundamentação
+
+- [agents.md](https://agents.md/): formato do `AGENTS.md` e lista de ferramentas compatíveis (prática de mercado).
+- [Agent Skills, especificação](https://agentskills.io/specification): formato da pasta com `SKILL.md` (prática de mercado).
+- Documentação de cada ferramenta, citada na tabela acima (relato de fornecedor), conferida em 17/11/2026.
+- Regra de desacoplamento e instrução mínima: [convenção do Contexto, ADR 0025](https://github.com/edoardolobl/contexto-framework/blob/main/docs/adr/0025-instrucao-minima-ao-agente.md).

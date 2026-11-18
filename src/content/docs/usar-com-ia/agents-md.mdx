@@ -3,7 +3,7 @@ title: Modelo de AGENTS.md
 description: Arquivo curto para a raiz do repositório, que orienta o agente a usar só documentos aprovados e a dizer quando não há base.
 ---
 
-`AGENTS.md` é um arquivo de instruções que agentes de programação leem na raiz do repositório. Este modelo diz ao agente onde estão os documentos aprovados e o que fazer quando eles não bastam. Copie, troque os caminhos e mantenha as regras.
+`AGENTS.md` é um arquivo de instruções que agentes de programação leem na raiz do repositório. Este modelo diz ao agente onde estão os documentos aprovados e o que fazer quando eles não bastam. Copie, troque os caminhos e mantenha as regras. Se preferir começar de um pacote pronto, com os documentos e o gabarito, veja o [Kit para agentes](../kit-para-agentes/).
 
 ## O arquivo
 
@@ -21,8 +21,10 @@ description: Arquivo curto para a raiz do repositório, que orienta o agente a u
 
 - Nunca calcule um indicador sem a definição aprovada. Se não houver, pergunte.
 - Use só documentos aprovados e cite o id e a versão de cada um.
-- Rascunho e documento pendente de aprovação não valem como definição.
+- Só documento com status approved vale como regra. draft e pending_approval
+  são rascunho; superseded serve só para perguntas sobre o passado.
 - Respeite o escopo e a vigência escritos no cabeçalho do documento.
+- Zero em um dia não é quebra; compare com a linha de base por operação.
 
 ## Desfechos
 
@@ -40,6 +42,10 @@ Toda resposta termina num destes três:
 - **Um caminho por tipo de documento.** Se dois tipos ficam na mesma pasta, escreva a pasta uma vez e diga quais tipos estão nela.
 - **Documentos fora do repositório:** aponte o endereço onde a versão aprovada está publicada e diga como o agente reconhece a versão.
 - **Remova o que você não tem.** Uma linha que aponta para uma pasta vazia ensina o agente a procurar onde não há nada.
+
+## No Claude Code
+
+O Claude Code lê o `AGENTS.md` quando o repositório não tem `CLAUDE.md`. Se o repositório já tiver um `CLAUDE.md`, escreva nele a linha `@AGENTS.md`: ela importa o arquivo, e as duas ferramentas passam a ler as mesmas regras ([Anthropic: memória do Claude Code](https://code.claude.com/docs/en/memory#share-one-file-with-other-coding-tools), conferido em 17/11/2026). Para outras ferramentas, veja a tabela do [Kit para agentes](../kit-para-agentes/#como-apontar-a-sua-ferramenta).
 
 ## Um adaptador descartável
 

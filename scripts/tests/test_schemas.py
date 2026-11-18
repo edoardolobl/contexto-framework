@@ -7,6 +7,7 @@ import pytest
 
 import comum
 import check_schemas as cs
+from enderecos import url_do_documento
 
 COMUM = {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -14,7 +15,9 @@ COMUM = {
     "type": "object",
     "properties": {
         "id": {"type": "string"},
-        "schema_version": {"const": "1.0.0"},
+        "schema_version": {"enum": ["1.0.0", "1.1.0"]},
+        "license": {"type": ["string", "null"]},
+        "source_url": {"type": ["string", "null"]},
         "type": {"type": "string"},
         "title": {"type": "string"},
         "status": {"enum": sorted(comum.ESTADOS_DO_DOCUMENTO)},
@@ -49,9 +52,11 @@ def montar(raiz: Path, comum_: dict = COMUM, kpi: dict = KPI) -> Path:
     (raiz / "src/data/campos.yaml").write_text(CAMPOS, encoding="utf-8")
     (raiz / "src/modelos/kpi.md").write_text(fonte_do_modelo(), encoding="utf-8")
     (raiz / "src/exemplos/exemplo-kpi-completo.md").write_text(
-        "---\n# aviso\nid: KPI-A\ntype: kpi\nvalid_from: 2026-09-15\nintent:\n  question: Q?\n---\ncorpo\n", encoding="utf-8")
+        "---\n# aviso\nid: KPI-A-001\nschema_version: \"1.1.0\"\ntype: kpi\nversion: \"1.0\"\nvalid_from: 2026-09-15\n"
+        f"license: CC-BY-4.0\nsource_url: {url_do_documento('KPI-A-001', '1.0')}\nintent:\n  question: Q?\n---\ncorpo\n", encoding="utf-8")
     (raiz / "src/exemplos/historico/exemplo-kpi-v1.0.md").write_text(
-        "---\nid: KPI-A\ntype: kpi\nstatus: superseded\nrecorded_at: 2026-10-01\n---\ncorpo\n", encoding="utf-8")
+        "---\nid: KPI-A-001\nschema_version: \"1.1.0\"\ntype: kpi\nversion: \"1.0\"\nstatus: superseded\nrecorded_at: 2026-10-01\n"
+        f"license: CC-BY-4.0\nsource_url: {url_do_documento('KPI-A-001', '1.0')}\n---\ncorpo\n", encoding="utf-8")
     return raiz
 
 
@@ -68,13 +73,13 @@ def test_fontes_validas_passam(tmp_path: Path):
 
 def test_mensagem_final(tmp_path: Path):
     montar(tmp_path)
-    assert cs.mensagem_ok(1, 2) == "OK: 1 modelos e 2 exemplos válidos no JSON Schema 1.0.0, cabeçalho na ordem"
+    assert cs.mensagem_ok(1, 2) == "OK: 1 modelos e 2 exemplos válidos no JSON Schema 1.1.0, cabeçalho na ordem"
 
 
 def test_erro_de_schema_sai_com_arquivo_caminho_e_mensagem(tmp_path: Path):
     montar(tmp_path)
     arq = tmp_path / "src/exemplos/exemplo-kpi-completo.md"
-    arq.write_text(arq.read_text(encoding="utf-8").replace("id: KPI-A", "id: 7"), encoding="utf-8")
+    arq.write_text(arq.read_text(encoding="utf-8").replace("id: KPI-A-001", "id: 7"), encoding="utf-8")
     achados = erros(tmp_path)
     assert any("exemplo-kpi-completo.md: id: " in e and "string" in e for e in achados), achados
 
@@ -258,3 +263,112 @@ def test_exemplo_yaml_do_contrato_segue_a_ordem_do_cabecalho():
     assert blocos, "o contrato perdeu o exemplo YAML do cabeçalho"
     for bloco in blocos:
         assert cs.erros_de_ordem(list(yaml.safe_load(bloco)), exigir_todas=False) == []
+
+
+# ---------- schema 1.1.0 (aditivo) com os schemas reais ----------
+
+def _kpi_completo() -> dict:
+    lido = comum.ler_frontmatter(comum.ROOT / "src/exemplos/exemplo-kpi-completo.md", comum.Relatorio())
+    assert lido is not None
+    return lido[0]
+
+
+def _erros_reais(dados: dict) -> list[str]:
+    relatorio = comum.Relatorio()
+    schemas = cs._carregar_schemas(comum.ROOT / "schemas", relatorio)
+    validador = cs.Draft202012Validator(schemas["kpi"], registry=cs._registro(schemas), format_checker=cs.FormatChecker())
+    return [e.message for e in validador.iter_errors(cs.para_json(dados))]
+
+
+def test_documento_1_0_0_sem_license_nem_source_url_continua_valido():
+    dados = {k: v for k, v in _kpi_completo().items() if k not in ("license", "source_url")}
+    assert _erros_reais({**dados, "schema_version": "1.0.0"}) == []
+
+
+def test_documento_1_1_0_completo_e_valido_e_versao_desconhecida_falha():
+    dados = _kpi_completo()
+    assert _erros_reais(dados) == []
+    assert _erros_reais({**dados, "schema_version": "2.0.0"}) != []
+
+
+def test_kpi_com_license_valida_passa_apesar_de_unevaluated_properties_false():
+    assert _erros_reais({**_kpi_completo(), "license": "CC-BY-4.0"}) == []
+
+
+@pytest.mark.parametrize("campo, valor", [("license", "CC BY 4.0"), ("license", ""), ("source_url", "http://x.org/a.md"),
+                                          ("source_url", "x.org/a.md"), ("license", 3)])
+def test_license_com_espaco_ou_source_url_sem_https_falham(campo: str, valor):
+    assert _erros_reais({**_kpi_completo(), campo: valor}) != []
+
+
+def test_schemas_so_lidos_no_nivel_de_schemas():
+    """O 1.0.0 congelado fica em schemas/historico e não entra no glob dos validadores."""
+    relatorio = comum.Relatorio()
+    achados = cs._carregar_schemas(comum.ROOT / "schemas", relatorio)
+    assert relatorio.erros == [] and "common" in achados and len(achados) == 12
+    assert all(s["$id"].startswith("urn:contexto:schemas:1.1.0:") for s in achados.values())
+
+
+# ---------- erros_de_publicacao ----------
+
+def test_publicacao_modelo_exige_license_e_source_url_nulos():
+    assert cs.erros_de_publicacao({"license": None, "source_url": None}, modelo=True) == []
+    achados = cs.erros_de_publicacao({"license": "CC-BY-4.0", "source_url": "https://x.org/a.md"}, modelo=True)
+    assert len(achados) == 2 and "license" in achados[0] and "source_url" in achados[1]
+    assert len(cs.erros_de_publicacao({}, modelo=True)) == 2
+
+
+def test_publicacao_exemplo_confere_versao_license_e_url():
+    dados = {"id": "KPI-AURORA-001", "version": "2.0", "schema_version": "1.1.0", "license": "CC-BY-4.0",
+             "source_url": "https://edoardolobl.github.io/contexto-framework/documentos/KPI-AURORA-001@2.0.md"}
+    assert cs.erros_de_publicacao(dados, modelo=False) == []
+    achados = cs.erros_de_publicacao({**dados, "source_url": "https://outro.org/x.md", "license": None,
+                                      "schema_version": "1.0.0"}, modelo=False)
+    assert len(achados) == 3
+    assert any("documentos/KPI-AURORA-001@2.0.md" in a and "source_url" in a for a in achados)
+    assert any("license" in a and "CC-BY-4.0" in a for a in achados)
+    assert any("schema_version" in a and "1.1.0" in a for a in achados)
+
+
+def test_publicacao_exemplo_sem_id_valido_vira_erro_e_nao_excecao():
+    achados = cs.erros_de_publicacao({"id": "x", "version": "2.0", "schema_version": "1.1.0",
+                                      "license": "CC-BY-4.0", "source_url": None}, modelo=False)
+    assert achados and any("source_url" in a for a in achados)
+
+
+HISTORICA_1_0_0 = {"id": "KPI-AURORA-001", "version": "1.0", "schema_version": "1.0.0", "status": "superseded",
+                   "recorded_at": "2026-10-01"}
+
+
+def test_publicacao_copia_historica_1_0_0_fica_como_foi_aprovada():
+    assert cs.erros_de_publicacao(HISTORICA_1_0_0, modelo=False) == []
+
+
+def test_publicacao_copia_historica_1_0_0_nao_ganha_license_nem_source_url():
+    achados = cs.erros_de_publicacao({**HISTORICA_1_0_0, "license": "CC-BY-4.0",
+                                      "source_url": url_do_documento("KPI-AURORA-001", "1.0")}, modelo=False)
+    assert len(achados) == 2
+    assert all("1.0.0" in a for a in achados)
+
+
+def test_publicacao_1_0_0_so_vale_para_copia_historica():
+    sem_recorded_at = {k: v for k, v in HISTORICA_1_0_0.items() if k != "recorded_at"}
+    assert any("schema_version" in a for a in cs.erros_de_publicacao(sem_recorded_at, modelo=False))
+    vigente = {**HISTORICA_1_0_0, "status": "approved"}
+    assert any("schema_version" in a for a in cs.erros_de_publicacao(vigente, modelo=False))
+
+
+def test_executar_aceita_copia_historica_intacta_na_1_0_0(tmp_path: Path):
+    montar(tmp_path)
+    (tmp_path / "src/exemplos/historico/exemplo-kpi-v1.0.md").write_text(
+        "---\nid: KPI-A-001\nschema_version: \"1.0.0\"\ntype: kpi\nversion: \"1.0\"\nstatus: superseded\n"
+        "recorded_at: 2026-10-01\n---\ncorpo\n", encoding="utf-8")
+    assert erros(tmp_path) == []
+
+
+def test_executar_acusa_source_url_errado_no_exemplo(tmp_path: Path):
+    montar(tmp_path)
+    arq = tmp_path / "src/exemplos/exemplo-kpi-completo.md"
+    arq.write_text(arq.read_text(encoding="utf-8").replace(url_do_documento("KPI-A-001", "1.0"), "https://x.org/a.md"),
+                   encoding="utf-8")
+    assert any("source_url" in e and "documentos/KPI-A-001@1.0.md" in e for e in erros(tmp_path))

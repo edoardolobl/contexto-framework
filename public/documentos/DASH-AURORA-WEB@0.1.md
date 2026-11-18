@@ -1,0 +1,100 @@
+---
+# Exemplo do Contexto, versão com lacunas: nada aqui foi aprovado. A Aurora é uma organização inventada.
+id: DASH-AURORA-WEB
+schema_version: "1.1.0"
+type: dashboard
+title: "Acompanhamento de sessões convertidas: Aurora"
+version: "0.1"
+revision_id: "DASH-AURORA-WEB@0.1" # versão específica; id = assunto estável
+status: draft
+owner: null
+approver: null
+valid_from: null
+valid_to: null               # fim exclusivo da vigência; null = sem fim documentado
+version_date: "2026-07-20"
+last_reviewed: null
+review_interval: null
+source_of_truth: null
+supersedes_revision: null
+superseded_by_revision: null
+license: CC-BY-4.0
+source_url: "https://edoardolobl.github.io/contexto-framework/documentos/DASH-AURORA-WEB@0.1.md"
+intent:
+  question: "Como ler o dashboard de sessões convertidas da Aurora?"
+  audience: ["Operação de marketing"]
+  purpose: "Distinguir sessões web convertidas de quantidade de pedidos por sessão"
+  decisions: ["Investigar diferenças entre definições de conversão"]
+plain_summary: "Rascunho: o dashboard mostra a conversão web, mas ainda não diz qual versão do indicador segue."
+open_questions:
+  - question: "O cartão de conversão segue qual versão do KPI-AURORA-001?"
+    impact: "Sem a versão, ninguém sabe se o número conta pedidos ou sessões"
+    owner_to_resolve: null
+    status: unresolved
+    resolution: null
+  - question: "Quem aprova os filtros padrão do dashboard?"
+    impact: "Um filtro mudado sem aprovação muda o número sem aviso"
+    owner_to_resolve: null
+    status: unresolved
+    resolution: null
+  - question: "Se outro dashboard mostrar outro número para o mesmo dia, qual prevalece?"
+    impact: "A Diretoria pode decidir com o número errado"
+    owner_to_resolve: null
+    status: unresolved
+    resolution: null
+version_history:
+  - version: "0.1"
+    date: "2026-07-20"
+    change: "Primeiro rascunho, com lacunas registradas"
+    approved_by: null
+
+context:
+  instructions: null
+  verifiedStatements: []
+  constraints: []
+authoritativeDefinitions: []
+
+metrics: [KPI-AURORA-001]
+default_filters:
+  channel: web
+  is_internal: 0
+dimensions: [session_date, channel]
+time_semantics:
+  date_field: session_date
+  timezone: null
+  reporting_period: null
+  comparison_baseline: null
+freshness:
+  refresh_frequency: "Carga estática do laboratório"
+  latency: "Não aplicável"
+  verified_at: null
+official_or_exploratory: null
+known_limitations: ["Não cobre períodos fora da amostra", "Não contém receita líquida nem indicadores de app"]
+conflicting_dashboards: []
+reference_questions: []
+
+related_documents: [KPI-AURORA-001, DATASET-AURORA-SESSIONS]
+---
+
+# Acompanhamento de sessões convertidas: Aurora (DASH-AURORA-WEB@0.1)
+
+> **Estado:** Rascunho
+>
+> **Vigência:** sem vigência definida
+>
+> **Licença:** CC-BY-4.0
+>
+> **Endereço:** https://edoardolobl.github.io/contexto-framework/documentos/DASH-AURORA-WEB@0.1.md
+
+## Pergunta que este documento responde (DASH-AURORA-WEB@0.1, sem vigência definida)
+
+Como ler o dashboard de sessões convertidas da Aurora?
+
+## Em poucas palavras (DASH-AURORA-WEB@0.1, sem vigência definida)
+
+Rascunho: o dashboard mostra a conversão web, mas ainda não diz qual versão do indicador segue.
+
+## Comentário (DASH-AURORA-WEB@0.1, sem vigência definida)
+
+O guia de leitura já tem os filtros padrão e as limitações conhecidas, mas não diz qual versão do indicador o cartão de conversão segue.
+
+O que observar: sem a versão, ninguém sabe se o número conta pedidos ou sessões, e dois dashboards podem mostrar números diferentes para o mesmo dia sem que ninguém saiba qual vale.

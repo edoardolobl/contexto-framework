@@ -5,7 +5,8 @@ import re
 
 import yaml
 
-from comum import (DADOS, DOCS, DOWNLOADS, ESTADOS_DO_DOCUMENTO, ROOT, Relatorio, arquivo_de_download, carregar_dimensoes,
+from comum import (DADOS, DOCS, DOWNLOADS, ESTADOS_DO_DOCUMENTO, ROOT, Relatorio, arquivo_de_download, arquivo_publicado_ausente,
+                   carregar_dimensoes,
                    carregar_modelos, carregar_vocabulario, carregar_yaml, erros_do_markdown_de_download, exigir_minimo,
                    faltas_de_leitura, ids_citados, links_do_repositorio_ausentes, resolver_link, rota_da_pagina)
 
@@ -55,6 +56,10 @@ for path in PAGES:
         if download:
             if not (DOWNLOADS / download).exists():
                 record(path, f"download inexistente: {url}")
+            continue
+        ausente = arquivo_publicado_ausente(rota_da_pagina(path, DOCS), url, ROOT / "public")
+        if ausente:
+            record(path, f"arquivo publicado inexistente: {url}")
             continue
         # Subir além da raiz do site sai do subcaminho do projeto no GitHub Pages e resulta em 404.
         target, escaped = resolver_link(rota_da_pagina(path, DOCS), url)
@@ -195,6 +200,8 @@ EDITORIAL_FILES = [
     *sorted((ROOT / "src" / "modelos").rglob("*.md")),
     *sorted((ROOT / "src" / "exemplos").rglob("*.md")),
     ROOT / "README.md",
+    ROOT / "AGENTS.md",
+    *sorted((ROOT / "src" / "kit").rglob("*.md")),
     ROOT / "astro.config.mjs",
     *NOVOS_DADOS,
 ]
@@ -204,6 +211,8 @@ for path in EDITORIAL_FILES:
     for lineno, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
         if "\u2014" in line:
             record(path, f"linha {lineno}: travessão (use dois-pontos, vírgula ou parênteses)")
+        if "\u2013" in line:
+            record(path, f"linha {lineno}: meia-risca (use hífen, vírgula ou a palavra \"a\")")
 
 # Links para arquivos do repositório (blob/main, tree/main) precisam de arquivo local correspondente.
 for path in EDITORIAL_FILES:

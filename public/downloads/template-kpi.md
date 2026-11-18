@@ -5,7 +5,7 @@
 # Não preencha informações desconhecidas com suposições. Use null + open_questions.
 # Campos marcados (obrigatório) são o núcleo para sair do rascunho; os blocos "para quem é técnico" são opcionais.
 id: null                     # (obrigatório) identificador do assunto, igual em todas as versões
-schema_version: "1.0.0"      # versão do formato do arquivo; não mude
+schema_version: "1.1.0"      # versão do formato do arquivo; não mude
 type: kpi
 title: null                  # (obrigatório)
 version: "0.1"               # (obrigatório) versão deste documento
@@ -21,6 +21,8 @@ review_interval: null        # de quanto em quanto tempo revisar, em ISO 8601: P
 source_of_truth: null        # onde está a versão oficial
 supersedes_revision: null    # versão que esta substitui: id@version
 superseded_by_revision: null # só na cópia de uma versão substituída: id@version da sucessora
+license: null                # opcional: licença do documento (identificador SPDX); cada time define a sua
+source_url: null            # opcional: endereço onde esta versão está publicada
 intent:
   question: null             # (obrigatório) pergunta de negócio que o documento responde
   audience: []               # quem usa: cargos ou áreas
@@ -99,7 +101,7 @@ Preencha estes campos no topo do arquivo antes de escrever o resto.
 | Campo | Chave no topo do arquivo | Obrigatório | O que escrever |
 |---|---|---|---|
 | Identificador do assunto | `id` | Sim | Código estável do assunto, igual em todas as versões, em maiúsculas com hífens (por exemplo KPI-AURORA-001). Não muda quando a regra muda. |
-| Versão do formato | `schema_version` |  | Versão do formato do arquivo, hoje 1.0.0. Diz quais campos o arquivo tem e não muda quando o conteúdo muda. |
+| Versão do formato | `schema_version` |  | Versão do formato do arquivo, hoje 1.1.0. Diz quais campos o arquivo tem e não muda quando o conteúdo muda. |
 | Tipo de documento | `type` |  | Tipo de documento, igual ao nome do modelo (kpi, dataset, conceito e outros). Define quais campos vêm depois do cabeçalho. |
 | Título | `title` | Sim | Nome que uma pessoa da área reconhece, com o assunto e a organização. Pode mudar entre versões sem mudar o identificador. |
 | Versão atual | `version` | Sim | Número desta versão no formato MAIOR.MENOR (1.0, 1.1, 2.0). Suba o número maior quando a regra muda de sentido e o menor quando só esclarece. |
@@ -116,6 +118,8 @@ Preencha estes campos no topo do arquivo antes de escrever o resto.
 | Fonte oficial | `source_of_truth` |  | Sistema, documento ou tabela que vale quando duas fontes discordam. Fica em branco enquanto ninguém confirmou qual é. |
 | Substitui qual versão? | `supersedes_revision` |  | Versão anterior do mesmo assunto que esta substitui, no formato id@versão. Em branco na primeira versão. |
 | Substituída por qual versão? | `superseded_by_revision` |  | Só na cópia de uma versão substituída, aponta a versão que tomou o lugar dela. Em documento aprovado e em vigor, fica em branco. |
+| Licença | `license` |  | Identificador SPDX da licença do documento, como CC-BY-4.0. Nos modelos em branco fica vazio, porque cada time define a licença dos seus documentos. |
+| Endereço publicado | `source_url` |  | Endereço onde esta versão está publicada, para quem recebe um trecho citar a origem. Nos modelos em branco fica vazio, até o documento ser publicado. |
 | Pergunta de negócio que o documento responde | `intent.question` | Sim | A pergunta escrita como alguém da área faria. Sem ela, o documento não sai do rascunho, porque ninguém sabe o que ele precisa responder. |
 | Quem usa | `intent.audience` |  | Cargos ou áreas que leem e usam o documento. Ajuda a escolher o nível de detalhe e quem precisa saber de cada mudança. |
 | Para quê | `intent.purpose` |  | Para que o documento existe, em uma frase, dizendo o problema que ele evita. |
@@ -127,20 +131,34 @@ Preencha estes campos no topo do arquivo antes de escrever o resto.
 ## Para que serve
 Em `intent`, escreva a pergunta de negócio que o documento responde (`question`), como alguém da área faria. Diga quem usa (`audience`), para quê (`purpose`) e quais decisões mudam conforme a resposta (`decisions`). Em `plain_summary`, explique em uma ou duas frases, sem termos técnicos, o que o documento diz, por exemplo "conta só pedidos pagos até sete dias depois do contato".
 
+Exemplo Aurora: `intent.question`: Que parte das sessões da loja web da Aurora termina em pelo menos um pedido confirmado?
+
+Exemplo Aurora: `plain_summary`: Das sessões da loja web que não são da equipe interna, conta quantas tiveram pelo menos um pedido confirmado. Cada sessão conta uma vez, mesmo com dois pedidos.
+
 ## Definição de negócio
 Em `domain`, diga a área do negócio. Em `business_definition.concept`, diga o que o indicador mede. Em `synonyms`, liste nomes que querem dizer exatamente a mesma coisa; em `business_definition.different_meanings_in_other_domains`, os nomes parecidos que medem outra coisa em outra área.
+
+Exemplo Aurora: `business_definition.concept`: Proporção de sessões elegíveis que resultaram em pelo menos um pedido confirmado
 
 ## Escopo e aplicabilidade
 Em `scope`, liste os canais incluídos e excluídos, a população a que o indicador se aplica e as exclusões, como tráfego interno ou pedidos de teste. Se há situação em que a definição não deve ser usada, escreva em `exclusions`.
 
+Exemplo Aurora: `scope.exclusions`: tráfego interno; pedidos de teste; pedidos cancelados
+
 ## Cálculo
 Em `calculation`, descreva o numerador e o denominador com os critérios de cada um, a fórmula em palavras, a unidade, a granularidade e a regra para juntar períodos. Diga também como tratar ausência de dados e o que mostrar quando o denominador é zero. Diga a unidade antes da fórmula: pedidos, sessões, clientes ou itens.
+
+Exemplo Aurora: `calculation.numerator`: Quantidade de sessões elegíveis com pelo menos um pedido CONFIRMED. Uma sessão com dois pedidos confirmados conta uma vez
+
+Exemplo Aurora: `calculation.denominator`: Quantidade de sessões elegíveis: channel = web e is_internal = 0
 
 ## Recálculo do histórico
 Quando a versão maior muda (2.0, 3.0), `history_recalculation.policy` é obrigatório: `recalculate` se a série antiga for recalculada pela regra nova, `method_break` se a série antiga fica como estava e passa a ser marcada como quebra de método. Em `description`, explique em uma frase o que isso muda para quem compara períodos.
 
 ## Convenções temporais
 Em `time`, diga qual campo de data decide o dia de cada registro, o fuso horário, a janela de cálculo e de quanto em quanto tempo os dados são atualizados.
+
+Exemplo Aurora: `time.timezone`: Data local da loja, já gravada em session_date
 
 ## Fontes e semântica dos dados
 Em `data_sources`, diga qual dataset manda quando há divergência, as colunas usadas, as junções autorizadas (pelo identificador do documento de relacionamento) e a regra de precedência entre fontes.

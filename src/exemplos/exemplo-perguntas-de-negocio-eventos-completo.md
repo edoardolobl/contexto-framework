@@ -1,7 +1,7 @@
 ---
 # Exemplo do Contexto. A Aurora é uma organização inventada; nomes, datas e aprovações fazem parte do caso.
 id: QA-AURORA-002
-schema_version: "1.0.0"
+schema_version: "1.1.0"
 type: perguntas-de-negocio
 title: "Gabarito documental: quais eventos pararam de coletar"
 version: "1.0"
@@ -17,6 +17,8 @@ review_interval: null
 source_of_truth: "Plano de mensuração da Aurora, gabarito da regra de evento quebrado"
 supersedes_revision: null
 superseded_by_revision: null
+license: CC-BY-4.0
+source_url: "https://edoardolobl.github.io/contexto-framework/documentos/QA-AURORA-002@1.0.md"
 intent:
   question: "Que perguntas sobre os eventos de coleta da Aurora a IA deve responder, esclarecer ou recusar?"
   audience: ["Analytics de E-commerce", "Quem testa agentes de IA"]

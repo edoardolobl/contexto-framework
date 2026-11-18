@@ -2,6 +2,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { parse } from 'yaml';
+import { LinkButton } from '@astrojs/starlight/components';
 
 interface Props { kind: 'conceito' | 'kpi' }
 const { kind } = Astro.props;
@@ -28,7 +29,7 @@ const details = (doc: any) => kind === 'conceito'
   : doc.calculation?.numerator;
 ---
 <section class="revision-comparison" aria-label="Duas versões do mesmo documento">
-  {entries.map((doc, i) => <article class:list={['revision-comparison__card', i === 1 && 'revision-comparison__card--current']}>
+  {entries.map((doc, i) => <article class:list={['revision-comparison__card ctx-card', i === 1 && 'ctx-card--destaque']}>
     <p class="panel-kicker">{i === 1 ? 'VERSÃO ATUAL' : doc.status === 'superseded' ? 'VERSÃO SUBSTITUÍDA · NÃO VIGENTE' : 'VERSÃO HISTÓRICA · NÃO VIGENTE'}</p>
     <h3>Versão {doc.version}</h3>
     <dl class="revision-comparison__metadata">
@@ -43,9 +44,9 @@ const details = (doc: any) => kind === 'conceito'
       <p>{rule(doc)}</p>
       {details(doc) && <small>{details(doc)}</small>}
     </div>
-    <a class="revision-comparison__download" href={base + 'downloads/' + doc.file} download>
+    <LinkButton href={base + 'downloads/' + doc.file} variant="secondary" download>
       Baixar versão {doc.version} <span aria-hidden="true">↓</span>
-    </a>
+    </LinkButton>
   </article>)}
 </section>
 <p class="revision-comparison__notice">As duas versões nunca têm vigência simultânea.</p>

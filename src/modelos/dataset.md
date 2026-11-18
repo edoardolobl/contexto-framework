@@ -3,7 +3,7 @@
 # null significa "ainda não sei" ou "ainda não decidido". Não troque null por um palpite: registre a dúvida em open_questions.
 # Campos marcados (obrigatório) são o núcleo para sair do rascunho; os blocos "para quem é técnico" são opcionais.
 id: null                     # (obrigatório) identificador do assunto, igual em todas as versões
-schema_version: "1.0.0"      # versão do formato do arquivo; não mude
+schema_version: "1.1.0"      # versão do formato do arquivo; não mude
 type: dataset
 title: null                  # (obrigatório)
 version: "0.1"               # (obrigatório) versão deste documento
@@ -19,6 +19,8 @@ review_interval: null        # de quanto em quanto tempo revisar, em ISO 8601: P
 source_of_truth: null        # onde está a versão oficial
 supersedes_revision: null    # versão que esta substitui: id@version
 superseded_by_revision: null # só na cópia de uma versão substituída: id@version da sucessora
+license: null                # opcional: licença do documento (identificador SPDX); cada time define a sua
+source_url: null            # opcional: endereço onde esta versão está publicada
 intent:
   question: null             # (obrigatório) pergunta de negócio que o documento responde
   audience: []               # quem usa: cargos ou áreas
@@ -92,14 +94,26 @@ related_documents: []        # identificadores de outros documentos
 ## Para que serve
 Em `intent`, escreva a pergunta de negócio que o documento responde (`question`), como alguém da área faria. Diga quem usa (`audience`), para quê (`purpose`) e quais decisões mudam conforme a resposta (`decisions`). Em `plain_summary`, explique em uma ou duas frases, sem termos técnicos, o que o documento diz.
 
+<!-- contexto:exemplo intent.question -->
+
+<!-- contexto:exemplo plain_summary -->
+
 ## Estrutura
 Em `dataset`, informe o nome físico da tabela e a plataforma, o que uma linha representa (`grain`), a chave primária, chaves alternativas e o critério de unicidade.
+
+<!-- contexto:exemplo dataset.grain -->
+
+<!-- contexto:exemplo dataset.primary_key -->
 
 ## Dicionário de campos
 Em `columns`, repita um item para cada coluna: nome físico, tipo técnico, nome de negócio, significado, unidade, valores permitidos, códigos especiais, o que significa o vazio, exemplos e para que a coluna não deve ser usada.
 
 ## Regras de atualização e consulta
 Em `time_semantics`, diga o campo de data de referência, o fuso, a frequência e o atraso de atualização, e se a tabela guarda uma fotografia por data ou o registro de cada evento. Em `usage`, liste as perguntas que o dataset responde com autoridade, as agregações proibidas, os datasets relacionados, as armadilhas conhecidas e consultas de exemplo.
+
+<!-- contexto:exemplo time_semantics.timezone -->
+
+<!-- contexto:exemplo usage.known_caveats -->
 
 ## Conferência
 Em `validation`, diga quem conferiu os registros de exemplo, quando e com que evidência.

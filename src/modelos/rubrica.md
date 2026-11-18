@@ -3,7 +3,7 @@
 # null significa "ainda não sei" ou "ainda não decidido". Não troque null por um palpite: registre a dúvida em open_questions.
 # Campos marcados (obrigatório) são o núcleo para sair do rascunho; os blocos "para quem é técnico" são opcionais.
 id: null                     # (obrigatório) identificador do assunto, igual em todas as versões
-schema_version: "1.0.0"      # versão do formato do arquivo; não mude
+schema_version: "1.1.0"      # versão do formato do arquivo; não mude
 type: rubrica
 title: null                  # (obrigatório)
 version: "0.1"               # (obrigatório) versão deste documento
@@ -19,6 +19,8 @@ review_interval: null        # de quanto em quanto tempo revisar, em ISO 8601: P
 source_of_truth: null        # onde está a versão oficial
 supersedes_revision: null    # versão que esta substitui: id@version
 superseded_by_revision: null # só na cópia de uma versão substituída: id@version da sucessora
+license: null                # opcional: licença do documento (identificador SPDX); cada time define a sua
+source_url: null            # opcional: endereço onde esta versão está publicada
 intent:
   question: null             # (obrigatório) pergunta de negócio que o documento responde
   audience: []               # quem usa: cargos ou áreas
@@ -87,14 +89,24 @@ related_documents: []        # identificadores de outros documentos
 ## Para que serve
 Em `intent`, escreva a pergunta de negócio que o documento responde (`question`), como alguém da área faria. Diga quem usa (`audience`), para quê (`purpose`) e quais decisões mudam conforme a resposta (`decisions`). Em `plain_summary`, explique em uma ou duas frases, sem termos técnicos, o que o documento diz.
 
+<!-- contexto:exemplo intent.question -->
+
+<!-- contexto:exemplo plain_summary -->
+
 ## O que se avalia
 Em `evaluation_target`, diga o trabalho avaliado. Em `allowed_use` e `disallowed_use`, para que a nota pode e não pode servir.
+
+<!-- contexto:exemplo evaluation_target -->
 
 ## Critérios e níveis
 Em `criteria`, repita um item para cada critério: identificador, nome, definição, o que o critério não avalia (`not_in_scope`), peso, evidências aceitas e o que se vê no trabalho em cada nível de 0 a 4 (`anchors`).
 
 ## Nota
 Em `scoring`, diga a soma dos pesos, a escala, a fórmula da nota, o que fazer quando falta evidência ou um critério não pode ser avaliado, qual decisão a nota alimenta e a partir de qual nível. A nota nunca decide sozinha: `automatic_decision_allowed` fica `false` e `human_review_required` fica `true`.
+
+<!-- contexto:exemplo scoring.weight_sum -->
+
+<!-- contexto:exemplo scoring.formula -->
 
 ## Calibração e cuidados
 Em `calibration_examples`, registre trabalhos já avaliados, com o nível de cada critério, a justificativa, a nota e o encaminhamento. Em `disagreement_resolution`, como resolver quando dois revisores discordam. Em `privacy_and_fairness_considerations`, os cuidados com privacidade e justiça.

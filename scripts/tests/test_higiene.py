@@ -161,3 +161,34 @@ class TestParesDeSchema:
     def test_percorre_listas_e_niveis(self):
         schema = {"allOf": [{"title": "A", "description": "a"}], "$defs": {"x": {"title": "B", "description": "c"}}}
         assert set(h.pares_de_schema(schema)) == {("A", "a"), ("B", "c")}
+
+
+class TestStyleEmComponente:
+    def test_acusa_bloco_style_com_arquivo_e_linha(self, tmp_path: Path):
+        pasta = tmp_path / "src" / "components"
+        pasta.mkdir(parents=True)
+        (pasta / "Falso.astro").write_text("---\nconst a = 1;\n---\n<div>x</div>\n<style>\n  div { color: red; }\n</style>\n", encoding="utf-8")
+        achados = h.componentes_com_style(tmp_path)
+        assert achados == [(pasta / "Falso.astro", 5)]
+
+    def test_acusa_style_com_atributos(self, tmp_path: Path):
+        pasta = tmp_path / "src" / "components"
+        pasta.mkdir(parents=True)
+        (pasta / "Falso.astro").write_text("<div />\n<style is:global lang=\"css\">\n a { color: red }\n</style>\n", encoding="utf-8")
+        assert [linha for _, linha in h.componentes_com_style(tmp_path)] == [2]
+
+    def test_componente_sem_style_passa(self, tmp_path: Path):
+        pasta = tmp_path / "src" / "components"
+        pasta.mkdir(parents=True)
+        (pasta / "Limpo.astro").write_text('---\n---\n<div class="caixa" style="color: red">x</div>\n', encoding="utf-8")
+        assert h.componentes_com_style(tmp_path) == []
+
+    def test_sem_pasta_de_componentes_nao_acusa_nada(self, tmp_path: Path):
+        assert h.componentes_com_style(tmp_path) == []
+
+    def test_mensagem_manda_o_css_para_src_styles(self, tmp_path: Path):
+        pasta = tmp_path / "src" / "components"
+        pasta.mkdir(parents=True)
+        (pasta / "Falso.astro").write_text("<style>a{}</style>\n", encoding="utf-8")
+        mensagens = h.erros_de_style(tmp_path)
+        assert len(mensagens) == 1 and "src/styles" in mensagens[0] and "Falso.astro:1" in mensagens[0]

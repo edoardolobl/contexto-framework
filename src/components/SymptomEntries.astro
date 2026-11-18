@@ -8,13 +8,13 @@ import { lerEntradas, urlDaPagina } from '../lib/dados';
 
 const entradas = lerEntradas();
 ---
-<nav class="principle-tiles task-paths symptom-entries" aria-label="Comece pelo problema que você vê">
+<nav class="symptom-entries" aria-label="Comece pelo problema que você vê">
   {entradas.map((entrada) => (
-    <a class="principle-tile" href={urlDaPagina(entrada.pagina)}>
+    <a class="symptom-entries__tile ctx-card" href={urlDaPagina(entrada.pagina)}>
       <h3>{entrada.sintoma}</h3>
       <p>{entrada.texto}</p>
       {entrada.provisorio && entrada.nota && <p class="symptom-entries__note">Nota: {entrada.nota}.</p>}
-      <span class="task-paths__action">Ver o caminho <span aria-hidden="true">→</span></span>
+      <span class="symptom-entries__action">Ver o caminho <span aria-hidden="true">→</span></span>
     </a>
   ))}
 </nav>

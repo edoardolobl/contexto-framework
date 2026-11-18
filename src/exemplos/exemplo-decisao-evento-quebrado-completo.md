@@ -1,7 +1,7 @@
 ---
 # Exemplo do Contexto. A Aurora é uma organização inventada; nomes, datas e aprovações fazem parte do caso.
 id: DECISION-AURORA-EVENTO-QUEBRADO
-schema_version: "1.0.0"
+schema_version: "1.1.0"
 type: decisao
 title: "Evento quebrado: Aurora"
 version: "1.1"
@@ -17,6 +17,8 @@ review_interval: "P6M"
 source_of_truth: "Plano de mensuração da Aurora e Evento de coleta de cada evento"
 supersedes_revision: "DECISION-AURORA-EVENTO-QUEBRADO@1.0"
 superseded_by_revision: null
+license: CC-BY-4.0
+source_url: "https://edoardolobl.github.io/contexto-framework/documentos/DECISION-AURORA-EVENTO-QUEBRADO@1.1.md"
 intent:
   question: "Um evento sem disparos numa operação deve ser tratado como falha?"
   audience: ["Analytics de E-commerce", "Engenharia de Dados", "Gerência de Analytics"]

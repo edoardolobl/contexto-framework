@@ -1,0 +1,128 @@
+---
+# Exemplo do Contexto. A Aurora é uma organização inventada; nomes, datas e aprovações fazem parte do caso.
+id: DATASET-AURORA-ORDERS
+schema_version: "1.1.0"
+type: dataset
+title: "Pedidos: Aurora"
+version: "1.0"
+revision_id: "DATASET-AURORA-ORDERS@1.0" # versão específica; id = assunto estável
+status: approved
+owner: "Engenharia de Dados (Aurora)"
+approver: "Analytics de E-commerce (Aurora)"
+valid_from: "2026-08-20"
+valid_to: null               # fim exclusivo da vigência; null = sem fim documentado
+version_date: "2026-08-20"
+last_reviewed: "2026-08-20"
+review_interval: null
+source_of_truth: "Catálogo de dados da Aurora, tabela demo_orders"
+supersedes_revision: "DATASET-AURORA-ORDERS@0.1"
+superseded_by_revision: null
+license: CC-BY-4.0
+source_url: "https://edoardolobl.github.io/contexto-framework/documentos/DATASET-AURORA-ORDERS@1.0.md"
+intent:
+  question: "O que significa cada coluna da tabela de pedidos da Aurora?"
+  audience: ["Analytics de E-commerce", "Engenharia de Dados"]
+  purpose: "Registrar os pedidos criados e a sessão em que cada um nasceu"
+  decisions: []
+plain_summary: "Uma linha por pedido. Uma sessão pode ter vários pedidos, e só o estado CONFIRMED conta como conversão."
+open_questions: []
+version_history:
+  - version: "1.0"
+    date: "2026-08-20"
+    change: "Primeira versão aprovada, com o significado dos três códigos de estado do pedido"
+    approved_by: "Analytics de E-commerce (Aurora)"
+  - version: "0.1"
+    date: "2026-07-20"
+    change: "Primeiro rascunho"
+    approved_by: null
+
+context:
+  instructions: null
+  verifiedStatements: []
+  constraints: []
+authoritativeDefinitions: []
+
+dataset:
+  physical_name: demo_orders
+  platform: "SQLite (laboratório)"
+  grain: "Uma linha por pedido"
+  primary_key: order_id
+  alternative_keys: []
+  uniqueness_assumption: "Cada order_id representa um único pedido"
+columns:
+  - physical_name: order_id
+    technical_type: TEXT
+    business_name: "Identificador do pedido"
+    meaning: "Chave única do pedido"
+    unit: null
+    allowed_values: []
+    sentinel_values: []
+    null_meaning: "Não permitido"
+    examples: [PED-101, PED-102]
+    do_not_use_for: ["Identificar pessoas"]
+  - physical_name: session_id
+    technical_type: TEXT
+    business_name: "Sessão de origem"
+    meaning: "Sessão em que o pedido foi criado. Várias linhas podem ter a mesma sessão"
+    unit: null
+    allowed_values: []
+    sentinel_values: []
+    null_meaning: "Não permitido: todo pedido do laboratório tem sessão"
+    examples: [SES-101]
+    do_not_use_for: ["Contar sessões sem remover repetições"]
+  - physical_name: status_code
+    technical_type: TEXT
+    business_name: "Estado do pedido"
+    meaning: "CONFIRMED: pedido confirmado, conta como conversão. CANCELED: pedido cancelado, não conta. TEST: pedido de teste interno, não conta"
+    unit: null
+    allowed_values: [CONFIRMED, CANCELED, TEST]
+    sentinel_values: []
+    null_meaning: "Não permitido"
+    examples: [CONFIRMED]
+    do_not_use_for: ["Inferir pagamento ou entrega: o laboratório não tem esses estados"]
+time_semantics:
+  reference_field: null
+  timezone: null
+  update_frequency: "Carga estática do laboratório"
+  known_latency: "Não aplicável ao laboratório"
+  snapshot_or_events: "Um registro por pedido, com o estado atual. A tabela não guarda data própria: o período vem da sessão de origem"
+usage:
+  authoritative_questions: ["Quais sessões tiveram pelo menos um pedido confirmado"]
+  invalid_aggregations:
+    - "Somar pedidos para obter sessões convertidas"
+    - "Filtrar pedidos por data: não há coluna de data nesta tabela"
+  related_datasets: [DATASET-AURORA-SESSIONS]
+  known_caveats:
+    - "Uma sessão pode ter mais de um pedido confirmado; ela conta uma vez na taxa de sessões convertidas"
+  sample_queries: []
+validation:
+  checked_by: "Engenharia de Dados (Aurora)"
+  checked_at: "2026-08-20"
+  evidence: []
+
+related_documents: [KPI-AURORA-001, DATASET-AURORA-SESSIONS, REL-AURORA-SESSIONS-ORDERS]
+---
+
+# Pedidos: Aurora (DATASET-AURORA-ORDERS@1.0)
+
+> **Estado:** Aprovado
+>
+> **Vigência:** de 20/08/2026, sem fim previsto
+>
+> **Licença:** CC-BY-4.0
+>
+> **Endereço:** https://edoardolobl.github.io/contexto-framework/documentos/DATASET-AURORA-ORDERS@1.0.md
+
+## Pergunta que este documento responde (DATASET-AURORA-ORDERS@1.0, de 20/08/2026, sem fim previsto)
+
+O que significa cada coluna da tabela de pedidos da Aurora?
+
+## Em poucas palavras (DATASET-AURORA-ORDERS@1.0, de 20/08/2026, sem fim previsto)
+
+Uma linha por pedido. Uma sessão pode ter vários pedidos, e só o estado CONFIRMED conta como conversão.
+
+## Comentário (DATASET-AURORA-ORDERS@1.0, de 20/08/2026, sem fim previsto)
+
+Este dicionário acompanha o de sessões. Ele explica os três códigos de estado do pedido e avisa que a tabela não tem data própria: o período de um pedido vem da sessão em que ele nasceu.
+
+O que observar: `do_not_use_for` em `session_id` impede a conta que inflava a conversão, contar sessões sem remover repetições.

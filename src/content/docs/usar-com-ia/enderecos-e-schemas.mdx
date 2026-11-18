@@ -1,0 +1,47 @@
+---
+title: Endereços estáveis e schemas
+description: Cada versão de documento tem um endereço que não muda, e cada versão do formato tem um schema publicado, para pessoas e agentes citarem a fonte certa.
+---
+
+import DocumentosPublicados from '../../../components/DocumentosPublicados.astro';
+
+Uma resposta de IA só pode ser conferida se disser de onde tirou a definição. Para isso, cada versão de cada documento do portal tem um endereço próprio, que não muda depois de publicado. Quem recebe um trecho, uma pessoa ou um agente, sabe exatamente qual versão foi usada.
+
+## O endereço por id e versão
+
+O endereço junta o identificador do assunto e a versão, separados por `@`, dentro da pasta `documentos/`:
+
+- `documentos/<id>@<versão>.md`: o documento em Markdown, para ler ou entregar a uma ferramenta de IA;
+- `documentos/<id>@<versão>.yaml`: os mesmos campos em YAML, para quem vai processar o documento.
+
+Por exemplo, a versão 2.0 do indicador de conversão da Aurora fica em [`documentos/KPI-AURORA-001@2.0.md`](../../documentos/KPI-AURORA-001@2.0.md) e [`documentos/KPI-AURORA-001@2.0.yaml`](../../documentos/KPI-AURORA-001@2.0.yaml).
+
+O endereço não muda porque uma versão aprovada não muda: se a regra mudar, nasce outra versão, com outro endereço, e a antiga continua onde estava. Assim, uma resposta que citou `KPI-AURORA-001@1.0` em agosto ainda aponta para o texto que valia em agosto. O `@` segue a mesma convenção do campo `revision_id`, explicada em [Versões e vigência](../../metodo/identificacao-versoes/).
+
+## Documentos publicados
+
+A tabela é montada a partir do índice gerado junto com os arquivos, então sempre mostra o que está publicado.
+
+<DocumentosPublicados />
+
+## Schemas publicados
+
+O schema é o arquivo que diz quais campos um documento pode ter e em que formato. Cada versão do formato tem uma pasta própria, que também não muda:
+
+- [`schemas/1.1.0/common.schema.json`](../../schemas/1.1.0/common.schema.json): versão atual do cabeçalho comum;
+- [`schemas/1.0.0/common.schema.json`](../../schemas/1.0.0/common.schema.json): versão anterior, guardada para quem ainda tem documentos nela.
+
+Ao lado do `common.schema.json` fica um schema por tipo de documento, como `kpi.schema.json`. O `$id` de cada schema, o campo que identifica o arquivo, é o próprio endereço em que ele está publicado. A versão 1.1.0 só acrescenta dois campos opcionais, `license` e `source_url`; nada que valia na 1.0.0 deixa de valer. Cada documento diz em qual formato foi escrito no campo `schema_version`, e é por ele que uma ferramenta escolhe o schema certo. Veja [Migração para o schema 1.0](../../referencias/migracao-schema-1-0/) para o que mudou entre as versões.
+
+## O arquivo llms.txt
+
+O portal também publica um [`llms.txt`](../../llms.txt), um arquivo de texto com a lista das páginas e dos documentos, gerado por script a cada publicação. O formato é uma convenção da comunidade, proposta em [llmstxt.org](https://llmstxt.org/), e não um padrão. A Busca do Google não usa esse arquivo, segundo a [página oficial do Google Search Central sobre IA generativa na busca](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide) (atualizada em 10/07/2026, conferida em 17/11/2026). Ele serve a quem quiser entregar o portal a uma ferramenta que o leia.
+
+O portal não publica nada em `/.well-known` e não tem domínio próprio: fica num endereço do GitHub Pages, que não dá acesso à raiz do domínio ([ADR 0011](https://github.com/edoardolobl/contexto-framework/blob/main/docs/adr/0011-adiar-dominio-proprio.md)).
+
+### Fundamentação
+
+- [JSON Schema 2020-12](https://json-schema.org/draft/2020-12) (prática de mercado): formato dos schemas publicados.
+- [llmstxt.org](https://llmstxt.org/) (prática de mercado): proposta do formato `llms.txt`, que não é padrão.
+- [Google Search Central: IA generativa na busca](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide) (relato de fornecedor): a Busca do Google não usa `llms.txt`.
+- O endereço por `id@versão` e as pastas por versão do formato são convenção do Contexto, a mesma do `revision_id` ([Versões e vigência](../../metodo/identificacao-versoes/)); ficar sem domínio próprio e sem `/.well-known` é o [ADR 0011](https://github.com/edoardolobl/contexto-framework/blob/main/docs/adr/0011-adiar-dominio-proprio.md).

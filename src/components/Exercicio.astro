@@ -1,0 +1,163 @@
+---
+/**
+ * Exercício das páginas de modelo (I-24, passo 6; I-25). Dois modos:
+ *
+ * Múltipla escolha: pergunta e opcoes [{ texto, correta?, explicacao }]. O build falha se não houver
+ *   exatamente uma opção correta ou se faltar explicação em alguma.
+ * Aberta (etapa Complete): pergunta, gabarito, explicacao e rotulo (o rótulo da caixa de texto).
+ *
+ * Com JavaScript, o gabarito e a explicação aparecem numa região role="status" só depois da resposta.
+ * Sem JavaScript, o gabarito fica num <details> visível. Nada é enviado nem guardado: não há <form>,
+ * e a resposta só existe na página aberta. Os ids saem do texto da pergunta e não mudam entre builds.
+ */
+interface Opcao { texto: string; correta?: boolean; explicacao: string }
+interface Props {
+  pergunta: string;
+  opcoes?: Opcao[];
+  gabarito?: string;
+  explicacao?: string;
+  rotulo?: string;
+}
+
+const { pergunta, opcoes, gabarito, explicacao, rotulo } = Astro.props;
+const preenchido = (valor: unknown): valor is string => typeof valor === 'string' && valor.trim() !== '';
+
+if (!preenchido(pergunta)) throw new Error('Exercicio: falta a pergunta');
+const modo = opcoes ? 'multipla' : 'aberta';
+if (modo === 'multipla') {
+  if (!Array.isArray(opcoes) || opcoes.length < 2) {
+    throw new Error(`Exercicio "${pergunta}": a múltipla escolha precisa de pelo menos duas opções`);
+  }
+  const corretas = opcoes.filter((opcao) => opcao.correta === true).length;
+  if (corretas !== 1) {
+    throw new Error(`Exercicio "${pergunta}": precisa de exatamente uma opção correta, encontradas ${corretas}`);
+  }
+  const semExplicacao = opcoes.findIndex((opcao) => !preenchido(opcao.texto) || !preenchido(opcao.explicacao));
+  if (semExplicacao >= 0) {
+    throw new Error(`Exercicio "${pergunta}": a opção ${semExplicacao + 1} precisa de texto e de explicação`);
+  }
+} else {
+  for (const [nome, valor] of Object.entries({ gabarito, explicacao, rotulo })) {
+    if (!preenchido(valor)) throw new Error(`Exercicio "${pergunta}": a pergunta aberta precisa de ${nome}`);
+  }
+}
+
+/** Id estável: trecho legível da pergunta mais um resumo numérico do texto inteiro. */
+function idDaPergunta(texto: string): string {
+  let soma = 5381;
+  for (const caractere of texto) soma = ((soma * 33) ^ caractere.codePointAt(0)!) >>> 0;
+  const trecho = texto.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40).replace(/-$/, '');
+  return `exercicio-${trecho}-${soma.toString(36)}`;
+}
+
+const id = idDaPergunta(pergunta);
+const lista = opcoes ?? [];
+const certa = lista.find((opcao) => opcao.correta === true);
+/** Fecha a frase com ponto, sem dobrar a pontuação que o texto já traz. */
+const comPonto = (frase: string) => (/[.!?:]$/.test(frase.trim()) ? frase.trim() : `${frase.trim()}.`);
+---
+<div class="exercicio" data-exercicio data-modo={modo} id={id}>
+  {modo === 'multipla' ? (
+    <fieldset class="exercicio__grupo">
+      <legend class="exercicio__pergunta">{pergunta}</legend>
+      {lista.map((opcao, indice) => (
+        <div class="exercicio__opcao">
+          <input type="radio" name={id} id={`${id}-${indice}`} value={String(indice)} />
+          <label for={`${id}-${indice}`}>{opcao.texto}</label>
+        </div>
+      ))}
+    </fieldset>
+  ) : (
+    <div class="exercicio__grupo">
+      <p class="exercicio__pergunta">{pergunta}</p>
+      <label class="exercicio__rotulo" for={`${id}-resposta`}>{rotulo}</label>
+      <textarea class="exercicio__resposta" id={`${id}-resposta`} rows="3" autocomplete="off" spellcheck="true"></textarea>
+    </div>
+  )}
+  <button type="button" class="ctx-button ctx-button--secondary" data-conferir hidden>
+    {modo === 'multipla' ? 'Conferir' : 'Comparar com o gabarito'}
+  </button>
+  <div class="exercicio__retorno" role="status" data-retorno></div>
+  <details class="exercicio__gabarito" data-gabarito>
+    <summary>Ver gabarito</summary>
+    {modo === 'multipla' ? (
+      <ul class="exercicio__lista">
+        {lista.map((opcao, indice) => (
+          <li data-opcao={String(indice)} data-correta={opcao.correta === true ? 'sim' : 'nao'}>
+            <strong>{opcao.correta === true ? 'Certa' : 'Errada'}: {comPonto(opcao.texto)}</strong>{' '}
+            <span data-explicacao>{opcao.explicacao}</span>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <div>
+        <p><strong>Gabarito:</strong> <span data-gabarito-texto>{gabarito}</span></p>
+        <p data-explicacao>{explicacao}</p>
+      </div>
+    )}
+  </details>
+  {certa && <span hidden data-texto-certo>{comPonto(certa.texto)}</span>}
+</div>
+
+<script>
+  /** Monta um parágrafo com rótulo em negrito; só textContent, nada de HTML vindo de texto. */
+  function paragrafo(rotulo: string, texto: string): HTMLParagraphElement {
+    const p = document.createElement('p');
+    const forte = document.createElement('strong');
+    forte.textContent = rotulo;
+    p.append(forte, ' ', texto);
+    return p;
+  }
+
+  function texto(raiz: Element, seletor: string): string {
+    return raiz.querySelector(seletor)?.textContent?.trim() ?? '';
+  }
+
+  function conferirMultipla(raiz: HTMLElement, retorno: HTMLElement): boolean {
+    const marcada = raiz.querySelector<HTMLInputElement>('input[type="radio"]:checked');
+    if (!marcada) {
+      retorno.replaceChildren(paragrafo('Antes de conferir:', 'escolha uma opção.'));
+      raiz.querySelector<HTMLInputElement>('input[type="radio"]')?.focus();
+      return false;
+    }
+    const item = raiz.querySelector(`[data-opcao="${marcada.value}"]`);
+    const acertou = item?.getAttribute('data-correta') === 'sim';
+    const partes = [paragrafo(acertou ? 'Certo.' : 'Não é essa.', item ? texto(item, '[data-explicacao]') : '')];
+    if (!acertou) {
+      const certa = raiz.querySelector('[data-correta="sim"]');
+      partes.push(paragrafo(`Resposta certa: ${texto(raiz, '[data-texto-certo]')}`, certa ? texto(certa, '[data-explicacao]') : ''));
+    }
+    retorno.replaceChildren(...partes);
+    return true;
+  }
+
+  function conferirAberta(raiz: HTMLElement, retorno: HTMLElement): boolean {
+    const caixa = raiz.querySelector<HTMLTextAreaElement>('textarea');
+    if (!caixa || caixa.value.trim() === '') {
+      retorno.replaceChildren(paragrafo('Antes de comparar:', 'escreva a sua resposta.'));
+      caixa?.focus();
+      return false;
+    }
+    retorno.replaceChildren(
+      paragrafo('Gabarito:', texto(raiz, '[data-gabarito-texto]')),
+      paragrafo('Por quê:', texto(raiz, '[data-gabarito] [data-explicacao]')),
+    );
+    return true;
+  }
+
+  function iniciar(raiz: HTMLElement): void {
+    const botao = raiz.querySelector<HTMLButtonElement>('[data-conferir]');
+    const retorno = raiz.querySelector<HTMLElement>('[data-retorno]');
+    const gabarito = raiz.querySelector<HTMLDetailsElement>('[data-gabarito]');
+    if (!botao || !retorno || !gabarito) return;
+    gabarito.hidden = true;
+    botao.hidden = false;
+    botao.addEventListener('click', () => {
+      const respondeu = raiz.dataset.modo === 'multipla' ? conferirMultipla(raiz, retorno) : conferirAberta(raiz, retorno);
+      if (respondeu) gabarito.hidden = false;
+    });
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-exercicio]').forEach(iniciar);
+</script>

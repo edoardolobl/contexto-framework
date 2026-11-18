@@ -3,7 +3,7 @@
 # null significa "ainda não sei" ou "ainda não decidido". Não troque null por um palpite: registre a dúvida em open_questions.
 # Campos marcados (obrigatório) são o núcleo para sair do rascunho; os blocos "para quem é técnico" são opcionais.
 id: null                     # (obrigatório) identificador do assunto, igual em todas as versões
-schema_version: "1.0.0"      # versão do formato do arquivo; não mude
+schema_version: "1.1.0"      # versão do formato do arquivo; não mude
 type: evento-coleta
 title: null                  # (obrigatório)
 version: "0.1"               # (obrigatório) versão deste documento
@@ -19,6 +19,8 @@ review_interval: "P6M"       # de quanto em quanto tempo revisar, em ISO 8601; o
 source_of_truth: null        # onde está a versão oficial, como o plano de mensuração
 supersedes_revision: null    # versão que esta substitui: id@version
 superseded_by_revision: null # só na cópia de uma versão substituída: id@version da sucessora
+license: null                # opcional: licença do documento (identificador SPDX); cada time define a sua
+source_url: null            # opcional: endereço onde esta versão está publicada
 intent:
   question: null             # (obrigatório) pergunta de negócio que o documento responde
   audience: []               # quem usa: cargos ou áreas
@@ -83,7 +85,7 @@ Preencha estes campos no topo do arquivo antes de escrever o resto.
 | Campo | Chave no topo do arquivo | Obrigatório | O que escrever |
 |---|---|---|---|
 | Identificador do assunto | `id` | Sim | Código estável do assunto, igual em todas as versões, em maiúsculas com hífens (por exemplo KPI-AURORA-001). Não muda quando a regra muda. |
-| Versão do formato | `schema_version` |  | Versão do formato do arquivo, hoje 1.0.0. Diz quais campos o arquivo tem e não muda quando o conteúdo muda. |
+| Versão do formato | `schema_version` |  | Versão do formato do arquivo, hoje 1.1.0. Diz quais campos o arquivo tem e não muda quando o conteúdo muda. |
 | Tipo de documento | `type` |  | Tipo de documento, igual ao nome do modelo (kpi, dataset, conceito e outros). Define quais campos vêm depois do cabeçalho. |
 | Título | `title` | Sim | Nome que uma pessoa da área reconhece, com o assunto e a organização. Pode mudar entre versões sem mudar o identificador. |
 | Versão atual | `version` | Sim | Número desta versão no formato MAIOR.MENOR (1.0, 1.1, 2.0). Suba o número maior quando a regra muda de sentido e o menor quando só esclarece. |
@@ -100,6 +102,8 @@ Preencha estes campos no topo do arquivo antes de escrever o resto.
 | Fonte oficial | `source_of_truth` |  | Sistema, documento ou tabela que vale quando duas fontes discordam. Fica em branco enquanto ninguém confirmou qual é. |
 | Substitui qual versão? | `supersedes_revision` |  | Versão anterior do mesmo assunto que esta substitui, no formato id@versão. Em branco na primeira versão. |
 | Substituída por qual versão? | `superseded_by_revision` |  | Só na cópia de uma versão substituída, aponta a versão que tomou o lugar dela. Em documento aprovado e em vigor, fica em branco. |
+| Licença | `license` |  | Identificador SPDX da licença do documento, como CC-BY-4.0. Nos modelos em branco fica vazio, porque cada time define a licença dos seus documentos. |
+| Endereço publicado | `source_url` |  | Endereço onde esta versão está publicada, para quem recebe um trecho citar a origem. Nos modelos em branco fica vazio, até o documento ser publicado. |
 | Pergunta de negócio que o documento responde | `intent.question` | Sim | A pergunta escrita como alguém da área faria. Sem ela, o documento não sai do rascunho, porque ninguém sabe o que ele precisa responder. |
 | Quem usa | `intent.audience` |  | Cargos ou áreas que leem e usam o documento. Ajuda a escolher o nível de detalhe e quem precisa saber de cada mudança. |
 | Para quê | `intent.purpose` |  | Para que o documento existe, em uma frase, dizendo o problema que ele evita. |
@@ -111,14 +115,24 @@ Preencha estes campos no topo do arquivo antes de escrever o resto.
 ## Para que serve
 Em `intent`, escreva a pergunta de negócio que o documento responde (`question`), como alguém da área faria. Diga quem usa (`audience`), para quê (`purpose`) e quais decisões mudam conforme a resposta (`decisions`). Em `plain_summary`, explique em uma ou duas frases o que o evento conta e quando o silêncio dele é normal.
 
+Exemplo Aurora: `intent.question`: Quando um dia sem generate_lead deve ser tratado como falha de coleta?
+
+Exemplo Aurora: `plain_summary`: O evento conta os cadastros de atacado enviados no site do Brasil, cerca de um por dia, com muitos dias em zero. No México ele não existe, então zero lá é o esperado; no Brasil, só 4 dias completos seguidos em zero levantam suspeita.
+
 ## Onde e quando dispara
 Em `trigger`, descreva a ação que faz o evento disparar. Em `parameters`, as informações que seguem com cada disparo. Em `destination`, cada lugar onde os disparos ficam, com o fuso de cada um. Em `active_scopes`, uma linha por operação, país e marca, dizendo se o evento está ativo ali, desde quando e por quê. As três chaves `trigger`, `destination` e `active_scopes` precisam existir, mesmo vazias no rascunho. Registre também `launch_date`, `retirement_date` e, se o evento mudou de nome, `renamed_from`.
+
+Exemplo Aurora: `trigger`: Envio com sucesso do formulário de cadastro de atacado no site da Aurora, depois da confirmação do servidor
+
+Exemplo Aurora: `deduplication_key`: submission_id: dois disparos com o mesmo valor contam como um
 
 ## Comportamento esperado
 Em `expected_behavior`, diga o ritmo normal do evento (`expected_frequency`) e, para cada operação, a linha de base calculada sobre dias completos (`baseline_by_scope`): a janela, o volume típico por dia, quantos dias ficaram em zero e a maior sequência em zero. Em `silence_tolerance`, escreva a partir de quantos dias seguidos em zero o time passa a suspeitar. Esse número é escolha do time, não regra universal. Em `seasonality`, o que muda o volume de forma conhecida.
 
 ## Quando zero é normal
 Em `expected_zero_conditions`, liste as situações em que um dia sem disparo não indica problema. Em `missing_days_policy`, diga o que significa um dia sem linha na tabela. Em `grain_note`, o que uma linha representa. Em `late_arrival_window`, até quando um dia ainda recebe dados atrasados; antes disso, o dia não está completo e não entra na conta. Em `known_exceptions`, os períodos já explicados, com a evidência, e em `data_incidents`, os problemas já investigados e o efeito deles na linha de base.
+
+Exemplo Aurora: `expected_behavior.expected_zero_conditions`: Até 3 dias completos seguidos em zero no Brasil, como de 27 a 29/10/2026; Qualquer dia no México, onde o evento não existe; Qualquer dia antes de 03/08/2026, data de lançamento; Dias da manutenção programada registrada em known_exceptions
 
 ## Para quem é técnico (opcional)
 `validation_query` guarda a consulta que recalcula a contagem diária por operação na fonte oficial. `deduplication_key` diz como reconhecer o mesmo disparo repetido, e `consent_requirements`, que autorização da pessoa o disparo exige. Em `downstream_kpis`, liste os indicadores que dependem do evento, e em `disambiguation`, os nomes parecidos que contam outra coisa.

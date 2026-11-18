@@ -1,0 +1,199 @@
+/* Componentes de estudo das páginas de modelo (I-24, ADR 0017): ParContrastante, EtapaDeEstudo e Exercicio.
+   Só tokens; nenhuma cor escrita direto e nenhum tamanho de fonte em títulos. Os cartões e rótulos usam as
+   primitivas ctx-card e ctx-label, e o botão usa ctx-button; aqui fica só o arranjo de cada componente.
+   A camada contexto.estudo vem depois das primitivas e dos componentes. */
+@layer contexto.estudo {
+  /* ParContrastante: a pergunta em cima, dois cartões lado a lado; empilhados abaixo de 640 px. */
+  .par-contrastante {
+    margin: 1.5rem 0;
+  }
+  .par-contrastante__pergunta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    color: var(--context-ink);
+    font-weight: 700;
+  }
+  .par-contrastante__cartoes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  .par-contrastante__cartao {
+    padding: 1rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .par-contrastante__cartao > p {
+    margin: 0;
+  }
+  .par-contrastante__definicao {
+    color: var(--context-muted);
+    font-size: var(--context-text-sm);
+    line-height: 1.6;
+  }
+  .par-contrastante__resultado {
+    margin-top: auto;
+    color: var(--context-ink);
+    font-size: var(--context-text-numero);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .par-contrastante__nota {
+    margin: 0.75rem 0 0;
+    color: var(--context-muted);
+    font-size: var(--context-text-sm);
+  }
+  @media (max-width: 639px) {
+    .par-contrastante__cartoes {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  /* EtapaDeEstudo: passo recolhível, fechado por padrão, com alvo de toque de 44 px e foco visível. */
+  .etapa-estudo {
+    margin: 0.5rem 0 0;
+    border: 1px solid var(--context-border);
+    border-radius: var(--context-radius);
+    background: var(--context-surface);
+  }
+  .etapa-estudo__resumo {
+    display: list-item;
+    box-sizing: border-box;
+    min-height: 44px;
+    padding: 0.6rem 0.9rem;
+    cursor: pointer;
+    color: var(--context-ink);
+    font-weight: 700;
+    list-style-position: inside;
+  }
+  .etapa-estudo__resumo:focus-visible {
+    outline: 3px solid var(--sl-color-accent);
+    outline-offset: 2px;
+    border-radius: var(--context-radius);
+  }
+  .etapa-estudo__sub {
+    display: block;
+    margin-top: 0.15rem;
+    padding-inline-start: 1.1rem;
+    color: var(--context-muted);
+    font-size: var(--context-text-sm);
+    font-weight: 400;
+  }
+  .etapa-estudo__corpo {
+    padding: 0.25rem 0.9rem 1rem;
+    border-top: 1px solid var(--context-line);
+  }
+  .etapa-estudo[open] > .etapa-estudo__resumo {
+    color: var(--sl-color-accent);
+  }
+
+  /* Exercicio: pergunta, opções ou caixa de texto, botão e retorno anunciado por role="status". */
+  .exercicio {
+    margin: 1rem 0;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--context-line);
+    border-radius: var(--context-radius);
+    background: var(--context-bg);
+  }
+  .exercicio__grupo {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    min-width: 0;
+  }
+  .exercicio__pergunta {
+    margin: 0 0 0.5rem;
+    padding: 0;
+    color: var(--context-ink);
+    font-weight: 700;
+  }
+  .exercicio__opcao {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    min-height: 44px;
+    margin: 0;
+    padding: 0.35rem 0;
+  }
+  .exercicio__opcao input {
+    flex: none;
+    width: 1.15rem;
+    height: 1.15rem;
+    margin: 0.2rem 0 0;
+    accent-color: var(--sl-color-accent);
+  }
+  .exercicio__opcao input:focus-visible,
+  .exercicio__resposta:focus-visible,
+  .exercicio [data-conferir]:focus-visible,
+  .exercicio__gabarito > summary:focus-visible {
+    outline: 3px solid var(--sl-color-accent);
+    outline-offset: 2px;
+  }
+  .exercicio__opcao label {
+    margin: 0;
+    cursor: pointer;
+  }
+  .exercicio__rotulo {
+    display: block;
+    margin: 0.25rem 0 0.35rem;
+    color: var(--context-muted);
+    font-size: var(--context-text-sm);
+  }
+  .exercicio__resposta {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0.5rem 0.65rem;
+    border: 1px solid var(--context-border);
+    border-radius: 0.35rem;
+    background: var(--context-bg);
+    color: var(--context-ink);
+    font: inherit;
+    resize: vertical;
+  }
+  .exercicio [data-conferir] {
+    margin-top: 0.75rem;
+  }
+  .exercicio [data-conferir][hidden],
+  .exercicio__gabarito[hidden] {
+    display: none;
+  }
+  .exercicio__retorno:empty {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+  .exercicio__retorno {
+    margin-top: 0.75rem;
+    padding: 0.6rem 0.8rem;
+    border-inline-start: 3px solid var(--sl-color-accent);
+    background: var(--context-surface);
+    color: var(--context-ink);
+  }
+  .exercicio__retorno p {
+    margin: 0.25rem 0;
+  }
+  .exercicio__gabarito {
+    margin-top: 0.75rem;
+  }
+  .exercicio__gabarito > summary {
+    display: list-item;
+    box-sizing: border-box;
+    min-height: 44px;
+    padding: 0.6rem 0;
+    cursor: pointer;
+    color: var(--sl-color-accent);
+    font-weight: 700;
+    list-style-position: inside;
+  }
+  .exercicio__lista {
+    margin: 0.5rem 0 0;
+    padding-inline-start: 1.1rem;
+  }
+  .exercicio__lista li + li {
+    margin-top: 0.4rem;
+  }
+}

@@ -3,10 +3,13 @@ title: Indicador (KPI)
 description: Documente o que um indicador mede, como cada parte da fórmula é interpretada e qual versão vale em cada período.
 ---
 
+import { Aside, Steps } from '@astrojs/starlight/components';
 import TemplateDownloads from '../../../components/TemplateDownloads.astro';
 import ExampleDoc from '../../../components/ExampleDoc.astro';
 import TemplateStart from '../../../components/TemplateStart.astro';
-import BeforeAfter from '../../../components/BeforeAfter.astro';
+import ParContrastante from '../../../components/ParContrastante.astro';
+import EtapaDeEstudo from '../../../components/EtapaDeEstudo.astro';
+import Exercicio from '../../../components/Exercicio.astro';
 
 <p class="editorial-lead">A fórmula pode estar certa e a pergunta de negócio, errada</p>
 
@@ -14,61 +17,155 @@ import BeforeAfter from '../../../components/BeforeAfter.astro';
 
 ## O problema
 
-A loja Aurora quer usar IA para responder perguntas sobre conversão de e-commerce. O acervo tem dashboards, um schema SQL e a frase “taxa de conversão = conversões ÷ visitas”. Os números estão disponíveis; o significado, não. Na mesma amostra do [Laboratório Aurora](../../exemplos/analytics-integrado/), uma leitura da frase dá **25%** e outra dá **50%**, porque uma sessão tem dois pedidos. E a pergunta “qual foi a conversão de setembro?” tem duas respostas, porque a definição mudou no meio do mês.
+A loja Aurora quer usar IA para responder perguntas sobre conversão de e-commerce. O acervo tem dashboards, um schema SQL e a frase “taxa de conversão = conversões ÷ visitas”. Os números estão disponíveis; o significado, não. Na amostra de 01/10 do [Laboratório Aurora](../../exemplos/analytics-integrado/), a sessão S1 tem dois pedidos confirmados, e a frase admite duas leituras:
 
-<BeforeAfter />
+<ParContrastante
+  pergunta="Qual foi a conversão web em 01/10/2026?"
+  a={{ rotulo: 'Conversão = pedido', definicao: 'Pedidos confirmados ÷ sessões elegíveis. Era a versão 1.0, até 14/09.', resultado: '50%' }}
+  b={{ rotulo: 'Conversão = sessão com pedido', definicao: 'Sessões com pelo menos um pedido confirmado ÷ sessões elegíveis. É a versão 2.0, desde 15/09.', resultado: '25%' }}
+  nota="Como a definição mudou em 15/09, a pergunta “qual foi a conversão de setembro?” também tem duas respostas. Quem escolhe a leitura é a área responsável, não quem documenta."
+/>
 
-O segundo quadro mostra o nível de detalhe que falta no primeiro. O estado continua pendente de aprovação: quem define o indicador é a área responsável, não quem documenta.
+## Aprenda com a Aurora
 
-## O que perguntar
+<Steps>
 
-| Pergunta | O que ela descobre | Campo do modelo |
-|---|---|---|
-| “Conversão” é pedido criado, pago, confirmado ou entregue? | Evento que conta no numerador | `calculation` |
-| “Visita” é sessão, usuário ou acesso à página? | Unidade do denominador | `calculation` |
-| Pedidos de teste e cancelados entram? | Critérios de exclusão | `scope` |
-| O indicador vale para app, web e loja física? | Canais | `scope` |
-| A qual data e fuso o cálculo se refere? Como fechar um mês com eventos atrasados? | Referência temporal e atualização | `time` |
-| Qual tabela tem autoridade? Que chaves e filtros usar? | Fonte e junção | `data_sources` |
-| Qual dashboard é a referência quando os valores divergem? | Hierarquia de fontes | `data_sources` |
-| Quem pode mudar a definição, e desde quando vale a atual? | Quem aprova e vigência | `approver`, `valid_from` |
+1. Leia o indicador aprovado e tente responder a cada pergunta antes de abrir a resposta.
 
-## Antes e depois da decisão
+   <EtapaDeEstudo tipo="comentado" resumo="O documento aprovado, com três perguntas para explicar a você mesmo">
 
-Depois de entrevistar a área e **antes de marcar como aprovado**, o documento registra o que se sabe e o que falta. A estrutura não substitui a decisão de negócio: ela impede que uma ausência passe despercebida.
+   <ExampleDoc file="exemplo-kpi-completo.yaml" />
 
-<ExampleDoc file="exemplo-kpi-lacunas.yaml" />
+   <details><summary>Por que o numerador conta sessões, e não pedidos?</summary>Porque a pergunta do indicador é que parte das sessões termina em compra. S1 tem dois pedidos confirmados; contados como pedidos, eles dobram o peso de uma única sessão.</details>
 
-A Gerência de E-commerce aprovou a definição. As perguntas em aberto viraram campos preenchidos, com definição, exemplos e responsável:
+   <details><summary>Por que, com denominador zero, o documento manda exibir “sem dados”, e não 0%?</summary>Um dia sem sessões elegíveis não teve conversão zero: não teve visitas. Mostrar 0% diria que houve visitas e nenhuma compra.</details>
 
-<ExampleDoc file="exemplo-kpi-completo.yaml" />
+   <details><summary>O que o histórico de versões ensina?</summary>A versão 1.0, vigente de 15/08 a 14/09, contava pedidos confirmados por sessão, o que inflava a taxa. A 2.0, desde 15/09, conta sessões com pedido confirmado; é versão maior porque o resultado muda. Veja as [versões históricas completas e seus intervalos](../../metodo/identificacao-versoes/).</details>
 
-### O que o histórico de versões ensina
+   </EtapaDeEstudo>
 
-A versão 1.0, vigente de 15/08 a 14/09, contava **pedidos** confirmados por sessão, o que inflava a taxa. A 2.0, desde 15/09, conta **sessões** com pedido confirmado; é versão maior porque o resultado muda. Aplicadas à mesma amostra, as fórmulas dão 50% e 25%. Veja as [versões históricas completas e seus intervalos](../../metodo/identificacao-versoes/).
+2. Antes de aprovar, o documento registra o que se sabe e o que falta. Encontre a lacuna que mais pesa.
 
-## Teste você
+   <EtapaDeEstudo tipo="diagnostico" resumo="O rascunho de julho, com quatro perguntas em aberto">
 
-1. Na amostra de 01/10/2026 do laboratório, quanto vale o indicador?
-   <details><summary>Ver resposta</summary>25%. Em 01/10 vale a versão 2.0: uma sessão convertida (S1) entre quatro elegíveis.</details>
-2. Um relatório de 10/09 calculou pedidos confirmados por sessão elegível. Ele usou a definição errada?
-   <details><summary>Ver resposta</summary>Não. Em 10/09 valia a versão 1.0, que contava pedidos. O relatório estava certo para a regra da época.</details>
-3. Comparando os dois relatórios, a conversão “caiu de 50% para 25%”?
-   <details><summary>Ver resposta</summary>Não se pode dizer isso. São duas fórmulas diferentes; a diferença vem da mudança de definição, não do comportamento dos clientes.</details>
-4. Alguém pergunta “qual a conversão mobile?”. O que a documentação permite responder?
-   <details><summary>Ver resposta</summary>Pedir esclarecimento. O indicador vale só para web; “mobile” pode ser web no celular ou o app, que está fora do escopo.</details>
-5. Alguém pergunta “qual foi a conversão de setembro?”. Existe um número para o mês?
-   <details><summary>Ver resposta</summary>Não um só. De 01 a 14/09 vale a versão 1.0, que conta pedidos por sessão; de 15 a 30/09, a 2.0, que conta sessões convertidas. Um número único para o mês misturaria as duas. Num acervo com dados de setembro, a resposta é dar os dois períodos separados, cada um com a sua definição, ou perguntar qual deles a pessoa quer. No laboratório nem isso: a amostra só tem 01/10, e por isso a pergunta Q05 do gabarito não recebe número.</details>
+   <ExampleDoc file="exemplo-kpi-lacunas.yaml" />
 
-Essas perguntas verificam se o documento tem o que é preciso para responder. Não testam se um modelo de IA específico acertaria.
+   <Exercicio
+     pergunta="Qual pergunta em aberto do rascunho faz a mesma amostra dar 25% ou 50%?"
+     opcoes={[
+       { texto: 'Se o numerador conta pedidos ou sessões com pedido', correta: true, explicacao: 'É ela que decide se S1 conta uma ou duas vezes. O próprio rascunho diz o impacto: uma leitura pode dar o dobro da outra.' },
+       { texto: 'Qual campo de data determina o dia da sessão', explicacao: 'Ela muda o dia em que cai uma sessão perto da meia-noite, não a forma de contar S1.' },
+       { texto: 'O que fazer quando o denominador é zero', explicacao: 'Ela só pesa em dia sem sessões; em 01/10 há quatro sessões elegíveis.' },
+       { texto: 'Quem aprova a fonte oficial e a vigência', explicacao: 'Sem quem aprova, a definição não vale como oficial, mas a conta não muda.' },
+     ]}
+   />
+
+   </EtapaDeEstudo>
+
+3. No trecho da versão 2.0 abaixo, o numerador foi apagado. Escreva-o de modo que S1 não conte duas vezes.
+
+   <EtapaDeEstudo tipo="complete" resumo="Um campo da fórmula para escrever">
+
+   ```yaml
+   calculation:
+     formula_description: "(Sessões únicas com pelo menos um pedido confirmado / Sessões elegíveis) × 100"
+     numerator: "____"
+     denominator: "Quantidade de sessões elegíveis: channel = web e is_internal = 0"
+   ```
+
+   <Exercicio
+     pergunta="Como fica o numerador da versão 2.0?"
+     rotulo="Sua resposta para o numerador"
+     gabarito="Quantidade de sessões elegíveis com pelo menos um pedido CONFIRMED. Uma sessão com dois pedidos confirmados conta uma vez"
+     explicacao="O campo diz a unidade (sessão), o filtro (pedido confirmado) e o caso-limite (dois pedidos na mesma sessão). Sem a última frase, quem lê pode voltar a contar pedidos."
+   />
+
+   </EtapaDeEstudo>
+
+4. Agora com o modelo em branco, numa situação que ainda não tem documento.
+
+   <EtapaDeEstudo tipo="caso-novo" resumo="A receita líquida da loja web">
+
+   A Gerência de E-commerce quer acompanhar a receita líquida da loja web. Esse indicador ainda não tem definição na Aurora, e é por isso que a pergunta Q06 das [Perguntas de negócio](../perguntas-de-negocio/) não recebe número. Baixe o modelo em branco e leve estas perguntas à área:
+
+   | Pergunta | O que ela descobre | Campo do modelo |
+   |---|---|---|
+   | “Conversão” é pedido criado, pago, confirmado ou entregue? | Evento que conta no numerador | `calculation` |
+   | “Visita” é sessão, usuário ou acesso à página? | Unidade do denominador | `calculation` |
+   | Pedidos de teste e cancelados entram? | Critérios de exclusão | `scope` |
+   | O indicador vale para app, web e loja física? | Canais | `scope` |
+   | A qual data e fuso o cálculo se refere? Como fechar um mês com eventos atrasados? | Referência temporal e atualização | `time` |
+   | Qual tabela tem autoridade? Que chaves e filtros usar? | Fonte e junção | `data_sources` |
+   | Qual dashboard é a referência quando os valores divergem? | Hierarquia de fontes | `data_sources` |
+   | Quem pode mudar a definição, e desde quando vale a atual? | Quem aprova e vigência | `approver`, `valid_from` |
+
+   Na receita líquida, troque “conversão” e “visita” pelas partes da nova fórmula: o que entra como receita e o que é descontado.
+
+   </EtapaDeEstudo>
+
+5. Responda antes de conferir. Cada alternativa errada traz a explicação do erro.
+
+   <EtapaDeEstudo tipo="teste" resumo="Cinco casos, dois atravessando a mudança de 15/09">
+
+   <Exercicio
+     pergunta="Na amostra de 01/10/2026 do laboratório, quanto vale o indicador?"
+     opcoes={[
+       { texto: '25%', correta: true, explicacao: 'Em 01/10 vale a versão 2.0: uma sessão convertida (S1) entre quatro elegíveis.' },
+       { texto: '50%', explicacao: 'É a conta da versão 1.0, que contava os dois pedidos de S1. Em 01/10 ela já não valia.' },
+       { texto: '40%', explicacao: 'É a conta que inclui a sessão interna S3, que o indicador exclui.' },
+     ]}
+   />
+
+   <Exercicio
+     pergunta="Um relatório de 10/09 calculou pedidos confirmados por sessão elegível. Ele usou a definição errada?"
+     opcoes={[
+       { texto: 'Não. Em 10/09 valia a versão 1.0, que contava pedidos', correta: true, explicacao: 'O relatório estava certo para a regra da época.' },
+       { texto: 'Sim. A definição certa conta sessões com pedido', explicacao: 'A versão 2.0 só vale desde 15/09. Aplicá-la a 10/09 é usar uma regra que ainda não existia.' },
+       { texto: 'Não dá para saber sem abrir a consulta SQL', explicacao: 'O histórico de versões responde: a versão vigente na data diz qual fórmula valia.' },
+     ]}
+   />
+
+   <Exercicio
+     pergunta="Comparando o relatório de 10/09 com a amostra de 01/10, a conversão “caiu de 50% para 25%”?"
+     opcoes={[
+       { texto: 'Não se pode dizer isso', correta: true, explicacao: 'São duas fórmulas diferentes; a diferença vem da mudança de definição, não do comportamento dos clientes.' },
+       { texto: 'Sim, caiu à metade', explicacao: 'Os dois números medem coisas diferentes. A série da versão 1.0 não é recalculada e fica marcada como quebra de método.' },
+     ]}
+   />
+
+   <Exercicio
+     pergunta="Alguém pergunta “qual a conversão mobile?”. O que a documentação permite responder?"
+     opcoes={[
+       { texto: 'Pedir esclarecimento', correta: true, explicacao: 'O indicador vale só para web; “mobile” pode ser web no celular ou o app, que está fora do escopo.' },
+       { texto: 'Dar a taxa web de 25%', explicacao: 'Isso supõe que “mobile” é web no celular. Se a pessoa falar do app, o canal está fora do escopo.' },
+       { texto: 'Dizer que não há dados', explicacao: 'O problema não é falta de dados: é a pergunta ambígua. Primeiro é preciso saber de qual canal a pessoa fala.' },
+     ]}
+   />
+
+   <Exercicio
+     pergunta="Alguém pergunta “qual foi a conversão de setembro?”. Existe um número para o mês?"
+     opcoes={[
+       { texto: 'Não um só', correta: true, explicacao: 'De 01 a 14/09 vale a versão 1.0; de 15 a 30/09, a 2.0. A resposta é dar os dois períodos separados, cada um com a sua definição, ou perguntar qual deles a pessoa quer. No laboratório nem isso: a amostra só tem 01/10, e por isso a pergunta Q05 do gabarito não recebe número.' },
+       { texto: 'Sim, a média das taxas diárias de setembro', explicacao: 'A média misturaria as duas versões, e o próprio indicador proíbe tirar média de taxas diárias.' },
+       { texto: 'Sim, aplicando a versão 2.0 ao mês inteiro', explicacao: 'De 01 a 14/09 valia a 1.0, e a série antiga não é recalculada.' },
+     ]}
+   />
+
+   Essas perguntas verificam se o documento tem o que é preciso para responder. Não testam se um modelo de IA específico acertaria.
+
+   </EtapaDeEstudo>
+
+</Steps>
 
 ## Baixe o modelo
 
 <TemplateDownloads kind="kpi" />
 
-:::note[Sobre os metadados]
+O que cada campo significa e aceita está na [Referência de campos de Indicador (KPI)](../../referencias/campos/kpi/).
+
+<Aside type="note" title="Sobre os metadados">
 Os campos são uma **convenção editorial proposta neste framework**. Não são uma norma universal nem uma especificação executável por dbt, Cube ou Snowflake. Adaptá-los para uma ferramenta em execução exige engenharia e validação adicionais.
-:::
+</Aside>
 
 ### Fundamentação
 

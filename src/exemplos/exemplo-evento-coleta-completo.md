@@ -1,7 +1,7 @@
 ---
 # Exemplo do Contexto. A Aurora é uma organização inventada; nomes, datas e aprovações fazem parte do caso.
 id: EVENT-AURORA-GENERATE-LEAD
-schema_version: "1.0.0"
+schema_version: "1.1.0"
 type: evento-coleta
 title: "Evento generate_lead: Aurora"
 version: "1.1"
@@ -17,6 +17,8 @@ review_interval: "P6M"
 source_of_truth: "Plano de mensuração da Aurora, linha generate_lead"
 supersedes_revision: "EVENT-AURORA-GENERATE-LEAD@1.0"
 superseded_by_revision: null
+license: CC-BY-4.0
+source_url: "https://edoardolobl.github.io/contexto-framework/documentos/EVENT-AURORA-GENERATE-LEAD@1.1.md"
 intent:
   question: "Quando um dia sem generate_lead deve ser tratado como falha de coleta?"
   audience: ["Analytics de E-commerce", "Engenharia de Dados", "Vendas de Atacado"]

@@ -3,81 +3,166 @@ title: Perguntas de negócio
 description: Escreva as perguntas que a IA vai receber e a resposta esperada de cada uma; o mesmo documento abre o percurso e serve de gabarito.
 ---
 
+import { Steps } from '@astrojs/starlight/components';
 import TemplateDownloads from '../../../components/TemplateDownloads.astro';
 import ExampleDoc from '../../../components/ExampleDoc.astro';
 import TemplateStart from '../../../components/TemplateStart.astro';
+import ParContrastante from '../../../components/ParContrastante.astro';
+import EtapaDeEstudo from '../../../components/EtapaDeEstudo.astro';
+import Exercicio from '../../../components/Exercicio.astro';
 
 <p class="editorial-lead">“O agente vai responder perguntas sobre o dashboard.” Quais perguntas?</p>
-
-O mesmo documento serve duas vezes: é a ficha de entrada, onde você [escreve as perguntas](../../percurso/escreva-a-pergunta/#banco-de-perguntas-por-tipo-de-documento) no passo 1, e é o gabarito com que você [testa a IA](../../percurso/teste-com-as-perguntas/) no passo 6.
 
 <TemplateStart kind="perguntas-de-negocio" />
 
 ## O problema
 
-Antes de testar uma IA, quem responde pelo conhecimento precisa dizer **o que a documentação autoriza afirmar**, com qual evidência, e quando falta informação. Sem isso, “a IA respondeu” não diz se a resposta estava certa. O resultado é um documento de **Perguntas de negócio validado pelo domínio**, não um relatório de desempenho de um modelo de IA.
+Antes de testar uma IA, quem responde pelo conhecimento precisa dizer **o que a documentação autoriza afirmar**, com qual evidência, e quando falta informação. Sem isso, “a IA respondeu” não diz se a resposta estava certa:
 
-Toda pergunta cai numa de três categorias:
+<ParContrastante
+  pergunta="Qual foi a taxa de sessões web convertidas em 01/10/2026?"
+  a={{ rotulo: 'Sem resposta esperada', definicao: 'Uma resposta que conta os pedidos confirmados de cada sessão parece certa, e ninguém tem com o que comparar.', resultado: '50%' }}
+  b={{ rotulo: 'Com a resposta esperada de Q01', definicao: 'KPI-AURORA-001, versão 2.0: 1 sessão convertida entre 4 elegíveis, conferida pela Analytics de E-commerce em 02/10.', resultado: '25%' }}
+  nota="O resultado é um documento de Perguntas de negócio validado pelo domínio, não um relatório de desempenho de um modelo de IA."
+/>
 
-| Categoria | Quando ocorre | Comportamento esperado |
-|---|---|---|
-| Respondível | As fontes cobrem significado, escopo e período | Responder com definição e evidência |
-| Ambígua | Falta uma escolha que só quem pergunta pode fazer: canal, período, unidade | Pedir esclarecimento e listar as alternativas |
-| Fora da cobertura | As fontes não cobrem a pergunta ou a regra não foi aprovada | Declarar o limite e encaminhar a quem decide |
+## Aprenda com a Aurora
 
-## O que perguntar
+<Steps>
 
-| O que registrar em cada pergunta | Na Aurora, para Q01 |
-|---|---|
-| A pergunta, como uma pessoa a faria | “Qual foi a taxa de sessões web convertidas em 01/10/2026?” |
-| A fonte vigente e o trecho que sustenta a resposta | KPI-AURORA-001, versão 2.0, e a consulta de referência |
-| A resposta esperada, ou quando pedir esclarecimento ou não responder | 25% na amostra |
-| A data de referência dos dados | 01/10/2026 |
-| A versão das definições usadas | KPI 2.0, vigente desde 15/09 |
-| Quem revisou, e quando | Analytics de E-commerce, 02/10/2026 |
+1. Veja as três categorias e as sete perguntas do laboratório, leia o gabarito aprovado e tente responder antes de abrir cada resposta.
 
-**Cada pergunta se lê sozinha.** Nenhuma pergunta deve depender da anterior, como “e no mês passado?”.
+   <EtapaDeEstudo tipo="comentado" resumo="As sete perguntas e o gabarito aprovado, com três perguntas">
 
-## Antes e depois da decisão
+   Toda pergunta cai numa de três categorias:
 
-As Perguntas de negócio do [Laboratório Aurora](../../exemplos/analytics-integrado/) são sete:
+   | Categoria | Quando ocorre | Comportamento esperado |
+   |---|---|---|
+   | Respondível | As fontes cobrem significado, escopo e período | Responder com definição e evidência |
+   | Ambígua | Falta uma escolha que só quem pergunta pode fazer: canal, período, unidade | Pedir esclarecimento e listar as alternativas |
+   | Fora da cobertura | As fontes não cobrem a pergunta ou a regra não foi aprovada | Declarar o limite e encaminhar a quem decide |
 
-| ID | Pergunta | Resposta esperada | Evidência necessária |
-|---|---|---|---|
-| Q01 | Qual foi a taxa de sessões web convertidas em 01/10/2026? | **Responder:** 25% nesta amostra | Definição do KPI, sessão elegível, estado do pedido |
-| Q02 | Por que essa taxa não é 50%? | **Responder, explicando:** há dois pedidos confirmados na mesma sessão; ela conta uma vez | Cardinalidade 1:N e regra do numerador |
-| Q03 | Qual foi a conversão em 01/10/2026? | **Pedir esclarecimento:** a pergunta não diz o canal nem qual conversão | O KPI vale só para web |
-| Q04 | Qual foi a taxa de sessões convertidas no app em 01/10/2026? | **Não responder com número:** o canal app está fora do escopo declarado | Canais excluídos no KPI |
-| Q05 | Qual foi a taxa de sessões web convertidas em setembro de 2026? | **Não responder com número:** a amostra não contém esse período | Limite temporal documentado |
-| Q06 | Qual foi a receita líquida em 01/10/2026? | **Não responder com número:** o indicador não foi definido | Ausência de fórmula e fontes |
-| Q07 | A taxa de sessões web convertidas de 01/10/2026 pode ser comparada com a de 10/09/2026, do relatório de setembro? | **Responder, explicando:** não; em 10/09 valia a definição que contava pedidos, em 01/10 a que conta sessões | Histórico de versões do KPI |
+   As Perguntas de negócio do [Laboratório Aurora](../../exemplos/analytics-integrado/) são sete:
 
-Q04 a Q06 não dizem que um banco maior seria incapaz de respondê-las; dizem que **esta documentação e esta definição não as sustentam**.
+   | ID | Pergunta | Resposta esperada | Evidência necessária |
+   |---|---|---|---|
+   | Q01 | Qual foi a taxa de sessões web convertidas em 01/10/2026? | **Responder:** 25% nesta amostra | Definição do KPI, sessão elegível, estado do pedido |
+   | Q02 | Por que essa taxa não é 50%? | **Responder, explicando:** há dois pedidos confirmados na mesma sessão; ela conta uma vez | Cardinalidade 1:N e regra do numerador |
+   | Q03 | Qual foi a conversão em 01/10/2026? | **Pedir esclarecimento:** a pergunta não diz o canal nem qual conversão | O KPI vale só para web |
+   | Q04 | Qual foi a taxa de sessões convertidas no app em 01/10/2026? | **Não responder com número:** o canal app está fora do escopo declarado | Canais excluídos no KPI |
+   | Q05 | Qual foi a taxa de sessões web convertidas em setembro de 2026? | **Não responder com número:** a amostra não contém esse período | Limite temporal documentado |
+   | Q06 | Qual foi a receita líquida em 01/10/2026? | **Não responder com número:** o indicador não foi definido | Ausência de fórmula e fontes |
+   | Q07 | A taxa de sessões web convertidas de 01/10/2026 pode ser comparada com a de 10/09/2026, do relatório de setembro? | **Responder, explicando:** não; em 10/09 valia a definição que contava pedidos, em 01/10 a que conta sessões | Histórico de versões do KPI |
 
-Enquanto a Analytics de E-commerce não conferiu as respostas e a Gerência de E-commerce não aprovou, Q01 carrega essa ressalva:
+   Q04 a Q06 não dizem que um banco maior seria incapaz de respondê-las; dizem que **esta documentação e esta definição não as sustentam**.
 
-<ExampleDoc file="exemplo-perguntas-de-negocio-lacunas.yaml" />
+   <ExampleDoc file="exemplo-perguntas-de-negocio-completo.yaml" />
 
-Depois da revisão, a ressalva sai, cada pergunta ganha revisor e data e, na versão 1.1, entra Q07:
+   <details><summary>Por que Q01 recebe número e Q03 não, se falam do mesmo dia?</summary>Q01 diz o canal e qual taxa. Q03 não diz o canal nem qual conversão; a documentação define uma só, a de sessões no canal web, e a resposta esperada é perguntar à pessoa, não escolher por ela.</details>
 
-<ExampleDoc file="exemplo-perguntas-de-negocio-completo.yaml" />
+   <details><summary>Por que cada pergunta precisa se ler sozinha?</summary>Quem usa o gabarito, ou o agente testado, recebe a pergunta sem a conversa anterior. “E no mês passado?” não diz qual indicador nem qual mês.</details>
 
-Quando um indicador muda de versão, as respostas esperadas que dependem dele **também precisam ser revisadas**. A versão 1.1, de 05/10, acrescentou Q07 sem mudar as respostas de Q01 a Q06: é uma versão menor.
+   <details><summary>O que o histórico de versões ensina?</summary>Quando um indicador muda de versão, as respostas esperadas que dependem dele **também precisam ser revisadas**. A versão 1.1, de 05/10, acrescentou Q07 sem mudar as respostas de Q01 a Q06: é uma versão menor.</details>
 
-## Teste você
+   </EtapaDeEstudo>
 
-1. Q03 e Q04 parecem iguais: nenhuma recebe número. Qual é a diferença?
-   <details><summary>Ver resposta</summary>Q03 é ambígua: falta uma escolha que só quem pergunta pode fazer, então a resposta é pedir esclarecimento. Q04 não é ambígua: a pessoa disse o canal, e o documento diz que o indicador não vale para ele. É abstenção, com encaminhamento a quem responde pelo indicador.</details>
-2. Alguém propõe acrescentar “E no app?” logo depois de Q01. O que está errado?
-   <details><summary>Ver resposta</summary>A pergunta depende da anterior para ter sentido. Reescreva com tudo explícito, como em Q04.</details>
-3. Q07 compara 01/10 com 10/09. Os dois dias têm número. Por que a resposta esperada não é a diferença entre eles?
-   <details><summary>Ver resposta</summary>Porque a definição mudou em 15/09. O número de 10/09 conta pedidos por sessão; o de 01/10, sessões convertidas. Subtrair um do outro mediria a mudança de fórmula, não a de conversão.</details>
+2. Enquanto ninguém conferiu as respostas, o gabarito diz isso. Encontre o que impede usá-lo num teste.
+
+   <EtapaDeEstudo tipo="diagnostico" resumo="O rascunho do gabarito, com duas perguntas em aberto">
+
+   <ExampleDoc file="exemplo-perguntas-de-negocio-lacunas.yaml" />
+
+   <Exercicio
+     pergunta="O rascunho tem seis perguntas, cada uma com resposta esperada. Por que ele ainda não serve para testar um agente?"
+     opcoes={[
+       { texto: 'Ninguém conferiu as respostas contra a amostra nem aprovou o gabarito', correta: true, explicacao: 'O próprio rascunho diz o impacto: uma resposta esperada errada faz o teste aprovar um agente que erra.' },
+       { texto: 'Faltam perguntas sobre outros canais', explicacao: 'Q04 já trata do app. O número de perguntas não é o problema; a falta de conferência é.' },
+       { texto: 'Q03 não tem resposta com número', explicacao: 'Pedir esclarecimento é a resposta esperada certa para uma pergunta ambígua.' },
+     ]}
+   />
+
+   </EtapaDeEstudo>
+
+3. No trecho abaixo, a resposta esperada de Q01 foi apagada. Escreva-a como a Analytics de E-commerce conferiu.
+
+   <EtapaDeEstudo tipo="complete" resumo="Uma resposta esperada para escrever">
+
+   ```yaml
+   - id: Q01
+     question: "Qual foi a taxa de sessões web convertidas em 2026-10-01?"
+     expected_behavior: answer
+     reference_answer: "____"
+     required_sources: [KPI-AURORA-001, aurora-reference-query.sql]
+   ```
+
+   <Exercicio
+     pergunta="Qual é a resposta esperada de Q01?"
+     rotulo="Sua resposta esperada para Q01"
+     gabarito="25% em 2026-10-01: 1 sessão convertida entre 4 elegíveis"
+     explicacao="A resposta esperada traz o número, a data e a conta que o sustenta. Assim quem testa vê se o agente chegou ao número pelo caminho certo."
+   />
+
+   </EtapaDeEstudo>
+
+4. Agora com o modelo em branco, para outro assunto da Aurora.
+
+   <EtapaDeEstudo tipo="caso-novo" resumo="As perguntas sobre participantes ativos">
+
+   Escreva as Perguntas de negócio do programa de integração, a partir do [Conceito](../conceito/) de participante ativo: pelo menos uma respondível, uma ambígua e uma fora da cobertura. Registre em cada pergunta o que a tabela pede; a coluna da direita mostra o exemplo de Q01:
+
+   | O que registrar em cada pergunta | Na Aurora, para Q01 |
+   |---|---|
+   | A pergunta, como uma pessoa a faria | “Qual foi a taxa de sessões web convertidas em 01/10/2026?” |
+   | A fonte vigente e o trecho que sustenta a resposta | KPI-AURORA-001, versão 2.0, e a consulta de referência |
+   | A resposta esperada, ou quando pedir esclarecimento ou não responder | 25% na amostra |
+   | A data de referência dos dados | 01/10/2026 |
+   | A versão das definições usadas | KPI 2.0, vigente desde 15/09 |
+   | Quem revisou, e quando | Analytics de E-commerce, 02/10/2026 |
+
+   **Cada pergunta se lê sozinha.** Nenhuma pergunta deve depender da anterior, como “e no mês passado?”.
+
+   </EtapaDeEstudo>
+
+5. Responda antes de conferir. Cada alternativa errada traz a explicação do erro.
+
+   <EtapaDeEstudo tipo="teste" resumo="Três casos, um atravessando a mudança de 15/09">
+
+   <Exercicio
+     pergunta="Q03 e Q04 parecem iguais: nenhuma recebe número. Qual é a diferença?"
+     opcoes={[
+       { texto: 'Q03 é ambígua e pede esclarecimento; Q04 está fora do escopo e é abstenção', correta: true, explicacao: 'Em Q03 falta uma escolha que só quem pergunta pode fazer. Em Q04 a pessoa disse o canal, e o documento diz que o indicador não vale para ele; a resposta encaminha a quem responde pelo indicador.' },
+       { texto: 'As duas são ambíguas', explicacao: 'Q04 diz o canal; não falta escolha nenhuma. O documento é que diz que o indicador não vale para o app.' },
+       { texto: 'As duas são abstenção', explicacao: 'Em Q03 a resposta é perguntar, não se abster: com o canal definido, ela pode ser respondida.' },
+     ]}
+   />
+
+   <Exercicio
+     pergunta="Alguém propõe acrescentar “E no app?” logo depois de Q01. O que está errado?"
+     opcoes={[
+       { texto: 'A pergunta depende da anterior para ter sentido', correta: true, explicacao: 'Reescreva com tudo explícito, como em Q04.' },
+       { texto: 'Nada: ela é curta e clara', explicacao: 'Sozinha, ela não diz qual indicador nem qual data.' },
+     ]}
+   />
+
+   <Exercicio
+     pergunta="Q07 compara 01/10 com 10/09, e os dois dias têm número. Por que a resposta esperada não é a diferença entre eles?"
+     opcoes={[
+       { texto: 'Porque a definição mudou em 15/09', correta: true, explicacao: 'O número de 10/09 conta pedidos por sessão; o de 01/10, sessões convertidas. Subtrair um do outro mediria a mudança de fórmula, não a de conversão.' },
+       { texto: 'Porque 10/09 está fora da amostra', explicacao: 'A pergunta já traz o número de 10/09, do relatório de setembro. O problema é a fórmula diferente, não a falta do número.' },
+     ]}
+   />
+
+   </EtapaDeEstudo>
+
+</Steps>
 
 ## Baixe o modelo
 
 <TemplateDownloads kind="perguntas-de-negocio" />
 
-Se você baixou este modelo antes do schema 1.0, o arquivo antigo continua guardado em `historico/0.x`; veja o que mudou em [Migração para o schema 1.0](../../referencias/migracao-schema-1-0/). Quem monta o sistema pode usar as mesmas perguntas em testes de recuperação e de respostas; o Contexto **não certifica** nenhuma arquitetura RAG ou agente.
+O que cada campo significa e aceita está na [Referência de campos de Perguntas de negócio](../../referencias/campos/perguntas-de-negocio/).
+
+O mesmo documento serve duas vezes: é a ficha de entrada, onde você [escreve as perguntas](../../percurso/escreva-a-pergunta/#banco-de-perguntas-por-tipo-de-documento) no passo 1, e é o gabarito com que você [testa a IA](../../percurso/teste-com-as-perguntas/) no passo 6. Se você baixou este modelo antes do schema 1.0, o arquivo antigo continua guardado em `historico/0.x`; veja o que mudou em [Migração para o schema 1.0](../../referencias/migracao-schema-1-0/). Quem monta o sistema pode usar as mesmas perguntas em testes de recuperação e de respostas; o Contexto **não certifica** nenhuma arquitetura RAG ou agente.
 
 ### Fundamentação
 

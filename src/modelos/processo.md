@@ -3,7 +3,7 @@
 # null significa "ainda não sei" ou "ainda não decidido". Não troque null por um palpite: registre a dúvida em open_questions.
 # Campos marcados (obrigatório) são o núcleo para sair do rascunho; os blocos "para quem é técnico" são opcionais.
 id: null                     # (obrigatório) identificador do assunto, igual em todas as versões
-schema_version: "1.0.0"      # versão do formato do arquivo; não mude
+schema_version: "1.1.0"      # versão do formato do arquivo; não mude
 type: processo
 title: null                  # (obrigatório)
 version: "0.1"               # (obrigatório) versão deste documento
@@ -19,6 +19,8 @@ review_interval: null        # de quanto em quanto tempo revisar, em ISO 8601: P
 source_of_truth: null        # onde está a versão oficial
 supersedes_revision: null    # versão que esta substitui: id@version
 superseded_by_revision: null # só na cópia de uma versão substituída: id@version da sucessora
+license: null                # opcional: licença do documento (identificador SPDX); cada time define a sua
+source_url: null            # opcional: endereço onde esta versão está publicada
 intent:
   question: null             # (obrigatório) pergunta de negócio que o documento responde
   audience: []               # quem usa: cargos ou áreas
@@ -86,8 +88,14 @@ related_documents: []        # identificadores de outros documentos
 ## Para que serve
 Em `intent`, escreva a pergunta de negócio que o documento responde (`question`), como alguém da área faria. Diga quem usa (`audience`), para quê (`purpose`) e quais decisões mudam conforme a resposta (`decisions`). Em `plain_summary`, explique em uma ou duas frases, sem termos técnicos, o que o documento diz.
 
+<!-- contexto:exemplo intent.question -->
+
+<!-- contexto:exemplo plain_summary -->
+
 ## Escopo e início
 Em `scope`, diga quando o processo se aplica e quando não. Em `trigger`, o que dá início a ele; em `preconditions` e `required_inputs`, o que precisa existir antes.
+
+<!-- contexto:exemplo trigger -->
 
 ## Papéis
 Em `roles`, diga o responsável pelo processo, quem executa e quem aprova, sempre por cargo ou área.
@@ -95,8 +103,12 @@ Em `roles`, diga o responsável pelo processo, quem executa e quem aprova, sempr
 ## Etapas
 Em `steps`, repita um item para cada etapa: identificador, nome, quem executa, ação, entradas, evidência que a etapa deixa, próxima etapa, prazo, o que acontece quando o prazo vence e como tratar exceções.
 
+<!-- contexto:exemplo required_inputs -->
+
 ## Decisões e encerramento
 Em `decision_rules`, cite as regras de decisão pelo identificador, sem copiar o conteúdo. Em `completion`, diga o critério de sucesso, os resultados de falha e onde a evidência fica registrada. Em `exceptions` e `escalation`, o que sai do fluxo normal e para quem sobe.
+
+<!-- contexto:exemplo completion.success_criteria -->
 
 ## Para quem é técnico (opcional)
 `authoritativeDefinitions` aponta onde mora a regra executável, como o fluxo desenhado em BPMN ou o formulário do sistema de solicitações, sem copiar o código para o documento. Cada item tem `type` (`sql`, `metricView`, `filter`, `dashboard`, `document` ou `other`), `url` e `description`.

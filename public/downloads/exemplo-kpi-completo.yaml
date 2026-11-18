@@ -1,6 +1,6 @@
 # Exemplo do Contexto. A Aurora é uma organização inventada; nomes, datas e aprovações fazem parte do caso.
 id: KPI-AURORA-001
-schema_version: "1.0.0"
+schema_version: "1.1.0"
 type: kpi
 title: "Taxa de sessões convertidas: loja web Aurora"
 version: "2.0"
@@ -16,6 +16,8 @@ review_interval: null
 source_of_truth: "Catálogo de indicadores da Aurora, entrada KPI-AURORA-001"
 supersedes_revision: "KPI-AURORA-001@1.0"
 superseded_by_revision: null
+license: CC-BY-4.0
+source_url: "https://edoardolobl.github.io/contexto-framework/documentos/KPI-AURORA-001@2.0.md"
 intent:
   question: "Que parte das sessões da loja web da Aurora termina em pelo menos um pedido confirmado?"
   audience: ["Gerência de E-commerce", "Operação de marketing", "Analytics de E-commerce"]
