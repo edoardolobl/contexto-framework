@@ -1,6 +1,6 @@
 # Protocolo de onboarding: o kit mínimo responde às perguntas marcadas
 
-- **Estado:** Critério de saída atingido no Claude Code (terceira execução, 2026-11-17) e no Codex (quarta execução, 2026-11-18, depois do ajuste da Skill auditar-coleta); Antigravity pendente
+- **Estado:** Critério de saída atingido no Claude Code (terceira execução, 2026-11-17), no Codex (quarta execução, 2026-11-18, depois do ajuste da Skill auditar-coleta) e no Antigravity CLI (quinta execução, 2026-11-18)
 - **Data:** 2026-11-17
 - **Fase:** F6 (saídas para máquinas), [ADR 0028](../adr/0028-saidas-para-maquinas.md)
 - **Origem:** [12-incorporacoes.md](../../auditoria/12-incorporacoes.md), I-26; [10-direcao-proposta.md](../../auditoria/10-direcao-proposta.md), critério de saída da F6
@@ -238,4 +238,47 @@ Registro por rodada, no formato da tabela do protocolo:
 - As respostas de Q01, Q02 e Q06 do QA-AURORA-002 aparecem nos testes e exemplos dos contratos e da Skill, como diz a ressalva do protocolo; sem essas três perguntas, as rodadas acertaram 5 de 5.
 - O prompt continua com "Hoje é 17/11/2026", como no protocolo, embora a execução tenha sido em 18/11/2026.
 - O isolamento foi por instrução e por cópias fora do repositório; o sandbox do Codex impede escrita, não leitura fora da pasta.
+- O avaliador é de outra família de modelos, mas não substitui a conferência por uma pessoa da Analytics de E-commerce.
+
+## Quinta execução (Antigravity CLI)
+
+Execução no Antigravity CLI em 18/11/2026, pedida pelo mantenedor, com o modelo Gemini 4 Hydrogen e a conta Google dele. É a terceira ferramenta do protocolo. Segue o método da quarta execução: uma sessão nova por pergunta, uma cópia isolada da pasta por execução e nenhuma escrita. As seções anteriores ficam como estavam.
+
+- **Material:** o kit em `public/downloads/kit/contexto-kit-agentes/`, sem a pasta `gabaritos/`, copiado para uma pasta temporária fora do repositório, uma cópia por execução.
+- **Ferramenta e modelo:** Antigravity CLI 1.5.10 (`agy`), modelo Gemini 4 Hydrogen (High) (`gemini-4-hydrogen-high`). O CLI se atualizou sozinho de 1.5.2 para 1.5.10 antes das execuções, e os registros das execuções mostram 1.5.10.
+- **Comando:** `HOME=<home isolado> agy -p "<prompt>" --model gemini-4-hydrogen-high --sandbox --disable-slash-commands --settings '{"agentMode": "", "toolPermission": "proceed-in-sandbox", "disableSlashCommands": true, "permissions": {"deny": ["write_file(*)"]}}' --print-timeout 1500s`, rodado dentro da cópia da pasta.
+- **Isolamento:** o `HOME` aponta para uma pasta nova, com login próprio feito pelo mantenedor, sem as regras globais, os plugins, as Skills e os servidores MCP da configuração do usuário. Cada `agy -p` abre uma conversa nova. O Antigravity CLI não tem modo somente leitura: o `--mode plan` só acrescenta uma instrução. Por isso a escrita foi bloqueada pela regra `write_file(*)` em `deny` e pelo sandbox do terminal. Um teste antes das execuções confirmou que criar ou editar arquivo e gravar pelo terminal falham e que a leitura com `sqlite3` funciona.
+- **Execuções:** só a condição B, 3 rodadas de 8 perguntas (24 execuções), com o prompt literal do protocolo, "Leia primeiro o arquivo AGENTS.md desta pasta." no início e a mesma instrução de usar só os arquivos da pasta. Sem condição de controle.
+- **Avaliador:** Claude Opus 5.5 (claude-opus-5-5), pela rubrica acima, sem passar o gabarito ao agente. Na Q03 do QA-AURORA-002 vale a forma registrada em `also_accepted`; na Q06, a citação esperada é KPI-AURORA-002@1.0.
+
+Respostas e pontuações completas em [onboarding-resultados-5.json](./onboarding-resultados-5.json).
+
+Acertos (categoria certa e conclusão certa) por pergunta:
+
+| Condição | Modelo | QA-AURORA-001 Q01 | QA-AURORA-001 Q02 | QA-AURORA-001 Q03 | QA-AURORA-002 Q01 | QA-AURORA-002 Q02 | QA-AURORA-002 Q03 | QA-AURORA-002 Q05 | QA-AURORA-002 Q06 |
+|---|---|---|---|---|---|---|---|---|---|
+| kit sem gabaritos | Gemini 4 Hydrogen (High) (gemini-4-hydrogen-high) | 3 de 3 | 3 de 3 | 3 de 3 | 3 de 3 | 3 de 3 | 3 de 3 | 3 de 3 | 3 de 3 |
+
+Registro por rodada, no formato da tabela do protocolo:
+
+| Ferramenta | Modelo (nome e versão) | Data | Condição | Rodada | Perguntas certas (de 8) | Sem Q01, Q02 e Q06 do QA-AURORA-002 (de 5) | Citações (de 7) | Observações |
+|---|---|---|---|---|---|---|---|---|
+| Antigravity CLI 1.5.10 | Gemini 4 Hydrogen (High) (gemini-4-hydrogen-high) | 2026-11-18 | B | 1 | 8 | 5 | 7 | Q03 do QA-AURORA-002 respondeu pela forma também aceita |
+| Antigravity CLI 1.5.10 | Gemini 4 Hydrogen (High) (gemini-4-hydrogen-high) | 2026-11-18 | B | 2 | 8 | 5 | 7 | Q03 do QA-AURORA-002 respondeu pela forma também aceita |
+| Antigravity CLI 1.5.10 | Gemini 4 Hydrogen (High) (gemini-4-hydrogen-high) | 2026-11-18 | B | 3 | 8 | 5 | 7 | Q03 do QA-AURORA-002 respondeu pela forma também aceita |
+
+**Critério de saída da F6: atingido no Antigravity CLI.** As três rodadas acertaram as oito perguntas; o critério pede pelo menos duas de três. Com o Claude Code e o Codex, as três ferramentas do protocolo passaram.
+
+### O que a quinta execução mostra
+
+1. **Mesmo comportamento do Codex na quarta execução.** A Q01 do QA-AURORA-002 respondeu por evento e operação nas três rodadas, sem pedir a operação, e deixou 16/11 de fora por estar incompleto. A Q03 do QA-AURORA-002 avaliou Brasil e México e disse que no México o evento não está ativo, que é a forma de `also_accepted`.
+2. **Termo ambíguo e abstenção.** A Q03 do QA-AURORA-001 pediu esclarecimento nas três rodadas, citando a regra do termo ambíguo do AGENTS.md. A Q05 se absteve nas três, sem calcular a taxa com a amostra.
+3. **Citações:** 21 de 21.
+
+### Ressalvas desta execução
+
+- Um modelo e nenhuma rodada de controle.
+- As respostas de Q01, Q02 e Q06 do QA-AURORA-002 aparecem nos testes e exemplos dos contratos e da Skill, como diz a ressalva do protocolo; sem essas três perguntas, as rodadas acertaram 5 de 5.
+- O prompt continua com "Hoje é 17/11/2026", como no protocolo, embora a execução tenha sido em 18/11/2026.
+- O isolamento de leitura foi por instrução e por cópias fora do repositório; a regra de `deny` e o sandbox impedem escrita, não leitura fora da pasta.
 - O avaliador é de outra família de modelos, mas não substitui a conferência por uma pessoa da Analytics de E-commerce.
